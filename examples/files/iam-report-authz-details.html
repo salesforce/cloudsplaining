@@ -8299,7 +8299,16 @@ We request that you review the HTML report and fill out the "Justification" fiel
 
             <!--Appendix subsection: Glossary-->
             <h4 id="glossary">Glossary</h4>
-              <div id="definition-privilege-escalation"><h6>Privilege Escalation</h6></div>
+              <div id="definition-impact"><h6>Impact</h6></div>
+
+<p>The impact the risk would have on an organization if such a vulnerability were successfully exploited is rated according to criteria listed below. Note that these ratings are based on NIST 800-30 impact definitions.</p>
+<ul>
+<li><strong>Critical</strong>: The issue causes multiple severe or catastrophic effects on operations, assets or other organizations.</li>
+<li><strong>High</strong>: Causes produces severe degradation in mission capability to the point that the organization is not able to perform primary functions or results in damage to organizational assets.</li>
+<li><strong>Medium</strong>: Trigger degradation in mission capability to an extent the application is able to perform its primary functions, but their effectiveness is reduced and there may be damage to the organization's assets.</li>
+<li><strong>Low</strong>: Results in limited degradation in mission capability; the organization is able to perform its primary functions, but their effectiveness is noticeably reduced and may result in minor damage to the organization's assets.</li>
+</ul>
+<div id="definition-privilege-escalation"><h6>Privilege Escalation</h6></div>
 
 <p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by <a href="https://twitter.com/SpenGietz">Spencer Gietzen</a> at Rhino Security Labs. Remediation Guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>
 <div id="definition-resource-exposure"><h6>Resource Exposure</h6></div>
@@ -8311,15 +8320,6 @@ We request that you review the HTML report and fill out the "Justification" fiel
 <div id="definition-data-exfiltration"><h6>Data Exfiltration</h6></div>
 
 <p>Policies with Data leak potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks. <code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets. <code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</p>
-<div id="definition-impact"><h6>Impact</h6></div>
-
-<p>The impact the risk would have on an organization if such a vulnerability were successfully exploited is rated according to criteria listed below. Note that these ratings are bases on</p>
-<ul>
-<li><strong>Critical</strong>: The issue causes multiple severe or catastrophic effects on operations, assets or other organizations.</li>
-<li><strong>High</strong>: Causes produces severe degradation in mission capability to the point that the organization is not able to perform primary functions or results in damage to organizational assets.</li>
-<li><strong>Medium</strong>: Trigger degradation in mission capability to an extent the application is able to perform its primary functions, but their effectiveness is reduced and there may be damage to the organization's assets.</li>
-<li><strong>Low</strong>: Results in limited degradation in mission capability; the organization is able to perform its primary functions, but their effectiveness is noticeably reduced and may result in minor damage to the organization's assets.</li>
-</ul>
 <br>
 
             <!--Appendix subsection: Exclusions configuration-->

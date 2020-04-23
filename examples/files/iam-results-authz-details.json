@@ -32,7 +32,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [
@@ -82,7 +82,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "iam:AddRoleToInstanceProfile",
             "iam:CreateInstanceProfile",
@@ -133,7 +133,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "iam:AddRoleToInstanceProfile",
             "iam:CreateInstanceProfile",
@@ -176,7 +176,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "s3:PutObjectAcl"
         ],
@@ -431,7 +431,7 @@
             "Version": "2012-10-17"
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "codecommit:AssociateApprovalRuleTemplateWithRepository",
@@ -679,7 +679,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "rds:AuthorizeDBSecurityGroupIngress",
             "iam:CreateServiceLinkedRole"
@@ -1122,7 +1122,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "ec2:CreateNetworkInterfacePermission",
             "ec2:DeleteNetworkInterfacePermission",
@@ -2042,7 +2042,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "codecommit:AssociateApprovalRuleTemplateWithRepository",
@@ -2187,7 +2187,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "sqs:AddPermission",
             "sqs:CreateQueue",
@@ -2485,7 +2485,7 @@
                 ]
             }
         ],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [
@@ -2968,7 +2968,7 @@
                 ]
             }
         ],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "iam:AddClientIDToOpenIDConnectProvider",
             "iam:AddRoleToInstanceProfile",
@@ -3123,7 +3123,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [
@@ -3287,7 +3287,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "logs:DeleteResourcePolicy",
             "logs:PutResourcePolicy",
@@ -3959,7 +3959,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject",
             "ssm:GetParameter",
             "ssm:GetParameters",
@@ -4105,7 +4105,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "ds:CreateConditionalForwarder",
             "ds:CreateDirectory",
@@ -4305,7 +4305,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "codedeploy:ContinueDeployment",
@@ -4464,7 +4464,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [
@@ -4524,7 +4524,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [],
@@ -4577,7 +4577,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "ses:CreateConfigurationSet",
@@ -4833,7 +4833,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "ec2:CreateNetworkInterfacePermission",
             "ec2:DeleteNetworkInterfacePermission",
@@ -5082,7 +5082,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "kms:CreateAlias",
@@ -5159,7 +5159,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
         "WriteActions": [
             "route53:AssociateVPCWithHostedZone",
@@ -8208,7 +8208,7 @@
                 ]
             }
         ],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject",
             "ssm:GetParameter",
             "ssm:GetParameters",
