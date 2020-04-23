@@ -13,11 +13,11 @@ Actions:{% for action in dict_item["actions"] %}
             </code></pre>
         </div>
         {% endif %}
-        {% if finding["AllowsDataLeakActions"]|length > 0 %}
+        {% if finding["DataExfiltrationActions"]|length > 0 %}
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
-{{ finding["AllowsDataLeakActions"] | tojson(indent=2) }}
+{{ finding["DataExfiltrationActions"] | tojson(indent=2) }}
           </code></pre>
         </div>
         {% endif %}

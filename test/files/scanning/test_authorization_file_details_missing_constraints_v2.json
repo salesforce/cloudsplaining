@@ -28,7 +28,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [],
@@ -66,7 +66,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [],
@@ -131,7 +131,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [],
+        "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "ecr:DeleteRepositoryPolicy",
             "ecr:SetRepositoryPolicy"
@@ -208,7 +208,7 @@
             ]
         },
         "PrivilegeEscalation": [],
-        "AllowsDataLeakActions": [
+        "DataExfiltrationActions": [
             "s3:GetObject"
         ],
         "PermissionsManagementActions": [],

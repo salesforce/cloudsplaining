@@ -20,11 +20,68 @@ class PolicyFileTestCase(unittest.TestCase):
         with open(policy_test_file) as json_file:
             example_policy = json.load(json_file)
         expected_results = [
-            'ecr:CompleteLayerUpload',
-            'ecr:InitiateLayerUpload',
-            'ecr:PutImage',
-            'ecr:UploadLayerPart'
+            {
+                "AccountID": "N/A",
+                "ManagedBy": "Customer",
+                "PolicyName": "test",
+                "Arn": "test",
+                "ActionsCount": 4,
+                "ServicesCount": 1,
+                "Services": [
+                    "ecr"
+                ],
+                "Actions": [
+                    "ecr:CompleteLayerUpload",
+                    "ecr:InitiateLayerUpload",
+                    "ecr:PutImage",
+                    "ecr:UploadLayerPart"
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "ecr:GetAuthorizationToken",
+                                "ecr:BatchCheckLayerAvailability",
+                                "ecr:GetDownloadUrlForLayer",
+                                "ecr:GetRepositoryPolicy",
+                                "ecr:DescribeRepositories",
+                                "ecr:ListImages",
+                                "ecr:DescribeImages",
+                                "ecr:BatchGetImage",
+                                "ecr:InitiateLayerUpload",
+                                "ecr:UploadLayerPart",
+                                "ecr:CompleteLayerUpload",
+                                "ecr:PutImage"
+                            ],
+                            "Resource": "*"
+                        },
+                        {
+                            "Sid": "AllowManageOwnAccessKeys",
+                            "Effect": "Allow",
+                            "Action": [
+                                "iam:CreateAccessKey",
+                                "iam:DeleteAccessKey",
+                                "iam:ListAccessKeys",
+                                "iam:UpdateAccessKey"
+                            ],
+                            "Resource": "arn:aws:iam::*:user/${aws:username}"
+                        }
+                    ]
+                },
+                "PrivilegeEscalation": [],
+                "DataExfiltrationActions": [],
+                "PermissionsManagementActions": [],
+                "WriteActions": [
+                    "ecr:CompleteLayerUpload",
+                    "ecr:InitiateLayerUpload",
+                    "ecr:PutImage",
+                    "ecr:UploadLayerPart"
+                ],
+                "TaggingActions": []
+            }
         ]
-        all_access_levels = False
-        result = scan_policy(example_policy, DEFAULT_EXCLUSIONS_CONFIG, all_access_levels)
-        self.assertListEqual(result, expected_results)
+        results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
+        # print(json.dumps(results, indent=4))
+        self.assertListEqual(results, expected_results)

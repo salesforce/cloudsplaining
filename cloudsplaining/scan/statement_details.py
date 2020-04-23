@@ -1,3 +1,4 @@
+"""Abstracts evaluation of IAM Policy statements."""
 import logging
 from policy_sentry.analysis.analyze import determine_actions_to_expand
 from policy_sentry.querying.actions import remove_actions_not_matching_access_level, get_actions_matching_arn
@@ -66,8 +67,6 @@ class StatementDetails:
     # @property
     def _not_action_effective_actions(self):
         """If NotAction is used, calculate the allowed actions - i.e., what it would be """
-        # def determine_scope(arn):
-        services_in_scope = []
         effective_actions = []
         if not self.not_action:
             return False
@@ -105,8 +104,12 @@ class StatementDetails:
             return effective_actions
         elif self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
+            return False
         elif not self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
+            return False
+        else:
+            return False
 
     @property
     def has_not_resource_with_allow(self):
@@ -120,26 +123,32 @@ class StatementDetails:
 
     @property
     def expanded_actions(self):
+        """Expands the full list of allowed actions from the Policy/"""
         if self.actions:
             expanded = determine_actions_to_expand(self.actions)
             expanded.sort()
             return expanded
         elif self.not_action:
             return self.not_action_effective_actions
+        else:
+            raise Exception("The Policy should include either NotAction or Action in the statement.")
 
     @property
     def effect_deny(self):
+        """Check if the Effect of the Policy is 'Deny'"""
         return bool(self.effect == "Deny")
 
     @property
     def effect_allow(self):
+        """Check if the Effect of the Policy is 'Allow'"""
         return bool(self.effect == "Allow")
 
     @property
     def services_in_use(self):
+        """Get a list of the services in use by the statement."""
         service_prefixes = []
         for action in self.expanded_actions:
-            service, action_name = action.split(":")
+            service, action_name = action.split(":")  # pylint: disable=unused-variable
             if service not in service_prefixes:
                 service_prefixes.append(service)
         service_prefixes.sort()
@@ -147,6 +156,7 @@ class StatementDetails:
 
     @property
     def has_resource_constraints(self):
+        """Determine whether or not the statement allows resource constraints."""
         answer = True
         if len(self.resources) == 0:
             # This is probably a NotResources situation which we do not support.
@@ -163,6 +173,8 @@ class StatementDetails:
 
     @property
     def permissions_management_actions_without_constraints(self):
+        """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
             result = remove_actions_not_matching_access_level(self.expanded_actions, "Permissions management")
@@ -170,6 +182,8 @@ class StatementDetails:
 
     @property
     def write_actions_without_constraints(self):
+        """Where applicable, returns a list of 'Write' level IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
             result = remove_actions_not_matching_access_level(self.expanded_actions, "Write")
@@ -177,6 +191,8 @@ class StatementDetails:
 
     @property
     def tagging_actions_without_constraints(self):
+        """Where applicable, returns a list of 'Tagging' level IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
             result = remove_actions_not_matching_access_level(self.expanded_actions, "Tagging")
@@ -184,6 +200,8 @@ class StatementDetails:
 
     @property
     def missing_resource_constraints(self):
+        """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
+        resource constraints."""
         actions_missing_resource_constraints = []
         if len(self.resources) == 1:
             if self.resources[0] == "*":
@@ -191,6 +209,12 @@ class StatementDetails:
         return actions_missing_resource_constraints
 
     def missing_resource_constraints_for_modify_actions(self, always_look_for_actions=None):
+        """
+        Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
+        are allowed by the statement without resource constraints.
+
+        :param always_look_for_actions: A list of actions at the 'Read' or 'List' access level to always look for, even though they are not 'Modify' type actions. This is useful for adding actions that could contribute to data leaks.
+        """
         if always_look_for_actions is None:
             always_look_for_actions = []
         actions_missing_resource_constraints = self.missing_resource_constraints

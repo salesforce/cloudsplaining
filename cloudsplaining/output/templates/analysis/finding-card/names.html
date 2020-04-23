@@ -12,7 +12,7 @@
         {% if finding["PrivilegeEscalation"]|length > 0 %}
           <div class="alert alert-danger" role="alert">Privilege Escalation</div>
         {% endif %}
-        {% if finding["AllowsDataLeakActions"]|length > 0 %}
+        {% if finding["DataExfiltrationActions"]|length > 0 %}
           <div class="alert alert-warning" role="alert">Data Leak</div>
         {% endif %}
         {% if finding["PermissionsManagementActions"]|length > 0 %}

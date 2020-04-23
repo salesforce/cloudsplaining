@@ -160,7 +160,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                     ]
                 },
                 "PrivilegeEscalation": [],
-                "AllowsDataLeakActions": [],
+                "DataExfiltrationActions": [],
                 "PermissionsManagementActions": [],
                 "WriteActions": [
                     "ecr:CompleteLayerUpload",
@@ -210,7 +210,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                     ]
                 },
                 "PrivilegeEscalation": [],
-                "AllowsDataLeakActions": [
+                "DataExfiltrationActions": [
                     "s3:GetObject"
                 ],
                 "PermissionsManagementActions": [],

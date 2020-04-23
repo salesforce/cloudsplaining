@@ -1,3 +1,4 @@
+"""Just some utility functions that don't fit neatly into other categories"""
 import logging
 from policy_sentry.querying.actions import get_action_data, remove_actions_not_matching_access_level
 from policy_sentry.querying.all import get_all_service_prefixes
@@ -62,4 +63,3 @@ def get_full_policy_path(arn):
     resource_string = resource_string.split("/")[1:]
     resource_string = "/".join(resource_string)
     return resource_string
-

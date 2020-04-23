@@ -1,3 +1,4 @@
+"""Creates a JSON data file containing the results."""
 import os
 import json
 
@@ -16,4 +17,3 @@ def write_results_data_file(results, raw_data_file):
     with open(raw_data_file, "w") as file:
         json.dump(results, file, indent=4)
     return raw_data_file
-

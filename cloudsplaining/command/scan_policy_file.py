@@ -2,12 +2,13 @@
 Scan a single policy file to identify missing resource constraints.
 """
 import logging
-import textwrap
 import json
+from pathlib import Path
 import yaml
 import click
 import click_log
-from cloudsplaining.shared.constants import EXCLUSIONS_FILE
+from cloudsplaining.output.findings import Findings, Finding
+from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.exclusions import is_name_excluded
@@ -15,23 +16,8 @@ from cloudsplaining.shared.exclusions import is_name_excluded
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
 BOLD = "\033[1m"
+RED = "\033[91m"
 END = "\033[0m"
-finding_description = """
-The policy does not practice the principle of least privilege by leveraging resource ARN constraints where possible.
-
-For example, s3:PutObject should be restricted to a specific bucket and object path - such as 'Resource':
-'arn:aws:s3:::my-bucket/path/*'. IAM Resource ARN constraints are preferable to allowing access to all resources,
-like 'Resource': '*', which would allow the IAM principal to upload an S3 object to any bucket at any path.
-
-This security control is not just limited to the context of S3, however. Other IAM actions, such as s3:PutObject,
-iam:PassRole, and ssm:GetParameter should always be scoped down to only the resources that they need access to. In
-the case of a compromise, overly permissive IAM policies can lead to the compromised principal having access to more
-resources than necessary, which can result in data leakage or other damaging post-exploitation activities. To limit
-the blast radius of compromised credentials, it is imperative to restrict access to only the IAM actions and
-resource ARNs that are necessary for the IAM principal to function properly.
-
-The following is a full list of all the actions included in the policy that do not leverage resource constraints.
-"""
 
 
 @click.command(
@@ -51,14 +37,15 @@ The following is a full list of all the actions included in the policy that do n
     default=EXCLUSIONS_FILE,
 )
 @click.option(
-    "--all-access-levels",
+    "--high-priority-only",
     required=False,
     default=False,
     is_flag=True,
-    help="Include 'read' or 'list' actions in the results. Defaults to 'modify' only actions",
+    help="If issues are found, only print the high priority risks"
+         " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
 @click_log.simple_verbosity_option(logger)
-def scan_policy_file(file, exclusions_file, all_access_levels):
+def scan_policy_file(file, exclusions_file, high_priority_only):
     """Scan a single policy file to identify missing resource constraints."""
 
     # Get the exclusions configuration
@@ -74,54 +61,40 @@ def scan_policy_file(file, exclusions_file, all_access_levels):
         logger.debug(f"Opening {file}")
         policy = json.load(json_file)
 
+    policy_name = Path(file).stem
+
     # Run the scan and get the raw data.
-    results = scan_policy(policy, exclusions_cfg, all_access_levels)
+    results = scan_policy(policy, policy_name, exclusions_cfg)
 
-    if not all_access_levels:
-        issue = "{}{}{}".format(
-            BOLD, "Issue found: Modify actions without resource constraints", END
-        )
-    else:
-        issue = "{}{}{}".format(
-            BOLD, "Issue found: Actions without resource constraints", END
-        )
-    if results:
-        print("\n")
-        print(issue)
-        print(finding_description)
-        print(textwrap.indent(str(results), "\t"))
+    # There will only be one finding in the results but it is in a list.
+    for finding in results:
+        if finding["PrivilegeEscalation"]:
+            print(f"{RED}Issue found: Privilege Escalation{END}")
+            for item in finding["PrivilegeEscalation"]:
+                print(f"- Method: {item['type']}")
+                print(f"  Actions: {', '.join(item['PrivilegeEscalation'])}\n")
+        if finding["DataExfiltrationActions"]:
+            print(f"{RED}Issue found: Data Exfiltration{END}")
+            print(f"{BOLD}Actions{END}: {', '.join(finding['DataExfiltrationActions'])}\n")
+        if finding["PermissionsManagementActions"]:
+            print(f"{RED}Issue found: Resource Exposure{END}")
+            print(f"{BOLD}Actions{END}: {', '.join(finding['PermissionsManagementActions'])}\n")
+        if not high_priority_only:
+            print(f"{RED}Issue found: Unrestricted Infrastructure Modification{END}")
+            print(f"{BOLD}Actions{END}: {', '.join(finding['Actions'])}")
 
 
-def scan_policy(policy, exclusions_cfg, all_access_levels=False):
+def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG):
     """
     Scan a policy document for missing resource constraints.
 
-    :param policy: The AWS IAM policy document.
+    :param policy_json: The AWS IAM policy document.
     :param exclusions_cfg: Defaults to the embedded exclusions file, which has no effect here.
-    :param all_access_levels: Include 'read' or 'list' actions in the results. Defaults to 'modify' only actions
+    :param policy_name: The name of the IAM policy. Defaults to the filename when used from command line.
     :return:
     """
-    policy_document = PolicyDocument(policy)
+    policy_document = PolicyDocument(policy_json)
     actions_missing_resource_constraints = []
-    if all_access_levels:
-        logger.debug(
-            "--all-access-levels selected. Identifying all actions that are not leveraging resource "
-            "constraints..."
-        )
-        for statement in policy_document.statements:
-            if statement.effect == "Allow":
-                actions_missing_resource_constraints.extend(statement.missing_resource_constraints)
-    else:
-        logger.debug(
-            "--all-access-levels NOT selected. Identifying modify-only actions that are not leveraging "
-            "resource constraints..."
-        )
-        always_include_actions = exclusions_cfg.get("include-actions", None)
-        for statement in policy_document.statements:
-            if statement.effect == "Allow":
-                actions_missing_resource_constraints.extend(statement.missing_resource_constraints_for_modify_actions(
-                    always_include_actions))
-    results = []
 
     # EXCLUDED ACTIONS - actions to exclude if they are false positives
     excluded_actions = exclusions_cfg.get("exclude-actions", None)
@@ -133,10 +106,28 @@ def scan_policy(policy, exclusions_cfg, all_access_levels=False):
     if excluded_actions:
         excluded_actions = [x.lower() for x in excluded_actions]
 
-    for action in actions_missing_resource_constraints:
-        if excluded_actions:
-            if not is_name_excluded(action.lower, excluded_actions):
-                results.append(action)
-        else:
-            results.append(action)
-    return results
+    always_include_actions = exclusions_cfg.get("include-actions")
+    findings = Findings()
+
+    for statement in policy_document.statements:
+        if statement.effect == "Allow":
+            actions_missing_resource_constraints.extend(
+                statement.missing_resource_constraints_for_modify_actions(always_include_actions))
+    if actions_missing_resource_constraints:
+        results_placeholder = []
+        for action in actions_missing_resource_constraints:
+            if excluded_actions:
+                if not is_name_excluded(action.lower, excluded_actions):
+                    results_placeholder.append(action)
+            else:
+                results_placeholder.append(action)
+        actions_missing_resource_constraints = list(dict.fromkeys(results_placeholder))  # remove duplicates
+        actions_missing_resource_constraints.sort()
+        finding = Finding(
+            policy_name=policy_name,
+            arn=policy_name,
+            actions=actions_missing_resource_constraints,
+            policy_document=policy_document
+        )
+        findings.add(finding)
+    return findings.json

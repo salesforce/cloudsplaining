@@ -1,3 +1,5 @@
+"""PolicyDocument is re-used whenever IAM Policy Documents are found in the output of the
+aws iam get-account-authorization-details command."""
 import logging
 from cloudsplaining.scan.statement_details import StatementDetails
 from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
@@ -30,6 +32,7 @@ class PolicyDocument:
 
     @property
     def all_allowed_actions(self):
+        """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = []
         for statement in self.statements:
             allowed_actions.extend(statement.expanded_actions)
@@ -37,9 +40,18 @@ class PolicyDocument:
         return allowed_actions
 
     @property
+    def all_allowed_unrestricted_actions(self):
+        """Output all IAM actions that do not practice resource constraints"""
+        allowed_actions = []
+        for statement in self.statements:
+            if not statement.has_resource_constraints:
+                allowed_actions.extend(statement.expanded_actions)
+        allowed_actions = list(dict.fromkeys(allowed_actions))
+        return allowed_actions
+
+    @property
     def contains_statement_using_not_action(self):
         """If NotAction is used, flag it so the assessor can triage manually"""
-
         not_action_statements = []
         for statement in self.statements:
             if statement.not_action:
@@ -52,18 +64,23 @@ class PolicyDocument:
     @property
     def allows_privilege_escalation(self):
         """
-        Determines whether or not the policy allows privilege escalation action combinations published by Rhino Security Labs.
+        Determines whether or not the policy allows privilege escalation action combinations published by
+        Rhino Security Labs.
         """
         escalations = []
-        all_allowed_actions_lowercase = [x.lower() for x in self.all_allowed_actions]
+        # all_allowed_actions_lowercase = [x.lower() for x in self.all_allowed_actions]
+        all_allowed_unrestricted_actions_lowercase = [x.lower() for x in self.all_allowed_unrestricted_actions]
         for key in PRIVILEGE_ESCALATION_METHODS:
-            if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
+            if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_unrestricted_actions_lowercase):
+            # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
                 escalation = {"type": key, "actions": PRIVILEGE_ESCALATION_METHODS[key]}
                 escalations.append(escalation)
         return escalations
 
     @property
     def permissions_management_without_constraints(self):
+        """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         for statement in self.statements:
             if statement.permissions_management_actions_without_constraints:
@@ -72,6 +89,8 @@ class PolicyDocument:
 
     @property
     def write_actions_without_constraints(self):
+        """Where applicable, returns a list of 'Write' level IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         for statement in self.statements:
             if statement.write_actions_without_constraints:
@@ -80,6 +99,8 @@ class PolicyDocument:
 
     @property
     def tagging_actions_without_constraints(self):
+        """Where applicable, returns a list of 'Tagging' level IAM actions in the statement that
+        do not have resource constraints"""
         result = []
         for statement in self.statements:
             if statement.tagging_actions_without_constraints:
@@ -87,6 +108,7 @@ class PolicyDocument:
         return result
 
     def allows_specific_actions_without_constraints(self, specific_actions):
+        """Determine whether or not a list of specific IAM Actions are allowed without resource constraints."""
         allowed = []
         if not isinstance(specific_actions, list):
             raise Exception("Please supply a list of actions.")
@@ -95,11 +117,12 @@ class PolicyDocument:
         # the results don't fail if given lowercase input.
         # this is less efficient but more accurate and the results are pretty :)
         for specific_action in specific_actions:
-            for allowed_action in self.all_allowed_actions:
+            for allowed_action in self.all_allowed_unrestricted_actions:
                 if specific_action.lower() == allowed_action.lower():
                     allowed.append(allowed_action)
         return allowed
 
     @property
     def allows_data_leak_actions(self):
+        """If any 'Data leak' actions are allowed without resource constraints, return those actions."""
         return self.allows_specific_actions_without_constraints(READ_ONLY_DATA_LEAK_ACTIONS)

@@ -1,9 +1,10 @@
+"""Creates a triage CSV worksheet for account owners to fill out. This helps with identifying false positives."""
 import os
 import csv
 from policy_sentry.util.arns import get_resource_string
 
 
-def create_triage_worksheet(account_name, account_id, results, output_directory):
+def create_triage_worksheet(account_name, results, output_directory):
     """
     Create a triage spreadsheet for account owners to fill out. They can specify whether it is a false positive
     depending on context or whether or not it needs to be fixed.

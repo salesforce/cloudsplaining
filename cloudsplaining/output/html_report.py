@@ -25,7 +25,7 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
 
     for finding in sorted_results:
         # These are stats we care about regardless of who manages it, as they help with prioritization
-        if finding["AllowsDataLeakActions"]:
+        if finding["DataExfiltrationActions"]:
             policies_with_data_leak_potential += 1
         if finding["PrivilegeEscalation"]:
             policies_with_privilege_escalation += 1
@@ -52,7 +52,7 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     validation_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "4-validation.md"), mode="r", encoding="utf-8")
     validation_guidance_html = markdown.markdown(validation_guidance_file.read(), extensions=['md_in_html'])
 
-    # 4. Validation
+    # 5. Glossary
     glossary_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "glossary.md"), mode="r", encoding="utf-8")
     glossary_html = markdown.markdown(glossary_file.read(), extensions=['md_in_html'])
 
@@ -89,6 +89,4 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     webbrowser.open(url, new=2)
 
     # Create the CSV triage sheet
-    create_triage_worksheet(account_name, account_id, sorted_results, output_directory)
-
-
+    create_triage_worksheet(account_name, sorted_results, output_directory)
