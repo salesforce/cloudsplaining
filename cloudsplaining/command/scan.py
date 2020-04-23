@@ -112,6 +112,4 @@ def scan(file, exclusions_file, output, all_access_levels):
     print(f"Raw data file saved: {str(raw_data_filepath)}")
 
     print("Creating the HTML Report")
-    # generate_html_report(account_name, account_id, results, output, exclusions_cfg)
     generate_html_report(account_metadata, results, output_directory, exclusions_cfg)
-

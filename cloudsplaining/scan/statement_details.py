@@ -1,15 +1,14 @@
 import logging
-from cloudsplaining.shared.utils import remove_read_level_actions, remove_wildcard_only_actions
 from policy_sentry.analysis.analyze import determine_actions_to_expand
 from policy_sentry.querying.actions import remove_actions_not_matching_access_level, get_actions_matching_arn
-from policy_sentry.util.arns import get_service_from_arn, does_arn_match
-from policy_sentry.querying.arns import get_raw_arns_for_service, get_matching_raw_arn
 from policy_sentry.querying.all import get_all_actions
+from cloudsplaining.shared.utils import remove_read_level_actions, remove_wildcard_only_actions
 logger = logging.getLogger(__name__)
 
 all_actions = get_all_actions()
 
 
+# pylint: disable=too-many-instance-attributes
 class StatementDetails:
     """
     Analyzes individual statements within a policy
@@ -130,17 +129,11 @@ class StatementDetails:
 
     @property
     def effect_deny(self):
-        if self.effect == "Deny":
-            return True
-        else:
-            return False
+        return bool(self.effect == "Deny")
 
     @property
     def effect_allow(self):
-        if self.effect == "Allow":
-            return True
-        else:
-            return False
+        return bool(self.effect == "Allow")
 
     @property
     def services_in_use(self):

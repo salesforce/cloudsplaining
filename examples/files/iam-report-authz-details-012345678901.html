@@ -101,7 +101,7 @@
   
   <tr>
     <td>Resource Exposure <a href="#definition-resource-exposure"><small>[2]</small></a></td>
-    <td style="background-color: #FFB660">17</td>
+    <td style="background-color: #FFB660">15</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
@@ -312,7 +312,7 @@
         <td>4</td>
         <td>kms </td>
         <td> </td>
-        <td>  1</td>
+        <td> </td>
         <td> </td>
       </tr>
     
@@ -459,10 +459,10 @@
       <tr>
         <td><a href="#PowerUserAccess">PowerUserAccess</a></td>
         <td>158</td>
-        <td>2765</td>
+        <td>2766</td>
         <td>a4b, access-analyzer, acm, acm-pca, amplify, apigateway, appconfig, appmesh, appmesh-preview, appstream, appsync, artifact, athena, autoscaling, backup, batch, budgets, cassandra, cloud9, clouddirectory, cloudformation, cloudfront, cloudhsm, cloudsearch, cloudtrail, cloudwatch, codebuild, codecommit, codedeploy, codeguru-profiler, codeguru-reviewer, codepipeline, codestar, codestar-notifications, cognito-identity, cognito-idp, cognito-sync, comprehend, config, connect, cur, dataexchange, datasync, dax, deepcomposer, deeplens, deepracer, detective, devicefarm, directconnect, dlm, dms, ds, dynamodb, ec2, ec2-instance-connect, ecr, ecs, eks, elastic-inference, elasticbeanstalk, elasticfilesystem, elasticloadbalancing, elasticmapreduce, elastictranscoder, es, events, execute-api, firehose, fms, forecast, freertos, fsx, gamelift, glacier, globalaccelerator, glue, greengrass, groundstation, guardduty, iam, imagebuilder, iot, iot1click, iotanalytics, iotevents, iotsitewise, iotthingsgraph, kafka, kendra, kinesis, kinesisanalytics, kinesisvideo, kms, lambda, lex, license-manager, lightsail, logs, machinelearning, managedblockchain, mediaconvert, medialive, mediapackage, mediapackage-vod, mediatailor, mgh, mobilehub, mobiletargeting, mq, neptune-db, networkmanager, opsworks, personalize, polly, qldb, quicksight, ram, rds, rds-db, redshift, rekognition, resource-groups, robomaker, route53, route53resolver, s3, sagemaker, savingsplans, schemas, sdb, secretsmanager, securityhub, serverlessrepo, servicecatalog, servicediscovery, servicequotas, ses, shield, signer, sns, sqs, ssm, states, storagegateway, sts, swf, synthetics, transfer, trustedadvisor, waf, waf-regional, wafv2, wellarchitected, worklink, workmail, workspaces, xray </td>
         <td>  2 </td>
-        <td>  217</td>
+        <td>  210</td>
         <td> 5 </td>
       </tr>
     
@@ -470,11 +470,11 @@
     
       <tr>
         <td><a href="#ReadOnlyAccess">ReadOnlyAccess</a></td>
+        <td>5</td>
         <td>7</td>
-        <td>9</td>
-        <td>connect, dataexchange, imagebuilder, mobilehub, personalize, s3, ssm </td>
+        <td>dataexchange, mobilehub, personalize, s3, ssm </td>
         <td> </td>
-        <td>  4</td>
+        <td> </td>
         <td> 4 </td>
       </tr>
     
@@ -2100,8 +2100,6 @@
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
-        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2158,32 +2156,6 @@
 ]
           </code></pre>
         </div>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-5" href="#card-element-aws-risks5">High Priority risks</a>
-      </div>
-      <div id="card-element-aws-risks5" class="panel-collapse collapse">
-        <div class="card-body">
-  <div class="grid">
-      <div class="row">
-        
-        
-        
-        <div class="col-sm border">
-  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
-          <pre><code>
-[
-  "kms:CreateKey"
-]
-          </code></pre>
-        </div>
-        
-      </div>
-  </div>
-</div>
       </div>
     </div>
     
@@ -4418,7 +4390,7 @@ Actions:
     <p class="card-text">
     <ul>
       <li> Services: 158</li>
-      <li> Actions: 2765</li>
+      <li> Actions: 2766</li>
       <li> ARN: arn:aws:iam::aws:policy/PowerUserAccess</li>
     </ul>
     </div> <!-- /card-text -->
@@ -5060,7 +5032,6 @@ Actions:
     "connect:CreateUser",
     "connect:DeleteUser",
     "connect:DestroyInstance",
-    "connect:GetFederationToken",
     "connect:GetFederationTokens",
     "connect:ModifyInstance",
     "connect:StartChatContact",
@@ -5784,7 +5755,6 @@ Actions:
     "imagebuilder:DeleteImagePipeline",
     "imagebuilder:DeleteImageRecipe",
     "imagebuilder:DeleteInfrastructureConfiguration",
-    "imagebuilder:GetComponentPolicy",
     "imagebuilder:PutComponentPolicy",
     "imagebuilder:PutImagePolicy",
     "imagebuilder:PutImageRecipePolicy",
@@ -5942,7 +5912,6 @@ Actions:
     "iotsitewise:DeregisterViewEntities",
     "iotsitewise:DisassociateAssets",
     "iotsitewise:DisassociateViewEntities",
-    "iotsitewise:ListAccessPolicies",
     "iotsitewise:RegisterViewEntities",
     "iotsitewise:UpdateAccessPolicy",
     "iotsitewise:UpdateAsset",
@@ -6083,6 +6052,7 @@ Actions:
     "lex:DeleteBotVersion",
     "lex:DeleteIntent",
     "lex:DeleteIntentVersion",
+    "lex:DeleteSession",
     "lex:DeleteSlotType",
     "lex:DeleteSlotTypeVersion",
     "lex:DeleteUtterances",
@@ -6091,7 +6061,10 @@ Actions:
     "lex:PutBot",
     "lex:PutBotAlias",
     "lex:PutIntent",
+    "lex:PutSession",
     "lex:PutSlotType",
+    "lex:TagResource",
+    "lex:UntagResource",
     "license-manager:DeleteLicenseConfiguration",
     "license-manager:TagResource",
     "license-manager:UntagResource",
@@ -7326,8 +7299,6 @@ Actions:
   "cognito-identity:UnlinkDeveloperIdentity",
   "cognito-identity:UnlinkIdentity",
   "cognito-identity:UpdateIdentityPool",
-  "connect:GetFederationToken",
-  "connect:GetFederationTokens",
   "deeplens:AssociateServiceRoleToAccount",
   "ds:CreateConditionalForwarder",
   "ds:CreateDirectory",
@@ -7355,10 +7326,8 @@ Actions:
   "glue:DeleteResourcePolicy",
   "glue:PutResourcePolicy",
   "greengrass:AssociateServiceRoleToAccount",
-  "health:DescribeHealthServiceStatusForOrganization",
   "health:DisableHealthServiceAccessForOrganization",
   "health:EnableHealthServiceAccessForOrganization",
-  "imagebuilder:GetComponentPolicy",
   "imagebuilder:PutComponentPolicy",
   "imagebuilder:PutImagePolicy",
   "imagebuilder:PutImageRecipePolicy",
@@ -7370,10 +7339,8 @@ Actions:
   "iot:SetDefaultPolicyVersion",
   "iotsitewise:CreateAccessPolicy",
   "iotsitewise:DeleteAccessPolicy",
-  "iotsitewise:ListAccessPolicies",
   "iotsitewise:UpdateAccessPolicy",
   "kms:CreateGrant",
-  "kms:CreateKey",
   "kms:PutKeyPolicy",
   "kms:RetireGrant",
   "kms:RevokeGrant",
@@ -7503,7 +7470,6 @@ Actions:
   "waf-regional:DeletePermissionPolicy",
   "waf-regional:PutPermissionPolicy",
   "waf:DeletePermissionPolicy",
-  "waf:GetChangeToken",
   "waf:PutPermissionPolicy",
   "wafv2:CreateWebACL",
   "wafv2:DeleteWebACL",
@@ -7538,8 +7504,8 @@ Actions:
     <div class="card-body">
     <p class="card-text">
     <ul>
-      <li> Services: 7</li>
-      <li> Actions: 9</li>
+      <li> Services: 5</li>
+      <li> Actions: 7</li>
       <li> ARN: arn:aws:iam::aws:policy/ReadOnlyAccess</li>
     </ul>
     </div> <!-- /card-text -->
@@ -7548,8 +7514,6 @@ Actions:
         
           <div class="alert alert-warning" role="alert">Data Leak</div>
         
-        
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
         
       </div><!-- /card-footer -->
    </div><!-- /card -->
@@ -8115,9 +8079,7 @@ Actions:
         <div class="card-body">
           <pre><code>
 [
-    "connect:GetFederationToken",
     "dataexchange:GetJob",
-    "imagebuilder:GetComponentPolicy",
     "mobilehub:GenerateProjectParameters",
     "personalize:GetPersonalizedRanking",
     "s3:GetObject",
@@ -8152,18 +8114,6 @@ Actions:
           </code></pre>
         </div>
         
-        
-        <div class="col-sm border">
-  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
-          <pre><code>
-[
-  "connect:GetFederationToken",
-  "health:DescribeHealthServiceStatusForOrganization",
-  "imagebuilder:GetComponentPolicy",
-  "waf:GetChangeToken"
-]
-          </code></pre>
-        </div>
         
       </div>
   </div>
@@ -8357,7 +8307,7 @@ We request that you review the HTML report and fill out the "Justification" fiel
 <div name="definition-resource-exposure" id="definition-resource-exposure"><h6>Resource Exposure</h6></div>
 
 <p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>
-<div name="definition-infrastructure-modification" id="definition-infrastructure-modification"><h5>Infrastructure Modification</h5></div>
+<div name="definition-infrastructure-modification" id="definition-infrastructure-modification"><h6>Infrastructure Modification</h6></div>
 
 <p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>
 <br>
@@ -8416,7 +8366,7 @@ users:
     <tr><td>AWS</td><td>Median actions per finding</td><td>38</td></tr>
     <tr><td>Both</td><td>Policies with Data Exfiltration Potential <a href="#data-leak-note"><small>[1]</small></a></td><td>7</td></tr>
     <tr><td>Both</td><td>Policies with Privilege Escalation <a href="#priv-esc-note"><small>[2]</small></a></td><td>3</td></tr>
-    <tr><td>Both</td><td>Policies with Permissions Management/Resource Exposure access <a href="#perm-mgmt-note"><small>[3]</small></a></td><td>17</td></tr>
+    <tr><td>Both</td><td>Policies with Permissions Management/Resource Exposure access <a href="#perm-mgmt-note"><small>[3]</small></a></td><td>15</td></tr>
   </tbody>
 </table>
 <br>

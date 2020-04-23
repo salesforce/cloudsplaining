@@ -1,6 +1,6 @@
+from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.utils import get_full_policy_path
-from policy_sentry.util.arns import get_account_from_arn, get_resource_string
 
 
 class PolicyDetails:

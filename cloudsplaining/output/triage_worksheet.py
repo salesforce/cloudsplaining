@@ -44,7 +44,6 @@ def create_triage_worksheet(account_name, account_id, results, output_directory)
                     "Services": finding["ServicesCount"],
                     "Actions": finding["ActionsCount"],
                     "Justification": "",
-                    # "Link": "",
                 }
                 writer.writerow(entry)
 

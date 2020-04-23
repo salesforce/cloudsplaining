@@ -142,13 +142,13 @@ class AuthorizationDetails:
             print(f"Scanning {principal.principal_type}: {principal.name}")
             for policy in principal.policy_list:
                 print(f"\tScanning Policy: {policy['PolicyName']}")
+
                 if is_name_excluded(policy["PolicyName"], exclusions_cfg.get("policies")):
                     print(f"\tExcluded policy name: {policy['PolicyName']}")
                 elif principal.is_principal_excluded(exclusions_cfg):
                     print(f"\tExcluded principal name: {principal.name}")
                 else:
                     policy_document = policy["PolicyDocument"]
-
                     actions_missing_resource_constraints = []
                     for statement in policy_document.statements:
                         if modify_only:

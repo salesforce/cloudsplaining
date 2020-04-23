@@ -129,4 +129,3 @@ class Principal:
             if is_name_excluded(get_resource_path_from_arn(self.arn), exclusions_cfg.get("roles")):
                 decision = True
         return decision
-
