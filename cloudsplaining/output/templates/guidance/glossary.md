@@ -13,7 +13,7 @@ These policies allow a combination of IAM actions that allow a principal with th
 Resource Exposure actions allow modification of Permissions to [resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify [AWS Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html).
 
 
-<div name="definition-infrastructure-modification" id="definition-infrastructure-modification"><h5>Infrastructure Modification</h5></div>
+<div name="definition-infrastructure-modification" id="definition-infrastructure-modification"><h6>Infrastructure Modification</h6></div>
 
 Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to [Resource Hijacking](https://attack.mitre.org/techniques/T1496/), unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.
 

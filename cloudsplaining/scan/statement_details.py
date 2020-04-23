@@ -18,11 +18,12 @@ class StatementDetails:
     def __init__(self, statement):
         self.json = statement
         self.statement = statement
-        self.actions = self._actions()
-        self.resources = self._resources()
-        self.not_action = self._not_action()
-        self.not_resource = self._not_resource()
         self.effect = statement["Effect"]
+        self.resources = self._resources()
+        self.actions = self._actions()
+        self.not_action = self._not_action()
+        self.not_action_effective_actions = self._not_action_effective_actions()
+        self.not_resource = self._not_resource()
 
     def _actions(self):
         """Holds the actions in a statement"""
@@ -63,8 +64,8 @@ class StatementDetails:
             not_resource = [not_resource]
         return not_resource
 
-    @property
-    def not_action_effective_actions(self):
+    # @property
+    def _not_action_effective_actions(self):
         """If NotAction is used, calculate the allowed actions - i.e., what it would be """
         # def determine_scope(arn):
         services_in_scope = []
@@ -93,8 +94,6 @@ class StatementDetails:
             return effective_actions
         # Effect: Allow && Resource == "*"
         elif not self.has_resource_constraints and self.effect_allow:
-            logger.warning("\tThe policy with Effect Allow uses NotAction without any resource constraints: %s" % self.statement)
-
             # Then we calculate the reverse using all_actions
             for action in all_actions:
                 # If it's in NotActions, then it is not an action we want
@@ -106,9 +105,9 @@ class StatementDetails:
             effective_actions.sort()
             return effective_actions
         elif self.has_resource_constraints and self.effect_deny:
-            logger.critical("Haven't decided if we support Effect Deny here?")
+            logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
         elif not self.has_resource_constraints and self.effect_deny:
-            logger.critical("Haven't decided if we support Effect Deny here?")
+            logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
 
     @property
     def has_not_resource_with_allow(self):
