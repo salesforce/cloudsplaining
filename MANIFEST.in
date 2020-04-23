@@ -1,0 +1,3 @@
+recursive-include cloudsplaining/shared *.yml
+recursive-include cloudsplaining/output *.html
+recursive-include cloudsplaining/output *.md

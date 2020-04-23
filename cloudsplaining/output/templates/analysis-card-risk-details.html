@@ -1,0 +1,34 @@
+<div class="card-body">
+  <div class="grid">
+      <div class="row">
+        {% if finding["PrivilegeEscalation"]|length > 0 %}
+        <div class="col-sm border">
+  Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
+            <pre><code>
+{% for dict_item in finding["PrivilegeEscalation"] %}
+- Method: {{ dict_item["type"] }}
+Actions:{% for action in dict_item["actions"] %}
+- {{ action }}{% endfor %}
+{% endfor %}
+            </code></pre>
+        </div>
+        {% endif %}
+        {% if finding["AllowsDataLeakActions"]|length > 0 %}
+        <div class="col-sm border">
+          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+          <pre><code>
+{{ finding["AllowsDataLeakActions"] | tojson(indent=2) }}
+          </code></pre>
+        </div>
+        {% endif %}
+        {% if finding["PermissionsManagementActions"]|length > 0 %}
+        <div class="col-sm border">
+  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
+          <pre><code>
+{{ finding["PermissionsManagementActions"] | tojson(indent=2) }}
+          </code></pre>
+        </div>
+        {% endif %}
+      </div>
+  </div>
+</div>

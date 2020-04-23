@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="AWS IAM Policy Audit Report">
+  <meta name="author" content="Kinnaird McQuade">
+  <title>Cloudsplaining: AWS IAM Policy Audit Report</title>
+
+  <!--Bootstrap theme-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!--Custom CSS-->
+  <style>
+    .nav li{
+      float:left;
+    }
+    .navbar {
+        border-radius: 10px;
+        font-size:      1em;
+    }
+    body {
+        position: relative;
+    }
+   </style>
+
+</head>
+
+<body>
+  <!------------------>
+  <!-- Row          -->
+  <!------------------>
+  <div class="row">
+    <!--------------->
+    <!-- Container -->
+    <!--------------->
+    <div class="container">
+    <!------------------>
+    <!-- Navbar -->
+    <!------------------>
+    <nav id="navbar-example2" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
+      <a class="nav-link" href="#executive-summary">Summary</a>
+      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>
+      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>
+      <a class="navbar-brand" href="#"></a>
+      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>
+      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>
+      <a class="nav-link" href="#guidance">Guidance</a>
+      <a class="nav-link" href="#appendices">Appendix</a>
+      <br>
+      <!--Include Collapse/Expand buttons in Navbar-->
+      <button type="button" class="btn btn-outline-secondary" id="collapseAccordion">
+        <span class="glyphicon glyphicon-collapse-down"></span>Collapse
+      </button>
+      <button type="button" class="btn btn-outline-secondary" id="expandAccordion">
+        <span class="glyphicon glyphicon-collapse-up"></span>Expand
+      </button>
+        <br>
+    </nav>
+
+    <!-- Title section -->
+    <div class="row">
+      <div class="col-md-12">
+         <div class="page-header"><h2>Cloudsplaining IAM Report</h2></div>
+            <p>
+            <!--High level metadata - Account Name, Account ID and Report Generation date-->
+            <ul>
+              <li>Account: {{ t["account_name"] }} ({{ t["account_id"] }})</li>
+              <li>Report Generated: {{t.report_generated_time}}</li>
+            </ul>
+            <br>
+            <!-- /High level metadata-->
+          <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+
+            <!--Executive Summary-->
+            <h3 id="executive-summary">Executive Summary</h3>
+              {% include 'executive-summary.html' %}
+
+            <!--Summary: Customer-managed policies-->
+            <h3 id="customer-managed-policies-summary">Summary: Customer-managed Policies</h3>
+              {% include 'summary-customer-managed.html' %}
+
+            <!--Summary: AWS-managed policies-->
+            <h3 id="aws-managed-policies-summary">Summary: AWS-managed Policies</h3>
+              {% include 'summary-aws-managed.html' %}
+
+            <!--Analysis: Customer-managed-policies-->
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed Policies</h3>
+              {% include 'analysis-customer-managed.html' %}
+
+            <!--Analysis: AWS-managed-policies-->
+            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+              {% include 'analysis-aws-managed.html' %}
+
+            <!--Guidance-->
+            <h2 id="guidance">Guidance</h2>
+              {% include 'guidance.html' %}
+
+            <!--Appendix-->
+            <h3 id="appendices">Appendix</h3>
+            <br>
+
+            <!--Appendix subsection: Glossary-->
+            <h4 id="glossary">Glossary</h4>
+              {% include 'glossary.html' %}
+
+            <!--Appendix subsection: Exclusions configuration-->
+            <h4 id="exclusions">Exclusions configuration</h4>
+              {% include 'exclusions.html' %}
+
+            <!--Stats for Nerds-->
+            <h4 id="stats-for-nerds">Stats for Nerds:</h4>
+              {% include 'stats-for-nerds.html' %}
+
+            <!--Appendix subsection: References-->
+            <h4 id="references">References</h4>
+              {% include 'references.html' %}
+
+
+          </div> <!-- /data-spy -->
+        </div> <!-- /column containing all contents-->
+      </div><!-- /row holding all contents-->
+  </div><!-- /container -->
+  </div><!-- /row holding container holding all contents -->
+
+  <!-- JQuery-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <!--  Bootstrap-->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!--  &lt;!&ndash;  TODO: Not sure if I use this&ndash;&gt;-->
+<!--  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>-->
+
+  <!--Press Collapse/expand button so you can Ctrl+F through the report-->
+  <script>
+  $(function () {
+    $('#collapseAccordion').on('click', function(e) {
+      $('.panel-collapse').collapse('hide');
+    })
+    $('#expandAccordion').on('click', function(e) {
+      $('.panel-collapse').collapse('show');
+    })
+  });
+  </script>
+</body>
+</html>

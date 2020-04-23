@@ -1,0 +1,29 @@
+# Policy names to exclude from evaluation
+# Suggestion: Add policies here that are known to be overly permissive by design, after you run the initial report.
+policies:
+  - "AWSServiceRoleFor*"
+  - "*ServiceRolePolicy"
+  - "*ServiceLinkedRolePolicy"
+  - "AdministratorAccess" # Otherwise, this will take a long time
+  - "service-role*"
+  - "aws-service-role*"
+# Don't evaluate these roles, users, or groups as part of the evaluation
+roles:
+  - "service-role*"
+  - "aws-service-role*"
+users:
+  - ""
+groups:
+  - ""
+# Read-only actions to include in the results, such as s3:GetObject
+# By default, it includes Actions that could lead to Data Leaks
+include-actions:
+  - "s3:GetObject"
+  - "ssm:GetParameter"
+  - "ssm:GetParameters"
+  - "ssm:GetParametersByPath"
+  - "secretsmanager:GetSecretValue"
+# Write actions to include from the results, such as kms:Decrypt
+exclude-actions:
+  - ""
+

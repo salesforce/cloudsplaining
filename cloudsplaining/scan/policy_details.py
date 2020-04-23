@@ -1,0 +1,77 @@
+from cloudsplaining.scan.policy_document import PolicyDocument
+from cloudsplaining.shared.utils import get_full_policy_path
+from policy_sentry.util.arns import get_account_from_arn, get_resource_string
+
+
+class PolicyDetails:
+    """
+    Holds details from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
+    """
+
+    def __init__(self, policy_details):
+        self.policy_details = []
+        for policy_detail in policy_details:
+            self.policy_details.append(PolicyDetail(policy_detail))
+
+
+# pylint: disable=too-many-instance-attributes
+class PolicyDetail:
+    """
+    Holds metadata about the Policy Documents.
+    """
+
+    def __init__(self, policy_detail):
+        # Store the Raw JSON data from this for safekeeping
+        self.policy_detail = policy_detail
+
+        # Store the attributes per Policy item
+        self.policy_name = policy_detail.get("PolicyName")
+        self.policy_id = policy_detail.get("PolicyId")
+        self.arn = policy_detail.get("Arn")
+        self.path = policy_detail.get("Path")
+        self.default_version_id = policy_detail.get("DefaultVersionId")
+        self.attachment_count = policy_detail.get("AttachmentCount")
+        self.permissions_boundary_usage_count = policy_detail.get(
+            "PermissionsBoundaryUsageCount"
+        )
+        self.is_attachable = policy_detail.get("IsAttachable")
+        self.create_date = policy_detail.get("CreateDate")
+        self.update_date = policy_detail.get("UpdateDate")
+
+        # Policy Documents are stored here. Multiple indices though. We will evaluate the one
+        #   with IsDefaultVersion only.
+        self.policy_version_list = policy_detail.get("PolicyVersionList")
+
+        self.policy_document = self._policy_document()
+
+    def _policy_document(self):
+        """Return the policy document object"""
+        policy_document = {}
+        for policy_version in self.policy_version_list:
+            if policy_version.get("IsDefaultVersion") is True:
+                policy_document = PolicyDocument(
+                    policy_version.get("Document")
+                )
+        return policy_document
+
+    # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.
+    @property
+    def full_policy_path(self):
+        """Get the full policy path, including /aws-service-role/, if applicable"""
+        return get_full_policy_path(self.arn)
+
+    @property
+    def managed_by(self):
+        if "arn:aws:iam::aws:" in self.arn:
+            return "AWS"
+        else:
+            return "Customer"
+
+    @property
+    def account_id(self):
+        if "arn:aws:iam::aws:" in self.arn:
+            return "N/A"
+        else:
+            account_id = get_account_from_arn(self.arn)
+            return account_id
+

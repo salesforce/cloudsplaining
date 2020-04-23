@@ -1,0 +1,52 @@
+{% for finding in t["results"] %}
+  {% if finding["ManagedBy"] == "Customer" %}
+<br>
+<div class="row">
+  <div class="col-md-5">
+    {% include 'analysis-card-finding-names.html' %}
+  </div>
+  <div class="col-md-7">
+    <div id="card-customer-{{ t['results'].index(finding) }}">
+      <div class="card">
+         <div class="card-header">
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-doc-{{ t['results'].index(finding) }}">Policy Document</a>
+         </div>
+         <div id="card-element-customer-doc-{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+            <div class="card-body">
+<pre><code>
+{{ finding["PolicyDocument"] | tojson(indent=4) }}
+</code></pre>
+            </div>
+         </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">IAM Actions to address</a>
+        </div>
+        <div id="card-element-customer-action{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+          <div class="card-body">
+            <pre><code>
+{{ finding["Actions"] | tojson(indent=4) }}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+      {% if finding["PrivilegeEscalation"]|length > 0 or
+         finding["AllowsDataLeakActions"]|length > 0 or
+        finding["PermissionsManagementActions"]|length > 0
+      %}
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-risks{{ t['results'].index(finding) }}">High Priority risks</a>
+           </div>
+           <div id="card-element-customer-risks{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+               {% include 'analysis-card-risk-details.html' %}
+           </div>
+        </div>
+      {% endif %}
+   </div>
+
+  </div><!-- /col for card -->
+</div>
+  {% endif %}
+{% endfor %}

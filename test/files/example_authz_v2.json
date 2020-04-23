@@ -1,0 +1,202 @@
+{
+  "UserDetailList": [
+    {
+      "Path": "/",
+      "UserName": "BlakeBortles",
+      "UserId": "BlakeBortles",
+      "Arn": "arn:aws:iam::012345678901:user/BlakeBortles",
+      "CreateDate": "2019-12-18 19:10:08+00:00",
+      "GroupList": [
+        "GOAT"
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": []
+    }
+  ],
+  "GroupDetailList": [
+    {
+      "Path": "/",
+      "GroupName": "GOAT",
+      "GroupId": "GreatestOfAllTime",
+      "Arn": "arn:aws:iam::012345678901:group/GOAT",
+      "CreateDate": "2017-05-15 17:33:36+00:00",
+      "GroupPolicyList": [],
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ]
+    }
+  ],
+  "RoleDetailList": [
+    {
+      "Path": "/",
+      "RoleName": "GOAT",
+      "RoleId": "GOAT",
+      "Arn": "arn:aws:iam::012345678901:role/GOAT",
+      "CreateDate": "2019-08-16 17:27:59+00:00",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ssm.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "InstanceProfileList": [],
+      "RolePolicyList": [
+        {
+          "PolicyName": "SsmOnboardingInlinePolicy",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": [],
+      "RoleLastUsed": {}
+    },
+      {
+      "Path": "/",
+      "RoleName": "MyOtherRole",
+      "RoleId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
+      "CreateDate": "2019-08-16 17:27:59+00:00",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ssm.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "InstanceProfileList": [],
+      "RolePolicyList": [
+        {
+          "PolicyName": "InlinePolicyForTestingOverrides",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": [],
+      "RoleLastUsed": {}
+    }
+  ],
+  "Policies": [
+    {
+      "PolicyName": "NotYourPolicy",
+      "PolicyId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": 0,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "ecr:GetAuthorizationToken",
+                  "ecr:UploadLayerPart",
+                  "ecr:CompleteLayerUpload",
+                  "ecr:PutImage"
+                ],
+                "Resource": [
+                  "*"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ]
+    },
+    {
+      "PolicyName": "PolicyForTestingOverrides",
+      "PolicyId": "PolicyForTestingOverrides",
+      "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": 0,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:CreateBucket"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::mybucket"
+                ]
+              },
+              {
+                "Sid": "VisualEditor1",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject"
+                ],
+                "Resource": [
+                  "*"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ]
+    }
+  ]
+}

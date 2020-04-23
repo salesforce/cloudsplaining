@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+nose = "*"
+coverage = "*"
+pylint = "==2.4.2"
+pytest = "==5.2.1"
+black = "==19.10b0"
+invoke = "*"
+bandit = "==1.6.2"
+safety = "==1.8.5"
+
+[packages]
+policy_sentry = "==0.8.0.4"
+click = "==7.0"
+schema = "==0.7.1"
+boto3 = "*"
+botocore = "*"
+click_log = "==0.3.2"
+Jinja2 = "==2.11.2"
+Markdown = "==3.2.1"
+
+[requires]
+python_version = "3.7"
