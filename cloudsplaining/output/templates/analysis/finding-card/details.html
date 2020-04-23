@@ -15,7 +15,7 @@ Actions:{% for action in dict_item["actions"] %}
         {% endif %}
         {% if finding["AllowsDataLeakActions"]|length > 0 %}
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 {{ finding["AllowsDataLeakActions"] | tojson(indent=2) }}
           </code></pre>

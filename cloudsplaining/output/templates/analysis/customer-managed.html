@@ -3,7 +3,7 @@
 <br>
 <div class="row">
   <div class="col-md-5">
-    {% include 'analysis-card-finding-names.html' %}
+    {% include 'analysis/finding-card/names.html' %}
   </div>
   <div class="col-md-7">
     <div id="card-customer-{{ t['results'].index(finding) }}">
@@ -40,7 +40,7 @@
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-risks{{ t['results'].index(finding) }}">High Priority risks</a>
            </div>
            <div id="card-element-customer-risks{{ t['results'].index(finding) }}" class="panel-collapse collapse">
-               {% include 'analysis-card-risk-details.html' %}
+               {% include 'analysis/finding-card/details.html' %}
            </div>
         </div>
       {% endif %}
