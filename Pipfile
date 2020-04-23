@@ -9,9 +9,11 @@ coverage = "*"
 pylint = "==2.4.2"
 pytest = "==5.2.1"
 black = "==19.10b0"
+setuptools = "*"
+wheel = "==0.33.6"
+safety = "==1.8.7"
 invoke = "*"
 bandit = "==1.6.2"
-safety = "==1.8.5"
 
 [packages]
 policy_sentry = "==0.8.0.5"
