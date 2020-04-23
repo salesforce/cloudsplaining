@@ -1,15 +1,15 @@
-<div name="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
+<div id="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
 
 After you've rewritten your IAM policy, we suggest two options for validating that it will pass Cloudsplaining and alleviate any remaining concerns:
 
-<div name="validation-guidance-pt1-bullet-points">
+<div id="validation-guidance-pt1-bullet-points">
 <ul>
   <li>Run Cloudsplaining's <code>scan-policy-file</code> command, which scans a single JSON policy file instead of the entire AWS Account's Authorization details. </li>
   <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>)</li>
 </ul>
 </div>
 
-<div name="validation-guidance-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
+<div id="validation-guidance-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
 
 You can validate that your remediated policy passes Cloudsplaining by running the following command:
 
@@ -17,11 +17,11 @@ You can validate that your remediated policy passes Cloudsplaining by running th
 
 When there are no more results, it passes!
 
-<div name="validation-guidance-cloudsplaining"> <h6>Using Parliament to Lint your Policies</h6></div>
+<div id="validation-guidance-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
 
 parliament is an AWS IAM linting library. It reviews policies looking for problems such as:
 
-<div name="validation-guidance-pt2-bullet-points">
+<div id="validation-guidance-pt2-bullet-points">
 <ul>
   <li>malformed JSON </li>
   <li>missing required elements</li>

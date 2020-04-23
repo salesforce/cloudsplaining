@@ -15,7 +15,7 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
 
     account_id = account_metadata.get('account_id')
     account_name = account_metadata.get('account_name')
-    html_output_file = os.path.join(output_directory, f"iam-report-{account_name}-{account_id}.html")
+    html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
     sorted_results = sorted(results, key=lambda i: i["PolicyName"])
 
     # Calculate ratio of policies with PrivEsc, Permissions management, or Data leak potential
@@ -24,7 +24,6 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     policies_with_privilege_escalation = 0
 
     for finding in sorted_results:
-
         # These are stats we care about regardless of who manages it, as they help with prioritization
         if finding["AllowsDataLeakActions"]:
             policies_with_data_leak_potential += 1
@@ -72,7 +71,7 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
         "policies_with_data_leak_potential": policies_with_data_leak_potential,
         "policies_with_privilege_escalation": policies_with_privilege_escalation,
         "policies_with_permissions_management": policies_with_permissions_management,
-        "exclusions_configuration": yaml.dump(exclusions_cfg, allow_unicode=True)
+        "exclusions_configuration": yaml.dump(exclusions_cfg)
     }
 
     # HTML Report template

@@ -1,4 +1,4 @@
-<div name="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
+<div id="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
 
 Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.
 
@@ -12,10 +12,10 @@ AWS managed policies always include access to `*` resources because AWS provides
 
 You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.
 
-<div name="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
+<div id="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
 
 We suggest two options for remediating each finding:
-<div name="remediation-guidance-pt2-bullet-points">
+<div id="remediation-guidance-pt2-bullet-points">
 <ul>
   <li>Leveraging [Policy Sentry](https://github.com/salesforce/policy_sentry/), courtesy of <a href="https://twitter.com/kmcquade3">Kinnaird McQuade</a>, which generates policies with resource ARN constraints at user-specified access levels automagically.</li>
   <li>Manually rewriting the policies</li>
@@ -25,7 +25,7 @@ We suggest two options for remediating each finding:
 **Leveraging Policy Sentry**
 
 For guidance on how to use Policy Sentry, please see the documentation [here](https://github.com/salesforce/policy_sentry/#writing-secure-policies-based-on-resource-constraints-and-access-levels). This is highly suggested - within 10 minutes of learning the tool, creating a secure IAM policy becomes a matter of:
-<div name="remediation-guidance-pt2-bullet-points-2">
+<div id="remediation-guidance-pt2-bullet-points-2">
 <ul>
   <li>Generating the YAML template with `policy_sentry create-template --output-file crud.yml --template-type crud`</li>
   <li>Literally copying/pasting resource ARNs into the template</li>

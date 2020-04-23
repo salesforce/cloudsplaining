@@ -1,4 +1,4 @@
-<div name="triage-guidance-description"> <h5>Understanding Context</h5></div>
+<div id="triage-guidance-description"> <h5>Understanding Context</h5></div>
 
 It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.
 
@@ -11,7 +11,7 @@ For example, an AWS Lambda policy used as a simple service checking the configur
 
 
 As such, the tool aims to:
-<div name="triage-guidance-description-bullet-points">
+<div id="triage-guidance-description-bullet-points">
 <ul>
 <li> Map out your entire risk landscape of IAM identity-based policies, enumerating the potential risks for a full IAM threat model</li>
 <li>Identify where you can reduce the blast radius in the case of credentials compromise</li>
@@ -21,11 +21,11 @@ As such, the tool aims to:
 </ul>
 </div>
 
-<div name="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
+<div id="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
 
 To recap: you've followed these steps to generate this report:
 
-<div name="triage-guidance-recap-bullet-points">
+<div id="triage-guidance-recap-bullet-points">
 <ul>
 <li>Downloaded the Account Authorization details JSON file</li>
   <ul>
@@ -41,7 +41,7 @@ To recap: you've followed these steps to generate this report:
 </ul>
 </div>
 
-<div name="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
+<div id="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
 
 An assessor can follow this general workflow:
 
@@ -56,7 +56,7 @@ When you ask the service/account owner team to fill out the Triage CSV worksheet
 > As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 > We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.
 
-<div name="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
+<div id="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
 
 When triaging your results, consider some of the factors listed below as you identify False Positives vs. legitimate findings. **There are some scenarios where `"Resource": "*"` access is by design and is therefore a false positive. This section covers some of the common scenarios.**
 
@@ -67,7 +67,7 @@ When triaging your results, consider some of the factors listed below as you ide
 **System roles vs. User Roles**: System roles - IAM Roles applied to compute services, such as EC2 Instance Profiles, ECS Task Execution roles, or Lambda Task Execution roles - should almost always leverage resource ARN constraints for actions that perform "Write" actions. Exceptions to this could include Infrastructure provisioning or other edge cases.
 
 Conversely, user roles will almost always be used against `*` resources for the sake of convenience, innovation, and avoiding overly restrictive limitations. In the user role scenario, consider:
-<div name="triage-guidance-considerations-pt1-bullet-points">
+<div id="triage-guidance-considerations-pt1-bullet-points">
 <ul>
   <li><b>Design context</b>: is it appropriate? (For instance, maybe all your user roles don't need <code>iam:*</code>)</li>
   <li><b>Environment</b>: If this is a Dev environment, frequently-used user roles probably allow more permissions for innovation purposes. However, in later environments - especially production - commonly used user roles should be read-only - or the more permissive ones should be for break-glass scenarios only.</li>
@@ -79,7 +79,7 @@ Conversely, user roles will almost always be used against `*` resources for the 
 
 For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, kms:Decrypt to * resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude kms:Decrypt from your results.
 
-<div name="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
+<div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
 
 **Conditions Logic**:
 
@@ -89,10 +89,10 @@ This tool does not evaluate [IAM Conditions](https://docs.aws.amazon.com/IAM/lat
 
 Depending on how your organization approaches CloudWatch Logs Agent configuration, IAM, and CloudWatch Logs Group naming conventions, it is sometimes near-impossible to prevent cross-contamination of logs or Log Injection to the Log Streams from other instance IDs. Cross-Contamination of CloudWatch Logs is an issue of its own that is definitely beyond the scope of this document - but consider this as a potential limitation by AWS when trying to identify a remediation plan.
 
-<div name="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
+<div id="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
 
 After you have identified the False Positives, add the False Positive criteria to your custom Cloudsplaining exclusions file. The False Positives generally fall into one of two categories:
-<div name="triage-guidance-considerations-pt3-bullet-points">
+<div id="triage-guidance-considerations-pt3-bullet-points">
 <ul>
   <li>False positives that will occur across all of your AWS accounts, due to your organization-wide implementation strategy</li>
   <li>False positives specific to this AWS account</li>
