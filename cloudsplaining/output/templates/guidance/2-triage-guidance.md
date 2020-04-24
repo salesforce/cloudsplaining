@@ -77,7 +77,7 @@ Conversely, user roles will almost always be used against `*` resources for the 
 
 **Organization-specific results**
 
-For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, kms:Decrypt to * resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude kms:Decrypt from your results.
+For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, `kms:Decrypt` to `*` resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude `kms:Decrypt` from your results.
 
 <div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
 
