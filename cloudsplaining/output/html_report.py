@@ -38,23 +38,23 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     # https://python-markdown.github.io/extensions/md_in_html/
     # 1. Overview
     overview_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "1-overview.md"), mode="r", encoding="utf-8")
-    overview_html = markdown.markdown(overview_file.read())
+    overview_html = markdown.markdown(overview_file.read(), extensions=["markdown.extensions.extra"])
 
     # 2. Triage guidance
     triage_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "2-triage-guidance.md"), mode="r", encoding="utf-8")
-    triage_guidance_html = markdown.markdown(triage_guidance_file.read(), extensions=['md_in_html'])
+    triage_guidance_html = markdown.markdown(triage_guidance_file.read(), extensions=["markdown.extensions.extra"])
 
     # 3. Remediation Guidance
     remediation_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "3-remediation-guidance.md"), mode="r", encoding="utf-8")
-    remediation_guidance_html = markdown.markdown(remediation_guidance_file.read(), extensions=['md_in_html'])
+    remediation_guidance_html = markdown.markdown(remediation_guidance_file.read(), extensions=["markdown.extensions.extra"])
 
     # 4. Validation
     validation_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "4-validation.md"), mode="r", encoding="utf-8")
-    validation_guidance_html = markdown.markdown(validation_guidance_file.read(), extensions=['md_in_html'])
+    validation_guidance_html = markdown.markdown(validation_guidance_file.read(), extensions=["markdown.extensions.extra"])
 
     # 5. Glossary
     glossary_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "glossary.md"), mode="r", encoding="utf-8")
-    glossary_html = markdown.markdown(glossary_file.read(), extensions=['md_in_html'])
+    glossary_html = markdown.markdown(glossary_file.read(), extensions=["md_in_html"])
 
     # Formatted results to feed into the HTML
     iam_report_results_formatted = {

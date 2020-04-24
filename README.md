@@ -111,7 +111,7 @@ scan --file default.json -v DEBUG --exclusions-file private/my-exclusions-file.y
 
 It will create an HTML report like this:
 
-> ![Cloudsplaining report](docs/example.html "Example report")
+> ![Cloudsplaining report](examples/files/iam-report-example.html "Example report")
 
 
 It will also create a raw JSON data file:
