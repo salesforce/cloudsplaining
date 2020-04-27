@@ -34,7 +34,7 @@ click_log.basic_config(logger)
 )
 @click.option(
     "--credentials-file",
-    type=click.Path(exists=True),
+    type=click.Path(exists=False),
     help="Path to the AWS credentials file.",
     default=str(Path.home()) + "/.aws/credentials",
 )

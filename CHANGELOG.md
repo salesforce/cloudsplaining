@@ -1,11 +1,11 @@
 # CHANGELOG
 
 ## TODO
-* Usage GIF
 * Improve README - it is outdated.
-* ReadTheDocs would be nice.
+* Give a demo on how to build the exclusions file in the guidance docs.
 
 ## Unreleased
+* Added GIF to readme
 * Removed "Stats for Nerds"
 * Cleaned up report some more
 * Made Pylint happy

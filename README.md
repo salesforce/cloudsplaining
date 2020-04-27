@@ -1,7 +1,10 @@
 cloudsplaining
 --------------
 
-`cloudsplaining` identifies violations of least privilege in AWS IAM policies. It can scan all the policies in your AWS account or it can scan a single policy file.
+`cloudsplaining` identifies violations of least privilege in AWS IAM policies.
+
+![](docs/images/cloudsplaining-report.gif)
+
 
 ## Overview
 
@@ -99,6 +102,13 @@ cloudsplaining download-authorization-details --profile default
 
 It will download a file titled `default.json` in your current directory.
 
+#### Create Exclusions file
+
+
+```bash
+TODO: Exclusions file
+```
+
 #### Scanning the Authorization Details file
 
 Now that we've downloaded the account authorization file, we can scan *all* of the AWS IAM policies with `cloudsplaining`.
@@ -106,7 +116,7 @@ Now that we've downloaded the account authorization file, we can scan *all* of t
 Run the following command:
 
 ```bash
-scan --file default.json -v DEBUG --exclusions-file private/my-exclusions-file.yml
+cloudsplaining scan --file default.json --exclusions-file private/my-exclusions-file.yml
 ```
 
 It will create an HTML report like this:
