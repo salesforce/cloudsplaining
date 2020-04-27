@@ -1,16 +1,20 @@
 cloudsplaining
 --------------
 
-`cloudsplaining` identifies violations of least privilege in AWS IAM policies.
+`cloudsplaining` identifies violations of least privilege in AWS IAM and generates a risk-prioritized HTML report with a triage worksheet.
 
-![](docs/images/cloudsplaining-report.gif)
+![](docs/_images/cloudsplaining-report.gif)
 
+## Documentation
+
+For full documentation, please visit the [project on ReadTheDocs](https://cloudsplaining.readthedocs.io/en/latest/).
 
 ## Overview
 
-Policy Sentry revealed to us that it is possible to finally write IAM policies according to least privilege.
 
-Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below,  which allows the IAM principal (a role or user) to run GetObject from any S3 bucket in the AWS account:
+## Motivation
+
+[Policy Sentry](https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below,  which allows the IAM principal (a role or user) to run GetObject from any S3 bucket in the AWS account:
 
 ```json
 {
@@ -48,7 +52,7 @@ Policy Sentry [makes it really easy to do this](https://github.com/salesforce/po
 
 That's why we wrote Cloudsplaining.
 
-Cloudsplaining identifies violations of least privilege in AWS IAM policies. It can scan all the policies in your AWS account or it can scan a single policy file.
+Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
 
 ## Installation
 
@@ -64,50 +68,57 @@ pip3 install --user cloudsplaining-0.0.3.tar.gz
 
 * Now you should be able to execute `cloudsplaining` from command line by running `cloudsplaining --help`.
 
-### Scanning a policy file
-
-Let's start with scanning a single policy file.
-
-```bash
-cloudsplaining scan-policy-file --file examples/policies/explicit-actions.json
-```
-
-The output will include a finding description and a list of the IAM actions that do not leverage resource constraints.
-
-By default, `cloudsplaining` only scans for Modify-level actions - that is, actions at the `Write` and `Permissions management` access levels. If the policy under question has a read-only action without resource constraints - such as `s3:GetObject` - it will not flag that action unless you provide the `--all-access-levels` argument, as shown below.
-
-```bash
-cloudsplaining scan-policy-file --file examples/policies/explicit-actions.json --all-access-levels
-```
-
-The output will resemble the following:
-
-```console
-...
-	['ecr:BatchCheckLayerAvailability', 'ecr:BatchGetImage', 'ecr:CompleteLayerUpload', 'ecr:DescribeImages', 'ecr:DescribeRepositories', 'ecr:GetDownloadUrlForLayer', 'ecr:GetRepositoryPolicy', 'ecr:InitiateLayerUpload', 'ecr:ListImages', 'ecr:PutImage', 'ecr:UploadLayerPart']
-```
-
 
 ### Scanning an entire AWS Account
 
 #### Downloading Account Authorization Details
 
-We can also scan an entire AWS account and generate reports. To do this, we leverage the AWS IAM [get-account-authorization-details](https://docs.aws.amazon.com/cli/latest/reference/iam/get-account-authorization-details.html) API call, which downloads a large JSON file (around 100KB per account) that contains all of the IAM details for the account. This includes data on users, groups, roles, customer-managed policies, and AWS-managed policies.
+We can scan an entire AWS account and generate reports. To do this, we leverage the AWS IAM [get-account-authorization-details](https://docs.aws.amazon.com/cli/latest/reference/iam/get-account-authorization-details.html) API call, which downloads a large JSON file (around 100KB per account) that contains all of the IAM details for the account. This includes data on users, groups, roles, customer-managed policies, and AWS-managed policies.
 
-To do this, you can leverage `cloudsplaining`'s `download-authorization-details` command:
+* To do this, set your AWS access keys as environment variables:
 
 ```bash
-cloudsplaining download-authorization-details --profile default
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+# If you are using MFA or STS; optional but highly recommended
+export AWS_SESSION_TOKEN=...
+```
+
+* Then run `cloudsplaining`'s `download` command:
+
+```bash
+cloudsplaining download
+```
+
+* If you prefer to use your `~/.aws/credentials` file instead of environment variables, you can specify the profile name:
+
+```bash
+cloudsplaining download --profile default
 ```
 
 It will download a file titled `default.json` in your current directory.
 
 #### Create Exclusions file
 
+Cloudsplaining tool does not attempt to understand the context behind everything in your AWS account. It's possible to understand the context behind some of these things programmatically - whether the policy is applied to an instance profile, whether the policy is attached, whether inline IAM policies are in use, and whether or not AWS Managed Policies are in use. **Only you know the context behind the design of your AWS infrastructure and the IAM strategy**.
+
+As such, it's important to eliminate False Positives that are context-dependent. You can do this with an exclusions file. We've included a command that will generate an exclusions file for you so you don't have to remember the required format.
+
+You can create an exclusions template via the following command:
 
 ```bash
-TODO: Exclusions file
+cloudsplaining create-exclusions-file
 ```
+
+This will generate a file in your current directory titled `exclusions.yml`.
+
+Now when you run the `scan` command, you can use the exclusions file like this:
+
+```bash
+cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
+```
+
+For more information on the structure of the exclusions file, see [Filtering False Positives](#filtering-false-positives)
 
 #### Scanning the Authorization Details file
 
@@ -116,7 +127,7 @@ Now that we've downloaded the account authorization file, we can scan *all* of t
 Run the following command:
 
 ```bash
-cloudsplaining scan --file default.json --exclusions-file private/my-exclusions-file.yml
+cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
 ```
 
 It will create an HTML report like this:
@@ -196,38 +207,59 @@ exclude-actions:
   * If you want to exclude a role titled `MyRole`, list `MyRole` or `MyR*` in the `roles` list.
   * You can follow the same approach for `users` and `groups` list.
 
-* Now, run the scan while considering the exclusions.
+* Now, you can run the scan while considering the exclusions.
 
 ```bash
 cloudsplaining scan --file default.json --exclusions-file exclusions.yml
 ```
 
-* You can also skip the scans on AWS managed policies if you like. Note that by default, AWS managed policies that are attached to IAM principals are scanned.
+### Scanning a single policy
+
+You can also scan a single policy file to identify risks instead of an entire account.
 
 ```bash
-cloudsplaining scan --file default.json --exclusions-file exclusions.yml --skip-aws-managed
+cloudsplaining scan-policy-file --file examples/policies/explicit-actions.json
 ```
 
-Note that the `scan` command usually takes about 2 minutes per account, given the size of the authorization details file. It's faster if you skip the AWS managed policies, but it will still take about 30 seconds.
+The output will include a finding description and a list of the IAM actions that do not leverage resource constraints.
+
+The output will resemble the following:
+
+<details>
+<summary>Example <code>scan-policy-file</code> output</summary>
+
+```console
+Issue found: Data Exfiltration
+Actions: s3:GetObject
+
+Issue found: Resource Exposure
+Actions: ecr:DeleteRepositoryPolicy, ecr:SetRepositoryPolicy, s3:BypassGovernanceRetention, s3:DeleteAccessPointPolicy, s3:DeleteBucketPolicy, s3:ObjectOwnerOverrideToBucketOwner, s3:PutAccessPointPolicy, s3:PutAccountPublicAccessBlock, s3:PutBucketAcl, s3:PutBucketPolicy, s3:PutBucketPublicAccessBlock, s3:PutObjectAcl, s3:PutObjectVersionAcl
+
+Issue found: Unrestricted Infrastructure Modification
+Actions: ecr:BatchDeleteImage, ecr:CompleteLayerUpload, ecr:CreateRepository, ecr:DeleteLifecyclePolicy, ecr:DeleteRepository, ecr:DeleteRepositoryPolicy, ecr:InitiateLayerUpload, ecr:PutImage, ecr:PutImageScanningConfiguration, ecr:PutImageTagMutability, ecr:PutLifecyclePolicy, ecr:SetRepositoryPolicy, ecr:StartImageScan, ecr:StartLifecyclePolicyPreview, ecr:TagResource, ecr:UntagResource, ecr:UploadLayerPart, s3:AbortMultipartUpload, s3:BypassGovernanceRetention, s3:CreateAccessPoint, s3:CreateBucket, s3:DeleteAccessPoint, s3:DeleteAccessPointPolicy, s3:DeleteBucket, s3:DeleteBucketPolicy, s3:DeleteBucketWebsite, s3:DeleteObject, s3:DeleteObjectTagging, s3:DeleteObjectVersion, s3:DeleteObjectVersionTagging, s3:GetObject, s3:ObjectOwnerOverrideToBucketOwner, s3:PutAccelerateConfiguration, s3:PutAccessPointPolicy, s3:PutAnalyticsConfiguration, s3:PutBucketAcl, s3:PutBucketCORS, s3:PutBucketLogging, s3:PutBucketNotification, s3:PutBucketObjectLockConfiguration, s3:PutBucketPolicy, s3:PutBucketPublicAccessBlock, s3:PutBucketRequestPayment, s3:PutBucketTagging, s3:PutBucketVersioning, s3:PutBucketWebsite, s3:PutEncryptionConfiguration, s3:PutInventoryConfiguration, s3:PutLifecycleConfiguration, s3:PutMetricsConfiguration, s3:PutObject, s3:PutObjectAcl, s3:PutObjectLegalHold, s3:PutObjectRetention, s3:PutObjectTagging, s3:PutObjectVersionAcl, s3:PutObjectVersionTagging, s3:PutReplicationConfiguration, s3:ReplicateDelete, s3:ReplicateObject, s3:ReplicateTags, s3:RestoreObject, s3:UpdateJobPriority, s3:UpdateJobStatus
+```
+
+</details>
+
 
 ## Cheat sheet
 
 ```bash
 # Download authorization details
-cloudsplaining download-authorization-details --profile default
+cloudsplaining download
+# Download from a specific profile
+cloudsplaining download --profile someprofile
 # Download authorization details for **all** of your AWS profiles
-cloudsplaining download-authorization-details --profile all
+cloudsplaining download --profile all
 
 # Scan Authorization details
 cloudsplaining scan --file default.json
 # Scan Authorization details with custom exclusions
 cloudsplaining scan --file default.json --exclusions-file exclusions.yml
-# Scan authorization details, but ignore AWS Managed Policies
-cloudsplaining scan --file default.json --skip-aws-managed
 
 # Scan Policy Files
-scan-policy-file --file examples/wildcards.json
-scan-policy-file --file examples/wildcards.json  --exclusions-file examples/example-exclusions.yml
+cloudsplaining scan-policy-file --file examples/policies/wildcards.json
+cloudsplaining scan-policy-file --file examples/policies/wildcards.json  --exclusions-file examples/example-exclusions.yml
 ```
 
 ## FAQ

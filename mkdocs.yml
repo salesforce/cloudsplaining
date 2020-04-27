@@ -1,0 +1,24 @@
+site_name: Cloudsplaining
+theme: readthedocs
+nav:
+  - Home: 'index.md'
+  - User Guide:
+    - Introduction: 'user-guide/overview.md'
+    - Installation: 'user-guide/installation.md'
+    - Downloading Account IAM Details: 'user-guide/download.md'
+    - Scanning Account IAM Details: 'user-guide/scan-account.md'
+    - Scanning a single policy: 'user-guide/scan-policy-file.md'
+    - Troubleshooting: 'user-guide/troubleshooting.md'
+  - Report Contents:
+    - Overview: 'report/overview.md'
+    - Triage: 'report/triage.md'
+    - Remediation: 'report/remediation.md'
+    - Validation: 'report/validation.md'
+    - Glossary: 'report/glossary.md'
+  - Contributing:
+    - Overview: 'contributing/contributing.md'
+    - Testing: 'contributing/testing.md'
+  - Appendices:
+    - FAQ: 'appendices/faq.md'
+    - Comparison to other tools: 'appendices/comparison-to-other-tools.md'
+    - Jira Ticket Automation: 'appendices/jira-ticket-automation.md'

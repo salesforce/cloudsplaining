@@ -46,7 +46,7 @@ click_log.basic_config(logger)
     " Note that this will dramatically increase the size of the downloaded file.",
 )
 @click_log.simple_verbosity_option(logger)
-def download_authorization_details(
+def download(
     profile, output, credentials_file, include_non_default_policy_versions
 ):
     """
@@ -99,6 +99,15 @@ def get_account_authorization_details(
                 aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key,
                 aws_session_token=aws_session_token,
+            )
+            return session
+        elif aws_access_key_id and aws_secret_access_key and not aws_session_token:
+            print("It looks like you are authenticating with static credentials rather than temporary credentials. "
+                  "Static credentials usage is a security concern. We suggest you use MFA to generate short lived "
+                  "credentials and set those as environment variables instead.")
+            session = boto3.Session(
+                aws_access_key_id=aws_access_key_id,
+                aws_secret_access_key=aws_secret_access_key,
             )
             return session
         else:

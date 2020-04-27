@@ -2,7 +2,7 @@
 
 It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.
 
-This report generates findings on Policies that do not leverage resource constraints and identifies some attributes to help prioritize which ones to address - such as Privilege Escalation, Resource Exposure, and Data Exfiltration. These results help you to identify your entire IAM threat landscape and reduce blast radius. In the event of credential compromise, you can prevent an attacker from exploiting the risks mentioned above, in addition to preventing mass deletion, destruction, or modification of existing infrastructure.
+This report generates findings on Policies that do not leverage resource constraints and identifies some attributes to help prioritize which ones to address - such as Privilege Escalation, Resource Exposure, and Data Exfiltration. These results help you to identify your IAM threat landscape and reduce blast radius. In the event of credential compromise, you can prevent an attacker from exploiting the risks mentioned above, in addition to preventing mass deletion, destruction, or modification of existing infrastructure.
 
 However, this tool does not attempt to understand the context behind everything in your AWS account. It's possible to understand the context behind some of these things programmatically - whether the policy is applied to an instance profile, whether the policy is attached, whether inline IAM policies are in use, and whether or not AWS Managed Policies are in use. **Only you know the context behind the design of your AWS infrastructure and the IAM strategy**.
 
@@ -13,7 +13,7 @@ For example, an AWS Lambda policy used as a simple service checking the configur
 As such, the tool aims to:
 <div id="triage-guidance-description-bullet-points">
 <ul>
-<li> Map out your entire risk landscape of IAM identity-based policies, enumerating the potential risks for a full IAM threat model</li>
+<li> Map out your risk landscape of IAM identity-based policies, enumerating the potential risks for a full IAM threat model</li>
 <li>Identify where you can reduce the blast radius in the case of credentials compromise</li>
 <li> Help you prioritize which ones to remediate</li>
 <li> Provide a straightforward workflow to remediate</li>
@@ -29,10 +29,10 @@ To recap: you've followed these steps to generate this report:
 <ul>
 <li>Downloaded the Account Authorization details JSON file</li>
   <ul>
-    <li><code>cloudsplaining download-account-authorizations-file --profile default --output default-account-details.json</code></li>
+    <li><code>cloudsplaining download --profile default --output default-account-details.json</code></li>
   </ul>
 <li>Generated your custom exclusions file</li>
-  <ul><li><code>cloudsplaining create-exclusions-template --output-file exclusions.yml</code></li></ul>
+  <ul><li><code>cloudsplaining create-exclusions-file --output-file exclusions.yml</code></li></ul>
 <li>Generated the report</li>
   <ul>
     <li><code>cloudsplaining scan --file default-account-details.json --exclusions-file exclusions.yml</code></li>
@@ -99,5 +99,57 @@ After you have identified the False Positives, add the False Positive criteria t
 </ul>
 </div>
 
-Then, generate the Cloudsplaining report again so you are working with a report version that consists of True Positives only. Proceed to the Remediation stage.
+To make the exclusiond, create a YAML file that we will use to list out exclusions with the `create-exclusions-file` command.
 
+```bash
+cloudsplaining create-exclusions-file
+```
+
+This will generate a file titled `exclusions.yml` in your current directory.
+
+ The default exclusions file contains these contents:
+
+```yaml
+# Policy names to exclude from evaluation
+# Suggestion: Add policies here that are known to be overly permissive by design, after you run the initial report.
+policies:
+  - "AWSServiceRoleFor*"
+  - "*ServiceRolePolicy"
+  - "*ServiceLinkedRolePolicy"
+  - "AdministratorAccess" # Otherwise, this will take a long time
+  - "service-role*"
+  - "aws-service-role*"
+# Don't evaluate these roles, users, or groups as part of the evaluation
+roles:
+  - "service-role*"
+  - "aws-service-role*"
+users:
+  - ""
+groups:
+  - ""
+# Read-only actions to include in the results, such as s3:GetObject
+# By default, it includes Actions that could lead to Data Leaks
+include-actions:
+  - "s3:GetObject"
+  - "ssm:GetParameter"
+  - "ssm:GetParameters"
+  - "ssm:GetParametersByPath"
+  - "secretsmanager:GetSecretValue"
+# Write actions to include from the results, such as kms:Decrypt
+exclude-actions:
+  - ""
+```
+
+Add whatever values you want to the above depending on your organization's context.
+  * Under `policies`, list the path of policy names that you want to exclude.
+  * If you want to exclude a role titled `MyRole`, list `MyRole` or `MyR*` in the `roles` list.
+  * You can follow the same approach for `users` and `groups` list.
+
+
+* Now, run the scan to generate a *new* Cloudsplaining report  that considers your exclusions criteria. This way, you are working with a report version that consists of True Positives only.
+
+```bash
+cloudsplaining scan --file default.json --exclusions-file exclusions.yml
+```
+
+You can now proceed to the Remediation stage.

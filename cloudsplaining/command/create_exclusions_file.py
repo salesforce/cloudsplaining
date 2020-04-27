@@ -2,6 +2,7 @@
 Create YML Template files for the exclusions template command.
 This way, users don't have to remember exactly how to phrase the yaml files, since this command creates it for them.
 """
+import os
 from pathlib import Path
 import logging
 import click
@@ -17,12 +18,13 @@ click_log.basic_config(logger)
 )
 @click.option(
     "--output-file",
-    type=str,
+    type=click.Path(exists=False),
+    default=os.path.join(os.getcwd(), "exclusions.yml"),
     required=True,
     help="Relative path to output file where we want to store the exclusions template.",
 )
 @click_log.simple_verbosity_option(logger)
-def create_exclusions_template(output_file):
+def create_exclusions_file(output_file):
     """
     Creates a YML file to be used as a custom exclusions template,
     so users can fill out the fields without needing to look up the required format.
