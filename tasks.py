@@ -26,7 +26,17 @@ ns.add_collection(unit)
 build = Collection("build")
 ns.add_collection(build)
 
+docs = Collection("docs")
+ns.add_collection(docs)
 
+
+@task
+def build_docs(c):
+    """Create the documentation files and open them locally"""
+    c.run('mkdocs serve')
+
+
+# Build
 @task
 def build_package(c):
     """Build the cloudsplaining package from the current directory contents for use with PyPi"""
@@ -66,6 +76,19 @@ def upload_to_pypi_prod_server(c):
     c.run("python -m pip install cloudsplaining")
 
 
+@task
+def version_check(c):
+    """Print the version"""
+    try:
+        c.run('./policy_sentry/bin/cli.py --version', pty=True)
+    except UnexpectedExit as u_e:
+        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
+        sys.exit(1)
+    except Failure as f_e:
+        logger.critical(f"FAIL: Failure: {f_e}")
+        sys.exit(1)
+
+
 @task(pre=[install_package])
 def expand_policy(c):
     """
@@ -88,21 +111,21 @@ def expand_policy(c):
         sys.exit(1)
 
 
-# @task(pre=[install_package])
-# def scan(c):
-#     """Integration testing: tests the scan command"""
-#     try:
-#         c.run(
-#             "./cloudsplaining/bin/cloudsplaining scan --auth-file examples/example-authz-details.json --exclusions-file examples/example-exclusions_template.yml",
-#             pty=True,
-#         )
-#     except UnexpectedExit as u_e:
-#         logger.critical(f"FAIL! UnexpectedExit: {u_e}")
-#         sys.exit(1)
-#     except Failure as f_e:
-#         logger.critical(f"FAIL: Failure: {f_e}")
-#         sys.exit(1)
-#
+@task(pre=[install_package])
+def scan(c):
+    """Integration testing: tests the scan command"""
+    try:
+        c.run(
+            "./cloudsplaining/bin/cloudsplaining scan --file examples/files/example.json --exclusions-file examples/example-exclusions.yml",
+            pty=True,
+        )
+    except UnexpectedExit as u_e:
+        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
+        sys.exit(1)
+    except Failure as f_e:
+        logger.critical(f"FAIL: Failure: {f_e}")
+        sys.exit(1)
+
 
 # TEST - SECURITY
 @task
@@ -117,6 +140,7 @@ def security_scan(c):
     except Failure as f_e:
         logger.critical(f"FAIL: Failure: {f_e}")
         sys.exit(1)
+
 
 # TEST - format
 @task
@@ -176,6 +200,8 @@ def run_pytest(c):
         sys.exit(1)
 
 
+docs.add_task(build_docs, "build-docs")
+
 unit.add_task(run_nosetests, "nose")
 unit.add_task(run_pytest, "pytest")
 
@@ -183,7 +209,9 @@ test.add_task(run_linter, 'lint')
 test.add_task(format, "format")
 test.add_task(security_scan, "security")
 
+integration.add_task(version_check, "version")
 integration.add_task(expand_policy, "expand-policy")
+integration.add_task(scan, "scan")
 
 build.add_task(build_package, "build-package")
 build.add_task(install_package, "install-package")

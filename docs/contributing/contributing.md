@@ -1,0 +1,4 @@
+# Contributing
+
+* Testing
+* Versioning
