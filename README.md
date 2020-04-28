@@ -9,9 +9,6 @@ cloudsplaining
 
 For full documentation, please visit the [project on ReadTheDocs](https://cloudsplaining.readthedocs.io/en/latest/).
 
-## Overview
-
-
 ## Motivation
 
 [Policy Sentry](https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below,  which allows the IAM principal (a role or user) to run GetObject from any S3 bucket in the AWS account:
