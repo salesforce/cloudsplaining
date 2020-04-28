@@ -144,7 +144,7 @@ def security_scan(c):
 
 # TEST - format
 @task
-def format(c):
+def fmt(c):
     """Auto format code with Python `black`"""
     try:
         c.run("black cloudsplaining/")
@@ -155,6 +155,7 @@ def format(c):
     except Failure as f_e:
         logger.critical(f"FAIL: Failure: {f_e}")
         sys.exit(1)
+
 
 # TEST - LINT
 @task
@@ -206,7 +207,7 @@ unit.add_task(run_nosetests, "nose")
 unit.add_task(run_pytest, "pytest")
 
 test.add_task(run_linter, 'lint')
-test.add_task(format, "format")
+test.add_task(fmt, "format")
 test.add_task(security_scan, "security")
 
 integration.add_task(version_check, "version")

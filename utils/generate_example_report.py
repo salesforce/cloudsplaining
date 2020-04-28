@@ -8,7 +8,7 @@ example_results_file = os.path.abspath(os.path.join(
         os.path.pardir,
         "examples",
         "files",
-        "iam-results-authz-details.json",
+        "iam-results-example.json",
     )
 )
 

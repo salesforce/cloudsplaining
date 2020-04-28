@@ -16,8 +16,10 @@ nav:
     - Validation: 'report/validation.md'
     - Glossary: 'report/glossary.md'
   - Contributing:
-    - Overview: 'contributing/contributing.md'
+    - Contributing: 'contributing/contributing.md'
     - Testing: 'contributing/testing.md'
+    - Report Generation: 'contributing/report.md'
+    - Versioning: 'contributing/versioning.md'
   - Appendices:
     - FAQ: 'appendices/faq.md'
     - Comparison to other tools: 'appendices/comparison-to-other-tools.md'

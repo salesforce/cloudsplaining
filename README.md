@@ -165,7 +165,15 @@ See the [examples/files](examples/files) folder for sample output.
 
 Resource constraints are best practice - especially for system roles/instance profiles - but sometimes, these are by design. For example, consider a situation where a custom IAM policy is used on an instance profile for an EC2 instance that provisions Terraform. *In this case, broad permissions are design requirements* - so we don't want to include these in the results.
 
-To exclude this, create a YAML file that we will use to list out exclusions. The default exclusions file contains these contents:
+You can create an exclusions template via the following command:
+
+```bash
+cloudsplaining create-exclusions-file
+```
+
+This will generate a file in your current directory titled `exclusions.yml`.
+
+The default exclusions file looks like this:
 
 ```yaml
 # Policy names to exclude from evaluation
@@ -198,17 +206,17 @@ exclude-actions:
   - ""
 ```
 
-* Copy that file into your own `exclusions.yml` file.
 * Make any additions or modifications that you want.
   * Under `policies`, list the path of policy names that you want to exclude.
   * If you want to exclude a role titled `MyRole`, list `MyRole` or `MyR*` in the `roles` list.
   * You can follow the same approach for `users` and `groups` list.
 
-* Now, you can run the scan while considering the exclusions.
+Now when you run the `scan` command, you can use the exclusions file like this:
 
 ```bash
-cloudsplaining scan --file default.json --exclusions-file exclusions.yml
+cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
 ```
+
 
 ### Scanning a single policy
 
