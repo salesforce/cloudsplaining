@@ -14,18 +14,18 @@ script:
 - invoke test.lint
 - invoke test.security
 - invoke unit.pytest
-- invoke integration.expand-policy
-- invoke integration.scan
 - invoke integration.version
-#deploy:
-#  provider: pypi
-#  user: __token__
-#  password:
-#    secure: dFWBQFu29aevexcJ6EghWbg7G9+KUsd6aE0fAm/AsNTEnaamUPHUig17MFiN3Bh81zoGdExBjFfTlnH9JWNrZw9eUjjnBLl3BYrlOALhO8yGoTFEP2auOQwDPgbc8Bh8QtqHfkX6ii2bMYaeUVJy77mR/9X2kOQht5rmy/DBZeFOKWMvg+uUDrQy3fIpl6Cw6S4HCqI/Xhd8r068T7mFyhuAELafiJA52coxgebIrJ97NBDbDjWYxq0QCViQEsvF6WY+KkblDQ4ZQpsqri1WjZaGYp+FUUrOnTc2/M/dC7wWKLioK53QfdP4q9ix+18qVWELAcQ8jOiQX0JTal3lQQlkE0VqEFImk8mJqYuzNToJLhTwp8PRE9l6oneeKCJDacsXujDsZb9eFSN0dl47ipDXohtuFf+Rt0mUAnTQi/hEp0tjJfng55Swk+nla54bZTaIofjGJE3FRT4VF/bfdM5Tt8d/iDYUQ/RYGa6VpI2PtgNUQWshmS1KkwEy64Q02224DLc7re+MCLoQJNCTF5Nruqc2Af5qR2hbW9GWmyLLU/RbqqfWZaZ/8d5npWqewLxaA95qCmxntinlShezBA0xe8SwW9/Ubby+yEo4ilwYWl33Fv7ffxLCNCgfPK0oM3znEssbDdeO2eglIUHTFfLn42QORSMGduYGYw/umTQ=
-#  distributions: sdist bdist_wheel
-#  skip_existing: true
-#  on:
-#    tags: true
-#    branch: master
-#    skip_existing: true
-#    python: 3.6
+- invoke integration.expand-policy
+#- invoke integration.scan
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: "MJVKf9ovYFL4KONeQCRDC855QOd5U+r0nfr13d/3hK8o1b+d9l5OJW1K++hKdA2lyYB7lLnHGVfYvjtSulqL8nBdDxqjAYSyV0CoCS8xnXz24QWYxi5ML67ixstxaXxDSyiM/VBAHfyoOA5EozaqqHwow7qfFbgRAvJCk7CvtKXrsKUKb/ZkqmgQ3x2Sw+dWV1OpDjoJAbUrVxRE/bqRK3SFpBD+kAvoU/XuDCuOk54AGHGGCeJANjHr/ENQMvKis942dwagR87oOtp7g8NdV20hR68AUHjLVojXyZXroBPL/uoRmKsKt4LKDWfbHo9fyQoA1+8nZgBdcpyQ+Y1DhVOBiYHY9D24ZSWfY0DgEgwISPJfC1cC8zCsi5WJgW5JZy74ndl7MwJ884c+m5HQIjRTSG/joN8C5dKM441nUPQApvg5M8nuh8bUqIrrkkl0g9wst0AhZe+fqKvAHfXxJLvaNs/G5IYi97NUCvIUloN9P1vIhkhuwjw8ZEtiimd5KYrAy6DDsLH29srJQ77ObUM8EGv6+YkSa6+EzE0woR7qy882SXzPds5D7t1acYGAiApHQm2eW+7CNcONCCfZSyoVHVPMarhDATJ3rv2H1X+16lux3t45Za+8CAkYbaH1YDJebZrmVCSPcqPwTuAZi1iwZqEwm4CcOlFJikU8UtI="
+  distributions: sdist bdist_wheel
+  skip_existing: true
+  on:
+    tags: true
+    branch: master
+    skip_existing: true
+    python: 3.6
