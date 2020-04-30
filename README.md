@@ -33,7 +33,7 @@ You can also specify a custom exclusions file to filter out results that are Fal
 
 ## Motivation
 
-[Policy Sentry](https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below,  which allows the IAM principal (a role or user) to run GetObject from any S3 bucket in the AWS account:
+[Policy Sentry](https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below, which allows the IAM principal (a role or user) to run `s3:PutObject` on any S3 bucket in the AWS account:
 
 ```json
 {
@@ -255,9 +255,6 @@ The output will include a finding description and a list of the IAM actions that
 
 The output will resemble the following:
 
-<details>
-<summary>Example <code>scan-policy-file</code> output</summary>
-
 ```console
 Issue found: Data Exfiltration
 Actions: s3:GetObject
@@ -267,9 +264,8 @@ Actions: ecr:DeleteRepositoryPolicy, ecr:SetRepositoryPolicy, s3:BypassGovernanc
 
 Issue found: Unrestricted Infrastructure Modification
 Actions: ecr:BatchDeleteImage, ecr:CompleteLayerUpload, ecr:CreateRepository, ecr:DeleteLifecyclePolicy, ecr:DeleteRepository, ecr:DeleteRepositoryPolicy, ecr:InitiateLayerUpload, ecr:PutImage, ecr:PutImageScanningConfiguration, ecr:PutImageTagMutability, ecr:PutLifecyclePolicy, ecr:SetRepositoryPolicy, ecr:StartImageScan, ecr:StartLifecyclePolicyPreview, ecr:TagResource, ecr:UntagResource, ecr:UploadLayerPart, s3:AbortMultipartUpload, s3:BypassGovernanceRetention, s3:CreateAccessPoint, s3:CreateBucket, s3:DeleteAccessPoint, s3:DeleteAccessPointPolicy, s3:DeleteBucket, s3:DeleteBucketPolicy, s3:DeleteBucketWebsite, s3:DeleteObject, s3:DeleteObjectTagging, s3:DeleteObjectVersion, s3:DeleteObjectVersionTagging, s3:GetObject, s3:ObjectOwnerOverrideToBucketOwner, s3:PutAccelerateConfiguration, s3:PutAccessPointPolicy, s3:PutAnalyticsConfiguration, s3:PutBucketAcl, s3:PutBucketCORS, s3:PutBucketLogging, s3:PutBucketNotification, s3:PutBucketObjectLockConfiguration, s3:PutBucketPolicy, s3:PutBucketPublicAccessBlock, s3:PutBucketRequestPayment, s3:PutBucketTagging, s3:PutBucketVersioning, s3:PutBucketWebsite, s3:PutEncryptionConfiguration, s3:PutInventoryConfiguration, s3:PutLifecycleConfiguration, s3:PutMetricsConfiguration, s3:PutObject, s3:PutObjectAcl, s3:PutObjectLegalHold, s3:PutObjectRetention, s3:PutObjectTagging, s3:PutObjectVersionAcl, s3:PutObjectVersionTagging, s3:PutReplicationConfiguration, s3:ReplicateDelete, s3:ReplicateObject, s3:ReplicateTags, s3:RestoreObject, s3:UpdateJobPriority, s3:UpdateJobStatus
-```
 
-</details>
+```
 
 
 ## Cheatsheet
@@ -294,15 +290,15 @@ cloudsplaining scan-policy-file --file examples/policies/wildcards.json  --exclu
 
 ## FAQ
 
-* Will it scan all policies by default?
+**Will it scan all policies by default?**
 
 No, it will only scan policies that are attached to IAM principals.
 
-* Will the download command download all policy versions?
+**Will the download command download all policy versions?**
 
 Not by default. If you want to do this, specify the `--include-non-default-policy-versions` flag. Note that the `scan` tool does not currently operate on non-default versions.
 
-* I followed the installation instructions but can't execute the program via command line. What do I do?
+**I followed the installation instructions but can't execute the program via command line. What do I do?**
 
 This is likely an issue with your PATH. Your PATH environment variable is not considering the binary packages installed by `pip3`. On a Mac, you can likely fix this by entering the command below, depending on the versions you have installed. YMMV.
 
@@ -310,10 +306,9 @@ This is likely an issue with your PATH. Your PATH environment variable is not co
 export PATH=$HOME/Library/Python/3.7/bin/:$PATH
 ```
 
-## Roadmap
-
-* Insert a read-only actions list in the exclusions file where you can list read-only actions that you care about, while still using the default modify-only behavior.
-
 ## References
 
+* [Policy Sentry](https://github.com/salesforce/policy_sentry/) by [Kinnaird McQuade](https://twitter.com/kmcquade3) at Salesforce
+* [Parliament](https://github.com/duo-labs/parliament/) by [Scott Piper](https://twitter.com/0xdabbad00) at Summit Route
+* AWS Privilege Escalation Methods by Spencer Gietzen at Rhino Security Labs
 * [Understanding Access Level Summaries within Policy Summaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand-policy-summary-access-level-summaries.html)

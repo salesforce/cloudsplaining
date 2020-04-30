@@ -38,6 +38,11 @@ ns.add_collection(docs)
 @task
 def build_docs(c):
     """Create the documentation files and open them locally"""
+    c.run('mkdocs build')
+
+@task
+def serve_docs(c):
+    """Create the documentation files and open them locally"""
     c.run('mkdocs serve')
 
 
@@ -207,6 +212,7 @@ def run_pytest(c):
 
 
 docs.add_task(build_docs, "build-docs")
+docs.add_task(serve_docs, "serve-docs")
 
 unit.add_task(run_nosetests, "nose")
 unit.add_task(run_pytest, "pytest")

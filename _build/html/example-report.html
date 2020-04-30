@@ -67,8 +67,8 @@
             <p>
             <!--High level metadata - Account Name, Account ID and Report Generation date-->
             <ul>
-              <li>Account: authz-details (012345678901)</li>
-              <li>Report Generated: 2020-04-23</li>
+              <li>Account: example (012345678901)</li>
+              <li>Report Generated: 2020-04-28</li>
             </ul>
             <br>
             <!-- /High level metadata-->
@@ -77,7 +77,7 @@
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
               <p style="text-align: justify">
-  This report contains the security assessment results from Cloudsplaining, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a>,  Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a>, Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[3]</small></a>, and Data Exfiltration<a href="#definition-data-exfiltration"><small>[4]</small></a>,.
+  This report contains the security assessment results from Cloudsplaining, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a>,  Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a>, Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[3]</small></a>, and Data Exfiltration<a href="#definition-data-exfiltration"><small>[4]</small></a>.
   Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
 <br>
 <br>
@@ -87,39 +87,40 @@
   <tr>
     <th>Risk</th>
     <th>Instances</th>
-    <th>Impact</th>
+    <th>Impact <a href="#definition-impact"><small>[0]</small></a></th>
   </tr>
 </thead>
 <tbody>
-
+  
   <tr>
     <td>Privilege Escalation <a href="#definition-privilege-escalation"><small>[1]</small></a></td>
     <td style="background-color: #F18E73">3</td>
     <td style="background-color: #F18E73">Critical</td>
   </tr>
-
-
+  
+  
   <tr>
     <td>Resource Exposure <a href="#definition-resource-exposure"><small>[2]</small></a></td>
-    <td style="background-color: #FFB660">17</td>
+    <td style="background-color: #FFB660">15</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
-
+  
   <tr>
     <td>Infrastructure Modification <a href="#definition-infrastructure-modification"><small>[3]</small></a></td>
     <td style="background-color: #FFB660">23</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
-
+  
     <tr>
     <td>Data Exfiltration <a href="#definition-data-exfiltration"><small>[4]</small></a></td>
     <td style="background-color: #FFE295;">7</td>
     <td style="background-color: #FFE295;">Medium</td>
   </tr>
-
+  
 <!--  <tr><td>Credentials Exposure</td><td>Value</td><td>Value</td><td>Value</td>-->
   </tbody>
 </table>
+<br>
 
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Summary: Customer-managed Policies</h3>
@@ -137,40 +138,40 @@
      </tr>
   </thead>
   <tbody>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
       <tr>
         <td><a href="#EC2-IAM-example">EC2-IAM-example</a>
         </td><td>2</td>
@@ -180,11 +181,11 @@
         <td>  3</td>
         <td> </td>
       </tr>
-
-
-
-
-
+    
+  
+    
+  
+    
       <tr>
         <td><a href="#InsecurePolicy">InsecurePolicy</a>
         </td><td>1</td>
@@ -194,9 +195,9 @@
         <td>  1</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#InsecureUserPolicy">InsecureUserPolicy</a>
         </td><td>1</td>
@@ -206,13 +207,13 @@
         <td>  1</td>
         <td> 1 </td>
       </tr>
-
-
-
-
-
-
-
+    
+  
+    
+  
+    
+  
+    
       <tr>
         <td><a href="#SupYo">SupYo</a>
         </td><td>2</td>
@@ -222,8 +223,8 @@
         <td>  3</td>
         <td> </td>
       </tr>
-
-
+    
+  
   </tbody>
 </table>
 <br>
@@ -244,8 +245,8 @@
      </tr>
   </thead>
   <tbody>
-
-
+  
+    
       <tr>
         <td><a href="#AWSCloudTrailFullAccess">AWSCloudTrailFullAccess</a></td>
         <td>4</td>
@@ -255,9 +256,9 @@
         <td>  5</td>
         <td> 1 </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSCodeCommitFullAccess">AWSCodeCommitFullAccess</a></td>
         <td>4</td>
@@ -267,9 +268,9 @@
         <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSCodeCommitPowerUser">AWSCodeCommitPowerUser</a></td>
         <td>4</td>
@@ -279,9 +280,9 @@
         <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSCodeDeployFullAccess">AWSCodeDeployFullAccess</a></td>
         <td>2</td>
@@ -291,9 +292,9 @@
         <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSDirectoryServiceFullAccess">AWSDirectoryServiceFullAccess</a></td>
         <td>2</td>
@@ -303,21 +304,21 @@
         <td>  5</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSKeyManagementServicePowerUser">AWSKeyManagementServicePowerUser</a></td>
         <td>1</td>
         <td>4</td>
         <td>kms </td>
         <td> </td>
-        <td>  1</td>
+        <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AWSLambdaFullAccess">AWSLambdaFullAccess</a></td>
         <td>12</td>
@@ -327,9 +328,9 @@
         <td>  21</td>
         <td> 1 </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonEC2FullAccess">AmazonEC2FullAccess</a></td>
         <td>5</td>
@@ -339,9 +340,9 @@
         <td>  6</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonRDSFullAccess">AmazonRDSFullAccess</a></td>
         <td>4</td>
@@ -351,9 +352,9 @@
         <td>  2</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonRoute53FullAccess">AmazonRoute53FullAccess</a></td>
         <td>1</td>
@@ -363,9 +364,9 @@
         <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonS3FullAccess">AmazonS3FullAccess</a></td>
         <td>1</td>
@@ -375,9 +376,9 @@
         <td>  11</td>
         <td> 1 </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonS3ReadOnlyAccess">AmazonS3ReadOnlyAccess</a></td>
         <td>1</td>
@@ -387,9 +388,9 @@
         <td> </td>
         <td> 1 </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonSESFullAccess">AmazonSESFullAccess</a></td>
         <td>1</td>
@@ -399,9 +400,9 @@
         <td> </td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonSQSFullAccess">AmazonSQSFullAccess</a></td>
         <td>1</td>
@@ -411,9 +412,9 @@
         <td>  4</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#AmazonVPCFullAccess">AmazonVPCFullAccess</a></td>
         <td>1</td>
@@ -423,9 +424,9 @@
         <td>  3</td>
         <td> </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#CloudWatchFullAccess">CloudWatchFullAccess</a></td>
         <td>3</td>
@@ -435,11 +436,11 @@
         <td>  6</td>
         <td> </td>
       </tr>
-
-
-
-
-
+    
+  
+    
+  
+    
       <tr>
         <td><a href="#IAMFullAccess">IAMFullAccess</a></td>
         <td>1</td>
@@ -449,78 +450,78 @@
         <td>  79</td>
         <td> </td>
       </tr>
-
-
-
-
-
-
-
+    
+  
+    
+  
+    
+  
+    
       <tr>
         <td><a href="#PowerUserAccess">PowerUserAccess</a></td>
         <td>158</td>
-        <td>2765</td>
+        <td>2766</td>
         <td>a4b, access-analyzer, acm, acm-pca, amplify, apigateway, appconfig, appmesh, appmesh-preview, appstream, appsync, artifact, athena, autoscaling, backup, batch, budgets, cassandra, cloud9, clouddirectory, cloudformation, cloudfront, cloudhsm, cloudsearch, cloudtrail, cloudwatch, codebuild, codecommit, codedeploy, codeguru-profiler, codeguru-reviewer, codepipeline, codestar, codestar-notifications, cognito-identity, cognito-idp, cognito-sync, comprehend, config, connect, cur, dataexchange, datasync, dax, deepcomposer, deeplens, deepracer, detective, devicefarm, directconnect, dlm, dms, ds, dynamodb, ec2, ec2-instance-connect, ecr, ecs, eks, elastic-inference, elasticbeanstalk, elasticfilesystem, elasticloadbalancing, elasticmapreduce, elastictranscoder, es, events, execute-api, firehose, fms, forecast, freertos, fsx, gamelift, glacier, globalaccelerator, glue, greengrass, groundstation, guardduty, iam, imagebuilder, iot, iot1click, iotanalytics, iotevents, iotsitewise, iotthingsgraph, kafka, kendra, kinesis, kinesisanalytics, kinesisvideo, kms, lambda, lex, license-manager, lightsail, logs, machinelearning, managedblockchain, mediaconvert, medialive, mediapackage, mediapackage-vod, mediatailor, mgh, mobilehub, mobiletargeting, mq, neptune-db, networkmanager, opsworks, personalize, polly, qldb, quicksight, ram, rds, rds-db, redshift, rekognition, resource-groups, robomaker, route53, route53resolver, s3, sagemaker, savingsplans, schemas, sdb, secretsmanager, securityhub, serverlessrepo, servicecatalog, servicediscovery, servicequotas, ses, shield, signer, sns, sqs, ssm, states, storagegateway, sts, swf, synthetics, transfer, trustedadvisor, waf, waf-regional, wafv2, wellarchitected, worklink, workmail, workspaces, xray </td>
         <td>  2 </td>
-        <td>  217</td>
+        <td>  210</td>
         <td> 5 </td>
       </tr>
-
-
-
+    
+  
+    
       <tr>
         <td><a href="#ReadOnlyAccess">ReadOnlyAccess</a></td>
+        <td>5</td>
         <td>7</td>
-        <td>9</td>
-        <td>connect, dataexchange, imagebuilder, mobilehub, personalize, s3, ssm </td>
+        <td>dataexchange, mobilehub, personalize, s3, ssm </td>
         <td> </td>
-        <td>  4</td>
+        <td> </td>
         <td> 4 </td>
       </tr>
-
-
-
-
+    
+  
+    
+  
   </tbody>
 </table>
 <br>
 
             <!--Analysis: Customer-managed-policies-->
             <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed Policies</h3>
+              
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -535,11 +536,11 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -596,7 +597,7 @@
           </div>
         </div>
       </div>
-
+      
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-risks16">High Priority risks</a>
@@ -605,9 +606,9 @@
                <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -618,22 +619,22 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
            </div>
         </div>
-
+      
    </div>
 
   </div><!-- /col for card -->
 </div>
+  
 
+  
 
-
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -648,11 +649,11 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -702,7 +703,7 @@
           </div>
         </div>
       </div>
-
+      
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-18" href="#card-element-customer-risks18">High Priority risks</a>
@@ -711,9 +712,9 @@
                <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -722,20 +723,20 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
            </div>
         </div>
-
+      
    </div>
 
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -750,13 +751,13 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -808,7 +809,7 @@
           </div>
         </div>
       </div>
-
+      
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-19" href="#card-element-customer-risks19">High Priority risks</a>
@@ -817,18 +818,18 @@
                <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject"
 ]
           </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -837,24 +838,24 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
            </div>
         </div>
-
+      
    </div>
 
   </div><!-- /col for card -->
 </div>
+  
 
+  
 
+  
 
-
-
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -869,11 +870,11 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -930,7 +931,7 @@
           </div>
         </div>
       </div>
-
+      
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-22" href="#card-element-customer-risks22">High Priority risks</a>
@@ -939,9 +940,9 @@
                <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -952,24 +953,24 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
            </div>
         </div>
-
+      
    </div>
 
   </div><!-- /col for card -->
 </div>
-
+  
 
 
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
-
-
+              
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -984,13 +985,13 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1119,7 +1120,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-0" href="#card-element-aws-risks0">High Priority risks</a>
@@ -1128,18 +1129,18 @@
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject"
 ]
           </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -1152,19 +1153,19 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1179,9 +1180,9 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1447,13 +1448,13 @@
         </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1468,9 +1469,9 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1732,13 +1733,13 @@
         </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1753,9 +1754,9 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1872,13 +1873,13 @@
         </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1893,11 +1894,11 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2046,7 +2047,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-4" href="#card-element-aws-risks4">High Priority risks</a>
@@ -2055,9 +2056,9 @@
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -2070,19 +2071,19 @@
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2097,11 +2098,9 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2160,39 +2159,13 @@
         </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-5" href="#card-element-aws-risks5">High Priority risks</a>
-      </div>
-      <div id="card-element-aws-risks5" class="panel-collapse collapse">
-        <div class="card-body">
-  <div class="grid">
-      <div class="row">
-
-
-
-        <div class="col-sm border">
-  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
-          <pre><code>
-[
-  "kms:CreateKey"
-]
-          </code></pre>
-        </div>
-
-      </div>
-  </div>
-</div>
-      </div>
-    </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2207,15 +2180,15 @@
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
+        
           <div class="alert alert-danger" role="alert">Privilege Escalation</div>
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2460,7 +2433,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-6" href="#card-element-aws-risks6">High Priority risks</a>
@@ -2469,7 +2442,7 @@
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
+        
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
             <pre><code>
@@ -2500,18 +2473,18 @@ Actions:
 
             </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject"
 ]
           </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -2540,19 +2513,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2567,11 +2540,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2843,7 +2816,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-7" href="#card-element-aws-risks7">High Priority risks</a>
@@ -2852,9 +2825,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -2868,19 +2841,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2895,11 +2868,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3068,7 +3041,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-8" href="#card-element-aws-risks8">High Priority risks</a>
@@ -3077,9 +3050,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -3089,19 +3062,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3116,9 +3089,9 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3199,13 +3172,13 @@ Actions:
         </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3220,13 +3193,13 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3315,7 +3288,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-risks10">High Priority risks</a>
@@ -3324,18 +3297,18 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject"
 ]
           </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -3354,19 +3327,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3381,11 +3354,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3431,7 +3404,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-11" href="#card-element-aws-risks11">High Priority risks</a>
@@ -3440,30 +3413,30 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject"
 ]
           </code></pre>
         </div>
-
-
+        
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3478,9 +3451,9 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3545,13 +3518,13 @@ Actions:
         </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3566,11 +3539,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3628,7 +3601,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-13" href="#card-element-aws-risks13">High Priority risks</a>
@@ -3637,9 +3610,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -3651,19 +3624,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3678,11 +3651,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3904,7 +3877,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-14" href="#card-element-aws-risks14">High Priority risks</a>
@@ -3913,9 +3886,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -3926,19 +3899,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3953,11 +3926,11 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4055,7 +4028,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-15" href="#card-element-aws-risks15">High Priority risks</a>
@@ -4064,9 +4037,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -4080,21 +4053,21 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
+  
 
-
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4109,13 +4082,13 @@ Actions:
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
+        
           <div class="alert alert-danger" role="alert">Privilege Escalation</div>
-
-
-
+        
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4247,7 +4220,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-17" href="#card-element-aws-risks17">High Priority risks</a>
@@ -4256,7 +4229,7 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
+        
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
             <pre><code>
@@ -4303,9 +4276,9 @@ Actions:
 
             </code></pre>
         </div>
-
-
-
+        
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -4392,23 +4365,23 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
+  
 
+  
 
-
-
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4418,20 +4391,20 @@ Actions:
     <p class="card-text">
     <ul>
       <li> Services: 158</li>
-      <li> Actions: 2765</li>
+      <li> Actions: 2766</li>
       <li> ARN: arn:aws:iam::aws:policy/PowerUserAccess</li>
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
+        
           <div class="alert alert-danger" role="alert">Privilege Escalation</div>
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
+        
+        
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -5060,7 +5033,6 @@ Actions:
     "connect:CreateUser",
     "connect:DeleteUser",
     "connect:DestroyInstance",
-    "connect:GetFederationToken",
     "connect:GetFederationTokens",
     "connect:ModifyInstance",
     "connect:StartChatContact",
@@ -5784,7 +5756,6 @@ Actions:
     "imagebuilder:DeleteImagePipeline",
     "imagebuilder:DeleteImageRecipe",
     "imagebuilder:DeleteInfrastructureConfiguration",
-    "imagebuilder:GetComponentPolicy",
     "imagebuilder:PutComponentPolicy",
     "imagebuilder:PutImagePolicy",
     "imagebuilder:PutImageRecipePolicy",
@@ -5942,7 +5913,6 @@ Actions:
     "iotsitewise:DeregisterViewEntities",
     "iotsitewise:DisassociateAssets",
     "iotsitewise:DisassociateViewEntities",
-    "iotsitewise:ListAccessPolicies",
     "iotsitewise:RegisterViewEntities",
     "iotsitewise:UpdateAccessPolicy",
     "iotsitewise:UpdateAsset",
@@ -6083,6 +6053,7 @@ Actions:
     "lex:DeleteBotVersion",
     "lex:DeleteIntent",
     "lex:DeleteIntentVersion",
+    "lex:DeleteSession",
     "lex:DeleteSlotType",
     "lex:DeleteSlotTypeVersion",
     "lex:DeleteUtterances",
@@ -6091,7 +6062,10 @@ Actions:
     "lex:PutBot",
     "lex:PutBotAlias",
     "lex:PutIntent",
+    "lex:PutSession",
     "lex:PutSlotType",
+    "lex:TagResource",
+    "lex:UntagResource",
     "license-manager:DeleteLicenseConfiguration",
     "license-manager:TagResource",
     "license-manager:UntagResource",
@@ -7253,7 +7227,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-20" href="#card-element-aws-risks20">High Priority risks</a>
@@ -7262,7 +7236,7 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
+        
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
             <pre><code>
@@ -7277,10 +7251,10 @@ Actions:
 
             </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject",
@@ -7291,8 +7265,8 @@ Actions:
 ]
           </code></pre>
         </div>
-
-
+        
+        
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
@@ -7326,8 +7300,6 @@ Actions:
   "cognito-identity:UnlinkDeveloperIdentity",
   "cognito-identity:UnlinkIdentity",
   "cognito-identity:UpdateIdentityPool",
-  "connect:GetFederationToken",
-  "connect:GetFederationTokens",
   "deeplens:AssociateServiceRoleToAccount",
   "ds:CreateConditionalForwarder",
   "ds:CreateDirectory",
@@ -7355,10 +7327,8 @@ Actions:
   "glue:DeleteResourcePolicy",
   "glue:PutResourcePolicy",
   "greengrass:AssociateServiceRoleToAccount",
-  "health:DescribeHealthServiceStatusForOrganization",
   "health:DisableHealthServiceAccessForOrganization",
   "health:EnableHealthServiceAccessForOrganization",
-  "imagebuilder:GetComponentPolicy",
   "imagebuilder:PutComponentPolicy",
   "imagebuilder:PutImagePolicy",
   "imagebuilder:PutImageRecipePolicy",
@@ -7370,10 +7340,8 @@ Actions:
   "iot:SetDefaultPolicyVersion",
   "iotsitewise:CreateAccessPolicy",
   "iotsitewise:DeleteAccessPolicy",
-  "iotsitewise:ListAccessPolicies",
   "iotsitewise:UpdateAccessPolicy",
   "kms:CreateGrant",
-  "kms:CreateKey",
   "kms:PutKeyPolicy",
   "kms:RetireGrant",
   "kms:RevokeGrant",
@@ -7503,7 +7471,6 @@ Actions:
   "waf-regional:DeletePermissionPolicy",
   "waf-regional:PutPermissionPolicy",
   "waf:DeletePermissionPolicy",
-  "waf:GetChangeToken",
   "waf:PutPermissionPolicy",
   "wafv2:CreateWebACL",
   "wafv2:DeleteWebACL",
@@ -7517,19 +7484,19 @@ Actions:
 ]
           </code></pre>
         </div>
-
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -7538,19 +7505,17 @@ Actions:
     <div class="card-body">
     <p class="card-text">
     <ul>
-      <li> Services: 7</li>
-      <li> Actions: 9</li>
+      <li> Services: 5</li>
+      <li> Actions: 7</li>
       <li> ARN: arn:aws:iam::aws:policy/ReadOnlyAccess</li>
     </ul>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-
-
+        
+        
           <div class="alert alert-warning" role="alert">Data Leak</div>
-
-
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
-
+        
+        
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -8115,9 +8080,7 @@ Actions:
         <div class="card-body">
           <pre><code>
 [
-    "connect:GetFederationToken",
     "dataexchange:GetJob",
-    "imagebuilder:GetComponentPolicy",
     "mobilehub:GenerateProjectParameters",
     "personalize:GetPersonalizedRanking",
     "s3:GetObject",
@@ -8129,7 +8092,7 @@ Actions:
         </div>
       </div>
     </div>
-
+    
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-21" href="#card-element-aws-risks21">High Priority risks</a>
@@ -8138,10 +8101,10 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-
-
+        
+        
         <div class="col-sm border">
-          <a>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
+  <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
 [
   "s3:GetObject",
@@ -8151,32 +8114,20 @@ Actions:
 ]
           </code></pre>
         </div>
-
-
-        <div class="col-sm border">
-  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
-          <pre><code>
-[
-  "connect:GetFederationToken",
-  "health:DescribeHealthServiceStatusForOrganization",
-  "imagebuilder:GetComponentPolicy",
-  "waf:GetChangeToken"
-]
-          </code></pre>
-        </div>
-
+        
+        
       </div>
   </div>
 </div>
       </div>
     </div>
-
+    
      </div>
   </div><!-- /col for card -->
 </div>
+  
 
-
-
+  
 
 
             <!--Guidance-->
@@ -8185,14 +8136,14 @@ Actions:
 <!--Guidance: Triaging-->
 <h3 id="triage-guidance">Triaging</h3>
 <p>
-<div name="triage-guidance-description"> <h5>Understanding Context</h5></div>
+<div id="triage-guidance-description"> <h5>Understanding Context</h5></div>
 
 <p>It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.</p>
 <p>This report generates findings on Policies that do not leverage resource constraints and identifies some attributes to help prioritize which ones to address - such as Privilege Escalation, Resource Exposure, and Data Exfiltration. These results help you to identify your IAM threat landscape and reduce blast radius. In the event of credential compromise, you can prevent an attacker from exploiting the risks mentioned above, in addition to preventing mass deletion, destruction, or modification of existing infrastructure.</p>
 <p>However, this tool does not attempt to understand the context behind everything in your AWS account. It's possible to understand the context behind some of these things programmatically - whether the policy is applied to an instance profile, whether the policy is attached, whether inline IAM policies are in use, and whether or not AWS Managed Policies are in use. <strong>Only you know the context behind the design of your AWS infrastructure and the IAM strategy</strong>.</p>
 <p>For example, an AWS Lambda policy used as a simple service checking the configuration of AWS infrastructure might be a good use case for resource constraints. Conversely, perhaps you applied the AdministratorAccess AWS-managed policy to an Instance Profile so that an EC2 instance can run Terraform to provision AWS resources via Infrastructure as Code. In the second example, the role is extremely permissive <strong>by design</strong> - and a tool can't automatically understand that context.</p>
 <p>As such, the tool aims to:
-<div name="triage-guidance-description-bullet-points">
+<div id="triage-guidance-description-bullet-points">
 <ul>
 <li> Map out your risk landscape of IAM identity-based policies, enumerating the potential risks for a full IAM threat model</li>
 <li>Identify where you can reduce the blast radius in the case of credentials compromise</li>
@@ -8201,14 +8152,14 @@ Actions:
 <li> Provide a sufficient exclusions mechanism to programmatically define where deviations from resource constraints are by design</li>
 </ul>
 </div></p>
-<div name="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
+<div id="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
 
 <p>To recap: you've followed these steps to generate this report:</p>
-<div name="triage-guidance-recap-bullet-points">
+<div id="triage-guidance-recap-bullet-points">
 <ul>
 <li>Downloaded the Account Authorization details JSON file</li>
   <ul>
-    <li><code>cloudsplaining download-account-authorizations-file --profile default --output default-account-details.json</code></li>
+    <li><code>cloudsplaining download --profile default --output default-account-details.json</code></li>
   </ul>
 <li>Generated your custom exclusions file</li>
   <ul><li><code>cloudsplaining create-exclusions-file --output-file exclusions.yml</code></li></ul>
@@ -8220,7 +8171,7 @@ Actions:
 </ul>
 </div>
 
-<div name="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
+<div id="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
 
 <p>An assessor can follow this general workflow:</p>
 <ul>
@@ -8234,14 +8185,14 @@ Actions:
 <p>As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.</p>
 </blockquote>
-<div name="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
+<div id="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
 
 <p>When triaging your results, consider some of the factors listed below as you identify False Positives vs. legitimate findings. <strong>There are some scenarios where <code>"Resource": "*"</code> access is by design and is therefore a false positive. This section covers some of the common scenarios.</strong></p>
 <p><strong>Infrastructure Creation roles</strong>:</p>
 <p>IAM roles that create infrastructure via Infrastructure as Code Technologies (for example, Terraform or CloudFormation) require high permission levels to provision AWS infrastructure. These will usually be false positives. When you see these instances, make sure that these roles are adequately protected. For instance, make sure that roles within the AWS account are not able to assume this role or affect its configuration in any way. Additionally, consider restricting the trust policy so that a set of explicitly stated IAM principals are the only ones who can assume that role. Take special care to audit instances of <code>sts:AssumeRole</code> within this AWS account.</p>
 <p><strong>System roles vs. User Roles</strong>: System roles - IAM Roles applied to compute services, such as EC2 Instance Profiles, ECS Task Execution roles, or Lambda Task Execution roles - should almost always leverage resource ARN constraints for actions that perform "Write" actions. Exceptions to this could include Infrastructure provisioning or other edge cases.</p>
 <p>Conversely, user roles will almost always be used against <code>*</code> resources for the sake of convenience, innovation, and avoiding overly restrictive limitations. In the user role scenario, consider:
-<div name="triage-guidance-considerations-pt1-bullet-points">
+<div id="triage-guidance-considerations-pt1-bullet-points">
 <ul>
   <li><b>Design context</b>: is it appropriate? (For instance, maybe all your user roles don't need <code>iam:*</code>)</li>
   <li><b>Environment</b>: If this is a Dev environment, frequently-used user roles probably allow more permissions for innovation purposes. However, in later environments - especially production - commonly used user roles should be read-only - or the more permissive ones should be for break-glass scenarios only.</li>
@@ -8249,30 +8200,76 @@ We request that you review the HTML report and fill out the "Justification" fiel
 </ul>
 </div></p>
 <p><strong>Organization-specific results</strong></p>
-<p>For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, kms:Decrypt to * resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude kms:Decrypt from your results.</p>
-<div name="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
+<p>For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, <code>kms:Decrypt</code> to <code>*</code> resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude <code>kms:Decrypt</code> from your results.</p>
+<div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
 
 <p><strong>Conditions Logic</strong>:</p>
 <p>This tool does not evaluate <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html">IAM Conditions</a> logic. If your policies use wildcard resources but restrict according to condition keys, then it's possible this is a false positive. However, you might want to double-check the accuracy of the conditions logic in those IAM policies. While IAM conditions can be extremely powerful, implementation is also prone to human error. We suggest leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo Labs</a> (courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>), to lint your policies for accuracy - especially when IAM conditions are in use.</p>
 <p><strong><code>logs:CreateLogGroup</code> and <code>logs:PutLogEvent</code></strong>:</p>
 <p>Depending on how your organization approaches CloudWatch Logs Agent configuration, IAM, and CloudWatch Logs Group naming conventions, it is sometimes near-impossible to prevent cross-contamination of logs or Log Injection to the Log Streams from other instance IDs. Cross-Contamination of CloudWatch Logs is an issue of its own that is definitely beyond the scope of this document - but consider this as a potential limitation by AWS when trying to identify a remediation plan.</p>
-<div name="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
+<div id="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
 
 <p>After you have identified the False Positives, add the False Positive criteria to your custom Cloudsplaining exclusions file. The False Positives generally fall into one of two categories:
-<div name="triage-guidance-considerations-pt3-bullet-points">
+<div id="triage-guidance-considerations-pt3-bullet-points">
 <ul>
   <li>False positives that will occur across all of your AWS accounts, due to your organization-wide implementation strategy</li>
   <li>False positives specific to this AWS account</li>
 </ul>
 </div></p>
-<p>Then, generate the Cloudsplaining report again so you are working with a report version that consists of True Positives only. Proceed to the Remediation stage.</p>
+<p>To make the exclusiond, create a YAML file that we will use to list out exclusions with the <code>create-exclusions-file</code> command.</p>
+<pre><code class="bash">cloudsplaining create-exclusions-file
+</code></pre>
+
+<p>This will generate a file titled <code>exclusions.yml</code> in your current directory.</p>
+<p>The default exclusions file contains these contents:</p>
+<pre><code class="yaml"># Policy names to exclude from evaluation
+# Suggestion: Add policies here that are known to be overly permissive by design, after you run the initial report.
+policies:
+  - &quot;AWSServiceRoleFor*&quot;
+  - &quot;*ServiceRolePolicy&quot;
+  - &quot;*ServiceLinkedRolePolicy&quot;
+  - &quot;AdministratorAccess&quot; # Otherwise, this will take a long time
+  - &quot;service-role*&quot;
+  - &quot;aws-service-role*&quot;
+# Don't evaluate these roles, users, or groups as part of the evaluation
+roles:
+  - &quot;service-role*&quot;
+  - &quot;aws-service-role*&quot;
+users:
+  - &quot;&quot;
+groups:
+  - &quot;&quot;
+# Read-only actions to include in the results, such as s3:GetObject
+# By default, it includes Actions that could lead to Data Leaks
+include-actions:
+  - &quot;s3:GetObject&quot;
+  - &quot;ssm:GetParameter&quot;
+  - &quot;ssm:GetParameters&quot;
+  - &quot;ssm:GetParametersByPath&quot;
+  - &quot;secretsmanager:GetSecretValue&quot;
+# Write actions to include from the results, such as kms:Decrypt
+exclude-actions:
+  - &quot;&quot;
+</code></pre>
+
+<p>Add whatever values you want to the above depending on your organization's context.
+  * Under <code>policies</code>, list the path of policy names that you want to exclude.
+  * If you want to exclude a role titled <code>MyRole</code>, list <code>MyRole</code> or <code>MyR*</code> in the <code>roles</code> list.
+  * You can follow the same approach for <code>users</code> and <code>groups</code> list.</p>
+<ul>
+<li>Now, run the scan to generate a <em>new</em> Cloudsplaining report  that considers your exclusions criteria. This way, you are working with a report version that consists of True Positives only.</li>
+</ul>
+<pre><code class="bash">cloudsplaining scan --file default.json --exclusions-file exclusions.yml
+</code></pre>
+
+<p>You can now proceed to the Remediation stage.</p>
 <br>
 <br>
 
 <!--Guidance: Remediation-->
 <h3 id="remediation-guidance">Remediation</h3>
 <p>
-<div name="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
+<div id="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
 
 <p>Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.</p>
 <p><strong>High priority risks</strong>:</p>
@@ -8280,10 +8277,10 @@ We request that you review the HTML report and fill out the "Justification" fiel
 <p><strong>Moving from AWS Managed Policies over to custom policies</strong>:</p>
 <p>AWS managed policies always include access to <code>*</code> resources because AWS provides these same policies universally to all customer accounts. If this report flags  any AWS-managed policies, it means that the account/service owner team will not only have to implement resource constraints - they will have to create a custom IAM policy to do so. To limit this work, it is best to migrate away from the root cause of the problem - using AWS managed policies.</p>
 <p>You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.</p>
-<div name="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
+<div id="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
 
 <p>We suggest two options for remediating each finding:
-<div name="remediation-guidance-pt2-bullet-points">
+<div id="remediation-guidance-pt2-bullet-points">
 <ul>
   <li>Leveraging <a href="https://github.com/salesforce/policy_sentry/">Policy Sentry</a>, courtesy of <a href="https://twitter.com/kmcquade3">Kinnaird McQuade</a>, which generates policies with resource ARN constraints at user-specified access levels automagically.</li>
   <li>Manually rewriting the policies</li>
@@ -8291,7 +8288,7 @@ We request that you review the HTML report and fill out the "Justification" fiel
 </div></p>
 <p><strong>Leveraging Policy Sentry</strong></p>
 <p>For guidance on how to use Policy Sentry, please see the documentation <a href="https://github.com/salesforce/policy_sentry/#writing-secure-policies-based-on-resource-constraints-and-access-levels">here</a>. This is highly suggested - within 10 minutes of learning the tool, creating a secure IAM policy becomes a matter of:
-<div name="remediation-guidance-pt2-bullet-points-2">
+<div id="remediation-guidance-pt2-bullet-points-2">
 <ul>
   <li>Generating the YAML template with <code>policy_sentry create-template --output-file crud.yml --template-type crud</code></li>
   <li>Literally copying/pasting resource ARNs into the template</li>
@@ -8306,25 +8303,25 @@ We request that you review the HTML report and fill out the "Justification" fiel
 <!--Guidance: Validation-->
 <h3 id="validation-guidance">Validation</h3>
 <p>
-<div name="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
+<div id="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
 
 <p>After you've rewritten your IAM policy, we suggest two options for validating that it will pass Cloudsplaining and alleviate any remaining concerns:</p>
-<div name="validation-guidance-pt1-bullet-points">
+<div id="validation-guidance-pt1-bullet-points">
 <ul>
   <li>Run Cloudsplaining's <code>scan-policy-file</code> command, which scans a single JSON policy file instead of the entire AWS Account's Authorization details. </li>
   <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>)</li>
 </ul>
 </div>
 
-<div name="validation-guidance-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
+<div id="validation-guidance-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
 
 <p>You can validate that your remediated policy passes Cloudsplaining by running the following command:</p>
 <p><code>cloudsplaining scan-policy-file --file policy.json --exclusions-file exclusions.yml</code></p>
 <p>When there are no more results, it passes!</p>
-<div name="validation-guidance-cloudsplaining"> <h6>Using Parliament to Lint your Policies</h6></div>
+<div id="validation-guidance-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
 
 <p>parliament is an AWS IAM linting library. It reviews policies looking for problems such as:</p>
-<div name="validation-guidance-pt2-bullet-points">
+<div id="validation-guidance-pt2-bullet-points">
 <ul>
   <li>malformed JSON </li>
   <li>missing required elements</li>
@@ -8348,24 +8345,32 @@ We request that you review the HTML report and fill out the "Justification" fiel
 
             <!--Appendix subsection: Glossary-->
             <h4 id="glossary">Glossary</h4>
-              <div name="definition-data-exfiltration" id="definition-data-exfiltration"><h6>Data Exfiltration</h6></div>
+              <div id="definition-impact"><h6>Impact</h6></div>
 
-<p>Policies with Data leak potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks. <code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets. <code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</p>
-<div name="definition-privilege-escalation" id="definition-privilege-escalation"><h6>Privilege Escalation</h6></div>
+<p>The impact the risk would have on an organization if such a vulnerability were successfully exploited is rated according to criteria listed below. Note that these ratings are based on NIST 800-30 impact definitions.</p>
+<ul>
+<li><strong>Critical</strong>: The issue causes multiple severe or catastrophic effects on operations, assets or other organizations.</li>
+<li><strong>High</strong>: Causes produces severe degradation in mission capability to the point that the organization is not able to perform primary functions or results in damage to organizational assets.</li>
+<li><strong>Medium</strong>: Trigger degradation in mission capability to an extent the application is able to perform its primary functions, but their effectiveness is reduced and there may be damage to the organization's assets.</li>
+<li><strong>Low</strong>: Results in limited degradation in mission capability; the organization is able to perform its primary functions, but their effectiveness is noticeably reduced and may result in minor damage to the organization's assets.</li>
+</ul>
+<div id="definition-privilege-escalation"><h6>Privilege Escalation</h6></div>
 
 <p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by <a href="https://twitter.com/SpenGietz">Spencer Gietzen</a> at Rhino Security Labs. Remediation Guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>
-<div name="definition-resource-exposure" id="definition-resource-exposure"><h6>Resource Exposure</h6></div>
+<div id="definition-resource-exposure"><h6>Resource Exposure</h6></div>
 
 <p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>
-<div name="definition-infrastructure-modification" id="definition-infrastructure-modification"><h5>Infrastructure Modification</h5></div>
+<div id="definition-infrastructure-modification"><h6>Infrastructure Modification</h6></div>
 
 <p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>
+<div id="definition-data-exfiltration"><h6>Data Exfiltration</h6></div>
+
+<p>Policies with Data leak potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks. <code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets. <code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</p>
 <br>
 
             <!--Appendix subsection: Exclusions configuration-->
             <h4 id="exclusions">Exclusions configuration</h4>
               <p>The Cloudsplaining exclusions configuration is shown below. You can leverage this to ensure reusability, for next time you run the scan.</p>
-<br>
 <pre><code>
 </code>
 exclude-actions:
@@ -8395,32 +8400,6 @@ users:
 
 </pre>
 
-            <!--Stats for Nerds-->
-            <h4 id="stats-for-nerds">Stats for Nerds:</h4>
-              <p>The following data can be helpful in prioritizing which findings to address during Triage and Remediation.</p>
-
-<table class="table table-striped w-auto table-sm">
-  <thead>
-     <tr>
-        <th>Managed By</th>
-         <th>Statistic</th>
-        <th>Value</th>
-     </tr>
-  </thead>
-  <tbody>
-    <tr><td>Customer</td><td>Total services affected</td><td>3</td></tr>
-    <tr><td>Customer</td><td>Median services per finding</td><td>1.5</td></tr>
-    <tr><td>Customer</td><td>Median actions per finding</td><td>4.0</td></tr>
-    <tr><td>AWS</td><td>Total services affected</td><td>158</td></tr>
-    <tr><td>AWS</td><td>Median services per finding</td><td>2</td></tr>
-    <tr><td>AWS</td><td>Median actions per finding</td><td>38</td></tr>
-    <tr><td>Both</td><td>Policies with Data Exfiltration Potential <a href="#data-leak-note"><small>[1]</small></a></td><td>7</td></tr>
-    <tr><td>Both</td><td>Policies with Privilege Escalation <a href="#priv-esc-note"><small>[2]</small></a></td><td>3</td></tr>
-    <tr><td>Both</td><td>Policies with Permissions Management/Resource Exposure access <a href="#perm-mgmt-note"><small>[3]</small></a></td><td>17</td></tr>
-  </tbody>
-</table>
-<br>
-
             <!--Appendix subsection: References-->
             <h4 id="references">References</h4>
               <ul>
@@ -8428,6 +8407,7 @@ users:
   <li><a href="https://github.com/duo-labs/parliament/">Parliament</a> by <a href="https://twitter.com/0xdabbad00">Scott Piper</a> at Duo Labs</li>
   <li><a href="https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation">AWS Privilege Escalation Methods</a> by <a href="https://twitter.com/SpenGietz">Spencer Gietzen</a> at Rhino Security Labs</li>
 </ul>
+<br>
 
 
           </div> <!-- /data-spy -->

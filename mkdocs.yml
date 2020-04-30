@@ -6,6 +6,7 @@ nav:
     - Introduction: 'user-guide/overview.md'
     - Installation: 'user-guide/installation.md'
     - Downloading Account IAM Details: 'user-guide/download.md'
+    - Creating an Exclusions File: 'user-guide/create-exclusions-file.md'
     - Scanning Account IAM Details: 'user-guide/scan-account.md'
     - Scanning a single policy: 'user-guide/scan-policy-file.md'
     - Troubleshooting: 'user-guide/troubleshooting.md'
