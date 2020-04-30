@@ -8,15 +8,17 @@ cloudsplaining
 [![Join the chat at https://gitter.im/cloudsplaining](https://badges.gitter.im/cloudsplaining.svg)](https://gitter.im/cloudsplaining?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
+* [Example report](https://opensource.salesforce.com/cloudsplaining/)
+
 > ![](https://github.com/salesforce/cloudsplaining/raw/master/docs/_images/cloudsplaining-report.gif)
 
 ## Documentation
 
 For full documentation, please visit the [project on ReadTheDocs](https://cloudsplaining.readthedocs.io/en/latest/).
 
-
 * [Installation](#installation)
 * [Cheat sheet](#cheatsheet)
+* [Example report](https://opensource.salesforce.com/cloudsplaining/)
 
 ## Overview
 
