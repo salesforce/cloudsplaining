@@ -1,5 +1,6 @@
 site_name: Cloudsplaining
 theme: readthedocs
+use_directory_urls: false
 nav:
   - Home: 'index.md'
   - User Guide:
