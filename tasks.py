@@ -85,7 +85,7 @@ def upload_to_pypi_prod_server(c):
 def version_check(c):
     """Print the version"""
     try:
-        c.run('./policy_sentry/bin/cli.py --version', pty=True)
+        c.run('./cloudsplaining/bin/cloudsplaining.py --version', pty=True)
     except UnexpectedExit as u_e:
         logger.critical(f"FAIL! UnexpectedExit: {u_e}")
         sys.exit(1)
