@@ -2,6 +2,11 @@
 Create YML Template files for the exclusions template command.
 This way, users don't have to remember exactly how to phrase the yaml files, since this command creates it for them.
 """
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import os
 from pathlib import Path
 import logging

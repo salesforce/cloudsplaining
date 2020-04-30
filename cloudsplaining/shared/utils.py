@@ -1,4 +1,9 @@
 """Just some utility functions that don't fit neatly into other categories"""
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from policy_sentry.querying.actions import get_action_data, remove_actions_not_matching_access_level
 from policy_sentry.querying.all import get_all_service_prefixes

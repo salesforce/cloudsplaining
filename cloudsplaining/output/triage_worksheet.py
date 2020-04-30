@@ -1,4 +1,9 @@
 """Creates a triage CSV worksheet for account owners to fill out. This helps with identifying false positives."""
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import os
 import csv
 from policy_sentry.util.arns import get_resource_string

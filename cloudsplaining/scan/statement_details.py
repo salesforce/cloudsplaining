@@ -4,6 +4,11 @@ from policy_sentry.analysis.analyze import determine_actions_to_expand
 from policy_sentry.querying.actions import remove_actions_not_matching_access_level, get_actions_matching_arn
 from policy_sentry.querying.all import get_all_actions
 from cloudsplaining.shared.utils import remove_read_level_actions, remove_wildcard_only_actions
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 logger = logging.getLogger(__name__)
 
 all_actions = get_all_actions()

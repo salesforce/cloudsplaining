@@ -1,4 +1,9 @@
 """Classes that hold the results from scanning the authorization file."""
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS

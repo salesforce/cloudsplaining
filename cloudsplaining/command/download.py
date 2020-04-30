@@ -1,5 +1,10 @@
 """Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in
 account-alias.json """
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import os
 import json
 import logging

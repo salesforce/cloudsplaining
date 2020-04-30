@@ -1,5 +1,10 @@
 """PolicyDocument is re-used whenever IAM Policy Documents are found in the output of the
 aws iam get-account-authorization-details command."""
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from cloudsplaining.scan.statement_details import StatementDetails
 from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
