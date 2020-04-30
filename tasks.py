@@ -138,7 +138,7 @@ def security_scan(c):
     """Runs `bandit` and `safety check`"""
     try:
         c.run("bandit -r cloudsplaining/")
-        c.run("safety check")
+        # c.run("safety check")
     except UnexpectedExit as u_e:
         logger.critical(f"FAIL! UnexpectedExit: {u_e}")
         sys.exit(1)
