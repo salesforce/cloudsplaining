@@ -1,0 +1,220 @@
+[
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "PolicyName": "SsmOnboardingInlinePolicy",
+        "Arn": "arn:aws:iam::012345678901:role/GOAT",
+        "ActionsCount": 2,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": [],
+        "WriteActions": [
+            "s3:PutObject"
+        ],
+        "TaggingActions": []
+    },
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "PolicyName": "InlinePolicyForTestingOverrides",
+        "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
+        "ActionsCount": 2,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": [],
+        "WriteActions": [
+            "s3:PutObject"
+        ],
+        "TaggingActions": []
+    },
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "PolicyName": "NotYourPolicy",
+        "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+        "ActionsCount": 28,
+        "ServicesCount": 1,
+        "Services": [
+            "ecr"
+        ],
+        "Actions": [
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:BatchDeleteImage",
+            "ecr:BatchGetImage",
+            "ecr:CompleteLayerUpload",
+            "ecr:CreateRepository",
+            "ecr:DeleteLifecyclePolicy",
+            "ecr:DeleteRepository",
+            "ecr:DeleteRepositoryPolicy",
+            "ecr:DescribeImageScanFindings",
+            "ecr:DescribeImages",
+            "ecr:DescribeRepositories",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:GetLifecyclePolicy",
+            "ecr:GetLifecyclePolicyPreview",
+            "ecr:GetRepositoryPolicy",
+            "ecr:InitiateLayerUpload",
+            "ecr:ListImages",
+            "ecr:ListTagsForResource",
+            "ecr:PutImage",
+            "ecr:PutImageScanningConfiguration",
+            "ecr:PutImageTagMutability",
+            "ecr:PutLifecyclePolicy",
+            "ecr:SetRepositoryPolicy",
+            "ecr:StartImageScan",
+            "ecr:StartLifecyclePolicyPreview",
+            "ecr:TagResource",
+            "ecr:UntagResource",
+            "ecr:UploadLayerPart"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "ecr:*"
+                    ],
+                    "Resource": [
+                        "*"
+                    ]
+                }
+            ]
+        },
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": [
+            "ecr:DeleteRepositoryPolicy",
+            "ecr:SetRepositoryPolicy"
+        ],
+        "WriteActions": [
+            "ecr:BatchDeleteImage",
+            "ecr:CompleteLayerUpload",
+            "ecr:CreateRepository",
+            "ecr:DeleteLifecyclePolicy",
+            "ecr:DeleteRepository",
+            "ecr:InitiateLayerUpload",
+            "ecr:PutImage",
+            "ecr:PutImageScanningConfiguration",
+            "ecr:PutImageTagMutability",
+            "ecr:PutLifecyclePolicy",
+            "ecr:StartImageScan",
+            "ecr:StartLifecyclePolicyPreview",
+            "ecr:UploadLayerPart"
+        ],
+        "TaggingActions": [
+            "ecr:BatchDeleteImage",
+            "ecr:CompleteLayerUpload",
+            "ecr:CreateRepository",
+            "ecr:DeleteLifecyclePolicy",
+            "ecr:DeleteRepository",
+            "ecr:InitiateLayerUpload",
+            "ecr:PutImage",
+            "ecr:PutImageScanningConfiguration",
+            "ecr:PutImageTagMutability",
+            "ecr:PutLifecyclePolicy",
+            "ecr:StartImageScan",
+            "ecr:StartLifecyclePolicyPreview",
+            "ecr:UploadLayerPart"
+        ]
+    },
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "PolicyName": "PolicyForTestingOverrides",
+        "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+        "ActionsCount": 2,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:CreateBucket"
+                    ],
+                    "Resource": [
+                        "arn:aws:s3:::mybucket"
+                    ]
+                },
+                {
+                    "Sid": "VisualEditor1",
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject"
+                    ],
+                    "Resource": [
+                        "*"
+                    ]
+                }
+            ]
+        },
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": [],
+        "WriteActions": [
+            "s3:PutObject"
+        ],
+        "TaggingActions": []
+    }
+]

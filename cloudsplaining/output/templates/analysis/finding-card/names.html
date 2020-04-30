@@ -1,0 +1,24 @@
+<div class="card">
+  <h6 class="card-header" id="{{ finding['PolicyName'] }}">Policy: {{ finding["PolicyName"] }}</h6>
+    <div class="card-body">
+    <p class="card-text">
+    <ul>
+      <li> Services: {{ finding["ServicesCount"] }}</li>
+      <li> Actions: {{ finding["ActionsCount"] }}</li>
+      <li> ARN: {{ finding["Arn"] }}</li>
+    </ul>
+    </div> <!-- /card-text -->
+      <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
+        {% if finding["PrivilegeEscalation"]|length > 0 %}
+          <div class="alert alert-danger" role="alert">Privilege Escalation</div>
+        {% endif %}
+        {% if finding["DataExfiltrationActions"]|length > 0 %}
+          <div class="alert alert-warning" role="alert">Data Leak</div>
+        {% endif %}
+        {% if finding["PermissionsManagementActions"]|length > 0 %}
+          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+        {% endif %}
+      </div><!-- /card-footer -->
+   </div><!-- /card -->
+<br>
+<br>

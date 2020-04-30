@@ -1,0 +1,8 @@
+mkdocs==1.0.4
+click==7.0
+Jinja2==2.11.2
+livereload==2.6.1
+lunr==0.5.6
+Markdown==3.2.1
+PyYAML==5.3.1
+tornado==6.0.4

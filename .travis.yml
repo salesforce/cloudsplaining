@@ -1,0 +1,31 @@
+language: python
+python:
+- '3.6'
+- '3.7'
+- '3.8'
+before_install:
+- pip install -U pip setuptools
+install:
+- pip install pipenv
+- pipenv install --dev
+script:
+- invoke build.install-package
+#- invoke test.format
+- invoke test.lint
+- invoke test.security
+- invoke unit.pytest
+- invoke integration.expand-policy
+- invoke integration.scan
+- invoke integration.version
+#deploy:
+#  provider: pypi
+#  user: __token__
+#  password:
+#    secure: dFWBQFu29aevexcJ6EghWbg7G9+KUsd6aE0fAm/AsNTEnaamUPHUig17MFiN3Bh81zoGdExBjFfTlnH9JWNrZw9eUjjnBLl3BYrlOALhO8yGoTFEP2auOQwDPgbc8Bh8QtqHfkX6ii2bMYaeUVJy77mR/9X2kOQht5rmy/DBZeFOKWMvg+uUDrQy3fIpl6Cw6S4HCqI/Xhd8r068T7mFyhuAELafiJA52coxgebIrJ97NBDbDjWYxq0QCViQEsvF6WY+KkblDQ4ZQpsqri1WjZaGYp+FUUrOnTc2/M/dC7wWKLioK53QfdP4q9ix+18qVWELAcQ8jOiQX0JTal3lQQlkE0VqEFImk8mJqYuzNToJLhTwp8PRE9l6oneeKCJDacsXujDsZb9eFSN0dl47ipDXohtuFf+Rt0mUAnTQi/hEp0tjJfng55Swk+nla54bZTaIofjGJE3FRT4VF/bfdM5Tt8d/iDYUQ/RYGa6VpI2PtgNUQWshmS1KkwEy64Q02224DLc7re+MCLoQJNCTF5Nruqc2Af5qR2hbW9GWmyLLU/RbqqfWZaZ/8d5npWqewLxaA95qCmxntinlShezBA0xe8SwW9/Ubby+yEo4ilwYWl33Fv7ffxLCNCgfPK0oM3znEssbDdeO2eglIUHTFfLn42QORSMGduYGYw/umTQ=
+#  distributions: sdist bdist_wheel
+#  skip_existing: true
+#  on:
+#    tags: true
+#    branch: master
+#    skip_existing: true
+#    python: 3.6

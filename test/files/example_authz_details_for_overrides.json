@@ -1,0 +1,52 @@
+{
+  "UserDetailList": [],
+  "GroupDetailList": [],
+  "RoleDetailList": [],
+  "Policies": [
+    {
+      "PolicyName": "PolicyForTestingOverrides",
+      "PolicyId": "PolicyForTestingOverrides",
+      "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": 0,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:CreateBucket"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::mybucket"
+                ]
+              },
+              {
+                "Sid": "VisualEditor1",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject"
+                ],
+                "Resource": [
+                  "*"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ]
+    }
+  ]
+}

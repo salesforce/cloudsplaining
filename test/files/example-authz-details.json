@@ -1,0 +1,592 @@
+{
+  "UserDetailList": [
+    {
+      "Path": "/",
+      "UserName": "obama",
+      "UserId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:user/obama",
+      "CreateDate": "2019-12-18 19:10:08+00:00",
+      "GroupList": [
+        "admin"
+      ],
+      "AttachedManagedPolicies": [
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess",
+                "PolicyName": "AdministratorAccess"
+            }
+      ],
+      "Tags": []
+    },
+      {
+      "Path": "/",
+      "UserName": "userwithlotsofpermissions",
+      "UserId": "userwithlotsofpermissions",
+      "Arn": "arn:aws:iam::012345678901:user/userwithlotsofpermissions",
+      "CreateDate": "2019-12-18 19:10:08+00:00",
+      "GroupList": [
+        "admin"
+      ],
+       "UserPolicyList": [
+        {
+          "PolicyName": "InsecureUserPolicy",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:PutObjectAcl",
+                    "s3:GetObject"
+                ],
+                "Resource": ["*"]
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": []
+    }
+  ],
+  "GroupDetailList": [
+    {
+      "Path": "/",
+      "GroupName": "admin",
+      "GroupId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:group/admin",
+      "CreateDate": "2017-05-15 17:33:36+00:00",
+      "GroupPolicyList": [],
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ]
+    }
+  ],
+  "RoleDetailList": [
+    {
+      "Path": "/",
+      "RoleName": "MyRole",
+      "RoleId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:role/MyRole",
+      "CreateDate": "2019-08-16 17:27:59+00:00",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ssm.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "InstanceProfileList": [],
+      "RolePolicyList": [
+        {
+          "PolicyName": "SsmOnboardingInlinePolicy",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "iam:CreateInstanceProfile",
+                  "iam:ListInstanceProfilesForRole",
+                  "iam:PassRole",
+                  "ec2:DescribeIamInstanceProfileAssociations",
+                  "iam:GetInstanceProfile",
+                  "ec2:DisassociateIamInstanceProfile",
+                  "ec2:AssociateIamInstanceProfile",
+                  "iam:AddRoleToInstanceProfile"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": [],
+      "RoleLastUsed": {}
+    },
+      {
+      "Path": "/",
+      "RoleName": "MyOtherRole",
+      "RoleId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
+      "CreateDate": "2019-08-16 17:27:59+00:00",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ssm.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "InstanceProfileList": [],
+      "RolePolicyList": [
+        {
+          "PolicyName": "SupYo",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "iam:CreateInstanceProfile",
+                  "iam:ListInstanceProfilesForRole",
+                  "iam:PassRole",
+                  "ec2:DescribeIamInstanceProfileAssociations",
+                  "iam:GetInstanceProfile",
+                  "ec2:DisassociateIamInstanceProfile",
+                  "ec2:AssociateIamInstanceProfile",
+                  "iam:AddRoleToInstanceProfile"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": [],
+      "Tags": [],
+      "RoleLastUsed": {}
+    }
+  ],
+  "Policies": [
+    {
+      "PolicyName": "NotYourPolicy",
+      "PolicyId": "YAAAAASSQUEEEN",
+      "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": 0,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:PutObjectAcl"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::mybucket/*",
+                  "arn:aws:s3:::mybucket"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ]
+    },
+      {
+      "PolicyName": "InsecurePolicy",
+      "PolicyId": "InsecurePolicy",
+      "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": 0,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:PutObjectAcl"
+                ],
+                "Resource": [
+                  "*"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ]
+    },
+      {
+            "Arn": "arn:aws:iam::aws:policy/AWSCodeCommitPowerUser",
+            "AttachmentCount": 2,
+            "CreateDate": "2015-07-09 17:06:49+00:00",
+            "DefaultVersionId": "v11",
+            "IsAttachable": true,
+            "Path": "/",
+            "PermissionsBoundaryUsageCount": 0,
+            "PolicyId": "ANPAI4UIINUVGB5SEC57G",
+            "PolicyName": "AWSCodeCommitPowerUser",
+            "PolicyVersionList": [
+                {
+                    "CreateDate": "2019-12-03 08:15:40+00:00",
+                    "Document": {
+                        "Statement": [
+                            {
+                                "Action": [
+                                    "codecommit:AssociateApprovalRuleTemplateWithRepository",
+                                    "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
+                                    "codecommit:BatchDisassociateApprovalRuleTemplateFromRepositories",
+                                    "codecommit:BatchGet*",
+                                    "codecommit:BatchDescribe*",
+                                    "codecommit:Create*",
+                                    "codecommit:DeleteBranch",
+                                    "codecommit:DeleteFile",
+                                    "codecommit:Describe*",
+                                    "codecommit:DisassociateApprovalRuleTemplateFromRepository",
+                                    "codecommit:EvaluatePullRequestApprovalRules",
+                                    "codecommit:Get*",
+                                    "codecommit:List*",
+                                    "codecommit:Merge*",
+                                    "codecommit:OverridePullRequestApprovalRules",
+                                    "codecommit:Put*",
+                                    "codecommit:Post*",
+                                    "codecommit:TagResource",
+                                    "codecommit:Test*",
+                                    "codecommit:UntagResource",
+                                    "codecommit:Update*",
+                                    "codecommit:GitPull",
+                                    "codecommit:GitPush"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*"
+                            },
+                            {
+                                "Action": [
+                                    "events:DeleteRule",
+                                    "events:DescribeRule",
+                                    "events:DisableRule",
+                                    "events:EnableRule",
+                                    "events:PutRule",
+                                    "events:PutTargets",
+                                    "events:RemoveTargets",
+                                    "events:ListTargetsByRule"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:events:*:*:rule/codecommit*",
+                                "Sid": "CloudWatchEventsCodeCommitRulesAccess"
+                            },
+                            {
+                                "Action": [
+                                    "sns:Subscribe",
+                                    "sns:Unsubscribe"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:sns:*:*:codecommit*",
+                                "Sid": "SNSTopicAndSubscriptionAccess"
+                            },
+                            {
+                                "Action": [
+                                    "sns:ListTopics",
+                                    "sns:ListSubscriptionsByTopic",
+                                    "sns:GetTopicAttributes"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "SNSTopicAndSubscriptionReadAccess"
+                            },
+                            {
+                                "Action": [
+                                    "lambda:ListFunctions"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "LambdaReadOnlyListAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:ListUsers"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "IAMReadOnlyListAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:ListAccessKeys",
+                                    "iam:ListSSHPublicKeys",
+                                    "iam:ListServiceSpecificCredentials"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMReadOnlyConsoleAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:DeleteSSHPublicKey",
+                                    "iam:GetSSHPublicKey",
+                                    "iam:ListSSHPublicKeys",
+                                    "iam:UpdateSSHPublicKey",
+                                    "iam:UploadSSHPublicKey"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMUserSSHKeys"
+                            },
+                            {
+                                "Action": [
+                                    "iam:CreateServiceSpecificCredential",
+                                    "iam:UpdateServiceSpecificCredential",
+                                    "iam:DeleteServiceSpecificCredential",
+                                    "iam:ResetServiceSpecificCredential"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMSelfManageServiceSpecificCredentials"
+                            },
+                            {
+                                "Action": [
+                                    "codestar-notifications:CreateNotificationRule",
+                                    "codestar-notifications:DescribeNotificationRule",
+                                    "codestar-notifications:UpdateNotificationRule",
+                                    "codestar-notifications:Subscribe",
+                                    "codestar-notifications:Unsubscribe"
+                                ],
+                                "Condition": {
+                                    "StringLike": {
+                                        "codestar-notifications:NotificationsForResource": "arn:aws:codecommit:*"
+                                    }
+                                },
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "CodeStarNotificationsReadWriteAccess"
+                            },
+                            {
+                                "Action": [
+                                    "codestar-notifications:ListNotificationRules",
+                                    "codestar-notifications:ListTargets",
+                                    "codestar-notifications:ListTagsforResource",
+                                    "codestar-notifications:ListEventTypes"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "CodeStarNotificationsListAccess"
+                            },
+                            {
+                                "Action": [
+                                    "codeguru-reviewer:AssociateRepository",
+                                    "codeguru-reviewer:DescribeRepositoryAssociation",
+                                    "codeguru-reviewer:ListRepositoryAssociations",
+                                    "codeguru-reviewer:DisassociateRepository"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "AmazonCodeGuruReviewerFullAccess"
+                            },
+                            {
+                                "Action": "iam:CreateServiceLinkedRole",
+                                "Condition": {
+                                    "StringLike": {
+                                        "iam:AWSServiceName": "codeguru-reviewer.amazonaws.com"
+                                    }
+                                },
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:role/aws-service-role/codeguru-reviewer.amazonaws.com/AWSServiceRoleForAmazonCodeGuruReviewer",
+                                "Sid": "AmazonCodeGuruReviewerSLRCreation"
+                            },
+                            {
+                                "Action": [
+                                    "events:PutRule",
+                                    "events:PutTargets",
+                                    "events:DeleteRule",
+                                    "events:RemoveTargets"
+                                ],
+                                "Condition": {
+                                    "StringEquals": {
+                                        "events:ManagedBy": "codeguru-reviewer.amazonaws.com"
+                                    }
+                                },
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "CloudWatchEventsManagedRules"
+                            }
+                        ],
+                        "Version": "2012-10-17"
+                    },
+                    "IsDefaultVersion": true,
+                    "VersionId": "v11"
+                },
+                {
+                    "CreateDate": "2019-11-20 17:12:55+00:00",
+                    "Document": {
+                        "Statement": [
+                            {
+                                "Action": [
+                                    "codecommit:AssociateApprovalRuleTemplateWithRepository",
+                                    "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
+                                    "codecommit:BatchDisassociateApprovalRuleTemplateFromRepositories",
+                                    "codecommit:BatchGet*",
+                                    "codecommit:BatchDescribe*",
+                                    "codecommit:Create*",
+                                    "codecommit:DeleteBranch",
+                                    "codecommit:DeleteFile",
+                                    "codecommit:Describe*",
+                                    "codecommit:DisassociateApprovalRuleTemplateFromRepository",
+                                    "codecommit:EvaluatePullRequestApprovalRules",
+                                    "codecommit:Get*",
+                                    "codecommit:List*",
+                                    "codecommit:Merge*",
+                                    "codecommit:OverridePullRequestApprovalRules",
+                                    "codecommit:Put*",
+                                    "codecommit:Post*",
+                                    "codecommit:TagResource",
+                                    "codecommit:Test*",
+                                    "codecommit:UntagResource",
+                                    "codecommit:Update*",
+                                    "codecommit:GitPull",
+                                    "codecommit:GitPush"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*"
+                            },
+                            {
+                                "Action": [
+                                    "events:DeleteRule",
+                                    "events:DescribeRule",
+                                    "events:DisableRule",
+                                    "events:EnableRule",
+                                    "events:PutRule",
+                                    "events:PutTargets",
+                                    "events:RemoveTargets",
+                                    "events:ListTargetsByRule"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:events:*:*:rule/codecommit*",
+                                "Sid": "CloudWatchEventsCodeCommitRulesAccess"
+                            },
+                            {
+                                "Action": [
+                                    "sns:Subscribe",
+                                    "sns:Unsubscribe"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:sns:*:*:codecommit*",
+                                "Sid": "SNSTopicAndSubscriptionAccess"
+                            },
+                            {
+                                "Action": [
+                                    "sns:ListTopics",
+                                    "sns:ListSubscriptionsByTopic",
+                                    "sns:GetTopicAttributes"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "SNSTopicAndSubscriptionReadAccess"
+                            },
+                            {
+                                "Action": [
+                                    "lambda:ListFunctions"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "LambdaReadOnlyListAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:ListUsers"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "IAMReadOnlyListAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:ListAccessKeys",
+                                    "iam:ListSSHPublicKeys",
+                                    "iam:ListServiceSpecificCredentials"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMReadOnlyConsoleAccess"
+                            },
+                            {
+                                "Action": [
+                                    "iam:DeleteSSHPublicKey",
+                                    "iam:GetSSHPublicKey",
+                                    "iam:ListSSHPublicKeys",
+                                    "iam:UpdateSSHPublicKey",
+                                    "iam:UploadSSHPublicKey"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMUserSSHKeys"
+                            },
+                            {
+                                "Action": [
+                                    "iam:CreateServiceSpecificCredential",
+                                    "iam:UpdateServiceSpecificCredential",
+                                    "iam:DeleteServiceSpecificCredential",
+                                    "iam:ResetServiceSpecificCredential"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:iam::*:user/${aws:username}",
+                                "Sid": "IAMSelfManageServiceSpecificCredentials"
+                            },
+                            {
+                                "Action": [
+                                    "codestar-notifications:CreateNotificationRule",
+                                    "codestar-notifications:DescribeNotificationRule",
+                                    "codestar-notifications:UpdateNotificationRule",
+                                    "codestar-notifications:Subscribe",
+                                    "codestar-notifications:Unsubscribe"
+                                ],
+                                "Condition": {
+                                    "StringLike": {
+                                        "codestar-notifications:NotificationsForResource": "arn:aws:codecommit:*"
+                                    }
+                                },
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "CodeStarNotificationsReadWriteAccess"
+                            },
+                            {
+                                "Action": [
+                                    "codestar-notifications:ListNotificationRules",
+                                    "codestar-notifications:ListTargets",
+                                    "codestar-notifications:ListTagsforResource",
+                                    "codestar-notifications:ListEventTypes"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Sid": "CodeStarNotificationsListAccess"
+                            }
+                        ],
+                        "Version": "2012-10-17"
+                    },
+                    "IsDefaultVersion": false,
+                    "VersionId": "v10"
+                }
+            ],
+            "UpdateDate": "2019-12-03 08:15:40+00:00"
+        }
+  ]
+}

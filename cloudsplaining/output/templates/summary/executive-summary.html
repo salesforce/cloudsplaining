@@ -1,0 +1,45 @@
+<p style="text-align: justify">
+  This report contains the security assessment results from Cloudsplaining, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a>,  Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a>, Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[3]</small></a>, and Data Exfiltration<a href="#definition-data-exfiltration"><small>[4]</small></a>.
+  Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
+<br>
+<br>
+<h4>Risk Summary</h4>
+<table class="table table-striped w-auto table-sm" style="border-radius: 10px">
+<thead>
+  <tr>
+    <th>Risk</th>
+    <th>Instances</th>
+    <th>Impact <a href="#definition-impact"><small>[0]</small></a></th>
+  </tr>
+</thead>
+<tbody>
+  {% if t["policies_with_privilege_escalation"] > 0 %}
+  <tr>
+    <td>Privilege Escalation <a href="#definition-privilege-escalation"><small>[1]</small></a></td>
+    <td style="background-color: #F18E73">{{ t["policies_with_privilege_escalation"] }}</td>
+    <td style="background-color: #F18E73">Critical</td>
+  </tr>
+  {% endif %}
+  {% if t["policies_with_permissions_management"] > 0 %}
+  <tr>
+    <td>Resource Exposure <a href="#definition-resource-exposure"><small>[2]</small></a></td>
+    <td style="background-color: #FFB660">{{ t["policies_with_permissions_management"] }}</td>
+    <td style="background-color: #FFB660">High</td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>Infrastructure Modification <a href="#definition-infrastructure-modification"><small>[3]</small></a></td>
+    <td style="background-color: #FFB660">{{ t["results"]|length }}</td>
+    <td style="background-color: #FFB660">High</td>
+  </tr>
+  {% if t["policies_with_data_leak_potential"] > 0 %}
+    <tr>
+    <td>Data Exfiltration <a href="#definition-data-exfiltration"><small>[4]</small></a></td>
+    <td style="background-color: #FFE295;">{{ t["policies_with_data_leak_potential"] }}</td>
+    <td style="background-color: #FFE295;">Medium</td>
+  </tr>
+  {% endif %}
+<!--  <tr><td>Credentials Exposure</td><td>Value</td><td>Value</td><td>Value</td>-->
+  </tbody>
+</table>
+<br>
