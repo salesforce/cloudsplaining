@@ -1,13 +1,16 @@
 # Installation
 
-* Download the Tarball from the Releases page in this repository
-
-* Navigate to the directory where you downloaded the Tarball in your Terminal.
-
-* Install it with pip3
+* Homebrew
 
 ```bash
-pip3 install --user cloudsplaining-0.0.x.tar.gz
+brew tap salesforce/cloudsplaining https://github.com/salesforce/cloudsplaining
+brew install cloudsplaining
+```
+
+* Pip3
+
+```bash
+pip3 install --user cloudsplaining
 ```
 
 * Now you should be able to execute `cloudsplaining` from command line by running `cloudsplaining --help`.

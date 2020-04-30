@@ -73,6 +73,7 @@ Cloudsplaining identifies violations of least privilege in AWS IAM policies and 
 * Homebrew
 
 ```bash
+brew tap salesforce/cloudsplaining https://github.com/salesforce/cloudsplaining
 brew install cloudsplaining
 ```
 
