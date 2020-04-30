@@ -3,6 +3,7 @@
 Cloudsplaining should be viewed as complimentary to all of the tools mentioned below.
 
 In short, its differentiating factors are:
+
 * Identifying lack of resource ARN constraints for modify-level policies, as well as other risk categories
 * Digestible presentation of over-privileged IAM policies in a human readable HTML report
 * Workflow is tailor-made for quick assessment, team review, and ticket-opening (as shown in the Triage CSV worksheet)
