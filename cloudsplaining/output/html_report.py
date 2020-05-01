@@ -15,7 +15,7 @@ from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
-def generate_html_report(account_metadata, results, output_directory, exclusions_cfg):
+def generate_html_report(account_metadata, results, output_directory, exclusions_cfg, skip_open_report=False):
     """Create IAM HTML report"""
 
     account_id = account_metadata.get('account_id')
@@ -89,9 +89,10 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     print(f"Wrote HTML results to: {html_output_file}")
 
     # Open the report by default
-    print('Opening the HTML report')
-    url = 'file://%s' % os.path.abspath(html_output_file)
-    webbrowser.open(url, new=2)
+    if not skip_open_report:
+        print('Opening the HTML report')
+        url = 'file://%s' % os.path.abspath(html_output_file)
+        webbrowser.open(url, new=2)
 
     # Create the CSV triage sheet
     create_triage_worksheet(account_name, sorted_results, output_directory)
