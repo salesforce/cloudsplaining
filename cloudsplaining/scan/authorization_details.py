@@ -220,5 +220,6 @@ class AuthorizationDetails:
                             arn=principal.arn,
                             actions=actions_missing_resource_constraints,
                             policy_document=policy["PolicyDocument"],
+                            assume_role_policy_document=principal.assume_role_policy_document,
                         )
                         self.findings.add(finding)

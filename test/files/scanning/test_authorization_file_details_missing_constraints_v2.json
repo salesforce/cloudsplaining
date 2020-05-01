@@ -3,8 +3,8 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "SsmOnboardingInlinePolicy",
+        "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/GOAT",
-        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -28,6 +28,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -42,8 +43,8 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "InlinePolicyForTestingOverrides",
+        "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
-        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -67,6 +68,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -81,8 +83,8 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "NotYourPolicy",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
-        "AssumableByComputeService": [],
         "ActionsCount": 28,
         "ServicesCount": 1,
         "Services": [
@@ -133,6 +135,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -174,8 +177,8 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "PolicyForTestingOverrides",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
-        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -211,6 +214,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"

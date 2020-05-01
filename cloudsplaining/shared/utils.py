@@ -73,3 +73,8 @@ def get_full_policy_path(arn):
     resource_string = resource_string.split("/")[1:]
     resource_string = "/".join(resource_string)
     return resource_string
+
+
+def capitalize_first_character(some_string):
+    """Description: Capitalizes the first character of a string"""
+    return " ".join("".join([w[0].upper(), w[1:].lower()]) for w in some_string.split())
