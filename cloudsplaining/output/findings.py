@@ -131,9 +131,11 @@ class Finding:
             "Actions": self.actions,
             "PolicyDocument": self.policy_document.json,
             # These items help with prioritizing triage and remediation.
+            "AssumableByComputeService": self.role_assumable_by_compute_services,
             "PrivilegeEscalation": self.privilege_escalation,
             "DataExfiltrationActions": self.data_leak_actions,
             "PermissionsManagementActions": self.permissions_management_actions_without_constraints,
+            # Separate the "Write" and "Tagging" actions in the machine-readable output only
             "WriteActions": self.policy_document.write_actions_without_constraints,
             "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }

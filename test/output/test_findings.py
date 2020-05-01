@@ -31,7 +31,41 @@ class TestFindings(unittest.TestCase):
         self.assertEqual(len(finding.services_affected), 1)
         self.assertEqual(len(finding.actions), 1)
         self.assertDictEqual(finding.policy_document.json, policy_document.json)
-        print(json.dumps(finding.json, indent=4))
+        expected_finding_json = {
+            "AccountID": "123456789012",
+            "ManagedBy": "Customer",
+            "PolicyName": "MyPolicy",
+            "Arn": "arn:aws:iam::123456789012:group/SNSNotifications",
+            "ActionsCount": 1,
+            "ServicesCount": 1,
+            "Services": [
+                "s3"
+            ],
+            "Actions": [
+                "s3:GetObject"
+            ],
+            "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "s3:GetObject"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            },
+            "AssumableByComputeService": [],
+            "PrivilegeEscalation": [],
+            "DataExfiltrationActions": [
+                "s3:GetObject"
+            ],
+            "PermissionsManagementActions": [],
+            "WriteActions": [],
+            "TaggingActions": []
+        }
+        self.assertDictEqual(finding.json, expected_finding_json)
 
     def test_findings_for_roles_assumable_by_compute_services_ecs_tasks(self):
         """output.findings.role_assumable_by_compute_services: ecs-tasks"""

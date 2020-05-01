@@ -159,6 +159,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
                 "PermissionsManagementActions": [],
@@ -209,6 +210,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [
                     "s3:GetObject"

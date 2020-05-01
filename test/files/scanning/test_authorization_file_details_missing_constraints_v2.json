@@ -4,6 +4,7 @@
         "ManagedBy": "Customer",
         "PolicyName": "SsmOnboardingInlinePolicy",
         "Arn": "arn:aws:iam::012345678901:role/GOAT",
+        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -42,6 +43,7 @@
         "ManagedBy": "Customer",
         "PolicyName": "InlinePolicyForTestingOverrides",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
+        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -80,6 +82,7 @@
         "ManagedBy": "Customer",
         "PolicyName": "NotYourPolicy",
         "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+        "AssumableByComputeService": [],
         "ActionsCount": 28,
         "ServicesCount": 1,
         "Services": [
@@ -172,6 +175,7 @@
         "ManagedBy": "Customer",
         "PolicyName": "PolicyForTestingOverrides",
         "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+        "AssumableByComputeService": [],
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
