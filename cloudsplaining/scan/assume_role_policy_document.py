@@ -79,7 +79,7 @@ class AssumeRoleStatement:
         "Principal": { "Service": ["value", "value"] }
         Return: Set of principals
         """
-        principals = set()
+        principals = []
         principal = self.statement.get("Principal", None)
         if not principal:
             # It is possible not to define a principal, AWS ignores these statements.
@@ -89,18 +89,19 @@ class AssumeRoleStatement:
 
             if "AWS" in principal:
                 if isinstance(principal["AWS"], list):
-                    principals.update(principal["AWS"])
+                    principals.extend(principal["AWS"])
                 else:
-                    principals.add(principal["AWS"])
+                    principals.append(principal["AWS"])
 
             if "Service" in principal:
                 if isinstance(principal["Service"], list):
-                    principals.update(principal["Service"])
+                    principals.extend(principal["Service"])
                 else:
-                    principals.add(principal["Service"])
+                    principals.append(principal["Service"])
         else:
-            principals.add(principal)
-        return list(principals)
+            principals.append(principal)
+        # principals = list(principals).sort()
+        return principals
 
     @property
     def role_assumable_by_compute_services(self):
