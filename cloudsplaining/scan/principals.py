@@ -106,10 +106,7 @@ class Principal:
                     )
 
     def _principal_policies(self):
-        """
-
-        :return:
-        """
+        """Stores the list of policies attached to the Principal."""
         principal_policies = []
         if self.principal_type == "User":
             principal_policies = self.principal_detail.get("UserPolicyList", None)

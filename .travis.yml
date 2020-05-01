@@ -16,7 +16,7 @@ script:
 - invoke unit.pytest
 - invoke integration.version
 - invoke integration.expand-policy
-#- invoke integration.scan
+- invoke integration.scan
 deploy:
   provider: pypi
   user: __token__
