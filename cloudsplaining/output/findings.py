@@ -39,11 +39,12 @@ class Findings:
 
 class Finding:
     """Holds details on individual findings, including the original Policy Document in question."""
-    def __init__(self, policy_name, arn, actions, policy_document):
+    def __init__(self, policy_name, arn, actions, policy_document, assume_role_policy_document=None):
         self.policy_name = policy_name
         self.arn = arn
         self.actions = actions
         self.policy_document = policy_document
+        self.assume_role_policy_document = assume_role_policy_document
 
     @property
     def managed_by(self):
@@ -76,6 +77,15 @@ class Finding:
                 services_affected.append(service)
         services_affected.sort()
         return services_affected
+
+    @property
+    def role_assumable_by_compute_services(self):
+        """Determines whether or not the role is assumed from a compute service, and if so which ones."""
+        if self.assume_role_policy_document:
+            compute_services = self.assume_role_policy_document.role_assumable_by_compute_services
+            return compute_services
+        else:
+            return []
 
     @property
     def permissions_management_actions_without_constraints(self):

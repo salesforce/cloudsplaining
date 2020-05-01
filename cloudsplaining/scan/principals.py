@@ -10,6 +10,7 @@ from policy_sentry.util.arns import get_account_from_arn, get_resource_path_from
 from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement, AssumeRolePolicyDocument
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,9 @@ class Principal:
         self.arn = principal_detail.get("Arn", None)
         self.tags = principal_detail.get("Tags", None)
         self.create_date = principal_detail.get("CreateDate", None)
-        self.assume_role_policy_document = principal_detail.get("AssumeRolePolicyDocument", None)
+        # This will only appear for Roles, not Users or Groups
+        self.assume_role_policy_document = self._assume_role_policy_document()
+        # self.assume_role_policy_document = principal_detail.get("AssumeRolePolicyDocument", None)
         self.attached_managed_policies = principal_detail.get(
             "AttachedManagedPolicies", None
         )
@@ -116,11 +119,26 @@ class Principal:
             principal_policies = self.principal_detail.get("RolePolicyList", None)
         return principal_policies
 
+    def _assume_role_policy_document(self):
+        """Set the assume role policy document"""
+        if self.principal_type == "Role":
+            this_document = self.principal_detail.get("AssumeRolePolicyDocument", None)
+            if this_document:
+                assume_role_policy_document = AssumeRolePolicyDocument(this_document)
+                return assume_role_policy_document
+            else:
+                return None
+        else:
+            return None
 
     @property
     def assume_role_from_compute(self):
         """Parse the Trust Policy and determine if an AWS Compute service (EC2, ECS, EKS, Lambda) is able to assume the role."""
-        print(self.assume_role_policy_document)
+        # print(self.assume_role_policy_document)
+        if self.principal_type == "Role":
+            print()
+        else:
+            return []
         return self.assume_role_policy_document
 
     @property
