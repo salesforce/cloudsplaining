@@ -10,7 +10,6 @@ install:
 - pipenv install --dev
 script:
 - invoke build.install-package
-#- invoke test.format
 - invoke test.lint
 - invoke test.security
 - invoke unit.pytest
@@ -21,11 +20,10 @@ deploy:
   provider: pypi
   user: __token__
   password:
-    secure: "MJVKf9ovYFL4KONeQCRDC855QOd5U+r0nfr13d/3hK8o1b+d9l5OJW1K++hKdA2lyYB7lLnHGVfYvjtSulqL8nBdDxqjAYSyV0CoCS8xnXz24QWYxi5ML67ixstxaXxDSyiM/VBAHfyoOA5EozaqqHwow7qfFbgRAvJCk7CvtKXrsKUKb/ZkqmgQ3x2Sw+dWV1OpDjoJAbUrVxRE/bqRK3SFpBD+kAvoU/XuDCuOk54AGHGGCeJANjHr/ENQMvKis942dwagR87oOtp7g8NdV20hR68AUHjLVojXyZXroBPL/uoRmKsKt4LKDWfbHo9fyQoA1+8nZgBdcpyQ+Y1DhVOBiYHY9D24ZSWfY0DgEgwISPJfC1cC8zCsi5WJgW5JZy74ndl7MwJ884c+m5HQIjRTSG/joN8C5dKM441nUPQApvg5M8nuh8bUqIrrkkl0g9wst0AhZe+fqKvAHfXxJLvaNs/G5IYi97NUCvIUloN9P1vIhkhuwjw8ZEtiimd5KYrAy6DDsLH29srJQ77ObUM8EGv6+YkSa6+EzE0woR7qy882SXzPds5D7t1acYGAiApHQm2eW+7CNcONCCfZSyoVHVPMarhDATJ3rv2H1X+16lux3t45Za+8CAkYbaH1YDJebZrmVCSPcqPwTuAZi1iwZqEwm4CcOlFJikU8UtI="
+    secure: TvOVTnTbxOgahH5zNU8rvqSrwtXsItmF64zKNRGaw0pxqZz80ot/6MBbsvOgBJCFffbp9+xcOokJ5m2gAiUM5itGP6KhU5eeZXGQV770OHM8RnaEIQB28/qqkpw1rCE+cXnx4eYFYonEbThhfevAqjHWzJ3fUa0+LDCd5LfbYHtV7Yq6dvetwXBAc6mu9lJTCUW9Ik7o7fgojSCFWv7R7lRJkkoLHOrkWT7QfRIU3E1YSQY3DHmwnV8IYdkoD7JdYxxeN2HLGTuM0K9s88u0KApyE9Bj5lHBqJxXgJBkoX5Vf+eUdkWu4MxrezO9jOCANAYACpkV1Kb2VUh/rKV82pnwA0IvwKQJ8T5Ym5Lq8yo+KBz8tWaU68K7em2TqpeONsvkuR0N8iWxQfoyTVS/9nncmPUaNRNNNZjzPBHB1buZuFjlZJTA3X2yv3RHd0fXQzSWWXjWmTCLOa3mxIt/ZHw/6PQKInG2vg45wD04yQVuvu5ASkw5MI+8jW6BicMNmRvbpj+GH/LLQwa0nS6+EKBH4/5vMmj7dWVsU/hid6mutvJ3vkvlcb18njizFxQUiFD7KwUY9/mrPhkJOiBXSoCwPW4ENWlpDTT0tZpTbk7VEdwIpGn47B7PK/NwF71z9fpKt1a1D3dH1b2U4g7zvi4a2E5EmLDh7oXjV4RPHlo=
   distributions: sdist bdist_wheel
   skip_existing: true
   on:
     tags: true
     branch: master
-    skip_existing: true
     python: 3.6
