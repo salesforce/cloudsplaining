@@ -6,7 +6,7 @@ cloudsplaining
 [![Build Status](https://travis-ci.com/salesforce/cloudsplaining.svg?branch=master)](https://travis-ci.com/salesforce/cloudsplaining)
 [![Documentation Status](https://readthedocs.org/projects/cloudsplaining/badge/?version=latest)](https://cloudsplaining.readthedocs.io/en/latest/?badge=latest)
 [![Join the chat at https://gitter.im/cloudsplaining](https://badges.gitter.im/cloudsplaining.svg)](https://gitter.im/cloudsplaining?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[![Downloads](https://pepy.tech/badge/cloudsplaining)](https://pepy.tech/project/cloudsplaining)
 
 * [Example report](https://opensource.salesforce.com/cloudsplaining/)
 
