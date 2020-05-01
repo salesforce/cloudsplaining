@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Activate Bootstrap 3 Dropdowns on Hover</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-.bs-example{
-	margin: 20px;
-}
-@media screen and (min-width: 768px) {
-  .dropdown:hover .dropdown-menu, .btn-group:hover .dropdown-menu{
-		display: block;
-	}
-	.dropdown-menu{
-		margin-top: 0;
-	}
-	.dropdown-toggle{
-		margin-bottom: 2px;
-	}
-	.navbar .dropdown-toggle, .nav-tabs .dropdown-toggle{
-		margin-bottom: 0;
-	}
-}
-</style>
-    <script>
-  $(document).ready(function(){
-    $(".dropdown, .btn-group").hover(function(){
-      var dropdownMenu = $(this).children(".dropdown-menu");
-      if(dropdownMenu.is(":visible")){
-        dropdownMenu.parent().toggleClass("open");
-      }
-    });
-  });
-  </script>
+  <meta name="description" content="AWS IAM Policy Audit Report">
+  <meta name="author" content="Kinnaird McQuade">
+  <title>Cloudsplaining: AWS IAM Policy Audit Report</title>
+
+  <!--Bootstrap theme-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!--Custom CSS-->
+  <style>
+    .nav li{
+      float:left;
+    }
+    .navbar {
+        border-radius: 10px;
+        font-size:      1em;
+    }
+    body {
+        position: relative;
+    }
+
+   </style>
+
 </head>
+
 <body>
   <!------------------>
   <!-- Row          -->
@@ -43,88 +37,97 @@
     <!--------------->
     <!-- Container -->
     <!--------------->
-  <div class="container">
+    <div class="container">
     <!------------------>
     <!-- Navbar -->
     <!------------------>
-  <div class="bs-example">
-      <!--Navbar with dropdown menu-->
-      <nav id="navbar" class="navbar navbar-default position-sticky" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="container">
-              <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#">Cloudsplaining IAM Report</a>
-              </div>
-              <!-- Collect the nav links, forms, and other content for toggling -->
-              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul class="nav navbar-nav">
-                      <li><a href="#">Executive Summary</a></li>
-                      <li class="dropdown">
-                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Findings <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
-                              <li><a href="#customer-managed-policies-summary">Customer-Managed Policies</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#aws-managed-policies-summary">AWS-Managed Policies</a></li>
-                          </ul>
-                      </li>
-                      <li class="dropdown">
-                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">In-depth Analysis <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
-                              <li><a href="#customer-managed-in-depth-analysis">Customer-Managed Policies</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#aws-managed-in-depth-analysis">AWS-Managed Policies</a></li>
-                          </ul>
-                      </li>
-                      <li class="dropdown">
-                          <a href="#guidance" data-toggle="dropdown" class="dropdown-toggle">Guidance <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
-                              <li><a href="#triage-guidance"><b>Triaging</b></a></li>
-                              <li><a href="#">Context</a></li>
-                              <li><a href="#">Assessment Recap</a></li>
-                              <li><a href="#">Triaging Workflow</a></li>
-                              <li><a href="#">Triaging Considerations</a></li>
-                              <li><a href="#">Common False Positive Scenarios</a></li>
-                              <li><a href="#">Building Exclusions File</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#remediation-guidance"><b>Remediation</b></a></li>
-                              <li><a href="#">Prioritization</a></li>
-                              <li><a href="#">Technical Remediation</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#validation-guidance"><b>Validation</b></a></li>
-                              <li><a href="#using-cloudsplaining">Using Cloudsplaining</a></li>
-                              <li><a href="#using-parliament">Using Parliament</a></li>
-                          </ul>
-                      </li>
-                      <li class="dropdown">
-                          <a href="#appendices" data-toggle="dropdown" class="dropdown-toggle">Appendix <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
-                              <li><a href="#glossary">Glossary</a></li>
-                              <li><a href="#exclusions">Exclusions Configuration</a></li>
-                              <li><a href="#references">References</a></li>
-                          </ul>
-                      </li>
-                    <!--Include Collapse/Expand buttons in Navbar-->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-secondary navbar-btn" id="collapseAccordion">
-                          <span class="glyphicon glyphicon-collapse-down"></span>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary navbar-btn" id="expandAccordion">
-                          <span class="glyphicon glyphicon-collapse-up"></span>
-                        </button>
-                    </div>
-                      <div class="btn-group">
-                      </div><!--/button group-->
-                  </ul>
-              </div>
-          </div>
-      </nav>
-      <hr>
+    <nav id="navbar" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
+      <div class="container">
+
+      <a class="nav-link" href="#executive-summary">Executive Summary</a>
+<!--      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>-->
+<!--      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>-->
+      <a class="navbar-brand" href="#"></a>
+
+<!--      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>-->
+<!--      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>-->
+<!--      <a class="nav-link" href="#guidance">Guidance</a>-->
+      <!--Findings Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonFindings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#customer-managed-policies-summary">Findings</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonFindings">
+          <a class="dropdown-item" href="#customer-managed-policies-summary">Results: Customer-Managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-policies-summary">Results: AWS-Managed policies</a>
+        </div>
+      </div>
+      <!--In-Depth Analysis Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonAnalysis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">In-Depth Analysis</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAnalysis">
+          <a class="dropdown-item" href="#customer-managed-in-depth-analysis">Analysis: Customer-managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-in-depth-analysis"> Analysis: AWS-managed policies</a>
+        </div>
+      </div>
+      <!--/Analysis dropdown-->
+
+      <!--Guidance Dropdown-->
+      <div class="nav-item dropdown ml-auto">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonGuidance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#guidance">Guidance</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonGuidance">
+          <!--Triage Guidance-->
+          <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>
+          <a class="dropdown-item" href="#triage-understanding-context">Context</a>
+          <a class="dropdown-item" href="#triage-assessment-recap">Assessment Recap</a>
+          <a class="dropdown-item" href="#triage-triaging-workflow">Triaging Workflow</a>
+          <a class="dropdown-item" href="#triage-triaging-considerations">Triaging Considerations</a>
+          <a class="dropdown-item" href="#triage-common-false-positive-scenarios">Common False Positive Scenarios</a>
+          <a class="dropdown-item" href="#triage-building-the-exclusions-file">Building the Exclusions File</a>
+          <div class="dropdown-divider"></div>
+          <!--Remediation Guidance-->
+          <a class="dropdown-item" href="#remediation-guidance"><b>Remediation</b></a>
+          <a class="dropdown-item" href="#remediation-prioritization">Prioritization</a>
+          <a class="dropdown-item" href="#remediation-technical-remediation">Technical Remediation</a>
+          <div class="dropdown-divider"></div>
+          <!--Validation Guidance-->
+          <a class="dropdown-item" href="#validation-guidance"><b>Validation</b></a>
+          <a class="dropdown-item" href="#validation-using-cloudsplaining">Using Cloudsplaining</a>
+          <a class="dropdown-item" href="#validation-using-parliament">Using Parliament</a>
+        </div>
+      </div>
+      <!--/guidance dropdown-->
+      <!--Appendix Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light" type="button" id="dropdownMenuButtonAppendix" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">Appendices
+            <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAppendix">
+          <a class="dropdown-item" href="#glossary">Glossary</a>
+          <a class="dropdown-item" href="#references">References</a>
+          <a class="dropdown-item" href="#exclusions">Exclusions Configuration</a>
+        </div>
+      </div>
+      <!--/Appendix dropdown-->
+
+      <!--Include Collapse/Expand buttons in Navbar-->
+      <button type="button" class="btn btn-outline-secondary" id="collapseAccordion">
+        <span class="glyphicon glyphicon-collapse-down"></span>Collapse
+      </button>
+      <button type="button" class="btn btn-outline-secondary" id="expandAccordion">
+        <span class="glyphicon glyphicon-collapse-up"></span>Expand
+      </button>
+        <br>
+      </div>
+    </nav>
+
     <!-- Title section -->
     <div class="row">
       <div class="col-md-12">
@@ -146,6 +149,8 @@
   Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
 <br>
 <br>
+<div class="row">
+<div class="col-md-6">
 <h4>Risk Summary</h4>
 <table class="table table-striped w-auto table-sm" style="border-radius: 10px">
 <thead>
@@ -186,6 +191,8 @@
   </tbody>
 </table>
 <br>
+</div>
+</div>
 
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Summary: Customer-managed Policies</h3>
@@ -8549,7 +8556,7 @@ Actions:
 <!--Guidance: Triaging-->
 <h3 id="triage-guidance">Triaging</h3>
 <p>
-<div id="triage-guidance-description"> <h5>Understanding Context</h5></div>
+<div id="triage-understanding-context"> <h5>Understanding Context</h5></div>
 
 <p>It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.</p>
 <p>This report generates findings on Policies that do not leverage resource constraints and identifies some attributes to help prioritize which ones to address - such as Privilege Escalation, Resource Exposure, and Data Exfiltration. These results help you to identify your IAM threat landscape and reduce blast radius. In the event of credential compromise, you can prevent an attacker from exploiting the risks mentioned above, in addition to preventing mass deletion, destruction, or modification of existing infrastructure.</p>
@@ -8565,7 +8572,7 @@ Actions:
 <li> Provide a sufficient exclusions mechanism to programmatically define where deviations from resource constraints are by design</li>
 </ul>
 </div></p>
-<div id="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
+<div id="triage-assessment-recap"> <h5>Assessment Recap</h5></div>
 
 <p>To recap: you've followed these steps to generate this report:</p>
 <div id="triage-guidance-recap-bullet-points">
@@ -8584,7 +8591,7 @@ Actions:
 </ul>
 </div>
 
-<div id="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
+<div id="triage-triaging-workflow"> <h5>Triaging workflow</h5></div>
 
 <p>An assessor can follow this general workflow:</p>
 <ul>
@@ -8598,7 +8605,7 @@ Actions:
 <p>As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.</p>
 </blockquote>
-<div id="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
+<div id="triage-triaging-considerations"> <h5>Triaging considerations</h5></div>
 
 <p>When triaging your results, consider some of the factors listed below as you identify False Positives vs. legitimate findings. <strong>There are some scenarios where <code>"Resource": "*"</code> access is by design and is therefore a false positive. This section covers some of the common scenarios.</strong></p>
 <p><strong>Infrastructure Creation roles</strong>:</p>
@@ -8614,13 +8621,13 @@ We request that you review the HTML report and fill out the "Justification" fiel
 </div></p>
 <p><strong>Organization-specific results</strong></p>
 <p>For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, <code>kms:Decrypt</code> to <code>*</code> resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude <code>kms:Decrypt</code> from your results.</p>
-<div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
+<div id="triage-common-false-positive-scenarios"> <h5>Common False Positive Scenarios</h5></div>
 
 <p><strong>Conditions Logic</strong>:</p>
 <p>This tool does not evaluate <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html">IAM Conditions</a> logic. If your policies use wildcard resources but restrict according to condition keys, then it's possible this is a false positive. However, you might want to double-check the accuracy of the conditions logic in those IAM policies. While IAM conditions can be extremely powerful, implementation is also prone to human error. We suggest leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo Labs</a> (courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>), to lint your policies for accuracy - especially when IAM conditions are in use.</p>
 <p><strong><code>logs:CreateLogGroup</code> and <code>logs:PutLogEvent</code></strong>:</p>
 <p>Depending on how your organization approaches CloudWatch Logs Agent configuration, IAM, and CloudWatch Logs Group naming conventions, it is sometimes near-impossible to prevent cross-contamination of logs or Log Injection to the Log Streams from other instance IDs. Cross-Contamination of CloudWatch Logs is an issue of its own that is definitely beyond the scope of this document - but consider this as a potential limitation by AWS when trying to identify a remediation plan.</p>
-<div id="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
+<div id="triage-building-the-exclusions-file"> <h5>Building the Exclusions File</h5></div>
 
 <p>After you have identified the False Positives, add the False Positive criteria to your custom Cloudsplaining exclusions file. The False Positives generally fall into one of two categories:
 <div id="triage-guidance-considerations-pt3-bullet-points">
@@ -8629,7 +8636,7 @@ We request that you review the HTML report and fill out the "Justification" fiel
   <li>False positives specific to this AWS account</li>
 </ul>
 </div></p>
-<p>To make the exclusiond, create a YAML file that we will use to list out exclusions with the <code>create-exclusions-file</code> command.</p>
+<p>To make the exclusions file, create a YAML file that we will use to list out exclusions with the <code>create-exclusions-file</code> command.</p>
 <pre><code class="bash">cloudsplaining create-exclusions-file
 </code></pre>
 
@@ -8682,7 +8689,7 @@ exclude-actions:
 <!--Guidance: Remediation-->
 <h3 id="remediation-guidance">Remediation</h3>
 <p>
-<div id="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
+<div id="remediation-prioritization"> <h5>Prioritizing Remediation</h5></div>
 
 <p>Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.</p>
 <p><strong>High priority risks</strong>:</p>
@@ -8690,7 +8697,7 @@ exclude-actions:
 <p><strong>Moving from AWS Managed Policies over to custom policies</strong>:</p>
 <p>AWS managed policies always include access to <code>*</code> resources because AWS provides these same policies universally to all customer accounts. If this report flags  any AWS-managed policies, it means that the account/service owner team will not only have to implement resource constraints - they will have to create a custom IAM policy to do so. To limit this work, it is best to migrate away from the root cause of the problem - using AWS managed policies.</p>
 <p>You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.</p>
-<div id="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
+<div id="remediation-technical-remediation"> <h5>Remediating the Findings</h5></div>
 
 <p>We suggest two options for remediating each finding:
 <div id="remediation-guidance-pt2-bullet-points">
@@ -8726,12 +8733,12 @@ exclude-actions:
 </ul>
 </div>
 
-<div id="using-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
+<div id="validation-using-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
 
 <p>You can validate that your remediated policy passes Cloudsplaining by running the following command:</p>
 <p><code>cloudsplaining scan-policy-file --file policy.json --exclusions-file exclusions.yml</code></p>
 <p>When there are no more results, it passes!</p>
-<div id="using-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
+<div id="validation-using-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
 
 <p>parliament is an AWS IAM linting library. It reviews policies looking for problems such as:</p>
 <div id="validation-guidance-pt2-bullet-points">
@@ -8841,101 +8848,15 @@ users:
           </div> <!-- /data-spy -->
         </div> <!-- /column containing all contents-->
       </div><!-- /row holding all contents-->
-      <!--/end title section-->
-<!--      <div class="col-md-12">-->
-
-<!--                  </div> &lt;!&ndash; /data-spy &ndash;&gt;-->
-<!--        </div> &lt;!&ndash; /column containing all contents&ndash;&gt;-->
-<!--      </div>&lt;!&ndash; /row holding all contents&ndash;&gt;-->
-      <hr>
-        <h1>Tutorial leftovers</h1>
-      <!--Got this from the tutorial: https://www.tutorialrepublic.com/codelab.php?topic=faq&file=make-bootstrap-dropdown-menu-on-hover-->
-      <!--Pills nav with dropdown menu-->
-      <ul class="nav nav-pills">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Profile</a></li>
-          <li class="dropdown">
-              <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                  <li><a href="#">Inbox</a></li>
-                  <li><a href="#">Drafts</a></li>
-                  <li><a href="#">Sent Items</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Trash</a></li>
-              </ul>
-          </li>
-      </ul>
-      <hr>
-
-
-
-      <!--Tabs with dropdown menu-->
-      <ul class="nav nav-tabs">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Profile</a></li>
-          <li class="dropdown">
-              <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                  <li><a href="#">Inbox</a></li>
-                  <li><a href="#">Drafts</a></li>
-                  <li><a href="#">Sent Items</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Trash</a></li>
-              </ul>
-          </li>
-      </ul>
-      <hr>
-      <!--Button with dropdown menu-->
-      <div class="btn-group">
-          <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-          </ul>
-      </div>
-      <hr>
-      <!--Split buttons with dropdown menu-->
-      <div class="btn-group">
-          <button type="button" class="btn btn-default">Action</button>
-          <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-          <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-          </ul>
-      </div>
-      <hr>
-      <!--Button Groups with dropdown menu-->
-      <div class="btn-group">
-          <button type="button" class="btn btn-primary">Button</button>
-          <button type="button" class="btn btn-primary">Another Button</button>
-          <div class="btn-group">
-              <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Dropdown <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-              </ul>
-          </div>
-      </div>
-  </div>
-
-
   </div><!-- /container -->
   </div><!-- /row holding container holding all contents -->
 
-
   <!-- JQuery-->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <!--  Bootstrap-->
-<!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+  <!--  Bootstrap-->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
   <!--Press Collapse/expand button so you can Ctrl+F through the report-->
   <script>
   $(function () {
@@ -8947,8 +8868,5 @@ users:
     })
   });
   </script>
-<!--
-Got the bootstrap 3 tips from this tutorial: https://www.tutorialrepublic.com/codelab.php?topic=faq&file=make-bootstrap-dropdown-menu-on-hover
--->
 </body>
 </html>

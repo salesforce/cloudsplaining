@@ -1,4 +1,4 @@
-<div id="triage-guidance-description"> <h5>Understanding Context</h5></div>
+<div id="triage-understanding-context"> <h5>Understanding Context</h5></div>
 
 It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.
 
@@ -21,7 +21,7 @@ As such, the tool aims to:
 </ul>
 </div>
 
-<div id="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
+<div id="triage-assessment-recap"> <h5>Assessment Recap</h5></div>
 
 To recap: you've followed these steps to generate this report:
 
@@ -41,7 +41,7 @@ To recap: you've followed these steps to generate this report:
 </ul>
 </div>
 
-<div id="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
+<div id="triage-triaging-workflow"> <h5>Triaging workflow</h5></div>
 
 An assessor can follow this general workflow:
 
@@ -56,7 +56,7 @@ When you ask the service/account owner team to fill out the Triage CSV worksheet
 > As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 > We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.
 
-<div id="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
+<div id="triage-triaging-considerations"> <h5>Triaging considerations</h5></div>
 
 When triaging your results, consider some of the factors listed below as you identify False Positives vs. legitimate findings. **There are some scenarios where `"Resource": "*"` access is by design and is therefore a false positive. This section covers some of the common scenarios.**
 
@@ -79,7 +79,7 @@ Conversely, user roles will almost always be used against `*` resources for the 
 
 For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, `kms:Decrypt` to `*` resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude `kms:Decrypt` from your results.
 
-<div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
+<div id="triage-common-false-positive-scenarios"> <h5>Common False Positive Scenarios</h5></div>
 
 **Conditions Logic**:
 
@@ -89,7 +89,7 @@ This tool does not evaluate [IAM Conditions](https://docs.aws.amazon.com/IAM/lat
 
 Depending on how your organization approaches CloudWatch Logs Agent configuration, IAM, and CloudWatch Logs Group naming conventions, it is sometimes near-impossible to prevent cross-contamination of logs or Log Injection to the Log Streams from other instance IDs. Cross-Contamination of CloudWatch Logs is an issue of its own that is definitely beyond the scope of this document - but consider this as a potential limitation by AWS when trying to identify a remediation plan.
 
-<div id="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
+<div id="triage-building-the-exclusions-file"> <h5>Building the Exclusions File</h5></div>
 
 After you have identified the False Positives, add the False Positive criteria to your custom Cloudsplaining exclusions file. The False Positives generally fall into one of two categories:
 <div id="triage-guidance-considerations-pt3-bullet-points">
@@ -99,7 +99,7 @@ After you have identified the False Positives, add the False Positive criteria t
 </ul>
 </div>
 
-To make the exclusiond, create a YAML file that we will use to list out exclusions with the `create-exclusions-file` command.
+To make the exclusions file, create a YAML file that we will use to list out exclusions with the `create-exclusions-file` command.
 
 ```bash
 cloudsplaining create-exclusions-file

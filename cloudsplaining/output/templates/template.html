@@ -42,16 +42,81 @@
     <!-- Navbar -->
     <!------------------>
     <nav id="navbar" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
-      <a class="nav-link" href="#executive-summary">Summary</a>
-      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>
-      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>
+      <div class="container">
+
+      <a class="nav-link" href="#executive-summary">Executive Summary</a>
+<!--      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>-->
+<!--      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>-->
       <a class="navbar-brand" href="#"></a>
 
-      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>
-      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>
-      <a class="nav-link" href="#guidance">Guidance</a>
-      <a class="nav-link" href="#appendices">Appendix</a>
-      <br>
+<!--      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>-->
+<!--      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>-->
+<!--      <a class="nav-link" href="#guidance">Guidance</a>-->
+      <!--Findings Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonFindings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#customer-managed-policies-summary">Findings</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonFindings">
+          <a class="dropdown-item" href="#customer-managed-policies-summary">Results: Customer-Managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-policies-summary">Results: AWS-Managed policies</a>
+        </div>
+      </div>
+      <!--In-Depth Analysis Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonAnalysis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">In-Depth Analysis</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAnalysis">
+          <a class="dropdown-item" href="#customer-managed-in-depth-analysis">Analysis: Customer-managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-in-depth-analysis"> Analysis: AWS-managed policies</a>
+        </div>
+      </div>
+      <!--/Analysis dropdown-->
+
+      <!--Guidance Dropdown-->
+      <div class="nav-item dropdown ml-auto">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonGuidance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#guidance">Guidance</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonGuidance">
+          <!--Triage Guidance-->
+          <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>
+          <a class="dropdown-item" href="#triage-understanding-context">Context</a>
+          <a class="dropdown-item" href="#triage-assessment-recap">Assessment Recap</a>
+          <a class="dropdown-item" href="#triage-triaging-workflow">Triaging Workflow</a>
+          <a class="dropdown-item" href="#triage-triaging-considerations">Triaging Considerations</a>
+          <a class="dropdown-item" href="#triage-common-false-positive-scenarios">Common False Positive Scenarios</a>
+          <a class="dropdown-item" href="#triage-building-the-exclusions-file">Building the Exclusions File</a>
+          <div class="dropdown-divider"></div>
+          <!--Remediation Guidance-->
+          <a class="dropdown-item" href="#remediation-guidance"><b>Remediation</b></a>
+          <a class="dropdown-item" href="#remediation-prioritization">Prioritization</a>
+          <a class="dropdown-item" href="#remediation-technical-remediation">Technical Remediation</a>
+          <div class="dropdown-divider"></div>
+          <!--Validation Guidance-->
+          <a class="dropdown-item" href="#validation-guidance"><b>Validation</b></a>
+          <a class="dropdown-item" href="#validation-using-cloudsplaining">Using Cloudsplaining</a>
+          <a class="dropdown-item" href="#validation-using-parliament">Using Parliament</a>
+        </div>
+      </div>
+      <!--/guidance dropdown-->
+      <!--Appendix Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light" type="button" id="dropdownMenuButtonAppendix" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">Appendices
+            <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAppendix">
+          <a class="dropdown-item" href="#glossary">Glossary</a>
+          <a class="dropdown-item" href="#references">References</a>
+          <a class="dropdown-item" href="#exclusions">Exclusions Configuration</a>
+        </div>
+      </div>
+      <!--/Appendix dropdown-->
+
       <!--Include Collapse/Expand buttons in Navbar-->
       <button type="button" class="btn btn-outline-secondary" id="collapseAccordion">
         <span class="glyphicon glyphicon-collapse-down"></span>Collapse
@@ -60,6 +125,7 @@
         <span class="glyphicon glyphicon-collapse-up"></span>Expand
       </button>
         <br>
+      </div>
     </nav>
 
     <!-- Title section -->

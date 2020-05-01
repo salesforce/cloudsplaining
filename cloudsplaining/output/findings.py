@@ -90,6 +90,7 @@ class Finding:
 
     @property
     def assume_role_policy_document_json(self):
+        """Return the AssumeRole Policy in JSON"""
         if self.assume_role_policy_document:
             return self.assume_role_policy_document.json
         else:
