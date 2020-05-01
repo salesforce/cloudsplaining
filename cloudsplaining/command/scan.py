@@ -56,8 +56,16 @@ click_log.basic_config(logger)
     is_flag=True,
     help="Include 'read' or 'list' actions in the results. Defaults to 'modify' only actions",
 )
+@click.option(
+    "--skip-open-report",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Don't open the HTML report in the web browser after creating. "
+         "This helps when running the report in automation."
+)
 @click_log.simple_verbosity_option()
-def scan(file, exclusions_file, output, all_access_levels):
+def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -117,4 +125,4 @@ def scan(file, exclusions_file, output, all_access_levels):
     print(f"Raw data file saved: {str(raw_data_filepath)}")
 
     print("Creating the HTML Report")
-    generate_html_report(account_metadata, results, output_directory, exclusions_cfg)
+    generate_html_report(account_metadata, results, output_directory, exclusions_cfg, skip_open_report=skip_open_report)

@@ -154,9 +154,9 @@ Run the following command:
 cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
 ```
 
-It will create an HTML report like this:
+It will create an HTML report like [this](https://opensource.salesforce.com/cloudsplaining/):
 
-![](docs/_images/cloudsplaining-report.gif)
+> ![](docs/_images/cloudsplaining-report.gif)
 
 
 It will also create a raw JSON data file:
