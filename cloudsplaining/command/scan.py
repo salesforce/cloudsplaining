@@ -21,6 +21,7 @@ from cloudsplaining.shared.validation import (
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.output.data_file import write_results_data_file
+
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
 
@@ -62,7 +63,7 @@ click_log.basic_config(logger)
     default=False,
     is_flag=True,
     help="Don't open the HTML report in the web browser after creating. "
-         "This helps when running the report in automation."
+    "This helps when running the report in automation.",
 )
 @click_log.simple_verbosity_option()
 def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
@@ -90,14 +91,18 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
             "constraints..."
         )
         authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-        results = authorization_details.missing_resource_constraints(exclusions_cfg, modify_only=False)
+        results = authorization_details.missing_resource_constraints(
+            exclusions_cfg, modify_only=False
+        )
     else:
         logger.debug(
             "--all-access-levels NOT selected. Identifying modify-only actions that are not leveraging "
             "resource constraints..."
         )
         authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-        results = authorization_details.missing_resource_constraints(exclusions_cfg, modify_only=True)
+        results = authorization_details.missing_resource_constraints(
+            exclusions_cfg, modify_only=True
+        )
 
     account_name = Path(file).stem
 
@@ -115,8 +120,10 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
     account_metadata = {
         "account_name": account_name,
         "account_id": account_id,
-        "customer_managed_policies": len(authorization_details.customer_managed_policies_in_use),
-        "aws_managed_policies": len(authorization_details.aws_managed_policies_in_use)
+        "customer_managed_policies": len(
+            authorization_details.customer_managed_policies_in_use
+        ),
+        "aws_managed_policies": len(authorization_details.aws_managed_policies_in_use),
     }
 
     # Raw data file
@@ -125,4 +132,10 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
     print(f"Raw data file saved: {str(raw_data_filepath)}")
 
     print("Creating the HTML Report")
-    generate_html_report(account_metadata, results, output_directory, exclusions_cfg, skip_open_report=skip_open_report)
+    generate_html_report(
+        account_metadata,
+        results,
+        output_directory,
+        exclusions_cfg,
+        skip_open_report=skip_open_report,
+    )

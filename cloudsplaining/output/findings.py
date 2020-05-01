@@ -5,8 +5,10 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from policy_sentry.util.arns import get_account_from_arn
+from policy_sentry.util.arns import get_account_from_arn, get_resource_string
+from cloudsplaining.shared.utils import capitalize_first_character
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
+
 logger = logging.getLogger(__name__)
 
 
@@ -39,11 +41,20 @@ class Findings:
 
 class Finding:
     """Holds details on individual findings, including the original Policy Document in question."""
-    def __init__(self, policy_name, arn, actions, policy_document):
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        assume_role_policy_document=None,
+    ):
         self.policy_name = policy_name
         self.arn = arn
         self.actions = actions
         self.policy_document = policy_document
+        self.assume_role_policy_document = assume_role_policy_document
 
     @property
     def managed_by(self):
@@ -78,8 +89,28 @@ class Finding:
         return services_affected
 
     @property
+    def assume_role_policy_document_json(self):
+        """Return the AssumeRole Policy in JSON"""
+        if self.assume_role_policy_document:
+            return self.assume_role_policy_document.json
+        else:
+            return None
+
+    @property
+    def role_assumable_by_compute_services(self):
+        """Determines whether or not the role is assumed from a compute service, and if so which ones."""
+        if self.assume_role_policy_document:
+            compute_services = (
+                self.assume_role_policy_document.role_assumable_by_compute_services
+            )
+            return compute_services
+        else:
+            return []
+
+    @property
     def permissions_management_actions_without_constraints(self):
-        """Return a list of actions that could cause resource exposure via actions at the 'Permissions management' access level, if applicable."""
+        """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
+        access level, if applicable. """
         return self.policy_document.permissions_management_without_constraints
 
     @property
@@ -90,7 +121,9 @@ class Finding:
     @property
     def data_leak_actions(self):
         """Return a list of actions that could cause data exfiltration, if applicable."""
-        return self.policy_document.allows_specific_actions_without_constraints(READ_ONLY_DATA_LEAK_ACTIONS)
+        return self.policy_document.allows_specific_actions_without_constraints(
+            READ_ONLY_DATA_LEAK_ACTIONS
+        )
 
     @property
     def json(self):
@@ -99,6 +132,7 @@ class Finding:
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
             "PolicyName": self.policy_name,
+            "Type": capitalize_first_character(get_resource_string(self.arn).split("/")[0]),
             "Arn": self.arn,
             # "ActionsCount": self.actions_count,
             # "ServicesCount": self.services_count,
@@ -107,10 +141,13 @@ class Finding:
             "Services": self.services_affected,
             "Actions": self.actions,
             "PolicyDocument": self.policy_document.json,
+            "AssumeRolePolicyDocument": self.assume_role_policy_document_json,
             # These items help with prioritizing triage and remediation.
+            "AssumableByComputeService": self.role_assumable_by_compute_services,
             "PrivilegeEscalation": self.privilege_escalation,
             "DataExfiltrationActions": self.data_leak_actions,
             "PermissionsManagementActions": self.permissions_management_actions_without_constraints,
+            # Separate the "Write" and "Tagging" actions in the machine-readable output only
             "WriteActions": self.policy_document.write_actions_without_constraints,
             "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }

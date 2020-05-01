@@ -55,9 +55,7 @@ class PolicyDetail:
         policy_document = {}
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
-                policy_document = PolicyDocument(
-                    policy_version.get("Document")
-                )
+                policy_document = PolicyDocument(policy_version.get("Document"))
         return policy_document
 
     # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.

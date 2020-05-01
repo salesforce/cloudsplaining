@@ -1,12 +1,15 @@
 <div class="card">
-  <h6 class="card-header" id="{{ finding['PolicyName'] }}">Policy: {{ finding["PolicyName"] }}</h6>
+  <h6 class="card-header" id="{{ finding['PolicyName'] }}">{{ finding["Type"] }}: {{ finding["PolicyName"] }}</h6>
     <div class="card-body">
     <p class="card-text">
-    <ul>
-      <li> Services: {{ finding["ServicesCount"] }}</li>
-      <li> Actions: {{ finding["ActionsCount"] }}</li>
-      <li> ARN: {{ finding["Arn"] }}</li>
-    </ul>
+      Services: {{ finding["ServicesCount"] }}
+      <br>
+      Infrastructure Modification Actions: {{ finding["ActionsCount"] }}
+      <br>
+    {% if finding["AssumableByComputeService"]|length > 0 %}
+      Role Assumable by Service(s): {% for service in finding["AssumableByComputeService"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %}
+    {% endif %}
+    </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         {% if finding["PrivilegeEscalation"]|length > 0 %}
@@ -17,6 +20,9 @@
         {% endif %}
         {% if finding["PermissionsManagementActions"]|length > 0 %}
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
+        {% endif %}
+        {% if finding["AssumableByComputeService"]|length > 0 %}
+          <div class="alert alert-info" role="alert">Role Assumable by Compute Service</div>
         {% endif %}
       </div><!-- /card-footer -->
    </div><!-- /card -->

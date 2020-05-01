@@ -1,7 +1,18 @@
 <div class="card-body">
   <div class="grid">
       <div class="row">
+        {% if finding["AssumableByComputeService"]|length > 0 %}
+        <!--Role Assumable by Compute Services-->
+        <div class="col-sm border">
+  Assumable by Compute Services <a href="#definition-roles-assumable-by-compute-services"><small>[link]</small></a>
+          <pre><code>
+{% for service in finding["AssumableByComputeService"] %}
+- {{ service }}{% endfor %}
+          </code></pre>
+        </div>
+        {% endif %}
         {% if finding["PrivilegeEscalation"]|length > 0 %}
+        <!--Privilege Escalation-->
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
             <pre><code>
@@ -14,6 +25,7 @@ Actions:{% for action in dict_item["actions"] %}
         </div>
         {% endif %}
         {% if finding["DataExfiltrationActions"]|length > 0 %}
+        <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
@@ -22,6 +34,7 @@ Actions:{% for action in dict_item["actions"] %}
         </div>
         {% endif %}
         {% if finding["PermissionsManagementActions"]|length > 0 %}
+        <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>

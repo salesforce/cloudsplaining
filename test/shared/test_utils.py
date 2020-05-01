@@ -25,23 +25,3 @@ class TestUtils(unittest.TestCase):
         expected_result = ['ecr:PutImage']
         self.assertListEqual(result, expected_result)
 
-    def test_temp(self):
-        priv_esc_actions = [
-            {
-                "actions": [
-                    "iam:createaccesskey"
-            ],
-                "type": "CreateAccessKey"
-            },
-            {
-                "actions": [
-                    "iam:passrole",
-                    "ec2:runinstances"
-                ],
-                "type": "CreateEC2WithExistingIP"
-            }
-        ]
-        for item in priv_esc_actions:
-            print(item["type"])
-            for action in item["actions"]:
-                print(action)

@@ -24,6 +24,7 @@
     body {
         position: relative;
     }
+
    </style>
 
 </head>
@@ -40,16 +41,82 @@
     <!------------------>
     <!-- Navbar -->
     <!------------------>
-    <nav id="navbar-example2" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
-      <a class="nav-link" href="#executive-summary">Summary</a>
-      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>
-      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>
+    <nav id="navbar" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
+      <div class="container">
+
+      <a class="nav-link" href="#executive-summary">Executive Summary</a>
+<!--      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>-->
+<!--      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>-->
       <a class="navbar-brand" href="#"></a>
-      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>
-      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>
-      <a class="nav-link" href="#guidance">Guidance</a>
-      <a class="nav-link" href="#appendices">Appendix</a>
-      <br>
+
+<!--      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>-->
+<!--      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>-->
+<!--      <a class="nav-link" href="#guidance">Guidance</a>-->
+      <!--Findings Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonFindings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#customer-managed-policies-summary">Findings</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonFindings">
+          <a class="dropdown-item" href="#customer-managed-policies-summary">Results: Customer-Managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-policies-summary">Results: AWS-Managed policies</a>
+        </div>
+      </div>
+      <!--In-Depth Analysis Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonAnalysis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">In-Depth Analysis</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAnalysis">
+          <a class="dropdown-item" href="#customer-managed-in-depth-analysis">Analysis: Customer-managed policies</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#aws-managed-in-depth-analysis"> Analysis: AWS-managed policies</a>
+        </div>
+      </div>
+      <!--/Analysis dropdown-->
+
+      <!--Guidance Dropdown-->
+      <div class="nav-item dropdown ml-auto">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButtonGuidance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#guidance">Guidance</a>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonGuidance">
+          <!--Triage Guidance-->
+          <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>
+          <a class="dropdown-item" href="#triage-understanding-context">Context</a>
+          <a class="dropdown-item" href="#triage-assessment-recap">Assessment Recap</a>
+          <a class="dropdown-item" href="#triage-triaging-workflow">Triaging Workflow</a>
+          <a class="dropdown-item" href="#triage-triaging-considerations">Triaging Considerations</a>
+          <a class="dropdown-item" href="#triage-common-false-positive-scenarios">Common False Positive Scenarios</a>
+          <a class="dropdown-item" href="#triage-building-the-exclusions-file">Building the Exclusions File</a>
+          <div class="dropdown-divider"></div>
+          <!--Remediation Guidance-->
+          <a class="dropdown-item" href="#remediation-guidance"><b>Remediation</b></a>
+          <a class="dropdown-item" href="#remediation-prioritization">Prioritization</a>
+          <a class="dropdown-item" href="#remediation-technical-remediation">Technical Remediation</a>
+          <div class="dropdown-divider"></div>
+          <!--Validation Guidance-->
+          <a class="dropdown-item" href="#validation-guidance"><b>Validation</b></a>
+          <a class="dropdown-item" href="#validation-using-cloudsplaining">Using Cloudsplaining</a>
+          <a class="dropdown-item" href="#validation-using-parliament">Using Parliament</a>
+        </div>
+      </div>
+      <!--/guidance dropdown-->
+      <!--Appendix Dropdown-->
+      <div class="nav-item dropdown">
+        <button class="btn btn-light" type="button" id="dropdownMenuButtonAppendix" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a href="#appendices">Appendices
+            <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAppendix">
+          <a class="dropdown-item" href="#glossary">Glossary</a>
+          <a class="dropdown-item" href="#references">References</a>
+          <a class="dropdown-item" href="#exclusions">Exclusions Configuration</a>
+        </div>
+      </div>
+      <!--/Appendix dropdown-->
+
       <!--Include Collapse/Expand buttons in Navbar-->
       <button type="button" class="btn btn-outline-secondary" id="collapseAccordion">
         <span class="glyphicon glyphicon-collapse-down"></span>Collapse
@@ -58,6 +125,7 @@
         <span class="glyphicon glyphicon-collapse-up"></span>Expand
       </button>
         <br>
+      </div>
     </nav>
 
     <!-- Title section -->
@@ -67,12 +135,12 @@
             <p>
             <!--High level metadata - Account Name, Account ID and Report Generation date-->
             <ul>
-              <li>Account: example (012345678901)</li>
+              <li>Account: fake (000011112222)</li>
               <li>Report Generated: 2020-05-01</li>
             </ul>
             <br>
             <!-- /High level metadata-->
-          <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+          <div data-spy="scroll" data-target="#navbar" data-offset="50">
 
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
@@ -81,6 +149,8 @@
   Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
 <br>
 <br>
+<div class="row">
+<div class="col-md-6">
 <h4>Risk Summary</h4>
 <table class="table table-striped w-auto table-sm" style="border-radius: 10px">
 <thead>
@@ -121,6 +191,8 @@
   </tbody>
 </table>
 <br>
+</div>
+</div>
 
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Summary: Customer-managed Policies</h3>
@@ -996,7 +1068,18 @@
            <div id="card-element-customer-trust-policy20" class="panel-collapse collapse">
             <div class="card-body">
               <pre><code>
-{'Version': '2012-10-17', 'Statement': [{'Effect': 'Allow', 'Principal': {'Service': 'ec2.amazonaws.com'}, 'Action': 'sts:AssumeRole'}]}
+{
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            }
+        }
+    ],
+    "Version": "2012-10-17"
+}
               </code></pre>
             </div>
            </div>
@@ -1139,7 +1222,18 @@
            <div id="card-element-customer-trust-policy21" class="panel-collapse collapse">
             <div class="card-body">
               <pre><code>
-{'Version': '2012-10-17', 'Statement': [{'Effect': 'Allow', 'Principal': {'Service': 'ec2.amazonaws.com'}, 'Action': 'sts:AssumeRole'}]}
+{
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            }
+        }
+    ],
+    "Version": "2012-10-17"
+}
               </code></pre>
             </div>
            </div>
@@ -8462,7 +8556,7 @@ Actions:
 <!--Guidance: Triaging-->
 <h3 id="triage-guidance">Triaging</h3>
 <p>
-<div id="triage-guidance-description"> <h5>Understanding Context</h5></div>
+<div id="triage-understanding-context"> <h5>Understanding Context</h5></div>
 
 <p>It's essential to understand the context behind the findings that the report generates. Understanding the context behind the findings aids the assessor in triaging the results accurately.</p>
 <p>This report generates findings on Policies that do not leverage resource constraints and identifies some attributes to help prioritize which ones to address - such as Privilege Escalation, Resource Exposure, and Data Exfiltration. These results help you to identify your IAM threat landscape and reduce blast radius. In the event of credential compromise, you can prevent an attacker from exploiting the risks mentioned above, in addition to preventing mass deletion, destruction, or modification of existing infrastructure.</p>
@@ -8478,7 +8572,7 @@ Actions:
 <li> Provide a sufficient exclusions mechanism to programmatically define where deviations from resource constraints are by design</li>
 </ul>
 </div></p>
-<div id="triage-guidance-recap"> <h5>Recap: Assessment</h5></div>
+<div id="triage-assessment-recap"> <h5>Assessment Recap</h5></div>
 
 <p>To recap: you've followed these steps to generate this report:</p>
 <div id="triage-guidance-recap-bullet-points">
@@ -8497,7 +8591,7 @@ Actions:
 </ul>
 </div>
 
-<div id="triage-guidance-workflow"> <h5>Triaging workflow</h5></div>
+<div id="triage-triaging-workflow"> <h5>Triaging workflow</h5></div>
 
 <p>An assessor can follow this general workflow:</p>
 <ul>
@@ -8511,7 +8605,7 @@ Actions:
 <p>As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.</p>
 </blockquote>
-<div id="triage-guidance-considerations"> <h5>Triaging considerations</h5></div>
+<div id="triage-triaging-considerations"> <h5>Triaging considerations</h5></div>
 
 <p>When triaging your results, consider some of the factors listed below as you identify False Positives vs. legitimate findings. <strong>There are some scenarios where <code>"Resource": "*"</code> access is by design and is therefore a false positive. This section covers some of the common scenarios.</strong></p>
 <p><strong>Infrastructure Creation roles</strong>:</p>
@@ -8527,13 +8621,13 @@ We request that you review the HTML report and fill out the "Justification" fiel
 </div></p>
 <p><strong>Organization-specific results</strong></p>
 <p>For example, perhaps you allow kms:Decrypt for * resources (by design) in your organization for one reason or another. Cloudsplaining flags this as a result. However, there are mitigating controls in place. Firstly, you leverage strict resource-based KMS key policies to lock down all KMS keys, explicitly stating individual IAM principals that are allowed to use them. Secondly, you provision all KMS keys with CloudFormation or Terraform, so you are confident that this pattern is consistent across all KMS keys in your AWS accounts. Therefore, <code>kms:Decrypt</code> to <code>*</code> resources is not a finding you are concerned about. In this case, you decide it is acceptable to exclude <code>kms:Decrypt</code> from your results.</p>
-<div id="triage-guidance-considerations-pt2"> <h5>Common False Positive Scenarios</h5></div>
+<div id="triage-common-false-positive-scenarios"> <h5>Common False Positive Scenarios</h5></div>
 
 <p><strong>Conditions Logic</strong>:</p>
 <p>This tool does not evaluate <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html">IAM Conditions</a> logic. If your policies use wildcard resources but restrict according to condition keys, then it's possible this is a false positive. However, you might want to double-check the accuracy of the conditions logic in those IAM policies. While IAM conditions can be extremely powerful, implementation is also prone to human error. We suggest leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo Labs</a> (courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>), to lint your policies for accuracy - especially when IAM conditions are in use.</p>
 <p><strong><code>logs:CreateLogGroup</code> and <code>logs:PutLogEvent</code></strong>:</p>
 <p>Depending on how your organization approaches CloudWatch Logs Agent configuration, IAM, and CloudWatch Logs Group naming conventions, it is sometimes near-impossible to prevent cross-contamination of logs or Log Injection to the Log Streams from other instance IDs. Cross-Contamination of CloudWatch Logs is an issue of its own that is definitely beyond the scope of this document - but consider this as a potential limitation by AWS when trying to identify a remediation plan.</p>
-<div id="triage-guidance-considerations-pt3"> <h5>Building the Exclusions File</h5></div>
+<div id="triage-building-the-exclusions-file"> <h5>Building the Exclusions File</h5></div>
 
 <p>After you have identified the False Positives, add the False Positive criteria to your custom Cloudsplaining exclusions file. The False Positives generally fall into one of two categories:
 <div id="triage-guidance-considerations-pt3-bullet-points">
@@ -8542,7 +8636,7 @@ We request that you review the HTML report and fill out the "Justification" fiel
   <li>False positives specific to this AWS account</li>
 </ul>
 </div></p>
-<p>To make the exclusiond, create a YAML file that we will use to list out exclusions with the <code>create-exclusions-file</code> command.</p>
+<p>To make the exclusions file, create a YAML file that we will use to list out exclusions with the <code>create-exclusions-file</code> command.</p>
 <pre><code class="bash">cloudsplaining create-exclusions-file
 </code></pre>
 
@@ -8595,7 +8689,7 @@ exclude-actions:
 <!--Guidance: Remediation-->
 <h3 id="remediation-guidance">Remediation</h3>
 <p>
-<div id="remediation-guidance-pt1"> <h5>Prioritizing Remediation</h5></div>
+<div id="remediation-prioritization"> <h5>Prioritizing Remediation</h5></div>
 
 <p>Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.</p>
 <p><strong>High priority risks</strong>:</p>
@@ -8603,7 +8697,7 @@ exclude-actions:
 <p><strong>Moving from AWS Managed Policies over to custom policies</strong>:</p>
 <p>AWS managed policies always include access to <code>*</code> resources because AWS provides these same policies universally to all customer accounts. If this report flags  any AWS-managed policies, it means that the account/service owner team will not only have to implement resource constraints - they will have to create a custom IAM policy to do so. To limit this work, it is best to migrate away from the root cause of the problem - using AWS managed policies.</p>
 <p>You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.</p>
-<div id="remediation-guidance-pt2"> <h5>Remediating the Findings</h5></div>
+<div id="remediation-technical-remediation"> <h5>Remediating the Findings</h5></div>
 
 <p>We suggest two options for remediating each finding:
 <div id="remediation-guidance-pt2-bullet-points">
@@ -8639,12 +8733,12 @@ exclude-actions:
 </ul>
 </div>
 
-<div id="validation-guidance-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
+<div id="validation-using-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
 
 <p>You can validate that your remediated policy passes Cloudsplaining by running the following command:</p>
 <p><code>cloudsplaining scan-policy-file --file policy.json --exclusions-file exclusions.yml</code></p>
 <p>When there are no more results, it passes!</p>
-<div id="validation-guidance-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
+<div id="validation-using-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
 
 <p>parliament is an AWS IAM linting library. It reviews policies looking for problems such as:</p>
 <div id="validation-guidance-pt2-bullet-points">
