@@ -15,11 +15,13 @@ from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
-def generate_html_report(account_metadata, results, output_directory, exclusions_cfg, skip_open_report=False):
+def generate_html_report(
+    account_metadata, results, output_directory, exclusions_cfg, skip_open_report=False
+):
     """Create IAM HTML report"""
 
-    account_id = account_metadata.get('account_id')
-    account_name = account_metadata.get('account_name')
+    account_id = account_metadata.get("account_id")
+    account_name = account_metadata.get("account_name")
     html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
     sorted_results = sorted(results, key=lambda i: i["PolicyName"])
 
@@ -42,24 +44,65 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
     # We are using markdown because it's just an easier way to modify the general reusable text content.
     # https://python-markdown.github.io/extensions/md_in_html/
     # 1. Overview
-    overview_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "1-overview.md"), mode="r", encoding="utf-8")
-    overview_html = markdown.markdown(overview_file.read(), extensions=["markdown.extensions.extra"])
+    overview_file = codecs.open(
+        os.path.join(
+            os.path.dirname(__file__), "templates", "guidance", "1-overview.md"
+        ),
+        mode="r",
+        encoding="utf-8",
+    )
+    overview_html = markdown.markdown(
+        overview_file.read(), extensions=["markdown.extensions.extra"]
+    )
 
     # 2. Triage guidance
-    triage_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "2-triage-guidance.md"), mode="r", encoding="utf-8")
-    triage_guidance_html = markdown.markdown(triage_guidance_file.read(), extensions=["markdown.extensions.extra"])
+    triage_guidance_file = codecs.open(
+        os.path.join(
+            os.path.dirname(__file__), "templates", "guidance", "2-triage-guidance.md"
+        ),
+        mode="r",
+        encoding="utf-8",
+    )
+    triage_guidance_html = markdown.markdown(
+        triage_guidance_file.read(), extensions=["markdown.extensions.extra"]
+    )
 
     # 3. Remediation Guidance
-    remediation_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "3-remediation-guidance.md"), mode="r", encoding="utf-8")
-    remediation_guidance_html = markdown.markdown(remediation_guidance_file.read(), extensions=["markdown.extensions.extra"])
+    remediation_guidance_file = codecs.open(
+        os.path.join(
+            os.path.dirname(__file__),
+            "templates",
+            "guidance",
+            "3-remediation-guidance.md",
+        ),
+        mode="r",
+        encoding="utf-8",
+    )
+    remediation_guidance_html = markdown.markdown(
+        remediation_guidance_file.read(), extensions=["markdown.extensions.extra"]
+    )
 
     # 4. Validation
-    validation_guidance_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "4-validation.md"), mode="r", encoding="utf-8")
-    validation_guidance_html = markdown.markdown(validation_guidance_file.read(), extensions=["markdown.extensions.extra"])
+    validation_guidance_file = codecs.open(
+        os.path.join(
+            os.path.dirname(__file__), "templates", "guidance", "4-validation.md"
+        ),
+        mode="r",
+        encoding="utf-8",
+    )
+    validation_guidance_html = markdown.markdown(
+        validation_guidance_file.read(), extensions=["markdown.extensions.extra"]
+    )
 
     # 5. Glossary
-    glossary_file = codecs.open(os.path.join(os.path.dirname(__file__), "templates", "guidance", "glossary.md"), mode="r", encoding="utf-8")
-    glossary_html = markdown.markdown(glossary_file.read(), extensions=["markdown.extensions.extra"])
+    glossary_file = codecs.open(
+        os.path.join(os.path.dirname(__file__), "templates", "guidance", "glossary.md"),
+        mode="r",
+        encoding="utf-8",
+    )
+    glossary_html = markdown.markdown(
+        glossary_file.read(), extensions=["markdown.extensions.extra"]
+    )
 
     # Formatted results to feed into the HTML
     iam_report_results_formatted = {
@@ -76,12 +119,12 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
         "policies_with_data_leak_potential": policies_with_data_leak_potential,
         "policies_with_privilege_escalation": policies_with_privilege_escalation,
         "policies_with_permissions_management": policies_with_permissions_management,
-        "exclusions_configuration": yaml.dump(exclusions_cfg)
+        "exclusions_configuration": yaml.dump(exclusions_cfg),
     }
 
     # HTML Report template
     template_path = os.path.join(os.path.dirname(__file__), "templates")
-    env = Environment(loader=FileSystemLoader(template_path))  #nosec
+    env = Environment(loader=FileSystemLoader(template_path))  # nosec
     template = env.get_template("template.html")
     with open(html_output_file, "w") as f:
         f.write(template.render(t=iam_report_results_formatted))
@@ -90,8 +133,8 @@ def generate_html_report(account_metadata, results, output_directory, exclusions
 
     # Open the report by default
     if not skip_open_report:
-        print('Opening the HTML report')
-        url = 'file://%s' % os.path.abspath(html_output_file)
+        print("Opening the HTML report")
+        url = "file://%s" % os.path.abspath(html_output_file)
         webbrowser.open(url, new=2)
 
     # Create the CSV triage sheet

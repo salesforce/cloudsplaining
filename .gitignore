@@ -14,11 +14,12 @@ Pipfile.lock
 
 iam-report-fake-000011112222.html
 iam-triage-fake-000011112222.csv
-iam-report-fake.html
+#index.html
 iam-triage-fake.csv
 iam-results-example.json
 iam-triage-example.csv
 iam-report-example.html
+iam-report-fake.html
 
 ## ReadTheDocs
 site/

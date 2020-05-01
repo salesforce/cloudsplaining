@@ -1,7 +1,9 @@
 from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 import os
+import webbrowser
 import json
+import shutil
 
 example_results_file = os.path.abspath(os.path.join(
         os.path.dirname(__file__),
@@ -25,7 +27,11 @@ def generate_example_report():
         "aws_managed_policies": 30,  # Fake value
     }
 
-    generate_html_report(account_metadata, example_results, output_directory, DEFAULT_EXCLUSIONS_CONFIG)
+    generate_html_report(account_metadata, example_results, output_directory, DEFAULT_EXCLUSIONS_CONFIG, skip_open_report=True)
+    index_output_file = os.path.join(output_directory, "index.html")
+    shutil.copyfile(os.path.join(output_directory, "iam-report-fake.html"), index_output_file)
+    url = "file://%s" % os.path.abspath(index_output_file)
+    webbrowser.open(url, new=2)
 
 
 if __name__ == '__main__':

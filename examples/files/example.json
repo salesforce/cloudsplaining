@@ -127,7 +127,7 @@
           {
             "Effect": "Allow",
             "Principal": {
-              "Service": "ssm.amazonaws.com"
+              "Service": "ec2.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
           }
@@ -136,7 +136,7 @@
       "InstanceProfileList": [],
       "RolePolicyList": [
         {
-          "PolicyName": "SupYo",
+          "PolicyName": "MyOtherRolePolicy",
           "PolicyDocument": {
             "Version": "2012-10-17",
             "Statement": [
@@ -162,7 +162,82 @@
       "AttachedManagedPolicies": [],
       "Tags": [],
       "RoleLastUsed": {}
-    }
+    },
+    {
+            "Path": "/",
+            "RoleName": "OverprivilegedEC2",
+            "RoleId": "OverprivilegedEC2",
+            "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+            "CreateDate": "2018-08-20 18:48:00+00:00",
+            "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": "ec2.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                    }
+                ]
+            },
+            "InstanceProfileList": [
+                {
+                    "Path": "/",
+                    "InstanceProfileName": "OverprivilegedEC2",
+                    "InstanceProfileId": "OverprivilegedEC2",
+                    "Arn": "arn:aws:iam::012345678901:instance-profile/OverprivilegedEC2",
+                    "CreateDate": "2018-08-20 18:48:00+00:00",
+                    "Roles": [
+                        {
+                            "Path": "/",
+                            "RoleName": "OverprivilegedEC2",
+                            "RoleId": "OverprivilegedEC2",
+                            "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+                            "CreateDate": "2018-08-20 18:48:00+00:00",
+                            "AssumeRolePolicyDocument": {
+                                "Version": "2012-10-17",
+                                "Statement": [
+                                    {
+                                        "Effect": "Allow",
+                                        "Principal": {
+                                            "Service": "ec2.amazonaws.com"
+                                        },
+                                        "Action": "sts:AssumeRole"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "RolePolicyList": [
+              {
+                "PolicyName": "OverprivilegedEC2",
+                "PolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Sid": "VisualEditor0",
+                      "Effect": "Allow",
+                      "Action": [
+                        "secretsmanager:GetSecretValue",
+                        "s3:GetObject",
+                        "iam:CreateAccessKey"
+                      ],
+                      "Resource": "*"
+                    }
+                  ]
+                }
+              }
+            ],
+            "AttachedManagedPolicies": [
+                {
+                    "PolicyName": "InsecurePolicy",
+                    "PolicyArn": "arn:aws:iam::115657980943:policy/InsecurePolicy"
+                }
+            ]
+        }
   ],
   "Policies": [
     {

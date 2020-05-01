@@ -24,6 +24,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "AccountID": "N/A",
                 "ManagedBy": "Customer",
                 "PolicyName": "test",
+                "Type": "",
                 "Arn": "test",
                 "ActionsCount": 4,
                 "ServicesCount": 1,
@@ -70,6 +71,8 @@ class PolicyFileTestCase(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
                 "PermissionsManagementActions": [],
@@ -83,5 +86,5 @@ class PolicyFileTestCase(unittest.TestCase):
             }
         ]
         results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)

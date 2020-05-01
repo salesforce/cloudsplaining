@@ -63,3 +63,25 @@ class TestPrincipal(unittest.TestCase):
         principal_detail = auth_details_json["UserDetailList"][1]
         user_principal = Principal(principal_detail)
         self.assertEqual(user_principal.account_id, "012345678901")
+
+
+class TestPrincipalTrustPolicies(unittest.TestCase):
+    def test_principal_assume_role_policy_document_json(self):
+        """scan.principals.Principal.assume_role_policy_document.json"""
+        principal_detail = auth_details_json["RoleDetailList"][2]
+        # print(json.dumps(principal_detail, indent=4))
+        role_principal = Principal(principal_detail)
+        expected_result = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }
+        # print(json.dumps(role_principal.assume_role_policy_document.json, indent=4))
+        self.assertDictEqual(role_principal.assume_role_policy_document.json, expected_result)

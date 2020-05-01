@@ -62,8 +62,10 @@ class PolicyDocument:
             if statement.not_action:
                 not_action_statements.append(statement.json)
                 if not statement.has_resource_constraints and statement.effect_allow:
-                    print(f"{RED}\tNOTE: The policy has Effect=Allow and uses NotAction without any resource "
-                          f"constraints: {statement.json}{RESET}")
+                    print(
+                        f"{RED}\tNOTE: The policy has Effect=Allow and uses NotAction without any resource "
+                        f"constraints: {statement.json}{RESET}"
+                    )
         return not_action_statements
 
     @property
@@ -74,10 +76,14 @@ class PolicyDocument:
         """
         escalations = []
         # all_allowed_actions_lowercase = [x.lower() for x in self.all_allowed_actions]
-        all_allowed_unrestricted_actions_lowercase = [x.lower() for x in self.all_allowed_unrestricted_actions]
+        all_allowed_unrestricted_actions_lowercase = [
+            x.lower() for x in self.all_allowed_unrestricted_actions
+        ]
         for key in PRIVILEGE_ESCALATION_METHODS:
-            if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_unrestricted_actions_lowercase):
-            # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
+            if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(
+                all_allowed_unrestricted_actions_lowercase
+            ):
+                # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
                 escalation = {"type": key, "actions": PRIVILEGE_ESCALATION_METHODS[key]}
                 escalations.append(escalation)
         return escalations
@@ -89,7 +95,9 @@ class PolicyDocument:
         result = []
         for statement in self.statements:
             if statement.permissions_management_actions_without_constraints:
-                result.extend(statement.permissions_management_actions_without_constraints)
+                result.extend(
+                    statement.permissions_management_actions_without_constraints
+                )
         return result
 
     @property
@@ -130,4 +138,6 @@ class PolicyDocument:
     @property
     def allows_data_leak_actions(self):
         """If any 'Data leak' actions are allowed without resource constraints, return those actions."""
-        return self.allows_specific_actions_without_constraints(READ_ONLY_DATA_LEAK_ACTIONS)
+        return self.allows_specific_actions_without_constraints(
+            READ_ONLY_DATA_LEAK_ACTIONS
+        )

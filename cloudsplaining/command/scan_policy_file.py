@@ -47,7 +47,7 @@ END = "\033[0m"
     default=False,
     is_flag=True,
     help="If issues are found, only print the high priority risks"
-         " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
+    " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
 @click_log.simple_verbosity_option(logger)
 def scan_policy_file(file, exclusions_file, high_priority_only):
@@ -80,10 +80,14 @@ def scan_policy_file(file, exclusions_file, high_priority_only):
                 print(f"  Actions: {', '.join(item['PrivilegeEscalation'])}\n")
         if finding["DataExfiltrationActions"]:
             print(f"{RED}Issue found: Data Exfiltration{END}")
-            print(f"{BOLD}Actions{END}: {', '.join(finding['DataExfiltrationActions'])}\n")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(finding['DataExfiltrationActions'])}\n"
+            )
         if finding["PermissionsManagementActions"]:
             print(f"{RED}Issue found: Resource Exposure{END}")
-            print(f"{BOLD}Actions{END}: {', '.join(finding['PermissionsManagementActions'])}\n")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(finding['PermissionsManagementActions'])}\n"
+            )
         if not high_priority_only:
             print(f"{RED}Issue found: Unrestricted Infrastructure Modification{END}")
             print(f"{BOLD}Actions{END}: {', '.join(finding['Actions'])}")
@@ -117,7 +121,10 @@ def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONF
     for statement in policy_document.statements:
         if statement.effect == "Allow":
             actions_missing_resource_constraints.extend(
-                statement.missing_resource_constraints_for_modify_actions(always_include_actions))
+                statement.missing_resource_constraints_for_modify_actions(
+                    always_include_actions
+                )
+            )
     if actions_missing_resource_constraints:
         results_placeholder = []
         for action in actions_missing_resource_constraints:
@@ -126,13 +133,15 @@ def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONF
                     results_placeholder.append(action)
             else:
                 results_placeholder.append(action)
-        actions_missing_resource_constraints = list(dict.fromkeys(results_placeholder))  # remove duplicates
+        actions_missing_resource_constraints = list(
+            dict.fromkeys(results_placeholder)
+        )  # remove duplicates
         actions_missing_resource_constraints.sort()
         finding = Finding(
             policy_name=policy_name,
             arn=policy_name,
             actions=actions_missing_resource_constraints,
-            policy_document=policy_document
+            policy_document=policy_document,
         )
         findings.add(finding)
     return findings.json

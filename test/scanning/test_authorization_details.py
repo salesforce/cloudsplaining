@@ -130,6 +130,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "AccountID": "012345678901",
                 "ManagedBy": "Customer",
                 "PolicyName": "NotYourPolicy",
+                "Type": "Policy",
                 "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
                 "ActionsCount": 3,
                 "ServicesCount": 1,
@@ -159,6 +160,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
                 "PermissionsManagementActions": [],
@@ -173,6 +176,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "AccountID": "012345678901",
                 "ManagedBy": "Customer",
                 "PolicyName": "PolicyForTestingOverrides",
+                "Type": "Policy",
                 "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
                 "ActionsCount": 2,
                 "ServicesCount": 1,
@@ -209,6 +213,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [
                     "s3:GetObject"

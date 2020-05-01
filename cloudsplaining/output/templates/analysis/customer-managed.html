@@ -21,7 +21,7 @@
       </div>
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">IAM Actions to address</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">Infrastructure Modification Actions</a>
         </div>
         <div id="card-element-customer-action{{ t['results'].index(finding) }}" class="panel-collapse collapse">
           <div class="card-body">
@@ -31,10 +31,28 @@
           </div>
         </div>
       </div>
+     <!--Trust Policy Document-->
+      {% if finding["AssumableByComputeService"]|length > 0 %}
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-trust-policy{{ t['results'].index(finding) }}">Trust Policy Document</a>
+           </div>
+           <div id="card-element-customer-trust-policy{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+{{ finding["AssumeRolePolicyDocument"]  | tojson(indent=4) }}
+              </code></pre>
+            </div>
+           </div>
+        </div>
+      {% endif %}
+     <!--/end Trust Policy Document-->
       {% if finding["PrivilegeEscalation"]|length > 0 or
-         finding["DataExfiltrationActions"]|length > 0 or
-        finding["PermissionsManagementActions"]|length > 0
+        finding["DataExfiltrationActions"]|length > 0 or
+        finding["PermissionsManagementActions"]|length > 0 or
+        finding["AssumableByComputeService"]|length > 0
       %}
+      <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-risks{{ t['results'].index(finding) }}">High Priority risks</a>
@@ -43,6 +61,7 @@
                {% include 'analysis/finding-card/details.html' %}
            </div>
         </div>
+      <!--/end High Priority Risks-->
       {% endif %}
    </div>
 
