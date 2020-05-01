@@ -30,7 +30,7 @@ setuptools.setup(
     version=get_version(),
     author="Kinnaird McQuade",
     author_email="kinnairdm@gmail.com",
-    description="Explain AWS IAM policies",
+    description="AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kmcquade/cloudsplaining",
