@@ -65,7 +65,7 @@ READ_ONLY_DATA_LEAK_ACTIONS = [
     "ssm:GetParameter",
     "ssm:GetParameters",
     "ssm:GetParametersByPath",
-    "secretsmanager:GetSecretValue"
+    "secretsmanager:GetSecretValue",
 ]
 
 PRIVILEGE_ESCALATION_METHODS = {
@@ -104,14 +104,8 @@ PRIVILEGE_ESCALATION_METHODS = {
         "lambda:createfunction",
         "lambda:createeventsourcemapping",
     ],
-    "PassExistingRoleToNewGlueDevEndpoint": [
-        "iam:passrole",
-        "glue:createdevendpoint",
-    ],
-    "PassExistingRoleToCloudFormation": [
-        "iam:passrole",
-        "cloudformation:createstack",
-    ],
+    "PassExistingRoleToNewGlueDevEndpoint": ["iam:passrole", "glue:createdevendpoint",],
+    "PassExistingRoleToCloudFormation": ["iam:passrole", "cloudformation:createstack",],
     "PassExistingRoleToNewDataPipeline": [
         "iam:passrole",
         "datapipeline:createpipeline",
@@ -121,9 +115,4 @@ PRIVILEGE_ESCALATION_METHODS = {
     "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"],
 }
 
-SERVICE_PREFIXES_WITH_COMPUTE_ROLES = [
-    "ec2",
-    "eks",
-    "ecs-tasks",
-    "lambda"
-]
+SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]

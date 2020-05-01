@@ -51,9 +51,7 @@ click_log.basic_config(logger)
     " Note that this will dramatically increase the size of the downloaded file.",
 )
 @click_log.simple_verbosity_option(logger)
-def download(
-    profile, output, credentials_file, include_non_default_policy_versions
-):
+def download(profile, output, credentials_file, include_non_default_policy_versions):
     """
     Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in
     account-alias.json
@@ -95,10 +93,11 @@ def get_account_authorization_details(
     :param include_non_default_policy_versions: When downloading AWS managed policy documents, also include the non-default policy versions. Note that this will dramatically increase the size of the downloaded file.
     :return:
     """
+
     def get_session_via_environment_variables():
-        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-        aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-        aws_session_token = os.getenv('AWS_SESSION_TOKEN')
+        aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
+        aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+        aws_session_token = os.getenv("AWS_SESSION_TOKEN")
         if aws_access_key_id and aws_secret_access_key and aws_session_token:
             session = boto3.Session(
                 aws_access_key_id=aws_access_key_id,
@@ -107,9 +106,11 @@ def get_account_authorization_details(
             )
             return session
         elif aws_access_key_id and aws_secret_access_key and not aws_session_token:
-            print("It looks like you are authenticating with static credentials rather than temporary credentials. "
-                  "Static credentials usage is a security concern. We suggest you use MFA to generate short lived "
-                  "credentials and set those as environment variables instead.")
+            print(
+                "It looks like you are authenticating with static credentials rather than temporary credentials. "
+                "Static credentials usage is a security concern. We suggest you use MFA to generate short lived "
+                "credentials and set those as environment variables instead."
+            )
             session = boto3.Session(
                 aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key,

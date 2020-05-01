@@ -23,9 +23,15 @@ class AuthorizationDetails:
 
     def __init__(self, auth_json):
         self.policies = PolicyDetails(auth_json.get("Policies", None))
-        self.user_detail_list = PrincipalTypeDetails(auth_json.get("UserDetailList", None))
-        self.group_detail_list = PrincipalTypeDetails(auth_json.get("GroupDetailList", None))
-        self.role_detail_list = PrincipalTypeDetails(auth_json.get("RoleDetailList", None))
+        self.user_detail_list = PrincipalTypeDetails(
+            auth_json.get("UserDetailList", None)
+        )
+        self.group_detail_list = PrincipalTypeDetails(
+            auth_json.get("GroupDetailList", None)
+        )
+        self.role_detail_list = PrincipalTypeDetails(
+            auth_json.get("RoleDetailList", None)
+        )
         self.findings = Findings()
         self.customer_managed_policies_in_use = self._customer_managed_policies_in_use()
         self.aws_managed_policies_in_use = self._aws_managed_policies_in_use()
@@ -39,17 +45,23 @@ class AuthorizationDetails:
         for principal in self.group_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    aws_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
         # Policies attached to users
         for principal in self.user_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    aws_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
         # Policies attached to roles
         for principal in self.role_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    aws_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
 
         return aws_managed_policies
 
@@ -62,17 +74,23 @@ class AuthorizationDetails:
         for principal in self.group_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
-                    customer_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    customer_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
         # Policies attached to users
         for principal in self.user_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
-                    customer_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    customer_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
         # Policies attached to roles
         for principal in self.role_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
-                    customer_managed_policies.append(attached_managed_policy.get("PolicyName"))
+                    customer_managed_policies.append(
+                        attached_managed_policy.get("PolicyName")
+                    )
 
         return customer_managed_policies
 
@@ -100,19 +118,29 @@ class AuthorizationDetails:
             user_names.append(principal.name)
         return user_names
 
-    def missing_resource_constraints(self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True):
+    def missing_resource_constraints(
+        self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
+    ):
         """Scan the account authorization details for missing resource constraints."""
         print("-----USERS-----")
-        self.scan_principal_type_details(self.user_detail_list, exclusions_cfg, modify_only)
+        self.scan_principal_type_details(
+            self.user_detail_list, exclusions_cfg, modify_only
+        )
         print("-----GROUPS-----")
-        self.scan_principal_type_details(self.group_detail_list, exclusions_cfg, modify_only)
+        self.scan_principal_type_details(
+            self.group_detail_list, exclusions_cfg, modify_only
+        )
         print("-----ROLES-----")
-        self.scan_principal_type_details(self.role_detail_list, exclusions_cfg, modify_only)
+        self.scan_principal_type_details(
+            self.role_detail_list, exclusions_cfg, modify_only
+        )
         print("-----POLICIES-----")
         self.scan_policy_details(exclusions_cfg, modify_only)
         return self.findings.json
 
-    def scan_policy_details(self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True):
+    def scan_policy_details(
+        self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
+    ):
         """Scan the PolicyDetails block of the account authorization details output."""
         for policy in self.policies.policy_details:
             print(f"Scanning policy: {policy.policy_name}")
@@ -120,7 +148,9 @@ class AuthorizationDetails:
             actions_missing_resource_constraints = []
             if is_name_excluded(policy.policy_name, exclusions_cfg.get("policies")):
                 print(f"\tExcluded policy name: {policy.policy_name}")
-            elif is_name_excluded(policy.full_policy_path, exclusions_cfg.get("policies")):
+            elif is_name_excluded(
+                policy.full_policy_path, exclusions_cfg.get("policies")
+            ):
                 print(f"\tExcluded policy path: {policy.full_policy_path}")
             else:
                 for statement in policy.policy_document.statements:
@@ -128,22 +158,33 @@ class AuthorizationDetails:
                         if statement.effect == "Allow":
                             actions_missing_resource_constraints.extend(
                                 statement.missing_resource_constraints_for_modify_actions(
-                                    always_include_actions))
+                                    always_include_actions
+                                )
+                            )
                     else:
                         if statement.effect == "Allow":
-                            actions_missing_resource_constraints.extend(statement.missing_resource_constraints)
+                            actions_missing_resource_constraints.extend(
+                                statement.missing_resource_constraints
+                            )
                 if actions_missing_resource_constraints:
-                    actions_missing_resource_constraints = list(dict.fromkeys(actions_missing_resource_constraints))  # remove duplicates
+                    actions_missing_resource_constraints = list(
+                        dict.fromkeys(actions_missing_resource_constraints)
+                    )  # remove duplicates
                     actions_missing_resource_constraints.sort()
                     finding = Finding(
                         policy_name=policy.policy_name,
                         arn=policy.arn,
                         actions=actions_missing_resource_constraints,
-                        policy_document=policy.policy_document
+                        policy_document=policy.policy_document,
                     )
                     self.findings.add(finding)
 
-    def scan_principal_type_details(self, principal_type_detail_list, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True):
+    def scan_principal_type_details(
+        self,
+        principal_type_detail_list,
+        exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG,
+        modify_only=True,
+    ):
         """Scan the UserDetailList, GroupDetailList, or RoleDetailList blocks of the account authorization details output."""
         for principal in principal_type_detail_list.principals:
             always_include_actions = exclusions_cfg.get("include-actions")
@@ -151,7 +192,9 @@ class AuthorizationDetails:
             for policy in principal.policy_list:
                 print(f"\tScanning Policy: {policy['PolicyName']}")
 
-                if is_name_excluded(policy["PolicyName"], exclusions_cfg.get("policies")):
+                if is_name_excluded(
+                    policy["PolicyName"], exclusions_cfg.get("policies")
+                ):
                     print(f"\tExcluded policy name: {policy['PolicyName']}")
                 elif principal.is_principal_excluded(exclusions_cfg):
                     print(f"\tExcluded principal name: {principal.name}")
@@ -162,15 +205,20 @@ class AuthorizationDetails:
                         if modify_only:
                             if statement.effect == "Allow":
                                 actions_missing_resource_constraints.extend(
-                                    statement.missing_resource_constraints_for_modify_actions(always_include_actions))
+                                    statement.missing_resource_constraints_for_modify_actions(
+                                        always_include_actions
+                                    )
+                                )
                         else:
                             if statement.effect == "Allow":
-                                actions_missing_resource_constraints.extend(statement.missing_resource_constraints)
+                                actions_missing_resource_constraints.extend(
+                                    statement.missing_resource_constraints
+                                )
                     if actions_missing_resource_constraints:
                         finding = Finding(
                             policy_name=policy["PolicyName"],
                             arn=principal.arn,
                             actions=actions_missing_resource_constraints,
-                            policy_document=policy["PolicyDocument"]
+                            policy_document=policy["PolicyDocument"],
                         )
                         self.findings.add(finding)

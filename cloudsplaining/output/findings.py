@@ -7,6 +7,7 @@
 import logging
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
+
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +40,15 @@ class Findings:
 
 class Finding:
     """Holds details on individual findings, including the original Policy Document in question."""
-    def __init__(self, policy_name, arn, actions, policy_document, assume_role_policy_document=None):
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        assume_role_policy_document=None,
+    ):
         self.policy_name = policy_name
         self.arn = arn
         self.actions = actions
@@ -82,7 +91,9 @@ class Finding:
     def role_assumable_by_compute_services(self):
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         if self.assume_role_policy_document:
-            compute_services = self.assume_role_policy_document.role_assumable_by_compute_services
+            compute_services = (
+                self.assume_role_policy_document.role_assumable_by_compute_services
+            )
             return compute_services
         else:
             return []
@@ -100,7 +111,9 @@ class Finding:
     @property
     def data_leak_actions(self):
         """Return a list of actions that could cause data exfiltration, if applicable."""
-        return self.policy_document.allows_specific_actions_without_constraints(READ_ONLY_DATA_LEAK_ACTIONS)
+        return self.policy_document.allows_specific_actions_without_constraints(
+            READ_ONLY_DATA_LEAK_ACTIONS
+        )
 
     @property
     def json(self):

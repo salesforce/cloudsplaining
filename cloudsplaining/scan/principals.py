@@ -10,7 +10,9 @@ from policy_sentry.util.arns import get_account_from_arn, get_resource_path_from
 from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
-from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement, AssumeRolePolicyDocument
+from cloudsplaining.scan.assume_role_policy_document import (
+    AssumeRolePolicyDocument,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -152,12 +154,18 @@ class Principal:
         to their name."""
         decision = False
         if self.principal_type == "User":
-            if is_name_excluded(get_resource_path_from_arn(self.arn), exclusions_cfg.get("users")):
+            if is_name_excluded(
+                get_resource_path_from_arn(self.arn), exclusions_cfg.get("users")
+            ):
                 decision = True
         if self.principal_type == "Group":
-            if is_name_excluded(get_resource_path_from_arn(self.arn), exclusions_cfg.get("groups")):
+            if is_name_excluded(
+                get_resource_path_from_arn(self.arn), exclusions_cfg.get("groups")
+            ):
                 decision = True
         if self.principal_type == "Role":
-            if is_name_excluded(get_resource_path_from_arn(self.arn), exclusions_cfg.get("roles")):
+            if is_name_excluded(
+                get_resource_path_from_arn(self.arn), exclusions_cfg.get("roles")
+            ):
                 decision = True
         return decision

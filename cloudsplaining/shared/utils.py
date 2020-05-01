@@ -5,7 +5,10 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from policy_sentry.querying.actions import get_action_data, remove_actions_not_matching_access_level
+from policy_sentry.querying.actions import (
+    get_action_data,
+    remove_actions_not_matching_access_level,
+)
 from policy_sentry.querying.all import get_all_service_prefixes
 
 all_service_prefixes = get_all_service_prefixes()
@@ -43,7 +46,9 @@ def remove_read_level_actions(actions_list):
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels"""
     write_actions = remove_actions_not_matching_access_level(actions_list, "Write")
-    permissions_management_actions = remove_actions_not_matching_access_level(actions_list, "Permissions management")
+    permissions_management_actions = remove_actions_not_matching_access_level(
+        actions_list, "Permissions management"
+    )
     tagging_actions = remove_actions_not_matching_access_level(actions_list, "Tagging")
     modify_actions = tagging_actions + write_actions + permissions_management_actions
     return modify_actions
