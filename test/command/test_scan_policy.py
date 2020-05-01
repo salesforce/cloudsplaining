@@ -70,6 +70,7 @@ class PolicyFileTestCase(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
                 "PermissionsManagementActions": [],
