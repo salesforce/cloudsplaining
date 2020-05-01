@@ -116,6 +116,13 @@ class Principal:
             principal_policies = self.principal_detail.get("RolePolicyList", None)
         return principal_policies
 
+
+    @property
+    def assume_role_from_compute(self):
+        """Parse the Trust Policy and determine if an AWS Compute service (EC2, ECS, EKS, Lambda) is able to assume the role."""
+        print(self.assume_role_policy_document)
+        return self.assume_role_policy_document
+
     @property
     def account_id(self):
         """Return the account ID"""
