@@ -13,6 +13,7 @@ import logging
 import click
 import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
+
 logger = logging.getLogger()
 click_log.basic_config(logger)
 
@@ -40,7 +41,9 @@ def create_exclusions_file(output_file):
         for line in EXCLUSIONS_TEMPLATE:
             file_obj.write(line)
     print(f"Exclusions template file written to: {filename}")
-    print("Make sure you download your account authorization details before running the scan. Set your AWS access keys as environment variables then run: ")
+    print(
+        "Make sure you download your account authorization details before running the scan. Set your AWS access keys as environment variables then run: "
+    )
     print("\tcloudsplaining download")
     print("You can use this with the scan command as shown below: ")
     print("\tcloudsplaining scan --exclusions-file exclusions.yml --file default.json")

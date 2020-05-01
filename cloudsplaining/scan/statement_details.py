@@ -1,9 +1,16 @@
 """Abstracts evaluation of IAM Policy statements."""
 import logging
 from policy_sentry.analysis.analyze import determine_actions_to_expand
-from policy_sentry.querying.actions import remove_actions_not_matching_access_level, get_actions_matching_arn
+from policy_sentry.querying.actions import (
+    remove_actions_not_matching_access_level,
+    get_actions_matching_arn,
+)
 from policy_sentry.querying.all import get_all_actions
-from cloudsplaining.shared.utils import remove_read_level_actions, remove_wildcard_only_actions
+from cloudsplaining.shared.utils import (
+    remove_read_level_actions,
+    remove_wildcard_only_actions,
+)
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.
@@ -136,7 +143,9 @@ class StatementDetails:
         elif self.not_action:
             return self.not_action_effective_actions
         else:
-            raise Exception("The Policy should include either NotAction or Action in the statement.")
+            raise Exception(
+                "The Policy should include either NotAction or Action in the statement."
+            )
 
     @property
     def effect_deny(self):
@@ -182,7 +191,9 @@ class StatementDetails:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            result = remove_actions_not_matching_access_level(self.expanded_actions, "Permissions management")
+            result = remove_actions_not_matching_access_level(
+                self.expanded_actions, "Permissions management"
+            )
         return result
 
     @property
@@ -191,7 +202,9 @@ class StatementDetails:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            result = remove_actions_not_matching_access_level(self.expanded_actions, "Write")
+            result = remove_actions_not_matching_access_level(
+                self.expanded_actions, "Write"
+            )
         return result
 
     @property
@@ -200,7 +213,9 @@ class StatementDetails:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            result = remove_actions_not_matching_access_level(self.expanded_actions, "Tagging")
+            result = remove_actions_not_matching_access_level(
+                self.expanded_actions, "Tagging"
+            )
         return result
 
     @property
@@ -210,10 +225,14 @@ class StatementDetails:
         actions_missing_resource_constraints = []
         if len(self.resources) == 1:
             if self.resources[0] == "*":
-                actions_missing_resource_constraints = remove_wildcard_only_actions(self.expanded_actions)
+                actions_missing_resource_constraints = remove_wildcard_only_actions(
+                    self.expanded_actions
+                )
         return actions_missing_resource_constraints
 
-    def missing_resource_constraints_for_modify_actions(self, always_look_for_actions=None):
+    def missing_resource_constraints_for_modify_actions(
+        self, always_look_for_actions=None
+    ):
         """
         Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
         are allowed by the statement without resource constraints.
@@ -228,6 +247,10 @@ class StatementDetails:
         for action in actions_missing_resource_constraints:
             if action.lower() in [x.lower() for x in always_look_for_actions]:
                 always_actions_found.append(action)
-        modify_actions_missing_constraints = remove_read_level_actions(actions_missing_resource_constraints)
-        modify_actions_missing_constraints = modify_actions_missing_constraints + always_actions_found
+        modify_actions_missing_constraints = remove_read_level_actions(
+            actions_missing_resource_constraints
+        )
+        modify_actions_missing_constraints = (
+            modify_actions_missing_constraints + always_actions_found
+        )
         return modify_actions_missing_constraints

@@ -36,7 +36,9 @@ class AssumeRolePolicyDocument:
         assumable_by_compute_services = []
         for statement in self.statements:
             if statement.role_assumable_by_compute_services:
-                assumable_by_compute_services.extend(statement.role_assumable_by_compute_services)
+                assumable_by_compute_services.extend(
+                    statement.role_assumable_by_compute_services
+                )
         return assumable_by_compute_services
 
 
@@ -54,8 +56,10 @@ class AssumeRoleStatement:
 
         # self.not_principal = statement.get("NotPrincipal")
         if statement.get("NotPrincipal"):
-            logger.critical("NotPrincipal is used in the IAM AssumeRole Trust Policy. "
-                            "This should NOT be used. We suggest reviewing it ASAP.")
+            logger.critical(
+                "NotPrincipal is used in the IAM AssumeRole Trust Policy. "
+                "This should NOT be used. We suggest reviewing it ASAP."
+            )
 
     def _assume_role_actions(self):
         """Verifies that this is limited to just sts:AssumeRole"""
@@ -117,7 +121,9 @@ class AssumeRoleStatement:
             for principal in self.principals:
                 if principal.endswith(".amazonaws.com"):
                     service_prefix_to_evaluate = principal.split(".")[0]
-                    if service_prefix_to_evaluate in SERVICE_PREFIXES_WITH_COMPUTE_ROLES:
+                    if (
+                        service_prefix_to_evaluate
+                        in SERVICE_PREFIXES_WITH_COMPUTE_ROLES
+                    ):
                         assumable_by_compute_services.append(service_prefix_to_evaluate)
         return assumable_by_compute_services
-
