@@ -32,6 +32,7 @@ class AssumeRolePolicyDocument:
 
     @property
     def role_assumable_by_compute_services(self):
+        """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         assumable_by_compute_services = []
         for statement in self.statements:
             if statement.role_assumable_by_compute_services:
@@ -41,7 +42,7 @@ class AssumeRolePolicyDocument:
 
 class AssumeRoleStatement:
     """
-    Statements in an AsssumeRole/Trust Policy document
+    Statements in an AssumeRole/Trust Policy document
     """
 
     def __init__(self, statement):

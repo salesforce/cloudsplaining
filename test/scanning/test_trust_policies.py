@@ -77,6 +77,7 @@ class TestAssumeRole(unittest.TestCase):
         # self.assertListEqual(assume_role_statement_06.role_assumable_by_compute_services, ["lambda"])
 
     def test_assume_role_assumable_by_compute_services(self):
+        """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_compute_services"""
         # Case: From a compute service
         statement07 = dict(
             Effect="Allow",
