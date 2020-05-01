@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Activate Bootstrap 3 Dropdowns on Hover</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<style>
+.bs-example{
+	margin: 20px;
+}
+@media screen and (min-width: 768px) {
+  .dropdown:hover .dropdown-menu, .btn-group:hover .dropdown-menu{
+		display: block;
+	}
+	.dropdown-menu{
+		margin-top: 0;
+	}
+	.dropdown-toggle{
+		margin-bottom: 2px;
+	}
+	.navbar .dropdown-toggle, .nav-tabs .dropdown-toggle{
+		margin-bottom: 0;
+	}
+}
+</style>
+    <script>
+  $(document).ready(function(){
+    $(".dropdown, .btn-group").hover(function(){
+      var dropdownMenu = $(this).children(".dropdown-menu");
+      if(dropdownMenu.is(":visible")){
+        dropdownMenu.parent().toggleClass("open");
+      }
+    });
+  });
+  </script>
+</head>
+<body>
+  <!------------------>
+  <!-- Row          -->
+  <!------------------>
+  <div class="row">
+    <!--------------->
+    <!-- Container -->
+    <!--------------->
+  <div class="container">
+    <!------------------>
+    <!-- Navbar -->
+    <!------------------>
+  <div class="bs-example">
+      <!--Navbar with dropdown menu-->
+      <nav id="navbar" class="navbar navbar-default position-sticky" role="navigation">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="container">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Cloudsplaining IAM Report</a>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                      <li><a href="#">Executive Summary</a></li>
+                      <li class="dropdown">
+                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Findings <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="#customer-managed-policies-summary">Customer-Managed Policies</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#aws-managed-policies-summary">AWS-Managed Policies</a></li>
+                          </ul>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">In-depth Analysis <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="#customer-managed-in-depth-analysis">Customer-Managed Policies</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#aws-managed-in-depth-analysis">AWS-Managed Policies</a></li>
+                          </ul>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#guidance" data-toggle="dropdown" class="dropdown-toggle">Guidance <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="#triage-guidance"><b>Triaging</b></a></li>
+                              <li><a href="#">Context</a></li>
+                              <li><a href="#">Assessment Recap</a></li>
+                              <li><a href="#">Triaging Workflow</a></li>
+                              <li><a href="#">Triaging Considerations</a></li>
+                              <li><a href="#">Common False Positive Scenarios</a></li>
+                              <li><a href="#">Building Exclusions File</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#remediation-guidance"><b>Remediation</b></a></li>
+                              <li><a href="#">Prioritization</a></li>
+                              <li><a href="#">Technical Remediation</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#validation-guidance"><b>Validation</b></a></li>
+                              <li><a href="#using-cloudsplaining">Using Cloudsplaining</a></li>
+                              <li><a href="#using-parliament">Using Parliament</a></li>
+                          </ul>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#appendices" data-toggle="dropdown" class="dropdown-toggle">Appendix <b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="#glossary">Glossary</a></li>
+                              <li><a href="#exclusions">Exclusions Configuration</a></li>
+                              <li><a href="#references">References</a></li>
+                          </ul>
+                      </li>
+                    <!--Include Collapse/Expand buttons in Navbar-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary navbar-btn" id="collapseAccordion">
+                          <span class="glyphicon glyphicon-collapse-down"></span>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary navbar-btn" id="expandAccordion">
+                          <span class="glyphicon glyphicon-collapse-up"></span>
+                        </button>
+                    </div>
+                      <div class="btn-group">
+                      </div><!--/button group-->
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <hr>
+    <!-- Title section -->
+    <div class="row">
+      <div class="col-md-12">
+         <div class="page-header"><h2>Cloudsplaining IAM Report</h2></div>
+            <p>
+            <!--High level metadata - Account Name, Account ID and Report Generation date-->
+            <ul>
+              <li>Account: {{ t["account_name"] }} ({{ t["account_id"] }})</li>
+              <li>Report Generated: {{t.report_generated_time}}</li>
+            </ul>
+            <br>
+            <!-- /High level metadata-->
+          <div data-spy="scroll" data-target="#navbar" data-offset="50">
+
+            <!--Executive Summary-->
+            <h3 id="executive-summary">Executive Summary</h3>
+              {% include 'summary/executive-summary.html' %}
+
+            <!--Summary: Customer-managed policies-->
+            <h3 id="customer-managed-policies-summary">Summary: Customer-managed Policies</h3>
+              {% include 'summary/customer-managed.html' %}
+
+            <!--Summary: AWS-managed policies-->
+            <h3 id="aws-managed-policies-summary">Summary: AWS-managed Policies</h3>
+              {% include 'summary/aws-managed.html' %}
+
+            <!--Analysis: Customer-managed-policies-->
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed Policies</h3>
+              {% include 'analysis/customer-managed.html' %}
+
+            <!--Analysis: AWS-managed-policies-->
+            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+              {% include 'analysis/aws-managed.html' %}
+
+            <!--Guidance-->
+            <h2 id="guidance">Guidance</h2>
+              {% include 'guidance/guidance.html' %}
+
+            <!--Appendix-->
+            <h3 id="appendices">Appendix</h3>
+            <br>
+
+            <!--Appendix subsection: Glossary-->
+            <h4 id="glossary">Glossary</h4>
+              {% include 'appendix/glossary.html' %}
+
+            <!--Appendix subsection: Exclusions configuration-->
+            <h4 id="exclusions">Exclusions configuration</h4>
+              {% include 'appendix/exclusions.html' %}
+
+            <!--Appendix subsection: References-->
+            <h4 id="references">References</h4>
+              {% include 'appendix/references.html' %}
+
+
+          </div> <!-- /data-spy -->
+        </div> <!-- /column containing all contents-->
+      </div><!-- /row holding all contents-->
+      <!--/end title section-->
+<!--      <div class="col-md-12">-->
+
+<!--                  </div> &lt;!&ndash; /data-spy &ndash;&gt;-->
+<!--        </div> &lt;!&ndash; /column containing all contents&ndash;&gt;-->
+<!--      </div>&lt;!&ndash; /row holding all contents&ndash;&gt;-->
+      <hr>
+        <h1>Tutorial leftovers</h1>
+      <!--Got this from the tutorial: https://www.tutorialrepublic.com/codelab.php?topic=faq&file=make-bootstrap-dropdown-menu-on-hover-->
+      <!--Pills nav with dropdown menu-->
+      <ul class="nav nav-pills">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li class="dropdown">
+              <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Inbox</a></li>
+                  <li><a href="#">Drafts</a></li>
+                  <li><a href="#">Sent Items</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Trash</a></li>
+              </ul>
+          </li>
+      </ul>
+      <hr>
+
+
+
+      <!--Tabs with dropdown menu-->
+      <ul class="nav nav-tabs">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li class="dropdown">
+              <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Inbox</a></li>
+                  <li><a href="#">Drafts</a></li>
+                  <li><a href="#">Sent Items</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Trash</a></li>
+              </ul>
+          </li>
+      </ul>
+      <hr>
+      <!--Button with dropdown menu-->
+      <div class="btn-group">
+          <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+          </ul>
+      </div>
+      <hr>
+      <!--Split buttons with dropdown menu-->
+      <div class="btn-group">
+          <button type="button" class="btn btn-default">Action</button>
+          <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+          </ul>
+      </div>
+      <hr>
+      <!--Button Groups with dropdown menu-->
+      <div class="btn-group">
+          <button type="button" class="btn btn-primary">Button</button>
+          <button type="button" class="btn btn-primary">Another Button</button>
+          <div class="btn-group">
+              <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Dropdown <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+
+  </div><!-- /container -->
+  </div><!-- /row holding container holding all contents -->
+
+
+  <!-- JQuery-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!--  Bootstrap-->
+<!--  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+  <!--Press Collapse/expand button so you can Ctrl+F through the report-->
+  <script>
+  $(function () {
+    $('#collapseAccordion').on('click', function(e) {
+      $('.panel-collapse').collapse('hide');
+    })
+    $('#expandAccordion').on('click', function(e) {
+      $('.panel-collapse').collapse('show');
+    })
+  });
+  </script>
+<!--
+Got the bootstrap 3 tips from this tutorial: https://www.tutorialrepublic.com/codelab.php?topic=faq&file=make-bootstrap-dropdown-menu-on-hover
+-->
+</body>
+</html>

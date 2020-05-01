@@ -58,6 +58,7 @@ class TestFindings(unittest.TestCase):
                 ]
             },
             "AssumableByComputeService": [],
+            "AssumeRolePolicyDocument": None,
             "PrivilegeEscalation": [],
             "DataExfiltrationActions": [
                 "s3:GetObject"
@@ -113,7 +114,7 @@ class TestFindings(unittest.TestCase):
 
     def test_findings_for_roles_assumable_by_compute_services_empty(self):
         """output.findings.role_assumable_by_compute_services"""
-        trust_policy_from_compute_service_ecs_tasks = {
+        trust_policy_from_non_compute_service = {
             "Version": "2012-10-17",
             "Statement": [
                 {
@@ -127,7 +128,7 @@ class TestFindings(unittest.TestCase):
                 }
             ]
         }
-        assume_role_policy_document = AssumeRolePolicyDocument(trust_policy_from_compute_service_ecs_tasks)
+        assume_role_policy_document = AssumeRolePolicyDocument(trust_policy_from_non_compute_service)
 
         test_policy = {
             "Version": "2012-10-17",
@@ -150,3 +151,5 @@ class TestFindings(unittest.TestCase):
             assume_role_policy_document=assume_role_policy_document
         )
         self.assertListEqual(finding.role_assumable_by_compute_services, [])
+        # print(json.dumps(finding.assume_role_policy_document_json, indent=4))
+        self.assertDictEqual(finding.assume_role_policy_document_json, trust_policy_from_non_compute_service)

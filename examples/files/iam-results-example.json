@@ -32,6 +32,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -81,6 +82,18 @@
                         "iam:AddRoleToInstanceProfile"
                     ],
                     "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ssm.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
                 }
             ]
         },
@@ -137,6 +150,18 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
         "AssumableByComputeService": [
             "ec2"
         ],
@@ -183,6 +208,18 @@
                         "iam:CreateAccessKey"
                     ],
                     "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
                 }
             ]
         },
@@ -238,6 +275,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -495,6 +533,7 @@
             ],
             "Version": "2012-10-17"
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -745,6 +784,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -1190,6 +1230,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -2112,6 +2153,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -2259,6 +2301,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -2526,6 +2569,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {
@@ -2983,6 +3027,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {
@@ -3201,6 +3246,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -3367,6 +3413,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -4041,6 +4088,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -4189,6 +4237,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -4391,6 +4440,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -4552,6 +4602,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -4614,6 +4665,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -4669,6 +4721,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -4927,6 +4980,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -5178,6 +5232,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -5257,6 +5312,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -8295,6 +8351,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {

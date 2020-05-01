@@ -160,6 +160,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
@@ -212,6 +213,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [

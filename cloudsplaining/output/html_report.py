@@ -125,7 +125,8 @@ def generate_html_report(
     # HTML Report template
     template_path = os.path.join(os.path.dirname(__file__), "templates")
     env = Environment(loader=FileSystemLoader(template_path))  # nosec
-    template = env.get_template("template.html")
+    # template = env.get_template("template.html")
+    template = env.get_template("template2.html")
     with open(html_output_file, "w") as f:
         f.write(template.render(t=iam_report_results_formatted))
 
