@@ -30,6 +30,8 @@ It helps to identify IAM actions that do not leverage resource constraints. It a
 * Resource Exposure (the ability to modify resource-based policies)
 * Privilege Escalation (based on Rhino Security Labs research)
 
+Cloudsplaining also identifies IAM Roles that can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda), as they can present greater risk than user-defined roles - especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios. For example, if an attacker obtains privileges to execute [ssm:SendCommand](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendCommand.html) and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances. Remote Code Execution via AWS Systems Manager Agent was already a known escalation/exploitation path, but Cloudsplaining can make the process of identifying theses cases easier. See the [sample report](https://opensource.salesforce.com/cloudsplaining/#executive-summary) for some examples.
+
 You can also specify a custom exclusions file to filter out results that are False Positives for various reasons. For example, User Policies are permissive by design, whereas System roles are generally more restrictive. You might also have exclusions that are specific to your organization's multi-account strategy or AWS application architecture.
 
 
@@ -311,6 +313,6 @@ export PATH=$HOME/Library/Python/3.7/bin/:$PATH
 ## References
 
 * [Policy Sentry](https://github.com/salesforce/policy_sentry/) by [Kinnaird McQuade](https://twitter.com/kmcquade3) at Salesforce
-* [Parliament](https://github.com/duo-labs/parliament/) by [Scott Piper](https://twitter.com/0xdabbad00) at Summit Route
-* AWS Privilege Escalation Methods by Spencer Gietzen at Rhino Security Labs
+* [Parliament](https://github.com/duo-labs/parliament/) by [Scott Piper](https://twitter.com/0xdabbad00) at [Summit Route](http://summitroute.com/) and Duo Labs.
+* [AWS Privilege Escalation Methods](https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation) by [Spencer Gietzen](https://twitter.com/SpenGietz) at Rhino Security Labs
 * [Understanding Access Level Summaries within Policy Summaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand-policy-summary-access-level-summaries.html)
