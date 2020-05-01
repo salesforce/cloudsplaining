@@ -1,7 +1,7 @@
-cloudsplaining
+Cloudsplaining
 --------------
 
-`cloudsplaining` is an AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
+Cloudsplaining is an AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
 
 [![Build Status](https://travis-ci.com/salesforce/cloudsplaining.svg?branch=master)](https://travis-ci.com/salesforce/cloudsplaining)
 [![Documentation Status](https://readthedocs.org/projects/cloudsplaining/badge/?version=latest)](https://cloudsplaining.readthedocs.io/en/latest/?badge=latest)
