@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.0.3 (2020-05-01)
+## 0.0.4 (2020-05-01)
 * Provide option to skip opening HTML report (`--skip-open-report`)
 * Provide report indicator on whether it is assumable by compute services
 * Dropdown menu for report
