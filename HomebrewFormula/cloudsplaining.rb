@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/7c/3b/0892c9edf898e147f2e76f4f1aa15cdcc45e7ed8b2c5c6f9481c8d45ce4d/cloudsplaining-0.0.2.tar.gz"
-  sha256 "b34f3808f1cd9869654d7033c2a9a9d1ea9bc78044b87f589971428e8e10d5bf"
+  url "https://files.pythonhosted.org/packages/0c/b5/1d9681f53e177154a0840dddacd1738640365c0de6d1d65b0011db7143f7/cloudsplaining-0.0.4.tar.gz"
+  sha256 "899ce1d56d8f5427a9aa698eb1f136442375558903ab00f836310a771e62a6ea"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/19/c5/d7ea68148418e5392adea018a426d2ba77965e71713e8ffb2158060c0b45/boto3-1.13.0.tar.gz"
-    sha256 "80596cfb805694e5c78295bf9e86c6ea0d47c46e788a5e44a8a0421f3bddff72"
+    url "https://files.pythonhosted.org/packages/0a/d9/41ad5cc02dc36e9b9a92a6179e5e1a3689a21a908d01890d49f75ffcdf74/boto3-1.13.1.tar.gz"
+    sha256 "7a2474db6576d7d3f5c3336ec54450e34211d44e2342e501a67e2fae35916e63"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/85/cf/847c60594942db831910b6b353947283b21b2b50676b3eb93d57d8c50fa7/botocore-1.16.0.tar.gz"
-    sha256 "4b676b5d7d551e6cec9b5d9fc0811779534774f190208ae7f7a7f7309434b5bf"
+    url "https://files.pythonhosted.org/packages/e5/bf/75a853c77538aebc3ce7c6bcbde51153468e6347321d6ddd441a8ef3c71d/botocore-1.16.1.tar.gz"
+    sha256 "879cedb22baf9446323240f1cf57d4e0e7ba262ba6fde6d3540cf7fdd7ddad34"
   end
 
   resource "certifi" do
