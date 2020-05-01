@@ -89,6 +89,13 @@ class Finding:
         return services_affected
 
     @property
+    def assume_role_policy_document_json(self):
+        if self.assume_role_policy_document:
+            return self.assume_role_policy_document.json
+        else:
+            return None
+
+    @property
     def role_assumable_by_compute_services(self):
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         if self.assume_role_policy_document:
@@ -101,7 +108,8 @@ class Finding:
 
     @property
     def permissions_management_actions_without_constraints(self):
-        """Return a list of actions that could cause resource exposure via actions at the 'Permissions management' access level, if applicable."""
+        """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
+        access level, if applicable. """
         return self.policy_document.permissions_management_without_constraints
 
     @property
@@ -132,6 +140,7 @@ class Finding:
             "Services": self.services_affected,
             "Actions": self.actions,
             "PolicyDocument": self.policy_document.json,
+            "AssumeRolePolicyDocument": self.assume_role_policy_document_json,
             # These items help with prioritizing triage and remediation.
             "AssumableByComputeService": self.role_assumable_by_compute_services,
             "PrivilegeEscalation": self.privilege_escalation,

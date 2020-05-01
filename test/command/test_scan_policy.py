@@ -71,6 +71,7 @@ class PolicyFileTestCase(unittest.TestCase):
                         }
                     ]
                 },
+                "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
@@ -85,5 +86,5 @@ class PolicyFileTestCase(unittest.TestCase):
             }
         ]
         results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)

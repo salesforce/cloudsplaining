@@ -28,6 +28,18 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ssm.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
@@ -65,6 +77,18 @@
                         "s3:GetObject"
                     ],
                     "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ssm.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
                 }
             ]
         },
@@ -135,6 +159,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
@@ -214,6 +239,7 @@
                 }
             ]
         },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
