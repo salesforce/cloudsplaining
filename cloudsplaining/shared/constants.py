@@ -120,3 +120,10 @@ PRIVILEGE_ESCALATION_METHODS = {
     "UpdateExistingGlueDevEndpoint": ["glue:updatedevendpoint"],
     "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"],
 }
+
+SERVICE_PREFIXES_WITH_COMPUTE_ROLES = [
+    "ec2",
+    "eks",
+    "ecs-tasks",
+    "lambda"
+]
