@@ -115,4 +115,9 @@ PRIVILEGE_ESCALATION_METHODS = {
     "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"],
 }
 
-SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
+SERVICE_PREFIXES_WITH_COMPUTE_ROLES = [
+    "ec2",
+    "eks",
+    "ecs-tasks",
+    "lambda"
+]

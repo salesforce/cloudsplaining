@@ -24,6 +24,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "AccountID": "N/A",
                 "ManagedBy": "Customer",
                 "PolicyName": "test",
+                "Type": "",
                 "Arn": "test",
                 "ActionsCount": 4,
                 "ServicesCount": 1,

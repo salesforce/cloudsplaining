@@ -1,14 +1,14 @@
 <span class="badge badge-default"></span>
-<table class="table table-striped table-sm">
+<table class="table table-striped table-bordered table-sm">
   <thead>
      <tr>
        <th>Policy Name</th>
        <th>Services Count</th>
-       <th>Actions Count</th>
+       <th>Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[0]</small></a></td></th>
        <th>Services Affected</th>
-       <th>Privilege Escalation</th>
-       <th>Resource Exposure</th>
-       <th>Data Exfiltration</th>
+       <th>Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a></th>
+       <th>Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a></th>
+       <th>Data Exfiltration <a href="#definition-data-exfiltration"><small>[3]</small></a></th>
      </tr>
   </thead>
   <tbody>
@@ -21,7 +21,7 @@
         <td>{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %} </td>
         <td> {% if finding["PrivilegeEscalation"]|length > 0 %} {{ finding["PrivilegeEscalation"]|length }} {% endif %}</td>
         <td> {% if finding["PermissionsManagementActions"]|length>0 %} {{ finding["PermissionsManagementActions"]|length }}{% endif %}</td>
-        <td> {% if finding["DataExfiltrationActions"]|length > 0 %}{{ finding["DataExfiltrationActions"]|length }} {% endif %}</td>
+        <td> {% if finding["AssumableByComputeService"]|length > 0 %}{{ finding["AssumableByComputeService"]|length }} {% endif %}</td>
       </tr>
     {% endif %}
   {% endfor %}

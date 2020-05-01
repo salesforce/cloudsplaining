@@ -3,6 +3,7 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "InsecureUserPolicy",
+        "Type": "User",
         "Arn": "arn:aws:iam::012345678901:user/userwithlotsofpermissions",
         "ActionsCount": 3,
         "ServicesCount": 1,
@@ -31,6 +32,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -47,6 +49,7 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "EC2-IAM-example",
+        "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyRole",
         "ActionsCount": 5,
         "ServicesCount": 2,
@@ -81,6 +84,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -97,7 +101,8 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
-        "PolicyName": "SupYo",
+        "PolicyName": "MyOtherRolePolicy",
+        "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
         "ActionsCount": 5,
         "ServicesCount": 2,
@@ -132,6 +137,9 @@
                 }
             ]
         },
+        "AssumableByComputeService": [
+            "ec2"
+        ],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -148,7 +156,62 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
+        "PolicyName": "OverprivilegedEC2",
+        "Type": "Role",
+        "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+        "ActionsCount": 3,
+        "ServicesCount": 3,
+        "Services": [
+            "iam",
+            "s3",
+            "secretsmanager"
+        ],
+        "Actions": [
+            "iam:CreateAccessKey",
+            "s3:GetObject",
+            "secretsmanager:GetSecretValue"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "secretsmanager:GetSecretValue",
+                        "s3:GetObject",
+                        "iam:CreateAccessKey"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumableByComputeService": [
+            "ec2"
+        ],
+        "PrivilegeEscalation": [
+            {
+                "type": "CreateAccessKey",
+                "actions": [
+                    "iam:createaccesskey"
+                ]
+            }
+        ],
+        "DataExfiltrationActions": [
+            "s3:GetObject",
+            "secretsmanager:GetSecretValue"
+        ],
+        "PermissionsManagementActions": [
+            "iam:CreateAccessKey"
+        ],
+        "WriteActions": [],
+        "TaggingActions": []
+    },
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
         "PolicyName": "InsecurePolicy",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
         "ActionsCount": 2,
         "ServicesCount": 1,
@@ -175,6 +238,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -189,6 +253,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCodeCommitPowerUser",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCodeCommitPowerUser",
         "ActionsCount": 47,
         "ServicesCount": 4,
@@ -430,6 +495,7 @@
             ],
             "Version": "2012-10-17"
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -530,6 +596,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonRDSFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
         "ActionsCount": 84,
         "ServicesCount": 4,
@@ -678,6 +745,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -869,6 +937,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonEC2FullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
         "ActionsCount": 198,
         "ServicesCount": 5,
@@ -1121,6 +1190,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -1796,6 +1866,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCodeCommitFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
         "ActionsCount": 52,
         "ServicesCount": 4,
@@ -2041,6 +2112,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -2152,6 +2224,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonSQSFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
         "ActionsCount": 14,
         "ServicesCount": 1,
@@ -2186,6 +2259,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -2219,6 +2293,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSLambdaFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
         "ActionsCount": 150,
         "ServicesCount": 12,
@@ -2451,6 +2526,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {
                 "type": "PassExistingRoleToNewLambdaThenInvoke",
@@ -2798,6 +2874,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "IAMFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/IAMFullAccess",
         "ActionsCount": 78,
         "ServicesCount": 1,
@@ -2906,6 +2983,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {
                 "type": "CreateAccessKey",
@@ -3057,6 +3135,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonS3FullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
         "ActionsCount": 47,
         "ServicesCount": 1,
@@ -3122,6 +3201,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -3210,6 +3290,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "CloudWatchFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
         "ActionsCount": 38,
         "ServicesCount": 3,
@@ -3286,6 +3367,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -3401,6 +3483,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "ReadOnlyAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/ReadOnlyAccess",
         "ActionsCount": 7,
         "ServicesCount": 5,
@@ -3958,6 +4041,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject",
@@ -3978,6 +4062,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSDirectoryServiceFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSDirectoryServiceFullAccess",
         "ActionsCount": 44,
         "ServicesCount": 2,
@@ -4104,6 +4189,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -4210,6 +4296,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCodeDeployFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess",
         "ActionsCount": 21,
         "ServicesCount": 2,
@@ -4304,6 +4391,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -4355,6 +4443,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCloudTrailFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
         "ActionsCount": 18,
         "ServicesCount": 4,
@@ -4463,6 +4552,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -4501,6 +4591,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonS3ReadOnlyAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
         "ActionsCount": 1,
         "ServicesCount": 1,
@@ -4523,6 +4614,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
             "s3:GetObject"
@@ -4535,6 +4627,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonSESFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonSESFullAccess",
         "ActionsCount": 21,
         "ServicesCount": 1,
@@ -4576,6 +4669,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -4634,6 +4728,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonVPCFullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
         "ActionsCount": 38,
         "ServicesCount": 1,
@@ -4832,6 +4927,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
@@ -5046,6 +5142,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AWSKeyManagementServicePowerUser",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
         "ActionsCount": 4,
         "ServicesCount": 1,
@@ -5081,6 +5178,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -5101,6 +5199,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonRoute53FullAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonRoute53FullAccess",
         "ActionsCount": 18,
         "ServicesCount": 1,
@@ -5158,6 +5257,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [],
@@ -5238,6 +5338,7 @@
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "PolicyName": "PowerUserAccess",
+        "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/PowerUserAccess",
         "ActionsCount": 2766,
         "ServicesCount": 158,
@@ -8194,6 +8295,7 @@
                 }
             ]
         },
+        "AssumableByComputeService": [],
         "PrivilegeEscalation": [
             {
                 "type": "UpdateExistingGlueDevEndpoint",

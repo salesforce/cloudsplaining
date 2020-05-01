@@ -5,7 +5,8 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from policy_sentry.util.arns import get_account_from_arn
+from policy_sentry.util.arns import get_account_from_arn, get_resource_string
+from cloudsplaining.shared.utils import capitalize_first_character
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
 
 logger = logging.getLogger(__name__)
@@ -122,6 +123,7 @@ class Finding:
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
             "PolicyName": self.policy_name,
+            "Type": capitalize_first_character(get_resource_string(self.arn).split("/")[0]),
             "Arn": self.arn,
             # "ActionsCount": self.actions_count,
             # "ServicesCount": self.services_count,

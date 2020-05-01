@@ -127,7 +127,7 @@
           {
             "Effect": "Allow",
             "Principal": {
-              "Service": "ssm.amazonaws.com"
+              "Service": "ec2.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
           }
@@ -136,7 +136,7 @@
       "InstanceProfileList": [],
       "RolePolicyList": [
         {
-          "PolicyName": "SupYo",
+          "PolicyName": "MyOtherRolePolicy",
           "PolicyDocument": {
             "Version": "2012-10-17",
             "Statement": [
@@ -213,7 +213,7 @@
             ],
             "RolePolicyList": [
               {
-                "PolicyName": "SupYo",
+                "PolicyName": "OverprivilegedEC2",
                 "PolicyDocument": {
                   "Version": "2012-10-17",
                   "Statement": [

@@ -35,6 +35,7 @@ class TestFindings(unittest.TestCase):
             "AccountID": "123456789012",
             "ManagedBy": "Customer",
             "PolicyName": "MyPolicy",
+            "Type": "Group",
             "Arn": "arn:aws:iam::123456789012:group/SNSNotifications",
             "ActionsCount": 1,
             "ServicesCount": 1,
@@ -65,6 +66,7 @@ class TestFindings(unittest.TestCase):
             "WriteActions": [],
             "TaggingActions": []
         }
+        # print(json.dumps(finding.json, indent=4))
         self.assertDictEqual(finding.json, expected_finding_json)
 
     def test_findings_for_roles_assumable_by_compute_services_ecs_tasks(self):
@@ -106,7 +108,7 @@ class TestFindings(unittest.TestCase):
             policy_document=policy_document,
             assume_role_policy_document=assume_role_policy_document
         )
-        print(finding.role_assumable_by_compute_services)
+        # print(finding.role_assumable_by_compute_services)
         self.assertListEqual(finding.role_assumable_by_compute_services, ["ecs-tasks"])
 
     def test_findings_for_roles_assumable_by_compute_services_empty(self):
