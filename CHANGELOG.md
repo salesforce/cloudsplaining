@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.0.6 (2020-05-01)
+* Fix `exclude-actions` in the exclusions file - it was not being respected before.
+* Add a recursive scanning option.
+
 ## 0.0.4 (2020-05-01)
 * Provide option to skip opening HTML report (`--skip-open-report`)
 * Provide report indicator on whether it is assumable by compute services
