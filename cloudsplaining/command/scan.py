@@ -31,7 +31,7 @@ click_log.basic_config(logger)
     "IAM security posture. "
 )
 @click.option(
-    "--file",
+    "--input",
     type=click.Path(exists=True),
     required=True,
     help="Path of IAM account authorization details file",
@@ -66,7 +66,7 @@ click_log.basic_config(logger)
     "This helps when running the report in automation.",
 )
 @click_log.simple_verbosity_option()
-def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
+def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  # pylint: disable=redefined-builtin
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -78,8 +78,22 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
             except yaml.YAMLError as exc:
                 logger.critical(exc)
         check_exclusions_schema(exclusions_cfg)
+    if os.path.isfile(input):
+        scan_account_authorization_file(input, exclusions_cfg, output, all_access_levels, skip_open_report)
+    if os.path.isdir(input):
+        logger.info("The path given is a directory. Scanning for account authorization files and generating report.")
+        input_files = get_authorization_files_in_directory(input)
+        for file in input_files:
+            logger.info(f"Scanning file: {file}")
+            scan_account_authorization_file(file, exclusions_cfg, output, all_access_levels, skip_open_report)
 
-    with open(file) as f:
+
+def scan_account_authorization_file(input_file, exclusions_cfg, output, all_access_levels, skip_open_report):
+    """
+    Given the path to account authorization details files and the exclusions config file, scan all inline and
+    managed policies in the account to identify actions that do not leverage resource constraints.
+    """
+    with open(input_file) as f:
         contents = f.read()
         account_authorization_details_cfg = json.loads(contents)
         check_authorization_details_schema(account_authorization_details_cfg)
@@ -104,7 +118,7 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
             exclusions_cfg, modify_only=True
         )
 
-    account_name = Path(file).stem
+    account_name = Path(input_file).stem
 
     # Lazy method to get an account ID
     account_id = None
@@ -139,3 +153,21 @@ def scan(file, exclusions_file, output, all_access_levels, skip_open_report):
         exclusions_cfg,
         skip_open_report=skip_open_report,
     )
+
+
+def get_authorization_files_in_directory(directory):
+    """Get a list of download-account-authorization-files in a directory"""
+    file_list = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    file_list_with_full_path = []
+    for file in file_list:
+        if file.endswith(".json"):
+            file_list_with_full_path.append(os.path.abspath(os.path.join(directory, file)))
+    new_file_list = []
+    for file in file_list_with_full_path:
+        with open(file) as f:
+            contents = f.read()
+        account_authorization_details_cfg = json.loads(contents)
+        valid_schema = check_authorization_details_schema(account_authorization_details_cfg)
+        if valid_schema:
+            new_file_list.append(file)
+    return new_file_list

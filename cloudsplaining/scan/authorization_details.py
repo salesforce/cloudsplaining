@@ -142,6 +142,8 @@ class AuthorizationDetails:
         self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
     ):
         """Scan the PolicyDetails block of the account authorization details output."""
+        excluded_actions = exclusions_cfg.get("exclude-actions", None)
+
         for policy in self.policies.policy_details:
             print(f"Scanning policy: {policy.policy_name}")
             always_include_actions = exclusions_cfg.get("include-actions")
@@ -176,6 +178,7 @@ class AuthorizationDetails:
                         arn=policy.arn,
                         actions=actions_missing_resource_constraints,
                         policy_document=policy.policy_document,
+                        always_exclude_actions=excluded_actions
                     )
                     self.findings.add(finding)
 
@@ -186,6 +189,8 @@ class AuthorizationDetails:
         modify_only=True,
     ):
         """Scan the UserDetailList, GroupDetailList, or RoleDetailList blocks of the account authorization details output."""
+        excluded_actions = exclusions_cfg.get("exclude-actions", None)
+
         for principal in principal_type_detail_list.principals:
             always_include_actions = exclusions_cfg.get("include-actions")
             print(f"Scanning {principal.principal_type}: {principal.name}")
@@ -221,5 +226,6 @@ class AuthorizationDetails:
                             actions=actions_missing_resource_constraints,
                             policy_document=policy["PolicyDocument"],
                             assume_role_policy_document=principal.assume_role_policy_document,
+                            always_exclude_actions=excluded_actions
                         )
                         self.findings.add(finding)

@@ -75,16 +75,9 @@ class PolicyFileTestCase(unittest.TestCase):
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
-                "PermissionsManagementActions": [],
-                "WriteActions": [
-                    "ecr:CompleteLayerUpload",
-                    "ecr:InitiateLayerUpload",
-                    "ecr:PutImage",
-                    "ecr:UploadLayerPart"
-                ],
-                "TaggingActions": []
+                "PermissionsManagementActions": []
             }
         ]
         results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
