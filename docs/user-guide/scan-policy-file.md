@@ -3,7 +3,7 @@
 You can also scan a single policy file to identify risks instead of an entire account.
 
 ```bash
-cloudsplaining scan-policy-file --file examples/policies/explicit-actions.json
+cloudsplaining scan-policy-file --input examples/policies/explicit-actions.json
 ```
 
 The output will include a finding description and a list of the IAM actions that do not leverage resource constraints. If there are instances of the high priority risks - Data Exfiltration, Resource Exposure, or Privilege Escalation - it will report those too.

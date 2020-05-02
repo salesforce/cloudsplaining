@@ -3,7 +3,7 @@
 Scan the Account Authorization details file with the following command
 
 ```
-cloudsplaining scan --file default.json --exclusions-file my-exclusions.yml
+cloudsplaining scan --input default.json --exclusions-file my-exclusions.yml
 ```
 
 * It will generate three files:

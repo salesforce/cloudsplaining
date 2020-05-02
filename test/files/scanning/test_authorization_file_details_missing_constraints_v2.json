@@ -45,11 +45,7 @@
         "DataExfiltrationActions": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [],
-        "WriteActions": [
-            "s3:PutObject"
-        ],
-        "TaggingActions": []
+        "PermissionsManagementActions": []
     },
     {
         "AccountID": "012345678901",
@@ -97,11 +93,7 @@
         "DataExfiltrationActions": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [],
-        "WriteActions": [
-            "s3:PutObject"
-        ],
-        "TaggingActions": []
+        "PermissionsManagementActions": []
     },
     {
         "AccountID": "012345678901",
@@ -166,36 +158,6 @@
         "PermissionsManagementActions": [
             "ecr:DeleteRepositoryPolicy",
             "ecr:SetRepositoryPolicy"
-        ],
-        "WriteActions": [
-            "ecr:BatchDeleteImage",
-            "ecr:CompleteLayerUpload",
-            "ecr:CreateRepository",
-            "ecr:DeleteLifecyclePolicy",
-            "ecr:DeleteRepository",
-            "ecr:InitiateLayerUpload",
-            "ecr:PutImage",
-            "ecr:PutImageScanningConfiguration",
-            "ecr:PutImageTagMutability",
-            "ecr:PutLifecyclePolicy",
-            "ecr:StartImageScan",
-            "ecr:StartLifecyclePolicyPreview",
-            "ecr:UploadLayerPart"
-        ],
-        "TaggingActions": [
-            "ecr:BatchDeleteImage",
-            "ecr:CompleteLayerUpload",
-            "ecr:CreateRepository",
-            "ecr:DeleteLifecyclePolicy",
-            "ecr:DeleteRepository",
-            "ecr:InitiateLayerUpload",
-            "ecr:PutImage",
-            "ecr:PutImageScanningConfiguration",
-            "ecr:PutImageTagMutability",
-            "ecr:PutLifecyclePolicy",
-            "ecr:StartImageScan",
-            "ecr:StartLifecyclePolicyPreview",
-            "ecr:UploadLayerPart"
         ]
     },
     {
@@ -245,10 +207,6 @@
         "DataExfiltrationActions": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [],
-        "WriteActions": [
-            "s3:PutObject"
-        ],
-        "TaggingActions": []
+        "PermissionsManagementActions": []
     }
 ]

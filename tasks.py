@@ -106,11 +106,11 @@ def expand_policy(c):
     """
     try:
         c.run(
-            "./cloudsplaining/bin/cloudsplaining expand-policy --file examples/policies/wildcards.json",
+            "./cloudsplaining/bin/cloudsplaining expand-policy --input examples/policies/wildcards.json",
             pty=True,
         )
         c.run(
-            "./cloudsplaining/bin/cloudsplaining expand-policy --file examples/policies/explicit-actions.json",
+            "./cloudsplaining/bin/cloudsplaining expand-policy --input examples/policies/explicit-actions.json",
             pty=True,
         )
     except UnexpectedExit as u_e:
@@ -126,7 +126,7 @@ def scan(c):
     """Integration testing: tests the scan command"""
     try:
         c.run(
-            "./cloudsplaining/bin/cloudsplaining scan --file examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report",
+            "./cloudsplaining/bin/cloudsplaining scan --input examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report",
             pty=True,
         )
     except UnexpectedExit as u_e:

@@ -164,13 +164,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
                 "DataExfiltrationActions": [],
-                "PermissionsManagementActions": [],
-                "WriteActions": [
-                    "ecr:CompleteLayerUpload",
-                    "ecr:PutImage",
-                    "ecr:UploadLayerPart"
-                ],
-                "TaggingActions": []
+                "PermissionsManagementActions": []
             },
             {
                 "AccountID": "012345678901",
@@ -219,11 +213,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "DataExfiltrationActions": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": [],
-                "WriteActions": [
-                    "s3:PutObject"
-                ],
-                "TaggingActions": []
+                "PermissionsManagementActions": []
             }
         ]
 
