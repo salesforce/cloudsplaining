@@ -141,7 +141,7 @@ This will generate a file in your current directory titled `exclusions.yml`.
 Now when you run the `scan` command, you can use the exclusions file like this:
 
 ```bash
-cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
+cloudsplaining scan --exclusions-file exclusions.yml --input examples/files/example.json --output examples/files/
 ```
 
 For more information on the structure of the exclusions file, see [Filtering False Positives](#filtering-false-positives)
@@ -153,7 +153,7 @@ Now that we've downloaded the account authorization file, we can scan *all* of t
 Run the following command:
 
 ```bash
-cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
+cloudsplaining scan --exclusions-file exclusions.yml --input examples/files/example.json --output examples/files/
 ```
 
 It will create an HTML report like [this](https://opensource.salesforce.com/cloudsplaining/):
@@ -243,7 +243,7 @@ exclude-actions:
 Now when you run the `scan` command, you can use the exclusions file like this:
 
 ```bash
-cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
+cloudsplaining scan --exclusions-file exclusions.yml --input examples/files/example.json --output examples/files/
 ```
 
 
@@ -252,7 +252,7 @@ cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/examp
 You can also scan a single policy file to identify risks instead of an entire account.
 
 ```bash
-cloudsplaining scan-policy-file --file examples/policies/explicit-actions.json
+cloudsplaining scan-policy-file --input examples/policies/explicit-actions.json
 ```
 
 The output will include a finding description and a list of the IAM actions that do not leverage resource constraints.
@@ -283,13 +283,13 @@ cloudsplaining download --profile someprofile
 cloudsplaining download --profile all
 
 # Scan Authorization details
-cloudsplaining scan --file default.json
+cloudsplaining scan --input default.json
 # Scan Authorization details with custom exclusions
-cloudsplaining scan --file default.json --exclusions-file exclusions.yml
+cloudsplaining scan --input default.json --exclusions-file exclusions.yml
 
 # Scan Policy Files
-cloudsplaining scan-policy-file --file examples/policies/wildcards.json
-cloudsplaining scan-policy-file --file examples/policies/wildcards.json  --exclusions-file examples/example-exclusions.yml
+cloudsplaining scan-policy-file --input examples/policies/wildcards.json
+cloudsplaining scan-policy-file --input examples/policies/wildcards.json  --exclusions-file examples/example-exclusions.yml
 ```
 
 ## FAQ
