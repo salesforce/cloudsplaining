@@ -46,4 +46,4 @@ def create_exclusions_file(output_file):
     )
     print("\tcloudsplaining download")
     print("You can use this with the scan command as shown below: ")
-    print("\tcloudsplaining scan --exclusions-file exclusions.yml --file default.json")
+    print("\tcloudsplaining scan --exclusions-file exclusions.yml --input default.json")

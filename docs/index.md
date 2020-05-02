@@ -59,7 +59,7 @@ Now when you run the `scan` command, you can use the exclusions file like this:
 
 ```bash
 cloudsplaining scan --exclusions-file exclusions.yml \
-    --file examples/files/example.json \
+    --input examples/files/example.json \
     --output examples/files/
 ```
 
@@ -73,6 +73,6 @@ Run the following command:
 
 ```bash
 cloudsplaining scan --exclusions-file exclusions.yml \
-    --file examples/files/example.json \
+    --input examples/files/example.json \
     --output examples/files/
 ```

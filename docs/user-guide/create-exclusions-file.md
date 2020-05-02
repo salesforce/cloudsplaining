@@ -15,5 +15,5 @@ This will generate a file in your current directory titled `exclusions.yml`.
 Now when you run the `scan` command, you can use the exclusions file like this:
 
 ```bash
-cloudsplaining scan --exclusions-file exclusions.yml --file examples/files/example.json --output examples/files/
+cloudsplaining scan --exclusions-file exclusions.yml --input examples/files/example.json --output examples/files/
 ```
