@@ -56,13 +56,13 @@
             <a class="nav-item nav-link active" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Summary</a>
           </li>
           <li class="nav-item">
-            <a class="nav-item nav-link" id="nav-principals-tab" data-toggle="tab" href="#nav-principals" role="tab" aria-controls="nav-principals" aria-selected="false">IAM Principals</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-item nav-link" id="nav-customer-managed-tab" data-toggle="tab" href="#nav-customer-managed" role="tab" aria-controls="nav-customer-managed" aria-selected="false">Customer policies</a>
           </li>
           <li class="nav-item">
             <a class="nav-item nav-link" id="nav-aws-managed-tab" data-toggle="tab" href="#nav-aws-managed" role="tab" aria-controls="nav-aws-managed" aria-selected="false">AWS policies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link" id="nav-principals-tab" data-toggle="tab" href="#nav-principals" role="tab" aria-controls="nav-principals" aria-selected="false">IAM Principals</a>
           </li>
           <!--GUIDANCE DROPDOWN-->
           <li class="nav-item dropdown">
@@ -108,115 +108,11 @@
             </button>
           </li>
         </ul><!--/end navbar list-->
-
-<!--      </div>-->
-<!--    </nav>-->
-<!--    <nav id="navbar" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">-->
-<!--      <div class="container">-->
-<!--        <div class="navbar-header">-->
-<!--          <a class="navbar-brand" href="#">Cloudsplaining</a>-->
-<!--        </div>-->
-<!--        <a class="nav-link" href="#executive-summary">Executive Summary</a>-->
-        <!--      <a class="nav-link" href="#customer-managed-policies-summary">Summary: Customer</a>-->
-        <!--      <a class="nav-link" href="#customer-managed-in-depth-analysis">Analysis: Customer</a>-->
-<!--        <a class="navbar-brand" href="#"></a>-->
-
-        <!--      <a class="nav-link" href="#aws-managed-policies-summary">Summary: AWS</a>-->
-        <!--      <a class="nav-link" href="#aws-managed-in-depth-analysis">Analysis: AWS</a>-->
-        <!--      <a class="nav-link" href="#guidance">Guidance</a>-->
-        <!--Findings Dropdown-->
-<!--        <div class="nav-item dropdown">-->
-<!--          <button class="btn btn-default dropdown-toggle bg-transparent" type="button" id="dropdownMenuButtonFindings"-->
-<!--                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--            <a href="#customer-managed-policies-summary">Findings</a>-->
-<!--          </button>-->
-<!--          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonFindings">-->
-<!--            <a class="dropdown-item" href="#customer-managed-policies-summary">Results: Customer-Managed policies</a>-->
-<!--            <div class="dropdown-divider"></div>-->
-<!--            <a class="dropdown-item" href="#aws-managed-policies-summary">Results: AWS-Managed policies</a>-->
-<!--          </div>-->
-<!--        </div>-->
-        <!--In-Depth Analysis Dropdown-->
-<!--        <div class="nav-item dropdown">-->
-<!--          <button class="btn btn-default dropdown-toggle bg-light" type="button" id="dropdownMenuButtonAnalysis"-->
-<!--                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--            <a href="#appendices">In-Depth Analysis</a>-->
-<!--          </button>-->
-<!--          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAnalysis">-->
-<!--            <a class="dropdown-item" href="#customer-managed-in-depth-analysis">Analysis: Customer-managed policies</a>-->
-<!--            <div class="dropdown-divider"></div>-->
-<!--            <a class="dropdown-item" href="#aws-managed-in-depth-analysis"> Analysis: AWS-managed policies</a>-->
-<!--          </div>-->
-<!--        </div>-->
-        <!--/Analysis dropdown-->
-
-        <!--Guidance Dropdown-->
-<!--        <div class="nav-item dropdown ml-auto">-->
-<!--          <button class="btn btn-default dropdown-toggle bg-light" type="button" id="dropdownMenuButtonGuidance"-->
-<!--                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--            <a href="#guidance">Guidance</a>-->
-<!--          </button>-->
-<!--          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonGuidance">-->
-<!--            &lt;!&ndash;Triage Guidance&ndash;&gt;-->
-<!--            <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>-->
-<!--            <a class="dropdown-item" href="#triage-understanding-context">Context</a>-->
-<!--            <a class="dropdown-item" href="#triage-assessment-recap">Assessment Recap</a>-->
-<!--            <a class="dropdown-item" href="#triage-triaging-workflow">Triaging Workflow</a>-->
-<!--            <a class="dropdown-item" href="#triage-triaging-considerations">Triaging Considerations</a>-->
-<!--            <a class="dropdown-item" href="#triage-common-false-positive-scenarios">Common False Positive Scenarios</a>-->
-<!--            <a class="dropdown-item" href="#triage-building-the-exclusions-file">Building the Exclusions File</a>-->
-<!--            <div class="dropdown-divider"></div>-->
-<!--            &lt;!&ndash;Remediation Guidance&ndash;&gt;-->
-<!--            <a class="dropdown-item" href="#remediation-guidance"><b>Remediation</b></a>-->
-<!--            <a class="dropdown-item" href="#remediation-prioritization">Prioritization</a>-->
-<!--            <a class="dropdown-item" href="#remediation-technical-remediation">Technical Remediation</a>-->
-<!--            <div class="dropdown-divider"></div>-->
-<!--            &lt;!&ndash;Validation Guidance&ndash;&gt;-->
-<!--            <a class="dropdown-item" href="#validation-guidance"><b>Validation</b></a>-->
-<!--            <a class="dropdown-item" href="#validation-using-cloudsplaining">Using Cloudsplaining</a>-->
-<!--            <a class="dropdown-item" href="#validation-using-parliament">Using Parliament</a>-->
-<!--          </div>-->
-<!--        </div>-->
-        <!--/guidance dropdown-->
-        <!--Appendix Dropdown-->
-<!--        <div class="nav-item dropdown">-->
-<!--          <button class="btn btn-default bg-light" type="button" id="dropdownMenuButtonAppendix" data-toggle="dropdown"-->
-<!--                  aria-haspopup="true" aria-expanded="false">-->
-<!--            <a href="#appendices">Appendices-->
-<!--              <span class="caret"></span>-->
-<!--            </a>-->
-<!--          </button>-->
-<!--          <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAppendix">-->
-<!--            <a class="dropdown-item" href="#glossary">Glossary</a>-->
-<!--            <a class="dropdown-item" href="#references">References</a>-->
-<!--            <a class="dropdown-item" href="#exclusions">Exclusions Configuration</a>-->
-<!--          </div>-->
-<!--        </div>-->
-        <!--/Appendix dropdown-->
-
-        <!--Include Collapse/Expand buttons in Navbar-->
-<!--        <button type="button" class="btn btn-outline-secondary" id="collapseAccordion">-->
-<!--          <span class="glyphicon glyphicon-collapse-down"></span>Collapse-->
-<!--        </button>-->
-<!--        <button type="button" class="btn btn-outline-secondary" id="expandAccordion">-->
-<!--          <span class="glyphicon glyphicon-collapse-up"></span>Expand-->
-<!--        </button>-->
       </div><!-- /end navbar container -->
     </nav><!-- /end navbar -->
-<!--    <hr>-->
 
-<!--    TABS-->
-
-    <!--AWS vs Customer Tab-->
-<!--    <nav>-->
-<!--      <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
-<!--        <a class="nav-item nav-link active" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Executive Summary</a>-->
-<!--        <a class="nav-item nav-link" id="nav-principals-tab" data-toggle="tab" href="#nav-principals" role="tab" aria-controls="nav-principals" aria-selected="false">IAM Principals</a>-->
-<!--        <a class="nav-item nav-link" id="nav-customer-managed-tab" data-toggle="tab" href="#nav-customer-managed" role="tab" aria-controls="nav-customer-managed" aria-selected="false">Customer-managed policies</a>-->
-<!--        <a class="nav-item nav-link" id="nav-aws-managed-tab" data-toggle="tab" href="#nav-aws-managed" role="tab" aria-controls="nav-aws-managed" aria-selected="false">AWS-managed policies</a>-->
-<!--      </div>-->
-<!--    </nav>-->
-    <!-- /end navbar -->
+    <!--CONTENT-->
+    <!--TAB CONTENT-->
     <!-- Title section -->
     <div class="row">
       <div class="col-md-12">
@@ -224,9 +120,6 @@
         <div class="tab-content" id="nav-tabContent">
           <!--SUMMARY TAB-->
           <div class="tab-pane fade show active" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
-            <!--        <div class="page-header"><h2>Cloudsplaining IAM Report</h2></div>-->
-            <!--        <p>-->
-            <!--High level metadata - Account Name, Account ID and Report Generation date-->
             <br>
             Report metadata:
             <ul>
@@ -237,28 +130,25 @@
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
             {% include 'summary/executive-summary.html' %}
-
           </div><!--/END SUMMARY TAB-->
 
           <!--PRINCIPALS TAB-->
-
           <div class="tab-pane fade" id="nav-principals" role="tabpanel" aria-labelledby="nav-principals-tab">
-            Insert data about IAM principals here
+            ... coming soon
           </div><!--/end PRINCIPALS TAB-->
 
           <!--CUSTOMER-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
+
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Findings: Customer-managed Policies</h3>
             {% include 'summary/customer-managed.html' %}
 
-
             <!--Analysis: Customer-managed-policies-->
             <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed Policies</h3>
             {% include 'analysis/customer-managed.html' %}
-
-
           </div><!--/end CUSTOMER-MANAGED TAB-->
+
 
           <!--AWS-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
@@ -273,8 +163,8 @@
 
           </div><!--/end AWS-MANAGED TAB-->
 
-        </div><!--/end GUIDANCE TAB-->
-        </div><!--/end tabs-->
+        </div><!--/end Tab content-->
+        </div><!--/end data spy-->
 
         <br>
         <hr>
