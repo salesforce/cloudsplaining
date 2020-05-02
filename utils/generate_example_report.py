@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 import os
