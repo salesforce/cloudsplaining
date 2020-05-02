@@ -29,7 +29,7 @@ END = "\033[0m"
     short_help="Scan a single policy file to identify identify missing resource constraints."
 )
 @click.option(
-    "--file",
+    "--input",
     type=click.Path(exists=True),
     required=True,
     help="Path of to the IAM policy file.",
@@ -50,9 +50,9 @@ END = "\033[0m"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
 @click_log.simple_verbosity_option(logger)
-def scan_policy_file(file, exclusions_file, high_priority_only):
+def scan_policy_file(input, exclusions_file, high_priority_only):  # pylint: disable=redefined-builtin
     """Scan a single policy file to identify missing resource constraints."""
-
+    file = input
     # Get the exclusions configuration
     with open(exclusions_file, "r") as yaml_file:
         try:
