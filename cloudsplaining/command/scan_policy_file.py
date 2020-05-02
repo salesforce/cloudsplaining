@@ -129,7 +129,7 @@ def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONF
         results_placeholder = []
         for action in actions_missing_resource_constraints:
             if excluded_actions:
-                if not is_name_excluded(action.lower, excluded_actions):
+                if not is_name_excluded(action.lower(), excluded_actions):
                     results_placeholder.append(action)
             else:
                 results_placeholder.append(action)

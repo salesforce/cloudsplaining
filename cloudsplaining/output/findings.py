@@ -6,8 +6,9 @@
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from policy_sentry.util.arns import get_account_from_arn, get_resource_string
-from cloudsplaining.shared.utils import capitalize_first_character
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
+from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.utils import capitalize_first_character
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +24,13 @@ class Findings:
     def add(self, finding):
         """Add a finding to the list."""
         if isinstance(finding, list):
-            self.findings.extend(finding)
+            for a_finding in finding:
+                # Only add it if there are any actions after processing exclusions
+                if a_finding.actions:
+                    self.findings.append(finding)
         elif isinstance(finding, Finding):
-            self.findings.append(finding)
+            if finding.actions:
+                self.findings.append(finding)
 
     @property
     def json(self):
@@ -49,12 +54,28 @@ class Finding:
         actions,
         policy_document,
         assume_role_policy_document=None,
+        always_exclude_actions=None,
     ):
         self.policy_name = policy_name
         self.arn = arn
-        self.actions = actions
+        # self.actions = actions
+        self.always_exclude_actions = always_exclude_actions
+        self.actions = self._actions(actions)
         self.policy_document = policy_document
         self.assume_role_policy_document = assume_role_policy_document
+
+    def _actions(self, actions):
+        results = []
+        if self.always_exclude_actions:
+            for action in actions:
+                if is_name_excluded(action.lower(), self.always_exclude_actions):
+                    # logger.info("Excluded action: %s" % action)
+                    continue
+                else:
+                    results.append(action)
+            return results
+        else:
+            return actions
 
     @property
     def managed_by(self):
@@ -110,8 +131,17 @@ class Finding:
     @property
     def permissions_management_actions_without_constraints(self):
         """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
-        access level, if applicable. """
-        return self.policy_document.permissions_management_without_constraints
+        access level, if applicable."""
+        results = []
+        if self.always_exclude_actions:
+            for action in self.policy_document.permissions_management_without_constraints:
+                if is_name_excluded(action.lower(), self.always_exclude_actions):
+                    logger.info("Excluded action: %s" % action)
+                else:
+                    results.append(action)
+            return results
+        else:
+            return self.policy_document.permissions_management_without_constraints
 
     @property
     def privilege_escalation(self):
@@ -148,7 +178,7 @@ class Finding:
             "DataExfiltrationActions": self.data_leak_actions,
             "PermissionsManagementActions": self.permissions_management_actions_without_constraints,
             # Separate the "Write" and "Tagging" actions in the machine-readable output only
-            "WriteActions": self.policy_document.write_actions_without_constraints,
-            "TaggingActions": self.policy_document.tagging_actions_without_constraints,
+            # "WriteActions": self.policy_document.write_actions_without_constraints,
+            # "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }
         return result

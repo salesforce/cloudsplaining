@@ -64,11 +64,39 @@ class TestFindings(unittest.TestCase):
                 "s3:GetObject"
             ],
             "PermissionsManagementActions": [],
-            "WriteActions": [],
-            "TaggingActions": []
         }
         # print(json.dumps(finding.json, indent=4))
         self.assertDictEqual(finding.json, expected_finding_json)
+
+    def test_findings_excluded(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        always_exclude_actions = [
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ]
+        finding = Finding(
+            policy_name="MyPolicy",
+            arn="arn:aws:iam::123456789012:group/SNSNotifications",
+            actions=["s3:GetObject"],
+            policy_document=policy_document,
+            always_exclude_actions=always_exclude_actions
+        )
+        print(finding.actions)
+        self.assertListEqual(finding.actions, ["s3:GetObject"])
 
     def test_findings_for_roles_assumable_by_compute_services_ecs_tasks(self):
         """output.findings.role_assumable_by_compute_services: ecs-tasks"""
