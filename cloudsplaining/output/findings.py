@@ -70,7 +70,7 @@ class Finding:
             for action in actions:
                 if is_name_excluded(action.lower(), self.always_exclude_actions):
                     # logger.info("Excluded action: %s" % action)
-                    continue
+                    pass
                 else:
                     results.append(action)
             return results
@@ -136,7 +136,7 @@ class Finding:
         if self.always_exclude_actions:
             for action in self.policy_document.permissions_management_without_constraints:
                 if is_name_excluded(action.lower(), self.always_exclude_actions):
-                    logger.info("Excluded action: %s" % action)
+                    pass
                 else:
                     results.append(action)
             return results
