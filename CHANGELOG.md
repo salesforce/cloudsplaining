@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.0.8 (2020-05-03)
+* Migrated to GitHub actions with automated Homebrew releases
+
 ## 0.0.7 (2020-05-03)
 * Added separate tab for IAM Principals
 * HTML Report improvements - using tabs now
