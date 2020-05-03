@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.0.9 (2020-05-03)
+* HTML report now always shows Trust Policies for Roles, even if they do not allow assumption from a Compute Service. This can help assessors with triaging and pentesters for targeting.
+
 ## 0.0.8 (2020-05-03)
 * Migrated to GitHub actions with automated Homebrew releases
 
