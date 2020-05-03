@@ -157,7 +157,8 @@ class Finding:
 
     @property
     def json(self):
-        """Return the JSON representation of the Finding. This is used in the report output and the results data file."""
+        """Return the JSON representation of the Finding.
+        This is used in the report output and the results data file."""
         result = {
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
@@ -182,3 +183,13 @@ class Finding:
             # "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }
         return result
+
+
+class FindingsPrincipalsMapping:
+    """Holds a mapping between AuthorizationDetails.principal_policy_mapping and Findings"""
+
+    def __init__(self, findings, principal_policy_mapping):
+        # TODO: Figure out the Findings vs Principals Mapping thing later.
+        print(findings)
+        print(principal_policy_mapping)
+        print("Figure this out later")

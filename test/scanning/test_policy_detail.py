@@ -1,5 +1,5 @@
 import unittest
-from cloudsplaining.scan.policy_details import PolicyDetails
+from cloudsplaining.scan.policy_detail import PolicyDetails
 
 
 # class TestPolicyDetails(unittest.TestCase):

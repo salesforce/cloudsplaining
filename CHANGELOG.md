@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.0.7 (Unreleased)
+* Changed the `Principal` object to `PrincipalDetail` object to make the object naming more in line with the AWS IAM API Data Types. https://docs.aws.amazon.com/IAM/latest/APIReference/API_Types.html
+* Added logic for mapping Principals vs Policies
+* Going to add the above mapping + relation to findings to the HTML Report
+
 ## 0.0.6 (2020-05-01)
 * Fix `exclude-actions` in the exclusions file - it was not being respected before.
 * Add a recursive scanning option.

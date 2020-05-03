@@ -248,5 +248,41 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         self.assertListEqual(authorization_details.groups, ['GOAT'])
         self.assertListEqual(authorization_details.roles, ['GOAT', 'MyOtherRole'])
 
-
-
+    def test_principal_policy_mapping(self):
+        authorization_details = AuthorizationDetails(example_authz_details_for_overrides_complete)
+        expected_results = [
+            {
+                "Principal": "BlakeBortles",
+                "Type": "User",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "AdministratorAccess",
+                "Comment": "Group Membership"
+            },
+            {
+                "Principal": "GOAT",
+                "Type": "Group",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "AdministratorAccess",
+                "Comment": None
+            },
+            {
+                "Principal": "GOAT",
+                "Type": "Role",
+                "PolicyType": "Inline",
+                "ManagedBy": "Customer",
+                "PolicyName": "SsmOnboardingInlinePolicy",
+                "Comment": None
+            },
+            {
+                "Principal": "MyOtherRole",
+                "Type": "Role",
+                "PolicyType": "Inline",
+                "ManagedBy": "Customer",
+                "PolicyName": "InlinePolicyForTestingOverrides",
+                "Comment": None
+            }
+        ]
+        # print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
+        self.assertListEqual(authorization_details.principal_policy_mapping, expected_results)

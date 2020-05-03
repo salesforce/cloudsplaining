@@ -22,7 +22,7 @@ all_actions = get_all_actions()
 
 
 # pylint: disable=too-many-instance-attributes
-class StatementDetails:
+class StatementDetail:
     """
     Analyzes individual statements within a policy
     """

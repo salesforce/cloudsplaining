@@ -1,7 +1,7 @@
 import os
 import unittest
 import json
-from cloudsplaining.scan.principals import Principal, PrincipalTypeDetails
+from cloudsplaining.scan.principal_detail import PrincipalDetail, PrincipalTypeDetails
 
 example_authz_details_file = os.path.abspath(
     os.path.join(
@@ -23,12 +23,12 @@ with open(example_authz_details_file) as f:
 #         role_detail_list = PrincipalTypeDetails(raw_role_detail_list)
 
 
-class TestPrincipal(unittest.TestCase):
+class TestPrincipalDetail(unittest.TestCase):
     def test_principal(self):
 
         principal_detail = auth_details_json["UserDetailList"][1]
-        user_principal = Principal(principal_detail)
-        result = user_principal.policy_list[0]["PolicyDocument"].json
+        user_principal_detail = PrincipalDetail(principal_detail)
+        result = user_principal_detail.policy_list[0]["PolicyDocument"].json
         expected_result = {
             "Version": "2012-10-17",
             "Statement": [
@@ -47,22 +47,22 @@ class TestPrincipal(unittest.TestCase):
             ]
         }
         self.assertDictEqual(result, expected_result)
-        result = user_principal.policy_list[0]["PolicyName"]
+        result = user_principal_detail.policy_list[0]["PolicyName"]
         expected_result = "InsecureUserPolicy"
         self.assertEqual(result, expected_result)
 
     def test_principal_attributes(self):
         """scan.principals.Principal: Testing Principal simple attributes"""
         principal_detail = auth_details_json["UserDetailList"][1]
-        user_principal = Principal(principal_detail)
-        self.assertEqual(user_principal.name, "userwithlotsofpermissions")
-        self.assertEqual(user_principal.principal_type, "User")
+        user_principal_detail = PrincipalDetail(principal_detail)
+        self.assertEqual(user_principal_detail.name, "userwithlotsofpermissions")
+        self.assertEqual(user_principal_detail.principal_type, "User")
 
     def test_account_id(self):
         """scan.principals.Principal.account_id"""
         principal_detail = auth_details_json["UserDetailList"][1]
-        user_principal = Principal(principal_detail)
-        self.assertEqual(user_principal.account_id, "012345678901")
+        user_principal_detail = PrincipalDetail(principal_detail)
+        self.assertEqual(user_principal_detail.account_id, "012345678901")
 
 
 class TestPrincipalTrustPolicies(unittest.TestCase):
@@ -70,7 +70,7 @@ class TestPrincipalTrustPolicies(unittest.TestCase):
         """scan.principals.Principal.assume_role_policy_document.json"""
         principal_detail = auth_details_json["RoleDetailList"][2]
         # print(json.dumps(principal_detail, indent=4))
-        role_principal = Principal(principal_detail)
+        role_principal_detail = PrincipalDetail(principal_detail)
         expected_result = {
             "Version": "2012-10-17",
             "Statement": [
@@ -83,5 +83,5 @@ class TestPrincipalTrustPolicies(unittest.TestCase):
                 }
             ]
         }
-        # print(json.dumps(role_principal.assume_role_policy_document.json, indent=4))
-        self.assertDictEqual(role_principal.assume_role_policy_document.json, expected_result)
+        # print(json.dumps(role_principal_detail.assume_role_policy_document.json, indent=4))
+        self.assertDictEqual(role_principal_detail.assume_role_policy_document.json, expected_result)
