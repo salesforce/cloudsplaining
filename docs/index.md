@@ -1,6 +1,6 @@
 # Cloudsplaining
 
-`cloudsplaining` identifies violations of least privilege in AWS IAM and generates a risk-prioritized HTML report with a triage worksheet.
+[Cloudsplaining](https://github.com/salesforce/cloudsplaining) identifies violations of least privilege in AWS IAM and generates a risk-prioritized HTML report with a triage worksheet.
 
 ![](_images/cloudsplaining-report.gif)
 
