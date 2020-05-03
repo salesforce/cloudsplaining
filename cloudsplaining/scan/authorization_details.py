@@ -5,6 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_detail import PolicyDetails
@@ -207,7 +208,8 @@ class AuthorizationDetails:
                                         Comment="Group Membership"
                                     )
                                     principal_policy_mapping.append(entry)
-
+        # Sort it
+        principal_policy_mapping = sorted(principal_policy_mapping, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"))
         return principal_policy_mapping
 
     def missing_resource_constraints(
