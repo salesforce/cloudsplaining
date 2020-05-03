@@ -16,21 +16,21 @@ from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
 def generate_html_report(
-    account_metadata, results, output_directory, exclusions_cfg, skip_open_report=False
+    account_metadata, results, principal_policy_mapping, output_directory, exclusions_cfg, skip_open_report=False
 ):
     """Create IAM HTML report"""
 
     account_id = account_metadata.get("account_id")
     account_name = account_metadata.get("account_name")
     html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
-    sorted_results = sorted(results, key=lambda i: i["PolicyName"])
+    # sorted_results = sorted(results, key=lambda i: i["PolicyName"])
 
     # Calculate ratio of policies with PrivEsc, Permissions management, or Data leak potential
     policies_with_data_leak_potential = 0
     policies_with_permissions_management = 0
     policies_with_privilege_escalation = 0
 
-    for finding in sorted_results:
+    for finding in results:
         # These are stats we care about regardless of who manages it, as they help with prioritization
         if finding["DataExfiltrationActions"]:
             policies_with_data_leak_potential += 1
@@ -106,19 +106,25 @@ def generate_html_report(
 
     # Formatted results to feed into the HTML
     iam_report_results_formatted = {
+        # Metadata
         "account_name": account_name,
         "account_id": account_id,
         "report_generated_time": datetime.datetime.now().strftime("%Y-%m-%d"),
-        "results": sorted_results,
+        # Actual results
+        "results": results,
+        # IAM Principals
+        "principal_policy_mapping": principal_policy_mapping,
         # Write-ups rendered from markdown
         "overview_write_up": overview_html,
         "triage_guidance_write_up": triage_guidance_html,
         "remediation_guidance_write_up": remediation_guidance_html,
         "validation_guidance_write_up": validation_guidance_html,
         "glossary_write_up": glossary_html,
+        # Count of policies with these findings for the stats
         "policies_with_data_leak_potential": policies_with_data_leak_potential,
         "policies_with_privilege_escalation": policies_with_privilege_escalation,
         "policies_with_permissions_management": policies_with_permissions_management,
+        # Exclusions config for appendix and user reference
         "exclusions_configuration": yaml.dump(exclusions_cfg),
     }
 
@@ -138,4 +144,4 @@ def generate_html_report(
         webbrowser.open(url, new=2)
 
     # Create the CSV triage sheet
-    create_triage_worksheet(account_name, sorted_results, output_directory)
+    create_triage_worksheet(account_name, results, output_directory)

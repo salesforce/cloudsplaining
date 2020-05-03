@@ -1,0 +1,74 @@
+[
+    {
+        "Principal": "admin",
+        "Type": "Group",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AdministratorAccess",
+        "Comment": null
+    },
+    {
+        "Principal": "MyOtherRole",
+        "Type": "Role",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "MyOtherRolePolicy",
+        "Comment": null
+    },
+    {
+        "Principal": "MyRole",
+        "Type": "Role",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "EC2-IAM-example",
+        "Comment": null
+    },
+    {
+        "Principal": "OverprivilegedEC2",
+        "Type": "Role",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "OverprivilegedEC2",
+        "Comment": null
+    },
+    {
+        "Principal": "OverprivilegedEC2",
+        "Type": "Role",
+        "PolicyType": "Managed",
+        "ManagedBy": "Customer",
+        "PolicyName": "InsecurePolicy",
+        "Comment": null
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AdministratorAccess",
+        "Comment": null
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AdministratorAccess",
+        "Comment": "Group Membership"
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "InsecureUserPolicy",
+        "Comment": null
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AdministratorAccess",
+        "Comment": "Group Membership"
+    }
+]
