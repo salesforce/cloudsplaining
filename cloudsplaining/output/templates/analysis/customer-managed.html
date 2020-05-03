@@ -32,7 +32,7 @@
         </div>
       </div>
      <!--Trust Policy Document-->
-      {% if finding["AssumableByComputeService"]|length > 0 %}
+      {% if finding["Type"] == "Role" %}
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-trust-policy{{ t['results'].index(finding) }}">Trust Policy Document</a>
