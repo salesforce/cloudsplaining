@@ -540,6 +540,30 @@
       </div>
      <!--Trust Policy Document-->
       
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-trust-policy16">Trust Policy Document</a>
+           </div>
+           <div id="card-element-customer-trust-policy16" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+{
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ssm.amazonaws.com"
+            }
+        }
+    ],
+    "Version": "2012-10-17"
+}
+              </code></pre>
+            </div>
+           </div>
+        </div>
+      
      <!--/end Trust Policy Document-->
       
       <!--High Priority Risks-->
