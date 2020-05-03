@@ -64,6 +64,7 @@ def install_package(c):
 def uninstall_package(c):
     """Uninstall the cloudsplaining package"""
     c.run('echo "y" | pip3 uninstall cloudsplaining', pty=True)
+    c.run('rm -rf dist/*', pty=True)
 
 
 @task
