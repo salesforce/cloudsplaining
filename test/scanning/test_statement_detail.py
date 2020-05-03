@@ -1,8 +1,8 @@
 import unittest
-from cloudsplaining.scan.statement_details import StatementDetails
+from cloudsplaining.scan.statement_detail import StatementDetail
 
 
-class TestStatementDetails(unittest.TestCase):
+class TestStatementDetail(unittest.TestCase):
     def test_statement(self):
         this_statement = {
             "Sid": "VisualEditor0",
@@ -19,7 +19,7 @@ class TestStatementDetails(unittest.TestCase):
             ],
             "Resource": "*"
         }
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         # print(statement.actions)
         # print(json.dumps(statement.actions, indent=4))
         expected_result = [
@@ -41,7 +41,7 @@ class TestStatementDetails(unittest.TestCase):
             ],
             "Resource": "*"
         }
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         # print(statement.expanded_actions)
 
     def test_services_in_use(self):
@@ -55,7 +55,7 @@ class TestStatementDetails(unittest.TestCase):
             ],
             "Resource": "*"
         }
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         result = statement.services_in_use
         expected_result = ['ec2', 'iam']
         # print(result)
@@ -75,7 +75,7 @@ class TestStatementDetails(unittest.TestCase):
             ],
             "Resource": "*"
         }
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints
         # print(result)
         self.assertListEqual(result, ['secretsmanager:PutSecretValue'])
@@ -96,7 +96,7 @@ class TestStatementDetails(unittest.TestCase):
             ],
             "Resource": "*"
         }
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints
         # print(result)
         self.assertListEqual(result, ["s3:GetObject", 'secretsmanager:PutSecretValue'])
@@ -121,7 +121,7 @@ class TestStatementDetails(unittest.TestCase):
             "Resource": "*"
         }
         always_look_for_actions = ["s3:GetObject"]
-        statement = StatementDetails(this_statement)
+        statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions(always_look_for_actions)
         # print(results)
         self.assertListEqual(results, ['secretsmanager:PutSecretValue', 's3:GetObject'])
