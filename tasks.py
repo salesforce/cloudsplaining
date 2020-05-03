@@ -87,7 +87,7 @@ def upload_to_pypi_prod_server(c):
     c.run("python -m pip install cloudsplaining")
 
 
-@task
+@task(pre=[install_package])
 def version_check(c):
     """Print the version"""
     try:
