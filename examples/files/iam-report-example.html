@@ -92,9 +92,10 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="nav-appendices-tab" data-toggle="dropdown" href="#" role="tab" aria-haspopup="true" aria-expanded="false">Appendices</a>
             <div class="dropdown-menu">
+              <a class="dropdown-item" href="#appendices"><b>Appendix</b></a>
               <a class="dropdown-item" href="#glossary">Glossary</a>
-              <a class="dropdown-item" href="#references">References</a>
               <a class="dropdown-item" href="#exclusions">Exclusions Configuration</a>
+              <a class="dropdown-item" href="#references">References</a>
             </div>
           </li>
           <li class="nav-item">
@@ -124,7 +125,7 @@
             Report metadata:
             <ul>
               <li>Account: example (012345678901)</li>
-              <li>Report Generated: 2020-05-02</li>
+              <li>Report Generated: 2020-05-03</li>
             </ul>
             <br>
             <!--Executive Summary-->
@@ -8880,6 +8881,12 @@ users:
     })
   });
 </script>
-
+<script>
+  $(document).ready(function ()
+{
+    // somehow first navpill will not look active on page load (although it is...)
+    $('.navpill.active').trigger('click');
+});
+  </script>
 </body>
 </html>

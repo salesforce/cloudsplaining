@@ -1,0 +1,30 @@
+<p>
+  The following table shows the list of IAM Users, Groups, and Roles in the account, whether they have findings or not.
+</p>
+<span class="badge badge-default"></span>
+<table class="table table-striped table-bordered table-sm">
+  <thead>
+     <tr>
+       <th>Type</th>
+       <th>Name</th>
+       <th>Policy Type</th>
+       <th>Managed By</th>
+       <th>Policy Name</th>
+       <th>Comment</th>
+     </tr>
+  </thead>
+  <tbody>
+  {% for principal in t["principal_policy_mapping"] %}
+    <tr>
+      <td>{{ principal["Type"] }}</td>
+      <td>{{ principal["Principal"] }}</td>
+      <td>{{ principal["PolicyType"] }}{% if principal["PolicyType"] == "Managed" %} <a href="#definition-managed-policy"><small>[0]</small></a>{% endif %}{% if principal["PolicyType"] == "Inline" %} <a href="#definition-inline-policy"><small>[1]</small></a>{% endif %}</td>
+      <td>{{ principal["ManagedBy"] }}{% if principal["ManagedBy"] == "AWS" %} <a href="#definition-aws-managed-policy"><small>[2]</small></a>{% endif %}{% if principal["ManagedBy"] == "Customer" %} <a href="#definition-customer-managed-policy"><small>[3]</small></a>{% endif %}</td>
+      <td>{{ principal["PolicyName"] }}</td>
+      <td>{{ principal["Comment"] }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<br>
+
