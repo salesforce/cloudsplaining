@@ -237,7 +237,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         # print(expected_results_file)
         with open(expected_results_file) as json_file:
             expected_result = json.load(json_file)
-        # print(json.dumps(result, indent=4))
+        print(json.dumps(result, indent=4))
         self.maxDiff = None
         self.assertListEqual(result, expected_result)
 
@@ -251,14 +251,6 @@ class TestAuthorizationFileDetails(unittest.TestCase):
     def test_principal_policy_mapping(self):
         authorization_details = AuthorizationDetails(example_authz_details_for_overrides_complete)
         expected_results = [
-            {
-                "Principal": "BlakeBortles",
-                "Type": "User",
-                "PolicyType": "Managed",
-                "ManagedBy": "AWS",
-                "PolicyName": "AdministratorAccess",
-                "Comment": "Group Membership"
-            },
             {
                 "Principal": "GOAT",
                 "Type": "Group",
@@ -282,7 +274,15 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "ManagedBy": "Customer",
                 "PolicyName": "InlinePolicyForTestingOverrides",
                 "Comment": None
+            },
+            {
+                "Principal": "BlakeBortles",
+                "Type": "User",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "AdministratorAccess",
+                "Comment": "Group Membership"
             }
         ]
-        # print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
+        print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
         self.assertListEqual(authorization_details.principal_policy_mapping, expected_results)

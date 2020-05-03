@@ -5,6 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from operator import itemgetter
 from policy_sentry.util.arns import get_account_from_arn, get_resource_string
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
 from cloudsplaining.shared.exclusions import is_name_excluded
@@ -38,6 +39,8 @@ class Findings:
         these_findings = []
         for finding in self.findings:
             these_findings.append(finding.json)
+        # sort it
+        these_findings = sorted(these_findings, key=itemgetter("PolicyName"))
         return these_findings
 
     def __len__(self):

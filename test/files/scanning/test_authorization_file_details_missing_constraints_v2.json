@@ -2,54 +2,6 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
-        "PolicyName": "SsmOnboardingInlinePolicy",
-        "Type": "Role",
-        "Arn": "arn:aws:iam::012345678901:role/GOAT",
-        "ActionsCount": 2,
-        "ServicesCount": 1,
-        "Services": [
-            "s3"
-        ],
-        "Actions": [
-            "s3:GetObject",
-            "s3:PutObject"
-        ],
-        "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Sid": "VisualEditor0",
-                    "Effect": "Allow",
-                    "Action": [
-                        "s3:PutObject",
-                        "s3:GetObject"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        },
-        "AssumeRolePolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "ssm.amazonaws.com"
-                    },
-                    "Action": "sts:AssumeRole"
-                }
-            ]
-        },
-        "AssumableByComputeService": [],
-        "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
-            "s3:GetObject"
-        ],
-        "PermissionsManagementActions": []
-    },
-    {
-        "AccountID": "012345678901",
-        "ManagedBy": "Customer",
         "PolicyName": "InlinePolicyForTestingOverrides",
         "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
@@ -202,6 +154,54 @@
             ]
         },
         "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": []
+    },
+    {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "PolicyName": "SsmOnboardingInlinePolicy",
+        "Type": "Role",
+        "Arn": "arn:aws:iam::012345678901:role/GOAT",
+        "ActionsCount": 2,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ssm.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [
