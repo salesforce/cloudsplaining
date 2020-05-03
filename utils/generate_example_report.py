@@ -18,6 +18,18 @@ example_results_file = os.path.abspath(os.path.join(
 with open(example_results_file) as json_file:
     example_results = json.load(json_file)
 
+example_principal_policy_mapping_file = os.path.abspath(os.path.join(
+        os.path.dirname(__file__),
+        os.path.pardir,
+        "examples",
+        "files",
+        "iam-principals-example.json",
+    )
+)
+
+with open(example_principal_policy_mapping_file) as json_file:
+    example_principal_policy_mapping = json.load(json_file)
+
 
 def generate_example_report():
     output_directory = os.getcwd()
@@ -28,7 +40,7 @@ def generate_example_report():
         "aws_managed_policies": 30,  # Fake value
     }
 
-    generate_html_report(account_metadata, example_results, output_directory, DEFAULT_EXCLUSIONS_CONFIG, skip_open_report=True)
+    generate_html_report(account_metadata, example_results, example_principal_policy_mapping, output_directory, DEFAULT_EXCLUSIONS_CONFIG, skip_open_report=True)
     index_output_file = os.path.join(output_directory, "index.html")
     shutil.copyfile(os.path.join(output_directory, "iam-report-fake.html"), index_output_file)
     url = "file://%s" % os.path.abspath(index_output_file)

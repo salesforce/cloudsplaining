@@ -5,6 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from operator import itemgetter
 from policy_sentry.util.arns import get_account_from_arn, get_resource_string
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
 from cloudsplaining.shared.exclusions import is_name_excluded
@@ -38,6 +39,8 @@ class Findings:
         these_findings = []
         for finding in self.findings:
             these_findings.append(finding.json)
+        # sort it
+        these_findings = sorted(these_findings, key=itemgetter("PolicyName"))
         return these_findings
 
     def __len__(self):
@@ -157,7 +160,8 @@ class Finding:
 
     @property
     def json(self):
-        """Return the JSON representation of the Finding. This is used in the report output and the results data file."""
+        """Return the JSON representation of the Finding.
+        This is used in the report output and the results data file."""
         result = {
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
@@ -182,3 +186,13 @@ class Finding:
             # "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }
         return result
+
+
+class FindingsPrincipalsMapping:
+    """Holds a mapping between AuthorizationDetails.principal_policy_mapping and Findings"""
+
+    def __init__(self, findings, principal_policy_mapping):
+        # TODO: Figure out the Findings vs Principals Mapping thing later.
+        print(findings)
+        print(principal_policy_mapping)
+        print("Figure this out later")

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.0.7 (2020-05-03)
+* Added separate tab for IAM Principals
+* HTML Report improvements - using tabs now
+* Changed the naming of some objects to make the object naming more in line with the AWS IAM API Data Types. https://docs.aws.amazon.com/IAM/latest/APIReference/API_Types.html
+
 ## 0.0.6 (2020-05-01)
 * Fix `exclude-actions` in the exclusions file - it was not being respected before.
 * Add a recursive scanning option.

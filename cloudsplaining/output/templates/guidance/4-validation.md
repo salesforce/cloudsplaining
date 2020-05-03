@@ -9,7 +9,8 @@ After you've rewritten your IAM policy, we suggest two options for validating th
 </ul>
 </div>
 
-<div id="validation-using-cloudsplaining"> <h6>Using Cloudsplaining to Validate your Remediated Policies</h6></div>
+
+<div id="validation-using-cloudsplaining"> <h5>Using Cloudsplaining to Validate your Remediated Policies</h5></div>
 
 You can validate that your remediated policy passes Cloudsplaining by running the following command:
 
@@ -17,7 +18,8 @@ You can validate that your remediated policy passes Cloudsplaining by running th
 
 When there are no more results, it passes!
 
-<div id="validation-using-parliament"> <h6>Using Parliament to Lint your Policies</h6></div>
+
+<div id="validation-using-parliament"> <h5>Using Parliament to Lint your Policies</h5></div>
 
 parliament is an AWS IAM linting library. It reviews policies looking for problems such as:
 

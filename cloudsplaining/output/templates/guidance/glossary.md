@@ -49,3 +49,39 @@ An IAM identity that you can create in your account that has specific permission
 We are particularly interested in roles used for **compute services** - i.e., Compute Service Roles.
 
 This definition was taken from the AWS Documentation [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role).
+
+<div id="definition-managed-policy"><h6>Managed Policy</h6></div>
+
+There are two types of Managed Policies: AWS-managed policies and Customer-managed policies. They are described below.
+
+Criteria for selecting Managed Policies versus Inline policies can be found in the AWS documentation [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#choosing-managed-or-inline).
+
+<div id="definition-customer-managed-policy"><h6>Customer-managed policy</h6></div>
+
+AWS documentation on Customer-managed policies can be found [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#customer-managed-policies).
+
+The following diagram illustrates customer managed policies. Each policy is an entity in IAM with its own Amazon Resource Name (ARN) that includes the policy name. Notice that the same policy can be attached to multiple principal entities—for example, the same DynamoDB-books-app policy is attached to two different IAM roles.
+
+![Customer-managed policy diagram](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/policies-customer-managed-policies.diagram.png)
+
+<div id="definition-aws-managed-policy"><h6>AWS-managed policy</h6></div>
+
+An AWS managed policy is a standalone policy that is created and administered by AWS. Standalone policy means that the policy has its own Amazon Resource Name (ARN) that includes the policy name. For example, arn:aws:iam::aws:policy/IAMReadOnlyAccess is an AWS managed policy.
+
+AWS documentation on AWS-managed policies can be found [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies).
+
+The following diagram (taken from the AWS documentation) illustrates AWS managed policies. The diagram shows three AWS managed policies: AdministratorAccess, PowerUserAccess, and AWSCloudTrailReadOnlyAccess. Notice that a single AWS managed policy can be attached to principal entities in different AWS accounts, and to different principal entities in a single AWS account.
+
+![AWS-managed policy diagram](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/policies-aws-managed-policies.diagram.png)
+
+<div id="definition-inline-policy"><h6>Inline Policy</h6></div>
+
+An inline policy is a policy that's embedded in an IAM identity (a user, group, or role). That is, the policy is an inherent part of the identity. You can create a policy and embed it in a identity, either when you create the identity or later.
+
+AWS documentation on inline policies can be found [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#inline-policies).
+
+The following diagram illustrates inline policies. Each policy is an inherent part of the user, group, or role. Notice that two roles include the same policy (the DynamoDB-books-app policy), but they are not sharing a single policy; each role has its own copy of the policy.
+
+![Inline policy diagram](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/policies-inline-policies.diagram.png)
+
+Inline policies are useful if you want to maintain a strict one-to-one relationship between a policy and the identity that it's applied to. For example, you want to be sure that the permissions in a policy are not inadvertently assigned to an identity other than the one they're intended for. When you use an inline policy, the permissions in the policy cannot be inadvertently attached to the wrong identity. In addition, when you use the AWS Management Console to delete that identity, the policies embedded in the identity are deleted as well. That's because they are part of the principal entity.
