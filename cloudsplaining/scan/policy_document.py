@@ -6,7 +6,7 @@ aws iam get-account-authorization-details command."""
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from cloudsplaining.scan.statement_details import StatementDetails
+from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
 
@@ -28,7 +28,7 @@ class PolicyDocument:
             statement_structure = [statement_structure]
 
         for statement in statement_structure:
-            self.statements.append(StatementDetails(statement))
+            self.statements.append(StatementDetail(statement))
 
     @property
     def json(self):

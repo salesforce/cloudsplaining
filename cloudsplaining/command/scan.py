@@ -118,6 +118,8 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
             exclusions_cfg, modify_only=True
         )
 
+    principal_policy_mapping = authorization_details.principal_policy_mapping
+
     account_name = Path(input_file).stem
 
     # Lazy method to get an account ID
@@ -145,10 +147,16 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
     raw_data_filepath = write_results_data_file(results, raw_data_file)
     print(f"Raw data file saved: {str(raw_data_filepath)}")
 
+    # Principal policy mapping
+    principal_policy_mapping_file = os.path.join(output, f"iam-principals-{account_name}.json")
+    principal_policy_mapping_filepath = write_results_data_file(principal_policy_mapping, principal_policy_mapping_file)
+    print(f"Principals data file saved: {str(principal_policy_mapping_filepath)}")
+
     print("Creating the HTML Report")
     generate_html_report(
         account_metadata,
         results,
+        principal_policy_mapping,
         output_directory,
         exclusions_cfg,
         skip_open_report=skip_open_report,

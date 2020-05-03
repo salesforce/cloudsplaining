@@ -1,6 +1,6 @@
 # Overview
 
-Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
+[Cloudsplaining](https://github.com/salesforce/cloudsplaining) identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
 
 It helps to identify IAM actions that do not leverage resource constraints and thus can present the following risks to the AWS account in question without restriction:
 * Data Exfiltration (`s3:GetObject`, `ssm:GetParameter`, `secretsmanager:GetSecretValue`)

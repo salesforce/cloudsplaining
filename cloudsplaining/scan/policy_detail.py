@@ -11,7 +11,7 @@ from cloudsplaining.shared.utils import get_full_policy_path
 
 class PolicyDetails:
     """
-    Holds details from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
+    Holds PolicyDetail objects. This is sourced from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
     """
 
     def __init__(self, policy_details):
@@ -23,7 +23,9 @@ class PolicyDetails:
 # pylint: disable=too-many-instance-attributes
 class PolicyDetail:
     """
-    Holds metadata about the Policy Documents.
+    Contains information about an IAM policy, including the policy document.
+
+    https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyDetail.html
     """
 
     def __init__(self, policy_detail):

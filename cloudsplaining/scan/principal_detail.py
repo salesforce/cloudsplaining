@@ -22,12 +22,12 @@ class PrincipalTypeDetails:
 
     def __init__(self, principal_type_details):
         self.principals = []
-        for principal_details in principal_type_details:
-            self.principals.append(Principal(principal_details))
+        for principal_detail in principal_type_details:
+            self.principals.append(PrincipalDetail(principal_detail))
 
 
 # pylint: disable=too-many-instance-attributes
-class Principal:
+class PrincipalDetail:
     """
     Holds data for individual Principal Entries from the Authz file
     """
@@ -41,7 +41,7 @@ class Principal:
         elif "RoleName" in principal_detail:
             self.principal_type = "Role"
 
-        self.principal_policy_list = self._principal_policies()
+        # self.principal_policy_list = self._inline_principal_policies()
         self.policy_list = []
         self.path = principal_detail.get("Path", None)
         self.arn = principal_detail.get("Arn", None)
@@ -53,10 +53,11 @@ class Principal:
         self.attached_managed_policies = principal_detail.get(
             "AttachedManagedPolicies", None
         )
-        self.principal_policies = self._principal_policies()
+        self.inline_principal_policies = self._inline_principal_policies()
         if self.principal_type == "User":
             self.name = principal_detail.get("UserName", None)
             self.id = principal_detail.get("UserId", None)
+            self.group_member = principal_detail.get("GroupList", None)
             policy_list = principal_detail.get("UserPolicyList", None)
             if policy_list:
                 logger.debug(f"Adding {self.principal_type}: {self.name}")
@@ -110,16 +111,16 @@ class Principal:
                         }
                     )
 
-    def _principal_policies(self):
+    def _inline_principal_policies(self):
         """Stores the list of policies attached to the Principal."""
-        principal_policies = []
+        inline_principal_policies = []
         if self.principal_type == "User":
-            principal_policies = self.principal_detail.get("UserPolicyList", None)
+            inline_principal_policies = self.principal_detail.get("UserPolicyList", None)
         if self.principal_type == "Group":
-            principal_policies = self.principal_detail.get("GroupPolicyList", None)
+            inline_principal_policies = self.principal_detail.get("GroupPolicyList", None)
         if self.principal_type == "Role":
-            principal_policies = self.principal_detail.get("RolePolicyList", None)
-        return principal_policies
+            inline_principal_policies = self.principal_detail.get("RolePolicyList", None)
+        return inline_principal_policies
 
     def _assume_role_policy_document(self):
         """Set the assume role policy document"""
