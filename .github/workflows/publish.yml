@@ -1,0 +1,81 @@
+# .github/workflows/publish.yml
+
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies with pipenv
+        run: |
+          pip install pipenv
+          pipenv install --dev --skip-lock
+
+      - run: pipenv run invoke test.lint
+      - run: pipenv run invoke test.security
+      - run: pipenv run invoke unit.pytest
+      - run: pipenv run invoke integration.version
+      - run: pipenv run invoke build.uninstall-package
+
+  publish-package:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - uses: dschep/install-pipenv-action@v1
+      - name: Install dependencies
+        run: |
+          pipenv install --dev
+      - name: create python package
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git fetch --tags
+          git pull origin master
+          pipenv run python setup.py sdist bdist_wheel
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_PASSWORD }}
+
+  update-brew:
+    needs: publish-package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - uses: dschep/install-pipenv-action@v1
+      - name: publish brew
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          pipenv run pip install homebrew-pypi-poet
+          pipenv run pip install cloudsplaining -U
+          git fetch origin
+          git checkout --track origin/master
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "latest tag: $latest_tag"
+          git pull origin $latest_tag
+          pipenv run poet -f cloudsplaining > HomebrewFormula/cloudsplaining.rb
+          git add .
+          git commit -m "update brew formula" cloudsplaining/bin/cloudsplaining HomebrewFormula/cloudsplaining.rb || echo "No brew changes to commit"
+          git push -u origin master

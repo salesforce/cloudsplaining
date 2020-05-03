@@ -1,0 +1,30 @@
+# .github/workflows/test.yml
+
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies with pipenv
+        run: |
+          pip install pipenv
+          pipenv install --dev --skip-lock
+
+      - run: pipenv run invoke build.install-package
+      - run: pipenv run invoke test.lint
+      - run: pipenv run invoke test.security
+      - run: pipenv run invoke unit.pytest
+      - run: pipenv run invoke integration.version
+      - run: pipenv run invoke integration.expand-policy
+      - run: pipenv run invoke integration.scan
+      - run: pipenv run invoke build.uninstall-package
