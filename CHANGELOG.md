@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.0.10 (2020-05-05)
+* Removed the recursive credentials method from the `download` command.
+* Fixed occasional installation error occurring from outdated Policy Sentry versions.
+* Fixed instructions for the `download` command.
+
 ## 0.0.9 (2020-05-03)
 * HTML report now always shows Trust Policies for Roles, even if they do not allow assumption from a Compute Service. This can help assessors with triaging and pentesters for targeting.
 

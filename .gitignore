@@ -9,6 +9,7 @@ default-iam-report.csv
 private/default-iam-results.json
 default-results-summary.csv
 private/*
+current.json
 
 Pipfile.lock
 

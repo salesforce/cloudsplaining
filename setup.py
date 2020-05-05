@@ -37,7 +37,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['test*', 'tmp*']),
     tests_require=TESTS_REQUIRE,
     install_requires=[
-        'policy_sentry',
+        'policy_sentry>=0.8.0.3',
         'click',
         'click_log',
         'schema',
