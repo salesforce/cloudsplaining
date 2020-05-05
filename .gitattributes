@@ -1,2 +1,4 @@
 cloudsplaining/output/templates/* linguist-documentation
-cloudsplaining/examples/* linguist-documentation
+index.html linguist-documentation
+docs/* linguist-documentation
+examples/* documentation
