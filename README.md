@@ -101,16 +101,11 @@ pip3 install --user cloudsplaining
 
 We can scan an entire AWS account and generate reports. To do this, we leverage the AWS IAM [get-account-authorization-details](https://docs.aws.amazon.com/cli/latest/reference/iam/get-account-authorization-details.html) API call, which downloads a large JSON file (around 100KB per account) that contains all of the IAM details for the account. This includes data on users, groups, roles, customer-managed policies, and AWS-managed policies.
 
-* To do this, set your AWS access keys as environment variables:
+* You must have AWS credentials configured that can be used by the CLI.
 
-```bash
-export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-# If you are using MFA or STS; optional but highly recommended
-export AWS_SESSION_TOKEN=...
-```
+* You must have the privileges to run [iam:GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html). The `arn:aws:iam::aws:policy/SecurityAudit` policy includes this, as do many others that allow Read access to the IAM Service.
 
-* Then run `cloudsplaining`'s `download` command:
+* To download the account authorization details, ensure you are authenticated to AWS, then run `cloudsplaining`'s `download` command:
 
 ```bash
 cloudsplaining download
@@ -119,10 +114,10 @@ cloudsplaining download
 * If you prefer to use your `~/.aws/credentials` file instead of environment variables, you can specify the profile name:
 
 ```bash
-cloudsplaining download --profile default
+cloudsplaining download --profile myprofile
 ```
 
-It will download a file titled `default.json` in your current directory.
+It will download a JSON file in your current directory that contains your account authorization detail information.
 
 #### Create Exclusions file
 
@@ -302,13 +297,17 @@ No, it will only scan policies that are attached to IAM principals.
 
 Not by default. If you want to do this, specify the `--include-non-default-policy-versions` flag. Note that the `scan` tool does not currently operate on non-default versions.
 
-**I followed the installation instructions but can't execute the program via command line. What do I do?**
+**I followed the installation instructions but can't execute the program via command line at all. What do I do?**
 
 This is likely an issue with your PATH. Your PATH environment variable is not considering the binary packages installed by `pip3`. On a Mac, you can likely fix this by entering the command below, depending on the versions you have installed. YMMV.
 
 ```bash
 export PATH=$HOME/Library/Python/3.7/bin/:$PATH
 ```
+
+**I followed the installation instructions but I am receiving a `ModuleNotFoundError` that says `No module named policy_sentry.analysis.expand`. What should I do?**
+
+Try upgrading to the latest version of Cloudsplaining. This error was fixed in version 0.0.10.
 
 ## References
 
