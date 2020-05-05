@@ -274,8 +274,6 @@ Actions: ecr:BatchDeleteImage, ecr:CompleteLayerUpload, ecr:CreateRepository, ec
 cloudsplaining download
 # Download from a specific profile
 cloudsplaining download --profile someprofile
-# Download authorization details for **all** of your AWS profiles
-cloudsplaining download --profile all
 
 # Scan Authorization details
 cloudsplaining scan --input default.json
