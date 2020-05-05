@@ -8,7 +8,6 @@ account-alias.json """
 import os
 import json
 import logging
-import configparser
 from pathlib import Path
 import boto3
 import click
@@ -122,4 +121,3 @@ def download(profile, output, include_non_default_policy_versions):
         json.dump(results, file, indent=4, default=str)
         print(f"Saved results to {output_filename}")
     return 1
-
