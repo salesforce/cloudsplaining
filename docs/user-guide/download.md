@@ -1,37 +1,26 @@
-# Downloading Account Authorization Details
+#### Downloading Account Authorization Details
 
-The `download` command downloads a large JSON file containing all the AWS IAM information in your account. This is done via the [aws iam get-account-authorization-details](https://docs.aws.amazon.com/cli/latest/reference/iam/get-account-authorization-details.html) API call. It stores them in `account-alias.json`.
+We can scan an entire AWS account and generate reports. To do this, we leverage the AWS IAM [get-account-authorization-details](https://docs.aws.amazon.com/cli/latest/reference/iam/get-account-authorization-details.html) API call, which downloads a large JSON file (around 100KB per account) that contains all of the IAM details for the account. This includes data on users, groups, roles, customer-managed policies, and AWS-managed policies.
 
-The `scan` command requires that file.
+* You must have AWS credentials configured that can be used by the CLI.
 
-## Quick start
+* You must have the privileges to run [iam:GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html). The `arn:aws:iam::aws:policy/SecurityAudit` policy includes this, as do many others that allow Read access to the IAM Service.
 
-* Set your AWS access keys as environment variables:
-
-```bash
-export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-# If you are using MFA or STS; optional but highly recommended
-export AWS_SESSION_TOKEN=...
-```
-
-* Download the account authorization details
+* To download the account authorization details, ensure you are authenticated to AWS, then run `cloudsplaining`'s `download` command:
 
 ```bash
 cloudsplaining download
 ```
 
+* If you prefer to use your `~/.aws/credentials` file instead of environment variables, you can specify the profile name:
+
+```bash
+cloudsplaining download --profile myprofile
+```
+
+It will download a JSON file in your current directory that contains your account authorization detail information.
+
 ## Additional Details
-
-#### Order of Precedence
-
-* **Environment variables**: The `download` command will first look for the existence of your AWS access keys in environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN`).
-  - Note: If you do not have AWS_SESSION_TOKEN set and are using static access keys, I highly recommend the use of [aws-mfa](https://github.com/broamski/aws-mfa) for security reasons.
-
-* **Shared Credentials file**:
-  - If those environment variables are not set, it will then use the `default` profile in your `~/.aws/credentials` file, if a different profile name is not provided via the argument `--profile`.
-  - If you specify `--profile all`, it will run the download command recursively for every profile in your `~/.aws/credentials` file.
-
 
 ### Required AWS IAM Policy
 
