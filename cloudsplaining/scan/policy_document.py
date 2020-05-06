@@ -40,7 +40,8 @@ class PolicyDocument:
         """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = []
         for statement in self.statements:
-            allowed_actions.extend(statement.expanded_actions)
+            if statement.expanded_actions:
+                allowed_actions.extend(statement.expanded_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 
@@ -50,7 +51,8 @@ class PolicyDocument:
         allowed_actions = []
         for statement in self.statements:
             if not statement.has_resource_constraints:
-                allowed_actions.extend(statement.expanded_actions)
+                if statement.expanded_actions:
+                    allowed_actions.extend(statement.expanded_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 

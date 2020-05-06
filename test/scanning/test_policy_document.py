@@ -182,3 +182,23 @@ class TestPolicyDocument(unittest.TestCase):
         ]
         results = policy_document.allows_specific_actions_without_constraints(high_priority_read_only_actions)
         self.assertListEqual(results, high_priority_read_only_actions)
+
+    def test_policy_document_not_action_deny_gh_23(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Sid": "DenyAllUsersNotUsingMFA",
+                "Effect": "Deny",
+                "NotAction": "iam:*",
+                "Resource": "*",
+                "Condition": {"BoolIfExists": {"aws:MultiFactorAuthPresent": "false"}}
+            }]
+        }
+        policy_document = PolicyDocument(test_policy)
+        allowed_actions = []
+        for statement in policy_document.statements:
+            if not statement.has_resource_constraints:
+                if statement.expanded_actions:
+                    allowed_actions.extend(statement.expanded_actions)
+        self.assertListEqual(allowed_actions, [])
+        self.assertListEqual(policy_document.all_allowed_unrestricted_actions, [])
