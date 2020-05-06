@@ -8,7 +8,7 @@ import logging
 from operator import itemgetter
 from policy_sentry.util.arns import get_account_from_arn, get_resource_string
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
-from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
 from cloudsplaining.shared.utils import capitalize_first_character
 
 logger = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ class Finding:
     ):
         self.policy_name = policy_name
         self.arn = arn
-        # self.actions = actions
+        self.type = capitalize_first_character(get_resource_string(self.arn).split("/")[0])
         self.always_exclude_actions = always_exclude_actions
         self.actions = self._actions(actions)
         self.policy_document = policy_document
@@ -165,7 +165,7 @@ class Finding:
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
             "PolicyName": self.policy_name,
-            "Type": capitalize_first_character(get_resource_string(self.arn).split("/")[0]),
+            "Type": self.type,
             "Arn": self.arn,
             # "ActionsCount": self.actions_count,
             # "ServicesCount": self.services_count,
