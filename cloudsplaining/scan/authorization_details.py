@@ -173,7 +173,7 @@ class AuthorizationDetails:
                         PolicyType="Managed",
                         ManagedBy=managed_by,
                         PolicyName=attached_managed_policy.get("PolicyName"),
-                        Comment=None,
+                        GroupMembership=None,
                     )
                     principal_policy_mapping.append(entry)
 
@@ -193,7 +193,7 @@ class AuthorizationDetails:
                                         PolicyType="Inline",
                                         ManagedBy="Customer",
                                         PolicyName=inline_policy.get("PolicyName"),
-                                        Comment="Group Membership"
+                                        GroupMembership=principal.group_member
                                     )
                                     principal_policy_mapping.append(entry)
                             # AttachedManagedPolicies
@@ -209,7 +209,7 @@ class AuthorizationDetails:
                                         PolicyType="Managed",
                                         ManagedBy=managed_by,
                                         PolicyName=attached_managed_policy.get("PolicyName"),
-                                        Comment="Group Membership"
+                                        GroupMembership=principal.group_member
                                     )
                                     principal_policy_mapping.append(entry)
         # Sort it
