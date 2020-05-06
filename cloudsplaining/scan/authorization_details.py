@@ -12,6 +12,7 @@ from cloudsplaining.scan.policy_detail import PolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
 from cloudsplaining.output.findings import Findings, Finding
 from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.exclusions import Exclusions
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
@@ -326,3 +327,108 @@ class AuthorizationDetails:
                             always_exclude_actions=excluded_actions
                         )
                         self.findings.add(finding)
+
+
+class PrincipalPolicyMapping:
+    def __init__(self):
+        self.entries = []
+
+    def add_with_detail(self, principal_name, principal_type, policy_type, managed_by, policy_name, comment):
+        entry = PrincipalPolicyMappingEntry(
+            principal_name, principal_type, policy_type, managed_by, policy_name, comment
+        )
+        self.entries.append(entry)
+
+    def add(self, principal_policy_mapping_entry):
+        if not isinstance(principal_policy_mapping_entry, PrincipalPolicyMappingEntry):
+            raise Exception("This should be the object type PrincipalPolicyMappingEntry. Please try again")
+        self.entries.append(principal_policy_mapping_entry)
+
+    @property
+    def json(self):
+        entries = [x.json for x in self.entries]
+        principal_policy_mapping = sorted(entries, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"))
+        return principal_policy_mapping
+
+    @property
+    def users(self):
+        result = []
+        for entry in self.entries:
+            if entry.principal_type == "User":
+                result.append(entry)
+        return result
+
+    @property
+    def groups(self):
+        result = []
+        for entry in self.entries:
+            if entry.principal_type == "Group":
+                result.append(entry)
+        return result
+
+    @property
+    def roles(self):
+        result = []
+        for entry in self.entries:
+            if entry.principal_type == "Role":
+                result.append(entry)
+        return result
+
+    def get_post_exclusion_principal_policy_mapping(self, exclusions):
+        """Given an Exclusions object, return a principal policy mapping after evaluating exclusions."""
+        if not isinstance(exclusions, Exclusions):
+            raise Exception("The exclusions provided is not an Exclusions type object. Please supply an Exclusions object and try again.")
+        filtered_principal_policy_mapping = PrincipalPolicyMapping()
+        for user_entry in self.users:
+            # If the user is explicitly mentioned in exclusions, do not add the entry
+            if not user_entry.principal_name.lower() in exclusions.users:
+                # If the user's policy is explicitly mentioned in exclusions, do not add the entry
+                if not user_entry.policy_name.lower() in exclusions.policies:
+                    # If the user is part of a group that is excluded, do not add that entry
+                    if user_entry.comment:
+                        for group_name in user_entry.comment:
+                            if group_name.lower() not in exclusions.groups:
+                                filtered_principal_policy_mapping.add(user_entry)
+        for group_entry in self.groups:
+            if not group_entry.principal_name.lower() in exclusions.groups:
+                if not group_entry.policy_name.lower() in exclusions.policies:
+                    # If we added users in the previous step that belong to this group name, then add the group
+                    # Otherwise, it means that all the users in that group were excluded individually
+                    # And so far, only user entries have been added to this temporary PrincipalPolicyMapping object
+                    non_excluded_groups = []
+                    for user_entry in filtered_principal_policy_mapping.entries:
+                        if user_entry.comment:
+                            for user_group_membership in user_entry.comment:
+                                non_excluded_groups.append(user_group_membership.lower())
+                    # if the group name is in the list of non-excluded groups
+                    if group_entry.principal_name.lower() in non_excluded_groups:
+                        filtered_principal_policy_mapping.add(group_entry)
+        for role_entry in self.roles:
+            if not role_entry.principal_name.lower() in exclusions.roles:
+                if not role_entry.policy_name.lower() in exclusions.policies:
+                    filtered_principal_policy_mapping.add(role_entry)
+        return filtered_principal_policy_mapping
+
+
+class PrincipalPolicyMappingEntry:
+    """Describes the mapping between Principals and Policies.
+    We use this for filtering exclusions and outputting tables of the mapping post-exclusions"""
+    def __init__(self, principal_name, principal_type, policy_type, managed_by, policy_name, comment):
+        self.principal_name = principal_name
+        self.principal_type = principal_type
+        self.policy_type = policy_type
+        self.managed_by = managed_by
+        self.policy_name = policy_name
+        self.comment = comment
+
+    @property
+    def json(self):
+        entry = dict(
+            Principal=self.principal_name,
+            Type=self.principal_type,
+            PolicyType=self.policy_type,
+            ManagedBy=self.managed_by,
+            PolicyName=self.policy_name,
+            Comment=self.comment,
+        )
+        return entry
