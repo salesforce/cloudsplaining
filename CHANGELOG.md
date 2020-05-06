@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.0.11 (2020-05-06)
+* Fixed an issue arising from policies where "Deny" was used in effect with no resource constraints. Fixes #23.
+
 ## 0.0.10 (2020-05-05)
 * Removed the recursive credentials method from the `download` command.
 * Fixed occasional installation error occurring from outdated Policy Sentry versions.
