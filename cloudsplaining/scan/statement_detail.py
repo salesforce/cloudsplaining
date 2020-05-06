@@ -81,7 +81,7 @@ class StatementDetail:
         """If NotAction is used, calculate the allowed actions - i.e., what it would be """
         effective_actions = []
         if not self.not_action:
-            return False
+            return None
         not_actions_expanded = determine_actions_to_expand(self.not_action)
         not_actions_expanded_lowercase = [x.lower() for x in not_actions_expanded]
 
@@ -116,12 +116,12 @@ class StatementDetail:
             return effective_actions
         elif self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
-            return False
+            return None
         elif not self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
-            return False
+            return None
         else:
-            return False
+            return None
 
     @property
     def has_not_resource_with_allow(self):
