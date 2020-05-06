@@ -9,10 +9,10 @@ import logging
 from policy_sentry.util.arns import get_account_from_arn, get_resource_path_from_arn
 from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.assume_role_policy_document import (
     AssumeRolePolicyDocument,
 )
+from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 
 logger = logging.getLogger(__name__)
 
@@ -171,3 +171,4 @@ class PrincipalDetail:
             ):
                 decision = True
         return decision
+
