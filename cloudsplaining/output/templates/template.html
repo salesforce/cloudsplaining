@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+  <!--Data Tables-->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
+        crossorigin="anonymous">
+
   <!--Custom CSS-->
   <style>
     .nav li {
@@ -26,6 +30,15 @@
 
     body {
       position: relative;
+    }
+    div.customer-managed-table {
+      word-wrap: break-word;
+    }
+    div.aws-managed-table {
+      word-wrap: break-word;
+    }
+    div.principals-table {
+      word-wrap: break-word;
     }
   </style>
 
@@ -121,7 +134,7 @@
           <!--EXECUTIVE SUMMARY TAB-->
           <div class="tab-pane fade show active" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
             <br>
-            Report metadata:
+            <h4>Report metadata</h4>
             <ul>
               <li>Account: {{ t["account_name"] }} ({{ t["account_id"] }})</li>
               <li>Report Generated: {{t.report_generated_time}}</li>
@@ -168,7 +181,7 @@
         </div><!--/end Tab content-->
         </div><!--/end data spy-->
 
-        <br>
+
         <hr>
         <br>
         <!--Guidance-->
@@ -208,6 +221,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+<!--Data Tables-->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>-->
+
+<script>
+  $(document).ready(function() {
+    $('#aws-managed-table').DataTable();
+    $('#customer-managed-table').DataTable();
+    $('#principals-table').DataTable();
+} );
+</script>
 
 <!--Press Collapse/expand button so you can Ctrl+F through the report-->
 <script type="text/javascript">
