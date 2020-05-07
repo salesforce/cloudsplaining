@@ -98,3 +98,12 @@ class TestAssumeRole(unittest.TestCase):
         )
         assume_role_statement_08 = AssumeRoleStatement(statement08)
         self.assertListEqual(assume_role_statement_08.role_assumable_by_compute_services, [])
+
+        # Case: Not a compute service, with AssumeRole
+        empty_actions_statement = dict(
+            Effect="Allow",
+            Principal={"Service": ["somethingelse.amazonaws.com"]},
+            Action=[],
+        )
+        assume_role_empty_actions_statement = AssumeRoleStatement(empty_actions_statement)
+        self.assertListEqual(assume_role_empty_actions_statement.actions, [])

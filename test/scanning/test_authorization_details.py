@@ -286,3 +286,35 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         ]
         print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
         self.assertListEqual(authorization_details.principal_policy_mapping, expected_results)
+
+    def test_user_principal_attached_managed_policies(self):
+        # User with attached managed policies
+        authz_cfg = {
+            "UserDetailList": [
+                {
+                  "Path": "/",
+                  "UserName": "BlakeBortles",
+                  "UserId": "BlakeBortles",
+                  "Arn": "arn:aws:iam::012345678901:user/BlakeBortles",
+                  "CreateDate": "2019-12-18 19:10:08+00:00",
+                  "GroupList": [
+                    "GOAT"
+                  ],
+                  "AttachedManagedPolicies": [
+                    {
+                        "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess",
+                        "PolicyName": "AdministratorAccess"
+                    }
+                    ],
+                  "Tags": []
+                },
+            ],
+            "GroupDetailList": [],
+            "RoleDetailList": [],
+            "Policies": []
+        }
+        authorization_details = AuthorizationDetails(authz_cfg)
+        expected_result = ["AdministratorAccess"]
+        results = authorization_details.aws_managed_policies_in_use
+        # print(json.dumps(results, indent=4))
+        self.assertListEqual(results, expected_result)

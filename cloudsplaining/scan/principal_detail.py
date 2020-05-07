@@ -129,20 +129,21 @@ class PrincipalDetail:
             if this_document:
                 assume_role_policy_document = AssumeRolePolicyDocument(this_document)
                 return assume_role_policy_document
+            # For roles, a trust policy is required. I'm simply including an else statement here
+            # to make Pylint and coverage happy.
             else:
-                return None
+                return None  # pragma: no cover
         else:
             return None
 
     @property
-    def assume_role_from_compute(self):
-        """Parse the Trust Policy and determine if an AWS Compute service (EC2, ECS, EKS, Lambda) is able to assume the role."""
-        # print(self.assume_role_policy_document)
+    def assume_role_from_compute(self):  # pragma: no cover
+        """Parse the Trust Policy and determine if an AWS Compute service (EC2, ECS, EKS, Lambda)
+        is able to assume the role."""
         if self.principal_type == "Role":
-            print()
+            return self.assume_role_policy_document
         else:
-            return []
-        return self.assume_role_policy_document
+            return None
 
     @property
     def account_id(self):

@@ -102,7 +102,7 @@ class StatementDetail:
                     effective_actions.append(opposite_action)
             effective_actions.sort()
             return effective_actions
-        # Effect: Allow && Resource == "*"
+        # Effect: Allow, Resource != "*", and Action == prefix:*
         elif not self.has_resource_constraints and self.effect_allow:
             # Then we calculate the reverse using all_actions
             for action in all_actions:
@@ -120,17 +120,20 @@ class StatementDetail:
         elif not self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
+        # only including this so Pylint doesn't yell at us
         else:
-            return None
+            return None  # pragma: no cover
 
     @property
     def has_not_resource_with_allow(self):
-        """Per the AWS documentation, the NotResource should never be used with the Allow Effect.
+        """Per the AWS documentation, the NotResource should NEVER be used with the Allow Effect.
         See documentation here. https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notresource.html#notresource-element-combinations"""
         result = False
         if self.not_resource:
             if self.effect_allow:
                 result = True
+                logger.warning("Per the AWS documentation, the NotResource should never be used with the "
+                               "Allow Effect. We suggest changing this ASAP")
         return result
 
     @property
@@ -143,7 +146,7 @@ class StatementDetail:
         elif self.not_action:
             return self.not_action_effective_actions
         else:
-            raise Exception(
+            raise Exception(  # pragma: no cover
                 "The Policy should include either NotAction or Action in the statement."
             )
 
@@ -178,7 +181,7 @@ class StatementDetail:
         if len(self.resources) == 1:
             if self.resources[0] == "*":
                 answer = False
-        elif len(self.resources) > 1:
+        elif len(self.resources) > 1:  # pragma: no cover
             # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
             for resource in self.resources:
                 if resource == "*":
