@@ -66,7 +66,8 @@ click_log.basic_config(logger)
     "This helps when running the report in automation.",
 )
 @click_log.simple_verbosity_option()
-def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  # pylint: disable=redefined-builtin
+# pylint: disable=redefined-builtin
+def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -88,7 +89,7 @@ def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  
             scan_account_authorization_file(file, exclusions_cfg, output, all_access_levels, skip_open_report)
 
 
-def scan_account_authorization_file(input_file, exclusions_cfg, output, all_access_levels, skip_open_report):
+def scan_account_authorization_file(input_file, exclusions_cfg, output, all_access_levels, skip_open_report):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -163,7 +164,7 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
     )
 
 
-def get_authorization_files_in_directory(directory):
+def get_authorization_files_in_directory(directory):  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
     file_list = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
     file_list_with_full_path = []

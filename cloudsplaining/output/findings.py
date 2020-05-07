@@ -28,7 +28,7 @@ class Findings:
             for a_finding in finding:
                 # Only add it if there are any actions after processing exclusions
                 if a_finding.actions:
-                    self.findings.append(finding)
+                    self.findings.append(a_finding)
         elif isinstance(finding, Finding):
             if finding.actions:
                 self.findings.append(finding)
@@ -44,7 +44,7 @@ class Findings:
         return these_findings
 
     def __len__(self):
-        return len(self.findings)
+        return len(self.findings)  # pragma: no cover
 
 
 class Finding:
@@ -72,8 +72,7 @@ class Finding:
         if self.always_exclude_actions:
             for action in actions:
                 if is_name_excluded(action.lower(), self.always_exclude_actions):
-                    # logger.info("Excluded action: %s" % action)
-                    pass
+                    pass  # pragma: no cover
                 else:
                     results.append(action)
             return results
@@ -84,7 +83,7 @@ class Finding:
     def managed_by(self):
         """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
         if "arn:aws:iam::aws:" in self.arn:
-            return "AWS"
+            return "AWS"  # pragma: no cover
         else:
             return "Customer"
 
@@ -92,7 +91,7 @@ class Finding:
     def account_id(self):
         """Return the account ID, if applicable."""
         if "arn:aws:iam::aws:" in self.arn:
-            return "N/A"
+            return "N/A"  # pragma: no cover
         else:
             try:
                 account_id = get_account_from_arn(self.arn)
@@ -139,7 +138,7 @@ class Finding:
         if self.always_exclude_actions:
             for action in self.policy_document.permissions_management_without_constraints:
                 if is_name_excluded(action.lower(), self.always_exclude_actions):
-                    pass
+                    pass  # pragma: no cover
                 else:
                     results.append(action)
             return results
@@ -186,13 +185,3 @@ class Finding:
             # "TaggingActions": self.policy_document.tagging_actions_without_constraints,
         }
         return result
-
-
-class FindingsPrincipalsMapping:
-    """Holds a mapping between AuthorizationDetails.principal_policy_mapping and Findings"""
-
-    def __init__(self, findings, principal_policy_mapping):
-        # TODO: Figure out the Findings vs Principals Mapping thing later.
-        print(findings)
-        print(principal_policy_mapping)
-        print("Figure this out later")

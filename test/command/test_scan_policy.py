@@ -81,3 +81,80 @@ class PolicyFileTestCase(unittest.TestCase):
         results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
         # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
+
+    def test_excluded_actions_scan_policy_file(self):
+        """Test the scan_policy command when we have excluded actions"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject",
+                        "iam:CreateAccessKey"
+                    ],
+                    "Resource": "*"
+                },
+            ]
+        }
+        results = scan_policy(test_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
+        # print(json.dumps(results, indent=4))
+        expected_results_before_exclusion = [
+            {
+                "AccountID": "N/A",
+                "ManagedBy": "Customer",
+                "PolicyName": "test",
+                "Type": "",
+                "Arn": "test",
+                "ActionsCount": 2,
+                "ServicesCount": 2,
+                "Services": [
+                    "iam",
+                    "s3"
+                ],
+                "Actions": [
+                    "iam:CreateAccessKey",
+                    "s3:GetObject"
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:GetObject",
+                                "iam:CreateAccessKey"
+                            ],
+                            "Resource": "*"
+                        }
+                    ]
+                },
+                "AssumeRolePolicyDocument": None,
+                "AssumableByComputeService": [],
+                "PrivilegeEscalation": [
+                    {
+                        "type": "CreateAccessKey",
+                        "actions": [
+                            "iam:createaccesskey"
+                        ]
+                    }
+                ],
+                "DataExfiltrationActions": [
+                    "s3:GetObject"
+                ],
+                "PermissionsManagementActions": [
+                    "iam:CreateAccessKey"
+                ]
+            }
+        ]
+        self.assertListEqual(results, expected_results_before_exclusion)
+        expected_results_after_exclusion = []
+        exclusions_cfg_custom = {
+            "exclude-actions": [
+                "s3:GetObject",
+                "iam:CreateAccessKey"
+            ]
+        }
+        results = scan_policy(test_policy, "test", exclusions_cfg_custom)
+        # print(json.dumps(results, indent=4))
+        self.assertListEqual(results, expected_results_after_exclusion)

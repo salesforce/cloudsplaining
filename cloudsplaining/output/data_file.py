@@ -8,6 +8,7 @@ import os
 import json
 
 
+# pragma: no cover
 def write_results_data_file(results, raw_data_file):
     """
     Writes the raw data file containing all the results for an AWS account
