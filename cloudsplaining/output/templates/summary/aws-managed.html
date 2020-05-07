@@ -24,7 +24,7 @@
         <td>{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %} </td>
         <td> {% if finding["PrivilegeEscalation"]|length > 0 %} {{ finding["PrivilegeEscalation"]|length }} {% endif %}</td>
         <td> {% if finding["PermissionsManagementActions"]|length>0 %} {{ finding["PermissionsManagementActions"]|length }}{% endif %}</td>
-        <td> {% if finding["AssumableByComputeService"]|length > 0 %}{{ finding["AssumableByComputeService"]|length }} {% endif %}</td>
+        <td> {% if finding["DataExfiltrationActions"]|length > 0 %}{{ finding["DataExfiltrationActions"]|length }} {% endif %}</td>
       </tr>
     {% endif %}
   {% endfor %}
