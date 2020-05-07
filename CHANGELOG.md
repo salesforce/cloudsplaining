@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+* Docker
+
+## 0.0.13 (2020=05-07)
+* Windows compatibility fixes
+
 ## 0.0.12 (2020-05-07)
 * Various UI improvements, like sortable tables. Fixes #22. See https://opensource.salesforce.com/cloudsplaining/ for the latest example.
 * Fixes #27 - issue arising from where "expanded_actions" is empty

@@ -91,7 +91,7 @@ def upload_to_pypi_prod_server(c):
 def version_check(c):
     """Print the version"""
     try:
-        c.run('./cloudsplaining/bin/cloudsplaining --version', pty=True)
+        c.run('./cloudsplaining/bin/cli.py --version', pty=True)
     except UnexpectedExit as u_e:
         logger.critical(f"FAIL! UnexpectedExit: {u_e}")
         sys.exit(1)
@@ -107,11 +107,11 @@ def expand_policy(c):
     """
     try:
         c.run(
-            "./cloudsplaining/bin/cloudsplaining expand-policy --input examples/policies/wildcards.json",
+            "./cloudsplaining/bin/cli.py expand-policy --input examples/policies/wildcards.json",
             pty=True,
         )
         c.run(
-            "./cloudsplaining/bin/cloudsplaining expand-policy --input examples/policies/explicit-actions.json",
+            "./cloudsplaining/bin/cli.py expand-policy --input examples/policies/explicit-actions.json",
             pty=True,
         )
     except UnexpectedExit as u_e:
@@ -127,7 +127,7 @@ def scan(c):
     """Integration testing: tests the scan command"""
     try:
         c.run(
-            "./cloudsplaining/bin/cloudsplaining scan --input examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report",
+            "./cloudsplaining/bin/cli.py scan --input examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report",
             pty=True,
         )
     except UnexpectedExit as u_e:
