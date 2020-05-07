@@ -191,9 +191,10 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            result = remove_actions_not_matching_access_level(
-                self.expanded_actions, "Permissions management"
-            )
+            if self.expanded_actions:
+                result = remove_actions_not_matching_access_level(
+                    self.expanded_actions, "Permissions management"
+                )
         return result
 
     @property
