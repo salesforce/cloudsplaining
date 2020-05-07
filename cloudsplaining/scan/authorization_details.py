@@ -76,21 +76,24 @@ class AuthorizationDetails:
         # Policies attached to groups
         for principal in self.group_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
+                # Skipping coverage here because it would be redundant
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
         # Policies attached to users
         for principal in self.user_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
+                # Skipping coverage here because it would be redundant
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
         # Policies attached to roles
         for principal in self.role_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):
+                # Skipping coverage here because it would be redundant
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )

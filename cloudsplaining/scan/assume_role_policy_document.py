@@ -19,7 +19,8 @@ class AssumeRolePolicyDocument:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
-        if not isinstance(statement_structure, list):
+        # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
+        if not isinstance(statement_structure, list):  # pragma: no cover
             statement_structure = [statement_structure]
 
         for statement in statement_structure:
@@ -56,7 +57,7 @@ class AssumeRoleStatement:
 
         # self.not_principal = statement.get("NotPrincipal")
         if statement.get("NotPrincipal"):
-            logger.critical(
+            logger.critical(  # pragma: no cover
                 "NotPrincipal is used in the IAM AssumeRole Trust Policy. "
                 "This should NOT be used. We suggest reviewing it ASAP."
             )
@@ -88,7 +89,7 @@ class AssumeRoleStatement:
         principal = self.statement.get("Principal", None)
         if not principal:
             # It is possible not to define a principal, AWS ignores these statements.
-            return principals
+            return principals  # pragma: no cover
 
         if isinstance(principal, dict):
 
