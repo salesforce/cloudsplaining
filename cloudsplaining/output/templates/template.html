@@ -31,6 +31,15 @@
     body {
       position: relative;
     }
+    div.customer-managed-table {
+      word-wrap: break-word;
+    }
+    div.aws-managed-table {
+      word-wrap: break-word;
+    }
+    div.principals-table {
+      word-wrap: break-word;
+    }
   </style>
 
 </head>
@@ -125,7 +134,7 @@
           <!--EXECUTIVE SUMMARY TAB-->
           <div class="tab-pane fade show active" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
             <br>
-            Report metadata:
+            <h4>Report metadata</h4>
             <ul>
               <li>Account: {{ t["account_name"] }} ({{ t["account_id"] }})</li>
               <li>Report Generated: {{t.report_generated_time}}</li>
@@ -172,7 +181,7 @@
         </div><!--/end Tab content-->
         </div><!--/end data spy-->
 
-        <br>
+
         <hr>
         <br>
         <!--Guidance-->
