@@ -31,7 +31,7 @@
 
 </head>
 
-<body onload="setSummaryAsActiveTab()">
+<body>
 <!------------------>
 <!-- Row          -->
 <!------------------>
@@ -210,7 +210,7 @@
         crossorigin="anonymous"></script>
 
 <!--Press Collapse/expand button so you can Ctrl+F through the report-->
-<script>
+<script type="text/javascript">
   $(function () {
     $('#collapseAccordion').on('click', function (e) {
       $('.panel-collapse').collapse('hide');
@@ -220,11 +220,13 @@
     })
   });
 </script>
-<script>
-function setSummaryAsActiveTab() {
-  $('.nav-tabs a[href="#nav-summary"]').tab('show')
-}
 
-  </script>
+<!--Force first tab as active tab-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.nav-tabs a[href="#nav-summary"]').tab('show');
+    });
+</script>
+
 </body>
 </html>
