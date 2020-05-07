@@ -7,7 +7,7 @@
 """
     Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
 """
-__version__ = "0.0.12"
+__version__ = "0.0.13"
 import click
 from cloudsplaining import command
 
@@ -25,6 +25,12 @@ cloudsplaining.add_command(command.expand_policy.expand_policy)
 cloudsplaining.add_command(command.scan.scan)
 cloudsplaining.add_command(command.scan_policy_file.scan_policy_file)
 cloudsplaining.add_command(command.download.download)
+
+
+def main():
+    """Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet."""
+    cloudsplaining()
+
 
 if __name__ == "__main__":
     cloudsplaining()

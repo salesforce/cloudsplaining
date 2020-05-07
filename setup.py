@@ -7,7 +7,7 @@ import setuptools
 import os
 import re
 
-HERE = os.path.dirname(__file__)
+HERE = os.path.abspath(os.path.dirname(__file__))
 VERSION_RE = re.compile(r'''__version__ = ['"]([0-9.]+)['"]''')
 TESTS_REQUIRE = [
     'coverage',
@@ -17,12 +17,22 @@ TESTS_REQUIRE = [
 
 
 def get_version():
-    init = open(os.path.join(HERE, 'cloudsplaining/bin/', 'cloudsplaining')).read()
+    init = open(
+        os.path.join(
+            HERE,
+            "cloudsplaining",
+            "bin",
+            'cli.py'
+        )
+    ).read()
     return VERSION_RE.search(init).group(1)
 
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+def get_description():
+    return open(
+        os.path.join(os.path.abspath(HERE), "README.md"), encoding="utf-8"
+    ).read()
+
 
 setuptools.setup(
     name="cloudsplaining",
@@ -31,7 +41,7 @@ setuptools.setup(
     author="Kinnaird McQuade",
     author_email="kinnairdm@gmail.com",
     description="AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.",
-    long_description=long_description,
+    long_description=get_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/kmcquade/cloudsplaining",
     packages=setuptools.find_packages(exclude=['test*', 'tmp*']),
@@ -51,7 +61,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    entry_points={"console_scripts": "cloudsplaining=cloudsplaining.bin.cli:main"},
+    zip_safe=True,
     keywords='aws iam roles policy policies privileges security',
     python_requires='>=3.6',
-    scripts=['cloudsplaining/bin/cloudsplaining'],
+    # scripts=['cloudsplaining/bin/cloudsplaining'],
 )
