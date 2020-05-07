@@ -7,7 +7,7 @@
 """
     Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
 """
-__version__ = "0.0.13"
+__version__ = "0.0.14"
 import click
 from cloudsplaining import command
 
