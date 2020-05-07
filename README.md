@@ -313,4 +313,4 @@ Try upgrading to the latest version of Cloudsplaining. This error was fixed in v
 * [Parliament](https://github.com/duo-labs/parliament/) by [Scott Piper](https://twitter.com/0xdabbad00) at [Summit Route](http://summitroute.com/) and Duo Labs.
 * [AWS Privilege Escalation Methods](https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation) by [Spencer Gietzen](https://twitter.com/SpenGietz) at Rhino Security Labs
 * [Understanding Access Level Summaries within Policy Summaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand-policy-summary-access-level-summaries.html)
-* [Using Blockchain-based machine learning algorithms on multiple service meshes to transparently automate multi-cloud IAM Kung-Fu](http://kmcquade.com/rick.html)
+* [Leveraging next-generation blockchain-based AI across multiple service meshes to transparently automate multi-cloud IAM wizardry :mage_man:](http://kmcquade.com/rick.html)
