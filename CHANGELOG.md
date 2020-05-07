@@ -3,6 +3,9 @@
 ## Unreleased
 * Docker
 
+## 0.0.14 (2020-05-07)
+* Fix issue where Data Exposure tallies were not showing up in the AWS Managed table correctly.
+
 ## 0.0.13 (2020=05-07)
 * Windows compatibility fixes
 
