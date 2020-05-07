@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## 0.0.12 (Unreleased)
+## 0.0.12 (2020-05-07)
 * Various UI improvements, like sortable tables. Fixes #22. See https://opensource.salesforce.com/cloudsplaining/ for the latest example.
+* Fixes #27 - issue arising from where "expanded_actions" is empty
 
 ## 0.0.11 (2020-05-06)
 * Fixed an issue arising from policies where "Deny" was used in effect with no resource constraints. Fixes #23.
