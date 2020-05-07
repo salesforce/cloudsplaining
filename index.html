@@ -1215,7 +1215,7 @@ Actions:
        <th>Services Affected</th>
        <th>Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a></th>
        <th>Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a></th>
-       <th>Data Exfiltration <a href="#definition-data-exfiltration"><small>[3]</small></a></th>
+       <th>Data Exfiltration<a href="#definition-data-exfiltration"><small>[3]</small></a></th>
      </tr>
   </thead>
   <tbody>
@@ -9055,7 +9055,7 @@ users:
 </script>
 
 <!--Press Collapse/expand button so you can Ctrl+F through the report-->
-<script>
+<script type="text/javascript">
   $(function () {
     $('#collapseAccordion').on('click', function (e) {
       $('.panel-collapse').collapse('hide');
@@ -9065,10 +9065,13 @@ users:
     })
   });
 </script>
+
+<!--Force first tab as active tab-->
 <script type="text/javascript">
-  $(document).ready(function(){
-    $('.nav-tabs a[href="#nav-summary"]').tab('show');
-  });
+    $(document).ready(function(){
+        $('.nav-tabs a[href="#nav-summary"]').tab('show');
+    });
 </script>
+
 </body>
 </html>
