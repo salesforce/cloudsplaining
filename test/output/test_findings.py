@@ -1,8 +1,9 @@
 import unittest
 import json
-from cloudsplaining.output.findings import Finding
+from cloudsplaining.output.findings import Finding, Findings
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
+
 
 class TestFindings(unittest.TestCase):
     def test_finding_attributes(self):
@@ -181,3 +182,36 @@ class TestFindings(unittest.TestCase):
         self.assertListEqual(finding.role_assumable_by_compute_services, [])
         # print(json.dumps(finding.assume_role_policy_document_json, indent=4))
         self.assertDictEqual(finding.assume_role_policy_document_json, trust_policy_from_non_compute_service)
+
+    def test_findings_add_list(self):
+        """output.findings.findings.add: Make sure the add function works with adding it as a list"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        finding_1 = Finding(
+            policy_name="MyPolicy",
+            arn="arn:aws:iam::123456789012:group/SNSNotifications",
+            actions=["s3:GetObject"],
+            policy_document=policy_document
+        )
+        finding_2 = Finding(
+            policy_name="MyPolicy",
+            arn="arn:aws:iam::aws:policy/BadAWSManagedPolicy",
+            actions=["s3:GetObject"],
+            policy_document=policy_document
+        )
+
+        findings = Findings()
+        findings.add([finding_1, finding_2])
+        result = findings.json
+        self.assertTrue(len(result) == 2)
