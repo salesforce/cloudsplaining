@@ -50,7 +50,8 @@ END = "\033[0m"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
 @click_log.simple_verbosity_option(logger)
-def scan_policy_file(input, exclusions_file, high_priority_only):  # pylint: disable=redefined-builtin
+# pylint: disable=redefined-builtin
+def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
     file = input
     # Get the exclusions configuration
@@ -130,7 +131,7 @@ def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONF
         for action in actions_missing_resource_constraints:
             if excluded_actions:
                 if not is_name_excluded(action.lower(), excluded_actions):
-                    results_placeholder.append(action)
+                    results_placeholder.append(action)  # pragma: no cover
             else:
                 results_placeholder.append(action)
         actions_missing_resource_constraints = list(

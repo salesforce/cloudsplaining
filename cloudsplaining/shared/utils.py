@@ -19,18 +19,18 @@ def remove_wildcard_only_actions(actions_list):
     """Given a list of actions, remove the ones that CANNOT be restricted to ARNs, leaving only the ones that CAN."""
     try:
         actions_list_unique = list(dict.fromkeys(actions_list))
-    except TypeError as t_e:
+    except TypeError as t_e:  # pragma: no cover
         print(t_e)
         return []
     results = []
     for action in actions_list_unique:
         service_prefix, action_name = action.split(":")
         if service_prefix not in all_service_prefixes:
-            continue
+            continue  # pragma: no cover
         action_data = get_action_data(service_prefix, action_name)
 
         if len(action_data[service_prefix]) == 0:
-            pass
+            pass  # pragma: no cover
         elif len(action_data[service_prefix]) == 1:
             if action_data[service_prefix][0]["resource_arn_format"] == "*":
                 pass

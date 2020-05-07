@@ -24,8 +24,7 @@ with open(example_authz_details_file) as f:
 
 
 class TestPrincipalDetail(unittest.TestCase):
-    def test_principal(self):
-
+    def test_user_principal(self):
         principal_detail = auth_details_json["UserDetailList"][1]
         user_principal_detail = PrincipalDetail(principal_detail)
         result = user_principal_detail.policy_list[0]["PolicyDocument"].json
@@ -64,6 +63,54 @@ class TestPrincipalDetail(unittest.TestCase):
         user_principal_detail = PrincipalDetail(principal_detail)
         self.assertEqual(user_principal_detail.account_id, "012345678901")
 
+    def test_group_principal_detail(self):
+        """scan.principal_detail.Principal: Testing group"""
+        principal_detail = {
+          "Path": "/",
+          "GroupName": "GOAT",
+          "GroupId": "GreatestOfAllTime",
+          "Arn": "arn:aws:iam::012345678901:group/GOAT",
+          "CreateDate": "2017-05-15 17:33:36+00:00",
+          "GroupPolicyList": [
+              {
+                  "PolicyName": "SsmOnboardingInlinePolicy",
+                  "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                          {
+                              "Sid": "VisualEditor0",
+                              "Effect": "Allow",
+                              "Action": [
+                                  "s3:PutObject",
+                                  "s3:GetObject"
+                              ],
+                              "Resource": "*"
+                          }
+                      ]
+                  }
+              }
+          ],
+          "AttachedManagedPolicies": [
+            {
+              "PolicyName": "AdministratorAccess",
+              "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+            }
+          ]
+        }
+        group_principal_detail = PrincipalDetail(principal_detail)
+        self.assertEqual(group_principal_detail.policy_list[0]["PolicyName"], "SsmOnboardingInlinePolicy")
+        self.assertEqual(group_principal_detail.policy_list[0]["PolicyName"], "SsmOnboardingInlinePolicy")
+        # Group with attached managed policies
+        expected_result = [
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess",
+                "PolicyName": "AdministratorAccess"
+            }
+        ]
+        results = group_principal_detail.attached_managed_policies
+        # print(json.dumps(results, indent=4))
+        self.assertListEqual(results, expected_result)
+
 
 class TestPrincipalTrustPolicies(unittest.TestCase):
     def test_principal_assume_role_policy_document_json(self):
@@ -85,3 +132,4 @@ class TestPrincipalTrustPolicies(unittest.TestCase):
         }
         # print(json.dumps(role_principal_detail.assume_role_policy_document.json, indent=4))
         self.assertDictEqual(role_principal_detail.assume_role_policy_document.json, expected_result)
+        self.assertDictEqual(role_principal_detail.assume_role_from_compute.json, expected_result)

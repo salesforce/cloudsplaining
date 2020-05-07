@@ -24,8 +24,9 @@ class PolicyDocument:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
+        # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
         if not isinstance(statement_structure, list):
-            statement_structure = [statement_structure]
+            statement_structure = [statement_structure]  # pragma: no cover
 
         for statement in statement_structure:
             self.statements.append(StatementDetail(statement))
@@ -119,7 +120,7 @@ class PolicyDocument:
         result = []
         for statement in self.statements:
             if statement.tagging_actions_without_constraints:
-                result.extend(statement.write_actions_without_constraints)
+                result.extend(statement.tagging_actions_without_constraints)
         return result
 
     def allows_specific_actions_without_constraints(self, specific_actions):

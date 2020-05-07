@@ -67,7 +67,7 @@ class PolicyDetail:
         return get_full_policy_path(self.arn)
 
     @property
-    def managed_by(self):
+    def managed_by(self):  # pragma: no cover
         """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
         if "arn:aws:iam::aws:" in self.arn:
             return "AWS"
@@ -75,7 +75,7 @@ class PolicyDetail:
             return "Customer"
 
     @property
-    def account_id(self):
+    def account_id(self):  # pragma: no cover
         """Return the account ID"""
         if "arn:aws:iam::aws:" in self.arn:
             return "N/A"

@@ -159,7 +159,9 @@ class TestPolicyDocument(unittest.TestCase):
                         "ssm:GetParameter",
                         "ssm:GetParameters",
                         "ssm:GetParametersByPath",
-                        "secretsmanager:GetSecretValue"
+                        "secretsmanager:GetSecretValue",
+                        "s3:PutObject",
+                        "ec2:CreateTags"
                     ],
                     "Resource": "*"
                 }
@@ -183,6 +185,19 @@ class TestPolicyDocument(unittest.TestCase):
         results = policy_document.allows_specific_actions_without_constraints(high_priority_read_only_actions)
         self.assertListEqual(results, high_priority_read_only_actions)
 
+        results = policy_document.permissions_management_without_constraints
+        self.assertListEqual(results, ["iam:PassRole"])
+        results = policy_document.write_actions_without_constraints
+        self.assertListEqual(results, ["s3:PutObject"])
+        results = policy_document.tagging_actions_without_constraints
+        self.assertListEqual(results, ["ec2:CreateTags"])
+        results = policy_document.allows_data_leak_actions
+        expected_results = high_priority_read_only_actions
+        self.assertListEqual(results, expected_results)
+        with self.assertRaises(Exception):
+            results = policy_document.allows_specific_actions_without_constraints("iam:passrole")
+
+
     def test_policy_document_not_action_deny_gh_23(self):
         test_policy = {
             "Version": "2012-10-17",
@@ -199,6 +214,34 @@ class TestPolicyDocument(unittest.TestCase):
         for statement in policy_document.statements:
             if not statement.has_resource_constraints:
                 if statement.expanded_actions:
-                    allowed_actions.extend(statement.expanded_actions)
+                    allowed_actions.extend(statement.expanded_actions)  # pragma: no cover
         self.assertListEqual(allowed_actions, [])
         self.assertListEqual(policy_document.all_allowed_unrestricted_actions, [])
+        # print(json.dumps(policy_document.contains_statement_using_not_action, indent=4))
+        self.assertListEqual(policy_document.contains_statement_using_not_action, test_policy["Statement"])
+
+    def test_policy_document_contains_statement_using_not_action(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "Something",
+                    "Effect": "Allow",
+                    "NotAction": "iam:*",
+                    "Resource": "*",
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+
+        results = policy_document.contains_statement_using_not_action
+        expected_results = [
+            {
+                "Sid": "Something",
+                "Effect": "Allow",
+                "NotAction": "iam:*",
+                "Resource": "*"
+            }
+        ]
+        # print(json.dumps(results, indent=4))
+        self.assertListEqual(results, expected_results)
