@@ -34,7 +34,7 @@
 
 </head>
 
-<body onload="setSummaryAsActiveTab()">
+<body>
 <!------------------>
 <!-- Row          -->
 <!------------------>
@@ -9032,11 +9032,10 @@ users:
     })
   });
 </script>
-<script>
-function setSummaryAsActiveTab() {
-  $('.nav-tabs a[href="#nav-summary"]').tab('show')
-}
-
-  </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.nav-tabs a[href="#nav-summary"]').tab('show');
+  });
+</script>
 </body>
 </html>
