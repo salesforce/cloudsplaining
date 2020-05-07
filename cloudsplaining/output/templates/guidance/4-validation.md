@@ -5,7 +5,7 @@ After you've rewritten your IAM policy, we suggest two options for validating th
 <div id="validation-guidance-pt1-bullet-points">
 <ul>
   <li>Run Cloudsplaining's <code>scan-policy-file</code> command, which scans a single JSON policy file instead of the entire AWS Account's Authorization details. </li>
-  <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>)</li>
+  <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a></li>
 </ul>
 </div>
 
