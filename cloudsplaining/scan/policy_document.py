@@ -120,7 +120,7 @@ class PolicyDocument:
         result = []
         for statement in self.statements:
             if statement.tagging_actions_without_constraints:
-                result.extend(statement.write_actions_without_constraints)
+                result.extend(statement.tagging_actions_without_constraints)
         return result
 
     def allows_specific_actions_without_constraints(self, specific_actions):
