@@ -157,7 +157,7 @@ class AuthorizationDetails:
                         PolicyType="Inline",
                         ManagedBy="Customer",
                         PolicyName=inline_policy.get("PolicyName"),
-                        Comment=None
+                        GroupMembership=None
                     )
                     principal_policy_mapping.append(entry)
             # AttachedManagedPolicies
@@ -216,6 +216,7 @@ class AuthorizationDetails:
         principal_policy_mapping = sorted(principal_policy_mapping, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"))
         return principal_policy_mapping
 
+    # TODO: Fix exclusions approach
     def missing_resource_constraints(
         self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
     ):
@@ -236,18 +237,23 @@ class AuthorizationDetails:
         self.scan_policy_details(exclusions_cfg, modify_only)
         return self.findings.json
 
+    # TODO: Fix exclusions approach
     def scan_policy_details(
         self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
     ):
         """Scan the PolicyDetails block of the account authorization details output."""
+        # TODO: Fix exclusions approach
         excluded_actions = exclusions_cfg.get("exclude-actions", None)
 
         for policy in self.policies.policy_details:
             print(f"Scanning policy: {policy.policy_name}")
+            # TODO: Fix exclusions approach
             always_include_actions = exclusions_cfg.get("include-actions")
             actions_missing_resource_constraints = []
+            # TODO: Fix exclusions approach
             if is_name_excluded(policy.policy_name, exclusions_cfg.get("policies")):
                 print(f"\tExcluded policy name: {policy.policy_name}")
+            # TODO: Fix exclusions approach
             elif is_name_excluded(
                 policy.full_policy_path, exclusions_cfg.get("policies")
             ):
@@ -271,6 +277,7 @@ class AuthorizationDetails:
                         dict.fromkeys(actions_missing_resource_constraints)
                     )  # remove duplicates
                     actions_missing_resource_constraints.sort()
+                    # TODO: Fix exclusions approach
                     finding = Finding(
                         policy_name=policy.policy_name,
                         arn=policy.arn,
@@ -287,18 +294,22 @@ class AuthorizationDetails:
         modify_only=True,
     ):
         """Scan the UserDetailList, GroupDetailList, or RoleDetailList blocks of the account authorization details output."""
+        # TODO: Fix exclusions approach
         excluded_actions = exclusions_cfg.get("exclude-actions", None)
 
         for principal in principal_type_detail_list.principals:
+            # TODO: Fix exclusions approach
             always_include_actions = exclusions_cfg.get("include-actions")
             print(f"Scanning {principal.principal_type}: {principal.name}")
             for policy in principal.policy_list:
                 print(f"\tScanning Policy: {policy['PolicyName']}")
 
+                # TODO: Fix exclusions approach
                 if is_name_excluded(
                     policy["PolicyName"], exclusions_cfg.get("policies")
                 ):
                     print(f"\tExcluded policy name: {policy['PolicyName']}")
+                # TODO: Fix exclusions approach
                 elif principal.is_principal_excluded(exclusions_cfg):
                     print(f"\tExcluded principal name: {principal.name}")
                 else:
@@ -318,6 +329,7 @@ class AuthorizationDetails:
                                     statement.missing_resource_constraints
                                 )
                     if actions_missing_resource_constraints:
+                        # TODO: Fix exclusions approach
                         finding = Finding(
                             policy_name=policy["PolicyName"],
                             arn=principal.arn,

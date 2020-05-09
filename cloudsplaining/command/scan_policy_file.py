@@ -16,7 +16,7 @@ from cloudsplaining.output.findings import Findings, Finding
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.validation import check_exclusions_schema
-from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -55,12 +55,14 @@ def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no 
     """Scan a single policy file to identify missing resource constraints."""
     file = input
     # Get the exclusions configuration
+    # TODO: Fix exclusions approach
     with open(exclusions_file, "r") as yaml_file:
         try:
             exclusions_cfg = yaml.safe_load(yaml_file)
         except yaml.YAMLError as exc:
             logger.critical(exc)
-    check_exclusions_schema(exclusions_cfg)
+    exclusions = Exclusions(exclusions_cfg)
+    # check_exclusions_schema(exclusions_cfg)
 
     # Get the Policy
     with open(file) as json_file:
@@ -70,6 +72,7 @@ def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no 
     policy_name = Path(file).stem
 
     # Run the scan and get the raw data.
+    # TODO: Fix exclusions approach
     results = scan_policy(policy, policy_name, exclusions_cfg)
 
     # There will only be one finding in the results but it is in a list.
@@ -94,6 +97,7 @@ def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no 
             print(f"{BOLD}Actions{END}: {', '.join(finding['Actions'])}")
 
 
+# TODO: Fix exclusions approach
 def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG):
     """
     Scan a policy document for missing resource constraints.
@@ -106,16 +110,19 @@ def scan_policy(policy_json, policy_name, exclusions_cfg=DEFAULT_EXCLUSIONS_CONF
     policy_document = PolicyDocument(policy_json)
     actions_missing_resource_constraints = []
 
+    # TODO: Fix exclusions approach
     # EXCLUDED ACTIONS - actions to exclude if they are false positives
     excluded_actions = exclusions_cfg.get("exclude-actions", None)
     if excluded_actions == [""]:
         excluded_actions = None
 
+    # TODO: Fix exclusions approach
     # convert to lowercase for comparison purposes
     # some weird if/else logic to reduce loops and improve performance slightly
     if excluded_actions:
         excluded_actions = [x.lower() for x in excluded_actions]
 
+    # TODO: Fix exclusions approach
     always_include_actions = exclusions_cfg.get("include-actions")
     findings = Findings()
 

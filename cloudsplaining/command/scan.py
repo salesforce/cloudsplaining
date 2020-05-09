@@ -72,6 +72,7 @@ def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
     """
+    # TODO: Fix exclusions approach
     if exclusions_file:
         with open(exclusions_file, "r") as yaml_file:
             try:
@@ -79,6 +80,7 @@ def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  
             except yaml.YAMLError as exc:
                 logger.critical(exc)
         check_exclusions_schema(exclusions_cfg)
+    # TODO: Fix exclusions approach
     if os.path.isfile(input):
         scan_account_authorization_file(input, exclusions_cfg, output, all_access_levels, skip_open_report)
     if os.path.isdir(input):
@@ -86,9 +88,11 @@ def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  
         input_files = get_authorization_files_in_directory(input)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
+            # TODO: Fix exclusions approach
             scan_account_authorization_file(file, exclusions_cfg, output, all_access_levels, skip_open_report)
 
 
+# TODO: Fix exclusions approach
 def scan_account_authorization_file(input_file, exclusions_cfg, output, all_access_levels, skip_open_report):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
