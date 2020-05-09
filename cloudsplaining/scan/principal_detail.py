@@ -151,6 +151,7 @@ class PrincipalDetail:
         account_id = get_account_from_arn(self.arn)
         return account_id
 
+    # TODO: Fix exclusions approach
     def is_principal_excluded(self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG):
         """According to the exclusions configuration, determine whether or not to skip the Principal according
         to their name."""

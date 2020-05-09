@@ -258,7 +258,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "PolicyType": "Managed",
                 "ManagedBy": "AWS",
                 "PolicyName": "AdministratorAccess",
-                "Comment": None
+                "GroupMembership": None
             },
             {
                 "Principal": "GOAT",
@@ -266,7 +266,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "PolicyType": "Inline",
                 "ManagedBy": "Customer",
                 "PolicyName": "SsmOnboardingInlinePolicy",
-                "Comment": None
+                "GroupMembership": None
             },
             {
                 "Principal": "MyOtherRole",
@@ -274,7 +274,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "PolicyType": "Inline",
                 "ManagedBy": "Customer",
                 "PolicyName": "InlinePolicyForTestingOverrides",
-                "Comment": None
+                "GroupMembership": None
             },
             {
                 "Principal": "BlakeBortles",
@@ -282,7 +282,9 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "PolicyType": "Managed",
                 "ManagedBy": "AWS",
                 "PolicyName": "AdministratorAccess",
-                "Comment": "Group Membership"
+                "GroupMembership": [
+                    "GOAT"
+                ]
             }
         ]
         print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
