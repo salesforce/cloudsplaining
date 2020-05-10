@@ -7,12 +7,14 @@
 import logging
 from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
-from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+
+# from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_detail import PolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
 from cloudsplaining.output.findings import Findings, Finding
-from cloudsplaining.shared.exclusions import is_name_excluded
-from cloudsplaining.shared.exclusions import Exclusions
+
+# from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
@@ -78,7 +80,9 @@ class AuthorizationDetails:
         for principal in self.group_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
+                    "PolicyArn"
+                ):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
@@ -86,7 +90,9 @@ class AuthorizationDetails:
         for principal in self.user_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
+                    "PolicyArn"
+                ):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
@@ -94,7 +100,9 @@ class AuthorizationDetails:
         for principal in self.role_detail_list.principals:
             for attached_managed_policy in principal.attached_managed_policies:
                 # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get("PolicyArn"):  # pragma: no cover
+                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
+                    "PolicyArn"
+                ):  # pragma: no cover
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
@@ -157,7 +165,7 @@ class AuthorizationDetails:
                         PolicyType="Inline",
                         ManagedBy="Customer",
                         PolicyName=inline_policy.get("PolicyName"),
-                        GroupMembership=None
+                        GroupMembership=None,
                     )
                     principal_policy_mapping.append(entry)
             # AttachedManagedPolicies
@@ -184,22 +192,32 @@ class AuthorizationDetails:
                 group_memberships = principal.group_member
                 for group_membership in group_memberships:
                     for some_principal in self.principals:
-                        if some_principal.principal_type == "Group" and some_principal.name == group_membership:
+                        if (
+                            some_principal.principal_type == "Group"
+                            and some_principal.name == group_membership
+                        ):
                             if some_principal.inline_principal_policies:
-                                for inline_policy in some_principal.inline_principal_policies:
+                                for (
+                                    inline_policy
+                                ) in some_principal.inline_principal_policies:
                                     entry = dict(
                                         Principal=principal.name,
                                         Type=principal.principal_type,
                                         PolicyType="Inline",
                                         ManagedBy="Customer",
                                         PolicyName=inline_policy.get("PolicyName"),
-                                        GroupMembership=principal.group_member
+                                        GroupMembership=principal.group_member,
                                     )
                                     principal_policy_mapping.append(entry)
                             # AttachedManagedPolicies
                             if some_principal.attached_managed_policies:
-                                for attached_managed_policy in some_principal.attached_managed_policies:
-                                    if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
+                                for (
+                                    attached_managed_policy
+                                ) in some_principal.attached_managed_policies:
+                                    if (
+                                        "arn:aws:iam::aws:"
+                                        in attached_managed_policy.get("PolicyArn")
+                                    ):
                                         managed_by = "AWS"
                                     else:
                                         managed_by = "Customer"
@@ -208,109 +226,105 @@ class AuthorizationDetails:
                                         Type=principal.principal_type,
                                         PolicyType="Managed",
                                         ManagedBy=managed_by,
-                                        PolicyName=attached_managed_policy.get("PolicyName"),
-                                        GroupMembership=principal.group_member
+                                        PolicyName=attached_managed_policy.get(
+                                            "PolicyName"
+                                        ),
+                                        GroupMembership=principal.group_member,
                                     )
                                     principal_policy_mapping.append(entry)
         # Sort it
-        principal_policy_mapping = sorted(principal_policy_mapping, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"))
+        principal_policy_mapping = sorted(
+            principal_policy_mapping,
+            key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"),
+        )
         return principal_policy_mapping
 
     # TODO: Fix exclusions approach
     def missing_resource_constraints(
-        self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
+        self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True
     ):
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The provided exclusions is not the Exclusions object type. "
+                "Please use the Exclusions object."
+            )
         """Scan the account authorization details for missing resource constraints."""
         print("-----USERS-----")
-        self.scan_principal_type_details(
-            self.user_detail_list, exclusions_cfg, modify_only
-        )
+        self.scan_principal_type_details(self.user_detail_list, exclusions, modify_only)
         print("-----GROUPS-----")
-        self.scan_principal_type_details(
-            self.group_detail_list, exclusions_cfg, modify_only
-        )
+        self.scan_principal_type_details(self.group_detail_list, exclusions, modify_only)
         print("-----ROLES-----")
-        self.scan_principal_type_details(
-            self.role_detail_list, exclusions_cfg, modify_only
-        )
+        self.scan_principal_type_details(self.role_detail_list, exclusions, modify_only)
         print("-----POLICIES-----")
-        self.scan_policy_details(exclusions_cfg, modify_only)
+        self.scan_policy_details(exclusions, modify_only)
         return self.findings.json
 
     # TODO: Fix exclusions approach
-    def scan_policy_details(
-        self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG, modify_only=True
-    ):
+    def scan_policy_details(self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True):
         """Scan the PolicyDetails block of the account authorization details output."""
-        # TODO: Fix exclusions approach
-        excluded_actions = exclusions_cfg.get("exclude-actions", None)
-
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The provided exclusions is not the Exclusions object type. "
+                "Please use the Exclusions object."
+            )
         for policy in self.policies.policy_details:
             print(f"Scanning policy: {policy.policy_name}")
-            # TODO: Fix exclusions approach
-            always_include_actions = exclusions_cfg.get("include-actions")
             actions_missing_resource_constraints = []
-            # TODO: Fix exclusions approach
-            if is_name_excluded(policy.policy_name, exclusions_cfg.get("policies")):
+            if exclusions.is_policy_excluded(
+                policy.policy_name
+            ) or exclusions.is_policy_excluded(policy.full_policy_path):
                 print(f"\tExcluded policy name: {policy.policy_name}")
-            # TODO: Fix exclusions approach
-            elif is_name_excluded(
-                policy.full_policy_path, exclusions_cfg.get("policies")
-            ):
-                print(f"\tExcluded policy path: {policy.full_policy_path}")
             else:
                 for statement in policy.policy_document.statements:
                     if modify_only:
                         if statement.effect == "Allow":
                             actions_missing_resource_constraints.extend(
                                 statement.missing_resource_constraints_for_modify_actions(
-                                    always_include_actions
+                                    exclusions
                                 )
                             )
                     else:
                         if statement.effect == "Allow":
                             actions_missing_resource_constraints.extend(
-                                statement.missing_resource_constraints
+                                statement.missing_resource_constraints(exclusions)
                             )
                 if actions_missing_resource_constraints:
                     actions_missing_resource_constraints = list(
                         dict.fromkeys(actions_missing_resource_constraints)
                     )  # remove duplicates
                     actions_missing_resource_constraints.sort()
-                    # TODO: Fix exclusions approach
                     finding = Finding(
                         policy_name=policy.policy_name,
                         arn=policy.arn,
                         actions=actions_missing_resource_constraints,
                         policy_document=policy.policy_document,
-                        always_exclude_actions=excluded_actions
+                        always_exclude_actions=exclusions.exclude_actions,
                     )
                     self.findings.add(finding)
 
     def scan_principal_type_details(
         self,
         principal_type_detail_list,
-        exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG,
+        exclusions=DEFAULT_EXCLUSIONS,
         modify_only=True,
     ):
-        """Scan the UserDetailList, GroupDetailList, or RoleDetailList blocks of the account authorization details output."""
-        # TODO: Fix exclusions approach
-        excluded_actions = exclusions_cfg.get("exclude-actions", None)
+        """Scan the UserDetailList, GroupDetailList, or RoleDetailList
+        blocks of the account authorization details output."""
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The provided exclusions is not the Exclusions object type. "
+                "Please use the Exclusions object."
+            )
 
         for principal in principal_type_detail_list.principals:
-            # TODO: Fix exclusions approach
-            always_include_actions = exclusions_cfg.get("include-actions")
             print(f"Scanning {principal.principal_type}: {principal.name}")
+
             for policy in principal.policy_list:
                 print(f"\tScanning Policy: {policy['PolicyName']}")
 
-                # TODO: Fix exclusions approach
-                if is_name_excluded(
-                    policy["PolicyName"], exclusions_cfg.get("policies")
-                ):
-                    print(f"\tExcluded policy name: {policy['PolicyName']}")
-                # TODO: Fix exclusions approach
-                elif principal.is_principal_excluded(exclusions_cfg):
+                if exclusions.is_policy_excluded(policy["PolicyName"]):
+                    pass
+                elif principal.is_principal_excluded(exclusions):
                     print(f"\tExcluded principal name: {principal.name}")
                 else:
                     policy_document = policy["PolicyDocument"]
@@ -320,50 +334,71 @@ class AuthorizationDetails:
                             if statement.effect == "Allow":
                                 actions_missing_resource_constraints.extend(
                                     statement.missing_resource_constraints_for_modify_actions(
-                                        always_include_actions
+                                        exclusions
                                     )
                                 )
                         else:
                             if statement.effect == "Allow":
                                 actions_missing_resource_constraints.extend(
-                                    statement.missing_resource_constraints
+                                    statement.missing_resource_constraints(exclusions)
                                 )
                     if actions_missing_resource_constraints:
-                        # TODO: Fix exclusions approach
                         finding = Finding(
                             policy_name=policy["PolicyName"],
                             arn=principal.arn,
                             actions=actions_missing_resource_constraints,
                             policy_document=policy["PolicyDocument"],
                             assume_role_policy_document=principal.assume_role_policy_document,
-                            always_exclude_actions=excluded_actions
+                            always_exclude_actions=exclusions.exclude_actions,
                         )
                         self.findings.add(finding)
 
 
 class PrincipalPolicyMapping:
+    """Mapping between the principals and the policies assigned to them"""
     def __init__(self):
         self.entries = []
 
-    def add_with_detail(self, principal_name, principal_type, policy_type, managed_by, policy_name, comment):
+    def add_with_detail(
+        self,
+        principal_name,
+        principal_type,
+        policy_type,
+        managed_by,
+        policy_name,
+        comment,
+    ):
+        """Add a new entry to the principal policy mapping"""
         entry = PrincipalPolicyMappingEntry(
-            principal_name, principal_type, policy_type, managed_by, policy_name, comment
+            principal_name,
+            principal_type,
+            policy_type,
+            managed_by,
+            policy_name,
+            comment,
         )
         self.entries.append(entry)
 
     def add(self, principal_policy_mapping_entry):
+        """Add a new principal policy mapping entry"""
         if not isinstance(principal_policy_mapping_entry, PrincipalPolicyMappingEntry):
-            raise Exception("This should be the object type PrincipalPolicyMappingEntry. Please try again")
+            raise Exception(
+                "This should be the object type PrincipalPolicyMappingEntry. Please try again"
+            )
         self.entries.append(principal_policy_mapping_entry)
 
     @property
     def json(self):
+        """Return the JSON representation of the principal policy mapping"""
         entries = [x.json for x in self.entries]
-        principal_policy_mapping = sorted(entries, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName"))
+        principal_policy_mapping = sorted(
+            entries, key=itemgetter("Type", "Principal", "PolicyType", "PolicyName")
+        )
         return principal_policy_mapping
 
     @property
     def users(self):
+        """Return the list of users in the account"""
         result = []
         for entry in self.entries:
             if entry.principal_type == "User":
@@ -372,6 +407,7 @@ class PrincipalPolicyMapping:
 
     @property
     def groups(self):
+        """Return the list of groups in the account"""
         result = []
         for entry in self.entries:
             if entry.principal_type == "Group":
@@ -380,6 +416,7 @@ class PrincipalPolicyMapping:
 
     @property
     def roles(self):
+        """Return the list of roles in the account"""
         result = []
         for entry in self.entries:
             if entry.principal_type == "Role":
@@ -389,7 +426,10 @@ class PrincipalPolicyMapping:
     def get_post_exclusion_principal_policy_mapping(self, exclusions):
         """Given an Exclusions object, return a principal policy mapping after evaluating exclusions."""
         if not isinstance(exclusions, Exclusions):
-            raise Exception("The exclusions provided is not an Exclusions type object. Please supply an Exclusions object and try again.")
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
         filtered_principal_policy_mapping = PrincipalPolicyMapping()
         for user_entry in self.users:
             # If the user is explicitly mentioned in exclusions, do not add the entry
@@ -411,7 +451,9 @@ class PrincipalPolicyMapping:
                     for user_entry in filtered_principal_policy_mapping.entries:
                         if user_entry.comment:
                             for user_group_membership in user_entry.comment:
-                                non_excluded_groups.append(user_group_membership.lower())
+                                non_excluded_groups.append(
+                                    user_group_membership.lower()
+                                )
                     # if the group name is in the list of non-excluded groups
                     if group_entry.principal_name.lower() in non_excluded_groups:
                         filtered_principal_policy_mapping.add(group_entry)
@@ -425,7 +467,16 @@ class PrincipalPolicyMapping:
 class PrincipalPolicyMappingEntry:
     """Describes the mapping between Principals and Policies.
     We use this for filtering exclusions and outputting tables of the mapping post-exclusions"""
-    def __init__(self, principal_name, principal_type, policy_type, managed_by, policy_name, comment):
+
+    def __init__(
+        self,
+        principal_name,
+        principal_type,
+        policy_type,
+        managed_by,
+        policy_name,
+        comment,
+    ):
         self.principal_name = principal_name
         self.principal_type = principal_type
         self.policy_type = policy_type
@@ -435,6 +486,7 @@ class PrincipalPolicyMappingEntry:
 
     @property
     def json(self):
+        """Return the JSON representation of the Principal Policy mapping"""
         entry = dict(
             Principal=self.principal_name,
             Type=self.principal_type,

@@ -137,7 +137,7 @@
             <h4>Report metadata</h4>
             <ul>
               <li>Account: example (012345678901)</li>
-              <li>Report Generated: 2020-05-07</li>
+              <li>Report Generated: 2020-05-10</li>
             </ul>
             <br>
             <!--Executive Summary-->
@@ -222,7 +222,7 @@
       <td>Managed <a href="#definition-managed-policy"><small>[0]</small></a></td>
       <td>AWS <a href="#definition-aws-managed-policy"><small>[2]</small></a></td>
       <td>AdministratorAccess</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -231,7 +231,7 @@
       <td>Inline <a href="#definition-inline-policy"><small>[1]</small></a></td>
       <td>Customer <a href="#definition-customer-managed-policy"><small>[3]</small></a></td>
       <td>MyOtherRolePolicy</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -240,7 +240,7 @@
       <td>Inline <a href="#definition-inline-policy"><small>[1]</small></a></td>
       <td>Customer <a href="#definition-customer-managed-policy"><small>[3]</small></a></td>
       <td>EC2-IAM-example</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -249,7 +249,7 @@
       <td>Inline <a href="#definition-inline-policy"><small>[1]</small></a></td>
       <td>Customer <a href="#definition-customer-managed-policy"><small>[3]</small></a></td>
       <td>OverprivilegedEC2</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -258,7 +258,7 @@
       <td>Managed <a href="#definition-managed-policy"><small>[0]</small></a></td>
       <td>Customer <a href="#definition-customer-managed-policy"><small>[3]</small></a></td>
       <td>InsecurePolicy</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -267,7 +267,7 @@
       <td>Managed <a href="#definition-managed-policy"><small>[0]</small></a></td>
       <td>AWS <a href="#definition-aws-managed-policy"><small>[2]</small></a></td>
       <td>AdministratorAccess</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -276,7 +276,7 @@
       <td>Managed <a href="#definition-managed-policy"><small>[0]</small></a></td>
       <td>AWS <a href="#definition-aws-managed-policy"><small>[2]</small></a></td>
       <td>AdministratorAccess</td>
-      <td>Group Membership</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -285,7 +285,7 @@
       <td>Inline <a href="#definition-inline-policy"><small>[1]</small></a></td>
       <td>Customer <a href="#definition-customer-managed-policy"><small>[3]</small></a></td>
       <td>InsecureUserPolicy</td>
-      <td>None</td>
+      <td></td>
     </tr>
   
     <tr>
@@ -294,7 +294,7 @@
       <td>Managed <a href="#definition-managed-policy"><small>[0]</small></a></td>
       <td>AWS <a href="#definition-aws-managed-policy"><small>[2]</small></a></td>
       <td>AdministratorAccess</td>
-      <td>Group Membership</td>
+      <td></td>
     </tr>
   
   </tbody>
@@ -800,9 +800,9 @@
           <div class="card-body">
             <pre><code>
 [
+    "s3:GetObject",
     "s3:PutObject",
-    "s3:PutObjectAcl",
-    "s3:GetObject"
+    "s3:PutObjectAcl"
 ]
             </code></pre>
           </div>
@@ -1228,7 +1228,7 @@ Actions:
         <td>cloudtrail, iam, s3, sns </td>
         <td> </td>
         <td>  5</td>
-        <td> </td>
+        <td> 1 </td>
       </tr>
     
   
@@ -1300,7 +1300,7 @@ Actions:
         <td>cloudwatch, cognito-sync, dynamodb, events, iam, iot, kinesis, lambda, logs, s3, sns, sqs </td>
         <td>  4 </td>
         <td>  21</td>
-        <td> </td>
+        <td> 1 </td>
       </tr>
     
   
@@ -1348,7 +1348,7 @@ Actions:
         <td>s3 </td>
         <td> </td>
         <td>  11</td>
-        <td> </td>
+        <td> 1 </td>
       </tr>
     
   
@@ -1360,7 +1360,7 @@ Actions:
         <td>s3 </td>
         <td> </td>
         <td> </td>
-        <td> </td>
+        <td> 1 </td>
       </tr>
     
   
@@ -1442,7 +1442,7 @@ Actions:
         <td>a4b, access-analyzer, acm, acm-pca, amplify, apigateway, appconfig, appmesh, appmesh-preview, appstream, appsync, artifact, athena, autoscaling, backup, batch, budgets, cassandra, cloud9, clouddirectory, cloudformation, cloudfront, cloudhsm, cloudsearch, cloudtrail, cloudwatch, codebuild, codecommit, codedeploy, codeguru-profiler, codeguru-reviewer, codepipeline, codestar, codestar-notifications, cognito-identity, cognito-idp, cognito-sync, comprehend, config, connect, cur, dataexchange, datasync, dax, deepcomposer, deeplens, deepracer, detective, devicefarm, directconnect, dlm, dms, ds, dynamodb, ec2, ec2-instance-connect, ecr, ecs, eks, elastic-inference, elasticbeanstalk, elasticfilesystem, elasticloadbalancing, elasticmapreduce, elastictranscoder, es, events, execute-api, firehose, fms, forecast, freertos, fsx, gamelift, glacier, globalaccelerator, glue, greengrass, groundstation, guardduty, iam, imagebuilder, iot, iot1click, iotanalytics, iotevents, iotsitewise, iotthingsgraph, kafka, kendra, kinesis, kinesisanalytics, kinesisvideo, kms, lambda, lex, license-manager, lightsail, logs, machinelearning, managedblockchain, mediaconvert, medialive, mediapackage, mediapackage-vod, mediatailor, mgh, mobilehub, mobiletargeting, mq, neptune-db, networkmanager, opsworks, personalize, polly, qldb, quicksight, ram, rds, rds-db, redshift, rekognition, resource-groups, robomaker, route53, route53resolver, s3, sagemaker, savingsplans, schemas, sdb, secretsmanager, securityhub, serverlessrepo, servicecatalog, servicediscovery, servicequotas, ses, shield, signer, sns, sqs, ssm, states, storagegateway, sts, swf, synthetics, transfer, trustedadvisor, waf, waf-regional, wafv2, wellarchitected, worklink, workmail, workspaces, xray </td>
         <td>  2 </td>
         <td>  210</td>
-        <td> </td>
+        <td> 5 </td>
       </tr>
     
   
@@ -1454,7 +1454,7 @@ Actions:
         <td>dataexchange, mobilehub, personalize, s3, ssm </td>
         <td> </td>
         <td> </td>
-        <td> </td>
+        <td> 4 </td>
       </tr>
     
   
@@ -8886,7 +8886,7 @@ exclude-actions:
 <div id="validation-guidance-pt1-bullet-points">
 <ul>
   <li>Run Cloudsplaining's <code>scan-policy-file</code> command, which scans a single JSON policy file instead of the entire AWS Account's Authorization details. </li>
-  <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a>)</li>
+  <li>Leveraging <a href="https://github.com/duo-labs/parliament/">Parliament by Duo-Labs</a>, courtesy of <a href="https://twitter.com/0xdabbad00">Scott Piper</a></li>
 </ul>
 </div>
 
@@ -9006,6 +9006,7 @@ policies:
 - AdministratorAccess
 - service-role*
 - aws-service-role*
+- MyRole
 roles:
 - service-role*
 - aws-service-role*

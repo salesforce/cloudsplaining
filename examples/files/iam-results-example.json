@@ -2633,9 +2633,9 @@
             "s3"
         ],
         "Actions": [
+            "s3:GetObject",
             "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:GetObject"
+            "s3:PutObjectAcl"
         ],
         "PolicyDocument": {
             "Version": "2012-10-17",

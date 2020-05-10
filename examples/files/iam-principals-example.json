@@ -5,7 +5,7 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "MyOtherRole",
@@ -13,7 +13,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "MyOtherRolePolicy",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "MyRole",
@@ -21,7 +21,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "EC2-IAM-example",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "OverprivilegedEC2",
@@ -29,7 +29,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "OverprivilegedEC2",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "OverprivilegedEC2",
@@ -37,7 +37,7 @@
         "PolicyType": "Managed",
         "ManagedBy": "Customer",
         "PolicyName": "InsecurePolicy",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "obama",
@@ -45,7 +45,7 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "obama",
@@ -53,7 +53,9 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": "Group Membership"
+        "GroupMembership": [
+            "admin"
+        ]
     },
     {
         "Principal": "userwithlotsofpermissions",
@@ -61,7 +63,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "InsecureUserPolicy",
-        "Comment": null
+        "GroupMembership": null
     },
     {
         "Principal": "userwithlotsofpermissions",
@@ -69,6 +71,8 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": "Group Membership"
+        "GroupMembership": [
+            "admin"
+        ]
     }
 ]
