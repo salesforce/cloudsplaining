@@ -3,6 +3,7 @@ import os
 import json
 from cloudsplaining.command.scan_policy_file import scan_policy
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class PolicyFileTestCase(unittest.TestCase):
@@ -78,8 +79,9 @@ class PolicyFileTestCase(unittest.TestCase):
                 "PermissionsManagementActions": []
             }
         ]
-        results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
+        results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS)
         # print(json.dumps(results, indent=4))
+        self.maxDiff = None
         self.assertListEqual(results, expected_results)
 
     def test_excluded_actions_scan_policy_file(self):
@@ -97,8 +99,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 },
             ]
         }
-        results = scan_policy(test_policy, "test", DEFAULT_EXCLUSIONS_CONFIG)
-        # print(json.dumps(results, indent=4))
+        results = scan_policy(test_policy, "test", DEFAULT_EXCLUSIONS)
         expected_results_before_exclusion = [
             {
                 "AccountID": "N/A",
@@ -147,14 +148,36 @@ class PolicyFileTestCase(unittest.TestCase):
                 ]
             }
         ]
+        # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results_before_exclusion)
+
+    def test_excluded_actions_scan_policy_file_v2(self):
+        """test_excluded_actions_scan_policy_file_v2: Test the scan_policy command when we have excluded actions"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject",
+                        "iam:CreateAccessKey"
+                    ],
+                    "Resource": "*"
+                },
+            ]
+        }
         expected_results_after_exclusion = []
         exclusions_cfg_custom = {
+            "users": ["MyRole"],
+            "groups": ["obama"],
+            "roles": ["admin"],
             "exclude-actions": [
                 "s3:GetObject",
                 "iam:CreateAccessKey"
             ]
         }
-        results = scan_policy(test_policy, "test", exclusions_cfg_custom)
-        # print(json.dumps(results, indent=4))
+        exclusions = Exclusions(exclusions_cfg_custom)
+        results = scan_policy(test_policy, "test", exclusions)
+        print(json.dumps(results, indent=4))
+        self.maxDiff = None
         self.assertListEqual(results, expected_results_after_exclusion)

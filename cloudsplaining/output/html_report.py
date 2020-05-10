@@ -16,7 +16,12 @@ from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
 def generate_html_report(
-    account_metadata, results, principal_policy_mapping, output_directory, exclusions_cfg, skip_open_report=False
+    account_metadata,
+    results,
+    principal_policy_mapping,
+    output_directory,
+    exclusions_cfg,
+    skip_open_report=False,
 ):
     """Create IAM HTML report"""
 

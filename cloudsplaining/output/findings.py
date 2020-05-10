@@ -8,7 +8,7 @@ import logging
 from operator import itemgetter
 from policy_sentry.util.arns import get_account_from_arn, get_resource_string
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
-from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
+from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.utils import capitalize_first_character
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,7 @@ class Findings:
 
     def __init__(self):
         self.findings = []
+        self.exclusions = None
 
     def add(self, finding):
         """Add a finding to the list."""
@@ -61,7 +62,9 @@ class Finding:
     ):
         self.policy_name = policy_name
         self.arn = arn
-        self.type = capitalize_first_character(get_resource_string(self.arn).split("/")[0])
+        self.type = capitalize_first_character(
+            get_resource_string(self.arn).split("/")[0]
+        )
         self.always_exclude_actions = always_exclude_actions
         self.actions = self._actions(actions)
         self.policy_document = policy_document
@@ -136,7 +139,9 @@ class Finding:
         access level, if applicable."""
         results = []
         if self.always_exclude_actions:
-            for action in self.policy_document.permissions_management_without_constraints:
+            for (
+                action
+            ) in self.policy_document.permissions_management_without_constraints:
                 if is_name_excluded(action.lower(), self.always_exclude_actions):
                     pass  # pragma: no cover
                 else:

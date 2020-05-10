@@ -7,10 +7,12 @@
 import logging
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+
 logger = logging.getLogger(__name__)
 
 
 class Exclusions:
+    """Contains the exclusions configuration as an object"""
     def __init__(self, exclusions_config=DEFAULT_EXCLUSIONS_CONFIG):
         check_exclusions_schema(exclusions_config)
         self.config = exclusions_config
@@ -25,8 +27,9 @@ class Exclusions:
         provided_roles = self.config.get("roles", None)
         roles = []
         # Normalize for comparisons
-        for role in provided_roles:
-            roles.append(role.lower())
+        if provided_roles:
+            for role in provided_roles:
+                roles.append(role.lower())
         return roles
 
     def _users(self):
@@ -59,28 +62,52 @@ class Exclusions:
     def _include_actions(self):
         include_actions = self.config.get("include-actions", None)
         # Set to lowercase so subsequent evaluations are faster.
-        always_include_actions = [x.lower() for x in include_actions]
-        return always_include_actions
+        if include_actions:
+            always_include_actions = [x.lower() for x in include_actions]
+            return always_include_actions
+        else:
+            return []
 
     def _exclude_actions(self):
         exclude_actions = self.config.get("exclude-actions", None)
-        always_exclude_actions = [x.lower() for x in exclude_actions]
-        return always_exclude_actions
+        if exclude_actions:
+            always_exclude_actions = [x.lower() for x in exclude_actions]
+            return always_exclude_actions
+        else:
+            return []
+
+    def is_policy_excluded(self, policy_name):
+        """
+        Supply a policy name or path, and get a decision about whether or not it is excluded.
+
+        :param policy_name: Policy name or Policy path
+        :return:
+        """
+        if is_name_excluded(policy_name, self.policies):
+            print(f"\tExcluded policy: {policy_name}")
+            return True
+        else:
+            return False
 
     def get_allowed_actions(self, requested_actions):
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a
         list of actions after filtering for exclusions. """
-        # normalize the incoming list of actions
-        actions_lowercase = [x.lower() for x in requested_actions]
-        # ALWAYS EXCLUDE ACTIONS
-        # Determine if there is an intersection between the requested one and the excluded ones
-        intersection_exclusions = list(set(actions_lowercase) & set(self.exclude_actions))
-        actions_included = []
-        if intersection_exclusions:
-            for action in requested_actions:
-                if not is_name_excluded(action, self.exclude_actions):
-                    actions_included.append(action)
-        return actions_included
+
+        always_include_actions = []
+        # ALWAYS INCLUDE ACTIONS
+        for action in requested_actions:
+            for include_action in self.include_actions:
+                if action.lower() == include_action.lower():
+                    always_include_actions.append(action)
+        # RULE OUT EXCLUDED ACTIONS
+        actions_minus_exclusions = []
+        for action in requested_actions:
+            if not is_name_excluded(action.lower(), self.exclude_actions):
+                actions_minus_exclusions.append(action)
+
+        results = always_include_actions + actions_minus_exclusions
+        results = list(dict.fromkeys(results))
+        return results
 
 
 # pylint: disable=inconsistent-return-statements
@@ -111,3 +138,6 @@ def is_name_excluded(name, exclusions_list):
                 # logger.debug(f"Excluded suffix: {exclusion}")
                 print(f"\tExcluded suffix: {exclusion}")
                 return True
+
+
+DEFAULT_EXCLUSIONS = Exclusions(DEFAULT_EXCLUSIONS_CONFIG)
