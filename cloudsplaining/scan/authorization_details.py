@@ -243,12 +243,12 @@ class AuthorizationDetails:
     def missing_resource_constraints(
         self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True
     ):
+        """Scan the account authorization details for missing resource constraints."""
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
-        """Scan the account authorization details for missing resource constraints."""
         print("-----USERS-----")
         self.scan_principal_type_details(self.user_detail_list, exclusions, modify_only)
         print("-----GROUPS-----")
