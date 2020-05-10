@@ -124,15 +124,6 @@ def scan_policy(policy_json, policy_name, exclusions=DEFAULT_EXCLUSIONS):
                 statement.missing_resource_constraints_for_modify_actions(exclusions)
             )
     if actions_missing_resource_constraints:
-        # results_placeholder = []
-        # logger.debug("Actions found ")
-        # results_placeholder = exclusions.get_allowed_actions(actions_missing_resource_constraints)
-        # for action in actions_missing_resource_constraints:
-        #     if excluded_actions:
-        #         if not is_name_excluded(action.lower(), excluded_actions):
-        #             results_placeholder.append(action)  # pragma: no cover
-        #     else:
-        #         results_placeholder.append(action)
         these_results = list(
             dict.fromkeys(actions_missing_resource_constraints)
         )  # remove duplicates
