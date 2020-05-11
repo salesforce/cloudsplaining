@@ -101,7 +101,6 @@ def scan(
             )
 
 
-# TODO: Fix exclusions approach
 def scan_account_authorization_file(
     input_file, exclusions, output, all_access_levels, skip_open_report
 ):  # pragma: no cover
