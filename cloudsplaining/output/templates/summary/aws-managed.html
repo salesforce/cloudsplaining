@@ -1,17 +1,17 @@
 <span class="badge badge-default"></span>
 <br>
-<div class="aws-managed-table">
+<div class="aws-managed-table table-responsive table-sm">
 <table id="aws-managed-table" class="display compact" style="width:100%; border-radius: 10px">
   <!--<table id="aws-managed-table" class="table table-striped table-bordered table-sm">-->
   <thead>
      <tr>
        <th>Policy Name</th>
        <th>Services Count</th>
-       <th>Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[0]</small></a></td></th>
        <th>Services Affected</th>
-       <th>Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a></th>
-       <th>Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a></th>
-       <th>Data Exfiltration<a href="#definition-data-exfiltration"><small>[3]</small></a></th>
+       <th><a href="#definition-infrastructure-modification">Infrastructure Modification</a></td></th>
+       <th><a href="#definition-privilege-escalation">Privilege Escalation</a></th>
+       <th><a href="#definition-resource-exposure">Resource Exposure</a></th>
+       <th><a href="#definition-data-exfiltration">Data Exfiltration</a></th>
      </tr>
   </thead>
   <tbody>
@@ -20,8 +20,8 @@
       <tr>
         <td><a href="#{{ finding['PolicyName'] }}">{{ finding['PolicyName'] }}</a></td>
         <td>{{ finding["ServicesCount"] }}</td>
-        <td>{{ finding["ActionsCount"] }}</td>
         <td>{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %} </td>
+        <td>{{ finding["ActionsCount"] }}</td>
         <td> {% if finding["PrivilegeEscalation"]|length > 0 %} {{ finding["PrivilegeEscalation"]|length }} {% endif %}</td>
         <td> {% if finding["PermissionsManagementActions"]|length>0 %} {{ finding["PermissionsManagementActions"]|length }}{% endif %}</td>
         <td> {% if finding["DataExfiltrationActions"]|length > 0 %}{{ finding["DataExfiltrationActions"]|length }} {% endif %}</td>

@@ -145,7 +145,16 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+                "PolicyName": "AWSLambdaFullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+                "PolicyName": "CloudWatchFullAccess"
+            }
+      ],
       "Tags": [],
       "RoleLastUsed": {}
     },

@@ -2,6 +2,7 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
+        "Name": "MyOtherRole",
         "PolicyName": "InlinePolicyForTestingOverrides",
         "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
@@ -51,6 +52,7 @@
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
         "PolicyName": "NotYourPolicy",
+        "Name": "NotYourPolicy",
         "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
         "ActionsCount": 28,
@@ -115,6 +117,7 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
+        "Name": "PolicyForTestingOverrides",
         "PolicyName": "PolicyForTestingOverrides",
         "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
@@ -164,6 +167,7 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
+        "Name": "GOAT",
         "PolicyName": "SsmOnboardingInlinePolicy",
         "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/GOAT",
