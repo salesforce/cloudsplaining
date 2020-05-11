@@ -76,6 +76,30 @@ class Exclusions:
         else:
             return []
 
+    def is_action_always_included(self, action_in_question):
+        """
+        Supply an IAM action, and get a decision about whether or not it is excluded.
+
+        :return:
+        """
+        if self.include_actions:
+            if action_in_question.lower() in self.include_actions:
+                return action_in_question
+            else:
+                return False
+
+    def is_action_always_excluded(self, action_in_question):
+        """
+        Supply an IAM action, and get a decision about whether or not it is always included.
+
+        :return:
+        """
+        if self.exclude_actions:
+            if is_name_excluded(action_in_question.lower(), self.exclude_actions):
+                return True
+            else:
+                return False
+
     def is_policy_excluded(self, policy_name):
         """
         Supply a policy name or path, and get a decision about whether or not it is excluded.
@@ -88,6 +112,32 @@ class Exclusions:
             return True
         else:
             return False
+
+    def is_principal_excluded(self, principal, principal_type):
+        """
+        Supply a principal name or path, and get a decision about whether or not it is excluded.
+
+        :param principal: a principal name or path
+        :param principal_type: User, Group, or Role
+        :return: a boolean decision
+        """
+        if principal_type == "User":
+            if is_name_excluded(principal.lower(), self.users):
+                return True
+            else:
+                return False
+        elif principal_type == "Group":
+            if is_name_excluded(principal.lower(), self.groups):
+                return True
+            else:
+                return False
+        elif principal_type == "Role":
+            if is_name_excluded(principal.lower(), self.roles):
+                return True
+            else:
+                return False
+        else:
+            raise Exception("Please supply User, Group, or Role as the principal argument.")
 
     def get_allowed_actions(self, requested_actions):
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a

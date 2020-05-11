@@ -170,6 +170,7 @@ class Finding:
             "AccountID": self.account_id,
             "ManagedBy": self.managed_by,
             "PolicyName": self.policy_name,
+            # TODO: Add a "Name" key. Since right now, if the finding is for a user, it just says the user's name instead of the Policy name
             "Type": self.type,
             "Arn": self.arn,
             # "ActionsCount": self.actions_count,

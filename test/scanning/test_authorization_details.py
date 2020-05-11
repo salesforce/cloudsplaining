@@ -36,7 +36,25 @@ with open(example_authz_v2_file) as f_2:
 class TestAuthorizationFileDetails(unittest.TestCase):
     def test_authorization_file_details_missing_constraints(self):
         authz_file = {
-            "UserDetailList": [],
+            "UserDetailList": [
+                {
+                  "Path": "/",
+                  "UserName": "BlakeBortles",
+                  "UserId": "BlakeBortles",
+                  "Arn": "arn:aws:iam::012345678901:user/BlakeBortles",
+                  "CreateDate": "2019-12-18 19:10:08+00:00",
+                  "GroupList": [
+                    "GOAT"
+                  ],
+                  "AttachedManagedPolicies": [
+                        {
+                            "PolicyArn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+                            "PolicyName": "PolicyForTestingOverrides"
+                        }
+                  ],
+                  "Tags": []
+                }
+            ],
             "GroupDetailList": [],
             "RoleDetailList": [],
             "Policies": [
