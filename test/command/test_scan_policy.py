@@ -25,6 +25,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "AccountID": "N/A",
                 "ManagedBy": "Customer",
                 "PolicyName": "test",
+                "Name": "test",
                 "Type": "",
                 "Arn": "test",
                 "ActionsCount": 4,
@@ -105,6 +106,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "AccountID": "N/A",
                 "ManagedBy": "Customer",
                 "PolicyName": "test",
+                "Name": "test",
                 "Type": "",
                 "Arn": "test",
                 "ActionsCount": 2,
@@ -149,6 +151,7 @@ class PolicyFileTestCase(unittest.TestCase):
             }
         ]
         # print(json.dumps(results, indent=4))
+        self.maxDiff = None
         self.assertListEqual(results, expected_results_before_exclusion)
 
     def test_excluded_actions_scan_policy_file_v2(self):

@@ -11,7 +11,7 @@ from policy_sentry.querying.all import get_all_service_prefixes
 # from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_detail import PolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
-from cloudsplaining.output.findings import Findings, Finding
+from cloudsplaining.output.findings import Findings, UserFinding, GroupFinding, RoleFinding, PolicyFinding
 
 # from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
@@ -249,6 +249,7 @@ class AuthorizationDetails:
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
+        self.findings = Findings(exclusions)
         print("-----USERS-----")
         self.scan_principal_type_details(self.user_detail_list, exclusions, modify_only)
         print("-----GROUPS-----")
@@ -259,7 +260,6 @@ class AuthorizationDetails:
         self.scan_policy_details(exclusions, modify_only)
         return self.findings.json
 
-    # TODO: Fix exclusions approach
     def scan_policy_details(self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True):
         """Scan the PolicyDetails block of the account authorization details output."""
         if not isinstance(exclusions, Exclusions):
@@ -293,14 +293,14 @@ class AuthorizationDetails:
                         dict.fromkeys(actions_missing_resource_constraints)
                     )  # remove duplicates
                     actions_missing_resource_constraints.sort()
-                    finding = Finding(
+                    policy_finding = PolicyFinding(
                         policy_name=policy.policy_name,
                         arn=policy.arn,
                         actions=actions_missing_resource_constraints,
                         policy_document=policy.policy_document,
-                        always_exclude_actions=exclusions.exclude_actions,
+                        exclusions=exclusions,
                     )
-                    self.findings.add(finding)
+                    self.findings.add_policy_finding(policy_finding)
 
     def scan_principal_type_details(
         self,
@@ -315,7 +315,25 @@ class AuthorizationDetails:
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
-
+        groups = {}
+        for principal in principal_type_detail_list.principals:
+            if principal.principal_type == "Users":
+                if principal.group_member:
+                    for group in principal.group_member:
+                        print(f"group_member: {principal.group_member}")
+                        if group not in groups:
+                            groups[group] = []
+                            groups[group].append(principal.name)
+                        else:
+                            groups[group].append(principal.name)
+        print("groups, yo")
+        print(groups)
+        for principal in principal_type_detail_list.principals:
+            if principal.principal_type == "Groups":
+                for group in groups:
+                    if group.lower() == principal.name.lower():
+                        principal.members.extend(groups[group])
+                        print(f"principal {group} has members: {groups[group]}")
         for principal in principal_type_detail_list.principals:
             print(f"Scanning {principal.principal_type}: {principal.name}")
 
@@ -343,15 +361,49 @@ class AuthorizationDetails:
                                     statement.missing_resource_constraints(exclusions)
                                 )
                     if actions_missing_resource_constraints:
-                        finding = Finding(
-                            policy_name=policy["PolicyName"],
-                            arn=principal.arn,
-                            actions=actions_missing_resource_constraints,
-                            policy_document=policy["PolicyDocument"],
-                            assume_role_policy_document=principal.assume_role_policy_document,
-                            always_exclude_actions=exclusions.exclude_actions,
-                        )
-                        self.findings.add(finding)
+
+                        if principal.principal_type == "User":
+
+                            user_finding = UserFinding(
+                                policy_name=policy["PolicyName"],
+                                arn=principal.arn,
+                                actions=actions_missing_resource_constraints,
+                                policy_document=policy["PolicyDocument"],
+                                exclusions=exclusions,
+                                attached_managed_policies=principal.attached_managed_policies,
+                                group_membership=principal.group_member,
+                            )
+                            self.findings.add_user_finding(user_finding)
+                        elif principal.principal_type == "Group":
+                            # if principal.attached_managed_policies:
+                            #     for managed_policy in principal.attached_managed_policies:
+                            #         logger.debug(f"The principal {principal.name} uses the managed policy {principal.attached_managed_policies}")
+                            group_finding = GroupFinding(
+                                policy_name=policy["PolicyName"],
+                                arn=principal.arn,
+                                actions=actions_missing_resource_constraints,
+                                policy_document=policy["PolicyDocument"],
+                                exclusions=exclusions,
+                                members=principal.members,
+                                attached_managed_policies=principal.attached_managed_policies
+                            )
+                            # TODO: Right now I am not sure if there is tracking of group membership.
+                            #  Need to figure that out.
+                            self.findings.add_group_finding(group_finding)
+                        elif principal.principal_type == "Role":
+                            # if principal.attached_managed_policies:
+                            #     logger.debug(
+                            #         f"The principal {principal.name} uses the managed policy {principal.attached_managed_policies}")
+                            role_finding = RoleFinding(
+                                policy_name=policy["PolicyName"],
+                                arn=principal.arn,
+                                actions=actions_missing_resource_constraints,
+                                policy_document=policy["PolicyDocument"],
+                                exclusions=exclusions,
+                                assume_role_policy_document=principal.assume_role_policy_document,
+                                attached_managed_policies=principal.attached_managed_policies
+                            )
+                            self.findings.add_role_finding(role_finding)
 
 
 class PrincipalPolicyMapping:

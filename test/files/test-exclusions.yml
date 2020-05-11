@@ -4,7 +4,7 @@ policies:
   - "AWSServiceRoleFor*"
   - "*ServiceRolePolicy"
   - "*ServiceLinkedRolePolicy"
-#  - "AdministratorAccess" # Otherwise, this will take a long time
+  - "AdministratorAccess" # Otherwise, this will take a long time
   - "service-role*"
   - "aws-service-role*"
 # Don't evaluate these roles, users, or groups as part of the evaluation
@@ -12,7 +12,8 @@ roles:
   - "service-role*"
   - "aws-service-role*"
 users:
-  - "userwithlotsofpermissions"
+  - "nothing"
+#  - "userwithlotsofpermissions"
 groups:
   - ""
 # Read-only actions to include in the results, such as s3:GetObject

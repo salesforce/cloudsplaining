@@ -12,7 +12,7 @@ from pathlib import Path
 import yaml
 import click
 import click_log
-from cloudsplaining.output.findings import Findings, Finding
+from cloudsplaining.output.findings import Findings, Finding, PolicyFinding
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import (
@@ -115,7 +115,7 @@ def scan_policy(policy_json, policy_name, exclusions=DEFAULT_EXCLUSIONS):
     actions_missing_resource_constraints = []
 
     policy_document = PolicyDocument(policy_json)
-    findings = Findings()
+    findings = Findings(exclusions)
 
     for statement in policy_document.statements:
         logger.debug("Evaluating statement: %s", statement.json)
@@ -128,13 +128,13 @@ def scan_policy(policy_json, policy_name, exclusions=DEFAULT_EXCLUSIONS):
             dict.fromkeys(actions_missing_resource_constraints)
         )  # remove duplicates
         these_results.sort()
-        finding = Finding(
+        finding = PolicyFinding(
             policy_name=policy_name,
             arn=policy_name,
             actions=these_results,
             policy_document=policy_document,
         )
-        findings.add(finding)
+        findings.add_policy_finding(finding)
         return findings.json
     else:
         return []

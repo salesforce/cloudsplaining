@@ -49,8 +49,10 @@ class PrincipalDetail:
         self.assume_role_policy_document = self._assume_role_policy_document()
         # self.assume_role_policy_document = principal_detail.get("AssumeRolePolicyDocument", None)
         self.attached_managed_policies = principal_detail.get(
-            "AttachedManagedPolicies", None
+            "AttachedManagedPolicies"
         )
+        self.group_member = []
+        self.members = []
         self.inline_principal_policies = self._inline_principal_policies()
         if self.principal_type == "User":
             self.name = principal_detail.get("UserName", None)
