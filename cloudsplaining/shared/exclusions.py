@@ -111,11 +111,7 @@ class Exclusions:
         :param policy_name: Policy name or Policy path
         :return:
         """
-        if is_name_excluded(policy_name, self.policies):
-            # print(f"\tExcluded policy: {policy_name}")
-            return True
-        else:
-            return False
+        return bool(is_name_excluded(policy_name, self.policies))
 
     def is_principal_excluded(self, principal, principal_type):
         """
