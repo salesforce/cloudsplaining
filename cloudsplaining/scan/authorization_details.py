@@ -245,7 +245,6 @@ class AuthorizationDetails:
         )
         return principal_policy_mapping
 
-    # TODO: Fix exclusions approach
     def missing_resource_constraints(
         self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True
     ):

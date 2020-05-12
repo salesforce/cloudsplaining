@@ -1,8 +1,17 @@
 <br>
-<p>
-  The following table shows the list of IAM Users, Groups, and Roles in the account - whether they have findings or not.
+<p style="text-align: justify">
+  The following table shows the list of IAM Users, Groups, and Roles in the account, and their associated policies.
+  <br>
+  <br>
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  <br>
+  <br>
+  If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
+  <br>
+  <br>
+  Note that policies that were excluded from the scan will not have their statistics shown in the table. Please refer to the <a href="#exclusions">Exclusions configuration</a> to see which ones were excluded.
 </p>
-<br>
+<hr>
 <span class="badge badge-default"></span>
 <div class="principals-table table-responsive">
 <table id="principals-table" class="display compact" style="width:100%">

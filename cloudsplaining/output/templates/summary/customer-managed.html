@@ -1,4 +1,20 @@
 <br>
+<p style="text-align: justify">
+  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with.
+  <br>
+  <br>
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  <br>
+  <br>
+  If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
+  <br>
+  <br>
+  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a>, <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
+  <br>
+  <br>
+  Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the <a href="#exclusions">Exclusions configuration</a> to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the <a href="#nav-principals">IAM Principals Tab</a>.
+</p>
+<hr>
 <span class="badge badge-default"></span>
 <div class="customer-managed-table table-responsive table-sm">
 <table id="customer-managed-table" class="display compact" style="width:100%; border-radius: 10px">

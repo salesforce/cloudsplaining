@@ -102,7 +102,7 @@ class Exclusions:
                 is_name_excluded(action_in_question.lower(), self.exclude_actions)
             )
         else:
-            return False
+            return False  # pragma: no cover
 
     def is_policy_excluded(self, policy_name):
         """
@@ -131,7 +131,7 @@ class Exclusions:
             return bool(is_name_excluded(principal.lower(), self.groups))
         elif principal_type == "Role":
             return bool(is_name_excluded(principal.lower(), self.roles))
-        else:
+        else:  # pragma: no cover
             raise Exception(
                 "Please supply User, Group, or Role as the principal argument."
             )
