@@ -14,10 +14,8 @@ import yaml
 import click
 import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
-from cloudsplaining.shared.validation import (
-    check_exclusions_schema,
-    check_authorization_details_schema,
-)
+from cloudsplaining.shared.validation import check_authorization_details_schema
+from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.output.data_file import write_results_data_file
@@ -67,29 +65,43 @@ click_log.basic_config(logger)
 )
 @click_log.simple_verbosity_option()
 # pylint: disable=redefined-builtin
-def scan(input, exclusions_file, output, all_access_levels, skip_open_report):  # pragma: no cover
+def scan(
+    input, exclusions_file, output, all_access_levels, skip_open_report
+):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
     """
     if exclusions_file:
+        # Get the exclusions configuration
         with open(exclusions_file, "r") as yaml_file:
             try:
                 exclusions_cfg = yaml.safe_load(yaml_file)
             except yaml.YAMLError as exc:
                 logger.critical(exc)
-        check_exclusions_schema(exclusions_cfg)
+        exclusions = Exclusions(exclusions_cfg)
+    else:
+        exclusions = DEFAULT_EXCLUSIONS
+
     if os.path.isfile(input):
-        scan_account_authorization_file(input, exclusions_cfg, output, all_access_levels, skip_open_report)
+        scan_account_authorization_file(
+            input, exclusions, output, all_access_levels, skip_open_report
+        )
     if os.path.isdir(input):
-        logger.info("The path given is a directory. Scanning for account authorization files and generating report.")
+        logger.info(
+            "The path given is a directory. Scanning for account authorization files and generating report."
+        )
         input_files = get_authorization_files_in_directory(input)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
-            scan_account_authorization_file(file, exclusions_cfg, output, all_access_levels, skip_open_report)
+            scan_account_authorization_file(
+                file, exclusions, output, all_access_levels, skip_open_report
+            )
 
 
-def scan_account_authorization_file(input_file, exclusions_cfg, output, all_access_levels, skip_open_report):  # pragma: no cover
+def scan_account_authorization_file(
+    input_file, exclusions, output, all_access_levels, skip_open_report
+):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -107,7 +119,7 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
         )
         authorization_details = AuthorizationDetails(account_authorization_details_cfg)
         results = authorization_details.missing_resource_constraints(
-            exclusions_cfg, modify_only=False
+            exclusions, modify_only=False
         )
     else:
         logger.debug(
@@ -116,10 +128,26 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
         )
         authorization_details = AuthorizationDetails(account_authorization_details_cfg)
         results = authorization_details.missing_resource_constraints(
-            exclusions_cfg, modify_only=True
+            exclusions, modify_only=True
         )
 
     principal_policy_mapping = authorization_details.principal_policy_mapping
+    for principal_policy_entry in principal_policy_mapping:
+        for finding_result in results:
+            if (
+                principal_policy_entry.get("PolicyName").lower()
+                == finding_result.get("PolicyName").lower()
+            ):
+                principal_policy_entry["Actions"] = len(finding_result["Actions"])
+                principal_policy_entry["PrivilegeEscalation"] = len(
+                    finding_result["PrivilegeEscalation"]
+                )
+                principal_policy_entry["DataExfiltrationActions"] = len(
+                    finding_result["DataExfiltrationActions"]
+                )
+                principal_policy_entry["PermissionsManagementActions"] = len(
+                    finding_result["PermissionsManagementActions"]
+                )
 
     account_name = Path(input_file).stem
 
@@ -149,8 +177,12 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
     print(f"Raw data file saved: {str(raw_data_filepath)}")
 
     # Principal policy mapping
-    principal_policy_mapping_file = os.path.join(output, f"iam-principals-{account_name}.json")
-    principal_policy_mapping_filepath = write_results_data_file(principal_policy_mapping, principal_policy_mapping_file)
+    principal_policy_mapping_file = os.path.join(
+        output, f"iam-principals-{account_name}.json"
+    )
+    principal_policy_mapping_filepath = write_results_data_file(
+        principal_policy_mapping, principal_policy_mapping_file
+    )
     print(f"Principals data file saved: {str(principal_policy_mapping_filepath)}")
 
     print("Creating the HTML Report")
@@ -159,24 +191,30 @@ def scan_account_authorization_file(input_file, exclusions_cfg, output, all_acce
         results,
         principal_policy_mapping,
         output_directory,
-        exclusions_cfg,
+        exclusions.config,
         skip_open_report=skip_open_report,
     )
 
 
 def get_authorization_files_in_directory(directory):  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
-    file_list = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    file_list = [
+        f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))
+    ]
     file_list_with_full_path = []
     for file in file_list:
         if file.endswith(".json"):
-            file_list_with_full_path.append(os.path.abspath(os.path.join(directory, file)))
+            file_list_with_full_path.append(
+                os.path.abspath(os.path.join(directory, file))
+            )
     new_file_list = []
     for file in file_list_with_full_path:
         with open(file) as f:
             contents = f.read()
         account_authorization_details_cfg = json.loads(contents)
-        valid_schema = check_authorization_details_schema(account_authorization_details_cfg)
+        valid_schema = check_authorization_details_schema(
+            account_authorization_details_cfg
+        )
         if valid_schema:
             new_file_list.append(file)
     return new_file_list

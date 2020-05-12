@@ -2,10 +2,43 @@
     {
         "Principal": "admin",
         "Type": "Group",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "InlinePolicyForAdminGroup",
+        "GroupMembership": [
+            "obama",
+            "userwithlotsofpermissions"
+        ],
+        "Actions": 47,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 11
+    },
+    {
+        "Principal": "admin",
+        "Type": "Group",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": [
+            "obama",
+            "userwithlotsofpermissions"
+        ],
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
+    },
+    {
+        "Principal": "admin",
+        "Type": "Group",
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": null
+        "GroupMembership": [
+            "obama",
+            "userwithlotsofpermissions"
+        ]
     },
     {
         "Principal": "MyOtherRole",
@@ -13,7 +46,23 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "MyOtherRolePolicy",
-        "Comment": null
+        "GroupMembership": null,
+        "Actions": 5,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 3
+    },
+    {
+        "Principal": "MyOtherRole",
+        "Type": "Role",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": null,
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
     },
     {
         "Principal": "MyRole",
@@ -21,7 +70,35 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "EC2-IAM-example",
-        "Comment": null
+        "GroupMembership": null,
+        "Actions": 5,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 3
+    },
+    {
+        "Principal": "MyRole",
+        "Type": "Role",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": null,
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
+    },
+    {
+        "Principal": "MyRole",
+        "Type": "Role",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "CloudWatchFullAccess",
+        "GroupMembership": null,
+        "Actions": 38,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
     },
     {
         "Principal": "OverprivilegedEC2",
@@ -29,7 +106,11 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "OverprivilegedEC2",
-        "Comment": null
+        "GroupMembership": null,
+        "Actions": 3,
+        "PrivilegeEscalation": 1,
+        "DataExfiltrationActions": 2,
+        "PermissionsManagementActions": 1
     },
     {
         "Principal": "OverprivilegedEC2",
@@ -37,7 +118,81 @@
         "PolicyType": "Managed",
         "ManagedBy": "Customer",
         "PolicyName": "InsecurePolicy",
-        "Comment": null
+        "GroupMembership": null,
+        "Actions": 2,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 1
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "InlinePolicyForAdminGroup",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 47,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 11
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSCloudTrailFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 18,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 5
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSCodeCommitFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 52,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
     },
     {
         "Principal": "obama",
@@ -45,7 +200,9 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": null
+        "GroupMembership": [
+            "admin"
+        ]
     },
     {
         "Principal": "obama",
@@ -53,7 +210,65 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": "Group Membership"
+        "GroupMembership": [
+            "admin"
+        ]
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonEC2FullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 198,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonS3FullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 47,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 11
+    },
+    {
+        "Principal": "obama",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "CloudWatchFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 38,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Inline",
+        "ManagedBy": "Customer",
+        "PolicyName": "InlinePolicyForAdminGroup",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 47,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 11
     },
     {
         "Principal": "userwithlotsofpermissions",
@@ -61,7 +276,41 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "InsecureUserPolicy",
-        "Comment": null
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 3,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 1
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSKeyManagementServicePowerUser",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 4,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSLambdaFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 150,
+        "PrivilegeEscalation": 4,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 21
     },
     {
         "Principal": "userwithlotsofpermissions",
@@ -69,6 +318,78 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AdministratorAccess",
-        "Comment": "Group Membership"
+        "GroupMembership": [
+            "admin"
+        ]
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonRDSFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 84,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 2
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonS3ReadOnlyAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 1,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonSESFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 21,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "CloudWatchFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 38,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "IAMFullAccess",
+        "GroupMembership": [
+            "admin"
+        ],
+        "Actions": 78,
+        "PrivilegeEscalation": 10,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 79
     }
 ]

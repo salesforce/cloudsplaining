@@ -1,7 +1,7 @@
 import unittest
 import os
 import json
-from cloudsplaining.shared.exclusions import is_name_excluded
+from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.scan.principal_detail import PrincipalDetail
 
@@ -64,25 +64,21 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
                 "MyRole",
             ],
         }
-        self.assertTrue(user_principal_detail.is_principal_excluded(exclusions_cfg))
-        self.assertTrue(group_principal_detail.is_principal_excluded(exclusions_cfg))
-        self.assertTrue(role_principal_detail.is_principal_excluded(exclusions_cfg))
+        exclusions = Exclusions(exclusions_cfg)
+        self.assertTrue(user_principal_detail.is_principal_excluded(exclusions))
+        self.assertTrue(group_principal_detail.is_principal_excluded(exclusions))
+        self.assertTrue(role_principal_detail.is_principal_excluded(exclusions))
 
         # Testing these with mismatched categories
-        exclusions_cfg = {
-            "users": [
-                "MyRole"
-            ],
-            "groups": [
-                "obama"
-            ],
-            "roles": [
-                "admin",
-            ],
-        }
-        self.assertFalse(user_principal_detail.is_principal_excluded(exclusions_cfg))
-        self.assertFalse(group_principal_detail.is_principal_excluded(exclusions_cfg))
-        self.assertFalse(role_principal_detail.is_principal_excluded(exclusions_cfg))
+        exclusions_cfg = dict(
+            users=["MyRole"],
+            groups=["obama"],
+            roles=["admin"]
+        )
+        exclusions = Exclusions(exclusions_cfg)
+        self.assertFalse(user_principal_detail.is_principal_excluded(exclusions))
+        self.assertFalse(group_principal_detail.is_principal_excluded(exclusions))
+        self.assertFalse(role_principal_detail.is_principal_excluded(exclusions))
 
     def test_exclusions_for_service_roles(self):
         """test_exclusions_for_service_roles: Ensuring that exclusions config of service roles are specifically
@@ -163,7 +159,8 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
             ]
         }
         authorization_details = AuthorizationDetails(authz_file)
-        results = authorization_details.missing_resource_constraints(exclusions_cfg)
+        exclusions = Exclusions(exclusions_cfg)
+        results = authorization_details.missing_resource_constraints(exclusions)
         expected_results = []
         # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)

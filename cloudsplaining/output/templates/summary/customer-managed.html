@@ -1,30 +1,50 @@
 <br>
+<p style="text-align: justify">
+  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with.
+  <br>
+  <br>
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  <br>
+  <br>
+  If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
+  <br>
+  <br>
+  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a> and <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
+  <br>
+  <br>
+  Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the <a href="#exclusions">Exclusions configuration</a> to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the <a href="#nav-principals">IAM Principals Tab</a>.
+</p>
+<hr>
 <span class="badge badge-default"></span>
-<div class="customer-managed-table">
+<div class="customer-managed-table table-responsive table-sm">
 <table id="customer-managed-table" class="display compact" style="width:100%; border-radius: 10px">
   <!--<table id="customer-managed-table" class="table table-striped table-bordered table-sm">-->
   <thead>
      <tr>
-       <th>Name</th>
+       <th>Inline or Managed</th>
        <th>Type</th>
+       <th>Policy Name</th>
+       <th>Principal Name</th>
        <th>Services Count</th>
-       <th>Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[0]</small></a></td></th>
-       <th>Services Affected</th>
-       <th>Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a></th>
-       <th>Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a></th>
-       <th>Data Exfiltration<a href="#definition-data-exfiltration"><small>[3]</small></a></th>
-       <th>Compute Role<a href="#definition-roles-assumable-by-compute-services"><small>[4]</small></a></th>
+       <th>Services</th>
+       <th><a href="#definition-infrastructure-modification">Infrastructure Modification</a></td></th>
+       <th><a href="#definition-privilege-escalation">Privilege Escalation</a></td></th>
+       <th><a href="#definition-resource-exposure">Resource Exposure</a></th>
+       <th><a href="#definition-data-exfiltration">Data Exfiltration</a></th>
+       <th><a href="#definition-roles-assumable-by-compute-services">Compute Role</a></th>
      </tr>
   </thead>
   <tbody>
   {% for finding in t["results"] %}
     {% if finding["ManagedBy"] == "Customer" %}
       <tr>
-        <td><a href="#{{ finding['PolicyName'] }}">{{ finding['PolicyName'] }}</a>
+        <td>{% if finding["Type"] == "Policy" %}Managed{% else %}Inline{% endif %}</td>
         <td>{{ finding["Type"] }}</td>
+        <td><a href="#{{ finding['PolicyName'] }}">{{ finding['PolicyName'] }}</a></td>
+        <td>{% if finding["Type"] == "Policy" %}{% else %}{{ finding['Name'] }}{% endif %}</td>
         <td>{{ finding["ServicesCount"] }}</td>
-        <td>{{ finding["ActionsCount"] }}</td>
         <td>{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %} </td>
+        <td>{{ finding["ActionsCount"] }}</td>
         <td> {% if finding["PrivilegeEscalation"]|length > 0 %} {{ finding["PrivilegeEscalation"]|length }} {% endif %}</td>
         <td> {% if finding["PermissionsManagementActions"]|length>0 %} {{ finding["PermissionsManagementActions"]|length }}{% endif %}</td>
         <td> {% if finding["DataExfiltrationActions"]|length > 0 %}{{ finding["DataExfiltrationActions"]|length }} {% endif %}</td>

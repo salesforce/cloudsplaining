@@ -13,6 +13,30 @@
             {
                 "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess",
                 "PolicyName": "AdministratorAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                "PolicyName": "AmazonS3FullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+                "PolicyName": "AmazonEC2FullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
+                "PolicyName": "AWSCloudTrailFullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
+                "PolicyName": "AWSCodeCommitFullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+                "PolicyName": "AWSLambdaFullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+                "PolicyName": "CloudWatchFullAccess"
             }
       ],
       "Tags": []
@@ -46,7 +70,31 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+          {
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+            "PolicyName": "AmazonRDSFullAccess"
+          },
+        {
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+            "PolicyName": "AmazonSESFullAccess"
+          },
+        {
+            "PolicyArn": "arn:aws:iam::aws:policy/IAMFullAccess",
+            "PolicyName": "IAMFullAccess"
+          },
+           {
+            "PolicyArn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+            "PolicyName": "CloudWatchFullAccess"
+          },{
+            "PolicyArn": "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
+            "PolicyName": "AWSKeyManagementServicePowerUser"
+          },{
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+            "PolicyName": "AmazonS3ReadOnlyAccess"
+          }
+
+      ],
       "Tags": []
     }
   ],
@@ -57,12 +105,33 @@
       "GroupId": "admin",
       "Arn": "arn:aws:iam::012345678901:group/admin",
       "CreateDate": "2017-05-15 17:33:36+00:00",
-      "GroupPolicyList": [],
+      "GroupPolicyList": [
+                {
+          "PolicyName": "InlinePolicyForAdminGroup",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:*"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
       "AttachedManagedPolicies": [
         {
           "PolicyName": "AdministratorAccess",
           "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
-        }
+        },
+          {
+            "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+            "PolicyName": "AWSLambdaFullAccess"
+          }
       ]
     }
   ],
@@ -111,7 +180,16 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+                "PolicyName": "AWSLambdaFullAccess"
+            },
+            {
+                "PolicyArn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+                "PolicyName": "CloudWatchFullAccess"
+            }
+      ],
       "Tags": [],
       "RoleLastUsed": {}
     },
@@ -159,7 +237,12 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+          {
+                "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+                "PolicyName": "AWSLambdaFullAccess"
+          }
+      ],
       "Tags": [],
       "RoleLastUsed": {}
     },

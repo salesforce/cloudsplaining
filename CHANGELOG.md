@@ -3,6 +3,10 @@
 ## Unreleased
 * Docker
 
+## 0.1.0 (2020-05-11)
+* Granular exclusions: Fixed issue where exclusions file was including dangling policies in the results (Fixes #33)
+* Changed IAM Principals table so that the principals can be sorted according to their risks. This will really help with pentesting
+
 ## 0.0.14 (2020-05-07)
 * Fix issue where Data Exposure tallies were not showing up in the AWS Managed table correctly.
 

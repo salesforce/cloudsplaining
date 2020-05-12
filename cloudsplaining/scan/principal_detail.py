@@ -9,10 +9,8 @@ import logging
 from policy_sentry.util.arns import get_account_from_arn, get_resource_path_from_arn
 from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
-from cloudsplaining.scan.assume_role_policy_document import (
-    AssumeRolePolicyDocument,
-)
+from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS
 
 logger = logging.getLogger(__name__)
 
@@ -50,9 +48,9 @@ class PrincipalDetail:
         # This will only appear for Roles, not Users or Groups
         self.assume_role_policy_document = self._assume_role_policy_document()
         # self.assume_role_policy_document = principal_detail.get("AssumeRolePolicyDocument", None)
-        self.attached_managed_policies = principal_detail.get(
-            "AttachedManagedPolicies", None
-        )
+        self.attached_managed_policies = principal_detail.get("AttachedManagedPolicies")
+        self.group_member = []
+        self.members = []
         self.inline_principal_policies = self._inline_principal_policies()
         if self.principal_type == "User":
             self.name = principal_detail.get("UserName", None)
@@ -115,11 +113,17 @@ class PrincipalDetail:
         """Stores the list of policies attached to the Principal."""
         inline_principal_policies = []
         if self.principal_type == "User":
-            inline_principal_policies = self.principal_detail.get("UserPolicyList", None)
+            inline_principal_policies = self.principal_detail.get(
+                "UserPolicyList", None
+            )
         if self.principal_type == "Group":
-            inline_principal_policies = self.principal_detail.get("GroupPolicyList", None)
+            inline_principal_policies = self.principal_detail.get(
+                "GroupPolicyList", None
+            )
         if self.principal_type == "Role":
-            inline_principal_policies = self.principal_detail.get("RolePolicyList", None)
+            inline_principal_policies = self.principal_detail.get(
+                "RolePolicyList", None
+            )
         return inline_principal_policies
 
     def _assume_role_policy_document(self):
@@ -151,23 +155,21 @@ class PrincipalDetail:
         account_id = get_account_from_arn(self.arn)
         return account_id
 
-    def is_principal_excluded(self, exclusions_cfg=DEFAULT_EXCLUSIONS_CONFIG):
+    def is_principal_excluded(self, exclusions=DEFAULT_EXCLUSIONS):
         """According to the exclusions configuration, determine whether or not to skip the Principal according
         to their name."""
         decision = False
+        name = get_resource_path_from_arn(self.arn)
         if self.principal_type == "User":
-            if is_name_excluded(
-                get_resource_path_from_arn(self.arn), exclusions_cfg.get("users")
-            ):
+            if is_name_excluded(name, exclusions.users):
+                print(f"\tExcluded user: {name}")
                 decision = True
         if self.principal_type == "Group":
-            if is_name_excluded(
-                get_resource_path_from_arn(self.arn), exclusions_cfg.get("groups")
-            ):
+            if is_name_excluded(name, exclusions.groups):
+                print(f"\tExcluded group: {name}")
                 decision = True
         if self.principal_type == "Role":
-            if is_name_excluded(
-                get_resource_path_from_arn(self.arn), exclusions_cfg.get("roles")
-            ):
+            if is_name_excluded(name, exclusions.roles):
+                print(f"\tExcluded role: {name}")
                 decision = True
         return decision

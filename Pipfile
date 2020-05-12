@@ -17,7 +17,7 @@ bandit = "==1.6.2"
 mkdocs = "==1.1"
 
 [packages]
-policy_sentry = "==0.8.0.5"
+policy_sentry = "==0.8.0.6"
 click = "==7.0"
 schema = "==0.7.1"
 boto3 = "*"
