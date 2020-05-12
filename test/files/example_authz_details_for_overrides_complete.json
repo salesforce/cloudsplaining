@@ -7,7 +7,7 @@
       "Arn": "arn:aws:iam::012345678901:user/BlakeBortles",
       "CreateDate": "2019-12-18 19:10:08+00:00",
       "GroupList": [
-        "GOAT"
+        "GOATGroup"
       ],
       "AttachedManagedPolicies": [],
       "Tags": []
@@ -16,15 +16,19 @@
   "GroupDetailList": [
     {
       "Path": "/",
-      "GroupName": "GOAT",
+      "GroupName": "GOATGroup",
       "GroupId": "GreatestOfAllTime",
-      "Arn": "arn:aws:iam::012345678901:group/GOAT",
+      "Arn": "arn:aws:iam::012345678901:group/GOATGroup",
       "CreateDate": "2017-05-15 17:33:36+00:00",
       "GroupPolicyList": [],
       "AttachedManagedPolicies": [
         {
           "PolicyName": "AdministratorAccess",
           "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        },
+        {
+          "PolicyName": "NotYourPolicy",
+          "PolicyArn": "arn:aws:iam::012345678901:policy/NotYourPolicy"
         }
       ]
     }
@@ -32,9 +36,9 @@
   "RoleDetailList": [
     {
       "Path": "/",
-      "RoleName": "GOAT",
-      "RoleId": "GOAT",
-      "Arn": "arn:aws:iam::012345678901:role/GOAT",
+      "RoleName": "GOATRole",
+      "RoleId": "GOATRole",
+      "Arn": "arn:aws:iam::012345678901:role/GOATRole",
       "CreateDate": "2019-08-16 17:27:59+00:00",
       "AssumeRolePolicyDocument": {
         "Version": "2012-10-17",
@@ -68,7 +72,16 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "PolicyForTestingOverrides",
+          "PolicyArn": "arn:aws:iam:012345678901:aws:policy/PolicyForTestingOverrides"
+        },
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ],
       "Tags": [],
       "RoleLastUsed": {}
     },

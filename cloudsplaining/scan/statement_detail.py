@@ -10,6 +10,7 @@ from cloudsplaining.shared.utils import (
     remove_read_level_actions,
     remove_wildcard_only_actions,
 )
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
@@ -17,6 +18,7 @@ from cloudsplaining.shared.utils import (
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 logger = logging.getLogger(__name__)
+logging.getLogger("policy_sentry").setLevel(logging.WARNING)
 
 all_actions = get_all_actions()
 
@@ -132,8 +134,10 @@ class StatementDetail:
         if self.not_resource:
             if self.effect_allow:
                 result = True
-                logger.warning("Per the AWS documentation, the NotResource should never be used with the "
-                               "Allow Effect. We suggest changing this ASAP")
+                logger.warning(
+                    "Per the AWS documentation, the NotResource should never be used with the "
+                    "Allow Effect. We suggest changing this ASAP"
+                )
         return result
 
     @property
@@ -222,30 +226,45 @@ class StatementDetail:
             )
         return result
 
-    @property
-    def missing_resource_constraints(self):
+    def missing_resource_constraints(self, exclusions=DEFAULT_EXCLUSIONS):
         """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
         resource constraints."""
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(  # pragma: no cover
+                "The provided exclusions is not the Exclusions object type. "
+                "Please use the Exclusions object."
+            )
         actions_missing_resource_constraints = []
         if len(self.resources) == 1:
             if self.resources[0] == "*":
                 actions_missing_resource_constraints = remove_wildcard_only_actions(
                     self.expanded_actions
                 )
-        return actions_missing_resource_constraints
+        results = exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        return results
 
     def missing_resource_constraints_for_modify_actions(
-        self, always_look_for_actions=None
+        self, exclusions=DEFAULT_EXCLUSIONS
     ):
         """
         Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
         are allowed by the statement without resource constraints.
 
-        :param always_look_for_actions: A list of actions at the 'Read' or 'List' access level to always look for, even though they are not 'Modify' type actions. This is useful for adding actions that could contribute to data leaks.
+        :param exclusions: Exclusions object
         """
-        if always_look_for_actions is None:
-            always_look_for_actions = []
-        actions_missing_resource_constraints = self.missing_resource_constraints
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(  # pragma: no cover
+                "The provided exclusions is not the Exclusions object type. "
+                "Please use the Exclusions object."
+            )
+        # This initially includes read-only and modify level actions
+        if exclusions.include_actions is None:
+            always_look_for_actions = []  # pragma: no cover
+        else:
+            always_look_for_actions = exclusions.include_actions
+        actions_missing_resource_constraints = self.missing_resource_constraints(
+            exclusions
+        )
 
         always_actions_found = []
         for action in actions_missing_resource_constraints:
@@ -257,4 +276,9 @@ class StatementDetail:
         modify_actions_missing_constraints = (
             modify_actions_missing_constraints + always_actions_found
         )
+
+        modify_actions_missing_constraints = list(
+            dict.fromkeys(modify_actions_missing_constraints)
+        )
+        modify_actions_missing_constraints.sort()
         return modify_actions_missing_constraints

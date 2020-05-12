@@ -48,7 +48,7 @@
 <!------------------>
 <!-- Row          -->
 <!------------------>
-<div class="row">
+<div class="row" style="font-size: 90%">
   <!--------------->
   <!-- Container -->
   <!--------------->
@@ -147,33 +147,36 @@
 
           <!--PRINCIPALS TAB-->
           <div class="tab-pane fade" id="nav-principals" role="tabpanel" aria-labelledby="nav-principals-tab">
-          <h3 id="iam-principals">IAM Principals</h3>
+            <br>
+            <h3 id="iam-principals">IAM Principals</h3>
 
             {% include 'summary/iam-principals.html' %}
           </div><!--/end PRINCIPALS TAB-->
 
           <!--CUSTOMER-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
-
+            <br>
             <!--Summary: Customer-managed policies-->
-            <h3 id="customer-managed-policies-summary">Findings: Customer-managed Policies</h3>
+            <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
             {% include 'summary/customer-managed.html' %}
 
             <!--Analysis: Customer-managed-policies-->
-            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed Policies</h3>
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed and inline Policies</h3>
             {% include 'analysis/customer-managed.html' %}
           </div><!--/end CUSTOMER-MANAGED TAB-->
 
 
           <!--AWS-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
-
+            <br>
             <!--Summary: AWS-managed policies-->
             <h3 id="aws-managed-policies-summary">Findings: AWS-managed Policies</h3>
+            <br>
             {% include 'summary/aws-managed.html' %}
 
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+            <br>
             {% include 'analysis/aws-managed.html' %}
 
           </div><!--/end AWS-MANAGED TAB-->
@@ -252,6 +255,45 @@
         $('.nav-tabs a[href="#nav-summary"]').tab('show');
     });
 </script>
-
+<!--When Summary Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+ $('#nav-summary-tab').click(function(){
+    $('a[href="#nav-summary-tab"]').click();
+    console.log($('a[href="#nav-summary-tab"]').text() + ' click triggered');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    $('.nav-tabs a[href="#nav-summary"]').tab('show');
+    return false;
+ });
+</script>
+<!--When Customer Managed Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-customer-managed-tab').click(function(){
+    $('a[href="#nav-customer-managed-tab"]').click();
+    $('.nav-tabs a[href="#nav-customer-managed"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-customer-managed-tab"]').text() + ' click triggered');
+ });
+</script>
+<!--When AWS Managed Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-aws-managed-tab').click(function(){
+    $('a[href="#nav-aws-managed-tab"]').click();
+    $('.nav-tabs a[href="#nav-aws-managed"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-aws-managed-tab"]').text() + ' click triggered');
+ });
+</script>
+<!--When IAM Principals Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-principals-tab').click(function(){
+    $('a[href="#nav-principals-tab"]').click();
+    $('.nav-tabs a[href="#nav-principals"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-principals-tab"]').text() + ' click triggered');
+ });
+</script>
 </body>
 </html>
