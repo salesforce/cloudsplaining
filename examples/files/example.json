@@ -105,7 +105,24 @@
       "GroupId": "admin",
       "Arn": "arn:aws:iam::012345678901:group/admin",
       "CreateDate": "2017-05-15 17:33:36+00:00",
-      "GroupPolicyList": [],
+      "GroupPolicyList": [
+                {
+          "PolicyName": "InlinePolicyForAdminGroup",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:*"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
       "AttachedManagedPolicies": [
         {
           "PolicyName": "AdministratorAccess",

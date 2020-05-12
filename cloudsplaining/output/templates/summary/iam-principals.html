@@ -27,7 +27,7 @@
        <th><a href="#definition-privilege-escalation">Privilege Escalation</a></td></th>
        <th><a href="#definition-resource-exposure">Resource Exposure</a></th>
        <th><a href="#definition-data-exfiltration">Data Exfiltration</a></th>
-       <th>Comment</th>
+       <th>Group Membership</th>
      </tr>
   </thead>
   <tbody>
@@ -42,7 +42,7 @@
       <td>{{ principal["PrivilegeEscalation"] }}</td>
       <td>{{ principal["DataExfiltrationActions"] }}</td>
       <td>{{ principal["PermissionsManagementActions"] }}</td>
-      <td>{{ principal["Comment"] }}</td>
+      <td>{% if principal["GroupMembership"] %}{% if principal["GroupMembership"]|length > 0 %}{% for group in principal["GroupMembership"] %}{{ group }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}{% endif %}</td>
     </tr>
   {% endfor %}
   </tbody>
