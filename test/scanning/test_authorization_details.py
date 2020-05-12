@@ -241,7 +241,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
             }
         ]
 
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertListEqual(results, expected_results)
 
@@ -261,7 +261,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         # print(expected_results_file)
         with open(expected_results_file) as json_file:
             expected_result = json.load(json_file)
-        print(json.dumps(result, indent=4))
+        # print(json.dumps(result, indent=4))
         self.maxDiff = None
         self.assertListEqual(result, expected_result)
 
@@ -269,30 +269,34 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         authorization_details = AuthorizationDetails(example_authz_details_for_overrides_complete)
         self.assertListEqual(authorization_details.aws_managed_policies_in_use, ['AdministratorAccess'])
         self.assertListEqual(authorization_details.users, ['BlakeBortles'])
-        self.assertListEqual(authorization_details.groups, ['GOAT'])
-        self.assertListEqual(authorization_details.roles, ['GOAT', 'MyOtherRole'])
+        self.assertListEqual(authorization_details.groups, ['GOATGroup'])
+        self.assertListEqual(authorization_details.roles, ['GOATRole', 'MyOtherRole'])
 
     def test_principal_policy_mapping(self):
         authorization_details = AuthorizationDetails(example_authz_details_for_overrides_complete)
         expected_results = [
             {
-                "Principal": "GOAT",
+                "Principal": "GOATGroup",
                 "Type": "Group",
                 "PolicyType": "Managed",
                 "ManagedBy": "AWS",
                 "PolicyName": "AdministratorAccess",
-                "GroupMembership": None
+                "GroupMembership": [
+                    "BlakeBortles"
+                ]
             },
             {
-                "Principal": "GOAT",
+                "Principal": "GOATGroup",
                 "Type": "Group",
                 "PolicyType": "Managed",
                 "ManagedBy": "Customer",
                 "PolicyName": "NotYourPolicy",
-                "GroupMembership": None
+                "GroupMembership": [
+                    "BlakeBortles"
+                ]
             },
             {
-                "Principal": "GOAT",
+                "Principal": "GOATRole",
                 "Type": "Role",
                 "PolicyType": "Inline",
                 "ManagedBy": "Customer",
@@ -300,7 +304,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "GroupMembership": None
             },
             {
-                "Principal": "GOAT",
+                "Principal": "GOATRole",
                 "Type": "Role",
                 "PolicyType": "Managed",
                 "ManagedBy": "AWS",
@@ -308,7 +312,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "GroupMembership": None
             },
             {
-                "Principal": "GOAT",
+                "Principal": "GOATRole",
                 "Type": "Role",
                 "PolicyType": "Managed",
                 "ManagedBy": "Customer",
@@ -330,7 +334,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "ManagedBy": "AWS",
                 "PolicyName": "AdministratorAccess",
                 "GroupMembership": [
-                    "GOAT"
+                    "GOATGroup"
                 ]
             },
             {
@@ -340,11 +344,11 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "ManagedBy": "Customer",
                 "PolicyName": "NotYourPolicy",
                 "GroupMembership": [
-                    "GOAT"
+                    "GOATGroup"
                 ]
             }
         ]
-        print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
+        # print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
         self.maxDiff = None
         self.assertListEqual(authorization_details.principal_policy_mapping, expected_results)
 

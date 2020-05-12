@@ -200,7 +200,7 @@ class TestStatementDetail(unittest.TestCase):
         # Includes over 3000 write actions
         self.assertTrue(len(results) > 3000)
         results = statement.tagging_actions_without_constraints
-        print(results)
+        # print(results)
         # print(len(results))
         self.assertTrue(len(results) > 250)
 
