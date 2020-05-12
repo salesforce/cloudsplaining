@@ -167,10 +167,10 @@
     {
         "AccountID": "012345678901",
         "ManagedBy": "Customer",
-        "Name": "GOAT",
+        "Name": "GOATRole",
         "PolicyName": "SsmOnboardingInlinePolicy",
         "Type": "Role",
-        "Arn": "arn:aws:iam::012345678901:role/GOAT",
+        "Arn": "arn:aws:iam::012345678901:role/GOATRole",
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
