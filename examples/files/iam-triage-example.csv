@@ -1,4 +1,5 @@
 PolicyName,Type,ManagedBy,Services,Actions,Justification
+EC2-IAM-example,role,Customer,2,5,
 InsecurePolicy,policy,Customer,1,2,
 InsecureUserPolicy,user,Customer,1,3,
 MyOtherRolePolicy,role,Customer,2,5,

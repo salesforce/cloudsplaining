@@ -252,6 +252,45 @@
         $('.nav-tabs a[href="#nav-summary"]').tab('show');
     });
 </script>
-
+<!--When Summary Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+ $('#nav-summary-tab').click(function(){
+    $('a[href="#nav-summary-tab"]').click();
+    console.log($('a[href="#nav-summary-tab"]').text() + ' click triggered');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    $('.nav-tabs a[href="#nav-summary"]').tab('show');
+    return false;
+ });
+</script>
+<!--When Customer Managed Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-customer-managed-tab').click(function(){
+    $('a[href="#nav-customer-managed-tab"]').click();
+    $('.nav-tabs a[href="#nav-customer-managed"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-customer-managed-tab"]').text() + ' click triggered');
+ });
+</script>
+<!--When AWS Managed Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-aws-managed-tab').click(function(){
+    $('a[href="#nav-aws-managed-tab"]').click();
+    $('.nav-tabs a[href="#nav-aws-managed"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-aws-managed-tab"]').text() + ' click triggered');
+ });
+</script>
+<!--When IAM Principals Tab is clicked, switch to its tab and then scroll to the top-->
+<script>
+   $('#nav-principals-tab').click(function(){
+    $('a[href="#nav-principals-tab"]').click();
+    $('.nav-tabs a[href="#nav-principals"]').tab('show');
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+    console.log($('a[href="#nav-principals-tab"]').text() + ' click triggered');
+ });
+</script>
 </body>
 </html>

@@ -1442,6 +1442,67 @@
         ]
     },
     {
+        "AccountID": "012345678901",
+        "ManagedBy": "Customer",
+        "Name": "MyRole",
+        "PolicyName": "EC2-IAM-example",
+        "Type": "Role",
+        "Arn": "arn:aws:iam::012345678901:role/MyRole",
+        "ActionsCount": 5,
+        "ServicesCount": 2,
+        "Services": [
+            "ec2",
+            "iam"
+        ],
+        "Actions": [
+            "ec2:AssociateIamInstanceProfile",
+            "ec2:DisassociateIamInstanceProfile",
+            "iam:AddRoleToInstanceProfile",
+            "iam:CreateInstanceProfile",
+            "iam:PassRole"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "VisualEditor0",
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:CreateInstanceProfile",
+                        "iam:ListInstanceProfilesForRole",
+                        "iam:PassRole",
+                        "ec2:DescribeIamInstanceProfileAssociations",
+                        "iam:GetInstanceProfile",
+                        "ec2:DisassociateIamInstanceProfile",
+                        "ec2:AssociateIamInstanceProfile",
+                        "iam:AddRoleToInstanceProfile"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ssm.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": [
+            "iam:AddRoleToInstanceProfile",
+            "iam:CreateInstanceProfile",
+            "iam:PassRole"
+        ]
+    },
+    {
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "Name": "IAMFullAccess",

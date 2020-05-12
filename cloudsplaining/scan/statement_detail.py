@@ -229,7 +229,7 @@ class StatementDetail:
         """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
         resource constraints."""
         if not isinstance(exclusions, Exclusions):
-            raise Exception(
+            raise Exception(  # pragma: no cover
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
@@ -252,7 +252,7 @@ class StatementDetail:
         :param exclusions: Exclusions object
         """
         if not isinstance(exclusions, Exclusions):
-            raise Exception(
+            raise Exception(  # pragma: no cover
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
