@@ -258,7 +258,7 @@ class StatementDetail:
             )
         # This initially includes read-only and modify level actions
         if exclusions.include_actions is None:
-            always_look_for_actions = []
+            always_look_for_actions = []  # pragma: no cover
         else:
             always_look_for_actions = exclusions.include_actions
         actions_missing_resource_constraints = self.missing_resource_constraints(
