@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/1f/5a/6d5faf99c23d3fe6c31508efc5b3b1406ae238e760a75a27409a35df2551/cloudsplaining-0.0.13.tar.gz"
-  sha256 "912c683d44fdf7c56cd53562727620a41d6e76902da0dbbca5a56caa80281da8"
+  url "https://files.pythonhosted.org/packages/9f/52/1e40c907af760328eba39dfbf15b1e3f89c8a9d39f725ee1e1e342770470/cloudsplaining-0.0.14.tar.gz"
+  sha256 "5fe1248ab81cfde78ed8019d94b674c9edf27a1e250b003c93827efc86be7524"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/99/d6/d77580fd962e84c7de9920c268d5bd1e423f6744939f5ca3c9de4a04aab2/boto3-1.13.5.tar.gz"
-    sha256 "85155ebc55a4437ce48e45e900c10794f8372bba74e2c4c3c738b3b56d08139a"
+    url "https://files.pythonhosted.org/packages/be/7b/a5ec29f443aa3c3bd0cdad677a4f28933831557ea92ae064d1f2ffee5d64/boto3-1.13.7.tar.gz"
+    sha256 "a9518f580f18b9ca5638be0d7eb90651cceb0fff3524739488763f6dcade1caf"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/dc/30/4c334a3e7e2ed11ab70c9783ec06d4dbf63bdcfe1a1ffe1b7b8580d91d5b/botocore-1.16.5.tar.gz"
-    sha256 "75fb94cb4dac9fd4967a536a212fd0cc1def9ef8f41d97fc52e1f14b4c465647"
+    url "https://files.pythonhosted.org/packages/b1/fd/6e60fc0f3979fd6e4676fd70afe7620e4098f61f634f3641d3a9898fbaa0/botocore-1.16.7.tar.gz"
+    sha256 "7cd876e6186e845c3667fdcbfd73756f09761c2d5695dfba64b00a08195e7c1f"
   end
 
   resource "certifi" do
@@ -58,6 +58,11 @@ class Cloudsplaining < Formula
     sha256 "7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb"
   end
 
+  resource "importlib-metadata" do
+    url "https://files.pythonhosted.org/packages/b4/1b/baab42e3cd64c9d5caac25a9d6c054f8324cdc38975a44d600569f1f7158/importlib_metadata-1.6.0.tar.gz"
+    sha256 "34513a8a0c4962bc66d35b359558fd8a5e10cd472d37aec5f66858addef32c1e"
+  end
+
   resource "Jinja2" do
     url "https://files.pythonhosted.org/packages/64/a7/45e11eebf2f15bf987c3bc11d37dcc838d9dc81250e67e4c5968f6008b6c/Jinja2-2.11.2.tar.gz"
     sha256 "89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0"
@@ -69,8 +74,8 @@ class Cloudsplaining < Formula
   end
 
   resource "Markdown" do
-    url "https://files.pythonhosted.org/packages/98/79/ce6984767cb9478e6818bd0994283db55c423d733cc62a88a3ffb8581e11/Markdown-3.2.1.tar.gz"
-    sha256 "90fee683eeabe1a92e149f7ba74e5ccdc81cd397bd6c516d93a8da0ef90b6902"
+    url "https://files.pythonhosted.org/packages/44/30/cb4555416609a8f75525e34cbacfc721aa5b0044809968b2cf553fd879c7/Markdown-3.2.2.tar.gz"
+    sha256 "1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17"
   end
 
   resource "MarkupSafe" do
@@ -121,6 +126,11 @@ class Cloudsplaining < Formula
   resource "urllib3" do
     url "https://files.pythonhosted.org/packages/05/8c/40cd6949373e23081b3ea20d5594ae523e681b6f472e600fbc95ed046a36/urllib3-1.25.9.tar.gz"
     sha256 "3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527"
+  end
+
+  resource "zipp" do
+    url "https://files.pythonhosted.org/packages/ce/8c/2c5f7dc1b418f659d36c04dec9446612fc7b45c8095cc7369dd772513055/zipp-3.1.0.tar.gz"
+    sha256 "c599e4d75c98f6798c509911d08a22e6c021d074469042177c8c86fb92eefd96"
   end
 
   def install
