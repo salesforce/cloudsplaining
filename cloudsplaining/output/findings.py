@@ -140,7 +140,8 @@ class Findings:
             if finding.policy_name.lower() in policies_in_use_lowercase:
                 these_findings.append(finding.json)
             else:
-                print(f"The Policy {finding.policy_name} is excluded")
+                print(f"The Policy {finding.policy_name} is not used by any non-excluded principals, "
+                      f"so it is being excluded from the scan.")
         # sort it
         these_findings = sorted(these_findings, key=itemgetter("PolicyName"))
         # print(json.dumps(these_findings, indent=4))

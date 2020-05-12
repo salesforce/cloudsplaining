@@ -44,9 +44,36 @@ class AuthorizationDetails:
         self.role_detail_list = PrincipalTypeDetails(
             auth_json.get("RoleDetailList", None)
         )
+        self._update_group_membership()
         self.findings = Findings()
         self.customer_managed_policies_in_use = self._customer_managed_policies_in_use()
         self.aws_managed_policies_in_use = self._aws_managed_policies_in_use()
+
+    def _update_group_membership(self):
+        """A hacky approach to ensuring that groups have their list of members, as that is not included
+        in the initial AWS API call response and we have to calculate it ourselves."""
+        # Let's make sure the groups know who their members are
+        # First, skim through the user_detail_list, and compile the dict of groups and their users
+        groups = {}
+        for principal in self.user_detail_list.principals:
+            if principal.principal_type == "User":
+                if principal.group_member:
+                    logger.debug(f"User {principal.name} is a member of the group(s): {principal.group_member}")
+                    for group in principal.group_member:
+                        if group not in groups:
+                            groups[group] = []
+                            groups[group].append(principal.name)
+                        else:
+                            groups[group].append(principal.name)
+        # Let's make sure we add the list of group members to their groups
+        # We do that by skimming through that groups list and then adding them as class attributes to the principal class.
+        logger.debug(f"_update_group_membership: groups: {groups}")
+        for principal in self.group_detail_list.principals:
+            if principal.principal_type == "Group":
+                for group in groups:
+                    if group.lower() == principal.name.lower():
+                        principal.members.extend(groups[group])
+                        logger.debug(f"_update_group_membership: The group {group} has members: {groups[group]}")
 
     def _aws_managed_policies_in_use(self):
         aws_managed_policies = []
@@ -165,13 +192,19 @@ class AuthorizationDetails:
             # Inline Policies
             if principal.inline_principal_policies:
                 for inline_policy in principal.inline_principal_policies:
+                    if principal.principal_type == "User":
+                        group_membership = principal.group_member
+                    elif principal.principal_type == "Group":
+                        group_membership = principal.members
+                    else:
+                        group_membership = None
                     entry = dict(
                         Principal=principal.name,
                         Type=principal.principal_type,
                         PolicyType="Inline",
                         ManagedBy="Customer",
                         PolicyName=inline_policy.get("PolicyName"),
-                        GroupMembership=None,
+                        GroupMembership=group_membership,
                     )
                     principal_policy_mapping.append(entry)
             # AttachedManagedPolicies
@@ -181,13 +214,19 @@ class AuthorizationDetails:
                         managed_by = "AWS"
                     else:
                         managed_by = "Customer"
+                    if principal.principal_type == "User":
+                        group_membership = principal.group_member
+                    elif principal.principal_type == "Group":
+                        group_membership = principal.members
+                    else:
+                        group_membership = None
                     entry = dict(
                         Principal=principal.name,
                         Type=principal.principal_type,
                         PolicyType="Managed",
                         ManagedBy=managed_by,
                         PolicyName=attached_managed_policy.get("PolicyName"),
-                        GroupMembership=None,
+                        GroupMembership=group_membership,
                     )
                     principal_policy_mapping.append(entry)
 
@@ -258,9 +297,7 @@ class AuthorizationDetails:
         print("-----USERS-----")
         self.scan_principal_type_details(self.user_detail_list, exclusions, modify_only)
         print("-----GROUPS-----")
-        self.scan_principal_type_details(
-            self.group_detail_list, exclusions, modify_only
-        )
+        self.scan_principal_type_details(self.group_detail_list, exclusions, modify_only)
         print("-----ROLES-----")
         self.scan_principal_type_details(self.role_detail_list, exclusions, modify_only)
         print("-----POLICIES-----")
@@ -323,24 +360,6 @@ class AuthorizationDetails:
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
-        # TODO: Fix how we are adding groups in
-        groups = {}
-        for principal in principal_type_detail_list.principals:
-            if principal.principal_type == "Users":
-                if principal.group_member:
-                    for group in principal.group_member:
-                        print(f"group_member: {principal.group_member}")
-                        if group not in groups:
-                            groups[group] = []
-                            groups[group].append(principal.name)
-                        else:
-                            groups[group].append(principal.name)
-        for principal in principal_type_detail_list.principals:
-            if principal.principal_type == "Groups":
-                for group in groups:
-                    if group.lower() == principal.name.lower():
-                        principal.members.extend(groups[group])
-                        print(f"principal {group} has members: {groups[group]}")
         for principal in principal_type_detail_list.principals:
             print(f"Scanning {principal.principal_type}: {principal.name}")
 
@@ -382,9 +401,6 @@ class AuthorizationDetails:
                             )
                             self.findings.add_user_finding(user_finding)
                         elif principal.principal_type == "Group":
-                            # if principal.attached_managed_policies:
-                            #     for managed_policy in principal.attached_managed_policies:
-                            #         logger.debug(f"The principal {principal.name} uses the managed policy {principal.attached_managed_policies}")
                             group_finding = GroupFinding(
                                 policy_name=policy["PolicyName"],
                                 arn=principal.arn,
@@ -394,13 +410,9 @@ class AuthorizationDetails:
                                 members=principal.members,
                                 attached_managed_policies=principal.attached_managed_policies,
                             )
-                            # TODO: Right now I am not sure if there is tracking of group membership.
-                            #  Need to figure that out.
+                            logger.debug(f"scan_principal_type_details: The Group {principal.name} has the members {principal.members}")
                             self.findings.add_group_finding(group_finding)
                         elif principal.principal_type == "Role":
-                            # if principal.attached_managed_policies:
-                            #     logger.debug(
-                            #         f"The principal {principal.name} uses the managed policy {principal.attached_managed_policies}")
                             role_finding = RoleFinding(
                                 policy_name=policy["PolicyName"],
                                 arn=principal.arn,
