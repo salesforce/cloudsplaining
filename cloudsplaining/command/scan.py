@@ -14,9 +14,7 @@ import yaml
 import click
 import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
-from cloudsplaining.shared.validation import (
-    check_authorization_details_schema,
-)
+from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.output.html_report import generate_html_report
@@ -136,11 +134,20 @@ def scan_account_authorization_file(
     principal_policy_mapping = authorization_details.principal_policy_mapping
     for principal_policy_entry in principal_policy_mapping:
         for finding_result in results:
-            if principal_policy_entry.get("PolicyName").lower() == finding_result.get("PolicyName").lower():
+            if (
+                principal_policy_entry.get("PolicyName").lower()
+                == finding_result.get("PolicyName").lower()
+            ):
                 principal_policy_entry["Actions"] = len(finding_result["Actions"])
-                principal_policy_entry["PrivilegeEscalation"] = len(finding_result["PrivilegeEscalation"])
-                principal_policy_entry["DataExfiltrationActions"] = len(finding_result["DataExfiltrationActions"])
-                principal_policy_entry["PermissionsManagementActions"] = len(finding_result["PermissionsManagementActions"])
+                principal_policy_entry["PrivilegeEscalation"] = len(
+                    finding_result["PrivilegeEscalation"]
+                )
+                principal_policy_entry["DataExfiltrationActions"] = len(
+                    finding_result["DataExfiltrationActions"]
+                )
+                principal_policy_entry["PermissionsManagementActions"] = len(
+                    finding_result["PermissionsManagementActions"]
+                )
 
     account_name = Path(input_file).stem
 

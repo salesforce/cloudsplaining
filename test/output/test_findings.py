@@ -16,6 +16,7 @@ from cloudsplaining.shared.exclusions import Exclusions
 class TestFindings(unittest.TestCase):
     def test_new_findings(self):
         """output.new_findings.Findings"""
+        self.maxDiff = None
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
@@ -38,6 +39,10 @@ class TestFindings(unittest.TestCase):
             policies=["exclude-policy"]
         )
         exclusions = Exclusions(exclusions_cfg)
+        attached_managed_policies = [{
+            "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+            "PolicyName": "AWSLambdaFullAccess"
+        }]
         # Let's just re-use the same policy for users groups and roles
         user_finding = UserFinding(
             policy_name="MyPolicy",
@@ -45,6 +50,7 @@ class TestFindings(unittest.TestCase):
             actions=["s3:GetObject"],
             policy_document=policy_document,
             group_membership=["admin"],
+            attached_managed_policies=attached_managed_policies,
             exclusions=exclusions
         )
         group_finding = GroupFinding(
@@ -125,7 +131,41 @@ class TestFindings(unittest.TestCase):
             "PermissionsManagementActions": []
         }
         self.assertDictEqual(result.json, expected_user_result)
-
+        principal_policy_mapping = [
+            {
+                "Principal": "SomeUser",
+                "Type": "User",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "MyPolicy",
+                "GroupMembership": None,
+            },
+            {
+                "Principal": "SomeUser",
+                "Type": "User",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "AWSLambdaFullAccess",
+                "GroupMembership": None,
+            },
+            {
+                "Principal": "SomeGroup",
+                "Type": "Group",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "MyPolicy",
+                "GroupMembership": None,
+            },
+            {
+                "Principal": "SomeRole",
+                "Type": "Role",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "MyPolicy",
+                "GroupMembership": None,
+            },
+        ]
+        all_findings.principal_policy_mapping = principal_policy_mapping
         all_findings.add_group_finding(group_finding)
         all_findings.add_role_finding(role_finding)
         all_findings.add_policy_finding(policy_finding)

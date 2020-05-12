@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 class Exclusions:
     """Contains the exclusions configuration as an object"""
+
     def __init__(self, exclusions_config=DEFAULT_EXCLUSIONS_CONFIG):
         check_exclusions_schema(exclusions_config)
         self.config = exclusions_config
@@ -87,6 +88,8 @@ class Exclusions:
                 return action_in_question
             else:
                 return False
+        else:
+            return False
 
     def is_action_always_excluded(self, action_in_question):
         """
@@ -95,10 +98,11 @@ class Exclusions:
         :return:
         """
         if self.exclude_actions:
-            if is_name_excluded(action_in_question.lower(), self.exclude_actions):
-                return True
-            else:
-                return False
+            return bool(
+                is_name_excluded(action_in_question.lower(), self.exclude_actions)
+            )
+        else:
+            return False
 
     def is_policy_excluded(self, policy_name):
         """
@@ -122,22 +126,15 @@ class Exclusions:
         :return: a boolean decision
         """
         if principal_type == "User":
-            if is_name_excluded(principal.lower(), self.users):
-                return True
-            else:
-                return False
+            return bool(is_name_excluded(principal.lower(), self.users))
         elif principal_type == "Group":
-            if is_name_excluded(principal.lower(), self.groups):
-                return True
-            else:
-                return False
+            return bool(is_name_excluded(principal.lower(), self.groups))
         elif principal_type == "Role":
-            if is_name_excluded(principal.lower(), self.roles):
-                return True
-            else:
-                return False
+            return bool(is_name_excluded(principal.lower(), self.roles))
         else:
-            raise Exception("Please supply User, Group, or Role as the principal argument.")
+            raise Exception(
+                "Please supply User, Group, or Role as the principal argument."
+            )
 
     def get_allowed_actions(self, requested_actions):
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a

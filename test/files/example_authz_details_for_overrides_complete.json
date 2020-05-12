@@ -25,6 +25,10 @@
         {
           "PolicyName": "AdministratorAccess",
           "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        },
+        {
+          "PolicyName": "NotYourPolicy",
+          "PolicyArn": "arn:aws:iam::012345678901:policy/NotYourPolicy"
         }
       ]
     }
@@ -68,7 +72,16 @@
           }
         }
       ],
-      "AttachedManagedPolicies": [],
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "PolicyForTestingOverrides",
+          "PolicyArn": "arn:aws:iam:012345678901:aws:policy/PolicyForTestingOverrides"
+        },
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ],
       "Tags": [],
       "RoleLastUsed": {}
     },

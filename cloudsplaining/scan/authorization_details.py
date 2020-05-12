@@ -11,7 +11,13 @@ from policy_sentry.querying.all import get_all_service_prefixes
 # from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_detail import PolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
-from cloudsplaining.output.findings import Findings, UserFinding, GroupFinding, RoleFinding, PolicyFinding
+from cloudsplaining.output.findings import (
+    Findings,
+    UserFinding,
+    GroupFinding,
+    RoleFinding,
+    PolicyFinding,
+)
 
 # from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
@@ -68,7 +74,7 @@ class AuthorizationDetails:
                     aws_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
-
+        aws_managed_policies = list(dict.fromkeys(aws_managed_policies))
         return aws_managed_policies
 
     def _customer_managed_policies_in_use(self):
@@ -106,7 +112,7 @@ class AuthorizationDetails:
                     customer_managed_policies.append(
                         attached_managed_policy.get("PolicyName")
                     )
-
+        customer_managed_policies = list(dict.fromkeys(customer_managed_policies))
         return customer_managed_policies
 
     @property
@@ -253,10 +259,13 @@ class AuthorizationDetails:
         print("-----USERS-----")
         self.scan_principal_type_details(self.user_detail_list, exclusions, modify_only)
         print("-----GROUPS-----")
-        self.scan_principal_type_details(self.group_detail_list, exclusions, modify_only)
+        self.scan_principal_type_details(
+            self.group_detail_list, exclusions, modify_only
+        )
         print("-----ROLES-----")
         self.scan_principal_type_details(self.role_detail_list, exclusions, modify_only)
         print("-----POLICIES-----")
+        self.findings.principal_policy_mapping = self.principal_policy_mapping
         self.scan_policy_details(exclusions, modify_only)
         return self.findings.json
 
@@ -315,6 +324,7 @@ class AuthorizationDetails:
                 "The provided exclusions is not the Exclusions object type. "
                 "Please use the Exclusions object."
             )
+        # TODO: Fix how we are adding groups in
         groups = {}
         for principal in principal_type_detail_list.principals:
             if principal.principal_type == "Users":
@@ -326,8 +336,6 @@ class AuthorizationDetails:
                             groups[group].append(principal.name)
                         else:
                             groups[group].append(principal.name)
-        print("groups, yo")
-        print(groups)
         for principal in principal_type_detail_list.principals:
             if principal.principal_type == "Groups":
                 for group in groups:
@@ -385,7 +393,7 @@ class AuthorizationDetails:
                                 policy_document=policy["PolicyDocument"],
                                 exclusions=exclusions,
                                 members=principal.members,
-                                attached_managed_policies=principal.attached_managed_policies
+                                attached_managed_policies=principal.attached_managed_policies,
                             )
                             # TODO: Right now I am not sure if there is tracking of group membership.
                             #  Need to figure that out.
@@ -401,13 +409,14 @@ class AuthorizationDetails:
                                 policy_document=policy["PolicyDocument"],
                                 exclusions=exclusions,
                                 assume_role_policy_document=principal.assume_role_policy_document,
-                                attached_managed_policies=principal.attached_managed_policies
+                                attached_managed_policies=principal.attached_managed_policies,
                             )
                             self.findings.add_role_finding(role_finding)
 
 
 class PrincipalPolicyMapping:
     """Mapping between the principals and the policies assigned to them"""
+
     def __init__(self):
         self.entries = []
 
