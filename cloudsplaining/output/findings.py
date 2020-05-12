@@ -1,8 +1,12 @@
+"""Holds all the finding classes"""
 import logging
-import json
 from operator import itemgetter
 from policy_sentry.util.arns import get_resource_string, get_account_from_arn
-from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions, DEFAULT_EXCLUSIONS
+from cloudsplaining.shared.exclusions import (
+    is_name_excluded,
+    Exclusions,
+    DEFAULT_EXCLUSIONS,
+)
 from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
 from cloudsplaining.shared.utils import capitalize_first_character, get_full_policy_path
 
@@ -18,27 +22,33 @@ class Findings:
         self.groups = []
         self.policies = []
         self.exclusions = exclusions
-        # self.principal_policy_mapping = []
+        self.principal_policy_mapping = []
+        # Hacky way to determine whether it is running the scan or scan_policy_file command
+        self.single_use = False
 
     def add_user_finding(self, user_finding):
+        """Adds a UserFinding object"""
         if not isinstance(user_finding, UserFinding):
             raise Exception("Please supply a UserFinding object")
         if not user_finding.is_excluded(self.exclusions):
             self.users.append(user_finding)
 
     def add_group_finding(self, group_finding):
+        """Adds a GroupFinding object"""
         if not isinstance(group_finding, GroupFinding):
             raise Exception("Please supply a GroupFinding object")
         if not group_finding.is_excluded(self.exclusions):
             self.groups.append(group_finding)
 
     def add_role_finding(self, role_finding):
+        """Adds a RoleFinding object"""
         if not isinstance(role_finding, RoleFinding):
             raise Exception("Please supply a RoleFinding object")
         if not role_finding.is_excluded(self.exclusions):
             self.roles.append(role_finding)
 
     def add_policy_finding(self, policy_finding):
+        """Adds a PolicyFinding object"""
         if not isinstance(policy_finding, PolicyFinding):
             raise Exception("Please supply a PolicyFinding object")
         if not policy_finding.is_excluded(self.exclusions):
@@ -46,6 +56,7 @@ class Findings:
 
     @property
     def valid_principals(self):
+        """Get a list of the principals (Users, Groups, Roles) that are used"""
         principals = []
         if self.users:
             for user_finding in self.users:
@@ -59,29 +70,50 @@ class Findings:
         return principals
 
     def policies_in_use(self):
+        """Get a list of policy names that are in use"""
+        if not self.principal_policy_mapping:
+            raise Exception(
+                "Set the principal_policy_mapping attribute before running."
+            )
         these_policies_in_use = []
-        if self.users:
-            for user_finding in self.users:
-                these_policies_in_use.append(user_finding.policy_name)
-                if len(user_finding.attached_managed_policies) > 0:
-                    for this_policy in user_finding.attached_managed_policies:
-                        these_policies_in_use.append(this_policy.get("PolicyName"))
-        if self.groups:
-            for group_finding in self.groups:
-                these_policies_in_use.append(group_finding.policy_name)
-                if len(group_finding.attached_managed_policies) > 0:
-                    for this_policy in group_finding.attached_managed_policies:
-                        these_policies_in_use.append(this_policy.get("PolicyName"))
-                    print(f"Adding managed policies: {group_finding.attached_managed_policies}")
-        if self.roles:
-            for role_finding in self.roles:
-                these_policies_in_use.append(role_finding.policy_name)
-                if len(role_finding.attached_managed_policies) > 0:
-                    for this_policy in role_finding.attached_managed_policies:
-                        these_policies_in_use.append(this_policy.get("PolicyName"))
-        these_policies_in_use = list(dict.fromkeys(these_policies_in_use))  # remove duplicates
+        for principal_policy_entry in self.principal_policy_mapping:
+            # If they are not excluded:
+            if principal_policy_entry.get("Type") == "User":
+                if not self.exclusions.is_principal_excluded(
+                    principal_policy_entry.get("Principal"), "User"
+                ):
+                    if not self.exclusions.is_policy_excluded(
+                        principal_policy_entry.get("PolicyName")
+                    ):
+                        these_policies_in_use.append(
+                            principal_policy_entry.get("PolicyName")
+                        )
+            if principal_policy_entry.get("Type") == "Group":
+                if not self.exclusions.is_principal_excluded(
+                    principal_policy_entry.get("Principal"), "User"
+                ):
+                    if not self.exclusions.is_policy_excluded(
+                        principal_policy_entry.get("PolicyName")
+                    ):
+                        these_policies_in_use.append(
+                            principal_policy_entry.get("PolicyName")
+                        )
+            if principal_policy_entry.get("Type") == "Role":
+                if not self.exclusions.is_principal_excluded(
+                    principal_policy_entry.get("Principal"), "Role"
+                ):
+                    if not self.exclusions.is_policy_excluded(
+                        principal_policy_entry.get("PolicyName")
+                    ):
+                        these_policies_in_use.append(
+                            principal_policy_entry.get("PolicyName")
+                        )
+
+        these_policies_in_use = list(
+            dict.fromkeys(these_policies_in_use)
+        )  # remove duplicates
         these_policies_in_use.sort()
-        print(f"IN USE: {these_policies_in_use}")
+        logger.debug(f"Policies in use: {these_policies_in_use}")
         return these_policies_in_use
 
     @property
@@ -103,23 +135,28 @@ class Findings:
         # Policies
         policies_in_use = self.policies_in_use()
 
+        policies_in_use_lowercase = [x.lower() for x in policies_in_use]
         for finding in self.policies:
-            policies_in_use_lowercase = [x.lower() for x in policies_in_use]
             if finding.policy_name.lower() in policies_in_use_lowercase:
                 these_findings.append(finding.json)
             else:
-                print(f"YOLO: {finding.policy_name} is excluded")
+                print(f"The Policy {finding.policy_name} is excluded")
         # sort it
         these_findings = sorted(these_findings, key=itemgetter("PolicyName"))
-        print(json.dumps(these_findings, indent=4))
+        # print(json.dumps(these_findings, indent=4))
         return these_findings
 
     def __len__(self):
-        length = len(self.users) + len(self.groups) + len(self.roles) + len(self.policies)
+        length = (
+            len(self.users) + len(self.groups) + len(self.roles) + len(self.policies)
+        )
         return length
 
 
+# pylint: disable=too-many-instance-attributes
 class Finding:
+    """Parent class for the various finding types"""
+
     def __init__(
         self,
         policy_name,
@@ -128,7 +165,7 @@ class Finding:
         policy_document,
         exclusions=DEFAULT_EXCLUSIONS,
         assume_role_policy_document=None,
-        attached_managed_policies=None
+        attached_managed_policies=None,
     ):
         self.policy_name = policy_name
         self.arn = arn
@@ -149,9 +186,12 @@ class Finding:
         # # Users only
         # self.group_membership = self._group_membership(group_membership)
         # Principals only (not policies)
-        self.attached_managed_policies = self._attached_managed_policies(attached_managed_policies)
+        self.attached_managed_policies = self._attached_managed_policies(
+            attached_managed_policies
+        )
 
     def _actions(self, actions):
+        """Set the actions"""
         results = []
         if self.always_exclude_actions:
             for action in actions:
@@ -168,6 +208,7 @@ class Finding:
             return actions
 
     def _attached_managed_policies(self, attached_managed_policies):
+        """Set the attached managed policies"""
         if self.type not in ["User", "Group", "Role"]:
             return None
         if isinstance(attached_managed_policies, list):
@@ -289,11 +330,33 @@ class Finding:
         }
         return result
 
+
 class UserFinding(Finding):
-    def __init__(self, policy_name, arn, actions, policy_document, group_membership, exclusions=DEFAULT_EXCLUSIONS, attached_managed_policies=None):
-        super().__init__(policy_name, arn, actions, policy_document, exclusions=exclusions, attached_managed_policies=attached_managed_policies)
+    """Findings for users"""
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        group_membership,
+        exclusions=DEFAULT_EXCLUSIONS,
+        attached_managed_policies=None,
+    ):
+        if attached_managed_policies is None:
+            attached_managed_policies = []
+        super().__init__(
+            policy_name,
+            arn,
+            actions,
+            policy_document,
+            exclusions=exclusions,
+            attached_managed_policies=attached_managed_policies,
+        )
         self.group_membership = self._group_membership(group_membership)
 
+    # pylint: disable=no-self-use
     def _group_membership(self, group_membership):
         if isinstance(group_membership, list):
             return group_membership
@@ -304,19 +367,8 @@ class UserFinding(Finding):
         else:
             raise Exception("Please supply the group membership as a list or string")
 
-    # def _attached_policies(self, attached_policies):
-    #     if self.type in ["User", "Group", "Role"]:
-    #         return None
-    #     if isinstance(attached_policies, list):
-    #         return attached_policies
-    #     elif isinstance(attached_policies, str):
-    #         return [attached_policies]
-    #     elif attached_policies is None:
-    #         return None
-    #     else:
-    #         raise Exception("Please supply the attached policies as a list or string")
-
     def is_excluded(self, exclusions):
+        """Determine whether or not the User in question is excluded"""
         if not isinstance(exclusions, Exclusions):
             raise Exception("Please supply a Exclusions object")
         # (1) If the user is a member of an excluded group, return True
@@ -350,12 +402,33 @@ class UserFinding(Finding):
 
 
 class GroupFinding(Finding):
-    def __init__(self, policy_name, arn, actions, policy_document, members, exclusions=DEFAULT_EXCLUSIONS, attached_managed_policies=None):
-        super().__init__(policy_name, arn, actions, policy_document, exclusions=exclusions, attached_managed_policies=attached_managed_policies)
+    """Findings for Groups"""
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        members,
+        exclusions=DEFAULT_EXCLUSIONS,
+        attached_managed_policies=None,
+    ):
+        if attached_managed_policies is None:
+            attached_managed_policies = []
+        super().__init__(
+            policy_name,
+            arn,
+            actions,
+            policy_document,
+            exclusions=exclusions,
+            attached_managed_policies=attached_managed_policies,
+        )
         # Group members
         self.members = members
 
     def is_excluded(self, exclusions):
+        """Determine whether or not the Group in question is excluded"""
         if not isinstance(exclusions, Exclusions):
             raise Exception("Please supply a Exclusions object")
 
@@ -367,7 +440,9 @@ class GroupFinding(Finding):
                     members_in_use.append(member)
             if len(members_in_use) == 0:
                 # decision_count += 1
-                logger.debug(f"Excluded: the {self.name} group's members are all excluded.")
+                logger.debug(
+                    f"Excluded: the {self.name} group's members are all excluded."
+                )
                 return members_in_use
 
         # (2) If the group itself is excluded.
@@ -389,24 +464,34 @@ class GroupFinding(Finding):
             # (4) If we made it this far, it's not excluded
             return False
 
-    # def _attached_policies(self, attached_policies):
-    #     if self.type in ["User", "Group", "Role"]:
-    #         return None
-    #     if isinstance(attached_policies, list):
-    #         return attached_policies
-    #     elif isinstance(attached_policies, str):
-    #         return [attached_policies]
-    #     elif attached_policies is None:
-    #         return None
-    #     else:
-    #         raise Exception("Please supply the attached policies as a list or string")
-
 
 class RoleFinding(Finding):
-    def __init__(self, policy_name, arn, actions, policy_document, exclusions=DEFAULT_EXCLUSIONS, assume_role_policy_document=None, attached_managed_policies=None):
-        super().__init__(policy_name, arn, actions, policy_document, exclusions=exclusions, assume_role_policy_document=assume_role_policy_document, attached_managed_policies=attached_managed_policies)
+    """Findings for roles"""
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        exclusions=DEFAULT_EXCLUSIONS,
+        assume_role_policy_document=None,
+        attached_managed_policies=None,
+    ):
+        if attached_managed_policies is None:
+            attached_managed_policies = []
+        super().__init__(
+            policy_name,
+            arn,
+            actions,
+            policy_document,
+            exclusions=exclusions,
+            assume_role_policy_document=assume_role_policy_document,
+            attached_managed_policies=attached_managed_policies,
+        )
 
     def is_excluded(self, exclusions):
+        """Determine whether or not the Role in question is excluded"""
         if not isinstance(exclusions, Exclusions):
             raise Exception("Please supply a Exclusions object")
         # (1) If the role is explicitly excluded
@@ -427,23 +512,20 @@ class RoleFinding(Finding):
         else:
             return False
 
-    # TODO: Make an AssumeRolePolicyDocument item here - maybe.
-
-    # def _attached_policies(self, attached_policies):
-    #     if self.type in ["User", "Group", "Role"]:
-    #         return None
-    #     if isinstance(attached_policies, list):
-    #         return attached_policies
-    #     elif isinstance(attached_policies, str):
-    #         return [attached_policies]
-    #     elif attached_policies is None:
-    #         return None
-    #     else:
-    #         raise Exception("Please supply the attached policies as a list or string")
-
 
 class PolicyFinding(Finding):
-    def __init__(self, policy_name, arn, actions, policy_document, exclusions=DEFAULT_EXCLUSIONS, assume_role_policy=None, attached_policies=None):
+    """Findings for Policies"""
+
+    def __init__(
+        self,
+        policy_name,
+        arn,
+        actions,
+        policy_document,
+        exclusions=DEFAULT_EXCLUSIONS,
+        assume_role_policy=None,
+        attached_managed_policies=None,
+    ):
         super().__init__(
             policy_name,
             arn,
@@ -451,10 +533,11 @@ class PolicyFinding(Finding):
             policy_document,
             exclusions=exclusions,
             assume_role_policy_document=assume_role_policy,
-            attached_managed_policies=None
-         )
+            attached_managed_policies=attached_managed_policies,
+        )
 
     def is_excluded(self, exclusions):
+        """Determine whether or not the Policy in question is excluded"""
         if not isinstance(exclusions, Exclusions):
             raise Exception("Please supply a Exclusions object")
 

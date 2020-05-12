@@ -50,6 +50,9 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         {
                             "PolicyArn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
                             "PolicyName": "PolicyForTestingOverrides"
+                        },{
+                            "PolicyArn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+                            "PolicyName": "NotYourPolicy"
                         }
                   ],
                   "Tags": []
@@ -238,7 +241,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
             }
         ]
 
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertListEqual(results, expected_results)
 
@@ -282,10 +285,34 @@ class TestAuthorizationFileDetails(unittest.TestCase):
             },
             {
                 "Principal": "GOAT",
+                "Type": "Group",
+                "PolicyType": "Managed",
+                "ManagedBy": "Customer",
+                "PolicyName": "NotYourPolicy",
+                "GroupMembership": None
+            },
+            {
+                "Principal": "GOAT",
                 "Type": "Role",
                 "PolicyType": "Inline",
                 "ManagedBy": "Customer",
                 "PolicyName": "SsmOnboardingInlinePolicy",
+                "GroupMembership": None
+            },
+            {
+                "Principal": "GOAT",
+                "Type": "Role",
+                "PolicyType": "Managed",
+                "ManagedBy": "AWS",
+                "PolicyName": "AdministratorAccess",
+                "GroupMembership": None
+            },
+            {
+                "Principal": "GOAT",
+                "Type": "Role",
+                "PolicyType": "Managed",
+                "ManagedBy": "Customer",
+                "PolicyName": "PolicyForTestingOverrides",
                 "GroupMembership": None
             },
             {
@@ -305,9 +332,20 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "GroupMembership": [
                     "GOAT"
                 ]
+            },
+            {
+                "Principal": "BlakeBortles",
+                "Type": "User",
+                "PolicyType": "Managed",
+                "ManagedBy": "Customer",
+                "PolicyName": "NotYourPolicy",
+                "GroupMembership": [
+                    "GOAT"
+                ]
             }
         ]
         print(json.dumps(authorization_details.principal_policy_mapping, indent=4))
+        self.maxDiff = None
         self.assertListEqual(authorization_details.principal_policy_mapping, expected_results)
 
     def test_user_principal_attached_managed_policies(self):

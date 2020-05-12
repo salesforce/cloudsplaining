@@ -49,11 +49,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "EC2-IAM-example",
-        "GroupMembership": null,
-        "Actions": 5,
-        "PrivilegeEscalation": 0,
-        "DataExfiltrationActions": 0,
-        "PermissionsManagementActions": 3
+        "GroupMembership": null
     },
     {
         "Principal": "MyRole",
@@ -109,7 +105,11 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCloudTrailFullAccess",
-        "GroupMembership": null
+        "GroupMembership": null,
+        "Actions": 18,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 5
     },
     {
         "Principal": "obama",
@@ -117,7 +117,11 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AWSCodeCommitFullAccess",
-        "GroupMembership": null
+        "GroupMembership": null,
+        "Actions": 52,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
     },
     {
         "Principal": "obama",
@@ -169,7 +173,11 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonEC2FullAccess",
-        "GroupMembership": null
+        "GroupMembership": null,
+        "Actions": 198,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
     },
     {
         "Principal": "obama",
@@ -177,7 +185,11 @@
         "PolicyType": "Managed",
         "ManagedBy": "AWS",
         "PolicyName": "AmazonS3FullAccess",
-        "GroupMembership": null
+        "GroupMembership": null,
+        "Actions": 47,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 11
     },
     {
         "Principal": "obama",
@@ -202,6 +214,18 @@
         "PrivilegeEscalation": 0,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 1
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AWSKeyManagementServicePowerUser",
+        "GroupMembership": null,
+        "Actions": 4,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
     },
     {
         "Principal": "userwithlotsofpermissions",
@@ -238,5 +262,53 @@
         "PrivilegeEscalation": 0,
         "DataExfiltrationActions": 0,
         "PermissionsManagementActions": 2
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonS3ReadOnlyAccess",
+        "GroupMembership": null,
+        "Actions": 1,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 1,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "AmazonSESFullAccess",
+        "GroupMembership": null,
+        "Actions": 21,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 0
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "CloudWatchFullAccess",
+        "GroupMembership": null,
+        "Actions": 38,
+        "PrivilegeEscalation": 0,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 6
+    },
+    {
+        "Principal": "userwithlotsofpermissions",
+        "Type": "User",
+        "PolicyType": "Managed",
+        "ManagedBy": "AWS",
+        "PolicyName": "IAMFullAccess",
+        "GroupMembership": null,
+        "Actions": 78,
+        "PrivilegeEscalation": 10,
+        "DataExfiltrationActions": 0,
+        "PermissionsManagementActions": 79
     }
 ]

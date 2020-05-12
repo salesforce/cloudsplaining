@@ -2,6 +2,438 @@
     {
         "AccountID": "N/A",
         "ManagedBy": "AWS",
+        "Name": "AWSCloudTrailFullAccess",
+        "PolicyName": "AWSCloudTrailFullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
+        "ActionsCount": 18,
+        "ServicesCount": 4,
+        "Services": [
+            "cloudtrail",
+            "iam",
+            "s3",
+            "sns"
+        ],
+        "Actions": [
+            "cloudtrail:AddTags",
+            "cloudtrail:CreateTrail",
+            "cloudtrail:DeleteTrail",
+            "cloudtrail:PutEventSelectors",
+            "cloudtrail:PutInsightSelectors",
+            "cloudtrail:RemoveTags",
+            "cloudtrail:StartLogging",
+            "cloudtrail:StopLogging",
+            "cloudtrail:UpdateTrail",
+            "iam:PassRole",
+            "s3:CreateBucket",
+            "s3:DeleteBucket",
+            "s3:GetObject",
+            "s3:PutBucketPolicy",
+            "sns:AddPermission",
+            "sns:CreateTopic",
+            "sns:DeleteTopic",
+            "sns:SetTopicAttributes"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "sns:AddPermission",
+                        "sns:CreateTopic",
+                        "sns:DeleteTopic",
+                        "sns:ListTopics",
+                        "sns:SetTopicAttributes",
+                        "sns:GetTopicAttributes"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:CreateBucket",
+                        "s3:DeleteBucket",
+                        "s3:ListAllMyBuckets",
+                        "s3:PutBucketPolicy",
+                        "s3:ListBucket",
+                        "s3:GetObject",
+                        "s3:GetBucketLocation",
+                        "s3:GetBucketPolicy"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": "cloudtrail:*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "logs:CreateLogGroup"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:ListRoles",
+                        "iam:GetRolePolicy",
+                        "iam:GetUser"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:PassRole"
+                    ],
+                    "Resource": "*",
+                    "Condition": {
+                        "StringEquals": {
+                            "iam:PassedToService": "cloudtrail.amazonaws.com"
+                        }
+                    }
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "kms:ListKeys",
+                        "kms:ListAliases"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "lambda:ListFunctions"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": [
+            "sns:AddPermission",
+            "sns:CreateTopic",
+            "sns:SetTopicAttributes",
+            "s3:PutBucketPolicy",
+            "iam:PassRole"
+        ]
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
+        "Name": "AWSCodeCommitFullAccess",
+        "PolicyName": "AWSCodeCommitFullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
+        "ActionsCount": 52,
+        "ServicesCount": 4,
+        "Services": [
+            "codecommit",
+            "codeguru-reviewer",
+            "codestar-notifications",
+            "events"
+        ],
+        "Actions": [
+            "codecommit:AssociateApprovalRuleTemplateWithRepository",
+            "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
+            "codecommit:BatchDisassociateApprovalRuleTemplateFromRepositories",
+            "codecommit:CreateBranch",
+            "codecommit:CreateCommit",
+            "codecommit:CreatePullRequest",
+            "codecommit:CreatePullRequestApprovalRule",
+            "codecommit:CreateRepository",
+            "codecommit:CreateUnreferencedMergeCommit",
+            "codecommit:DeleteBranch",
+            "codecommit:DeleteCommentContent",
+            "codecommit:DeleteFile",
+            "codecommit:DeletePullRequestApprovalRule",
+            "codecommit:DeleteRepository",
+            "codecommit:DisassociateApprovalRuleTemplateFromRepository",
+            "codecommit:GitPush",
+            "codecommit:MergeBranchesByFastForward",
+            "codecommit:MergeBranchesBySquash",
+            "codecommit:MergeBranchesByThreeWay",
+            "codecommit:MergePullRequestByFastForward",
+            "codecommit:MergePullRequestBySquash",
+            "codecommit:MergePullRequestByThreeWay",
+            "codecommit:OverridePullRequestApprovalRules",
+            "codecommit:PostCommentForComparedCommit",
+            "codecommit:PostCommentForPullRequest",
+            "codecommit:PostCommentReply",
+            "codecommit:PutFile",
+            "codecommit:PutRepositoryTriggers",
+            "codecommit:TagResource",
+            "codecommit:TestRepositoryTriggers",
+            "codecommit:UntagResource",
+            "codecommit:UpdateComment",
+            "codecommit:UpdateDefaultBranch",
+            "codecommit:UpdatePullRequestApprovalRuleContent",
+            "codecommit:UpdatePullRequestApprovalState",
+            "codecommit:UpdatePullRequestDescription",
+            "codecommit:UpdatePullRequestStatus",
+            "codecommit:UpdatePullRequestTitle",
+            "codecommit:UpdateRepositoryDescription",
+            "codecommit:UpdateRepositoryName",
+            "codecommit:UploadArchive",
+            "codeguru-reviewer:AssociateRepository",
+            "codeguru-reviewer:DisassociateRepository",
+            "codestar-notifications:CreateNotificationRule",
+            "codestar-notifications:DeleteNotificationRule",
+            "codestar-notifications:Subscribe",
+            "codestar-notifications:Unsubscribe",
+            "codestar-notifications:UpdateNotificationRule",
+            "events:DeleteRule",
+            "events:PutRule",
+            "events:PutTargets",
+            "events:RemoveTargets"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "codecommit:*"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "CloudWatchEventsCodeCommitRulesAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "events:DeleteRule",
+                        "events:DescribeRule",
+                        "events:DisableRule",
+                        "events:EnableRule",
+                        "events:PutRule",
+                        "events:PutTargets",
+                        "events:RemoveTargets",
+                        "events:ListTargetsByRule"
+                    ],
+                    "Resource": "arn:aws:events:*:*:rule/codecommit*"
+                },
+                {
+                    "Sid": "SNSTopicAndSubscriptionAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "sns:CreateTopic",
+                        "sns:DeleteTopic",
+                        "sns:Subscribe",
+                        "sns:Unsubscribe",
+                        "sns:SetTopicAttributes"
+                    ],
+                    "Resource": "arn:aws:sns:*:*:codecommit*"
+                },
+                {
+                    "Sid": "SNSTopicAndSubscriptionReadAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "sns:ListTopics",
+                        "sns:ListSubscriptionsByTopic",
+                        "sns:GetTopicAttributes"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "LambdaReadOnlyListAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "lambda:ListFunctions"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "IAMReadOnlyListAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:ListUsers"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "IAMReadOnlyConsoleAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:ListAccessKeys",
+                        "iam:ListSSHPublicKeys",
+                        "iam:ListServiceSpecificCredentials"
+                    ],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}"
+                },
+                {
+                    "Sid": "IAMUserSSHKeys",
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:DeleteSSHPublicKey",
+                        "iam:GetSSHPublicKey",
+                        "iam:ListSSHPublicKeys",
+                        "iam:UpdateSSHPublicKey",
+                        "iam:UploadSSHPublicKey"
+                    ],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}"
+                },
+                {
+                    "Sid": "IAMSelfManageServiceSpecificCredentials",
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:CreateServiceSpecificCredential",
+                        "iam:UpdateServiceSpecificCredential",
+                        "iam:DeleteServiceSpecificCredential",
+                        "iam:ResetServiceSpecificCredential"
+                    ],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}"
+                },
+                {
+                    "Sid": "CodeStarNotificationsReadWriteAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "codestar-notifications:CreateNotificationRule",
+                        "codestar-notifications:DescribeNotificationRule",
+                        "codestar-notifications:UpdateNotificationRule",
+                        "codestar-notifications:DeleteNotificationRule",
+                        "codestar-notifications:Subscribe",
+                        "codestar-notifications:Unsubscribe"
+                    ],
+                    "Resource": "*",
+                    "Condition": {
+                        "StringLike": {
+                            "codestar-notifications:NotificationsForResource": "arn:aws:codecommit:*"
+                        }
+                    }
+                },
+                {
+                    "Sid": "CodeStarNotificationsListAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "codestar-notifications:ListNotificationRules",
+                        "codestar-notifications:ListTargets",
+                        "codestar-notifications:ListTagsforResource",
+                        "codestar-notifications:ListEventTypes"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "CodeStarNotificationsSNSTopicCreateAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "sns:CreateTopic",
+                        "sns:SetTopicAttributes"
+                    ],
+                    "Resource": "arn:aws:sns:*:*:codestar-notifications*"
+                },
+                {
+                    "Sid": "AmazonCodeGuruReviewerFullAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "codeguru-reviewer:AssociateRepository",
+                        "codeguru-reviewer:DescribeRepositoryAssociation",
+                        "codeguru-reviewer:ListRepositoryAssociations",
+                        "codeguru-reviewer:DisassociateRepository"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "AmazonCodeGuruReviewerSLRCreation",
+                    "Action": "iam:CreateServiceLinkedRole",
+                    "Effect": "Allow",
+                    "Resource": "arn:aws:iam::*:role/aws-service-role/codeguru-reviewer.amazonaws.com/AWSServiceRoleForAmazonCodeGuruReviewer",
+                    "Condition": {
+                        "StringLike": {
+                            "iam:AWSServiceName": "codeguru-reviewer.amazonaws.com"
+                        }
+                    }
+                },
+                {
+                    "Sid": "CloudWatchEventsManagedRules",
+                    "Effect": "Allow",
+                    "Action": [
+                        "events:PutRule",
+                        "events:PutTargets",
+                        "events:DeleteRule",
+                        "events:RemoveTargets"
+                    ],
+                    "Resource": "*",
+                    "Condition": {
+                        "StringEquals": {
+                            "events:ManagedBy": "codeguru-reviewer.amazonaws.com"
+                        }
+                    }
+                },
+                {
+                    "Sid": "CodeStarNotificationsChatbotAccess",
+                    "Effect": "Allow",
+                    "Action": [
+                        "chatbot:DescribeSlackChannelConfigurations"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": []
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
+        "Name": "AWSKeyManagementServicePowerUser",
+        "PolicyName": "AWSKeyManagementServicePowerUser",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
+        "ActionsCount": 4,
+        "ServicesCount": 1,
+        "Services": [
+            "kms"
+        ],
+        "Actions": [
+            "kms:CreateAlias",
+            "kms:DeleteAlias",
+            "kms:TagResource",
+            "kms:UntagResource"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "kms:CreateAlias",
+                        "kms:CreateKey",
+                        "kms:DeleteAlias",
+                        "kms:Describe*",
+                        "kms:GenerateRandom",
+                        "kms:Get*",
+                        "kms:List*",
+                        "kms:TagResource",
+                        "kms:UntagResource",
+                        "iam:ListGroups",
+                        "iam:ListRoles",
+                        "iam:ListUsers"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": []
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
         "Name": "AWSLambdaFullAccess",
         "PolicyName": "AWSLambdaFullAccess",
         "Type": "Policy",
@@ -303,6 +735,277 @@
     {
         "AccountID": "N/A",
         "ManagedBy": "AWS",
+        "Name": "AmazonEC2FullAccess",
+        "PolicyName": "AmazonEC2FullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+        "ActionsCount": 198,
+        "ServicesCount": 5,
+        "Services": [
+            "autoscaling",
+            "cloudwatch",
+            "ec2",
+            "elasticloadbalancing",
+            "iam"
+        ],
+        "Actions": [
+            "autoscaling:AttachInstances",
+            "autoscaling:AttachLoadBalancerTargetGroups",
+            "autoscaling:AttachLoadBalancers",
+            "autoscaling:BatchDeleteScheduledAction",
+            "autoscaling:BatchPutScheduledUpdateGroupAction",
+            "autoscaling:CompleteLifecycleAction",
+            "autoscaling:CreateAutoScalingGroup",
+            "autoscaling:CreateLaunchConfiguration",
+            "autoscaling:CreateOrUpdateTags",
+            "autoscaling:DeleteAutoScalingGroup",
+            "autoscaling:DeleteLaunchConfiguration",
+            "autoscaling:DeleteLifecycleHook",
+            "autoscaling:DeleteNotificationConfiguration",
+            "autoscaling:DeletePolicy",
+            "autoscaling:DeleteScheduledAction",
+            "autoscaling:DeleteTags",
+            "autoscaling:DetachInstances",
+            "autoscaling:DetachLoadBalancerTargetGroups",
+            "autoscaling:DetachLoadBalancers",
+            "autoscaling:DisableMetricsCollection",
+            "autoscaling:EnableMetricsCollection",
+            "autoscaling:EnterStandby",
+            "autoscaling:ExecutePolicy",
+            "autoscaling:ExitStandby",
+            "autoscaling:PutLifecycleHook",
+            "autoscaling:PutNotificationConfiguration",
+            "autoscaling:PutScalingPolicy",
+            "autoscaling:PutScheduledUpdateGroupAction",
+            "autoscaling:RecordLifecycleActionHeartbeat",
+            "autoscaling:ResumeProcesses",
+            "autoscaling:SetDesiredCapacity",
+            "autoscaling:SetInstanceHealth",
+            "autoscaling:SetInstanceProtection",
+            "autoscaling:SuspendProcesses",
+            "autoscaling:TerminateInstanceInAutoScalingGroup",
+            "autoscaling:UpdateAutoScalingGroup",
+            "cloudwatch:DeleteAlarms",
+            "cloudwatch:DeleteDashboards",
+            "cloudwatch:DeleteInsightRules",
+            "cloudwatch:DisableAlarmActions",
+            "cloudwatch:DisableInsightRules",
+            "cloudwatch:EnableAlarmActions",
+            "cloudwatch:EnableInsightRules",
+            "cloudwatch:PutDashboard",
+            "cloudwatch:PutInsightRule",
+            "cloudwatch:PutMetricAlarm",
+            "cloudwatch:SetAlarmState",
+            "cloudwatch:TagResource",
+            "cloudwatch:UntagResource",
+            "ec2:AcceptTransitGatewayPeeringAttachment",
+            "ec2:AcceptTransitGatewayVpcAttachment",
+            "ec2:AcceptVpcEndpointConnections",
+            "ec2:AcceptVpcPeeringConnection",
+            "ec2:AllocateHosts",
+            "ec2:ApplySecurityGroupsToClientVpnTargetNetwork",
+            "ec2:AssociateClientVpnTargetNetwork",
+            "ec2:AssociateIamInstanceProfile",
+            "ec2:AssociateTransitGatewayMulticastDomain",
+            "ec2:AssociateTransitGatewayRouteTable",
+            "ec2:AttachClassicLinkVpc",
+            "ec2:AttachVolume",
+            "ec2:AuthorizeClientVpnIngress",
+            "ec2:AuthorizeSecurityGroupEgress",
+            "ec2:AuthorizeSecurityGroupIngress",
+            "ec2:CancelCapacityReservation",
+            "ec2:CopySnapshot",
+            "ec2:CreateClientVpnEndpoint",
+            "ec2:CreateClientVpnRoute",
+            "ec2:CreateFlowLogs",
+            "ec2:CreateLaunchTemplateVersion",
+            "ec2:CreateLocalGatewayRoute",
+            "ec2:CreateLocalGatewayRouteTableVpcAssociation",
+            "ec2:CreateNetworkInterfacePermission",
+            "ec2:CreateRoute",
+            "ec2:CreateSnapshot",
+            "ec2:CreateSnapshots",
+            "ec2:CreateTags",
+            "ec2:CreateTrafficMirrorFilter",
+            "ec2:CreateTrafficMirrorFilterRule",
+            "ec2:CreateTrafficMirrorSession",
+            "ec2:CreateTrafficMirrorTarget",
+            "ec2:CreateTransitGateway",
+            "ec2:CreateTransitGatewayMulticastDomain",
+            "ec2:CreateTransitGatewayPeeringAttachment",
+            "ec2:CreateTransitGatewayRoute",
+            "ec2:CreateTransitGatewayRouteTable",
+            "ec2:CreateTransitGatewayVpcAttachment",
+            "ec2:CreateVolume",
+            "ec2:CreateVpcEndpoint",
+            "ec2:CreateVpcEndpointServiceConfiguration",
+            "ec2:CreateVpcPeeringConnection",
+            "ec2:CreateVpnConnection",
+            "ec2:DeleteClientVpnEndpoint",
+            "ec2:DeleteClientVpnRoute",
+            "ec2:DeleteCustomerGateway",
+            "ec2:DeleteDhcpOptions",
+            "ec2:DeleteInternetGateway",
+            "ec2:DeleteLaunchTemplate",
+            "ec2:DeleteLaunchTemplateVersions",
+            "ec2:DeleteLocalGatewayRoute",
+            "ec2:DeleteLocalGatewayRouteTableVpcAssociation",
+            "ec2:DeleteNetworkAcl",
+            "ec2:DeleteNetworkAclEntry",
+            "ec2:DeleteRoute",
+            "ec2:DeleteRouteTable",
+            "ec2:DeleteSecurityGroup",
+            "ec2:DeleteSnapshot",
+            "ec2:DeleteTags",
+            "ec2:DeleteTrafficMirrorFilter",
+            "ec2:DeleteTrafficMirrorFilterRule",
+            "ec2:DeleteTrafficMirrorSession",
+            "ec2:DeleteTrafficMirrorTarget",
+            "ec2:DeleteTransitGateway",
+            "ec2:DeleteTransitGatewayMulticastDomain",
+            "ec2:DeleteTransitGatewayPeeringAttachment",
+            "ec2:DeleteTransitGatewayRoute",
+            "ec2:DeleteTransitGatewayRouteTable",
+            "ec2:DeleteTransitGatewayVpcAttachment",
+            "ec2:DeleteVolume",
+            "ec2:DeleteVpcEndpointServiceConfigurations",
+            "ec2:DeleteVpcEndpoints",
+            "ec2:DeleteVpcPeeringConnection",
+            "ec2:DeregisterTransitGatewayMulticastGroupMembers",
+            "ec2:DeregisterTransitGatewayMulticastGroupSources",
+            "ec2:DetachClassicLinkVpc",
+            "ec2:DetachVolume",
+            "ec2:DisableFastSnapshotRestores",
+            "ec2:DisableTransitGatewayRouteTablePropagation",
+            "ec2:DisableVpcClassicLink",
+            "ec2:DisassociateClientVpnTargetNetwork",
+            "ec2:DisassociateIamInstanceProfile",
+            "ec2:DisassociateTransitGatewayMulticastDomain",
+            "ec2:DisassociateTransitGatewayRouteTable",
+            "ec2:EnableFastSnapshotRestores",
+            "ec2:EnableTransitGatewayRouteTablePropagation",
+            "ec2:EnableVpcClassicLink",
+            "ec2:ImportClientVpnClientCertificateRevocationList",
+            "ec2:ModifyCapacityReservation",
+            "ec2:ModifyClientVpnEndpoint",
+            "ec2:ModifyInstanceCreditSpecification",
+            "ec2:ModifyInstanceEventStartTime",
+            "ec2:ModifyLaunchTemplate",
+            "ec2:ModifySnapshotAttribute",
+            "ec2:ModifyTrafficMirrorFilterNetworkServices",
+            "ec2:ModifyTrafficMirrorFilterRule",
+            "ec2:ModifyTrafficMirrorSession",
+            "ec2:ModifyTransitGatewayVpcAttachment",
+            "ec2:ModifyVpcEndpoint",
+            "ec2:ModifyVpcEndpointServiceConfiguration",
+            "ec2:ModifyVpcEndpointServicePermissions",
+            "ec2:ModifyVpnConnection",
+            "ec2:ModifyVpnTunnelOptions",
+            "ec2:RebootInstances",
+            "ec2:RegisterTransitGatewayMulticastGroupMembers",
+            "ec2:RegisterTransitGatewayMulticastGroupSources",
+            "ec2:RejectTransitGatewayPeeringAttachment",
+            "ec2:RejectTransitGatewayVpcAttachment",
+            "ec2:RejectVpcEndpointConnections",
+            "ec2:RejectVpcPeeringConnection",
+            "ec2:ReplaceIamInstanceProfileAssociation",
+            "ec2:ReplaceRoute",
+            "ec2:ReplaceTransitGatewayRoute",
+            "ec2:RevokeClientVpnIngress",
+            "ec2:RevokeSecurityGroupEgress",
+            "ec2:RevokeSecurityGroupIngress",
+            "ec2:RunInstances",
+            "ec2:SendDiagnosticInterrupt",
+            "ec2:StartInstances",
+            "ec2:StartVpcEndpointServicePrivateDnsVerification",
+            "ec2:StopInstances",
+            "ec2:TerminateClientVpnConnections",
+            "ec2:TerminateInstances",
+            "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+            "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+            "elasticloadbalancing:AddListenerCertificates",
+            "elasticloadbalancing:AddTags",
+            "elasticloadbalancing:CreateListener",
+            "elasticloadbalancing:CreateLoadBalancer",
+            "elasticloadbalancing:CreateRule",
+            "elasticloadbalancing:CreateTargetGroup",
+            "elasticloadbalancing:DeleteListener",
+            "elasticloadbalancing:DeleteLoadBalancer",
+            "elasticloadbalancing:DeleteRule",
+            "elasticloadbalancing:DeleteTargetGroup",
+            "elasticloadbalancing:DeregisterTargets",
+            "elasticloadbalancing:ModifyListener",
+            "elasticloadbalancing:ModifyLoadBalancerAttributes",
+            "elasticloadbalancing:ModifyRule",
+            "elasticloadbalancing:ModifyTargetGroup",
+            "elasticloadbalancing:ModifyTargetGroupAttributes",
+            "elasticloadbalancing:RegisterTargets",
+            "elasticloadbalancing:RemoveListenerCertificates",
+            "elasticloadbalancing:RemoveTags",
+            "elasticloadbalancing:SetIpAddressType",
+            "elasticloadbalancing:SetRulePriorities",
+            "elasticloadbalancing:SetSecurityGroups",
+            "elasticloadbalancing:SetSubnets",
+            "iam:CreateServiceLinkedRole"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Action": "ec2:*",
+                    "Effect": "Allow",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": "elasticloadbalancing:*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": "cloudwatch:*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": "autoscaling:*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": "iam:CreateServiceLinkedRole",
+                    "Resource": "*",
+                    "Condition": {
+                        "StringEquals": {
+                            "iam:AWSServiceName": [
+                                "autoscaling.amazonaws.com",
+                                "ec2scheduled.amazonaws.com",
+                                "elasticloadbalancing.amazonaws.com",
+                                "spot.amazonaws.com",
+                                "spotfleet.amazonaws.com",
+                                "transitgateway.amazonaws.com"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": [
+            "ec2:CreateNetworkInterfacePermission",
+            "ec2:DeleteNetworkInterfacePermission",
+            "ec2:ModifySnapshotAttribute",
+            "ec2:ModifyVpcEndpointServicePermissions",
+            "ec2:ResetSnapshotAttribute",
+            "iam:CreateServiceLinkedRole"
+        ]
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
         "Name": "AmazonRDSFullAccess",
         "PolicyName": "AmazonRDSFullAccess",
         "Type": "Policy",
@@ -466,6 +1169,186 @@
     {
         "AccountID": "N/A",
         "ManagedBy": "AWS",
+        "Name": "AmazonS3FullAccess",
+        "PolicyName": "AmazonS3FullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+        "ActionsCount": 47,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:AbortMultipartUpload",
+            "s3:BypassGovernanceRetention",
+            "s3:CreateAccessPoint",
+            "s3:CreateBucket",
+            "s3:DeleteAccessPoint",
+            "s3:DeleteAccessPointPolicy",
+            "s3:DeleteBucket",
+            "s3:DeleteBucketPolicy",
+            "s3:DeleteBucketWebsite",
+            "s3:DeleteObject",
+            "s3:DeleteObjectTagging",
+            "s3:DeleteObjectVersion",
+            "s3:DeleteObjectVersionTagging",
+            "s3:GetObject",
+            "s3:ObjectOwnerOverrideToBucketOwner",
+            "s3:PutAccelerateConfiguration",
+            "s3:PutAccessPointPolicy",
+            "s3:PutAnalyticsConfiguration",
+            "s3:PutBucketAcl",
+            "s3:PutBucketCORS",
+            "s3:PutBucketLogging",
+            "s3:PutBucketNotification",
+            "s3:PutBucketObjectLockConfiguration",
+            "s3:PutBucketPolicy",
+            "s3:PutBucketPublicAccessBlock",
+            "s3:PutBucketRequestPayment",
+            "s3:PutBucketTagging",
+            "s3:PutBucketVersioning",
+            "s3:PutBucketWebsite",
+            "s3:PutEncryptionConfiguration",
+            "s3:PutInventoryConfiguration",
+            "s3:PutLifecycleConfiguration",
+            "s3:PutMetricsConfiguration",
+            "s3:PutObject",
+            "s3:PutObjectAcl",
+            "s3:PutObjectLegalHold",
+            "s3:PutObjectRetention",
+            "s3:PutObjectTagging",
+            "s3:PutObjectVersionAcl",
+            "s3:PutObjectVersionTagging",
+            "s3:PutReplicationConfiguration",
+            "s3:ReplicateDelete",
+            "s3:ReplicateObject",
+            "s3:ReplicateTags",
+            "s3:RestoreObject",
+            "s3:UpdateJobPriority",
+            "s3:UpdateJobStatus"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "s3:*",
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": [
+            "s3:BypassGovernanceRetention",
+            "s3:DeleteAccessPointPolicy",
+            "s3:DeleteBucketPolicy",
+            "s3:ObjectOwnerOverrideToBucketOwner",
+            "s3:PutAccessPointPolicy",
+            "s3:PutAccountPublicAccessBlock",
+            "s3:PutBucketAcl",
+            "s3:PutBucketPolicy",
+            "s3:PutBucketPublicAccessBlock",
+            "s3:PutObjectAcl",
+            "s3:PutObjectVersionAcl"
+        ]
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
+        "Name": "AmazonS3ReadOnlyAccess",
+        "PolicyName": "AmazonS3ReadOnlyAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+        "ActionsCount": 1,
+        "ServicesCount": 1,
+        "Services": [
+            "s3"
+        ],
+        "Actions": [
+            "s3:GetObject"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:Get*",
+                        "s3:List*"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [
+            "s3:GetObject"
+        ],
+        "PermissionsManagementActions": []
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
+        "Name": "AmazonSESFullAccess",
+        "PolicyName": "AmazonSESFullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+        "ActionsCount": 21,
+        "ServicesCount": 1,
+        "Services": [
+            "ses"
+        ],
+        "Actions": [
+            "ses:CreateConfigurationSet",
+            "ses:CreateConfigurationSetEventDestination",
+            "ses:CreateDedicatedIpPool",
+            "ses:CreateDeliverabilityTestReport",
+            "ses:CreateEmailIdentity",
+            "ses:DeleteConfigurationSet",
+            "ses:DeleteConfigurationSetEventDestination",
+            "ses:DeleteDedicatedIpPool",
+            "ses:DeleteEmailIdentity",
+            "ses:PutConfigurationSetDeliveryOptions",
+            "ses:PutConfigurationSetReputationOptions",
+            "ses:PutConfigurationSetSendingOptions",
+            "ses:PutConfigurationSetTrackingOptions",
+            "ses:PutDedicatedIpInPool",
+            "ses:PutEmailIdentityDkimAttributes",
+            "ses:PutEmailIdentityFeedbackAttributes",
+            "ses:PutEmailIdentityMailFromAttributes",
+            "ses:SendEmail",
+            "ses:TagResource",
+            "ses:UntagResource",
+            "ses:UpdateConfigurationSetEventDestination"
+        ],
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ses:*"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        },
+        "AssumeRolePolicyDocument": null,
+        "AssumableByComputeService": [],
+        "PrivilegeEscalation": [],
+        "DataExfiltrationActions": [],
+        "PermissionsManagementActions": []
+    },
+    {
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
         "Name": "CloudWatchFullAccess",
         "PolicyName": "CloudWatchFullAccess",
         "Type": "Policy",
@@ -559,64 +1442,264 @@
         ]
     },
     {
-        "AccountID": "012345678901",
-        "ManagedBy": "Customer",
-        "Name": "MyRole",
-        "PolicyName": "EC2-IAM-example",
-        "Type": "Role",
-        "Arn": "arn:aws:iam::012345678901:role/MyRole",
-        "ActionsCount": 5,
-        "ServicesCount": 2,
+        "AccountID": "N/A",
+        "ManagedBy": "AWS",
+        "Name": "IAMFullAccess",
+        "PolicyName": "IAMFullAccess",
+        "Type": "Policy",
+        "Arn": "arn:aws:iam::aws:policy/IAMFullAccess",
+        "ActionsCount": 78,
+        "ServicesCount": 1,
         "Services": [
-            "ec2",
             "iam"
         ],
         "Actions": [
-            "ec2:AssociateIamInstanceProfile",
-            "ec2:DisassociateIamInstanceProfile",
+            "iam:AddClientIDToOpenIDConnectProvider",
             "iam:AddRoleToInstanceProfile",
+            "iam:AddUserToGroup",
+            "iam:AttachGroupPolicy",
+            "iam:AttachRolePolicy",
+            "iam:AttachUserPolicy",
+            "iam:ChangePassword",
+            "iam:CreateAccessKey",
+            "iam:CreateGroup",
             "iam:CreateInstanceProfile",
-            "iam:PassRole"
+            "iam:CreateLoginProfile",
+            "iam:CreateOpenIDConnectProvider",
+            "iam:CreatePolicy",
+            "iam:CreatePolicyVersion",
+            "iam:CreateRole",
+            "iam:CreateSAMLProvider",
+            "iam:CreateServiceLinkedRole",
+            "iam:CreateServiceSpecificCredential",
+            "iam:CreateUser",
+            "iam:CreateVirtualMFADevice",
+            "iam:DeactivateMFADevice",
+            "iam:DeleteAccessKey",
+            "iam:DeleteGroup",
+            "iam:DeleteGroupPolicy",
+            "iam:DeleteInstanceProfile",
+            "iam:DeleteLoginProfile",
+            "iam:DeleteOpenIDConnectProvider",
+            "iam:DeletePolicy",
+            "iam:DeletePolicyVersion",
+            "iam:DeleteRole",
+            "iam:DeleteRolePermissionsBoundary",
+            "iam:DeleteRolePolicy",
+            "iam:DeleteSAMLProvider",
+            "iam:DeleteSSHPublicKey",
+            "iam:DeleteServerCertificate",
+            "iam:DeleteServiceLinkedRole",
+            "iam:DeleteServiceSpecificCredential",
+            "iam:DeleteSigningCertificate",
+            "iam:DeleteUser",
+            "iam:DeleteUserPermissionsBoundary",
+            "iam:DeleteUserPolicy",
+            "iam:DeleteVirtualMFADevice",
+            "iam:DetachGroupPolicy",
+            "iam:DetachRolePolicy",
+            "iam:DetachUserPolicy",
+            "iam:EnableMFADevice",
+            "iam:PassRole",
+            "iam:PutGroupPolicy",
+            "iam:PutRolePermissionsBoundary",
+            "iam:PutRolePolicy",
+            "iam:PutUserPermissionsBoundary",
+            "iam:PutUserPolicy",
+            "iam:RemoveClientIDFromOpenIDConnectProvider",
+            "iam:RemoveRoleFromInstanceProfile",
+            "iam:RemoveUserFromGroup",
+            "iam:ResetServiceSpecificCredential",
+            "iam:ResyncMFADevice",
+            "iam:SetDefaultPolicyVersion",
+            "iam:TagRole",
+            "iam:TagUser",
+            "iam:UntagRole",
+            "iam:UntagUser",
+            "iam:UpdateAccessKey",
+            "iam:UpdateAssumeRolePolicy",
+            "iam:UpdateGroup",
+            "iam:UpdateLoginProfile",
+            "iam:UpdateOpenIDConnectProviderThumbprint",
+            "iam:UpdateRole",
+            "iam:UpdateRoleDescription",
+            "iam:UpdateSAMLProvider",
+            "iam:UpdateSSHPublicKey",
+            "iam:UpdateServerCertificate",
+            "iam:UpdateServiceSpecificCredential",
+            "iam:UpdateSigningCertificate",
+            "iam:UpdateUser",
+            "iam:UploadSSHPublicKey",
+            "iam:UploadServerCertificate",
+            "iam:UploadSigningCertificate"
         ],
         "PolicyDocument": {
             "Version": "2012-10-17",
             "Statement": [
                 {
-                    "Sid": "VisualEditor0",
                     "Effect": "Allow",
                     "Action": [
-                        "iam:CreateInstanceProfile",
-                        "iam:ListInstanceProfilesForRole",
-                        "iam:PassRole",
-                        "ec2:DescribeIamInstanceProfileAssociations",
-                        "iam:GetInstanceProfile",
-                        "ec2:DisassociateIamInstanceProfile",
-                        "ec2:AssociateIamInstanceProfile",
-                        "iam:AddRoleToInstanceProfile"
+                        "iam:*",
+                        "organizations:DescribeAccount",
+                        "organizations:DescribeOrganization",
+                        "organizations:DescribeOrganizationalUnit",
+                        "organizations:DescribePolicy",
+                        "organizations:ListChildren",
+                        "organizations:ListParents",
+                        "organizations:ListPoliciesForTarget",
+                        "organizations:ListRoots",
+                        "organizations:ListPolicies",
+                        "organizations:ListTargetsForPolicy"
                     ],
                     "Resource": "*"
                 }
             ]
         },
-        "AssumeRolePolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "ssm.amazonaws.com"
-                    },
-                    "Action": "sts:AssumeRole"
-                }
-            ]
-        },
+        "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
-        "PrivilegeEscalation": [],
+        "PrivilegeEscalation": [
+            {
+                "type": "CreateAccessKey",
+                "actions": [
+                    "iam:createaccesskey"
+                ]
+            },
+            {
+                "type": "CreateLoginProfile",
+                "actions": [
+                    "iam:createloginprofile"
+                ]
+            },
+            {
+                "type": "UpdateLoginProfile",
+                "actions": [
+                    "iam:updateloginprofile"
+                ]
+            },
+            {
+                "type": "CreateNewPolicyVersion",
+                "actions": [
+                    "iam:createpolicyversion"
+                ]
+            },
+            {
+                "type": "SetExistingDefaultPolicyVersion",
+                "actions": [
+                    "iam:setdefaultpolicyversion"
+                ]
+            },
+            {
+                "type": "AttachUserPolicy",
+                "actions": [
+                    "iam:attachuserpolicy"
+                ]
+            },
+            {
+                "type": "AttachGroupPolicy",
+                "actions": [
+                    "iam:attachgrouppolicy"
+                ]
+            },
+            {
+                "type": "PutUserPolicy",
+                "actions": [
+                    "iam:putuserpolicy"
+                ]
+            },
+            {
+                "type": "PutGroupPolicy",
+                "actions": [
+                    "iam:putgrouppolicy"
+                ]
+            },
+            {
+                "type": "AddUserToGroup",
+                "actions": [
+                    "iam:addusertogroup"
+                ]
+            }
+        ],
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
+            "iam:AddClientIDToOpenIDConnectProvider",
             "iam:AddRoleToInstanceProfile",
+            "iam:AddUserToGroup",
+            "iam:AttachGroupPolicy",
+            "iam:AttachRolePolicy",
+            "iam:AttachUserPolicy",
+            "iam:ChangePassword",
+            "iam:CreateAccessKey",
+            "iam:CreateAccountAlias",
+            "iam:CreateGroup",
             "iam:CreateInstanceProfile",
-            "iam:PassRole"
+            "iam:CreateLoginProfile",
+            "iam:CreateOpenIDConnectProvider",
+            "iam:CreatePolicy",
+            "iam:CreatePolicyVersion",
+            "iam:CreateRole",
+            "iam:CreateSAMLProvider",
+            "iam:CreateServiceLinkedRole",
+            "iam:CreateServiceSpecificCredential",
+            "iam:CreateUser",
+            "iam:CreateVirtualMFADevice",
+            "iam:DeactivateMFADevice",
+            "iam:DeleteAccessKey",
+            "iam:DeleteAccountAlias",
+            "iam:DeleteAccountPasswordPolicy",
+            "iam:DeleteGroup",
+            "iam:DeleteGroupPolicy",
+            "iam:DeleteInstanceProfile",
+            "iam:DeleteLoginProfile",
+            "iam:DeleteOpenIDConnectProvider",
+            "iam:DeletePolicy",
+            "iam:DeletePolicyVersion",
+            "iam:DeleteRole",
+            "iam:DeleteRolePermissionsBoundary",
+            "iam:DeleteRolePolicy",
+            "iam:DeleteSAMLProvider",
+            "iam:DeleteSSHPublicKey",
+            "iam:DeleteServerCertificate",
+            "iam:DeleteServiceLinkedRole",
+            "iam:DeleteServiceSpecificCredential",
+            "iam:DeleteSigningCertificate",
+            "iam:DeleteUser",
+            "iam:DeleteUserPermissionsBoundary",
+            "iam:DeleteUserPolicy",
+            "iam:DeleteVirtualMFADevice",
+            "iam:DetachGroupPolicy",
+            "iam:DetachRolePolicy",
+            "iam:DetachUserPolicy",
+            "iam:EnableMFADevice",
+            "iam:PassRole",
+            "iam:PutGroupPolicy",
+            "iam:PutRolePermissionsBoundary",
+            "iam:PutRolePolicy",
+            "iam:PutUserPermissionsBoundary",
+            "iam:PutUserPolicy",
+            "iam:RemoveClientIDFromOpenIDConnectProvider",
+            "iam:RemoveRoleFromInstanceProfile",
+            "iam:RemoveUserFromGroup",
+            "iam:ResetServiceSpecificCredential",
+            "iam:ResyncMFADevice",
+            "iam:SetDefaultPolicyVersion",
+            "iam:SetSecurityTokenServicePreferences",
+            "iam:UpdateAccessKey",
+            "iam:UpdateAccountPasswordPolicy",
+            "iam:UpdateAssumeRolePolicy",
+            "iam:UpdateGroup",
+            "iam:UpdateLoginProfile",
+            "iam:UpdateOpenIDConnectProviderThumbprint",
+            "iam:UpdateRole",
+            "iam:UpdateRoleDescription",
+            "iam:UpdateSAMLProvider",
+            "iam:UpdateSSHPublicKey",
+            "iam:UpdateServerCertificate",
+            "iam:UpdateServiceSpecificCredential",
+            "iam:UpdateSigningCertificate",
+            "iam:UpdateUser",
+            "iam:UploadSSHPublicKey",
+            "iam:UploadServerCertificate",
+            "iam:UploadSigningCertificate"
         ]
     },
     {

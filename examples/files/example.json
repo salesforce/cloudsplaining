@@ -74,6 +74,24 @@
           {
             "PolicyArn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
             "PolicyName": "AmazonRDSFullAccess"
+          },
+        {
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+            "PolicyName": "AmazonSESFullAccess"
+          },
+        {
+            "PolicyArn": "arn:aws:iam::aws:policy/IAMFullAccess",
+            "PolicyName": "IAMFullAccess"
+          },
+           {
+            "PolicyArn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+            "PolicyName": "CloudWatchFullAccess"
+          },{
+            "PolicyArn": "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
+            "PolicyName": "AWSKeyManagementServicePowerUser"
+          },{
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+            "PolicyName": "AmazonS3ReadOnlyAccess"
           }
 
       ],
