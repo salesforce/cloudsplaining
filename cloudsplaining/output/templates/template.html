@@ -147,14 +147,15 @@
 
           <!--PRINCIPALS TAB-->
           <div class="tab-pane fade" id="nav-principals" role="tabpanel" aria-labelledby="nav-principals-tab">
-          <h3 id="iam-principals">IAM Principals</h3>
+            <br>
+            <h3 id="iam-principals">IAM Principals</h3>
 
             {% include 'summary/iam-principals.html' %}
           </div><!--/end PRINCIPALS TAB-->
 
           <!--CUSTOMER-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
-
+            <br>
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
             {% include 'summary/customer-managed.html' %}
@@ -167,13 +168,15 @@
 
           <!--AWS-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
-
+            <br>
             <!--Summary: AWS-managed policies-->
             <h3 id="aws-managed-policies-summary">Findings: AWS-managed Policies</h3>
+            <br>
             {% include 'summary/aws-managed.html' %}
 
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+            <br>
             {% include 'analysis/aws-managed.html' %}
 
           </div><!--/end AWS-MANAGED TAB-->

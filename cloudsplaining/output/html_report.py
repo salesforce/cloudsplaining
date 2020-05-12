@@ -11,7 +11,6 @@ import webbrowser
 import yaml
 import markdown
 from jinja2 import Environment, FileSystemLoader
-
 from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 

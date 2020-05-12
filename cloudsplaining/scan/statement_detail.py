@@ -18,6 +18,7 @@ from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 logger = logging.getLogger(__name__)
+logging.getLogger("policy_sentry").setLevel(logging.WARNING)
 
 all_actions = get_all_actions()
 
