@@ -143,8 +143,7 @@
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
             <p style="text-align: justify">
-  This report contains the security assessment results from <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like Privilege Escalation<a href="#definition-privilege-escalation"><small>[1]</small></a>,  Resource Exposure<a href="#definition-resource-exposure"><small>[2]</small></a>, Infrastructure Modification<a href="#definition-infrastructure-modification"><small>[3]</small></a>, and Data Exfiltration<a href="#definition-data-exfiltration"><small>[4]</small></a>.
-  Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
+  <p>This report contains the security assessment results from <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like <a href="#definition-privilege-escalation">Privilege Escalation</a>, <a href="#definition-resource-exposure">Resource Exposure</a>, <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, and <a href="#definition-data-exfiltration">Data Exfiltration</a>. Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.</p>
 <br>
 <br>
 <div class="row">
@@ -155,32 +154,32 @@
   <tr>
     <th>Risk</th>
     <th>Instances</th>
-    <th>Impact <a href="#definition-impact"><small>[0]</small></a></th>
+    <th><a href="#definition-impact">Impact</a></th>
   </tr>
 </thead>
 <tbody>
   
   <tr>
-    <td>Privilege Escalation <a href="#definition-privilege-escalation"><small>[1]</small></a></td>
+    <td><a href="#definition-privilege-escalation">Privilege Escalation</a></td>
     <td style="background-color: #F18E73">3</td>
     <td style="background-color: #F18E73">Critical</td>
   </tr>
   
   
   <tr>
-    <td>Resource Exposure <a href="#definition-resource-exposure"><small>[2]</small></a></td>
+    <td><a href="#definition-resource-exposure">Resource Exposure</a></td>
     <td style="background-color: #FFB660">13</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
   <tr>
-    <td>Infrastructure Modification <a href="#definition-infrastructure-modification"><small>[3]</small></a></td>
+    <td><a href="#definition-infrastructure-modification">Infrastructure Modification</a></td>
     <td style="background-color: #FFB660">17</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
     <tr>
-    <td>Data Exfiltration <a href="#definition-data-exfiltration"><small>[4]</small></a></td>
+    <td><a href="#definition-data-exfiltration">Data Exfiltration</a></td>
     <td style="background-color: #FFE295;">7</td>
     <td style="background-color: #FFE295;">Medium</td>
   </tr>
@@ -193,7 +192,8 @@
 
           <!--PRINCIPALS TAB-->
           <div class="tab-pane fade" id="nav-principals" role="tabpanel" aria-labelledby="nav-principals-tab">
-          <h3 id="iam-principals">IAM Principals</h3>
+            <br>
+            <h3 id="iam-principals">IAM Principals</h3>
 
             <br>
 <p style="text-align: justify">
@@ -627,7 +627,7 @@
 
           <!--CUSTOMER-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
-
+            <br>
             <!--Summary: Customer-managed policies-->
             <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
             <br>
@@ -641,7 +641,7 @@
   If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
   <br>
   <br>
-  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a>, <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
+  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a> and <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
   <br>
   <br>
   Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the <a href="#exclusions">Exclusions configuration</a> to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the <a href="#nav-principals">IAM Principals Tab</a>.
@@ -1708,9 +1708,10 @@ Actions:
 
           <!--AWS-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
-
+            <br>
             <!--Summary: AWS-managed policies-->
             <h3 id="aws-managed-policies-summary">Findings: AWS-managed Policies</h3>
+            <br>
             <span class="badge badge-default"></span>
 <br>
 <p style="text-align: justify">
@@ -1720,7 +1721,7 @@ Actions:
   If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
   <br>
   <br>
-  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a>, <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
+  Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a> and <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
   <br>
   <br>
   Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the <a href="#exclusions">Exclusions configuration</a> to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the <a href="#nav-principals">IAM Principals Tab</a>.
@@ -1893,6 +1894,7 @@ Actions:
 
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+            <br>
             
   
 <br>
@@ -4556,7 +4558,6 @@ users:
   <li><a href="https://github.com/salesforce/policy_sentry/">Policy Sentry</a> by <a href="https://twitter.com/kmcquade3">Kinnaird McQuade</a> at Salesforce</li>
   <li><a href="https://github.com/duo-labs/parliament/">Parliament</a> by <a href="https://twitter.com/0xdabbad00">Scott Piper</a> at Duo Labs</li>
   <li><a href="https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation">AWS Privilege Escalation Methods</a> by <a href="https://twitter.com/SpenGietz">Spencer Gietzen</a> at Rhino Security Labs</li>
-  <li><a href="http://kmcquade.com/rick.html">Leveraging next-generation blockchain-based AI across multiple service meshes to transparently automate multi-cloud IAM wizardry</a></li>
 </ul>
 <br>
 

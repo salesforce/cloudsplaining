@@ -112,7 +112,7 @@ class Exclusions:
         :return:
         """
         if is_name_excluded(policy_name, self.policies):
-            print(f"\tExcluded policy: {policy_name}")
+            # print(f"\tExcluded policy: {policy_name}")
             return True
         else:
             return False
@@ -169,7 +169,7 @@ def is_name_excluded(name, exclusions_list):
         if exclusion == "":
             continue
         if exclusion.lower() == name.lower():
-            print(f"\tExcluded: {exclusion}")
+            logger.debug(f"\tExcluded: {exclusion}")
             return True
         # ThePerfectManDoesntExi*
         if exclusion.endswith("*"):
@@ -182,7 +182,6 @@ def is_name_excluded(name, exclusions_list):
         if exclusion.startswith("*"):
             suffix = exclusion.split("*")[-1]
             if name.lower().endswith(suffix.lower()):
-                # logger.debug(f"Excluded suffix: {exclusion}")
                 print(f"\tExcluded suffix: {exclusion}")
                 return True
 
