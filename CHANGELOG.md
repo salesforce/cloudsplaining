@@ -3,6 +3,10 @@
 ## Unreleased
 * Docker
 
+## 0.1.1 (2020-05-12)
+* Bug fix: issue where "Data Exfiltration" count was showing up in the "Resource Exposure" count column in the IAM Principals tab
+* Added "Attached to Principals" dropdown card for Customer-Managed and AWS-Managed Policies
+
 ## 0.1.0 (2020-05-11)
 * Granular exclusions: Fixed issue where exclusions file was including dangling policies in the results (Fixes #33)
 * Changed IAM Principals table so that the principals can be sorted according to their risks. This will really help with pentesting
