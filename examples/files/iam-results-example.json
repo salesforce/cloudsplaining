@@ -125,6 +125,9 @@
             "sns:SetTopicAttributes",
             "s3:PutBucketPolicy",
             "iam:PassRole"
+        ],
+        "Principals": [
+            "obama"
         ]
     },
     {
@@ -382,7 +385,10 @@
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "PermissionsManagementActions": [],
+        "Principals": [
+            "obama"
+        ]
     },
     {
         "AccountID": "N/A",
@@ -429,7 +435,10 @@
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "PermissionsManagementActions": [],
+        "Principals": [
+            "userwithlotsofpermissions"
+        ]
     },
     {
         "AccountID": "N/A",
@@ -730,6 +739,13 @@
             "s3:PutBucketPublicAccessBlock",
             "s3:PutObjectAcl",
             "s3:PutObjectVersionAcl"
+        ],
+        "Principals": [
+            "admin",
+            "MyOtherRole",
+            "MyRole",
+            "obama",
+            "userwithlotsofpermissions"
         ]
     },
     {
@@ -1001,6 +1017,9 @@
             "ec2:ModifyVpcEndpointServicePermissions",
             "ec2:ResetSnapshotAttribute",
             "iam:CreateServiceLinkedRole"
+        ],
+        "Principals": [
+            "obama"
         ]
     },
     {
@@ -1164,6 +1183,9 @@
         "PermissionsManagementActions": [
             "rds:AuthorizeDBSecurityGroupIngress",
             "iam:CreateServiceLinkedRole"
+        ],
+        "Principals": [
+            "userwithlotsofpermissions"
         ]
     },
     {
@@ -1255,6 +1277,9 @@
             "s3:PutBucketPublicAccessBlock",
             "s3:PutObjectAcl",
             "s3:PutObjectVersionAcl"
+        ],
+        "Principals": [
+            "obama"
         ]
     },
     {
@@ -1291,7 +1316,10 @@
         "DataExfiltrationActions": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "PermissionsManagementActions": [],
+        "Principals": [
+            "userwithlotsofpermissions"
+        ]
     },
     {
         "AccountID": "N/A",
@@ -1344,7 +1372,10 @@
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
         "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "PermissionsManagementActions": [],
+        "Principals": [
+            "userwithlotsofpermissions"
+        ]
     },
     {
         "AccountID": "N/A",
@@ -1439,6 +1470,11 @@
             "sns:CreateTopic",
             "sns:RemovePermission",
             "sns:SetTopicAttributes"
+        ],
+        "Principals": [
+            "MyRole",
+            "obama",
+            "userwithlotsofpermissions"
         ]
     },
     {
@@ -1761,6 +1797,9 @@
             "iam:UploadSSHPublicKey",
             "iam:UploadServerCertificate",
             "iam:UploadSigningCertificate"
+        ],
+        "Principals": [
+            "userwithlotsofpermissions"
         ]
     },
     {
@@ -1895,6 +1934,9 @@
         "DataExfiltrationActions": [],
         "PermissionsManagementActions": [
             "s3:PutObjectAcl"
+        ],
+        "Principals": [
+            "OverprivilegedEC2"
         ]
     },
     {

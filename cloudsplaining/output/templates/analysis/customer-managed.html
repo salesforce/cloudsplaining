@@ -19,6 +19,22 @@
             </div>
          </div>
       </div>
+      {% if "Principals" in finding %}
+        <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-doc-principals{{ t['results'].index(finding) }}">Attached to Principals</a>
+      </div>
+      <div id="card-element-customer-doc-principals{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+        <div class="card-body">
+<pre><code>
+{% for principal in finding["Principals"] %}
+- {{ principal }}{% endfor %}
+</code></pre>
+        </div>
+      </div>
+    </div>
+      <!--/attached to principals-->
+      {% endif %}
       <div class="card">
         <div class="card-header">
           <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">Infrastructure Modification Actions</a>

@@ -40,8 +40,8 @@
       <td>{{ principal["PolicyName"] }}</td>
       <td>{{ principal["Actions"] }}</td>
       <td>{{ principal["PrivilegeEscalation"] }}</td>
-      <td>{{ principal["DataExfiltrationActions"] }}</td>
       <td>{{ principal["PermissionsManagementActions"] }}</td>
+      <td>{{ principal["DataExfiltrationActions"] }}</td>
       <td>{% if principal["GroupMembership"] %}{% if principal["GroupMembership"]|length > 0 %}{% for group in principal["GroupMembership"] %}{{ group }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}{% endif %}</td>
     </tr>
   {% endfor %}
