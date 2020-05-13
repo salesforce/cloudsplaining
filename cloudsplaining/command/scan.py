@@ -132,22 +132,36 @@ def scan_account_authorization_file(
         )
 
     principal_policy_mapping = authorization_details.principal_policy_mapping
+    # For the IAM Principals tab, add on risk stats per principal
     for principal_policy_entry in principal_policy_mapping:
-        for finding_result in results:
-            if (
-                principal_policy_entry.get("PolicyName").lower()
-                == finding_result.get("PolicyName").lower()
-            ):
-                principal_policy_entry["Actions"] = len(finding_result["Actions"])
+        for finding in results:
+            if principal_policy_entry.get("PolicyName").lower() == finding.get("PolicyName").lower():
+                principal_policy_entry["Actions"] = len(finding["Actions"])
                 principal_policy_entry["PrivilegeEscalation"] = len(
-                    finding_result["PrivilegeEscalation"]
+                    finding["PrivilegeEscalation"]
                 )
                 principal_policy_entry["DataExfiltrationActions"] = len(
-                    finding_result["DataExfiltrationActions"]
+                    finding["DataExfiltrationActions"]
                 )
                 principal_policy_entry["PermissionsManagementActions"] = len(
-                    finding_result["PermissionsManagementActions"]
+                    finding["PermissionsManagementActions"]
                 )
+                principal_name = principal_policy_entry["Principal"]
+                # Customer Managed Policies
+                if finding.get("Type") == "Policy" and finding.get("ManagedBy") == "Customer" and principal_policy_entry.get("Type") != "Policy":
+                    if "Principals" not in finding:
+                        finding["Principals"] = [principal_name]
+                    else:
+                        if principal_name not in finding["Principals"]:
+                            finding["Principals"].append(principal_name)
+
+                # AWS Managed Policies
+                if finding.get("Type") == "Policy" and finding.get("ManagedBy") == "AWS":
+                    if "Principals" not in finding:
+                        finding["Principals"] = [principal_name]
+                    else:
+                        if principal_name not in finding["Principals"]:
+                            finding["Principals"].append(principal_name)
 
     account_name = Path(input_file).stem
 
