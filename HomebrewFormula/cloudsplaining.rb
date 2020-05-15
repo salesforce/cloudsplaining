@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/51/cc/340ddad97703ca23739d5a3ad9894453cf344cf8c6f4831b8bfa280e98f3/boto3-1.13.8.tar.gz"
-    sha256 "c347350521e8138a42b7c877bb87ba32842405d7bc7fd86b29745abc60b9e83d"
+    url "https://files.pythonhosted.org/packages/ad/13/9a20662d2684bf6a61cea534a74d8b7ec6dd96c7df4da0196aef6cada66d/boto3-1.13.10.tar.gz"
+    sha256 "6d8459706a17752a98f5c8e8258b8c207189960c60da74384de81b6f68732f26"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/d5/25/749628331d9aaa03716e241aa910eb083a654225669f08f9039542a5cece/botocore-1.16.8.tar.gz"
-    sha256 "68eb83d97a8ecdbf271c17989280bc9a533269d4ee983d2ef80289e2333042da"
+    url "https://files.pythonhosted.org/packages/87/ea/181adb31b7f7c101aaa595626de847ebdab29e965ad9d4bf56038e7e9ec7/botocore-1.16.10.tar.gz"
+    sha256 "76c3ee2e2f2d37e69e697946b24806c6686e68380599d3e6509da1b39f6dec19"
   end
 
   resource "certifi" do
