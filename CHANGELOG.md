@@ -3,6 +3,11 @@
 ## Unreleased
 * Docker
 
+## 0.1.2 (2020-05-14)
+Just a few UI fixes:
+* Sort columns in Summary table by searching.
+* Reasonable size restrictions on "services affected" columns, with Scrollable cells
+
 ## 0.1.1 (2020-05-12)
 * Bug fix: issue where "Data Exfiltration" count was showing up in the "Resource Exposure" count column in the IAM Principals tab
 * Added "Attached to Principals" dropdown card for Customer-Managed and AWS-Managed Policies
