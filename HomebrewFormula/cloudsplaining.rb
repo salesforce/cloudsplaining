@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/45/a9/0252918f85061a8bfd6c9dcf37c80a4e1953eeb9b0858edc98ee258cf133/cloudsplaining-0.1.1.tar.gz"
-  sha256 "044d97c031472d85ff53e416f832cd1da63029cf3647bfe9febdd4e255bdd83d"
+  url "https://files.pythonhosted.org/packages/ae/1e/e99e81baef4d3eef403354064c119a40d606c7d16efc19a6d313c3b98bd0/cloudsplaining-0.1.2.tar.gz"
+  sha256 "b442cd8ea445f33e9119897cfde5b1bb72bea7e4aaa01bb87e4521ab30bdf902"
 
   depends_on "python3"
 
