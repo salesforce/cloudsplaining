@@ -22,7 +22,7 @@ def get_version():
             HERE,
             "cloudsplaining",
             "bin",
-            'cli.py'
+            'version.py'
         )
     ).read()
     return VERSION_RE.search(init).group(1)

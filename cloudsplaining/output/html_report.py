@@ -11,6 +11,7 @@ import webbrowser
 import yaml
 import markdown
 from jinja2 import Environment, FileSystemLoader
+from cloudsplaining.bin.version import __version__
 from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
@@ -114,6 +115,7 @@ def generate_html_report(
         "account_name": account_name,
         "account_id": account_id,
         "report_generated_time": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "cloudsplaining_version": __version__,
         # Actual results
         "results": results,
         # IAM Principals
