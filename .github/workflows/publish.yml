@@ -19,6 +19,7 @@ jobs:
 
       - name: Install dependencies with pipenv
         run: |
+          sleep 2m
           pip install pipenv
           pipenv install --dev --skip-lock
 
