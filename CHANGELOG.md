@@ -3,6 +3,10 @@
 ## Unreleased
 * Docker
 
+## 0.1.3 (2020-05-16)
+* Excel/CSV export capability
+* Table row selection capability
+
 ## 0.1.2 (2020-05-14)
 Just a few UI fixes:
 * Sort columns in Summary table by searching.
