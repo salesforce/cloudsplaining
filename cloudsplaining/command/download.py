@@ -57,6 +57,18 @@ def download(profile, output, include_non_default_policy_versions):
     else:
         output_filename = "default.json"
 
+    results = get_account_authorization_details(session_data, include_non_default_policy_versions)
+
+    if os.path.exists(output_filename):
+        os.remove(output_filename)
+    with open(output_filename, "w") as file:
+        json.dump(results, file, indent=4, default=str)
+        print(f"Saved results to {output_filename}")
+    return 1
+
+
+def get_account_authorization_details(session_data, include_non_default_policy_versions):
+    """Runs aws-iam-get-account-authorization-details"""
     session = boto3.Session(**session_data)
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     iam_client = session.client("iam", config=config)
@@ -114,10 +126,4 @@ def download(profile, output, include_non_default_policy_versions):
                         "PolicyVersionList": policy_version_list,
                     }
                     results["Policies"].append(entry)
-
-    if os.path.exists(output_filename):
-        os.remove(output_filename)
-    with open(output_filename, "w") as file:
-        json.dump(results, file, indent=4, default=str)
-        print(f"Saved results to {output_filename}")
-    return 1
+    return results
