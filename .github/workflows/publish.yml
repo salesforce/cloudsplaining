@@ -81,5 +81,5 @@ jobs:
           git pull origin $latest_tag
           pipenv run poet -f cloudsplaining > HomebrewFormula/cloudsplaining.rb
           git add .
-          git commit -m "update brew formula" cloudsplaining/bin/cli.py HomebrewFormula/cloudsplaining.rb || echo "No brew changes to commit"
+          git commit -m "update brew formula" cloudsplaining/bin/version.py HomebrewFormula/cloudsplaining.rb || echo "No brew changes to commit"
           git push -u origin master
