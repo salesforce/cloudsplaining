@@ -12,22 +12,18 @@ import yaml
 import markdown
 from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.bin.version import __version__
-from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 
 
 def generate_html_report(
     account_metadata,
     results,
     principal_policy_mapping,
-    output_directory,
     exclusions_cfg,
-    skip_open_report=False,
 ):
     """Create IAM HTML report"""
 
     account_id = account_metadata.get("account_id")
     account_name = account_metadata.get("account_name")
-    html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
     # sorted_results = sorted(results, key=lambda i: i["PolicyName"])
 
     # Calculate ratio of policies with PrivEsc, Permissions management, or Data leak potential
@@ -138,16 +134,17 @@ def generate_html_report(
     template_path = os.path.join(os.path.dirname(__file__), "templates")
     env = Environment(loader=FileSystemLoader(template_path))  # nosec
     template = env.get_template("template.html")
-    with open(html_output_file, "w") as f:
-        f.write(template.render(t=iam_report_results_formatted))
-
-    print(f"Wrote HTML results to: {html_output_file}")
-
-    # Open the report by default
-    if not skip_open_report:
-        print("Opening the HTML report")
-        url = "file://%s" % os.path.abspath(html_output_file)
-        webbrowser.open(url, new=2)
-
-    # Create the CSV triage sheet
-    create_triage_worksheet(account_name, results, output_directory)
+    return template.render(t=iam_report_results_formatted)
+    # with open(html_output_file, "w") as f:
+    #     f.write(template.render(t=iam_report_results_formatted))
+    #
+    # print(f"Wrote HTML results to: {html_output_file}")
+    #
+    # # Open the report by default
+    # if not skip_open_report:
+    #     print("Opening the HTML report")
+    #     url = "file://%s" % os.path.abspath(html_output_file)
+    #     webbrowser.open(url, new=2)
+    #
+    # # Create the CSV triage sheet
+    # create_triage_worksheet(account_name, results, output_directory)
