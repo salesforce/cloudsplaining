@@ -33,14 +33,26 @@ with open(example_principal_policy_mapping_file) as json_file:
 
 def generate_example_report():
     output_directory = os.getcwd()
+    account_name = "fake"
     account_metadata = {
-        "account_name": "fake",
+        "account_name": account_name,
         "account_id": "000011112222",
         "customer_managed_policies": 20,  # Fake value
         "aws_managed_policies": 30,  # Fake value
     }
 
-    generate_html_report(account_metadata, example_results, example_principal_policy_mapping, output_directory, DEFAULT_EXCLUSIONS_CONFIG, skip_open_report=True)
+    rendered_html_report = generate_html_report(
+        account_metadata,
+        example_results,
+        example_principal_policy_mapping,
+        DEFAULT_EXCLUSIONS_CONFIG
+    )
+    html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
+
+    with open(html_output_file, "w") as f:
+        f.write(rendered_html_report)
+
+    print(f"Wrote HTML results to: {html_output_file}")
     index_output_file = os.path.join(output_directory, "index.html")
     shutil.copyfile(os.path.join(output_directory, "iam-report-fake.html"), index_output_file)
     url = "file://%s" % os.path.abspath(index_output_file)
