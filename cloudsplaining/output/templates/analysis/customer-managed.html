@@ -19,10 +19,12 @@
             </div>
          </div>
       </div>
-      {% if "Principals" in finding %}
+      {% if finding["Type"] == "Policy" %}
+        {% if "Principals" in finding %}
+      <!--Policies Attached to principals-->
         <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-doc-principals{{ t['results'].index(finding) }}">Attached to Principals</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-doc-principals{{ t['results'].index(finding) }}">Attached to Principals as Managed Policy</a>
       </div>
       <div id="card-element-customer-doc-principals{{ t['results'].index(finding) }}" class="panel-collapse collapse">
         <div class="card-body">
@@ -33,20 +35,28 @@
         </div>
       </div>
     </div>
-      <!--/attached to principals-->
+        {% endif %}
+        <!--/Policies Attached to principals-->
+      {% else %}
+     <!--Inline Policies - identify which ones are attached to which principal-->
+      <!--This will only apply if finding["Type"] != "Policy"-->
+        {% if finding["AttachedToPrincipal"] %}
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-attached-to-principal{{ t['results'].index(finding) }}">Attached To Principal as Inline Policy</a>
+           </div>
+           <div id="card-element-customer-attached-to-principal{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+{{ finding["AttachedToPrincipal"] }}
+              </code></pre>
+            </div>
+           </div>
+        </div>
+        {% endif %}
       {% endif %}
-      <div class="card">
-        <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">Infrastructure Modification Actions</a>
-        </div>
-        <div id="card-element-customer-action{{ t['results'].index(finding) }}" class="panel-collapse collapse">
-          <div class="card-body">
-            <pre><code>
-{{ finding["Actions"] | tojson(indent=4) }}
-            </code></pre>
-          </div>
-        </div>
-      </div>
+     <!--/end AttachedToPrincipal-->
+<!--       endif -->
      <!--Trust Policy Document-->
       {% if finding["Type"] == "Role" %}
         <div class="card">
@@ -63,6 +73,20 @@
         </div>
       {% endif %}
      <!--/end Trust Policy Document-->
+      <!--All actions for the policy that do not practice resource constraints-->
+      <div class="card">
+        <div class="card-header">
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-{{ t['results'].index(finding) }}" href="#card-element-customer-action{{ t['results'].index(finding) }}">Infrastructure Modification Actions</a>
+        </div>
+        <div id="card-element-customer-action{{ t['results'].index(finding) }}" class="panel-collapse collapse">
+          <div class="card-body">
+            <pre><code>
+{{ finding["Actions"] | tojson(indent=4) }}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+      <!--/All actions for the policy that do not practice resource constraints-->
       {% if finding["PrivilegeEscalation"]|length > 0 or
         finding["DataExfiltrationActions"]|length > 0 or
         finding["PermissionsManagementActions"]|length > 0 or
@@ -83,5 +107,5 @@
 
   </div><!-- /col for card -->
 </div>
-  {% endif %}
+{% endif %}
 {% endfor %}

@@ -51,6 +51,7 @@
     </div>
       <!--/group members-->
       {% endif %}
+    <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-{{ t['results'].index(finding) }}" href="#card-element-aws-action{{ t['results'].index(finding) }}">Infrastructure Modification Actions</a>
@@ -63,6 +64,7 @@
         </div>
       </div>
     </div>
+    <!--/All actions for the policy that do not practice resource constraints-->
     {% if finding["PrivilegeEscalation"]|length > 0 or
         finding["DataExfiltrationActions"]|length > 0 or
         finding["PermissionsManagementActions"]|length > 0
