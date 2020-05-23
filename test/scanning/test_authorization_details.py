@@ -155,6 +155,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "Name": "NotYourPolicy",
                 "Type": "Policy",
                 "Arn": "arn:aws:iam::012345678901:policy/NotYourPolicy",
+                "AttachedToPrincipal": None,
                 "ActionsCount": 3,
                 "ServicesCount": 1,
                 "Services": [
@@ -196,6 +197,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "Type": "Policy",
                 "Name": "PolicyForTestingOverrides",
                 "Arn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides",
+                "AttachedToPrincipal": None,
                 "ActionsCount": 2,
                 "ServicesCount": 1,
                 "Services": [
