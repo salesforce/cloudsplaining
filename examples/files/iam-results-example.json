@@ -6,6 +6,7 @@
         "PolicyName": "AWSCloudTrailFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 18,
         "ServicesCount": 4,
         "Services": [
@@ -137,6 +138,7 @@
         "PolicyName": "AWSCodeCommitFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 52,
         "ServicesCount": 4,
         "Services": [
@@ -397,6 +399,7 @@
         "PolicyName": "AWSKeyManagementServicePowerUser",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
+        "AttachedToPrincipal": null,
         "ActionsCount": 4,
         "ServicesCount": 1,
         "Services": [
@@ -447,6 +450,7 @@
         "PolicyName": "AWSLambdaFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 150,
         "ServicesCount": 12,
         "Services": [
@@ -755,6 +759,7 @@
         "PolicyName": "AmazonEC2FullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 198,
         "ServicesCount": 5,
         "Services": [
@@ -1029,6 +1034,7 @@
         "PolicyName": "AmazonRDSFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 84,
         "ServicesCount": 4,
         "Services": [
@@ -1195,6 +1201,7 @@
         "PolicyName": "AmazonS3FullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 47,
         "ServicesCount": 1,
         "Services": [
@@ -1289,6 +1296,7 @@
         "PolicyName": "AmazonS3ReadOnlyAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 1,
         "ServicesCount": 1,
         "Services": [
@@ -1328,6 +1336,7 @@
         "PolicyName": "AmazonSESFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 21,
         "ServicesCount": 1,
         "Services": [
@@ -1384,6 +1393,7 @@
         "PolicyName": "CloudWatchFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 38,
         "ServicesCount": 3,
         "Services": [
@@ -1478,73 +1488,13 @@
         ]
     },
     {
-        "AccountID": "012345678901",
-        "ManagedBy": "Customer",
-        "Name": "MyRole",
-        "PolicyName": "EC2-IAM-example",
-        "Type": "Role",
-        "Arn": "arn:aws:iam::012345678901:role/MyRole",
-        "ActionsCount": 5,
-        "ServicesCount": 2,
-        "Services": [
-            "ec2",
-            "iam"
-        ],
-        "Actions": [
-            "ec2:AssociateIamInstanceProfile",
-            "ec2:DisassociateIamInstanceProfile",
-            "iam:AddRoleToInstanceProfile",
-            "iam:CreateInstanceProfile",
-            "iam:PassRole"
-        ],
-        "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Sid": "VisualEditor0",
-                    "Effect": "Allow",
-                    "Action": [
-                        "iam:CreateInstanceProfile",
-                        "iam:ListInstanceProfilesForRole",
-                        "iam:PassRole",
-                        "ec2:DescribeIamInstanceProfileAssociations",
-                        "iam:GetInstanceProfile",
-                        "ec2:DisassociateIamInstanceProfile",
-                        "ec2:AssociateIamInstanceProfile",
-                        "iam:AddRoleToInstanceProfile"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        },
-        "AssumeRolePolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "ssm.amazonaws.com"
-                    },
-                    "Action": "sts:AssumeRole"
-                }
-            ]
-        },
-        "AssumableByComputeService": [],
-        "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
-            "iam:AddRoleToInstanceProfile",
-            "iam:CreateInstanceProfile",
-            "iam:PassRole"
-        ]
-    },
-    {
         "AccountID": "N/A",
         "ManagedBy": "AWS",
         "Name": "IAMFullAccess",
         "PolicyName": "IAMFullAccess",
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/IAMFullAccess",
+        "AttachedToPrincipal": null,
         "ActionsCount": 78,
         "ServicesCount": 1,
         "Services": [
@@ -1809,6 +1759,7 @@
         "PolicyName": "InlinePolicyForAdminGroup",
         "Type": "Group",
         "Arn": "arn:aws:iam::012345678901:group/admin",
+        "AttachedToPrincipal": "admin",
         "ActionsCount": 47,
         "ServicesCount": 1,
         "Services": [
@@ -1903,6 +1854,7 @@
         "PolicyName": "InsecurePolicy",
         "Type": "Policy",
         "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
+        "AttachedToPrincipal": null,
         "ActionsCount": 2,
         "ServicesCount": 1,
         "Services": [
@@ -1946,6 +1898,7 @@
         "PolicyName": "InsecureUserPolicy",
         "Type": "User",
         "Arn": "arn:aws:iam::012345678901:user/userwithlotsofpermissions",
+        "AttachedToPrincipal": "userwithlotsofpermissions",
         "ActionsCount": 3,
         "ServicesCount": 1,
         "Services": [
@@ -1990,6 +1943,7 @@
         "PolicyName": "MyOtherRolePolicy",
         "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/MyOtherRole",
+        "AttachedToPrincipal": "MyOtherRole",
         "ActionsCount": 5,
         "ServicesCount": 2,
         "Services": [
@@ -2053,6 +2007,7 @@
         "PolicyName": "OverprivilegedEC2",
         "Type": "Role",
         "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+        "AttachedToPrincipal": "OverprivilegedEC2",
         "ActionsCount": 3,
         "ServicesCount": 3,
         "Services": [

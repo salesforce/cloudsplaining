@@ -70,11 +70,7 @@
         "PolicyType": "Inline",
         "ManagedBy": "Customer",
         "PolicyName": "EC2-IAM-example",
-        "GroupMembership": null,
-        "Actions": 5,
-        "PrivilegeEscalation": 0,
-        "DataExfiltrationActions": 0,
-        "PermissionsManagementActions": 3
+        "GroupMembership": null
     },
     {
         "Principal": "MyRole",
