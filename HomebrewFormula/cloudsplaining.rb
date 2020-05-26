@@ -3,24 +3,24 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/ae/1e/e99e81baef4d3eef403354064c119a40d606c7d16efc19a6d313c3b98bd0/cloudsplaining-0.1.2.tar.gz"
-  sha256 "b442cd8ea445f33e9119897cfde5b1bb72bea7e4aaa01bb87e4521ab30bdf902"
+  url "https://files.pythonhosted.org/packages/af/90/81d3333729b4bb51f2a0993fe29455ac4f8b48b15ab6a0ed269451730866/cloudsplaining-0.1.3.tar.gz"
+  sha256 "8a5a02251a858e50d7a4d1c8c4d27623dd1c2ace09b539034763ea9c9c0704c6"
 
   depends_on "python3"
 
   resource "beautifulsoup4" do
-    url "https://files.pythonhosted.org/packages/3b/e4/7cfc641f11e0eef60123912611a5c9ee7d4638da7325878b695b9ae4bb6f/beautifulsoup4-4.9.0.tar.gz"
-    sha256 "594ca51a10d2b3443cbac41214e12dbb2a1cd57e1a7344659849e2e20ba6a8d8"
+    url "https://files.pythonhosted.org/packages/c6/62/8a2bef01214eeaa5a4489eca7104e152968729512ee33cb5fbbc37a896b7/beautifulsoup4-4.9.1.tar.gz"
+    sha256 "73cc4d115b96f79c7d77c1c7f7a0a8d4c57860d1041df407dd1aae7f07a77fd7"
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/ee/b9/482d396fdbfab0e83f4c5f11b46a74b01a3ccdfdd84d54dd069083670b52/boto3-1.13.11.tar.gz"
-    sha256 "a7c5c7251b76336e697ccf368f125720e1947d58b218c228b61b5b654187fe4e"
+    url "https://files.pythonhosted.org/packages/b5/40/5ba1b2da3e455660ab12d3600c6b96e257c3654b0477eadf9eee13384e16/boto3-1.13.17.tar.gz"
+    sha256 "009d0b483513e4c8639895c2b8dc451b41c9b863116d0234506b8b88b30a3d1b"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/ec/ce/12ad4123cc3dc0284408ad6dead2f0490ec38998a3b01a357e04106b655c/botocore-1.16.11.tar.gz"
-    sha256 "b82083f1ba65624017d53fa2d2a44aa801ea3da0948fba56ccf4d29a88ef0b71"
+    url "https://files.pythonhosted.org/packages/ef/14/33c19af67d4e1a3fccaf2f93425d586aa2183d5644634ed278f517613c06/botocore-1.16.17.tar.gz"
+    sha256 "f9627c718d480225cbfeeeb7b4a694b9cea3cae67940a4b673770cfaca328a81"
   end
 
   resource "certifi" do
@@ -84,8 +84,8 @@ class Cloudsplaining < Formula
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/ae/9a/43a692b73b179b5b810ecae3efef7f63dbd881f802001c4015b7eb734eac/policy_sentry-0.8.0.6.tar.gz"
-    sha256 "b43b0290aadb0cc8db8f17b2151f1e156671f9390cef7318828b54fdc01d6518"
+    url "https://files.pythonhosted.org/packages/ab/f9/a68ddfa2cdcf181283699c72f4e3f41743ea4814ea217b0347ffd12beb34/policy_sentry-0.8.0.7.tar.gz"
+    sha256 "d6b2817bc80f4b2c84f9d7ae008673086ba19734dc3e17328eccbb481c5ad5bf"
   end
 
   resource "python-dateutil" do
@@ -114,13 +114,13 @@ class Cloudsplaining < Formula
   end
 
   resource "six" do
-    url "https://files.pythonhosted.org/packages/21/9f/b251f7f8a76dec1d6651be194dfba8fb8d7781d10ab3987190de8391d08e/six-1.14.0.tar.gz"
-    sha256 "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
+    url "https://files.pythonhosted.org/packages/6b/34/415834bfdafca3c5f451532e8a8d9ba89a21c9743a0c59fbd0205c7f9426/six-1.15.0.tar.gz"
+    sha256 "30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"
   end
 
   resource "soupsieve" do
-    url "https://files.pythonhosted.org/packages/15/53/3692c565aea19f7d9dd696fee3d0062782e9ad5bf9535267180511a15967/soupsieve-2.0.tar.gz"
-    sha256 "e914534802d7ffd233242b785229d5ba0766a7f487385e3f714446a07bf540ae"
+    url "https://files.pythonhosted.org/packages/3e/db/5ba900920642414333bdc3cb397075381d63eafc7e75c2373bbc560a9fa1/soupsieve-2.0.1.tar.gz"
+    sha256 "a59dc181727e95d25f781f0eb4fd1825ff45590ec8ff49eadfd7f1a537cc0232"
   end
 
   resource "urllib3" do
