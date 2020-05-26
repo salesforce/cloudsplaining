@@ -142,7 +142,7 @@
             <h4>Report metadata</h4>
             <ul>
               <li>Account: fake (000011112222)</li>
-              <li>Report Generated: 2020-05-23</li>
+              <li>Report Generated: 2020-05-26</li>
               <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.3</a></li>
             </ul>
             <br>
@@ -174,13 +174,13 @@
   
   <tr>
     <td><a href="#definition-resource-exposure">Resource Exposure</a></td>
-    <td style="background-color: #FFB660">13</td>
+    <td style="background-color: #FFB660">12</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
   <tr>
     <td><a href="#definition-infrastructure-modification">Infrastructure Modification</a></td>
-    <td style="background-color: #FFB660">17</td>
+    <td style="background-color: #FFB660">16</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
@@ -313,10 +313,10 @@
       <td> <a href="#definition-inline-policy">Inline</a></td>
       <td> <a href="#definition-customer-managed-policy">Customer</a></td>
       <td>EC2-IAM-example</td>
-      <td>5</td>
-      <td>0</td>
-      <td>3</td>
-      <td>0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
     </tr>
   
@@ -669,7 +669,7 @@
             <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
             <br>
 <p style="text-align: justify">
-  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with.
+  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with. It only includes policies that (1) have findings and (2) are currently used in the account.   If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
   <br>
   <br>
   If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
@@ -723,23 +723,6 @@
   
     
   
-    
-  
-    
-      <tr>
-        <td></td>
-        <td>Inline</td>
-        <td>Role</td>
-        <td><a href="#EC2-IAM-example">EC2-IAM-example</a></td>
-        <td>MyRole</td>
-        <td>2</td>
-        <td><p style="max-height: 100px; overflow: scroll;">ec2, iam</p></td>
-        <td>5</td>
-        <td> </td>
-        <td>  3</td>
-        <td> </td>
-        <td> </td>
-      </tr>
     
   
     
@@ -858,161 +841,6 @@
   
 
   
-<br>
-<div class="row">
-  <div class="col-md-5">
-    <div class="card">
-  <h6 class="card-header" id="EC2-IAM-example">Role: EC2-IAM-example</h6>
-    <div class="card-body">
-    <p class="card-text">
-      Services: 2
-      <br>
-      Infrastructure Modification Actions: 5
-      <br>
-      Type: Inline Policy
-      <br>
-    
-    </p>
-    </div> <!-- /card-text -->
-      <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
-        
-        
-      </div><!-- /card-footer -->
-   </div><!-- /card -->
-<br>
-<br>
-  </div>
-  <div class="col-md-7">
-    <div id="card-customer-10">
-      <div class="card">
-         <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-10" href="#card-element-customer-doc-10">Policy Document</a>
-         </div>
-         <div id="card-element-customer-doc-10" class="panel-collapse collapse">
-            <div class="card-body">
-<pre><code>
-{
-    "Statement": [
-        {
-            "Action": [
-                "iam:CreateInstanceProfile",
-                "iam:ListInstanceProfilesForRole",
-                "iam:PassRole",
-                "ec2:DescribeIamInstanceProfileAssociations",
-                "iam:GetInstanceProfile",
-                "ec2:DisassociateIamInstanceProfile",
-                "ec2:AssociateIamInstanceProfile",
-                "iam:AddRoleToInstanceProfile"
-            ],
-            "Effect": "Allow",
-            "Resource": "*",
-            "Sid": "VisualEditor0"
-        }
-    ],
-    "Version": "2012-10-17"
-}
-</code></pre>
-            </div>
-         </div>
-      </div>
-      
-     <!--Inline Policies - identify which ones are attached to which principal-->
-      <!--This will only apply if finding["Type"] != "Policy"-->
-        
-      
-     <!--/end AttachedToPrincipal-->
-<!--       endif -->
-     <!--Trust Policy Document-->
-      
-        <div class="card">
-           <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-10" href="#card-element-customer-trust-policy10">Trust Policy Document</a>
-           </div>
-           <div id="card-element-customer-trust-policy10" class="panel-collapse collapse">
-            <div class="card-body">
-              <pre><code>
-{
-    "Statement": [
-        {
-            "Action": "sts:AssumeRole",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "ssm.amazonaws.com"
-            }
-        }
-    ],
-    "Version": "2012-10-17"
-}
-              </code></pre>
-            </div>
-           </div>
-        </div>
-      
-     <!--/end Trust Policy Document-->
-      <!--All actions for the policy that do not practice resource constraints-->
-      <div class="card">
-        <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-10" href="#card-element-customer-action10">Infrastructure Modification Actions</a>
-        </div>
-        <div id="card-element-customer-action10" class="panel-collapse collapse">
-          <div class="card-body">
-            <pre><code>
-[
-    "ec2:AssociateIamInstanceProfile",
-    "ec2:DisassociateIamInstanceProfile",
-    "iam:AddRoleToInstanceProfile",
-    "iam:CreateInstanceProfile",
-    "iam:PassRole"
-]
-            </code></pre>
-          </div>
-        </div>
-      </div>
-      <!--/All actions for the policy that do not practice resource constraints-->
-      
-      <!--High Priority Risks-->
-        <div class="card">
-           <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-10" href="#card-element-customer-risks10">High Priority risks</a>
-           </div>
-           <div id="card-element-customer-risks10" class="panel-collapse collapse">
-               <div class="card-body">
-  <div class="grid">
-      <div class="row">
-        
-        
-        
-        
-        <!--Resource Exposure-->
-        <div class="col-sm border">
-  <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
-          <pre><code>
-[
-  "iam:AddRoleToInstanceProfile",
-  "iam:CreateInstanceProfile",
-  "iam:PassRole"
-]
-          </code></pre>
-        </div>
-        
-      </div>
-  </div>
-</div>
-           </div>
-        </div>
-      <!--/end High Priority Risks-->
-      
-   </div>
-
-  </div><!-- /col for card -->
-</div>
-
-
-  
 
   
 <br>
@@ -1046,12 +874,12 @@
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-customer-12">
+    <div id="card-customer-11">
       <div class="card">
          <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-doc-12">Policy Document</a>
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-11" href="#card-element-customer-doc-11">Policy Document</a>
          </div>
-         <div id="card-element-customer-doc-12" class="panel-collapse collapse">
+         <div id="card-element-customer-doc-11" class="panel-collapse collapse">
             <div class="card-body">
 <pre><code>
 {
@@ -1075,6 +903,19 @@
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
         
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-11" href="#card-element-customer-attached-to-principal11">Attached To Principal as Inline Policy</a>
+           </div>
+           <div id="card-element-customer-attached-to-principal11" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+admin
+              </code></pre>
+            </div>
+           </div>
+        </div>
+        
       
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
@@ -1084,9 +925,9 @@
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-action12">Infrastructure Modification Actions</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-11" href="#card-element-customer-action11">Infrastructure Modification Actions</a>
         </div>
-        <div id="card-element-customer-action12" class="panel-collapse collapse">
+        <div id="card-element-customer-action11" class="panel-collapse collapse">
           <div class="card-body">
             <pre><code>
 [
@@ -1147,9 +988,9 @@
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-risks12">High Priority risks</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-11" href="#card-element-customer-risks11">High Priority risks</a>
            </div>
-           <div id="card-element-customer-risks12" class="panel-collapse collapse">
+           <div id="card-element-customer-risks11" class="panel-collapse collapse">
                <div class="card-body">
   <div class="grid">
       <div class="row">
@@ -1230,12 +1071,12 @@
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-customer-13">
+    <div id="card-customer-12">
       <div class="card">
          <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-doc-13">Policy Document</a>
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-doc-12">Policy Document</a>
          </div>
-         <div id="card-element-customer-doc-13" class="panel-collapse collapse">
+         <div id="card-element-customer-doc-12" class="panel-collapse collapse">
             <div class="card-body">
 <pre><code>
 {
@@ -1263,9 +1104,9 @@
       <!--Policies Attached to principals-->
         <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-doc-principals13">Attached to Principals as Managed Policy</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-doc-principals12">Attached to Principals as Managed Policy</a>
       </div>
-      <div id="card-element-customer-doc-principals13" class="panel-collapse collapse">
+      <div id="card-element-customer-doc-principals12" class="panel-collapse collapse">
         <div class="card-body">
 <pre><code>
 
@@ -1285,9 +1126,9 @@
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-action13">Infrastructure Modification Actions</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-action12">Infrastructure Modification Actions</a>
         </div>
-        <div id="card-element-customer-action13" class="panel-collapse collapse">
+        <div id="card-element-customer-action12" class="panel-collapse collapse">
           <div class="card-body">
             <pre><code>
 [
@@ -1303,9 +1144,9 @@
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-risks13">High Priority risks</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-12" href="#card-element-customer-risks12">High Priority risks</a>
            </div>
-           <div id="card-element-customer-risks13" class="panel-collapse collapse">
+           <div id="card-element-customer-risks12" class="panel-collapse collapse">
                <div class="card-body">
   <div class="grid">
       <div class="row">
@@ -1368,12 +1209,12 @@
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-customer-14">
+    <div id="card-customer-13">
       <div class="card">
          <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-doc-14">Policy Document</a>
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-doc-13">Policy Document</a>
          </div>
-         <div id="card-element-customer-doc-14" class="panel-collapse collapse">
+         <div id="card-element-customer-doc-13" class="panel-collapse collapse">
             <div class="card-body">
 <pre><code>
 {
@@ -1401,6 +1242,19 @@
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
         
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-attached-to-principal13">Attached To Principal as Inline Policy</a>
+           </div>
+           <div id="card-element-customer-attached-to-principal13" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+userwithlotsofpermissions
+              </code></pre>
+            </div>
+           </div>
+        </div>
+        
       
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
@@ -1410,9 +1264,9 @@
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-action14">Infrastructure Modification Actions</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-action13">Infrastructure Modification Actions</a>
         </div>
-        <div id="card-element-customer-action14" class="panel-collapse collapse">
+        <div id="card-element-customer-action13" class="panel-collapse collapse">
           <div class="card-body">
             <pre><code>
 [
@@ -1429,9 +1283,9 @@
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-risks14">High Priority risks</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-risks13">High Priority risks</a>
            </div>
-           <div id="card-element-customer-risks14" class="panel-collapse collapse">
+           <div id="card-element-customer-risks13" class="panel-collapse collapse">
                <div class="card-body">
   <div class="grid">
       <div class="row">
@@ -1506,12 +1360,12 @@
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-customer-15">
+    <div id="card-customer-14">
       <div class="card">
          <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-doc-15">Policy Document</a>
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-doc-14">Policy Document</a>
          </div>
-         <div id="card-element-customer-doc-15" class="panel-collapse collapse">
+         <div id="card-element-customer-doc-14" class="panel-collapse collapse">
             <div class="card-body">
 <pre><code>
 {
@@ -1542,6 +1396,19 @@
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
         
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-attached-to-principal14">Attached To Principal as Inline Policy</a>
+           </div>
+           <div id="card-element-customer-attached-to-principal14" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+MyOtherRole
+              </code></pre>
+            </div>
+           </div>
+        </div>
+        
       
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
@@ -1549,9 +1416,9 @@
       
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-trust-policy15">Trust Policy Document</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-trust-policy14">Trust Policy Document</a>
            </div>
-           <div id="card-element-customer-trust-policy15" class="panel-collapse collapse">
+           <div id="card-element-customer-trust-policy14" class="panel-collapse collapse">
             <div class="card-body">
               <pre><code>
 {
@@ -1575,9 +1442,9 @@
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-action15">Infrastructure Modification Actions</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-action14">Infrastructure Modification Actions</a>
         </div>
-        <div id="card-element-customer-action15" class="panel-collapse collapse">
+        <div id="card-element-customer-action14" class="panel-collapse collapse">
           <div class="card-body">
             <pre><code>
 [
@@ -1596,9 +1463,9 @@
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-risks15">High Priority risks</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-risks14">High Priority risks</a>
            </div>
-           <div id="card-element-customer-risks15" class="panel-collapse collapse">
+           <div id="card-element-customer-risks14" class="panel-collapse collapse">
                <div class="card-body">
   <div class="grid">
       <div class="row">
@@ -1678,12 +1545,12 @@
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-customer-16">
+    <div id="card-customer-15">
       <div class="card">
          <div class="card-header">
-            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-doc-16">Policy Document</a>
+            <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-doc-15">Policy Document</a>
          </div>
-         <div id="card-element-customer-doc-16" class="panel-collapse collapse">
+         <div id="card-element-customer-doc-15" class="panel-collapse collapse">
             <div class="card-body">
 <pre><code>
 {
@@ -1709,6 +1576,19 @@
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
         
+        <div class="card">
+           <div class="card-header">
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-attached-to-principal15">Attached To Principal as Inline Policy</a>
+           </div>
+           <div id="card-element-customer-attached-to-principal15" class="panel-collapse collapse">
+            <div class="card-body">
+              <pre><code>
+OverprivilegedEC2
+              </code></pre>
+            </div>
+           </div>
+        </div>
+        
       
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
@@ -1716,9 +1596,9 @@
       
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-trust-policy16">Trust Policy Document</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-trust-policy15">Trust Policy Document</a>
            </div>
-           <div id="card-element-customer-trust-policy16" class="panel-collapse collapse">
+           <div id="card-element-customer-trust-policy15" class="panel-collapse collapse">
             <div class="card-body">
               <pre><code>
 {
@@ -1742,9 +1622,9 @@
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
         <div class="card-header">
-          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-action16">Infrastructure Modification Actions</a>
+          <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-action15">Infrastructure Modification Actions</a>
         </div>
-        <div id="card-element-customer-action16" class="panel-collapse collapse">
+        <div id="card-element-customer-action15" class="panel-collapse collapse">
           <div class="card-body">
             <pre><code>
 [
@@ -1761,9 +1641,9 @@
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-16" href="#card-element-customer-risks16">High Priority risks</a>
+              <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-risks15">High Priority risks</a>
            </div>
-           <div id="card-element-customer-risks16" class="panel-collapse collapse">
+           <div id="card-element-customer-risks15" class="panel-collapse collapse">
                <div class="card-body">
   <div class="grid">
       <div class="row">
@@ -1838,10 +1718,8 @@ Actions:
             <span class="badge badge-default"></span>
 <br>
 <p style="text-align: justify">
-  The following table shows a list of <a href="definition-aws-managed-policy">AWS-managed IAM Policies</a> that are currently used in the account.
-  <br>
-  <br>
-  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  The following table shows a list of <a href="definition-aws-managed-policy">AWS-managed IAM Policies</a> that (1) have findings and (2) are currently used in the account.
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
   <br>
   <br>
   Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a> and <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
@@ -1995,8 +1873,6 @@ Actions:
         <td>  6</td>
         <td> </td>
       </tr>
-    
-  
     
   
     
@@ -4261,8 +4137,6 @@ Actions:
   
 
   
-
-  
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4294,12 +4168,12 @@ Actions:
 <br>
   </div>
   <div class="col-md-7">
-    <div id="card-aws-11">
+    <div id="card-aws-10">
     <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-11" href="#card-element-aws-doc-11">Policy Document</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-doc-10">Policy Document</a>
       </div>
-      <div id="card-element-aws-doc-11" class="panel-collapse collapse">
+      <div id="card-element-aws-doc-10" class="panel-collapse collapse">
         <div class="card-body">
 <pre><code>
 {
@@ -4331,9 +4205,9 @@ Actions:
       
         <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-11" href="#card-element-aws-doc-principals11">Attached to Principals</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-doc-principals10">Attached to Principals</a>
       </div>
-      <div id="card-element-aws-doc-principals11" class="panel-collapse collapse">
+      <div id="card-element-aws-doc-principals10" class="panel-collapse collapse">
         <div class="card-body">
 <pre><code>
 
@@ -4348,9 +4222,9 @@ Actions:
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-11" href="#card-element-aws-action11">Infrastructure Modification Actions</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-action10">Infrastructure Modification Actions</a>
       </div>
-      <div id="card-element-aws-action11" class="panel-collapse collapse">
+      <div id="card-element-aws-action10" class="panel-collapse collapse">
         <div class="card-body">
           <pre><code>
 [
@@ -4441,9 +4315,9 @@ Actions:
     
     <div class="card">
       <div class="card-header">
-        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-11" href="#card-element-aws-risks11">High Priority risks</a>
+        <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-risks10">High Priority risks</a>
       </div>
-      <div id="card-element-aws-risks11" class="panel-collapse collapse">
+      <div id="card-element-aws-risks10" class="panel-collapse collapse">
         <div class="card-body">
   <div class="grid">
       <div class="row">

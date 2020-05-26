@@ -3,6 +3,9 @@
 ## Unreleased
 * Docker
 
+## 0.1.4 (2020-05-26)
+* Inline policies are now clearly mapped to their roles.
+
 ## 0.1.3 (2020-05-16)
 * Excel/CSV export capability
 * Table row selection capability
