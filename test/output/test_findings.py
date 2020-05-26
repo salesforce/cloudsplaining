@@ -102,6 +102,7 @@ class TestFindings(unittest.TestCase):
             "PolicyName": "MyPolicy",
             "Type": "User",
             "Arn": "arn:aws:iam::123456789012:user/SomeUser",
+            "AttachedToPrincipal": "SomeUser",
             "ActionsCount": 1,
             "ServicesCount": 1,
             "Services": [
@@ -169,7 +170,7 @@ class TestFindings(unittest.TestCase):
         all_findings.add_group_finding(group_finding)
         all_findings.add_role_finding(role_finding)
         all_findings.add_policy_finding(policy_finding)
-        print(len(all_findings))
+        # print(len(all_findings))
         self.assertEqual(len(all_findings), 4)
         results = all_findings.json
         expected_results = [
@@ -180,6 +181,7 @@ class TestFindings(unittest.TestCase):
                 "PolicyName": "AWSLambdaFullAccess",
                 "Type": "Policy",
                 "Arn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+                'AttachedToPrincipal': None,
                 "ActionsCount": 1,
                 "ServicesCount": 1,
                 "Services": [
@@ -215,6 +217,7 @@ class TestFindings(unittest.TestCase):
                 "PolicyName": "MyPolicy",
                 "Type": "User",
                 "Arn": "arn:aws:iam::123456789012:user/SomeUser",
+                'AttachedToPrincipal': "SomeUser",
                 "ActionsCount": 1,
                 "ServicesCount": 1,
                 "Services": [
@@ -250,6 +253,7 @@ class TestFindings(unittest.TestCase):
                 "PolicyName": "MyPolicy",
                 "Type": "Group",
                 "Arn": "arn:aws:iam::123456789012:group/SomeGroup",
+                'AttachedToPrincipal': "SomeGroup",
                 "ActionsCount": 1,
                 "ServicesCount": 1,
                 "Services": [
@@ -285,6 +289,7 @@ class TestFindings(unittest.TestCase):
                 "PolicyName": "MyPolicy",
                 "Type": "Role",
                 "Arn": "arn:aws:iam::123456789012:role/SomeRole",
+                'AttachedToPrincipal': "SomeRole",
                 "ActionsCount": 1,
                 "ServicesCount": 1,
                 "Services": [
@@ -331,6 +336,7 @@ class TestFindings(unittest.TestCase):
             }
         ]
         # print(json.dumps(all_findings.json, indent=4))
+        self.maxDiff = None
         self.assertListEqual(results, expected_results)
 
 
@@ -525,6 +531,7 @@ class TestNewFinding(unittest.TestCase):
             "PolicyName": "MyPolicy",
             "Type": "Group",
             "Arn": "arn:aws:iam::123456789012:group/SNSNotifications",
+            "AttachedToPrincipal": None,
             "ActionsCount": 1,
             "ServicesCount": 1,
             "Services": [
@@ -553,7 +560,7 @@ class TestNewFinding(unittest.TestCase):
             ],
             "PermissionsManagementActions": [],
         }
-        # print(json.dumps(finding.json, indent=4))
+        print(json.dumps(finding.json, indent=4))
         self.maxDiff = None
         self.assertDictEqual(finding.json, expected_finding_json)
 

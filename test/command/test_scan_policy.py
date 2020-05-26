@@ -27,6 +27,7 @@ class PolicyFileTestCase(unittest.TestCase):
             "Name": "test",
             "Type": "",
             "Arn": "test",
+            "AttachedToPrincipal": None,
             "ActionsCount": 4,
             "ServicesCount": 1,
             "Services": [
@@ -106,6 +107,7 @@ class PolicyFileTestCase(unittest.TestCase):
             "Name": "test",
             "Type": "",
             "Arn": "test",
+            "AttachedToPrincipal": None,
             "ActionsCount": 2,
             "ServicesCount": 2,
             "Services": [

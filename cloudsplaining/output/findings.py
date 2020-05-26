@@ -1,7 +1,7 @@
 """Holds all the finding classes"""
 import logging
 from operator import itemgetter
-from policy_sentry.util.arns import get_resource_string, get_account_from_arn
+from policy_sentry.util.arns import get_resource_string, get_account_from_arn, get_resource_path_from_arn
 from cloudsplaining.shared.exclusions import (
     is_name_excluded,
     Exclusions,
@@ -167,6 +167,7 @@ class Finding:
         exclusions=DEFAULT_EXCLUSIONS,
         assume_role_policy_document=None,
         attached_managed_policies=None,
+        attached_to_principal=None,
     ):
         self.policy_name = policy_name
         self.arn = arn
@@ -190,6 +191,7 @@ class Finding:
         self.attached_managed_policies = self._attached_managed_policies(
             attached_managed_policies
         )
+        self.attached_to_principal = attached_to_principal
 
     def _actions(self, actions):
         """Set the actions"""
@@ -312,6 +314,7 @@ class Finding:
             "PolicyName": self.policy_name,
             "Type": self.type,
             "Arn": self.arn,
+            "AttachedToPrincipal": self.attached_to_principal,
             # "ActionsCount": self.actions_count,
             # "ServicesCount": self.services_count,
             "ActionsCount": len(self.actions),
@@ -354,8 +357,10 @@ class UserFinding(Finding):
             policy_document,
             exclusions=exclusions,
             attached_managed_policies=attached_managed_policies,
+            attached_to_principal=get_resource_path_from_arn(arn)
         )
         self.group_membership = self._group_membership(group_membership)
+        self.attached_to_principal = get_resource_path_from_arn(self.arn)
 
     # pylint: disable=no-self-use
     def _group_membership(self, group_membership):
@@ -424,6 +429,7 @@ class GroupFinding(Finding):
             policy_document,
             exclusions=exclusions,
             attached_managed_policies=attached_managed_policies,
+            attached_to_principal=get_resource_path_from_arn(arn)
         )
         # Group members
         self.members = members
@@ -489,6 +495,7 @@ class RoleFinding(Finding):
             exclusions=exclusions,
             assume_role_policy_document=assume_role_policy_document,
             attached_managed_policies=attached_managed_policies,
+            attached_to_principal=get_resource_path_from_arn(arn)
         )
 
     def is_excluded(self, exclusions):

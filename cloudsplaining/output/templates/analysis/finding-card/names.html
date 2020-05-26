@@ -6,6 +6,8 @@
       <br>
       Infrastructure Modification Actions: {{ finding["ActionsCount"] }}
       <br>
+      Type: {% if finding["Type"] == "Policy" %}Managed{% else %}Inline{% endif %} Policy
+      <br>
     {% if finding["AssumableByComputeService"]|length > 0 %}
       Role Assumable by Service(s): {% for service in finding["AssumableByComputeService"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %}
     {% endif %}
@@ -16,7 +18,7 @@
           <div class="alert alert-danger" role="alert">Privilege Escalation</div>
         {% endif %}
         {% if finding["DataExfiltrationActions"]|length > 0 %}
-          <div class="alert alert-warning" role="alert">Data Leak</div>
+          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
         {% endif %}
         {% if finding["PermissionsManagementActions"]|length > 0 %}
           <div class="alert alert-danger" role="alert">Resource Exposure</div>
