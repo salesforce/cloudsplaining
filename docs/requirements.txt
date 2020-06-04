@@ -3,6 +3,6 @@ click==7.1.2
 Jinja2==2.11.2
 livereload==2.6.1
 lunr==0.5.8
-Markdown==3.2.1
+Markdown==3.2.2
 PyYAML==5.3.1
 tornado==6.0.4
