@@ -1,5 +1,5 @@
 mkdocs==1.1.2
-click==7.0
+click==7.1.2
 Jinja2==2.11.2
 livereload==2.6.1
 lunr==0.5.6
