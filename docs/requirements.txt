@@ -6,3 +6,4 @@ lunr==0.5.8
 Markdown==3.2.2
 PyYAML==5.3.1
 tornado==6.0.4
+nltk>=3.2.5
