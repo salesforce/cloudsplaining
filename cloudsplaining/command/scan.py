@@ -102,10 +102,10 @@ def scan(
                 account_authorization_details_cfg = json.loads(contents)
                 check_authorization_details_schema(account_authorization_details_cfg)
             account_name = Path(file).stem
-            scan_account_authorization_details(
+            rendered_html_report = scan_account_authorization_details(
                 account_authorization_details_cfg, exclusions, output, all_access_levels, skip_open_report, account_name, write_data_files=True
             )
-            html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
+            html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
 
             with open(html_output_file, "w") as f:
                 f.write(rendered_html_report)
