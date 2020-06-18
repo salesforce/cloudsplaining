@@ -6,6 +6,7 @@ from cloudsplaining.command.scan import scan_account_authorization_details
 from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.validation import check_authorization_details_schema
 
 example_results_file = os.path.abspath(os.path.join(
     os.path.dirname(__file__),
@@ -66,4 +67,21 @@ class PolicyFileTestCase(unittest.TestCase):
         # webbrowser.open(url, new=2)
 
     def test_scan_authz_details_and_output_html_as_string(self):
-        scan_account_authorization_details()
+        example_authz_details_file = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                os.path.pardir,
+                "files",
+                "example-authz-details.json",
+            )
+        )
+        with open(example_authz_details_file, "r") as json_file:
+            cfg = json.load(json_file)
+            decision = check_authorization_details_schema(cfg)
+        self.assertTrue(decision)
+
+        rendered_html_report = scan_account_authorization_details(
+            cfg, DEFAULT_EXCLUSIONS, output=os.getcwd(), all_access_levels=False, skip_open_report=True, account_name="Something",
+            write_data_files=False
+        )
+        print(rendered_html_report)
