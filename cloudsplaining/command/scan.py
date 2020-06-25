@@ -18,9 +18,9 @@ from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
-from cloudsplaining.output.html_report import generate_html_report
 from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 from cloudsplaining.output.data_file import write_results_data_file
+from cloudsplaining.output.report import HTMLReport
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -51,13 +51,6 @@ click_log.basic_config(logger)
     help="Output directory.",
 )
 @click.option(
-    "--all-access-levels",
-    required=False,
-    default=False,
-    is_flag=True,
-    help="Include 'read' or 'list' actions in the results. Defaults to 'modify' only actions",
-)
-@click.option(
     "--skip-open-report",
     required=False,
     default=False,
@@ -68,7 +61,7 @@ click_log.basic_config(logger)
 @click_log.simple_verbosity_option()
 # pylint: disable=redefined-builtin
 def scan(
-    input, exclusions_file, output, all_access_levels, skip_open_report
+    input, exclusions_file, output, skip_open_report
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -87,8 +80,11 @@ def scan(
 
     if os.path.isfile(input):
         account_name = Path(input).stem
+        with open(input) as f:
+            contents = f.read()
+            account_authorization_details_cfg = json.loads(contents)
         scan_account_authorization_details(
-            input, exclusions, output, all_access_levels, skip_open_report, account_name, write_data_files=True
+            account_authorization_details_cfg, exclusions, output, account_name, write_data_files=True
         )
     if os.path.isdir(input):
         logger.info(
@@ -100,10 +96,11 @@ def scan(
             with open(file) as f:
                 contents = f.read()
                 account_authorization_details_cfg = json.loads(contents)
-                check_authorization_details_schema(account_authorization_details_cfg)
+
             account_name = Path(file).stem
+            # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
-                account_authorization_details_cfg, exclusions, output, all_access_levels, skip_open_report, account_name, write_data_files=True
+                account_authorization_details_cfg, exclusions, output, account_name, write_data_files=True
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
 
@@ -120,32 +117,22 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg, exclusions, output, all_access_levels, skip_open_report, account_name="default", write_data_files=False
+    account_authorization_details_cfg, exclusions, output_directory, account_name="default", write_data_files=False
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
     """
 
-    # Scan authorization details. Defaults to modify-only permissions
-    if all_access_levels:
-        logger.debug(
-            "--all-access-levels selected. Identifying all actions that are not leveraging resource "
-            "constraints..."
-        )
-        authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-        results = authorization_details.missing_resource_constraints(
-            exclusions, modify_only=False
-        )
-    else:
-        logger.debug(
-            "--all-access-levels NOT selected. Identifying modify-only actions that are not leveraging "
-            "resource constraints..."
-        )
-        authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-        results = authorization_details.missing_resource_constraints(
-            exclusions, modify_only=True
-        )
+    logger.debug(
+        "Identifying modify-only actions that are not leveraging "
+        "resource constraints..."
+    )
+    check_authorization_details_schema(account_authorization_details_cfg)
+    authorization_details = AuthorizationDetails(account_authorization_details_cfg)
+    results = authorization_details.missing_resource_constraints(
+        exclusions, modify_only=True
+    )
 
     principal_policy_mapping = authorization_details.principal_policy_mapping
     # For the IAM Principals tab, add on risk stats per principal
@@ -187,28 +174,24 @@ def scan_account_authorization_details(
             account_id = item["AccountID"]
             break
 
-    # HTML report
-    output_directory = output
-
-    # Account metadata
-    account_metadata = {
-        "account_name": account_name,
-        "account_id": account_id,
-        "customer_managed_policies": len(
-            authorization_details.customer_managed_policies_in_use
-        ),
-        "aws_managed_policies": len(authorization_details.aws_managed_policies_in_use),
-    }
+    html_report = HTMLReport(
+        account_id=account_id,
+        account_name=account_name,
+        results=results,
+        exclusions_cfg=exclusions,
+        principal_policy_mapping=principal_policy_mapping
+    )
+    rendered_report = html_report.get_html_report()
 
     # Raw data file
     if write_data_files:
-        raw_data_file = os.path.join(output, f"iam-results-{account_name}.json")
+        raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
         raw_data_filepath = write_results_data_file(results, raw_data_file)
         print(f"Raw data file saved: {str(raw_data_filepath)}")
 
         # Principal policy mapping
         principal_policy_mapping_file = os.path.join(
-            output, f"iam-principals-{account_name}.json"
+            output_directory, f"iam-principals-{account_name}.json"
         )
         principal_policy_mapping_filepath = write_results_data_file(
             principal_policy_mapping, principal_policy_mapping_file
@@ -218,14 +201,7 @@ def scan_account_authorization_details(
         # Create the CSV triage sheet
         create_triage_worksheet(account_name, results, output_directory)
 
-    print("Creating the HTML Report")
-    rendered_html_report = generate_html_report(
-        account_metadata,
-        results,
-        principal_policy_mapping,
-        exclusions.config,
-    )
-    return rendered_html_report
+    return rendered_report
 
 
 def get_authorization_files_in_directory(directory):  # pragma: no cover
