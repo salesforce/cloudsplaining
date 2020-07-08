@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 set -ex
-# Suppress annoying warnings
-export PIPENV_VERBOSITY=-1
 
-pip3 install pipenv
-pipenv install --dev
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
 
-pipenv run invoke test.lint
-pipenv run invoke build.uninstall-package
-pipenv run invoke build.install-package
-pipenv run invoke test.security
-pipenv run invoke unit.pytest
+invoke test.lint
+invoke build.uninstall-package
+invoke build.install-package
+invoke test.security
+invoke unit.pytest
 
-pipenv run invoke integration.version
-pipenv run invoke integration.expand-policy
-pipenv run invoke integration.scan
+invoke integration.version
+invoke integration.expand-policy
+invoke integration.scan
 
-pipenv run invoke docs.build-docs
+invoke docs.build-docs
