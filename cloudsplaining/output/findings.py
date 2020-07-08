@@ -134,7 +134,7 @@ class Findings:
                 these_findings.append(finding.json)
         # Policies
         policies_in_use = self.policies_in_use()
-
+        logger.debug("Policies in use: %s", str(policies_in_use))
         policies_in_use_lowercase = [x.lower() for x in policies_in_use]
         for finding in self.policies:
             if finding.policy_name.lower() in policies_in_use_lowercase:
