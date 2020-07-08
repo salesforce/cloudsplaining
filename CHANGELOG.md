@@ -3,9 +3,9 @@
 ## Unreleased
 * Docker
 
-
 ## 0.1.5 (Unreleased)
 * Made callable via script to partially fix #39
+* Move to virtualenv instead of Pipenv
 
 ## 0.1.4 (2020-05-26)
 * Inline policies are now clearly mapped to their roles.

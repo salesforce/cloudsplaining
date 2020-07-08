@@ -1,20 +1,21 @@
 # Contributing
 
-We use Pipenv for package management. PyInvoke is used for storing common commands.
+We use Virtualenv for package management instead of Pipenv or Poetry. PyInvoke is used for storing common commands.
 
-## Pipenv
+## Virtual environment
 
 ```bash
-pipenv --python 3.7  # create the environment
-pipenv shell         # start the environment
-pipenv install       # install both development and production dependencies
+# Set up the virtual environment
+python3 -m venv ./venv && source venv/bin/activate
+pip3 install -r requirements.txt
+pip3 install -r requirements-dev.txt
 ```
 
 
 ## Invoke
-To run and develop Policy Sentry without having to install from PyPi, you can use Invoke.
+To run and develop Cloudsplaining without having to install from PyPi, you can use Invoke.
 
-```bash
+```
 # List available tasks
 invoke -l
 

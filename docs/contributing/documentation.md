@@ -2,18 +2,30 @@
 
 ## ReadTheDocs
 
-You can contribute to the User Guide and ReadTheDocs documentation itself by editing the
-Markdown files in the `docs/` folder.
+If you're looking to help document Cloudsplaining, your first step is to
+get set up with Mkdocs, our documentation tool. First you will want to
+make sure you have a few things on your local system:
 
-To see what it looks like, enter your Pipenv and run the PyInvoke command to build the docs:
+-   python-dev (if you're on OS X, you already have this)
+-   pip
+
+Once you've got all that, the rest is simple:
 
 ```bash
-pipenv shell
-pipenv install --dev
-invoke docs.build-docs
-```
+# If you have a fork, you'll want to clone it instead
+git clone git@github.com:salesforce/cloudsplaining.git
 
-Then open your browser to [http://127.0.0.1:8000](http://127.0.0.1:8000) to view the documentation.
+# Set up the virtual environment
+python3 -m venv ./venv && source venv/bin/activate
+pip3 install -r requirements.txt
+pip3 install -r requirements-dev.txt
+
+# Create the HTML files
+invoke docs.build-docs
+invoke docs.serve-docs
+
+# The above will open the built documentation in your browser
+```
 
 ## Report Guidance documents
 
