@@ -137,7 +137,7 @@ class PolicyFileTestCase(unittest.TestCase):
         self.assertTrue(decision)
 
         rendered_html_report = scan_account_authorization_details(
-            cfg, DEFAULT_EXCLUSIONS, output_directory=os.getcwd(), account_name="Something",
+            cfg, DEFAULT_EXCLUSIONS, account_name="Something", output_directory=os.getcwd(),
             write_data_files=False
         )
         print(rendered_html_report)

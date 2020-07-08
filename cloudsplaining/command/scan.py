@@ -84,7 +84,7 @@ def scan(
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
         scan_account_authorization_details(
-            account_authorization_details_cfg, exclusions, output, account_name, write_data_files=True
+            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
         )
     if os.path.isdir(input):
         logger.info(
@@ -100,7 +100,7 @@ def scan(
             account_name = Path(file).stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
-                account_authorization_details_cfg, exclusions, output, account_name, write_data_files=True
+                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
 
@@ -117,7 +117,7 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg, exclusions, output_directory, account_name="default", write_data_files=False
+    account_authorization_details_cfg, exclusions, account_name="default", output_directory=None, write_data_files=False
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -166,7 +166,6 @@ def scan_account_authorization_details(
                         if principal_name not in finding["Principals"]:
                             finding["Principals"].append(principal_name)
 
-
     # Lazy method to get an account ID
     account_id = None
     for item in results:
@@ -185,6 +184,9 @@ def scan_account_authorization_details(
 
     # Raw data file
     if write_data_files:
+        if output_directory is None:
+            output_directory = os.getcwd()
+
         raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
         raw_data_filepath = write_results_data_file(results, raw_data_file)
         print(f"Raw data file saved: {str(raw_data_filepath)}")
