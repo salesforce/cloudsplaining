@@ -3,7 +3,7 @@
 ## Unreleased
 * Docker
 
-## 0.1.5 (Unreleased)
+## 0.1.5 (2020-07-08)
 * Made callable via script to partially fix #39
 * Move to virtualenv instead of Pipenv
 
