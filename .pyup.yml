@@ -3,7 +3,9 @@
 
 schedule: every month
 requirements:
-  - Pipfile:
+  - requirements-dev.txt:
+      update: all
+  - requirements.txt:
       update: all
   - docs/requirements.txt:
       update: insecure

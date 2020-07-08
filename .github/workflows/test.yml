@@ -15,16 +15,16 @@ jobs:
         with:
           python-version: 3.7
 
-      - name: Install dependencies with pipenv
+      - name: Install dependencies
         run: |
-          pip install pipenv
-          pipenv install --dev --skip-lock
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
-      - run: pipenv run invoke build.install-package
-      - run: pipenv run invoke test.lint
-      - run: pipenv run invoke test.security
-      - run: pipenv run invoke unit.pytest
-      - run: pipenv run invoke integration.version
-      - run: pipenv run invoke integration.expand-policy
-      - run: pipenv run invoke integration.scan
-      - run: pipenv run invoke build.uninstall-package
+      - run: invoke build.install-package
+      - run: invoke test.lint
+      - run: invoke test.security
+      - run: invoke unit.pytest
+      - run: invoke integration.version
+      - run: invoke integration.expand-policy
+      - run: invoke integration.scan
+      - run: invoke build.uninstall-package
