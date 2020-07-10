@@ -1,9 +1,29 @@
 <div class="card">
-  <h6 class="card-header" id="{{ finding['PolicyName'] }}">
+  <h6 class="card-header" id="{{ finding['PolicyName'] }}{% if finding['AttachedToPrincipal'] %}{{ finding['AttachedToPrincipal'] }}{% endif %}">
     Name: {{ finding["PolicyName"] }}
     <br>
     <br>
     Type: {% if finding["Type"] == "Policy" %}{{ finding["ManagedBy"] }}-Managed {{ finding["Type"] }}{% else %}Inline {{ finding["Type"] }} Policy{% endif %}
+  {% if finding["Type"] == "Policy" %}
+  {% if "Principals" in finding %}
+<br>
+<br>
+    Attached to Principal(s):
+{% for principal in finding["Principals"] %}
+<br>
+- {{ principal }}{% endfor %}
+{% endif %}
+<!--/Policies Attached to principals-->
+  {% else %}
+<!--Inline Policies - identify which ones are attached to which principal-->
+<!--This will only apply if finding["Type"] != "Policy"-->
+  {% if finding["AttachedToPrincipal"] %}
+<br>
+<br>
+Attached to Principal: {{ finding["AttachedToPrincipal"] }}
+  {% endif %}
+{% endif %}
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
