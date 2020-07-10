@@ -39,7 +39,7 @@
       <tr>
         <td></td>
         <td>{% if finding["Type"] == "Policy" %}{{ finding["ManagedBy"] }}-Managed {{ finding["Type"] }}{% else %}Inline {{ finding["Type"] }} Policy{% endif %}</td>
-        <td><a href="#{{ finding['PolicyName'] }}">{{ finding['PolicyName'] }}</a></td>
+        <td><a href="#{{ finding['PolicyName'] }}{% if finding['AttachedToPrincipal'] %}{{ finding['AttachedToPrincipal'] }}{% endif %}">{{ finding['PolicyName'] }}</a></td>
         <td>{% if finding["Type"] == "Policy" %}{% else %}{{ finding['Name'] }}{% endif %}</td>
         <td>{{ finding["ServicesCount"] }}</td>
         <td><p style="max-height: 100px; overflow: scroll;">{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %}</p></td>
