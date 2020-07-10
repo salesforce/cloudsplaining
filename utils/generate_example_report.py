@@ -1,6 +1,8 @@
 #! /usr/bin/env python
-from cloudsplaining.output.html_report import generate_html_report
+# from cloudsplaining.output.report import generate_html_report
+from cloudsplaining.command.scan import scan_account_authorization_details
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS
 import os
 import webbrowser
 import json
@@ -31,6 +33,19 @@ with open(example_principal_policy_mapping_file) as json_file:
     example_principal_policy_mapping = json.load(json_file)
 
 
+account_authorization_details_file = os.path.abspath(os.path.join(
+        os.path.dirname(__file__),
+        os.path.pardir,
+        "examples",
+        "files",
+        "example.json",
+    )
+)
+
+with open(account_authorization_details_file) as json_file:
+    account_authorization_details_cfg = json.load(json_file)
+
+
 def generate_example_report():
     output_directory = os.getcwd()
     account_name = "fake"
@@ -41,12 +56,10 @@ def generate_example_report():
         "aws_managed_policies": 30,  # Fake value
     }
 
-    rendered_html_report = generate_html_report(
-        account_metadata,
-        example_results,
-        example_principal_policy_mapping,
-        DEFAULT_EXCLUSIONS_CONFIG
+    rendered_html_report = scan_account_authorization_details(
+        account_authorization_details_cfg, DEFAULT_EXCLUSIONS, account_name="example"
     )
+    # html_output_file = os.path.join(output_directory, f"index.html")
     html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
 
     with open(html_output_file, "w") as f:
