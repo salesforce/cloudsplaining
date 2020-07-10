@@ -1,5 +1,5 @@
 <div class="card">
-  <h6 class="card-header" id="{{ finding['PolicyName'] }}">
+  <h6 class="card-header" id="{{ finding['PolicyName'] }}{% if finding['AttachedToPrincipal'] %}{{ finding['AttachedToPrincipal'] }}{% endif %}">
     Name: {{ finding["PolicyName"] }}
     <br>
     <br>
