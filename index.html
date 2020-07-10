@@ -45,6 +45,16 @@
     div.principals-table {
       word-wrap: break-word;
     }
+    .tooltip.show p {
+      text-align: justify;
+      white-space: pre-line;
+    }
+    .tooltip.show li {
+      text-align:left;
+    }
+    .tooltip-inner {
+      max-width: 100% !important;
+    }
   </style>
 
 </head>
@@ -141,15 +151,16 @@
             <br>
             <h4>Report metadata</h4>
             <ul>
-              <li>Account: fake (000011112222)</li>
-              <li>Report Generated: 2020-05-26</li>
-              <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.3</a></li>
+              <li>Account: example (012345678901)</li>
+              <li>Report Generated: 2020-07-10</li>
+              <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.5</a></li>
             </ul>
             <br>
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
             <p style="text-align: justify">
-  <p>This report contains the security assessment results from <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like <a href="#definition-privilege-escalation">Privilege Escalation</a>, <a href="#definition-resource-exposure">Resource Exposure</a>, <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, and <a href="#definition-data-exfiltration">Data Exfiltration</a>. Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.</p>
+<!--  <p>This report contains the security assessment results from <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like <a href="#definition-privilege-escalation">Privilege Escalation</a>, <a href="#definition-resource-exposure">Resource Exposure</a>, <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, and <a href="#definition-data-exfiltration">Data Exfiltration</a>. Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.</p>-->
+  <p>This report contains the security assessment results from <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks in IAM policies like <a href="#definition-privilege-escalation" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Privilege Escalation" data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'>Privilege Escalation</a>, <a href="#definition-resource-exposure" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</a>, <a href="#definition-infrastructure-modification" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</a>, and <a href="#definition-data-exfiltration" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</a>. Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.</p>
 <br>
 <br>
 <div class="row">
@@ -160,32 +171,58 @@
   <tr>
     <th>Risk</th>
     <th>Instances</th>
-    <th><a href="#definition-impact">Impact</a></th>
+<!--    <th><a href="#definition-impact">Impact</a></th>-->
+    <th>
+      <a href="#definition-impact"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top"
+         title="Impact"
+         data-content='
+<p>The impact the risk would have on an organization if such a vulnerability were successfully exploited is rated according to criteria listed below. Note that these ratings are based on NIST 800-30 impact definitions.</p>
+<ul>
+<li><strong>Critical</strong>: The issue causes multiple severe or catastrophic effects on operations, assets or other organizations.</li>
+<li><strong>High</strong>: Causes produces severe degradation in mission capability to the point that the organization is not able to perform primary functions or results in damage to organizational assets.</li>
+<li><strong>Medium</strong>: Trigger degradation in mission capability to an extent the application is able to perform its primary functions, but their effectiveness is reduced and there may be damage to the organization&quot;s assets.</li>
+<li><strong>Low</strong>: Results in limited degradation in mission capability; the organization is able to perform its primary functions, but their effectiveness is noticeably reduced and may result in minor damage to the organization&quot;s assets.</li>
+</ul>
+'
+         >Impact
+      </div></a>
+    </th>
   </tr>
 </thead>
 <tbody>
   
   <tr>
-    <td><a href="#definition-privilege-escalation">Privilege Escalation</a></td>
+    <td>
+      <a href="#definition-privilege-escalation"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top"
+         title="Privilege Escalation"
+         data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
+         >Privilege Escalation
+      </div></a>
+    </td>
     <td style="background-color: #F18E73">3</td>
     <td style="background-color: #F18E73">Critical</td>
   </tr>
   
   
   <tr>
-    <td><a href="#definition-resource-exposure">Resource Exposure</a></td>
+    <td>
+      <a href="#definition-resource-exposure"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</div></a>
+    </td>
     <td style="background-color: #FFB660">12</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
   <tr>
-    <td><a href="#definition-infrastructure-modification">Infrastructure Modification</a></td>
+    <td>
+      <a href="#definition-infrastructure-modification"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</div></a>
+    </td>
     <td style="background-color: #FFB660">16</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
   
     <tr>
-    <td><a href="#definition-data-exfiltration">Data Exfiltration</a></td>
+    <td>
+      <a href="#definition-data-exfiltration"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</div></a>
     <td style="background-color: #FFE295;">7</td>
     <td style="background-color: #FFE295;">Medium</td>
   </tr>
@@ -672,7 +709,7 @@
   The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with. It only includes policies that (1) have findings and (2) are currently used in the account.   If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
   <br>
   <br>
-  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-privilege-escalation" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Privilege Escalation" data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'>Privilege Escalation</a>, <a href="#definition-resource-exposure" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</a>, <a href="#definition-infrastructure-modification" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</a>, and <a href="#definition-data-exfiltration" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
   <br>
   <br>
   If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
@@ -690,7 +727,7 @@
   <thead>
      <tr>
        <th></th>
-       <th>Inline or Managed</th>
+<!--       <th>Inline or Managed</th>-->
        <th>Type</th>
        <th>Policy Name</th>
        <th>Principal Name</th>
@@ -730,8 +767,8 @@
     
       <tr>
         <td></td>
-        <td>Inline</td>
-        <td>Group</td>
+<!--        <td>Inline</td>-->
+        <td>Inline Group Policy</td>
         <td><a href="#InlinePolicyForAdminGroup">InlinePolicyForAdminGroup</a></td>
         <td>admin</td>
         <td>1</td>
@@ -747,8 +784,8 @@
     
       <tr>
         <td></td>
-        <td>Managed</td>
-        <td>Policy</td>
+<!--        <td>Managed</td>-->
+        <td>Customer-Managed Policy</td>
         <td><a href="#InsecurePolicy">InsecurePolicy</a></td>
         <td></td>
         <td>1</td>
@@ -764,8 +801,8 @@
     
       <tr>
         <td></td>
-        <td>Inline</td>
-        <td>User</td>
+<!--        <td>Inline</td>-->
+        <td>Inline User Policy</td>
         <td><a href="#InsecureUserPolicy">InsecureUserPolicy</a></td>
         <td>userwithlotsofpermissions</td>
         <td>1</td>
@@ -781,8 +818,8 @@
     
       <tr>
         <td></td>
-        <td>Inline</td>
-        <td>Role</td>
+<!--        <td>Inline</td>-->
+        <td>Inline Role Policy</td>
         <td><a href="#MyOtherRolePolicy">MyOtherRolePolicy</a></td>
         <td>MyOtherRole</td>
         <td>2</td>
@@ -798,8 +835,8 @@
     
       <tr>
         <td></td>
-        <td>Inline</td>
-        <td>Role</td>
+<!--        <td>Inline</td>-->
+        <td>Inline Role Policy</td>
         <td><a href="#OverprivilegedEC2">OverprivilegedEC2</a></td>
         <td>OverprivilegedEC2</td>
         <td>3</td>
@@ -847,7 +884,12 @@
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="InlinePolicyForAdminGroup">Group: InlinePolicyForAdminGroup</h6>
+  <h6 class="card-header" id="InlinePolicyForAdminGroup">
+    Name: InlinePolicyForAdminGroup
+    <br>
+    <br>
+    Type: Inline Group Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -862,10 +904,16 @@
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -1046,7 +1094,12 @@ admin
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="InsecurePolicy">Policy: InsecurePolicy</h6>
+  <h6 class="card-header" id="InsecurePolicy">
+    Name: InsecurePolicy
+    <br>
+    <br>
+    Type: Customer-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -1062,7 +1115,10 @@ admin
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -1182,7 +1238,12 @@ admin
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="InsecureUserPolicy">User: InsecureUserPolicy</h6>
+  <h6 class="card-header" id="InsecureUserPolicy">
+    Name: InsecureUserPolicy
+    <br>
+    <br>
+    Type: Inline User Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -1197,10 +1258,16 @@ admin
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -1331,7 +1398,12 @@ userwithlotsofpermissions
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="MyOtherRolePolicy">Role: MyOtherRolePolicy</h6>
+  <h6 class="card-header" id="MyOtherRolePolicy">
+    Name: MyOtherRolePolicy
+    <br>
+    <br>
+    Type: Inline Role Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 2
@@ -1349,10 +1421,21 @@ userwithlotsofpermissions
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
-          <div class="alert alert-info" role="alert">Role Assumable by Compute Service</div>
+          <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Role Assumable by Compute Service"
+               data-content='
+               <p>
+               IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.
+
+               For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.
+               </p>'
+               role="alert">Role Assumable by Compute Service</div>
         
       </div><!-- /card-footer -->
    </div><!-- /card -->
@@ -1512,7 +1595,12 @@ MyOtherRole
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="OverprivilegedEC2">Role: OverprivilegedEC2</h6>
+  <h6 class="card-header" id="OverprivilegedEC2">
+    Name: OverprivilegedEC2
+    <br>
+    <br>
+    Type: Inline Role Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 3
@@ -1528,16 +1616,34 @@ MyOtherRole
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
-          <div class="alert alert-danger" role="alert">Privilege Escalation</div>
+          <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Privilege Escalation"
+               data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
+               role="alert">Privilege Escalation
+          </div>
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
-          <div class="alert alert-info" role="alert">Role Assumable by Compute Service</div>
+          <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Role Assumable by Compute Service"
+               data-content='
+               <p>
+               IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.
+
+               For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.
+               </p>'
+               role="alert">Role Assumable by Compute Service</div>
         
       </div><!-- /card-footer -->
    </div><!-- /card -->
@@ -1719,7 +1825,7 @@ Actions:
 <br>
 <p style="text-align: justify">
   The following table shows a list of <a href="definition-aws-managed-policy">AWS-managed IAM Policies</a> that (1) have findings and (2) are currently used in the account.
-  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-privilege-escalation" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Privilege Escalation" data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'>Privilege Escalation</a>, <a href="#definition-resource-exposure" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</a>, <a href="#definition-infrastructure-modification" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</a>, and <a href="#definition-data-exfiltration" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
   <br>
   <br>
   Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the <a href="#remediation-prioritization">Prioritization Guidance</a> and <a href="#triage-triaging-considerations">Triaging Considerations</a>. Consider using all of the Guidance criteria when reviewing this report as well.
@@ -1912,7 +2018,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AWSCloudTrailFullAccess">Policy: AWSCloudTrailFullAccess</h6>
+  <h6 class="card-header" id="AWSCloudTrailFullAccess">
+    Name: AWSCloudTrailFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 4
@@ -1927,10 +2038,16 @@ Actions:
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -2133,7 +2250,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AWSCodeCommitFullAccess">Policy: AWSCodeCommitFullAccess</h6>
+  <h6 class="card-header" id="AWSCodeCommitFullAccess">
+    Name: AWSCodeCommitFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 4
@@ -2445,7 +2567,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AWSKeyManagementServicePowerUser">Policy: AWSKeyManagementServicePowerUser</h6>
+  <h6 class="card-header" id="AWSKeyManagementServicePowerUser">
+    Name: AWSKeyManagementServicePowerUser
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -2550,7 +2677,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AWSLambdaFullAccess">Policy: AWSLambdaFullAccess</h6>
+  <h6 class="card-header" id="AWSLambdaFullAccess">
+    Name: AWSLambdaFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 12
@@ -2564,13 +2696,23 @@ Actions:
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
-          <div class="alert alert-danger" role="alert">Privilege Escalation</div>
+          <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Privilege Escalation"
+               data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
+               role="alert">Privilege Escalation
+          </div>
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -2941,7 +3083,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AmazonEC2FullAccess">Policy: AmazonEC2FullAccess</h6>
+  <h6 class="card-header" id="AmazonEC2FullAccess">
+    Name: AmazonEC2FullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 5
@@ -2957,7 +3104,10 @@ Actions:
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -3294,7 +3444,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AmazonRDSFullAccess">Policy: AmazonRDSFullAccess</h6>
+  <h6 class="card-header" id="AmazonRDSFullAccess">
+    Name: AmazonRDSFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 4
@@ -3310,7 +3465,10 @@ Actions:
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -3540,7 +3698,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AmazonS3FullAccess">Policy: AmazonS3FullAccess</h6>
+  <h6 class="card-header" id="AmazonS3FullAccess">
+    Name: AmazonS3FullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -3555,10 +3718,16 @@ Actions:
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -3727,7 +3896,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AmazonS3ReadOnlyAccess">Policy: AmazonS3ReadOnlyAccess</h6>
+  <h6 class="card-header" id="AmazonS3ReadOnlyAccess">
+    Name: AmazonS3ReadOnlyAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -3742,7 +3916,10 @@ Actions:
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
         
-          <div class="alert alert-warning" role="alert">Data Exfiltration</div>
+          <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Data Exfiltration"
+               data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
+               role="alert">Data Exfiltration</div>
         
         
         
@@ -3849,7 +4026,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="AmazonSESFullAccess">Policy: AmazonSESFullAccess</h6>
+  <h6 class="card-header" id="AmazonSESFullAccess">
+    Name: AmazonSESFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -3960,7 +4142,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="CloudWatchFullAccess">Policy: CloudWatchFullAccess</h6>
+  <h6 class="card-header" id="CloudWatchFullAccess">
+    Name: CloudWatchFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 3
@@ -3976,7 +4163,10 @@ Actions:
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -4141,7 +4331,12 @@ Actions:
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="IAMFullAccess">Policy: IAMFullAccess</h6>
+  <h6 class="card-header" id="IAMFullAccess">
+    Name: IAMFullAccess
+    <br>
+    <br>
+    Type: AWS-Managed Policy
+  </h6>
     <div class="card-body">
     <p class="card-text">
       Services: 1
@@ -4155,11 +4350,18 @@ Actions:
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
         
-          <div class="alert alert-danger" role="alert">Privilege Escalation</div>
+          <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
+               title="Privilege Escalation"
+               data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
+               role="alert">Privilege Escalation
+          </div>
         
         
         
-          <div class="alert alert-danger" role="alert">Resource Exposure</div>
+          <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
+               title="Resource Exposure"
+               data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
+               role="alert">Resource Exposure</div>
         
         
       </div><!-- /card-footer -->
@@ -4630,40 +4832,6 @@ exclude-actions:
 <!--Guidance: Remediation-->
 <h3 id="remediation-guidance">Remediation</h3>
 <p>
-<div id="remediation-prioritization"> <h5>Prioritizing Remediation</h5></div>
-
-<p>Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.</p>
-<p><strong>High priority risks</strong>:</p>
-<p>These include Privilege Escalation, Data Exfiltration, and Potential Resource Exposure/Permissions management. This report highlights each finding that has these high priority risks.</p>
-<p><strong>Moving from AWS Managed Policies over to custom policies</strong>:</p>
-<p>AWS managed policies always include access to <code>*</code> resources because AWS provides these same policies universally to all customer accounts. If this report flags  any AWS-managed policies, it means that the account/service owner team will not only have to implement resource constraints - they will have to create a custom IAM policy to do so. To limit this work, it is best to migrate away from the root cause of the problem - using AWS managed policies.</p>
-<p>You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.</p>
-<div id="remediation-technical-remediation"> <h5>Remediating the Findings</h5></div>
-
-<p>We suggest two options for remediating each finding:
-<div id="remediation-guidance-pt2-bullet-points">
-<ul>
-  <li>Leveraging <a href="https://github.com/salesforce/policy_sentry/">Policy Sentry</a>, courtesy of <a href="https://twitter.com/kmcquade3">Kinnaird McQuade</a>, which generates policies with resource ARN constraints at user-specified access levels automagically.</li>
-  <li>Manually rewriting the policies</li>
-</ul>
-</div></p>
-<p><strong>Leveraging Policy Sentry</strong></p>
-<p>For guidance on how to use Policy Sentry, please see the documentation <a href="https://github.com/salesforce/policy_sentry/#writing-secure-policies-based-on-resource-constraints-and-access-levels">here</a>. This is highly suggested - within 10 minutes of learning the tool, creating a secure IAM policy becomes a matter of:
-<div id="remediation-guidance-pt2-bullet-points-2">
-<ul>
-  <li>Generating the YAML template with <code>policy_sentry create-template --output-file crud.yml --template-type crud</code></li>
-  <li>Literally copying/pasting resource ARNs into the template</li>
-  <li>Running <code>policy_sentry write-policy --input-file crud.yml</code></li>
-</ul>
-</div></p>
-<p><strong>Manually rewriting the IAM Policies</strong></p>
-<p>For guidance on how to write secure IAM Policies by hand, see the tutorial <a href="https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc#6997">here</a>. Just be aware - you'll spend a lot of time looking at the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">AWS Documentation on IAM Actions, Resources, and Condition Keys</a>, which can become quite tedious and time-consuming.</p>
-<br>
-<br>
-
-<!--Guidance: Validation-->
-<h3 id="validation-guidance">Validation</h3>
-<p>
 <div id="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
 
 <p>After you've rewritten your IAM policy, we suggest two options for validating that it will pass Cloudsplaining and alleviate any remaining concerns:</p>
@@ -4696,6 +4864,13 @@ exclude-actions:
 <p>This library duplicates (and adds to!) much of the functionality in the web console page when reviewing IAM policies in the browser.</p>
 <p>You can use Parliament to scan your IAM policy with the following command:</p>
 <p><code>parliament --file policy.json</code></p>
+<br>
+<br>
+
+<!--Guidance: Validation-->
+<h3 id="validation-guidance">Validation</h3>
+<p>
+
 <br>
 <br>
 </div>
@@ -4771,31 +4946,6 @@ exclude-actions:
         <p>The Cloudsplaining exclusions configuration is shown below. You can leverage this to ensure reusability, for next time you run the scan.</p>
 <pre><code>
 </code>
-exclude-actions:
-- ''
-groups:
-- ''
-include-actions:
-- s3:GetObject
-- ssm:GetParameter
-- ssm:GetParameters
-- ssm:GetParametersByPath
-- secretsmanager:GetSecretValue
-- rds:CopyDBSnapshot
-- rds:CreateDBSnapshot
-policies:
-- AWSServiceRoleFor*
-- '*ServiceRolePolicy'
-- '*ServiceLinkedRolePolicy'
-- AdministratorAccess
-- service-role*
-- aws-service-role*
-- MyRole
-roles:
-- service-role*
-- aws-service-role*
-users:
-- ''
 
 </pre>
 
@@ -4818,6 +4968,8 @@ users:
 
 <!-- JQuery-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <!--Popper-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
@@ -5072,6 +5224,30 @@ $(document).ready(function() {
  });
 </script>
 
+<script>
+   $(document).ready(function(){
+       $('[data-toggle="tooltip"]').tooltip();
+   });
+</script>
+
+<!--When hovering over a popover (like the alerts for each finding) have a definition pop up)-->
+<script>
+  $('[data-toggle="popover"]').popover({ trigger: "manual" , html: true, animation:false})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+});
+</script>
 
 </body>
 </html>

@@ -3,6 +3,13 @@
 ## Unreleased
 * Docker
 
+## 0.1.6 (2020-07-10)
+UI:
+* Definitions for Risk types are now available via Popovers. Fixes #66
+* Renamed "Group", "User", "Role" as "Inline Group Policy", "Inline User Policy", and "Inline Role Policy" respectively. Addresses #63
+* Fixes links to the inline policies in case there are duplicate names. Addresses #63
+* Moves "Attached to Principal(s)" to the Finding card instead of in the finding details in case there are duplicate policy names. Fixes #63
+
 ## 0.1.5 (2020-07-08)
 * Made callable via script to partially fix #39
 * Move to virtualenv instead of Pipenv

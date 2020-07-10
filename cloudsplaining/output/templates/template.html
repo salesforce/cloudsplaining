@@ -45,6 +45,16 @@
     div.principals-table {
       word-wrap: break-word;
     }
+    .tooltip.show p {
+      text-align: justify;
+      white-space: pre-line;
+    }
+    .tooltip.show li {
+      text-align:left;
+    }
+    .tooltip-inner {
+      max-width: 100% !important;
+    }
   </style>
 
 </head>
@@ -163,11 +173,11 @@
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
             <br>
             <!--Summary: Customer-managed policies-->
-            <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
+            <h3 id="customer-managed-policies-summary">Findings: Customer-Managed and Inline Policies</h3>
             {% include 'summary/customer-managed.html' %}
 
             <!--Analysis: Customer-managed-policies-->
-            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed and inline Policies</h3>
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-Managed and Inline Policies</h3>
             {% include 'analysis/customer-managed.html' %}
           </div><!--/end CUSTOMER-MANAGED TAB-->
 
@@ -176,12 +186,12 @@
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
             <br>
             <!--Summary: AWS-managed policies-->
-            <h3 id="aws-managed-policies-summary">Findings: AWS-managed Policies</h3>
+            <h3 id="aws-managed-policies-summary">Findings: AWS-Managed Policies</h3>
             <br>
             {% include 'summary/aws-managed.html' %}
 
             <!--Analysis: AWS-managed-policies-->
-            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-Managed Policies</h3>
             <br>
             {% include 'analysis/aws-managed.html' %}
 
@@ -223,6 +233,8 @@
 
 <!-- JQuery-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <!--Popper-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
@@ -477,6 +489,30 @@ $(document).ready(function() {
  });
 </script>
 
+<script>
+   $(document).ready(function(){
+       $('[data-toggle="tooltip"]').tooltip();
+   });
+</script>
+
+<!--When hovering over a popover (like the alerts for each finding) have a definition pop up)-->
+<script>
+  $('[data-toggle="popover"]').popover({ trigger: "manual" , html: true, animation:false})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+});
+</script>
 
 </body>
 </html>
