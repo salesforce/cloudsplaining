@@ -153,7 +153,7 @@
             <ul>
               <li>Account: example (012345678901)</li>
               <li>Report Generated: 2020-07-10</li>
-              <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.5</a></li>
+              <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.6</a></li>
             </ul>
             <br>
             <!--Executive Summary-->
@@ -703,13 +703,13 @@
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
             <br>
             <!--Summary: Customer-managed policies-->
-            <h3 id="customer-managed-policies-summary">Findings: Customer-managed and inline Policies</h3>
+            <h3 id="customer-managed-policies-summary">Findings: Customer-Managed and Inline Policies</h3>
             <br>
 <p style="text-align: justify">
-  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with. It only includes policies that (1) have findings and (2) are currently used in the account.   If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-infrastructure-modification">Infrastructure Modification</a>, <a href="#definition-privilege-escalation">Privilege Escalation</a>,  <a href="#definition-resource-exposure">Resource Exposure</a>, or <a href="#definition-data-exfiltration">Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
+  The following table shows a list of Customer created IAM Policies that are currently used in the account - both <a href="#definition-managed-policy">Managed Policies</a> and <a href="#definition-inline-policy">Inline Policies</a>. If the policy is an inline policy, the table indicates the <a href="#definition-principal">IAM Principal</a> that the inline policy is associated with. It only includes policies that (1) have findings and (2) are currently used in the account.
   <br>
   <br>
-  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-privilege-escalation" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Privilege Escalation" data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'>Privilege Escalation</a>, <a href="#definition-resource-exposure" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</a>, <a href="#definition-infrastructure-modification" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</a>, and <a href="#definition-data-exfiltration" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table.
+  If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - <a href="#definition-privilege-escalation" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Privilege Escalation" data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'>Privilege Escalation</a>, <a href="#definition-resource-exposure" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</a>, <a href="#definition-infrastructure-modification" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</a>, and <a href="#definition-data-exfiltration" class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</a> - then the number of occurrences per-policy and per-risk is included in the table. <b>If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.</b>
   <br>
   <br>
   If the IAM principal is a Role and is <a href="#definition-roles-assumable-by-compute-services">assumable by a Compute Service</a> - <code>ec2</code>, <code>ecs-tasks</code>, <code>lambda</code>, or <code>eks</code> - then that is indicated in the table as well.
@@ -727,7 +727,6 @@
   <thead>
      <tr>
        <th></th>
-<!--       <th>Inline or Managed</th>-->
        <th>Type</th>
        <th>Policy Name</th>
        <th>Principal Name</th>
@@ -767,9 +766,8 @@
     
       <tr>
         <td></td>
-<!--        <td>Inline</td>-->
         <td>Inline Group Policy</td>
-        <td><a href="#InlinePolicyForAdminGroup">InlinePolicyForAdminGroup</a></td>
+        <td><a href="#InlinePolicyForAdminGroupadmin">InlinePolicyForAdminGroup</a></td>
         <td>admin</td>
         <td>1</td>
         <td><p style="max-height: 100px; overflow: scroll;">s3</p></td>
@@ -784,7 +782,6 @@
     
       <tr>
         <td></td>
-<!--        <td>Managed</td>-->
         <td>Customer-Managed Policy</td>
         <td><a href="#InsecurePolicy">InsecurePolicy</a></td>
         <td></td>
@@ -801,9 +798,8 @@
     
       <tr>
         <td></td>
-<!--        <td>Inline</td>-->
         <td>Inline User Policy</td>
-        <td><a href="#InsecureUserPolicy">InsecureUserPolicy</a></td>
+        <td><a href="#InsecureUserPolicyuserwithlotsofpermissions">InsecureUserPolicy</a></td>
         <td>userwithlotsofpermissions</td>
         <td>1</td>
         <td><p style="max-height: 100px; overflow: scroll;">s3</p></td>
@@ -818,9 +814,8 @@
     
       <tr>
         <td></td>
-<!--        <td>Inline</td>-->
         <td>Inline Role Policy</td>
-        <td><a href="#MyOtherRolePolicy">MyOtherRolePolicy</a></td>
+        <td><a href="#MyOtherRolePolicyMyOtherRole">MyOtherRolePolicy</a></td>
         <td>MyOtherRole</td>
         <td>2</td>
         <td><p style="max-height: 100px; overflow: scroll;">ec2, iam</p></td>
@@ -835,9 +830,8 @@
     
       <tr>
         <td></td>
-<!--        <td>Inline</td>-->
         <td>Inline Role Policy</td>
-        <td><a href="#OverprivilegedEC2">OverprivilegedEC2</a></td>
+        <td><a href="#OverprivilegedEC2OverprivilegedEC2">OverprivilegedEC2</a></td>
         <td>OverprivilegedEC2</td>
         <td>3</td>
         <td><p style="max-height: 100px; overflow: scroll;">iam, s3, secretsmanager</p></td>
@@ -855,7 +849,7 @@
 <br>
 
             <!--Analysis: Customer-managed-policies-->
-            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-managed and inline Policies</h3>
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-Managed and Inline Policies</h3>
             
   
 
@@ -884,11 +878,21 @@
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="InlinePolicyForAdminGroup">
+  <h6 class="card-header" id="InlinePolicyForAdminGroupadmin">
     Name: InlinePolicyForAdminGroup
     <br>
     <br>
     Type: Inline Group Policy
+  
+<!--Inline Policies - identify which ones are attached to which principal-->
+<!--This will only apply if finding["Type"] != "Policy"-->
+  
+<br>
+<br>
+Attached to Principal: admin
+  
+
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -1099,6 +1103,18 @@ admin
     <br>
     <br>
     Type: Customer-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- OverprivilegedEC2
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -1238,11 +1254,21 @@ admin
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="InsecureUserPolicy">
+  <h6 class="card-header" id="InsecureUserPolicyuserwithlotsofpermissions">
     Name: InsecureUserPolicy
     <br>
     <br>
     Type: Inline User Policy
+  
+<!--Inline Policies - identify which ones are attached to which principal-->
+<!--This will only apply if finding["Type"] != "Policy"-->
+  
+<br>
+<br>
+Attached to Principal: userwithlotsofpermissions
+  
+
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -1398,11 +1424,21 @@ userwithlotsofpermissions
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="MyOtherRolePolicy">
+  <h6 class="card-header" id="MyOtherRolePolicyMyOtherRole">
     Name: MyOtherRolePolicy
     <br>
     <br>
     Type: Inline Role Policy
+  
+<!--Inline Policies - identify which ones are attached to which principal-->
+<!--This will only apply if finding["Type"] != "Policy"-->
+  
+<br>
+<br>
+Attached to Principal: MyOtherRole
+  
+
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -1595,11 +1631,21 @@ MyOtherRole
 <div class="row">
   <div class="col-md-5">
     <div class="card">
-  <h6 class="card-header" id="OverprivilegedEC2">
+  <h6 class="card-header" id="OverprivilegedEC2OverprivilegedEC2">
     Name: OverprivilegedEC2
     <br>
     <br>
     Type: Inline Role Policy
+  
+<!--Inline Policies - identify which ones are attached to which principal-->
+<!--This will only apply if finding["Type"] != "Policy"-->
+  
+<br>
+<br>
+Attached to Principal: OverprivilegedEC2
+  
+
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -1819,7 +1865,7 @@ Actions:
           <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel" aria-labelledby="nav-aws-managed-tab">
             <br>
             <!--Summary: AWS-managed policies-->
-            <h3 id="aws-managed-policies-summary">Findings: AWS-managed Policies</h3>
+            <h3 id="aws-managed-policies-summary">Findings: AWS-Managed Policies</h3>
             <br>
             <span class="badge badge-default"></span>
 <br>
@@ -2010,7 +2056,7 @@ Actions:
 <br>
 
             <!--Analysis: AWS-managed-policies-->
-            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-managed Policies</h3>
+            <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-Managed Policies</h3>
             <br>
             
   
@@ -2023,6 +2069,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- obama
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -2255,6 +2313,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- obama
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -2572,6 +2642,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -2682,6 +2764,26 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- admin
+<br>
+- MyOtherRole
+<br>
+- MyRole
+<br>
+- obama
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -3088,6 +3190,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- obama
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -3449,6 +3563,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -3703,6 +3829,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- obama
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -3901,6 +4039,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -4031,6 +4181,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -4147,6 +4309,22 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- MyRole
+<br>
+- obama
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">
@@ -4336,6 +4514,18 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
+  
+  
+<br>
+<br>
+    Attached to Principal(s):
+
+<br>
+- userwithlotsofpermissions
+
+<!--/Policies Attached to principals-->
+  
+<!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
     <p class="card-text">

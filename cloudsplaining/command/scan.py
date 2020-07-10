@@ -83,9 +83,25 @@ def scan(
         with open(input) as f:
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
-        scan_account_authorization_details(
+        rendered_html_report = scan_account_authorization_details(
             account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
         )
+        html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
+        logger.info("Saving the report to %s", html_output_file)
+        if os.path.exists(html_output_file):
+            os.remove(html_output_file)
+
+        with open(html_output_file, "w") as f:
+            f.write(rendered_html_report)
+
+        print(f"Wrote HTML results to: {html_output_file}")
+
+        # Open the report by default
+        if not skip_open_report:
+            print("Opening the HTML report")
+            url = "file://%s" % os.path.abspath(html_output_file)
+            webbrowser.open(url, new=2)
+
     if os.path.isdir(input):
         logger.info(
             "The path given is a directory. Scanning for account authorization files and generating report."
@@ -103,6 +119,9 @@ def scan(
                 account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
+            logger.info("Saving the report to %s", html_output_file)
+            if os.path.exists(html_output_file):
+                os.remove(html_output_file)
 
             with open(html_output_file, "w") as f:
                 f.write(rendered_html_report)

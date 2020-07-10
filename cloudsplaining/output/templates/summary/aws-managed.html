@@ -31,7 +31,7 @@
     {% if finding["ManagedBy"] == "AWS" %}
       <tr>
         <td></td>
-        <td><a href="#{{ finding['PolicyName'] }}">{{ finding['PolicyName'] }}</a></td>
+        <td><a href="#{{ finding['PolicyName'] }}{% if finding['AttachedToPrincipal'] %}{{ finding['AttachedToPrincipal'] }}{% endif %}">{{ finding['PolicyName'] }}</a></td>
         <td>{{ finding["ServicesCount"] }}</td>
         <td><p style="max-height: 100px; overflow: scroll;">{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %}</p></td>
         <td>{{ finding["ActionsCount"] }}</td>
