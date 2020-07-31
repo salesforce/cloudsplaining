@@ -32,10 +32,15 @@ def create_triage_worksheet(account_name, results, output_directory):
         writer.writeheader()
         # Write customer findings first
         for finding in results:
+            finding_type = get_resource_string(finding["Arn"]).split("/")[0]
             if finding["ManagedBy"] == "Customer":
+                if finding_type.lower() == "policy":
+                    this_finding_type = "Customer-Managed Policy"
+                else:
+                    this_finding_type = f"Inline {finding_type.capitalize()} Policy"
                 entry = {
                     "PolicyName": finding["PolicyName"],
-                    "Type": get_resource_string(finding["Arn"]).split("/")[0],
+                    "Type": this_finding_type,
                     "ManagedBy": finding["ManagedBy"],
                     "Services": finding["ServicesCount"],
                     "Actions": finding["ActionsCount"],
@@ -47,7 +52,7 @@ def create_triage_worksheet(account_name, results, output_directory):
             if finding["ManagedBy"] == "AWS":
                 entry = {
                     "PolicyName": finding["PolicyName"],
-                    "Type": "Policy",
+                    "Type": "AWS-Managed Policy",
                     "ManagedBy": finding["ManagedBy"],
                     "Services": finding["ServicesCount"],
                     "Actions": finding["ActionsCount"],
