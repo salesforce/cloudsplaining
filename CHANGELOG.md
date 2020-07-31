@@ -3,6 +3,10 @@
 ## Unreleased
 * Docker
 
+## 0.1.7 (Unreleased)
+* UI: Fixed an issue where the Remediation guidance was not showing up in the resulting report. Fixes #70
+* Triage Worksheet: Made the values under the Triage worksheet "Type" column more specific - i.e., AWS-Managed Policy, Customer-Managed Policy, Inline Group Policy, Inline User Policy, or Inline Role Policy. Before, it just said "group", "role", "user", or "Policy", which didn't help much.
+
 ## 0.1.6 (2020-07-10)
 UI:
 * Definitions for Risk types are now available via Popovers. Fixes #66
