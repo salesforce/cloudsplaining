@@ -152,7 +152,7 @@
             <h4>Report metadata</h4>
             <ul>
               <li>Account: example (012345678901)</li>
-              <li>Report Generated: 2020-07-10</li>
+              <li>Report Generated: 2020-07-31</li>
               <li>Cloudsplaining version: <a href="https://github.com/salesforce/cloudsplaining/releases">0.1.6</a></li>
             </ul>
             <br>
@@ -5022,6 +5022,40 @@ exclude-actions:
 <!--Guidance: Remediation-->
 <h3 id="remediation-guidance">Remediation</h3>
 <p>
+<div id="remediation-prioritization"> <h5>Prioritizing Remediation</h5></div>
+
+<p>Depending on the existing workload of the engineering team addressing your concerns, the team might ask to address high priority items first rather than addressing all items, especially if the report is quite large. In this scenario, consider instructing the team to address High Priority Risks and the usage of AWS-Managed Policies first.</p>
+<p><strong>High priority risks</strong>:</p>
+<p>These include Privilege Escalation, Data Exfiltration, and Potential Resource Exposure/Permissions management. This report highlights each finding that has these high priority risks.</p>
+<p><strong>Moving from AWS Managed Policies over to custom policies</strong>:</p>
+<p>AWS managed policies always include access to <code>*</code> resources because AWS provides these same policies universally to all customer accounts. If this report flags  any AWS-managed policies, it means that the account/service owner team will not only have to implement resource constraints - they will have to create a custom IAM policy to do so. To limit this work, it is best to migrate away from the root cause of the problem - using AWS managed policies.</p>
+<p>You can then queue the work for remediating the other Customer-managed policies that do not have the High-Priority Risks attributes. Implementing resource ARN constraints for True Positives is still important, since overly permissive "Write" actions can cause modification or deletion of AWS resources by a bad actor with compromised credentials, resulting in downtime.</p>
+<div id="remediation-technical-remediation"> <h5>Remediating the Findings</h5></div>
+
+<p>We suggest two options for remediating each finding:
+<div id="remediation-guidance-pt2-bullet-points">
+<ul>
+  <li>Leveraging <a href="https://github.com/salesforce/policy_sentry/">Policy Sentry</a>, courtesy of <a href="https://twitter.com/kmcquade3">Kinnaird McQuade</a>, which generates policies with resource ARN constraints at user-specified access levels automagically.</li>
+  <li>Manually rewriting the policies</li>
+</ul>
+</div></p>
+<p><strong>Leveraging Policy Sentry</strong></p>
+<p>For guidance on how to use Policy Sentry, please see the documentation <a href="https://github.com/salesforce/policy_sentry/#writing-secure-policies-based-on-resource-constraints-and-access-levels">here</a>. This is highly suggested - within 10 minutes of learning the tool, creating a secure IAM policy becomes a matter of:
+<div id="remediation-guidance-pt2-bullet-points-2">
+<ul>
+  <li>Generating the YAML template with <code>policy_sentry create-template --output-file crud.yml --template-type crud</code></li>
+  <li>Literally copying/pasting resource ARNs into the template</li>
+  <li>Running <code>policy_sentry write-policy --input-file crud.yml</code></li>
+</ul>
+</div></p>
+<p><strong>Manually rewriting the IAM Policies</strong></p>
+<p>For guidance on how to write secure IAM Policies by hand, see the tutorial <a href="https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc#6997">here</a>. Just be aware - you'll spend a lot of time looking at the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">AWS Documentation on IAM Actions, Resources, and Condition Keys</a>, which can become quite tedious and time-consuming.</p>
+<br>
+<br>
+
+<!--Guidance: Validation-->
+<h3 id="validation-guidance">Validation</h3>
+<p>
 <div id="validation-guidance-description"> <h5>Validating remediated policies</h5></div>
 
 <p>After you've rewritten your IAM policy, we suggest two options for validating that it will pass Cloudsplaining and alleviate any remaining concerns:</p>
@@ -5054,13 +5088,6 @@ exclude-actions:
 <p>This library duplicates (and adds to!) much of the functionality in the web console page when reviewing IAM policies in the browser.</p>
 <p>You can use Parliament to scan your IAM policy with the following command:</p>
 <p><code>parliament --file policy.json</code></p>
-<br>
-<br>
-
-<!--Guidance: Validation-->
-<h3 id="validation-guidance">Validation</h3>
-<p>
-
 <br>
 <br>
 </div>
