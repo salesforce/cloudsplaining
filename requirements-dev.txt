@@ -12,7 +12,7 @@ click==7.1.2
 click-log==0.3.2
 contextlib2==0.6.0.post1
 coverage==5.2.1
-docutils==0.15.2
+docutils==0.16
 dparse==0.5.1
 future==0.18.2
 gitdb==4.0.5
