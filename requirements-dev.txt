@@ -53,7 +53,7 @@ schema==0.7.3
 six==1.15.0
 smmap==3.0.4
 soupsieve==2.0.1
-stevedore==2.0.1
+stevedore==3.2.0
 toml==0.10.1
 tornado==6.0.4
 tqdm==4.47.0
