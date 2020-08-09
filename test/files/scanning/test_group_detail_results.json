@@ -1,0 +1,117 @@
+{
+    "arn": "arn:aws:iam::012345678901:group/biden",
+    "create_date": "2017-05-15 17:33:36+00:00",
+    "id": "aaaaaaaaabbbbbbbccccccc",
+    "inline_policies": {
+        "aa34bd9fd014aac832fde2210de0e3efeb0bd620": {
+            "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Sid": "VisualEditor0",
+                        "Effect": "Allow",
+                        "Action": [
+                            "s3:GetObject",
+                            "s3:PutObjectAcl"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            },
+            "Name": "InlinePolicyForBidenGroup"
+        }
+    },
+    "inline_policies_count": 1,
+    "path": "/",
+    "managed_policies_count": 1,
+    "managed_policies": {
+        "ANPAI3R4QMOG6Q5A4VWVG": {
+            "PolicyName": "AmazonRDSFullAccess",
+            "PolicyId": "ANPAI3R4QMOG6Q5A4VWVG",
+            "Arn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+            "Path": "/",
+            "DefaultVersionId": "v6",
+            "AttachmentCount": 1,
+            "IsAttachable": true,
+            "CreateDate": "2015-02-06 18:40:52+00:00",
+            "UpdateDate": "2018-04-09 17:42:48+00:00",
+            "PolicyVersionList": [
+                {
+                    "Document": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                            {
+                                "Action": [
+                                    "rds:*",
+                                    "application-autoscaling:DeleteScalingPolicy",
+                                    "application-autoscaling:DeregisterScalableTarget",
+                                    "application-autoscaling:DescribeScalableTargets",
+                                    "application-autoscaling:DescribeScalingActivities",
+                                    "application-autoscaling:DescribeScalingPolicies",
+                                    "application-autoscaling:PutScalingPolicy",
+                                    "application-autoscaling:RegisterScalableTarget",
+                                    "cloudwatch:DescribeAlarms",
+                                    "cloudwatch:GetMetricStatistics",
+                                    "cloudwatch:PutMetricAlarm",
+                                    "cloudwatch:DeleteAlarms",
+                                    "ec2:DescribeAccountAttributes",
+                                    "ec2:DescribeAvailabilityZones",
+                                    "ec2:DescribeInternetGateways",
+                                    "ec2:DescribeSecurityGroups",
+                                    "ec2:DescribeSubnets",
+                                    "ec2:DescribeVpcAttribute",
+                                    "ec2:DescribeVpcs",
+                                    "sns:ListSubscriptions",
+                                    "sns:ListTopics",
+                                    "sns:Publish",
+                                    "logs:DescribeLogStreams",
+                                    "logs:GetLogEvents"
+                                ],
+                                "Effect": "Allow",
+                                "Resource": "*"
+                            },
+                            {
+                                "Action": "pi:*",
+                                "Effect": "Allow",
+                                "Resource": "arn:aws:pi:*:*:metrics/rds/*"
+                            },
+                            {
+                                "Action": "iam:CreateServiceLinkedRole",
+                                "Effect": "Allow",
+                                "Resource": "*",
+                                "Condition": {
+                                    "StringLike": {
+                                        "iam:AWSServiceName": [
+                                            "rds.amazonaws.com",
+                                            "rds.application-autoscaling.amazonaws.com"
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "VersionId": "v6",
+                    "IsDefaultVersion": true,
+                    "CreateDate": "2018-04-09 17:42:48+00:00"
+                }
+            ],
+            "PrivilegeEscalation": [],
+            "DataExfiltrationActions": [],
+            "PermissionsManagementActions": [
+                "rds:AuthorizeDBSecurityGroupIngress",
+                "iam:CreateServiceLinkedRole"
+            ]
+        }
+    },
+    "risks": {
+        "PrivilegeEscalation": [],
+        "ResourceExposure": [
+            "iam:CreateServiceLinkedRole",
+            "rds:AuthorizeDBSecurityGroupIngress",
+            "s3:PutObjectAcl"
+        ],
+        "DataExfiltration": [
+            "s3:GetObject"
+        ]
+    }
+}

@@ -1,0 +1,354 @@
+{
+  "arn": "arn:aws:iam::012345678901:user/biden",
+  "create_date": "2019-12-18 19:10:08+00:00",
+  "id": "biden",
+  "inline_policies": {
+    "2aa369df5b582f102013e6d9bd12ae85ab843f45": {
+      "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+              "s3:PutObject",
+              "s3:PutObjectAcl",
+              "s3:GetObject"
+            ],
+            "Resource": [
+              "*"
+            ]
+          }
+        ]
+      },
+      "Name": "InsecureUserPolicy"
+    }
+  },
+  "inline_policies_count": 1,
+  "groups": {
+    "biden": {
+      "arn": "arn:aws:iam::012345678901:group/biden",
+      "create_date": "2017-05-15 17:33:36+00:00",
+      "id": "aaaaaaaaabbbbbbbccccccc",
+      "inline_policies": {
+        "aa34bd9fd014aac832fde2210de0e3efeb0bd620": {
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObjectAcl"
+                ],
+                "Resource": "*"
+              }
+            ]
+          },
+          "Name": "InlinePolicyForBidenGroup"
+        }
+      },
+      "inline_policies_count": 1,
+      "path": "/",
+      "managed_policies_count": 1,
+      "managed_policies": {
+        "ANPAI3R4QMOG6Q5A4VWVG": {
+          "PolicyName": "AmazonRDSFullAccess",
+          "PolicyId": "ANPAI3R4QMOG6Q5A4VWVG",
+          "Arn": "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+          "Path": "/",
+          "DefaultVersionId": "v6",
+          "AttachmentCount": 1,
+          "IsAttachable": true,
+          "CreateDate": "2015-02-06 18:40:52+00:00",
+          "UpdateDate": "2018-04-09 17:42:48+00:00",
+          "PolicyVersionList": [
+            {
+              "Document": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Action": [
+                      "rds:*",
+                      "application-autoscaling:DeleteScalingPolicy",
+                      "application-autoscaling:DeregisterScalableTarget",
+                      "application-autoscaling:DescribeScalableTargets",
+                      "application-autoscaling:DescribeScalingActivities",
+                      "application-autoscaling:DescribeScalingPolicies",
+                      "application-autoscaling:PutScalingPolicy",
+                      "application-autoscaling:RegisterScalableTarget",
+                      "cloudwatch:DescribeAlarms",
+                      "cloudwatch:GetMetricStatistics",
+                      "cloudwatch:PutMetricAlarm",
+                      "cloudwatch:DeleteAlarms",
+                      "ec2:DescribeAccountAttributes",
+                      "ec2:DescribeAvailabilityZones",
+                      "ec2:DescribeInternetGateways",
+                      "ec2:DescribeSecurityGroups",
+                      "ec2:DescribeSubnets",
+                      "ec2:DescribeVpcAttribute",
+                      "ec2:DescribeVpcs",
+                      "sns:ListSubscriptions",
+                      "sns:ListTopics",
+                      "sns:Publish",
+                      "logs:DescribeLogStreams",
+                      "logs:GetLogEvents"
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*"
+                  },
+                  {
+                    "Action": "pi:*",
+                    "Effect": "Allow",
+                    "Resource": "arn:aws:pi:*:*:metrics/rds/*"
+                  },
+                  {
+                    "Action": "iam:CreateServiceLinkedRole",
+                    "Effect": "Allow",
+                    "Resource": "*",
+                    "Condition": {
+                      "StringLike": {
+                        "iam:AWSServiceName": [
+                          "rds.amazonaws.com",
+                          "rds.application-autoscaling.amazonaws.com"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "VersionId": "v6",
+              "IsDefaultVersion": true,
+              "CreateDate": "2018-04-09 17:42:48+00:00"
+            }
+          ],
+          "PrivilegeEscalation": [],
+          "DataExfiltrationActions": [],
+          "PermissionsManagementActions": [
+            "rds:AuthorizeDBSecurityGroupIngress",
+            "iam:CreateServiceLinkedRole"
+          ]
+        }
+      },
+      "risks": {
+        "PrivilegeEscalation": [],
+        "ResourceExposure": [
+          "iam:CreateServiceLinkedRole",
+          "rds:AuthorizeDBSecurityGroupIngress",
+          "s3:PutObjectAcl"
+        ],
+        "DataExfiltration": [
+          "s3:GetObject"
+        ]
+      }
+    }
+  },
+  "path": "/",
+  "managed_policies_count": 1,
+  "managed_policies": {
+    "ANPAI6E2CYYMI4XI7AA5K": {
+      "PolicyName": "AWSLambdaFullAccess",
+      "PolicyId": "ANPAI6E2CYYMI4XI7AA5K",
+      "Arn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+      "Path": "/",
+      "DefaultVersionId": "v8",
+      "AttachmentCount": 1,
+      "IsAttachable": true,
+      "CreateDate": "2015-02-06 18:40:45+00:00",
+      "UpdateDate": "2017-11-27 23:22:38+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "cloudformation:DescribeChangeSet",
+                  "cloudformation:DescribeStackResources",
+                  "cloudformation:DescribeStacks",
+                  "cloudformation:GetTemplate",
+                  "cloudformation:ListStackResources",
+                  "cloudwatch:*",
+                  "cognito-identity:ListIdentityPools",
+                  "cognito-sync:GetCognitoEvents",
+                  "cognito-sync:SetCognitoEvents",
+                  "dynamodb:*",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
+                  "events:*",
+                  "iam:GetPolicy",
+                  "iam:GetPolicyVersion",
+                  "iam:GetRole",
+                  "iam:GetRolePolicy",
+                  "iam:ListAttachedRolePolicies",
+                  "iam:ListRolePolicies",
+                  "iam:ListRoles",
+                  "iam:PassRole",
+                  "iot:AttachPrincipalPolicy",
+                  "iot:AttachThingPrincipal",
+                  "iot:CreateKeysAndCertificate",
+                  "iot:CreatePolicy",
+                  "iot:CreateThing",
+                  "iot:CreateTopicRule",
+                  "iot:DescribeEndpoint",
+                  "iot:GetTopicRule",
+                  "iot:ListPolicies",
+                  "iot:ListThings",
+                  "iot:ListTopicRules",
+                  "iot:ReplaceTopicRule",
+                  "kinesis:DescribeStream",
+                  "kinesis:ListStreams",
+                  "kinesis:PutRecord",
+                  "kms:ListAliases",
+                  "lambda:*",
+                  "logs:*",
+                  "s3:*",
+                  "sns:ListSubscriptions",
+                  "sns:ListSubscriptionsByTopic",
+                  "sns:ListTopics",
+                  "sns:Publish",
+                  "sns:Subscribe",
+                  "sns:Unsubscribe",
+                  "sqs:ListQueues",
+                  "sqs:SendMessage",
+                  "tag:GetResources",
+                  "xray:PutTelemetryRecords",
+                  "xray:PutTraceSegments"
+                ],
+                "Resource": "*"
+              }
+            ]
+          },
+          "VersionId": "v8",
+          "IsDefaultVersion": true,
+          "CreateDate": "2017-11-27 23:22:38+00:00"
+        }
+      ],
+      "PrivilegeEscalation": [
+        {
+          "type": "PassExistingRoleToNewLambdaThenInvoke",
+          "actions": [
+            "iam:passrole",
+            "lambda:createfunction",
+            "lambda:invokefunction"
+          ]
+        },
+        {
+          "type": "PassExistingRoleToNewLambdaThenTriggerWithNewDynamo",
+          "actions": [
+            "iam:passrole",
+            "lambda:createfunction",
+            "lambda:createeventsourcemapping",
+            "dynamodb:createtable",
+            "dynamodb:putitem"
+          ]
+        },
+        {
+          "type": "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo",
+          "actions": [
+            "iam:passrole",
+            "lambda:createfunction",
+            "lambda:createeventsourcemapping"
+          ]
+        },
+        {
+          "type": "EditExistingLambdaFunctionWithRole",
+          "actions": [
+            "lambda:updatefunctioncode"
+          ]
+        }
+      ],
+      "DataExfiltrationActions": [
+        "s3:GetObject"
+      ],
+      "PermissionsManagementActions": [
+        "iam:PassRole",
+        "iot:AttachPrincipalPolicy",
+        "lambda:AddLayerVersionPermission",
+        "lambda:AddPermission",
+        "lambda:DisableReplication",
+        "lambda:EnableReplication",
+        "lambda:RemoveLayerVersionPermission",
+        "lambda:RemovePermission",
+        "logs:DeleteResourcePolicy",
+        "logs:PutResourcePolicy",
+        "s3:BypassGovernanceRetention",
+        "s3:DeleteAccessPointPolicy",
+        "s3:DeleteBucketPolicy",
+        "s3:ObjectOwnerOverrideToBucketOwner",
+        "s3:PutAccessPointPolicy",
+        "s3:PutAccountPublicAccessBlock",
+        "s3:PutBucketAcl",
+        "s3:PutBucketPolicy",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:PutObjectAcl",
+        "s3:PutObjectVersionAcl"
+      ]
+    }
+  },
+  "risks": {
+    "PrivilegeEscalation": [
+      {
+        "type": "PassExistingRoleToNewLambdaThenInvoke",
+        "actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:invokefunction"
+        ]
+      },
+      {
+        "type": "PassExistingRoleToNewLambdaThenTriggerWithNewDynamo",
+        "actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:createeventsourcemapping",
+          "dynamodb:createtable",
+          "dynamodb:putitem"
+        ]
+      },
+      {
+        "type": "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo",
+        "actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:createeventsourcemapping"
+        ]
+      },
+      {
+        "type": "EditExistingLambdaFunctionWithRole",
+        "actions": [
+          "lambda:updatefunctioncode"
+        ]
+      }
+    ],
+    "ResourceExposure": [
+      "iam:PassRole",
+      "iot:AttachPrincipalPolicy",
+      "lambda:AddLayerVersionPermission",
+      "lambda:AddPermission",
+      "lambda:DisableReplication",
+      "lambda:EnableReplication",
+      "lambda:RemoveLayerVersionPermission",
+      "lambda:RemovePermission",
+      "logs:DeleteResourcePolicy",
+      "logs:PutResourcePolicy",
+      "s3:BypassGovernanceRetention",
+      "s3:DeleteAccessPointPolicy",
+      "s3:DeleteBucketPolicy",
+      "s3:ObjectOwnerOverrideToBucketOwner",
+      "s3:PutAccessPointPolicy",
+      "s3:PutAccountPublicAccessBlock",
+      "s3:PutBucketAcl",
+      "s3:PutBucketPolicy",
+      "s3:PutBucketPublicAccessBlock",
+      "s3:PutObjectAcl",
+      "s3:PutObjectVersionAcl"
+    ],
+    "DataExfiltration": [
+      "s3:GetObject"
+    ]
+  }
+}

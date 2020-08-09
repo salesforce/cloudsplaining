@@ -24,7 +24,7 @@
             "obama",
             "userwithlotsofpermissions"
         ],
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21
@@ -59,7 +59,7 @@
         "ManagedBy": "AWS",
         "PolicyName": "AWSLambdaFullAccess",
         "GroupMembership": null,
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21
@@ -79,7 +79,7 @@
         "ManagedBy": "AWS",
         "PolicyName": "AWSLambdaFullAccess",
         "GroupMembership": null,
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21
@@ -171,7 +171,7 @@
         "GroupMembership": [
             "admin"
         ],
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21
@@ -185,7 +185,7 @@
         "GroupMembership": [
             "admin"
         ],
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21
@@ -303,7 +303,7 @@
         "GroupMembership": [
             "admin"
         ],
-        "Actions": 150,
+        "Actions": 151,
         "PrivilegeEscalation": 4,
         "DataExfiltrationActions": 1,
         "PermissionsManagementActions": 21

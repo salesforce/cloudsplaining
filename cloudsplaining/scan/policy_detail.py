@@ -19,6 +19,15 @@ class PolicyDetails:
         for policy_detail in policy_details:
             self.policy_details.append(PolicyDetail(policy_detail))
 
+    def get_policy_detail(self, arn):
+        """Get a PolicyDetail object by providing the ARN. This is useful to PrincipalDetail objects"""
+        result = None
+        for policy_detail in self.policy_details:
+            if policy_detail.arn == arn:
+                result = policy_detail
+                break
+        return result
+
 
 # pylint: disable=too-many-instance-attributes
 class PolicyDetail:
@@ -82,3 +91,44 @@ class PolicyDetail:
         else:
             account_id = get_account_from_arn(self.arn)
             return account_id
+
+    @property
+    def json(self):
+        """Return JSON output for high risk actions"""
+        result = dict(
+            PolicyName=self.policy_name,
+            PolicyId=self.policy_id,
+            Arn=self.arn,
+            Path=self.path,
+            DefaultVersionId=self.default_version_id,
+            AttachmentCount=self.attachment_count,
+            IsAttachable=self.is_attachable,
+            CreateDate=self.create_date,
+            UpdateDate=self.update_date,
+            PolicyVersionList=self.policy_version_list,
+            PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
+            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
+            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+        )
+        return result
+
+    @property
+    def json_large(self):
+        """Return JSON output - including Infra Modification actions, which can be large"""
+        result = dict(
+            PolicyName=self.policy_name,
+            PolicyId=self.policy_id,
+            Arn=self.arn,
+            Path=self.path,
+            DefaultVersionId=self.default_version_id,
+            AttachmentCount=self.attachment_count,
+            IsAttachable=self.is_attachable,
+            CreateDate=self.create_date,
+            UpdateDate=self.update_date,
+            PolicyVersionList=self.policy_version_list,
+            PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
+            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
+            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+            InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
+        )
+        return result
