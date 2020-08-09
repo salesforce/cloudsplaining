@@ -12,7 +12,7 @@ click==7.1.2
 click-log==0.3.2
 contextlib2==0.6.0.post1
 coverage==5.2.1
-docutils==0.16
+docutils<0.16,>=0.10
 dparse==0.5.1
 future==0.18.2
 gitdb==4.0.5
@@ -24,7 +24,7 @@ isort>=4.2.5,<5
 Jinja2==2.11.2
 jmespath==0.10.0
 joblib==0.16.0
-lazy-object-proxy==1.5.1
+lazy-object-proxy==1.4.*
 livereload==2.6.2
 lunr==0.5.8
 Markdown==3.2.2
@@ -38,7 +38,7 @@ packaging==20.4
 pathspec==0.8.0
 pbr==5.4.5
 pluggy==0.13.1
-policy-sentry==0.8.0.7
+policy-sentry==0.8.2
 py==1.9.0
 pylint==2.5.3
 pyparsing==2.4.7

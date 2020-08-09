@@ -451,7 +451,7 @@
         "Type": "Policy",
         "Arn": "arn:aws:iam::aws:policy/AWSLambdaFullAccess",
         "AttachedToPrincipal": null,
-        "ActionsCount": 150,
+        "ActionsCount": 151,
         "ServicesCount": 12,
         "Services": [
             "cloudwatch",
@@ -513,6 +513,7 @@
             "events:DeleteRule",
             "events:DisableRule",
             "events:EnableRule",
+            "events:PutEvents",
             "events:PutRule",
             "events:PutTargets",
             "events:RemoveTargets",

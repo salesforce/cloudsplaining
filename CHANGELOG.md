@@ -3,9 +3,10 @@
 ## Unreleased
 * Docker
 
-## 0.1.7 (Unreleased)
+## 0.1.7 (2020-08-09)
 * UI: Fixed an issue where the Remediation guidance was not showing up in the resulting report. Fixes #70
 * Triage Worksheet: Made the values under the Triage worksheet "Type" column more specific - i.e., AWS-Managed Policy, Customer-Managed Policy, Inline Group Policy, Inline User Policy, or Inline Role Policy. Before, it just said "group", "role", "user", or "Policy", which didn't help much.
+* Added some backend methods that do not change the functionality. This will help with the eventual UI uplift (and helps with an additional side project)
 
 ## 0.1.6 (2020-07-10)
 UI:
