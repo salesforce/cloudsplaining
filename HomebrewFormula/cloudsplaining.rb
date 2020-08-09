@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/13/6a/a227937c96e8727de23331ae2dae121c2326b987809b95dba9e75107663c/cloudsplaining-0.1.6.tar.gz"
-  sha256 "a77968463053adea511ddf0fa47689867091f3aa026f29412eb13ea20544aec2"
+  url "https://files.pythonhosted.org/packages/82/ac/31035265bde6a2dde9c2ee46eb2d94fc43577efe72e46f70b0d15e045ba3/cloudsplaining-0.1.7.tar.gz"
+  sha256 "6e20dbe303abc1a8e53c9c2a48dd0ae573fdbc0f41a215780532e9177335315d"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/bc/9c/960e500e3108dc43966cbf56861575786d068089c17c581f6efbfa228aab/boto3-1.14.20.tar.gz"
-    sha256 "e6ab26155b2f83798218106580ab2b3cd47691e25aba912e0351502eda8d86e0"
+    url "https://files.pythonhosted.org/packages/cf/8f/830bd2d1b3e8d5f93732e33aef7750975a9ad7cb76fd266d608ddbc4b840/boto3-1.14.38.tar.gz"
+    sha256 "3aad418cb5a20f522f3d0267caefb5582324f5af60fe093ace12e69847cf72cd"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/98/89/388651fcd98d8b9be63c44e356e28c24f742259cea507c13f501e623a4fc/botocore-1.17.20.tar.gz"
-    sha256 "d1bf8c2085719221683edf54913c6155c68705f26ab4a72c45e4de5176a8cf7b"
+    url "https://files.pythonhosted.org/packages/9c/84/3462efe5ffc16d5ca861dd420ef8e582218d024b1a2f8a31ed71c2fda64b/botocore-1.17.38.tar.gz"
+    sha256 "37de221e9b9ba8a3225387d7a4d5313d55ff78e32a2986cce682cb21418b9ee3"
   end
 
   resource "certifi" do
@@ -124,8 +124,8 @@ class Cloudsplaining < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/05/8c/40cd6949373e23081b3ea20d5594ae523e681b6f472e600fbc95ed046a36/urllib3-1.25.9.tar.gz"
-    sha256 "3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527"
+    url "https://files.pythonhosted.org/packages/81/f4/87467aeb3afc4a6056e1fe86626d259ab97e1213b1dfec14c7cb5f538bf0/urllib3-1.25.10.tar.gz"
+    sha256 "91056c15fa70756691db97756772bb1eb9678fa585d9184f24534b100dc60f4a"
   end
 
   resource "zipp" do
