@@ -5,6 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from hashlib import sha1
 from policy_sentry.querying.actions import (
     get_action_data,
     remove_actions_not_matching_access_level,
@@ -78,3 +79,13 @@ def get_full_policy_path(arn):
 def capitalize_first_character(some_string):
     """Description: Capitalizes the first character of a string"""
     return " ".join("".join([w[0].upper(), w[1:].lower()]) for w in some_string.split())
+
+
+def get_non_provider_id(name):
+    """
+    Not all resources have an ID and some services allow the use of "." in names, which breaks our recursion scheme
+    if name is used as an ID. Use SHA1(name) instead.
+    """
+    name_hash = sha1()  # nosec
+    name_hash.update(name.encode('utf-8'))
+    return name_hash.hexdigest()
