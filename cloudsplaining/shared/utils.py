@@ -86,6 +86,6 @@ def get_non_provider_id(name):
     Not all resources have an ID and some services allow the use of "." in names, which breaks our recursion scheme
     if name is used as an ID. Use SHA1(name) instead.
     """
-    name_hash = sha1()
+    name_hash = sha1()  # nosec
     name_hash.update(name.encode('utf-8'))
     return name_hash.hexdigest()
