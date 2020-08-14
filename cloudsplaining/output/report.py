@@ -55,7 +55,7 @@ class HTMLReport:
             policies_with_data_leak_potential=self.policies_with_data_leak_potential,
             policies_with_privilege_escalation=self.policies_with_privilege_escalation,
             policies_with_permissions_management=self.policies_with_permissions_management,
-            exclusions_configiuration=yaml.dump(self.exclusions_cfg),
+            exclusions_configuration=yaml.dump(self.exclusions_cfg),
         )
         # HTML Report template
         template_path = os.path.join(os.path.dirname(__file__), "templates")
