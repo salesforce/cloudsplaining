@@ -5164,6 +5164,58 @@ exclude-actions:
         <p>The Cloudsplaining exclusions configuration is shown below. You can leverage this to ensure reusability, for next time you run the scan.</p>
 <pre><code>
 </code>
+!!python/object:cloudsplaining.shared.exclusions.Exclusions
+config:
+  exclude-actions:
+  - ''
+  groups:
+  - ''
+  include-actions:
+  - s3:GetObject
+  - ssm:GetParameter
+  - ssm:GetParameters
+  - ssm:GetParametersByPath
+  - secretsmanager:GetSecretValue
+  - rds:CopyDBSnapshot
+  - rds:CreateDBSnapshot
+  policies:
+  - AWSServiceRoleFor*
+  - '*ServiceRolePolicy'
+  - '*ServiceLinkedRolePolicy'
+  - AdministratorAccess
+  - service-role*
+  - aws-service-role*
+  - MyRole
+  roles:
+  - service-role*
+  - aws-service-role*
+  users:
+  - ''
+exclude_actions:
+- ''
+groups:
+- ''
+include_actions:
+- s3:getobject
+- ssm:getparameter
+- ssm:getparameters
+- ssm:getparametersbypath
+- secretsmanager:getsecretvalue
+- rds:copydbsnapshot
+- rds:createdbsnapshot
+policies:
+- awsservicerolefor*
+- '*servicerolepolicy'
+- '*servicelinkedrolepolicy'
+- administratoraccess
+- service-role*
+- aws-service-role*
+- myrole
+roles:
+- service-role*
+- aws-service-role*
+users:
+- ''
 
 </pre>
 
