@@ -1,6 +1,5 @@
 """Processes UserDetailList"""
-from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.utils import get_non_provider_id
+from cloudsplaining.scan.inline_policy import InlinePolicy
 
 
 class UserDetailList:
@@ -56,7 +55,7 @@ class UserDetail:
         Initialize the UserDetail object.
 
         :param user_detail: Details about a particular user
-        :param policy_details: The PolicyDetails object - i.e., details about all managed policies in the account
+        :param policy_details: The ManagedPolicyDetails object - i.e., details about all managed policies in the account
         so the user can inherit those attributes
         :param all_group_details:
         """
@@ -66,8 +65,6 @@ class UserDetail:
         self.user_id = user_detail.get("UserId")
         self.user_name = user_detail.get("UserName")
 
-        self.inline_policies = user_detail.get("UserPolicyList")
-
         # Groups
         self.groups = []
         if user_detail.get("GroupList"):
@@ -75,17 +72,15 @@ class UserDetail:
                 user_detail.get("GroupList"),
                 all_group_details
             )
+        # self.inline_policies = user_detail.get("UserPolicyList")
         # self.groups = user_detail.get("GroupList")
 
         # Inline Policies
-        self.inline_policies = {}
+        self.inline_policies = []
         if user_detail.get("UserPolicyList"):
-            for inline_policy in user_detail.get("UserPolicyList"):
-                non_provider_id = get_non_provider_id(inline_policy.get("PolicyName"))
-                self.inline_policies[non_provider_id] = dict(
-                    PolicyName=inline_policy.get("PolicyName"),
-                    PolicyDocument=PolicyDocument(inline_policy.get("PolicyDocument")),
-                )
+            self._inline_policies_details(
+                user_detail.get("UserPolicyList")
+            )
 
         # Managed Policies (either AWS-managed or Customer managed)
         self.attached_managed_policies = []
@@ -94,8 +89,6 @@ class UserDetail:
                 user_detail.get("AttachedManagedPolicies"),
                 policy_details
             )
-        else:
-            self.attached_managed_policies = []
 
     def _add_group_details(self, group_list, all_group_details):
         for group in group_list:
@@ -108,6 +101,11 @@ class UserDetail:
             attached_managed_policy_details = policy_details.get_policy_detail(arn)
             self.attached_managed_policies.append(attached_managed_policy_details)
 
+    def _inline_policies_details(self, group_policies_list):
+        for policy in group_policies_list:
+            inline_policy = InlinePolicy(policy)
+            self.inline_policies.append(inline_policy)
+
     @property
     def all_allowed_actions(self):
         """Return a list of which actions are allowed by the principal"""
@@ -115,7 +113,7 @@ class UserDetail:
         for managed_policy in self.attached_managed_policies:
             actions.extend(managed_policy.policy_document.all_allowed_actions)
         for inline_policy in self.inline_policies:
-            actions.extend(self.inline_policies[inline_policy]["PolicyDocument"].all_allowed_actions)
+            actions.extend(inline_policy.policy_document.all_allowed_actions)
         for group in self.groups:
             actions.extend(group.all_allowed_actions)
         actions = list(dict.fromkeys(actions))
@@ -129,30 +127,10 @@ class UserDetail:
         for managed_policy in self.attached_managed_policies:
             statements.extend(managed_policy.policy_document.statements)
         for inline_policy in self.inline_policies:
-            statements.extend(self.inline_policies[inline_policy]["PolicyDocument"].statements)
+            statements.extend(inline_policy.policy_document.statements)
         for group in self.groups:
             statements.extend(group.all_iam_statements)
         return statements
-
-    @property
-    def attached_managed_policies_json(self):
-        """Return JSON representation of attached managed policies"""
-        policies = {}
-        for policy in self.attached_managed_policies:
-            policies[policy.policy_id] = policy.json
-        return policies
-
-    @property
-    def inline_policies_json(self):
-        """Return JSON representation of attached inline policies"""
-        inline_policies = {}
-        if self.inline_policies:
-            for inline_policy_key in self.inline_policies:
-                inline_policies[inline_policy_key] = dict(
-                    PolicyDocument=self.inline_policies[inline_policy_key]["PolicyDocument"].json,
-                    Name=self.inline_policies[inline_policy_key]["PolicyName"]
-                )
-        return inline_policies
 
     @property
     def consolidated_risks(self):
@@ -163,20 +141,20 @@ class UserDetail:
 
         # Get it from each inline policy
         if self.inline_policies:
-            for inline_policy_key in self.inline_policies:
+            for inline_policy in self.inline_policies:
                 # Privilege Escalation
-                if self.inline_policies[inline_policy_key]["PolicyDocument"].allows_privilege_escalation:
-                    for entry in self.inline_policies[inline_policy_key]["PolicyDocument"].allows_privilege_escalation:
+                if inline_policy.policy_document.allows_privilege_escalation:
+                    for entry in inline_policy.policy_document.allows_privilege_escalation:
                         if entry["type"] not in privilege_escalation_results.keys():
                             privilege_escalation_results[entry["type"]] = entry["actions"]
                 # Resource Exposure
-                if self.inline_policies[inline_policy_key]["PolicyDocument"].permissions_management_without_constraints:
-                    for action in self.inline_policies[inline_policy_key]["PolicyDocument"].permissions_management_without_constraints:
+                if inline_policy.policy_document.permissions_management_without_constraints:
+                    for action in inline_policy.policy_document.permissions_management_without_constraints:
                         if action not in resource_exposure_results:
                             resource_exposure_results.append(action)
                 # Data Exfiltration
-                if self.inline_policies[inline_policy_key]["PolicyDocument"].allows_data_leak_actions:
-                    for action in self.inline_policies[inline_policy_key]["PolicyDocument"].allows_data_leak_actions:
+                if inline_policy.policy_document.allows_data_leak_actions:
+                    for action in inline_policy.policy_document.allows_data_leak_actions:
                         if action not in data_exfiltration_results:
                             data_exfiltration_results.append(action)
 
@@ -217,6 +195,22 @@ class UserDetail:
             "DataExfiltration": data_exfiltration_results,
         }
         return results
+
+    @property
+    def attached_managed_policies_json(self):
+        """Return JSON representation of attached managed policies"""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            policies[policy.policy_id] = policy.json
+        return policies
+
+    @property
+    def inline_policies_json(self):
+        """Return JSON representation of attached inline policies"""
+        policies = {}
+        for policy in self.inline_policies:
+            policies[policy.policy_id] = policy.json
+        return policies
 
     @property
     def groups_json(self):

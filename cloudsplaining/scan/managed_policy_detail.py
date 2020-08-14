@@ -9,18 +9,18 @@ from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.utils import get_full_policy_path
 
 
-class PolicyDetails:
+class ManagedPolicyDetails:
     """
-    Holds PolicyDetail objects. This is sourced from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
+    Holds ManagedPolicy objects. This is sourced from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
     """
 
     def __init__(self, policy_details):
         self.policy_details = []
         for policy_detail in policy_details:
-            self.policy_details.append(PolicyDetail(policy_detail))
+            self.policy_details.append(ManagedPolicy(policy_detail))
 
     def get_policy_detail(self, arn):
-        """Get a PolicyDetail object by providing the ARN. This is useful to PrincipalDetail objects"""
+        """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
         result = None
         for policy_detail in self.policy_details:
             if policy_detail.arn == arn:
@@ -28,11 +28,19 @@ class PolicyDetails:
                 break
         return result
 
+    @property
+    def json(self):
+        """Get all JSON results"""
+        result = {}
+        for policy in self.policy_details:
+            result[policy.policy_id] = policy.json
+        return result
+
 
 # pylint: disable=too-many-instance-attributes
-class PolicyDetail:
+class ManagedPolicy:
     """
-    Contains information about an IAM policy, including the policy document.
+    Contains information about an IAM Managed Policy, including the Policy Document.
 
     https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyDetail.html
     """

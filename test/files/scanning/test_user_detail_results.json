@@ -3,25 +3,16 @@
   "create_date": "2019-12-18 19:10:08+00:00",
   "id": "biden",
   "inline_policies": {
-    "2aa369df5b582f102013e6d9bd12ae85ab843f45": {
-      "PolicyDocument": {
-        "Version": "2012-10-17",
-        "Statement": [
-          {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-              "s3:PutObject",
-              "s3:PutObjectAcl",
-              "s3:GetObject"
-            ],
-            "Resource": [
-              "*"
-            ]
-          }
-        ]
-      },
-      "Name": "InsecureUserPolicy"
+    "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": {
+      "PolicyName": "InsecureUserPolicy",
+      "PolicyId": "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8",
+      "PrivilegeEscalation": [],
+      "DataExfiltrationActions": [
+        "s3:GetObject"
+      ],
+      "PermissionsManagementActions": [
+        "s3:PutObjectAcl"
+      ]
     }
   },
   "inline_policies_count": 1,
@@ -31,22 +22,16 @@
       "create_date": "2017-05-15 17:33:36+00:00",
       "id": "aaaaaaaaabbbbbbbccccccc",
       "inline_policies": {
-        "aa34bd9fd014aac832fde2210de0e3efeb0bd620": {
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Sid": "VisualEditor0",
-                "Effect": "Allow",
-                "Action": [
-                  "s3:GetObject",
-                  "s3:PutObjectAcl"
-                ],
-                "Resource": "*"
-              }
-            ]
-          },
-          "Name": "InlinePolicyForBidenGroup"
+        "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": {
+          "PolicyName": "InlinePolicyForBidenGroup",
+          "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
+          "PrivilegeEscalation": [],
+          "DataExfiltrationActions": [
+            "s3:GetObject"
+          ],
+          "PermissionsManagementActions": [
+            "s3:PutObjectAcl"
+          ]
         }
       },
       "inline_policies_count": 1,

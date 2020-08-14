@@ -2,7 +2,7 @@ import os
 import unittest
 import json
 from cloudsplaining.scan.group_details import GroupDetail, GroupDetailList
-from cloudsplaining.scan.policy_detail import PolicyDetails
+from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 
 example_authz_details_file = os.path.abspath(
     os.path.join(
@@ -20,7 +20,7 @@ with open(example_authz_details_file) as f:
 class TestGroupDetail(unittest.TestCase):
     def test_group_detail_attached_managed_policies(self):
         group_detail_json_input = auth_details_json["GroupDetailList"][1]
-        policy_details = PolicyDetails(auth_details_json.get("Policies"))
+        policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
 
         group_detail = GroupDetail(group_detail_json_input, policy_details)
         results = group_detail.json
@@ -37,6 +37,7 @@ class TestGroupDetail(unittest.TestCase):
         with open(expected_group_detail_policy_results_file) as f:
             contents = f.read()
             expected_group_detail_policy_results = json.loads(contents)
+        # print(json.dumps(results))
         self.assertDictEqual(results, expected_group_detail_policy_results)
 
         # Get the list of allowed actions
@@ -47,7 +48,7 @@ class TestGroupDetail(unittest.TestCase):
 
     def test_group_detail_list_allowed_actions_lookup(self):
         group_details_json_input = auth_details_json["GroupDetailList"]
-        policy_details = PolicyDetails(auth_details_json.get("Policies"))
+        policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
         group_detail_list = GroupDetailList(group_details_json_input, policy_details)
         # print(group_detail_list.group_names)
         actions = group_detail_list.get_all_allowed_actions_for_group('biden')
