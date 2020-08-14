@@ -1,147 +1,133 @@
 {
-    "arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
-    "assume_role_policy": {
-        "PolicyDocument": {
+  "arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+  "assume_role_policy": {
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "ec2.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    }
+  },
+  "create_date": "2018-08-20 18:48:00+00:00",
+  "id": "OverprivilegedEC2",
+  "inline_policies": {
+    "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": {
+      "PolicyName": "SupYo",
+      "PolicyId": "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d",
+      "PrivilegeEscalation": [
+        {
+          "type": "CreateAccessKey",
+          "actions": [
+            "iam:createaccesskey"
+          ]
+        }
+      ],
+      "DataExfiltrationActions": [
+        "s3:GetObject",
+        "secretsmanager:GetSecretValue"
+      ],
+      "PermissionsManagementActions": [
+        "iam:CreateAccessKey"
+      ]
+    }
+  },
+  "inline_policies_count": 1,
+  "instance_profiles": [
+    {
+      "Path": "/",
+      "InstanceProfileName": "OverprivilegedEC2",
+      "InstanceProfileId": "OverprivilegedEC2",
+      "Arn": "arn:aws:iam::012345678901:instance-profile/OverprivilegedEC2",
+      "CreateDate": "2018-08-20 18:48:00+00:00",
+      "Roles": [
+        {
+          "Path": "/",
+          "RoleName": "OverprivilegedEC2",
+          "RoleId": "OverprivilegedEC2",
+          "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
+          "CreateDate": "2018-08-20 18:48:00+00:00",
+          "AssumeRolePolicyDocument": {
             "Version": "2012-10-17",
             "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "ec2.amazonaws.com"
-                    },
-                    "Action": "sts:AssumeRole"
-                }
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "ec2.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
             ]
+          }
         }
-    },
-    "create_date": "2018-08-20 18:48:00+00:00",
-    "id": "OverprivilegedEC2",
-    "inline_policies": {
-        "a286fb9f19da2662b4d98fb7ac10027375a1c9e1": {
-            "PolicyDocument": {
-                "Version": "2012-10-17",
-                "Statement": [
-                    {
-                        "Sid": "VisualEditor0",
-                        "Effect": "Allow",
-                        "Action": [
-                            "secretsmanager:GetSecretValue",
-                            "s3:GetObject",
-                            "iam:CreateAccessKey"
-                        ],
-                        "Resource": "*"
-                    }
-                ]
-            },
-            "PolicyName": "SupYo",
-            "PrivilegeEscalation": [
-                {
-                    "type": "CreateAccessKey",
-                    "actions": [
-                        "iam:createaccesskey"
-                    ]
-                }
-            ],
-            "DataExfiltrationActions": [
-                "s3:GetObject",
-                "secretsmanager:GetSecretValue"
-            ],
-            "PermissionsManagementActions": [
-                "iam:CreateAccessKey"
-            ]
-        }
-    },
-    "inline_policies_count": 1,
-    "instance_profiles": [
-        {
-            "Path": "/",
-            "InstanceProfileName": "OverprivilegedEC2",
-            "InstanceProfileId": "OverprivilegedEC2",
-            "Arn": "arn:aws:iam::012345678901:instance-profile/OverprivilegedEC2",
-            "CreateDate": "2018-08-20 18:48:00+00:00",
-            "Roles": [
-                {
-                    "Path": "/",
-                    "RoleName": "OverprivilegedEC2",
-                    "RoleId": "OverprivilegedEC2",
-                    "Arn": "arn:aws:iam::012345678901:role/OverprivilegedEC2",
-                    "CreateDate": "2018-08-20 18:48:00+00:00",
-                    "AssumeRolePolicyDocument": {
-                        "Version": "2012-10-17",
-                        "Statement": [
-                            {
-                                "Effect": "Allow",
-                                "Principal": {
-                                    "Service": "ec2.amazonaws.com"
-                                },
-                                "Action": "sts:AssumeRole"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-    ],
-    "instances_count": 1,
-    "path": "/",
-    "managed_policies_count": 1,
-    "managed_policies": {
-        "InsecurePolicy": {
-            "PolicyName": "InsecurePolicy",
-            "PolicyId": "InsecurePolicy",
-            "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
-            "Path": "/",
-            "DefaultVersionId": "v9",
-            "AttachmentCount": 1,
-            "IsAttachable": true,
-            "CreateDate": "2020-01-29 21:24:20+00:00",
-            "UpdateDate": "2020-01-29 23:23:12+00:00",
-            "PolicyVersionList": [
-                {
-                    "Document": {
-                        "Version": "2012-10-17",
-                        "Statement": [
-                            {
-                                "Sid": "VisualEditor0",
-                                "Effect": "Allow",
-                                "Action": [
-                                    "s3:PutObject",
-                                    "s3:PutObjectAcl"
-                                ],
-                                "Resource": [
-                                    "*"
-                                ]
-                            }
-                        ]
-                    },
-                    "VersionId": "v9",
-                    "IsDefaultVersion": true,
-                    "CreateDate": "2020-01-29 23:23:12+00:00"
-                }
-            ],
-            "PrivilegeEscalation": [],
-            "DataExfiltrationActions": [],
-            "PermissionsManagementActions": [
-                "s3:PutObjectAcl"
-            ]
-        }
-    },
-    "risks": {
-        "PrivilegeEscalation": [
-            {
-                "type": "CreateAccessKey",
-                "actions": [
-                    "iam:createaccesskey"
-                ]
-            }
-        ],
-        "ResourceExposure": [
-            "iam:CreateAccessKey",
-            "s3:PutObjectAcl"
-        ],
-        "DataExfiltration": [
-            "s3:GetObject",
-            "secretsmanager:GetSecretValue"
-        ]
+      ]
     }
+  ],
+  "instances_count": 1,
+  "path": "/",
+  "managed_policies_count": 1,
+  "managed_policies": {
+    "InsecurePolicy": {
+      "PolicyName": "InsecurePolicy",
+      "PolicyId": "InsecurePolicy",
+      "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
+      "Path": "/",
+      "DefaultVersionId": "v9",
+      "AttachmentCount": 1,
+      "IsAttachable": true,
+      "CreateDate": "2020-01-29 21:24:20+00:00",
+      "UpdateDate": "2020-01-29 23:23:12+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:PutObjectAcl"
+                ],
+                "Resource": [
+                  "*"
+                ]
+              }
+            ]
+          },
+          "VersionId": "v9",
+          "IsDefaultVersion": true,
+          "CreateDate": "2020-01-29 23:23:12+00:00"
+        }
+      ],
+      "PrivilegeEscalation": [],
+      "DataExfiltrationActions": [],
+      "PermissionsManagementActions": [
+        "s3:PutObjectAcl"
+      ]
+    }
+  },
+  "risks": {
+    "PrivilegeEscalation": [
+      {
+        "type": "CreateAccessKey",
+        "actions": [
+          "iam:createaccesskey"
+        ]
+      }
+    ],
+    "ResourceExposure": [
+      "iam:CreateAccessKey",
+      "s3:PutObjectAcl"
+    ],
+    "DataExfiltration": [
+      "s3:GetObject",
+      "secretsmanager:GetSecretValue"
+    ]
+  }
 }

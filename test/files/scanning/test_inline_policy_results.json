@@ -1,0 +1,11 @@
+{
+    "PolicyName": "InlinePolicyForBidenGroup",
+    "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
+    "PrivilegeEscalation": [],
+    "DataExfiltrationActions": [
+        "s3:GetObject"
+    ],
+    "PermissionsManagementActions": [
+        "s3:PutObjectAcl"
+    ]
+}
