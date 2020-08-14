@@ -9,7 +9,7 @@ from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
 
 # from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
-from cloudsplaining.scan.policy_detail import PolicyDetails
+from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
 from cloudsplaining.output.findings import (
     Findings,
@@ -34,7 +34,7 @@ class AuthorizationDetails:
 
     def __init__(self, auth_json):
         self.auth_json = auth_json
-        self.policies = PolicyDetails(auth_json.get("Policies", None))
+        self.policies = ManagedPolicyDetails(auth_json.get("Policies", None))
         self.user_detail_list = PrincipalTypeDetails(
             auth_json.get("UserDetailList", None)
         )
@@ -306,7 +306,7 @@ class AuthorizationDetails:
         return self.findings.json
 
     def scan_policy_details(self, exclusions=DEFAULT_EXCLUSIONS, modify_only=True):
-        """Scan the PolicyDetails block of the account authorization details output."""
+        """Scan the ManagedPolicyDetails block of the account authorization details output."""
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The provided exclusions is not the Exclusions object type. "
