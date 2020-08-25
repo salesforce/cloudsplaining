@@ -378,7 +378,37 @@ class TestAuthorizationFileDetails(unittest.TestCase):
             ],
             "GroupDetailList": [],
             "RoleDetailList": [],
-            "Policies": []
+            "Policies": [
+                {
+                    "PolicyName": "AdministratorAccess",
+                    "PolicyId": "ANPAIWMBCKSKIEE64ZLYK",
+                    "Arn": "arn:aws:iam::aws:policy/AdministratorAccess",
+                    "Path": "/",
+                    "DefaultVersionId": "v1",
+                    "AttachmentCount": 1,
+                    "PermissionsBoundaryUsageCount": None,
+                    "IsAttachable": True,
+                    "CreateDate": "2015-02-06 18:39:46+00:00",
+                    "UpdateDate": "2015-02-06 18:39:46+00:00",
+                    "PolicyVersionList": [
+                        {
+                            "Document": {
+                                "Version": "2012-10-17",
+                                "Statement": [
+                                    {
+                                        "Effect": "Allow",
+                                        "Action": "*",
+                                        "Resource": "*"
+                                    }
+                                ]
+                            },
+                            "VersionId": "v1",
+                            "IsDefaultVersion": True,
+                            "CreateDate": "2015-02-06 18:39:46+00:00"
+                        }
+                    ]
+                },
+            ]
         }
         authorization_details = AuthorizationDetails(authz_cfg)
         expected_result = ["AdministratorAccess"]
