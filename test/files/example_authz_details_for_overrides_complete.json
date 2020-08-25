@@ -75,7 +75,7 @@
       "AttachedManagedPolicies": [
         {
           "PolicyName": "PolicyForTestingOverrides",
-          "PolicyArn": "arn:aws:iam:012345678901:aws:policy/PolicyForTestingOverrides"
+          "PolicyArn": "arn:aws:iam::012345678901:policy/PolicyForTestingOverrides"
         },
         {
           "PolicyName": "AdministratorAccess",
@@ -207,6 +207,35 @@
           "CreateDate": "2020-01-29 23:23:12+00:00"
         }
       ]
-    }
+    },
+    {
+      "PolicyName": "AdministratorAccess",
+      "PolicyId": "ANPAIWMBCKSKIEE64ZLYK",
+      "Arn": "arn:aws:iam::aws:policy/AdministratorAccess",
+      "Path": "/",
+      "DefaultVersionId": "v1",
+      "AttachmentCount": 1,
+      "PermissionsBoundaryUsageCount": null,
+      "IsAttachable": true,
+      "CreateDate": "2015-02-06 18:39:46+00:00",
+      "UpdateDate": "2015-02-06 18:39:46+00:00",
+      "PolicyVersionList": [
+        {
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          },
+          "VersionId": "v1",
+          "IsDefaultVersion": true,
+          "CreateDate": "2015-02-06 18:39:46+00:00"
+        }
+      ]
+  }
   ]
 }

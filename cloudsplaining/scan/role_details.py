@@ -67,6 +67,7 @@ class RoleDetail:
         self.create_date = role_detail.get("CreateDate")
         self.tags = role_detail.get("Tags")
         self.role_last_used = role_detail.get("RoleLastUsed")
+        self.role_detail = role_detail  # just to reference later in debugging
 
         # Metadata in object form
         if role_detail.get("AssumeRolePolicyDocument"):
@@ -93,15 +94,17 @@ class RoleDetail:
             )
 
     def _attached_managed_policies_details(self, attached_managed_policies_list, policy_details):
-        for policy in attached_managed_policies_list:
-            arn = policy.get("PolicyArn")
-            attached_managed_policy_details = policy_details.get_policy_detail(arn)
-            self.attached_managed_policies.append(attached_managed_policy_details)
+        if attached_managed_policies_list:
+            for policy in attached_managed_policies_list:
+                arn = policy.get("PolicyArn")
+                attached_managed_policy_details = policy_details.get_policy_detail(arn)
+                self.attached_managed_policies.append(attached_managed_policy_details)
 
     def _inline_policies_details(self, group_policies_list):
-        for policy in group_policies_list:
-            inline_policy = InlinePolicy(policy)
-            self.inline_policies.append(inline_policy)
+        if group_policies_list:
+            for policy in group_policies_list:
+                inline_policy = InlinePolicy(policy)
+                self.inline_policies.append(inline_policy)
 
     @property
     def all_allowed_actions(self):
@@ -194,16 +197,34 @@ class RoleDetail:
     def attached_managed_policies_json(self):
         """Return JSON representation of attached managed policies"""
         policies = {}
-        for policy in self.attached_managed_policies:
-            policies[policy.policy_id] = policy.json
+        if self.attached_managed_policies:
+            for policy in self.attached_managed_policies:
+                try:
+                    policies[policy.policy_id] = policy.json
+                except AttributeError as a_e:
+                    print(a_e)
         return policies
+
+    @property
+    def attached_managed_policies_pointer_json(self):
+        """Return JSON representation of attached managed policies - but just with pointers to the Policy ID"""
+        policies = {}
+        if self.attached_managed_policies:
+            for policy in self.attached_managed_policies:
+                try:
+                    policies[policy.policy_id] = policy.policy_name
+                except AttributeError as a_e:
+                    print(a_e)
+        return policies
+
 
     @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         policies = {}
-        for policy in self.inline_policies:
-            policies[policy.policy_id] = policy.json
+        if self.inline_policies:
+            for policy in self.inline_policies:
+                policies[policy.policy_id] = policy.json
         return policies
 
     @property
@@ -224,7 +245,7 @@ class RoleDetail:
             instances_count=len(self.instance_profile_list),
             path=self.path,
             managed_policies_count=len(self.attached_managed_policies),
-            managed_policies=self.attached_managed_policies_json,
+            managed_policies=self.attached_managed_policies_pointer_json,
             risks=self.consolidated_risks
         )
         return this_role_detail

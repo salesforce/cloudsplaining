@@ -26,6 +26,8 @@ class ManagedPolicyDetails:
             if policy_detail.arn == arn:
                 result = policy_detail
                 break
+        if not result:
+            raise Exception("Managed Policy ARN %s not found.", arn)
         return result
 
     @property

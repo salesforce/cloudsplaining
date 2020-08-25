@@ -57,7 +57,7 @@ def generate_example_report():
     }
 
     rendered_html_report = scan_account_authorization_details(
-        account_authorization_details_cfg, DEFAULT_EXCLUSIONS, account_name="example"
+        account_authorization_details_cfg, DEFAULT_EXCLUSIONS, account_name="example", output_directory=os.getcwd()
     )
     # html_output_file = os.path.join(output_directory, f"index.html")
     html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")

@@ -18,6 +18,9 @@ from cloudsplaining.output.findings import (
     RoleFinding,
     PolicyFinding,
 )
+from cloudsplaining.scan.group_details import GroupDetailList
+from cloudsplaining.scan.role_details import RoleDetailList
+from cloudsplaining.scan.user_details import UserDetailList
 
 # from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
@@ -48,6 +51,23 @@ class AuthorizationDetails:
         self.findings = Findings()
         self.customer_managed_policies_in_use = self._customer_managed_policies_in_use()
         self.aws_managed_policies_in_use = self._aws_managed_policies_in_use()
+        # New Authorization file stuff
+
+        self.new_group_detail_list = GroupDetailList(auth_json.get("GroupDetailList"), self.policies)
+        self.new_user_detail_list = UserDetailList(auth_json.get("UserDetailList"), self.policies,
+                                                   self.new_group_detail_list)
+        self.new_role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies)
+
+    @property
+    def new_principal_policy_mapping(self):
+        """Get the new JSON format of the Principals data"""
+        results = {
+            "groups": self.new_group_detail_list.json,
+            "users": self.new_user_detail_list.json,
+            "roles": self.new_role_detail_list.json,
+            "policies": self.policies.json
+        }
+        return results
 
     def _update_group_membership(self):
         """A hacky approach to ensuring that groups have their list of members, as that is not included
@@ -65,8 +85,8 @@ class AuthorizationDetails:
                             groups[group].append(principal.name)
                         else:
                             groups[group].append(principal.name)
-        # Let's make sure we add the list of group members to their groups
-        # We do that by skimming through that groups list and then adding them as class attributes to the principal class.
+        # Let's make sure we add the list of group members to their groups We do that by skimming through that
+        # groups list and then adding them as class attributes to the principal class.
         logger.debug(f"_update_group_membership: groups: {groups}")
         for principal in self.group_detail_list.principals:
             if principal.principal_type == "Group":
@@ -410,7 +430,8 @@ class AuthorizationDetails:
                                 members=principal.members,
                                 attached_managed_policies=principal.attached_managed_policies,
                             )
-                            logger.debug(f"scan_principal_type_details: The Group {principal.name} has the members {principal.members}")
+                            logger.debug(
+                                f"scan_principal_type_details: The Group {principal.name} has the members {principal.members}")
                             self.findings.add_group_finding(group_finding)
                         elif principal.principal_type == "Role":
                             role_finding = RoleFinding(
