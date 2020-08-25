@@ -136,7 +136,7 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg, exclusions, account_name="default", output_directory=None, write_data_files=False
+    account_authorization_details_cfg, exclusions, account_name="default", output_directory=os.getcwd(), write_data_files=False
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -205,6 +205,11 @@ def scan_account_authorization_details(
     if write_data_files:
         if output_directory is None:
             output_directory = os.getcwd()
+
+        new_data = authorization_details.new_principal_policy_mapping
+        new_raw_data_file = os.path.join(output_directory, f"iam-new-principal-policy-mapping-{account_name}.json")
+        new_raw_data_filepath = write_results_data_file(new_data, new_raw_data_file)
+        print(f"Raw data file saved: {str(new_raw_data_filepath)}")
 
         raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
         raw_data_filepath = write_results_data_file(results, raw_data_file)

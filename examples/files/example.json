@@ -317,7 +317,7 @@
             "AttachedManagedPolicies": [
                 {
                     "PolicyName": "InsecurePolicy",
-                    "PolicyArn": "arn:aws:iam::115657980943:policy/InsecurePolicy"
+                    "PolicyArn": "arn:aws:iam::012345678901:policy/InsecurePolicy"
                 }
             ]
         }
@@ -361,7 +361,7 @@
     },
     {
     "PolicyName": "InsecurePolicy",
-    "PolicyId": "InsecurePolicy",
+    "PolicyId": "ANPABBBBAAAABBBBAAAA",
     "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
     "Path": "/",
     "DefaultVersionId": "v9",

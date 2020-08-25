@@ -5,6 +5,7 @@
 
 ## 0.1.8 (Unreleased)
 * UI: The Exclusions configuration was not showing up in the report due to a typo
+* Backend: Improved the JSON output a bit for the new principal policy mapping data file.
 
 ## 0.1.7 (2020-08-09)
 * UI: Fixed an issue where the Remediation guidance was not showing up in the resulting report. Fixes #70
