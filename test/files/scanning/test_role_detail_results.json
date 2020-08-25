@@ -72,45 +72,7 @@
   "path": "/",
   "managed_policies_count": 1,
   "managed_policies": {
-    "InsecurePolicy": {
-      "PolicyName": "InsecurePolicy",
-      "PolicyId": "InsecurePolicy",
-      "Arn": "arn:aws:iam::012345678901:policy/InsecurePolicy",
-      "Path": "/",
-      "DefaultVersionId": "v9",
-      "AttachmentCount": 1,
-      "IsAttachable": true,
-      "CreateDate": "2020-01-29 21:24:20+00:00",
-      "UpdateDate": "2020-01-29 23:23:12+00:00",
-      "PolicyVersionList": [
-        {
-          "Document": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Sid": "VisualEditor0",
-                "Effect": "Allow",
-                "Action": [
-                  "s3:PutObject",
-                  "s3:PutObjectAcl"
-                ],
-                "Resource": [
-                  "*"
-                ]
-              }
-            ]
-          },
-          "VersionId": "v9",
-          "IsDefaultVersion": true,
-          "CreateDate": "2020-01-29 23:23:12+00:00"
-        }
-      ],
-      "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
-        "s3:PutObjectAcl"
-      ]
-    }
+    "InsecurePolicy": "InsecurePolicy"
   },
   "risks": {
     "PrivilegeEscalation": [

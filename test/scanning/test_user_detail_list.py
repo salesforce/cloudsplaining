@@ -44,4 +44,5 @@ class TestUserDetail(unittest.TestCase):
         expected_result = expected_user_detail_policy_results
         results = user_detail.json
         # print(json.dumps(results))
+        # self.maxDiff = None
         self.assertDictEqual(results, expected_result)

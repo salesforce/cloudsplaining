@@ -189,6 +189,14 @@ class GroupDetail:
         return policies
 
     @property
+    def attached_managed_policies_pointer_json(self):
+        """Return JSON representation of attached managed policies"""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            policies[policy.policy_id] = policy.policy_name
+        return policies
+
+    @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         policies = {}
@@ -208,7 +216,7 @@ class GroupDetail:
             inline_policies_count=len(self.inline_policies_json),
             path=self.path,
             managed_policies_count=len(self.attached_managed_policies),
-            managed_policies=self.attached_managed_policies_json,
+            managed_policies=self.attached_managed_policies_pointer_json,
             risks=self.consolidated_risks
         )
         return this_group_detail

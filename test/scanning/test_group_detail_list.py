@@ -38,6 +38,7 @@ class TestGroupDetail(unittest.TestCase):
             contents = f.read()
             expected_group_detail_policy_results = json.loads(contents)
         # print(json.dumps(results))
+        self.maxDiff = None
         self.assertDictEqual(results, expected_group_detail_policy_results)
 
         # Get the list of allowed actions
