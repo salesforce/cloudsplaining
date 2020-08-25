@@ -8,6 +8,7 @@
 * Changed `--input` flag to `--input-file` for all commands
 * Fixed bug in scan-policy-file command (#79)
 * Backend: Improved the JSON output a bit for the new principal policy mapping data file.
+* Comment out the principal policy mapping data file for now. Otherwise, if you have a bunch of IAM users, all within different IAM groups, the tool slows down a LOT and you run into loop hell.
 
 ## 0.1.7 (2020-08-09)
 * UI: Fixed an issue where the Remediation guidance was not showing up in the resulting report. Fixes #70
