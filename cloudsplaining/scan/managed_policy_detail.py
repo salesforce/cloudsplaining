@@ -38,6 +38,13 @@ class ManagedPolicyDetails:
             result[policy.policy_id] = policy.json
         return result
 
+    @property
+    def json_large(self):
+        """Get all JSON results"""
+        result = {}
+        for policy in self.policy_details:
+            result[policy.policy_id] = policy.json_large
+        return result
 
 # pylint: disable=too-many-instance-attributes
 class ManagedPolicy:

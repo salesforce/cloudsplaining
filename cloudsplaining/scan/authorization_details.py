@@ -59,13 +59,22 @@ class AuthorizationDetails:
         self.new_role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies)
 
     @property
+    def inline_policies(self):
+        results = {}
+        results.update(self.new_group_detail_list.inline_policies_json)
+        results.update(self.new_role_detail_list.inline_policies_json)
+        results.update(self.new_user_detail_list.inline_policies_json)
+        return results
+
+    @property
     def new_principal_policy_mapping(self):
         """Get the new JSON format of the Principals data"""
         results = {
             "groups": self.new_group_detail_list.json,
             "users": self.new_user_detail_list.json,
             "roles": self.new_role_detail_list.json,
-            "policies": self.policies.json
+            "policies": self.policies.json_large,
+            "inline-policies": self.inline_policies
         }
         return results
 

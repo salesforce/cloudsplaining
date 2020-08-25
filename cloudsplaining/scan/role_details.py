@@ -39,6 +39,18 @@ class RoleDetailList:
         return results
 
     @property
+    def inline_policies_json(self):
+        """Return JSON representation of attached inline policies"""
+        results = {}
+        for role_detail in self.roles:
+            role_inline_policies = role_detail.inline_policies_json
+            if role_inline_policies:
+                for k in role_inline_policies:
+                    if k not in results.keys():
+                        results[k] = role_inline_policies[k].copy()
+        return results
+
+    @property
     def json(self):
         """Get all JSON results"""
         result = {}
@@ -182,13 +194,14 @@ class RoleDetail:
             }
             these_privilege_escalation_results.append(result)
 
-        resource_exposure_results.sort()
-        data_exfiltration_results.sort()
+        # resource_exposure_results.sort()
+        # data_exfiltration_results.sort()
 
+        # Let's just return the count
         results = {
-            "PrivilegeEscalation": these_privilege_escalation_results,
-            "ResourceExposure": resource_exposure_results,
-            "DataExfiltration": data_exfiltration_results,
+            "PrivilegeEscalation": len(these_privilege_escalation_results),
+            "ResourceExposure": len(resource_exposure_results),
+            "DataExfiltration": len(data_exfiltration_results),
         }
 
         return results
@@ -200,7 +213,7 @@ class RoleDetail:
         if self.attached_managed_policies:
             for policy in self.attached_managed_policies:
                 try:
-                    policies[policy.policy_id] = policy.json
+                    policies[policy.policy_id] = policy.json_large
                 except AttributeError as a_e:
                     print(a_e)
         return policies
@@ -217,14 +230,21 @@ class RoleDetail:
                     print(a_e)
         return policies
 
-
     @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         policies = {}
         if self.inline_policies:
             for policy in self.inline_policies:
-                policies[policy.policy_id] = policy.json
+                policies[policy.policy_id] = policy.json_large
+        return policies
+
+    @property
+    def inline_policies_pointer_json(self):
+        """Return metadata on attached inline policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.inline_policies:
+            policies[policy.policy_id] = policy.policy_name
         return policies
 
     @property
@@ -239,13 +259,13 @@ class RoleDetail:
             assume_role_policy=dict(PolicyDocument=assume_role_json),
             create_date=self.create_date,
             id=self.role_id,
-            inline_policies=self.inline_policies_json,
+            inline_policies=self.inline_policies_pointer_json,
             inline_policies_count=len(self.inline_policies_json),
             instance_profiles=self.instance_profile_list,
             instances_count=len(self.instance_profile_list),
             path=self.path,
             managed_policies_count=len(self.attached_managed_policies),
             managed_policies=self.attached_managed_policies_pointer_json,
-            risks=self.consolidated_risks
+            # risks=self.consolidated_risks
         )
         return this_role_detail

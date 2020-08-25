@@ -3,33 +3,12 @@
   "create_date": "2017-05-15 17:33:36+00:00",
   "id": "aaaaaaaaabbbbbbbccccccc",
   "inline_policies": {
-    "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": {
-      "PolicyName": "InlinePolicyForBidenGroup",
-      "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
-      "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
-        "s3:GetObject"
-      ],
-      "PermissionsManagementActions": [
-        "s3:PutObjectAcl"
-      ]
-    }
+    "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
   },
   "inline_policies_count": 1,
   "path": "/",
   "managed_policies_count": 1,
   "managed_policies": {
     "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
-  },
-  "risks": {
-    "PrivilegeEscalation": [],
-    "ResourceExposure": [
-      "iam:CreateServiceLinkedRole",
-      "rds:AuthorizeDBSecurityGroupIngress",
-      "s3:PutObjectAcl"
-    ],
-    "DataExfiltration": [
-      "s3:GetObject"
-    ]
   }
 }

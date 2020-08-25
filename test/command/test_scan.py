@@ -140,4 +140,4 @@ class PolicyFileTestCase(unittest.TestCase):
             cfg, DEFAULT_EXCLUSIONS, account_name="Something", output_directory=os.getcwd(),
             write_data_files=False
         )
-        print(rendered_html_report)
+        # print(rendered_html_report)

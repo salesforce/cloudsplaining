@@ -1,11 +1,25 @@
 {
-    "PolicyName": "InlinePolicyForBidenGroup",
-    "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
-    "PrivilegeEscalation": [],
-    "DataExfiltrationActions": [
-        "s3:GetObject"
-    ],
-    "PermissionsManagementActions": [
-        "s3:PutObjectAcl"
+  "PolicyName": "InlinePolicyForBidenGroup",
+  "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
+  "PolicyDocument": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetObject",
+          "s3:PutObjectAcl"
+        ],
+        "Resource": "*"
+      }
     ]
+  },
+  "PrivilegeEscalation": [],
+  "DataExfiltrationActions": [
+    "s3:GetObject"
+  ],
+  "PermissionsManagementActions": [
+    "s3:PutObjectAcl"
+  ]
 }

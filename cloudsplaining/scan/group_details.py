@@ -46,6 +46,18 @@ class GroupDetailList:
         return results
 
     @property
+    def inline_policies_json(self):
+        """Return JSON representation of attached inline policies"""
+        results = {}
+        for group_detail in self.groups:
+            group_inline_policies = group_detail.inline_policies_json
+            if group_inline_policies:
+                for k in group_inline_policies:
+                    if k not in results.keys():
+                        results[k] = group_inline_policies[k].copy()
+        return results
+
+    @property
     def json(self):
         """Get all JSON results"""
         result = {}
@@ -169,13 +181,14 @@ class GroupDetail:
             }
             these_privilege_escalation_results.append(result)
 
-        resource_exposure_results.sort()
-        data_exfiltration_results.sort()
+        # resource_exposure_results.sort()
+        # data_exfiltration_results.sort()
 
+        # Let's just return the count
         results = {
-            "PrivilegeEscalation": these_privilege_escalation_results,
-            "ResourceExposure": resource_exposure_results,
-            "DataExfiltration": data_exfiltration_results,
+            "PrivilegeEscalation": len(these_privilege_escalation_results),
+            "ResourceExposure": len(resource_exposure_results),
+            "DataExfiltration": len(data_exfiltration_results),
         }
 
         return results
@@ -185,12 +198,12 @@ class GroupDetail:
         """Return JSON representation of attached managed policies"""
         policies = {}
         for policy in self.attached_managed_policies:
-            policies[policy.policy_id] = policy.json
+            policies[policy.policy_id] = policy.json_large
         return policies
 
     @property
     def attached_managed_policies_pointer_json(self):
-        """Return JSON representation of attached managed policies"""
+        """Return metadata on attached managed policies so you can look it up in the policies section later."""
         policies = {}
         for policy in self.attached_managed_policies:
             policies[policy.policy_id] = policy.policy_name
@@ -201,22 +214,29 @@ class GroupDetail:
         """Return JSON representation of attached inline policies"""
         policies = {}
         for policy in self.inline_policies:
-            policies[policy.policy_id] = policy.json
+            policies[policy.policy_id] = policy.json_large
+        return policies
+
+    @property
+    def inline_policies_pointer_json(self):
+        """Return metadata on attached inline policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.inline_policies:
+            policies[policy.policy_id] = policy.policy_name
         return policies
 
     @property
     def json(self):
         """Return the JSON representation of the Group Detail"""
-
         this_group_detail = dict(
             arn=self.arn,
             create_date=self.create_date,
             id=self.group_id,
-            inline_policies=self.inline_policies_json,
-            inline_policies_count=len(self.inline_policies_json),
+            inline_policies=self.inline_policies_pointer_json,
+            inline_policies_count=len(self.inline_policies_pointer_json),
             path=self.path,
             managed_policies_count=len(self.attached_managed_policies),
             managed_policies=self.attached_managed_policies_pointer_json,
-            risks=self.consolidated_risks
+            # risks=self.consolidated_risks
         )
         return this_group_detail
