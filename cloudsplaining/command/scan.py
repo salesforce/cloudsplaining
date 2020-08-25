@@ -31,7 +31,7 @@ click_log.basic_config(logger)
     "IAM security posture. "
 )
 @click.option(
-    "--input",
+    "--input-file",
     type=click.Path(exists=True),
     required=True,
     help="Path of IAM account authorization details file",
@@ -61,7 +61,7 @@ click_log.basic_config(logger)
 @click_log.simple_verbosity_option()
 # pylint: disable=redefined-builtin
 def scan(
-    input, exclusions_file, output, skip_open_report
+    input_file, exclusions_file, output, skip_open_report
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -78,9 +78,9 @@ def scan(
     else:
         exclusions = DEFAULT_EXCLUSIONS
 
-    if os.path.isfile(input):
-        account_name = Path(input).stem
-        with open(input) as f:
+    if os.path.isfile(input_file):
+        account_name = Path(input_file).stem
+        with open(input_file) as f:
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
         rendered_html_report = scan_account_authorization_details(
@@ -102,11 +102,11 @@ def scan(
             url = "file://%s" % os.path.abspath(html_output_file)
             webbrowser.open(url, new=2)
 
-    if os.path.isdir(input):
+    if os.path.isdir(input_file):
         logger.info(
             "The path given is a directory. Scanning for account authorization files and generating report."
         )
-        input_files = get_authorization_files_in_directory(input)
+        input_files = get_authorization_files_in_directory(input_file)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
             with open(file) as f:

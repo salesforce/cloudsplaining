@@ -5,6 +5,8 @@
 
 ## 0.1.8 (Unreleased)
 * UI: The Exclusions configuration was not showing up in the report due to a typo
+* Changed `--input` flag to `--input-file` for all commands
+* Fixed bug in scan-policy-file command (#79)
 
 ## 0.1.7 (2020-08-09)
 * UI: Fixed an issue where the Remediation guidance was not showing up in the resulting report. Fixes #70
