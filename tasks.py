@@ -107,11 +107,11 @@ def expand_policy(c):
     """
     try:
         c.run(
-            "./cloudsplaining/bin/cli.py expand-policy --input examples/policies/wildcards.json",
+            "./cloudsplaining/bin/cli.py expand-policy --input-file examples/policies/wildcards.json",
             pty=True,
         )
         c.run(
-            "./cloudsplaining/bin/cli.py expand-policy --input examples/policies/explicit-actions.json",
+            "./cloudsplaining/bin/cli.py expand-policy --input-file examples/policies/explicit-actions.json",
             pty=True,
         )
     except UnexpectedExit as u_e:
