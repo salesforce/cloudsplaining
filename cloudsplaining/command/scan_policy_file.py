@@ -6,6 +6,7 @@ Scan a single policy file to identify missing resource constraints.
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+import sys
 import logging
 import json
 from pathlib import Path
@@ -31,10 +32,10 @@ END = "\033[0m"
     short_help="Scan a single policy file to identify identify missing resource constraints."
 )
 @click.option(
-    "--input",
-    type=click.Path(exists=True),
-    required=True,
-    help="Path of to the IAM policy file.",
+    "--input-file",
+    type=str,
+    # required=True,
+    help="Path of the IAM policy file to evaluate.",
 )
 @click.option(
     "--exclusions-file",
@@ -53,9 +54,22 @@ END = "\033[0m"
 )
 @click_log.simple_verbosity_option(logger)
 # pylint: disable=redefined-builtin
-def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no cover
+def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
-    file = input
+    if input_file:
+        # Get the Policy
+        with open(input_file) as json_file:
+            logger.debug(f"Opening {input_file}")
+            policy = json.load(json_file)
+        policy_name = Path(input_file).stem
+    else:
+        try:
+            policy = json.load(sys.stdin)
+        except json.decoder.JSONDecodeError as j_e:
+            logger.critical(j_e)
+            sys.exit()
+        policy_name = "StdinPolicy"
+
     # Get the exclusions configuration
     with open(exclusions_file, "r") as yaml_file:
         try:
@@ -64,42 +78,37 @@ def scan_policy_file(input, exclusions_file, high_priority_only):  # pragma: no 
             logger.critical(exc)
     exclusions = Exclusions(exclusions_cfg)
 
-    # Get the Policy
-    with open(file) as json_file:
-        logger.debug(f"Opening {file}")
-        policy = json.load(json_file)
-
-    policy_name = Path(file).stem
-
     # Run the scan and get the raw data.
     results = scan_policy(policy, policy_name, exclusions)
 
     # There will only be one finding in the results but it is in a list.
     results_exist = 0
-    for finding in results:
-        if finding["PrivilegeEscalation"]:
-            print(f"{RED}Issue found: Privilege Escalation{END}")
+    if results:
+        if results.get("PrivilegeEscalation"):
+            print(f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}")
             results_exist += 1
-            for item in finding["PrivilegeEscalation"]:
-                print(f"- Method: {item['type']}")
-                print(f"  Actions: {', '.join(item['PrivilegeEscalation'])}\n")
-        if finding["DataExfiltrationActions"]:
+            for item in results.get("PrivilegeEscalation"):
+                print(f"- Method: {item.get('type')}")
+                print(f"  Actions: {', '.join(item.get('PrivilegeEscalation'))}\n")
+        if results.get("DataExfiltrationActions"):
             results_exist += 1
-            print(f"{RED}Issue found: Data Exfiltration{END}")
+            print(f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(finding['DataExfiltrationActions'])}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltrationActions'))}\n"
             )
-        if finding["PermissionsManagementActions"]:
+        if results.get("PermissionsManagementActions"):
             results_exist += 1
-            print(f"{RED}Issue found: Resource Exposure{END}")
+            print(f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(finding['PermissionsManagementActions'])}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('PermissionsManagementActions'))}\n"
             )
         if not high_priority_only:
             results_exist += 1
-            print(f"{RED}Issue found: Unrestricted Infrastructure Modification{END}")
-            print(f"{BOLD}Actions{END}: {', '.join(finding['Actions'])}")
-    if results_exist == 0:
+            print(f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}")
+            print(f"{BOLD}Actions{END}: {', '.join(results.get('Actions'))}")
+        if results_exist == 0:
+            print("There were no results found.")
+    else:
         print("There were no results found.")
 
 
@@ -140,4 +149,4 @@ def scan_policy(policy_json, policy_name, exclusions=DEFAULT_EXCLUSIONS):
         findings.single_use = True
         return finding.json
     else:
-        return []
+        return {}
