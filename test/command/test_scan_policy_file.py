@@ -167,7 +167,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 },
             ]
         }
-        expected_results_after_exclusion = []
+        expected_results_after_exclusion = {}
         exclusions_cfg_custom = {
             "users": ["MyRole"],
             "groups": ["obama"],
@@ -179,6 +179,6 @@ class PolicyFileTestCase(unittest.TestCase):
         }
         exclusions = Exclusions(exclusions_cfg_custom)
         results = scan_policy(test_policy, "test", exclusions)
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.maxDiff = None
-        self.assertListEqual(results, expected_results_after_exclusion)
+        self.assertDictEqual(results, expected_results_after_exclusion)

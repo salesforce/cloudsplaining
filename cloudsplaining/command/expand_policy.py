@@ -20,19 +20,18 @@ click_log.basic_config(logger)
     short_help="Expand the * Actions in IAM policy files to improve readability"
 )
 @click.option(
-    "--input",
+    "--input-file",
     type=click.Path(exists=True),
     required=True,
     help="Path to the JSON policy file.",
 )
 @click_log.simple_verbosity_option(logger)
-def expand_policy(input):  # pylint: disable=redefined-builtin
+def expand_policy(input_file):  # pylint: disable=redefined-builtin
     """
     Expand the * Actions in IAM policy files to improve readability
     """
-    file = input
-    with open(file) as json_file:
-        logger.debug(f"Opening {file}")
+    with open(input_file) as json_file:
+        logger.debug(f"Opening {input_file}")
         data = json.load(json_file)
         policy = get_expanded_policy(data)
         print(json.dumps(policy, indent=4))

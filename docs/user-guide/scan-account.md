@@ -5,7 +5,7 @@ Now that we've downloaded the account authorization file, we can scan *all* of t
 Run the following command:
 
 ```bash
-cloudsplaining scan --exclusions-file exclusions.yml --input examples/files/example.json --output examples/files/
+cloudsplaining scan --exclusions-file exclusions.yml --input-file examples/files/example.json --output examples/files/
 ```
 
 It will create an HTML report like [this](https://opensource.salesforce.com/cloudsplaining/):
