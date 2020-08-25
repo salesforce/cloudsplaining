@@ -35,7 +35,7 @@ To recap: you've followed these steps to generate this report:
   <ul><li><code>cloudsplaining create-exclusions-file --output-file exclusions.yml</code></li></ul>
 <li>Generated the report</li>
   <ul>
-    <li><code>cloudsplaining scan --input default-account-details.json --exclusions-file exclusions.yml</code></li>
+    <li><code>cloudsplaining scan --input-file default-account-details.json --exclusions-file exclusions.yml</code></li>
     <li>This generates three files: (1) The single-file HTML report, (2) The triage CSV worksheet, and (3) The raw JSON data file</li>
   </ul>
 </ul>
@@ -149,7 +149,7 @@ Add whatever values you want to the above depending on your organization's conte
 * Now, run the scan to generate a *new* Cloudsplaining report  that considers your exclusions criteria. This way, you are working with a report version that consists of True Positives only.
 
 ```bash
-cloudsplaining scan --input default.json --exclusions-file exclusions.yml
+cloudsplaining scan --input-file default.json --exclusions-file exclusions.yml
 ```
 
 You can now proceed to the Remediation stage.

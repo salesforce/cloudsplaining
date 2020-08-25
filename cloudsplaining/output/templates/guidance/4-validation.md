@@ -14,7 +14,7 @@ After you've rewritten your IAM policy, we suggest two options for validating th
 
 You can validate that your remediated policy passes Cloudsplaining by running the following command:
 
-```cloudsplaining scan-policy-file --input policy.json --exclusions-file exclusions.yml```
+```cloudsplaining scan-policy-file --input-file policy.json --exclusions-file exclusions.yml```
 
 When there are no more results, it passes!
 

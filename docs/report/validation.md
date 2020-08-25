@@ -10,7 +10,7 @@ Leveraging [Parliament](https://github.com/duo-labs/parliament/) by Duo-Labs, co
 
 You can validate that your remediated policy passes Cloudsplaining by running the following command:
 
-```cloudsplaining scan-policy-file --input policy.json --exclusions-file exclusions.yml```
+```cloudsplaining scan-policy-file --input-file policy.json --exclusions-file exclusions.yml```
 
 When there are no more results, it passes!
 
