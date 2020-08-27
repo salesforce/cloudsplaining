@@ -90,17 +90,17 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma
             for item in results.get("PrivilegeEscalation"):
                 print(f"- Method: {item.get('type')}")
                 print(f"  Actions: {', '.join(item.get('PrivilegeEscalation'))}\n")
-        if results.get("DataExfiltrationActions"):
+        if results.get("DataExfiltration"):
             results_exist += 1
             print(f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltrationActions'))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration'))}\n"
             )
-        if results.get("PermissionsManagementActions"):
+        if results.get("ResourceExposure"):
             results_exist += 1
             print(f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('PermissionsManagementActions'))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure'))}\n"
             )
         if not high_priority_only:
             results_exist += 1

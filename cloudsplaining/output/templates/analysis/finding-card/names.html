@@ -46,13 +46,13 @@ Attached to Principal: {{ finding["AttachedToPrincipal"] }}
                role="alert">Privilege Escalation
           </div>
         {% endif %}
-        {% if finding["DataExfiltrationActions"]|length > 0 %}
+        {% if finding["DataExfiltration"]|length > 0 %}
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
         {% endif %}
-        {% if finding["PermissionsManagementActions"]|length > 0 %}
+        {% if finding["ResourceExposure"]|length > 0 %}
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'

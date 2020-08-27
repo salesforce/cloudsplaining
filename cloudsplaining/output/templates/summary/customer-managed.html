@@ -45,8 +45,8 @@
         <td><p style="max-height: 100px; overflow: scroll;">{% for service in finding["Services"] %}{{ service }}{% if not loop.last %}, {% endif %}{% endfor %}</p></td>
         <td>{{ finding["ActionsCount"] }}</td>
         <td> {% if finding["PrivilegeEscalation"]|length > 0 %} {{ finding["PrivilegeEscalation"]|length }} {% endif %}</td>
-        <td> {% if finding["PermissionsManagementActions"]|length>0 %} {{ finding["PermissionsManagementActions"]|length }}{% endif %}</td>
-        <td> {% if finding["DataExfiltrationActions"]|length > 0 %}{{ finding["DataExfiltrationActions"]|length }} {% endif %}</td>
+        <td> {% if finding["ResourceExposure"]|length>0 %} {{ finding["ResourceExposure"]|length }}{% endif %}</td>
+        <td> {% if finding["DataExfiltration"]|length > 0 %}{{ finding["DataExfiltration"]|length }} {% endif %}</td>
         <td> {% if finding["AssumableByComputeService"]|length > 0 %}{{ finding["AssumableByComputeService"]|length }} {% endif %}</td>
       </tr>
     {% endif %}

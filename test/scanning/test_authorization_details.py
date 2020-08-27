@@ -187,8 +187,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [],
-                "PermissionsManagementActions": []
+                "DataExfiltration": [],
+                "ResourceExposure": []
             },
             {
                 "AccountID": "012345678901",
@@ -236,10 +236,10 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                 "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [
+                "DataExfiltration": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": []
+                "ResourceExposure": []
             }
         ]
 

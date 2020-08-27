@@ -7,7 +7,7 @@ from cloudsplaining.shared.exclusions import (
     Exclusions,
     DEFAULT_EXCLUSIONS,
 )
-from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
+from cloudsplaining.shared.constants import READ_ONLY_DATA_EXFILTRATION_ACTIONS
 from cloudsplaining.shared.utils import capitalize_first_character, get_full_policy_path
 
 logger = logging.getLogger(__name__)
@@ -297,10 +297,10 @@ class Finding:
         return self.policy_document.allows_privilege_escalation
 
     @property
-    def data_leak_actions(self):
+    def data_exfiltration_actions(self):
         """Return a list of actions that could cause data exfiltration, if applicable."""
         return self.policy_document.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_LEAK_ACTIONS
+            READ_ONLY_DATA_EXFILTRATION_ACTIONS
         )
 
     @property
@@ -326,8 +326,8 @@ class Finding:
             # These items help with prioritizing triage and remediation.
             "AssumableByComputeService": self.role_assumable_by_compute_services,
             "PrivilegeEscalation": self.privilege_escalation,
-            "DataExfiltrationActions": self.data_leak_actions,
-            "PermissionsManagementActions": self.permissions_management_actions_without_constraints,
+            "DataExfiltration": self.data_exfiltration_actions,
+            "ResourceExposure": self.permissions_management_actions_without_constraints,
             # Separate the "Write" and "Tagging" actions in the machine-readable output only
             # "WriteActions": self.policy_document.write_actions_without_constraints,
             # "TaggingActions": self.policy_document.tagging_actions_without_constraints,

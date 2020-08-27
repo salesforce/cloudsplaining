@@ -128,7 +128,7 @@ users:
 groups:
   - ""
 # Read-only actions to include in the results, such as s3:GetObject
-# By default, it includes Actions that could lead to Data Leaks
+# By default, it includes Actions that could lead to Data Exfiltration
 include-actions:
   - "s3:GetObject"
   - "ssm:GetParameter"

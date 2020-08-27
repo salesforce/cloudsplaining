@@ -7,10 +7,10 @@
       "PolicyName": "InsecureUserPolicy",
       "PolicyId": "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8",
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "s3:PutObjectAcl"
       ]
     }
@@ -26,10 +26,10 @@
           "PolicyName": "InlinePolicyForBidenGroup",
           "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
           "PrivilegeEscalation": [],
-          "DataExfiltrationActions": [
+          "DataExfiltration": [
             "s3:GetObject"
           ],
-          "PermissionsManagementActions": [
+          "ResourceExposure": [
             "s3:PutObjectAcl"
           ]
         }
