@@ -117,8 +117,8 @@ class ManagedPolicy:
             UpdateDate=self.update_date,
             PolicyVersionList=self.policy_version_list,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
-            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
-            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+            DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
+            ResourceExposure=self.policy_document.permissions_management_without_constraints,
         )
         return result
 
@@ -137,8 +137,8 @@ class ManagedPolicy:
             UpdateDate=self.update_date,
             PolicyVersionList=self.policy_version_list,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
-            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
-            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+            DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
+            ResourceExposure=self.policy_document.permissions_management_without_constraints,
             InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
         )
         return result

@@ -8,7 +8,7 @@ aws iam get-account-authorization-details command."""
 import logging
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
-from cloudsplaining.shared.constants import READ_ONLY_DATA_LEAK_ACTIONS
+from cloudsplaining.shared.constants import READ_ONLY_DATA_EXFILTRATION_ACTIONS
 
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
@@ -139,8 +139,8 @@ class PolicyDocument:
         return allowed
 
     @property
-    def allows_data_leak_actions(self):
-        """If any 'Data leak' actions are allowed without resource constraints, return those actions."""
+    def allows_data_exfiltration_actions(self):
+        """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
         return self.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_LEAK_ACTIONS
+            READ_ONLY_DATA_EXFILTRATION_ACTIONS
         )

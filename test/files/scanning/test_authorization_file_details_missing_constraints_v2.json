@@ -44,10 +44,10 @@
         },
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     },
     {
         "AccountID": "012345678901",
@@ -110,8 +110,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ecr:DeleteRepositoryPolicy",
             "ecr:SetRepositoryPolicy"
         ]
@@ -162,10 +162,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     },
     {
         "AccountID": "012345678901",
@@ -212,9 +212,9 @@
         },
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     }
 ]

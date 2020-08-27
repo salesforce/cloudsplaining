@@ -68,11 +68,11 @@ class PolicyFileTestCase(unittest.TestCase):
                     principal_policy_entry["PrivilegeEscalation"] = len(
                         finding["PrivilegeEscalation"]
                     )
-                    principal_policy_entry["DataExfiltrationActions"] = len(
-                        finding["DataExfiltrationActions"]
+                    principal_policy_entry["DataExfiltration"] = len(
+                        finding["DataExfiltration"]
                     )
-                    principal_policy_entry["PermissionsManagementActions"] = len(
-                        finding["PermissionsManagementActions"]
+                    principal_policy_entry["ResourceExposure"] = len(
+                        finding["ResourceExposure"]
                     )
                     principal_name = principal_policy_entry["Principal"]
                     # Customer Managed Policies

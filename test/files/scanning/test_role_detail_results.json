@@ -28,11 +28,11 @@
           ]
         }
       ],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject",
         "secretsmanager:GetSecretValue"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "iam:CreateAccessKey"
       ]
     }

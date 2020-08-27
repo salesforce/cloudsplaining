@@ -25,8 +25,8 @@ class InlinePolicy:
             PolicyName=self.policy_name,
             PolicyId=self.policy_id,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
-            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
-            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+            DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
+            ResourceExposure=self.policy_document.permissions_management_without_constraints,
         )
         return result
 
@@ -37,8 +37,8 @@ class InlinePolicy:
             PolicyName=self.policy_name,
             PolicyId=self.policy_id,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
-            DataExfiltrationActions=self.policy_document.allows_data_leak_actions,
-            PermissionsManagementActions=self.policy_document.permissions_management_without_constraints,
+            DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
+            ResourceExposure=self.policy_document.permissions_management_without_constraints,
             InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
         )
         return result
