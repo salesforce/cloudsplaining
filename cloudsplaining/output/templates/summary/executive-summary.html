@@ -59,11 +59,11 @@
     <td style="background-color: #FFB660">{{ t["results"]|length }}</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
-  {% if t["policies_with_data_leak_potential"] > 0 %}
+  {% if t["policies_with_data_exfiltration"] > 0 %}
     <tr>
     <td>
       <a href="#definition-data-exfiltration"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</div></a>
-    <td style="background-color: #FFE295;">{{ t["policies_with_data_leak_potential"] }}</td>
+    <td style="background-color: #FFE295;">{{ t["policies_with_data_exfiltration"] }}</td>
     <td style="background-color: #FFE295;">Medium</td>
   </tr>
   {% endif %}

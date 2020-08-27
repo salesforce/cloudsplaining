@@ -61,10 +61,10 @@
 #             "AssumableByComputeService": [],
 #             "AssumeRolePolicyDocument": None,
 #             "PrivilegeEscalation": [],
-#             "DataExfiltrationActions": [
+#             "DataExfiltration": [
 #                 "s3:GetObject"
 #             ],
-#             "PermissionsManagementActions": [],
+#             "ResourceExposure": [],
 #         }
 #         # print(json.dumps(finding.json, indent=4))
 #         self.assertDictEqual(finding.json, expected_finding_json)

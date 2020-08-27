@@ -117,10 +117,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "sns:AddPermission",
             "sns:CreateTopic",
             "sns:SetTopicAttributes",
@@ -386,8 +386,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [],
+        "DataExfiltration": [],
+        "ResourceExposure": [],
         "Principals": [
             "obama"
         ]
@@ -437,8 +437,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [],
+        "DataExfiltration": [],
+        "ResourceExposure": [],
         "Principals": [
             "userwithlotsofpermissions"
         ]
@@ -719,10 +719,10 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "iam:PassRole",
             "iot:AttachPrincipalPolicy",
             "lambda:AddLayerVersionPermission",
@@ -1015,8 +1015,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ec2:CreateNetworkInterfacePermission",
             "ec2:DeleteNetworkInterfacePermission",
             "ec2:ModifySnapshotAttribute",
@@ -1186,8 +1186,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "rds:AuthorizeDBSecurityGroupIngress",
             "iam:CreateServiceLinkedRole"
         ],
@@ -1270,10 +1270,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "s3:BypassGovernanceRetention",
             "s3:DeleteAccessPointPolicy",
             "s3:DeleteBucketPolicy",
@@ -1322,10 +1322,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [],
+        "ResourceExposure": [],
         "Principals": [
             "userwithlotsofpermissions"
         ]
@@ -1381,8 +1381,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [],
+        "DataExfiltration": [],
+        "ResourceExposure": [],
         "Principals": [
             "userwithlotsofpermissions"
         ]
@@ -1473,8 +1473,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "logs:DeleteResourcePolicy",
             "logs:PutResourcePolicy",
             "sns:AddPermission",
@@ -1667,8 +1667,8 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "iam:AddClientIDToOpenIDConnectProvider",
             "iam:AddRoleToInstanceProfile",
             "iam:AddUserToGroup",
@@ -1831,10 +1831,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "s3:BypassGovernanceRetention",
             "s3:DeleteAccessPointPolicy",
             "s3:DeleteBucketPolicy",
@@ -1884,8 +1884,8 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "s3:PutObjectAcl"
         ],
         "Principals": [
@@ -1930,10 +1930,10 @@
         "AssumeRolePolicyDocument": null,
         "AssumableByComputeService": [],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "s3:PutObjectAcl"
         ]
     },
@@ -1994,8 +1994,8 @@
             "ec2"
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "iam:AddRoleToInstanceProfile",
             "iam:CreateInstanceProfile",
             "iam:PassRole"
@@ -2059,11 +2059,11 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject",
             "secretsmanager:GetSecretValue"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "iam:CreateAccessKey"
         ]
     }

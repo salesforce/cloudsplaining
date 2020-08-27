@@ -194,7 +194,7 @@ class TestPolicyDocument(unittest.TestCase):
         self.assertListEqual(results, ["s3:PutObject"])
         results = policy_document.tagging_actions_without_constraints
         self.assertListEqual(results, ["ec2:CreateTags"])
-        results = policy_document.allows_data_leak_actions
+        results = policy_document.allows_data_exfiltration_actions
         expected_results = high_priority_read_only_actions
         self.assertListEqual(results, expected_results)
         with self.assertRaises(Exception):

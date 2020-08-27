@@ -153,8 +153,8 @@ class UserDetail:
                         if action not in resource_exposure_results:
                             resource_exposure_results.append(action)
                 # Data Exfiltration
-                if inline_policy.policy_document.allows_data_leak_actions:
-                    for action in inline_policy.policy_document.allows_data_leak_actions:
+                if inline_policy.policy_document.allows_data_exfiltration_actions:
+                    for action in inline_policy.policy_document.allows_data_exfiltration_actions:
                         if action not in data_exfiltration_results:
                             data_exfiltration_results.append(action)
 
@@ -171,8 +171,8 @@ class UserDetail:
                         if action not in resource_exposure_results:
                             resource_exposure_results.append(action)
                 # Data Exfiltration
-                if managed_policy.policy_document.allows_data_leak_actions:
-                    for action in managed_policy.policy_document.allows_data_leak_actions:
+                if managed_policy.policy_document.allows_data_exfiltration_actions:
+                    for action in managed_policy.policy_document.allows_data_exfiltration_actions:
                         if action not in data_exfiltration_results:
                             data_exfiltration_results.append(action)
 

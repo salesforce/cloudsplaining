@@ -43,7 +43,7 @@ users:
 groups:
   - ""
 # Read-only actions to include in the results, such as s3:GetObject
-# By default, it includes Actions that could lead to Data Leaks
+# By default, it includes Actions that could lead to Data Exfiltration
 include-actions:
   - "s3:GetObject"
   - "ssm:GetParameter"
@@ -60,7 +60,7 @@ exclude-actions:
 # These are not meant to cover every possibility - just high priority ones.
 # For now, we have included s3, SSM Parameter Store, and Secrets Manager.
 # Feel free to open up a GitHub issue if you have suggestions.
-READ_ONLY_DATA_LEAK_ACTIONS = [
+READ_ONLY_DATA_EXFILTRATION_ACTIONS = [
     "s3:GetObject",
     "ssm:GetParameter",
     "ssm:GetParameters",

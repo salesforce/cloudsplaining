@@ -66,8 +66,8 @@
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
     {% if finding["PrivilegeEscalation"]|length > 0 or
-        finding["DataExfiltrationActions"]|length > 0 or
-        finding["PermissionsManagementActions"]|length > 0
+        finding["DataExfiltration"]|length > 0 or
+        finding["ResourceExposure"]|length > 0
     %}
     <div class="card">
       <div class="card-header">
