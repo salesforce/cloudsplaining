@@ -7,8 +7,6 @@
 import logging
 from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
-
-# from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
 from cloudsplaining.output.findings import (
@@ -21,8 +19,6 @@ from cloudsplaining.output.findings import (
 from cloudsplaining.scan.group_details import GroupDetailList
 from cloudsplaining.scan.role_details import RoleDetailList
 from cloudsplaining.scan.user_details import UserDetailList
-
-# from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 
 all_service_prefixes = get_all_service_prefixes()
@@ -73,7 +69,7 @@ class AuthorizationDetails:
             "groups": self.new_group_detail_list.json,
             "users": self.new_user_detail_list.json,
             "roles": self.new_role_detail_list.json,
-            "policies": self.policies.json_large,
+            "managed-policies": self.policies.json_large,
             "inline-policies": self.inline_policies
         }
         return results

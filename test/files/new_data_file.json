@@ -5,9 +5,7 @@
       "create_date": "2017-05-15 17:33:36+00:00",
       "id": "admin",
       "inline_policies": {},
-      "inline_policies_count": 0,
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess"
       }
@@ -19,9 +17,7 @@
       "inline_policies": {
         "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
       },
-      "inline_policies_count": 1,
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
       }
@@ -33,23 +29,19 @@
       "create_date": "2019-12-18 19:10:08+00:00",
       "id": "obama",
       "inline_policies": {},
-      "inline_policies_count": 0,
       "groups": {
         "admin": {
           "arn": "arn:aws:iam::012345678901:group/admin",
           "create_date": "2017-05-15 17:33:36+00:00",
           "id": "admin",
           "inline_policies": {},
-          "inline_policies_count": 0,
           "path": "/",
-          "managed_policies_count": 1,
           "managed_policies": {
             "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess"
           }
         }
       },
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess"
       }
@@ -61,23 +53,19 @@
       "inline_policies": {
         "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
       },
-      "inline_policies_count": 1,
       "groups": {
         "admin": {
           "arn": "arn:aws:iam::012345678901:group/admin",
           "create_date": "2017-05-15 17:33:36+00:00",
           "id": "admin",
           "inline_policies": {},
-          "inline_policies_count": 0,
           "path": "/",
-          "managed_policies_count": 1,
           "managed_policies": {
             "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess"
           }
         }
       },
       "path": "/",
-      "managed_policies_count": 0,
       "managed_policies": {}
     },
     "biden": {
@@ -87,7 +75,6 @@
       "inline_policies": {
         "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
       },
-      "inline_policies_count": 1,
       "groups": {
         "biden": {
           "arn": "arn:aws:iam::012345678901:group/biden",
@@ -96,16 +83,13 @@
           "inline_policies": {
             "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
           },
-          "inline_policies_count": 1,
           "path": "/",
-          "managed_policies_count": 1,
           "managed_policies": {
             "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
           }
         }
       },
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
       }
@@ -133,11 +117,9 @@
       "inline_policies": {
         "aad4a5d1e0cd67fb99c658e1d326f16afd2f6857804f6ffd547c9c13ef508540": "EC2-IAM-example"
       },
-      "inline_policies_count": 1,
       "instance_profiles": [],
       "instances_count": 0,
       "path": "/",
-      "managed_policies_count": 0,
       "managed_policies": {}
     },
     "MyOtherRole": {
@@ -161,11 +143,9 @@
       "inline_policies": {
         "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": "SupYo"
       },
-      "inline_policies_count": 1,
       "instance_profiles": [],
       "instances_count": 0,
       "path": "/",
-      "managed_policies_count": 0,
       "managed_policies": {}
     },
     "OverprivilegedEC2": {
@@ -189,7 +169,6 @@
       "inline_policies": {
         "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": "SupYo"
       },
-      "inline_policies_count": 1,
       "instance_profiles": [
         {
           "Path": "/",
@@ -222,13 +201,12 @@
       ],
       "instances_count": 1,
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "InsecurePolicy": "InsecurePolicy"
       }
     }
   },
-  "policies": {
+  "managed-policies": {
     "NotYourPolicy": {
       "PolicyName": "NotYourPolicy",
       "PolicyId": "NotYourPolicy",

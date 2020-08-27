@@ -260,11 +260,11 @@ class UserDetail:
             create_date=self.create_date,
             id=self.user_id,
             inline_policies=self.inline_policies_pointer_json,
-            inline_policies_count=len(self.inline_policies_pointer_json),
+            # inline_policies_count=len(self.inline_policies_pointer_json),
             # groups=self.groups,
             groups=self.groups_json,
             path=self.path,
-            managed_policies_count=len(self.attached_managed_policies),
+            # managed_policies_count=len(self.attached_managed_policies),
             managed_policies=self.attached_managed_policies_pointer_json,
             # risks=self.consolidated_risks
         )

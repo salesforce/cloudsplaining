@@ -34,7 +34,6 @@ class TestUserDetail(unittest.TestCase):
           "inline_policies": {
             "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
           },
-          "inline_policies_count": 1,
           "groups": {
             "biden": {
               "arn": "arn:aws:iam::012345678901:group/biden",
@@ -43,16 +42,13 @@ class TestUserDetail(unittest.TestCase):
               "inline_policies": {
                 "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
               },
-              "inline_policies_count": 1,
               "path": "/",
-              "managed_policies_count": 1,
               "managed_policies": {
                 "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
               }
             }
           },
           "path": "/",
-          "managed_policies_count": 1,
           "managed_policies": {
             "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
           }

@@ -19,7 +19,6 @@
   "inline_policies": {
     "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": "SupYo"
   },
-  "inline_policies_count": 1,
   "instance_profiles": [
     {
       "Path": "/",
@@ -52,7 +51,6 @@
   ],
   "instances_count": 1,
   "path": "/",
-  "managed_policies_count": 1,
   "managed_policies": {
     "InsecurePolicy": "InsecurePolicy"
   }

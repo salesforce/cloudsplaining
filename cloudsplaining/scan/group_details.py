@@ -233,9 +233,9 @@ class GroupDetail:
             create_date=self.create_date,
             id=self.group_id,
             inline_policies=self.inline_policies_pointer_json,
-            inline_policies_count=len(self.inline_policies_pointer_json),
+            # inline_policies_count=len(self.inline_policies_pointer_json),
             path=self.path,
-            managed_policies_count=len(self.attached_managed_policies),
+            # managed_policies_count=len(self.attached_managed_policies),
             managed_policies=self.attached_managed_policies_pointer_json,
             # risks=self.consolidated_risks
         )
