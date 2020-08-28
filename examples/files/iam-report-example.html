@@ -190,7 +190,7 @@
   </tr>
 </thead>
 <tbody>
-  
+
   <tr>
     <td>
       <a href="#definition-privilege-escalation"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top"
@@ -202,8 +202,8 @@
     <td style="background-color: #F18E73">3</td>
     <td style="background-color: #F18E73">Critical</td>
   </tr>
-  
-  
+
+
   <tr>
     <td>
       <a href="#definition-resource-exposure"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Resource Exposure" data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'>Resource Exposure</div></a>
@@ -211,7 +211,7 @@
     <td style="background-color: #FFB660">12</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
-  
+
   <tr>
     <td>
       <a href="#definition-infrastructure-modification"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Infrastructure Modification" data-content='<p>Infrastructure Modification describes IAM actions with "modify" capabilities, and can therefore lead to <a href="https://attack.mitre.org/techniques/T1496/">Resource Hijacking</a>, unauthorized creation of Infrastructure, Backdoor creation, and/or modification of existing resources which can result in downtime.</p>'>Infrastructure Modification</div></a>
@@ -219,14 +219,14 @@
     <td style="background-color: #FFB660">16</td>
     <td style="background-color: #FFB660">High</td>
   </tr>
-  
+
     <tr>
     <td>
       <a href="#definition-data-exfiltration"><div class="popovers" data-toggle="popover" data-html="true" data-placement="top" title="Data Exfiltration" data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'>Data Exfiltration</div></a>
     <td style="background-color: #FFE295;">7</td>
     <td style="background-color: #FFE295;">Medium</td>
   </tr>
-  
+
   </tbody>
 </table>
 </div>
@@ -272,7 +272,7 @@
      </tr>
   </thead>
   <tbody>
-  
+
     <tr>
       <td></td>
       <td>Group</td>
@@ -286,7 +286,7 @@
       <td>1</td>
       <td>obama, userwithlotsofpermissions</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Group</td>
@@ -300,7 +300,7 @@
       <td>1</td>
       <td>obama, userwithlotsofpermissions</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Group</td>
@@ -314,7 +314,7 @@
       <td></td>
       <td>obama, userwithlotsofpermissions</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -328,7 +328,7 @@
       <td>0</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -342,7 +342,7 @@
       <td>1</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -356,7 +356,7 @@
       <td></td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -370,7 +370,7 @@
       <td>1</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -384,7 +384,7 @@
       <td>0</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -398,7 +398,7 @@
       <td>2</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>Role</td>
@@ -412,7 +412,7 @@
       <td>0</td>
       <td></td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -426,7 +426,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -440,7 +440,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -454,7 +454,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -468,7 +468,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -482,7 +482,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -496,7 +496,7 @@
       <td></td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -510,7 +510,7 @@
       <td></td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -524,7 +524,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -538,7 +538,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -552,7 +552,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -566,7 +566,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -580,7 +580,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -594,7 +594,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -608,7 +608,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -622,7 +622,7 @@
       <td></td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -636,7 +636,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -650,7 +650,7 @@
       <td>1</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -664,7 +664,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -678,7 +678,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
     <tr>
       <td></td>
       <td>User</td>
@@ -692,7 +692,7 @@
       <td>0</td>
       <td>admin</td>
     </tr>
-  
+
   </tbody>
 </table>
 </div>
@@ -740,30 +740,30 @@
      </tr>
   </thead>
   <tbody>
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <tr>
         <td></td>
         <td>Inline Group Policy</td>
@@ -777,9 +777,9 @@
         <td> 1 </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td>Customer-Managed Policy</td>
@@ -793,9 +793,9 @@
         <td> </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td>Inline User Policy</td>
@@ -809,9 +809,9 @@
         <td> 1 </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td>Inline Role Policy</td>
@@ -825,9 +825,9 @@
         <td> </td>
         <td> 1 </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td>Inline Role Policy</td>
@@ -841,8 +841,8 @@
         <td> 2 </td>
         <td> 1 </td>
       </tr>
-    
-  
+
+
   </tbody>
 </table>
 </div>
@@ -850,30 +850,30 @@
 
             <!--Analysis: Customer-managed-policies-->
             <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-Managed and Inline Policies</h3>
-            
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -883,14 +883,14 @@
     <br>
     <br>
     Type: Inline Group Policy
-  
+
 <!--Inline Policies - identify which ones are attached to which principal-->
 <!--This will only apply if finding["Type"] != "Policy"-->
-  
+
 <br>
 <br>
 Attached to Principal: admin
-  
+
 
 <!--/end AttachedToPrincipal-->
   </h6>
@@ -902,24 +902,24 @@ Attached to Principal: admin
       <br>
       Type: Inline Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -951,10 +951,10 @@ Attached to Principal: admin
             </div>
          </div>
       </div>
-      
+
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
-        
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-11" href="#card-element-customer-attached-to-principal11">Attached To Principal as Inline Policy</a>
@@ -967,12 +967,12 @@ admin
             </div>
            </div>
         </div>
-        
-      
+
+
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
      <!--Trust Policy Document-->
-      
+
      <!--/end Trust Policy Document-->
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
@@ -1036,7 +1036,7 @@ admin
         </div>
       </div>
       <!--/All actions for the policy that do not practice resource constraints-->
-      
+
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
@@ -1046,9 +1046,9 @@ admin
                <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
+
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -1058,8 +1058,8 @@ admin
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -1079,21 +1079,21 @@ admin
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
            </div>
         </div>
       <!--/end High Priority Risks-->
-      
+
    </div>
 
   </div><!-- /col for card -->
 </div>
 
 
-  
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1103,8 +1103,8 @@ admin
     <br>
     <br>
     Type: Customer-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -1113,7 +1113,7 @@ admin
 - OverprivilegedEC2
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -1124,19 +1124,19 @@ admin
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1171,8 +1171,8 @@ admin
             </div>
          </div>
       </div>
-      
-        
+
+
       <!--Policies Attached to principals-->
         <div class="card">
       <div class="card-header">
@@ -1187,13 +1187,13 @@ admin
         </div>
       </div>
     </div>
-        
+
         <!--/Policies Attached to principals-->
-      
+
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
      <!--Trust Policy Document-->
-      
+
      <!--/end Trust Policy Document-->
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
@@ -1212,7 +1212,7 @@ admin
         </div>
       </div>
       <!--/All actions for the policy that do not practice resource constraints-->
-      
+
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
@@ -1222,10 +1222,10 @@ admin
                <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
-        
+
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -1235,21 +1235,21 @@ admin
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
            </div>
         </div>
       <!--/end High Priority Risks-->
-      
+
    </div>
 
   </div><!-- /col for card -->
 </div>
 
 
-  
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1259,14 +1259,14 @@ admin
     <br>
     <br>
     Type: Inline User Policy
-  
+
 <!--Inline Policies - identify which ones are attached to which principal-->
 <!--This will only apply if finding["Type"] != "Policy"-->
-  
+
 <br>
 <br>
 Attached to Principal: userwithlotsofpermissions
-  
+
 
 <!--/end AttachedToPrincipal-->
   </h6>
@@ -1278,24 +1278,24 @@ Attached to Principal: userwithlotsofpermissions
       <br>
       Type: Inline Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1331,10 +1331,10 @@ Attached to Principal: userwithlotsofpermissions
             </div>
          </div>
       </div>
-      
+
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
-        
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-13" href="#card-element-customer-attached-to-principal13">Attached To Principal as Inline Policy</a>
@@ -1347,12 +1347,12 @@ userwithlotsofpermissions
             </div>
            </div>
         </div>
-        
-      
+
+
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
      <!--Trust Policy Document-->
-      
+
      <!--/end Trust Policy Document-->
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
@@ -1372,7 +1372,7 @@ userwithlotsofpermissions
         </div>
       </div>
       <!--/All actions for the policy that do not practice resource constraints-->
-      
+
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
@@ -1382,9 +1382,9 @@ userwithlotsofpermissions
                <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
+
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -1394,8 +1394,8 @@ userwithlotsofpermissions
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -1405,21 +1405,21 @@ userwithlotsofpermissions
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
            </div>
         </div>
       <!--/end High Priority Risks-->
-      
+
    </div>
 
   </div><!-- /col for card -->
 </div>
 
 
-  
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1429,14 +1429,14 @@ userwithlotsofpermissions
     <br>
     <br>
     Type: Inline Role Policy
-  
+
 <!--Inline Policies - identify which ones are attached to which principal-->
 <!--This will only apply if finding["Type"] != "Policy"-->
-  
+
 <br>
 <br>
 Attached to Principal: MyOtherRole
-  
+
 
 <!--/end AttachedToPrincipal-->
   </h6>
@@ -1448,21 +1448,21 @@ Attached to Principal: MyOtherRole
       <br>
       Type: Inline Policy
       <br>
-    
+
       Role Assumable by Service(s): ec2
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
           <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Role Assumable by Compute Service"
                data-content='
@@ -1472,7 +1472,7 @@ Attached to Principal: MyOtherRole
                For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.
                </p>'
                role="alert">Role Assumable by Compute Service</div>
-        
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1511,10 +1511,10 @@ Attached to Principal: MyOtherRole
             </div>
          </div>
       </div>
-      
+
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
-        
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-attached-to-principal14">Attached To Principal as Inline Policy</a>
@@ -1527,12 +1527,12 @@ MyOtherRole
             </div>
            </div>
         </div>
-        
-      
+
+
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
      <!--Trust Policy Document-->
-      
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-14" href="#card-element-customer-trust-policy14">Trust Policy Document</a>
@@ -1556,7 +1556,7 @@ MyOtherRole
             </div>
            </div>
         </div>
-      
+
      <!--/end Trust Policy Document-->
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
@@ -1578,7 +1578,7 @@ MyOtherRole
         </div>
       </div>
       <!--/All actions for the policy that do not practice resource constraints-->
-      
+
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
@@ -1588,7 +1588,7 @@ MyOtherRole
                <div class="card-body">
   <div class="grid">
       <div class="row">
-        
+
         <!--Role Assumable by Compute Services-->
         <div class="col-sm border">
   Assumable by Compute Services <a href="#definition-roles-assumable-by-compute-services"><small>[link]</small></a>
@@ -1597,10 +1597,10 @@ MyOtherRole
 - ec2
           </code></pre>
         </div>
-        
-        
-        
-        
+
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -1612,21 +1612,21 @@ MyOtherRole
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
            </div>
         </div>
       <!--/end High Priority Risks-->
-      
+
    </div>
 
   </div><!-- /col for card -->
 </div>
 
 
-  
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -1636,14 +1636,14 @@ MyOtherRole
     <br>
     <br>
     Type: Inline Role Policy
-  
+
 <!--Inline Policies - identify which ones are attached to which principal-->
 <!--This will only apply if finding["Type"] != "Policy"-->
-  
+
 <br>
 <br>
 Attached to Principal: OverprivilegedEC2
-  
+
 
 <!--/end AttachedToPrincipal-->
   </h6>
@@ -1655,32 +1655,32 @@ Attached to Principal: OverprivilegedEC2
       <br>
       Type: Inline Policy
       <br>
-    
+
       Role Assumable by Service(s): ec2
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
+
           <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Privilege Escalation"
                data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
                role="alert">Privilege Escalation
           </div>
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
           <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Role Assumable by Compute Service"
                data-content='
@@ -1690,7 +1690,7 @@ Attached to Principal: OverprivilegedEC2
                For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.
                </p>'
                role="alert">Role Assumable by Compute Service</div>
-        
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -1724,10 +1724,10 @@ Attached to Principal: OverprivilegedEC2
             </div>
          </div>
       </div>
-      
+
      <!--Inline Policies - identify which ones are attached to which principal-->
       <!--This will only apply if finding["Type"] != "Policy"-->
-        
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-attached-to-principal15">Attached To Principal as Inline Policy</a>
@@ -1740,12 +1740,12 @@ OverprivilegedEC2
             </div>
            </div>
         </div>
-        
-      
+
+
      <!--/end AttachedToPrincipal-->
 <!--       endif -->
      <!--Trust Policy Document-->
-      
+
         <div class="card">
            <div class="card-header">
               <a class="card-link" data-toggle="collapse" data-parent="#card-customer-15" href="#card-element-customer-trust-policy15">Trust Policy Document</a>
@@ -1769,7 +1769,7 @@ OverprivilegedEC2
             </div>
            </div>
         </div>
-      
+
      <!--/end Trust Policy Document-->
       <!--All actions for the policy that do not practice resource constraints-->
       <div class="card">
@@ -1789,7 +1789,7 @@ OverprivilegedEC2
         </div>
       </div>
       <!--/All actions for the policy that do not practice resource constraints-->
-      
+
       <!--High Priority Risks-->
         <div class="card">
            <div class="card-header">
@@ -1799,7 +1799,7 @@ OverprivilegedEC2
                <div class="card-body">
   <div class="grid">
       <div class="row">
-        
+
         <!--Role Assumable by Compute Services-->
         <div class="col-sm border">
   Assumable by Compute Services <a href="#definition-roles-assumable-by-compute-services"><small>[link]</small></a>
@@ -1808,8 +1808,8 @@ OverprivilegedEC2
 - ec2
           </code></pre>
         </div>
-        
-        
+
+
         <!--Privilege Escalation-->
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
@@ -1821,8 +1821,8 @@ Actions:
 
             </code></pre>
         </div>
-        
-        
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -1833,8 +1833,8 @@ Actions:
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -1844,14 +1844,14 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
            </div>
         </div>
       <!--/end High Priority Risks-->
-      
+
    </div>
 
   </div><!-- /col for card -->
@@ -1896,8 +1896,8 @@ Actions:
      </tr>
   </thead>
   <tbody>
-  
-    
+
+
       <tr>
         <td></td>
         <td><a href="#AWSCloudTrailFullAccess">AWSCloudTrailFullAccess</a></td>
@@ -1908,9 +1908,9 @@ Actions:
         <td>  5</td>
         <td> 1 </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AWSCodeCommitFullAccess">AWSCodeCommitFullAccess</a></td>
@@ -1921,9 +1921,9 @@ Actions:
         <td> </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AWSKeyManagementServicePowerUser">AWSKeyManagementServicePowerUser</a></td>
@@ -1934,9 +1934,9 @@ Actions:
         <td> </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AWSLambdaFullAccess">AWSLambdaFullAccess</a></td>
@@ -1947,9 +1947,9 @@ Actions:
         <td>  21</td>
         <td> 1 </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AmazonEC2FullAccess">AmazonEC2FullAccess</a></td>
@@ -1960,9 +1960,9 @@ Actions:
         <td>  6</td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AmazonRDSFullAccess">AmazonRDSFullAccess</a></td>
@@ -1973,9 +1973,9 @@ Actions:
         <td>  2</td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AmazonS3FullAccess">AmazonS3FullAccess</a></td>
@@ -1986,9 +1986,9 @@ Actions:
         <td>  11</td>
         <td> 1 </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AmazonS3ReadOnlyAccess">AmazonS3ReadOnlyAccess</a></td>
@@ -1999,9 +1999,9 @@ Actions:
         <td> </td>
         <td> 1 </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#AmazonSESFullAccess">AmazonSESFullAccess</a></td>
@@ -2012,9 +2012,9 @@ Actions:
         <td> </td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#CloudWatchFullAccess">CloudWatchFullAccess</a></td>
@@ -2025,9 +2025,9 @@ Actions:
         <td>  6</td>
         <td> </td>
       </tr>
-    
-  
-    
+
+
+
       <tr>
         <td></td>
         <td><a href="#IAMFullAccess">IAMFullAccess</a></td>
@@ -2038,18 +2038,18 @@ Actions:
         <td>  79</td>
         <td> </td>
       </tr>
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
+
+
+
+
+
+
+
+
+
+
+
+
   </tbody>
 </table>
 </div>
@@ -2058,8 +2058,8 @@ Actions:
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-Managed Policies</h3>
             <br>
-            
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2069,8 +2069,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -2079,7 +2079,7 @@ Actions:
 - obama
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -2090,24 +2090,24 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2205,7 +2205,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-0" href="#card-element-aws-doc-principals0">Attached to Principals</a>
@@ -2220,8 +2220,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -2255,7 +2255,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-0" href="#card-element-aws-risks0">High Priority risks</a>
@@ -2264,9 +2264,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
+
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -2276,8 +2276,8 @@ Actions:
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -2291,19 +2291,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2313,8 +2313,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -2323,7 +2323,7 @@ Actions:
 - obama
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -2334,14 +2334,14 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
-        
+
+
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2542,7 +2542,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-1" href="#card-element-aws-doc-principals1">Attached to Principals</a>
@@ -2557,8 +2557,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -2626,13 +2626,13 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2642,8 +2642,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -2652,7 +2652,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -2663,14 +2663,14 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
-        
+
+
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2712,7 +2712,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-2" href="#card-element-aws-doc-principals2">Attached to Principals</a>
@@ -2727,8 +2727,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -2748,13 +2748,13 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -2764,8 +2764,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -2782,7 +2782,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -2793,30 +2793,30 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
+
           <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Privilege Escalation"
                data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
                role="alert">Privilege Escalation
           </div>
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -2898,7 +2898,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-3" href="#card-element-aws-doc-principals3">Attached to Principals</a>
@@ -2917,8 +2917,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -3085,7 +3085,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-3" href="#card-element-aws-risks3">High Priority risks</a>
@@ -3094,8 +3094,8 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
+
+
         <!--Privilege Escalation-->
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
@@ -3127,8 +3127,8 @@ Actions:
 
             </code></pre>
         </div>
-        
-        
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -3138,8 +3138,8 @@ Actions:
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -3169,19 +3169,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3191,8 +3191,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -3201,7 +3201,7 @@ Actions:
 - obama
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -3212,19 +3212,19 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3285,7 +3285,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-4" href="#card-element-aws-doc-principals4">Attached to Principals</a>
@@ -3300,8 +3300,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -3515,7 +3515,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-4" href="#card-element-aws-risks4">High Priority risks</a>
@@ -3524,10 +3524,10 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
-        
+
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -3542,19 +3542,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3564,8 +3564,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -3574,7 +3574,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -3585,19 +3585,19 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3669,7 +3669,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-5" href="#card-element-aws-doc-principals5">Attached to Principals</a>
@@ -3684,8 +3684,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -3785,7 +3785,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-5" href="#card-element-aws-risks5">High Priority risks</a>
@@ -3794,10 +3794,10 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
-        
+
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -3808,19 +3808,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -3830,8 +3830,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -3840,7 +3840,7 @@ Actions:
 - obama
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -3851,24 +3851,24 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -3897,7 +3897,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-6" href="#card-element-aws-doc-principals6">Attached to Principals</a>
@@ -3912,8 +3912,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -3976,7 +3976,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-6" href="#card-element-aws-risks6">High Priority risks</a>
@@ -3985,9 +3985,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
+
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -3997,8 +3997,8 @@ Actions:
 ]
           </code></pre>
         </div>
-        
-        
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -4018,19 +4018,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4040,8 +4040,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -4050,7 +4050,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -4061,19 +4061,19 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
+
+
           <div class="alert alert-warning popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Data Exfiltration"
                data-content='<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
                role="alert">Data Exfiltration</div>
-        
-        
-        
+
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4105,7 +4105,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-7" href="#card-element-aws-doc-principals7">Attached to Principals</a>
@@ -4120,8 +4120,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -4138,7 +4138,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-7" href="#card-element-aws-risks7">High Priority risks</a>
@@ -4147,9 +4147,9 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
+
+
+
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
@@ -4159,20 +4159,20 @@ Actions:
 ]
           </code></pre>
         </div>
-        
-        
+
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4182,8 +4182,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -4192,7 +4192,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -4203,14 +4203,14 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
-        
+
+
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4241,7 +4241,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-8" href="#card-element-aws-doc-principals8">Attached to Principals</a>
@@ -4256,8 +4256,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -4294,13 +4294,13 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4310,8 +4310,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -4324,7 +4324,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -4335,19 +4335,19 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4394,7 +4394,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-9" href="#card-element-aws-doc-principals9">Attached to Principals</a>
@@ -4411,8 +4411,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -4466,7 +4466,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-9" href="#card-element-aws-risks9">High Priority risks</a>
@@ -4475,10 +4475,10 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
-        
-        
+
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -4493,19 +4493,19 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
+
+
 <br>
 <div class="row">
   <div class="col-md-5">
@@ -4515,8 +4515,8 @@ Actions:
     <br>
     <br>
     Type: AWS-Managed Policy
-  
-  
+
+
 <br>
 <br>
     Attached to Principal(s):
@@ -4525,7 +4525,7 @@ Actions:
 - userwithlotsofpermissions
 
 <!--/Policies Attached to principals-->
-  
+
 <!--/end AttachedToPrincipal-->
   </h6>
     <div class="card-body">
@@ -4536,25 +4536,25 @@ Actions:
       <br>
       Type: Managed Policy
       <br>
-    
+
     </p>
     </div> <!-- /card-text -->
       <div class="card-footer"> <!-- card-footer: Where we store risk category indicators -->
-        
+
           <div class="alert alert-danger popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Privilege Escalation"
                data-content='<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
                role="alert">Privilege Escalation
           </div>
-        
-        
-        
+
+
+
           <div class="alert alert-danger popovers"  data-toggle="popover" data-html="true" data-placement="top"
                title="Resource Exposure"
                data-content='<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
                role="alert">Resource Exposure</div>
-        
-        
+
+
       </div><!-- /card-footer -->
    </div><!-- /card -->
 <br>
@@ -4595,7 +4595,7 @@ Actions:
         </div>
       </div>
     </div>
-      
+
         <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-doc-principals10">Attached to Principals</a>
@@ -4610,8 +4610,8 @@ Actions:
       </div>
     </div>
       <!--/attached to principals-->
-      
-      
+
+
     <!--All actions for the policy that do not practice resource constraints-->
     <div class="card">
       <div class="card-header">
@@ -4705,7 +4705,7 @@ Actions:
       </div>
     </div>
     <!--/All actions for the policy that do not practice resource constraints-->
-    
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" data-parent="#card-aws-10" href="#card-element-aws-risks10">High Priority risks</a>
@@ -4714,8 +4714,8 @@ Actions:
         <div class="card-body">
   <div class="grid">
       <div class="row">
-        
-        
+
+
         <!--Privilege Escalation-->
         <div class="col-sm border">
   Privilege Escalation methods <a href="#definition-privilege-escalation"><small>[link]</small></a>
@@ -4763,9 +4763,9 @@ Actions:
 
             </code></pre>
         </div>
-        
-        
-        
+
+
+
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
@@ -4853,27 +4853,27 @@ Actions:
 ]
           </code></pre>
         </div>
-        
+
       </div>
   </div>
 </div>
       </div>
     </div>
-    
+
      </div>
   </div><!-- /col for card -->
 </div>
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
 
 
           </div><!--/end AWS-MANAGED TAB-->
@@ -4994,7 +4994,7 @@ users:
 groups:
   - &quot;&quot;
 # Read-only actions to include in the results, such as s3:GetObject
-# By default, it includes Actions that could lead to Data Leaks
+# By default, it includes Actions that could lead to Data Exfiltration
 include-actions:
   - &quot;s3:GetObject&quot;
   - &quot;ssm:GetParameter&quot;

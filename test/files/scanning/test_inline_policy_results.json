@@ -15,11 +15,11 @@
       }
     ]
   },
-  "PrivilegeEscalation": [],
-  "DataExfiltrationActions": [
-    "s3:GetObject"
-  ],
-  "PermissionsManagementActions": [
-    "s3:PutObjectAcl"
-  ]
+    "PrivilegeEscalation": [],
+    "DataExfiltration": [
+        "s3:GetObject"
+    ],
+    "ResourceExposure": [
+        "s3:PutObjectAcl"
+    ]
 }

@@ -6,7 +6,7 @@ ISSUE_SUMMARY = "Overly permissive AWS IAM Policies in use"
 ISSUE_DESCRIPTION = """As part of our security assessment, our team ran Cloudsplaining on your AWS account.
 
 Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not used, and
-identifies other risks in IAM policies like Privilege Escalation, Data Leakage, and Resource Exposure/Permissions management.
+identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure.
 
 Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
 

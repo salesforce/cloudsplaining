@@ -24,21 +24,21 @@ Actions:{% for action in dict_item["actions"] %}
             </code></pre>
         </div>
         {% endif %}
-        {% if finding["DataExfiltrationActions"]|length > 0 %}
+        {% if finding["DataExfiltration"]|length > 0 %}
         <!--Data Exfiltration-->
         <div class="col-sm border">
   <p>Data Exfiltration actions <a href="#definition-data-exfiltration"><small>[link]</small></a>
           <pre><code>
-{{ finding["DataExfiltrationActions"] | tojson(indent=2) }}
+{{ finding["DataExfiltration"] | tojson(indent=2) }}
           </code></pre>
         </div>
         {% endif %}
-        {% if finding["PermissionsManagementActions"]|length > 0 %}
+        {% if finding["ResourceExposure"]|length > 0 %}
         <!--Resource Exposure-->
         <div class="col-sm border">
   <p>Resource Exposure actions <a href="#definition-resource-exposure"><small>[link]</small></a></p>
           <pre><code>
-{{ finding["PermissionsManagementActions"] | tojson(indent=2) }}
+{{ finding["ResourceExposure"] | tojson(indent=2) }}
           </code></pre>
         </div>
         {% endif %}

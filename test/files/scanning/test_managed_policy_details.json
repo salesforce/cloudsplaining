@@ -34,8 +34,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "InsecurePolicy": {
         "PolicyName": "InsecurePolicy",
@@ -71,8 +71,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "s3:PutObjectAcl"
         ]
     },
@@ -427,8 +427,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAI3R4QMOG6Q5A4VWVG": {
         "PolicyName": "AmazonRDSFullAccess",
@@ -501,8 +501,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "rds:AuthorizeDBSecurityGroupIngress",
             "iam:CreateServiceLinkedRole"
         ]
@@ -567,8 +567,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ec2:CreateNetworkInterfacePermission",
             "ec2:DeleteNetworkInterfacePermission",
             "ec2:ModifySnapshotAttribute",
@@ -777,8 +777,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAI65L554VRJ33ECQS6": {
         "PolicyName": "AmazonSQSFullAccess",
@@ -810,8 +810,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "sqs:AddPermission",
             "sqs:CreateQueue",
             "sqs:RemovePermission",
@@ -932,10 +932,10 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "iam:PassRole",
             "iot:AttachPrincipalPolicy",
             "lambda:AddLayerVersionPermission",
@@ -1060,8 +1060,8 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "iam:AddClientIDToOpenIDConnectProvider",
             "iam:AddRoleToInstanceProfile",
             "iam:AddUserToGroup",
@@ -1171,10 +1171,10 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "s3:BypassGovernanceRetention",
             "s3:DeleteAccessPointPolicy",
             "s3:DeleteBucketPolicy",
@@ -1251,8 +1251,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAIKEABORKUXN6DEAZU": {
         "PolicyName": "CloudWatchFullAccess",
@@ -1300,8 +1300,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "logs:DeleteResourcePolicy",
             "logs:PutResourcePolicy",
             "sns:AddPermission",
@@ -1866,13 +1866,13 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject",
             "ssm:GetParameter",
             "ssm:GetParameters",
             "ssm:GetParametersByPath"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     },
     "ANPAIMHWGGSRHLOQUICJQ": {
         "PolicyName": "AWSElasticLoadBalancingServiceRolePolicy",
@@ -1930,8 +1930,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAINAW5ANUWTH3R4ANI": {
         "PolicyName": "AWSDirectoryServiceFullAccess",
@@ -2024,8 +2024,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ds:CreateConditionalForwarder",
             "ds:CreateDirectory",
             "ds:CreateMicrosoftAD",
@@ -2115,8 +2115,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAIQH6ROMVVECFVRJPK": {
         "PolicyName": "AWSOrganizationsServiceTrustPolicy",
@@ -2159,8 +2159,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "iam:CreateServiceLinkedRole"
         ]
     },
@@ -2261,10 +2261,10 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "sns:AddPermission",
             "sns:CreateTopic",
             "sns:SetTopicAttributes",
@@ -2454,10 +2454,10 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     },
     "ANPAIWMBCKSKIEE64ZLYK": {
         "PolicyName": "AdministratorAccess",
@@ -2635,14 +2635,14 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject",
             "ssm:GetParameter",
             "ssm:GetParameters",
             "ssm:GetParametersByPath",
             "secretsmanager:GetSecretValue"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "acm-pca:CreatePermission",
             "acm-pca:DeletePermission",
             "apigateway:UpdateRestApiPolicy",
@@ -3246,8 +3246,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAIZTJ4DXE7G6AGAE6M": {
         "PolicyName": "AmazonS3ReadOnlyAccess",
@@ -3280,10 +3280,10 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject"
         ],
-        "PermissionsManagementActions": []
+        "ResourceExposure": []
     },
     "ANPAJ2P4NXCHAT7NDPNR4": {
         "PolicyName": "AmazonSESFullAccess",
@@ -3315,8 +3315,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJ7W6266ELXF5MISDS": {
         "PolicyName": "AWSSupportServiceRolePolicy",
@@ -4779,8 +4779,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJBWPGNOVKZD3JI2P2": {
         "PolicyName": "AmazonVPCFullAccess",
@@ -4953,8 +4953,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ec2:CreateNetworkInterfacePermission",
             "ec2:DeleteNetworkInterfacePermission",
             "ec2:ModifyVpcEndpointServicePermissions"
@@ -5068,8 +5068,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJKSO7NDY4T57MWDSQ": {
         "PolicyName": "IAMReadOnlyAccess",
@@ -5106,8 +5106,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJLIB4VSBVO47ZSBB6": {
         "PolicyName": "AWSAccountUsageReportAccess",
@@ -5139,8 +5139,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJNPP7PPPPMJRV2SA4": {
         "PolicyName": "AWSKeyManagementServicePowerUser",
@@ -5183,8 +5183,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJS2PBJSYV2EZW3MIQ": {
         "PolicyName": "AWSVPCTransitGatewayServiceRolePolicy",
@@ -5221,8 +5221,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": [
+        "DataExfiltration": [],
+        "ResourceExposure": [
             "ec2:CreateNetworkInterfacePermission"
         ]
     },
@@ -5275,8 +5275,8 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     },
     "ANPAJYRXTHIB4FOVS3ZXS": {
         "PolicyName": "PowerUserAccess",
@@ -5334,14 +5334,14 @@
                 ]
             }
         ],
-        "DataExfiltrationActions": [
+        "DataExfiltration": [
             "s3:GetObject",
             "ssm:GetParameter",
             "ssm:GetParameters",
             "ssm:GetParametersByPath",
             "secretsmanager:GetSecretValue"
         ],
-        "PermissionsManagementActions": [
+        "ResourceExposure": [
             "acm-pca:CreatePermission",
             "acm-pca:DeletePermission",
             "apigateway:UpdateRestApiPolicy",
@@ -5590,7 +5590,7 @@
             }
         ],
         "PrivilegeEscalation": [],
-        "DataExfiltrationActions": [],
-        "PermissionsManagementActions": []
+        "DataExfiltration": [],
+        "ResourceExposure": []
     }
 }

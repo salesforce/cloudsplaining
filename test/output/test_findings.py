@@ -126,10 +126,10 @@ class TestFindings(unittest.TestCase):
             "AssumeRolePolicyDocument": None,
             "AssumableByComputeService": [],
             "PrivilegeEscalation": [],
-            "DataExfiltrationActions": [
+            "DataExfiltration": [
                 "s3:GetObject"
             ],
-            "PermissionsManagementActions": []
+            "ResourceExposure": []
         }
         self.assertDictEqual(result.json, expected_user_result)
         principal_policy_mapping = [
@@ -205,10 +205,10 @@ class TestFindings(unittest.TestCase):
                 "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [
+                "DataExfiltration": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": []
+                "ResourceExposure": []
             },
             {
                 "AccountID": "123456789012",
@@ -241,10 +241,10 @@ class TestFindings(unittest.TestCase):
                 "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [
+                "DataExfiltration": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": []
+                "ResourceExposure": []
             },
             {
                 "AccountID": "123456789012",
@@ -277,10 +277,10 @@ class TestFindings(unittest.TestCase):
                 "AssumeRolePolicyDocument": None,
                 "AssumableByComputeService": [],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [
+                "DataExfiltration": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": []
+                "ResourceExposure": []
             },
             {
                 "AccountID": "123456789012",
@@ -329,10 +329,10 @@ class TestFindings(unittest.TestCase):
                     "ecs-tasks"
                 ],
                 "PrivilegeEscalation": [],
-                "DataExfiltrationActions": [
+                "DataExfiltration": [
                     "s3:GetObject"
                 ],
-                "PermissionsManagementActions": []
+                "ResourceExposure": []
             }
         ]
         # print(json.dumps(all_findings.json, indent=4))
@@ -555,10 +555,10 @@ class TestNewFinding(unittest.TestCase):
             "AssumableByComputeService": [],
             "AssumeRolePolicyDocument": None,
             "PrivilegeEscalation": [],
-            "DataExfiltrationActions": [
+            "DataExfiltration": [
                 "s3:GetObject"
             ],
-            "PermissionsManagementActions": [],
+            "ResourceExposure": [],
         }
         print(json.dumps(finding.json, indent=4))
         self.maxDiff = None

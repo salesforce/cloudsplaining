@@ -76,8 +76,8 @@ class PolicyFileTestCase(unittest.TestCase):
             "AssumeRolePolicyDocument": None,
             "AssumableByComputeService": [],
             "PrivilegeEscalation": [],
-            "DataExfiltrationActions": [],
-            "PermissionsManagementActions": []
+            "DataExfiltration": [],
+            "ResourceExposure": []
         }
         results = scan_policy(example_policy, "test", DEFAULT_EXCLUSIONS)
         # print(json.dumps(results, indent=4))
@@ -141,10 +141,10 @@ class PolicyFileTestCase(unittest.TestCase):
                     ]
                 }
             ],
-            "DataExfiltrationActions": [
+            "DataExfiltration": [
                 "s3:GetObject"
             ],
-            "PermissionsManagementActions": [
+            "ResourceExposure": [
                 "iam:CreateAccessKey"
             ]
         }

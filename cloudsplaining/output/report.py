@@ -22,18 +22,18 @@ class HTMLReport:
 
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
 
-        # Calculate ratio of policies with PrivEsc, Permissions management, or Data leak potential
-        self.policies_with_data_leak_potential = 0
+        # Calculate ratio of policies with PrivEsc, Permissions management, or Data Exfiltration potential
+        self.policies_with_data_exfiltration = 0
         self.policies_with_permissions_management = 0
         self.policies_with_privilege_escalation = 0
 
         for finding in results:
             # These are stats we care about regardless of who manages it, as they help with prioritization
-            if finding["DataExfiltrationActions"]:
-                self.policies_with_data_leak_potential += 1
+            if finding["DataExfiltration"]:
+                self.policies_with_data_exfiltration += 1
             if finding["PrivilegeEscalation"]:
                 self.policies_with_privilege_escalation += 1
-            if finding["PermissionsManagementActions"]:
+            if finding["ResourceExposure"]:
                 self.policies_with_permissions_management += 1
 
     def get_html_report(self):
@@ -52,7 +52,7 @@ class HTMLReport:
             remediation_guidance_write_up=report_documentation.remediation_guidance_html,
             validation_guidance_write_up=report_documentation.validation_guidance_html,
             glossary_write_up=report_documentation.glossary_html,
-            policies_with_data_leak_potential=self.policies_with_data_leak_potential,
+            policies_with_data_exfiltration=self.policies_with_data_exfiltration,
             policies_with_privilege_escalation=self.policies_with_privilege_escalation,
             policies_with_permissions_management=self.policies_with_permissions_management,
             exclusions_configuration=yaml.dump(self.exclusions_cfg),

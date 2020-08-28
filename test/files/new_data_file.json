@@ -242,8 +242,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": []
     },
     "InsecurePolicy": {
@@ -280,8 +280,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
       "InfrastructureModification": [
@@ -640,8 +640,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "codecommit:AssociateApprovalRuleTemplateWithRepository",
         "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -818,8 +818,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "rds:AuthorizeDBSecurityGroupIngress",
         "iam:CreateServiceLinkedRole"
       ],
@@ -1034,8 +1034,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "ec2:CreateNetworkInterfacePermission",
         "ec2:DeleteNetworkInterfacePermission",
         "ec2:ModifySnapshotAttribute",
@@ -1784,8 +1784,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "codecommit:AssociateApprovalRuleTemplateWithRepository",
         "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -1929,8 +1929,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "sqs:AddPermission",
         "sqs:CreateQueue",
         "sqs:RemovePermission",
@@ -2073,10 +2073,10 @@
           ]
         }
       ],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "iam:PassRole",
         "iot:AttachPrincipalPolicy",
         "lambda:AddLayerVersionPermission",
@@ -2543,8 +2543,8 @@
           ]
         }
       ],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "iam:AddClientIDToOpenIDConnectProvider",
         "iam:AddRoleToInstanceProfile",
         "iam:AddUserToGroup",
@@ -2807,10 +2807,10 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "s3:BypassGovernanceRetention",
         "s3:DeleteAccessPointPolicy",
         "s3:DeleteBucketPolicy",
@@ -2980,8 +2980,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "ec2:DescribeAccountAttributes",
         "ec2:DescribeAddresses",
@@ -3065,8 +3065,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "logs:DeleteResourcePolicy",
         "logs:PutResourcePolicy",
         "sns:AddPermission",
@@ -3759,13 +3759,13 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject",
         "ssm:GetParameter",
         "ssm:GetParameters",
         "ssm:GetParametersByPath"
       ],
-      "PermissionsManagementActions": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "a4b:GetAddressBook",
         "a4b:GetConferencePreference",
@@ -6391,8 +6391,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "ec2:AssignIpv6Addresses",
         "ec2:AssignPrivateIpAddresses",
@@ -6514,8 +6514,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "ds:CreateConditionalForwarder",
         "ds:CreateDirectory",
         "ds:CreateMicrosoftAD",
@@ -6696,8 +6696,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "codedeploy:AddTagsToOnPremisesInstances",
         "codedeploy:BatchGetApplicationRevisions",
@@ -6802,8 +6802,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "iam:CreateServiceLinkedRole"
       ],
       "InfrastructureModification": [
@@ -6907,10 +6907,10 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "sns:AddPermission",
         "sns:CreateTopic",
         "sns:SetTopicAttributes",
@@ -7142,10 +7142,10 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "acm:DescribeCertificate",
         "acm:ListCertificates",
@@ -7640,14 +7640,14 @@
           ]
         }
       ],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject",
         "ssm:GetParameter",
         "ssm:GetParameters",
         "ssm:GetParametersByPath",
         "secretsmanager:GetSecretValue"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "acm-pca:CreatePermission",
         "acm-pca:DeletePermission",
         "apigateway:UpdateRestApiPolicy",
@@ -15807,8 +15807,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "access-analyzer:GetAnalyzedResource",
         "access-analyzer:GetAnalyzer",
@@ -17061,10 +17061,10 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "s3:GetAccelerateConfiguration",
         "s3:GetAccessPoint",
@@ -17140,8 +17140,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "ses:CloneReceiptRuleSet",
         "ses:CreateConfigurationSet",
@@ -18709,8 +18709,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "a4b:getDevice",
         "a4b:getProfile",
@@ -20252,8 +20252,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "ec2:CreateNetworkInterfacePermission",
         "ec2:DeleteNetworkInterfacePermission",
         "ec2:ModifyVpcEndpointServicePermissions"
@@ -20509,8 +20509,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "autoscaling:DescribeAccountLimits",
         "autoscaling:DescribeAutoScalingGroups",
@@ -20628,8 +20628,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "iam:GenerateCredentialReport",
         "iam:GenerateServiceLastAccessedDetails",
@@ -20720,8 +20720,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "aws-portal:ViewUsage"
       ]
@@ -20767,8 +20767,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "iam:ListGroups",
         "iam:ListRoles",
@@ -20828,8 +20828,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "ec2:CreateNetworkInterfacePermission"
       ],
       "InfrastructureModification": [
@@ -20889,8 +20889,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": [
         "cloudfront:ListDistributions",
         "cloudwatch:DescribeAlarms",
@@ -21042,14 +21042,14 @@
           ]
         }
       ],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject",
         "ssm:GetParameter",
         "ssm:GetParameters",
         "ssm:GetParametersByPath",
         "secretsmanager:GetSecretValue"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "acm-pca:CreatePermission",
         "acm-pca:DeletePermission",
         "apigateway:UpdateRestApiPolicy",
@@ -28664,8 +28664,8 @@
         }
       ],
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [],
+      "DataExfiltration": [],
+      "ResourceExposure": [],
       "InfrastructureModification": []
     }
   },
@@ -28688,10 +28688,10 @@
         ]
       },
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
       "InfrastructureModification": [
@@ -28723,8 +28723,8 @@
         ]
       },
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "iam:AddRoleToInstanceProfile",
         "iam:CreateInstanceProfile",
         "iam:PassRole"
@@ -28764,8 +28764,8 @@
         ]
       },
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [],
-      "PermissionsManagementActions": [
+      "DataExfiltration": [],
+      "ResourceExposure": [
         "iam:AddRoleToInstanceProfile",
         "iam:CreateInstanceProfile",
         "iam:PassRole"
@@ -28802,10 +28802,10 @@
         ]
       },
       "PrivilegeEscalation": [],
-      "DataExfiltrationActions": [
+      "DataExfiltration": [
         "s3:GetObject"
       ],
-      "PermissionsManagementActions": [
+      "ResourceExposure": [
         "s3:PutObjectAcl"
       ]
     }
