@@ -28807,7 +28807,45 @@
       ],
       "ResourceExposure": [
         "s3:PutObjectAcl"
+      ],
+      "InfrastructureModification": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:PutObjectAcl"
       ]
     }
+  },
+  "exclusions": {
+    "policies": [
+      "AWSServiceRoleFor*",
+      "*ServiceRolePolicy",
+      "*ServiceLinkedRolePolicy",
+      "AdministratorAccess",
+      "service-role*",
+      "aws-service-role*",
+      "MyRole"
+    ],
+    "roles": [
+      "service-role*",
+      "aws-service-role*"
+    ],
+    "users": [
+      ""
+    ],
+    "groups": [
+      ""
+    ],
+    "include-actions": [
+      "s3:GetObject",
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+      "secretsmanager:GetSecretValue",
+      "rds:CopyDBSnapshot",
+      "rds:CreateDBSnapshot"
+    ],
+    "exclude-actions": [
+      ""
+    ]
   }
 }

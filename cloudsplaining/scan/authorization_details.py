@@ -56,6 +56,7 @@ class AuthorizationDetails:
 
     @property
     def inline_policies(self):
+        """Return inline policy details"""
         results = {}
         results.update(self.new_group_detail_list.inline_policies_json)
         results.update(self.new_role_detail_list.inline_policies_json)
@@ -63,14 +64,15 @@ class AuthorizationDetails:
         return results
 
     @property
-    def new_principal_policy_mapping(self):
+    def results(self, exclusions=DEFAULT_EXCLUSIONS):
         """Get the new JSON format of the Principals data"""
         results = {
             "groups": self.new_group_detail_list.json,
             "users": self.new_user_detail_list.json,
             "roles": self.new_role_detail_list.json,
             "managed-policies": self.policies.json_large,
-            "inline-policies": self.inline_policies
+            "inline-policies": self.inline_policies,
+            "exclusions": exclusions.config
         }
         return results
 

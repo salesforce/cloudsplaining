@@ -230,7 +230,7 @@ class UserDetail:
         """Return JSON representation of attached inline policies"""
         policies = {}
         for policy in self.inline_policies:
-            policies[policy.policy_id] = policy.json
+            policies[policy.policy_id] = policy.json_large
         return policies
 
     @property

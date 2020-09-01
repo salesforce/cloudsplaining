@@ -14,11 +14,11 @@ from pathlib import Path
 import yaml
 import click
 import click_log
+from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
-from cloudsplaining.output.triage_worksheet import create_triage_worksheet
 from cloudsplaining.output.data_file import write_results_data_file
 from cloudsplaining.output.report import HTMLReport
 
@@ -149,55 +149,18 @@ def scan_account_authorization_details(
     )
     check_authorization_details_schema(account_authorization_details_cfg)
     authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-    results = authorization_details.missing_resource_constraints(
-        exclusions, modify_only=True
-    )
-
-    principal_policy_mapping = authorization_details.principal_policy_mapping
-    # For the IAM Principals tab, add on risk stats per principal
-    for principal_policy_entry in principal_policy_mapping:
-        for finding in results:
-            if principal_policy_entry.get("PolicyName").lower() == finding.get("PolicyName").lower():
-                principal_policy_entry["Actions"] = len(finding["Actions"])
-                principal_policy_entry["PrivilegeEscalation"] = len(
-                    finding["PrivilegeEscalation"]
-                )
-                principal_policy_entry["DataExfiltration"] = len(
-                    finding["DataExfiltration"]
-                )
-                principal_policy_entry["ResourceExposure"] = len(
-                    finding["ResourceExposure"]
-                )
-                principal_name = principal_policy_entry["Principal"]
-                # Customer Managed Policies
-                if finding.get("Type") == "Policy" and finding.get("ManagedBy") == "Customer" and principal_policy_entry.get("Type") != "Policy":
-                    if "Principals" not in finding:
-                        finding["Principals"] = [principal_name]
-                    else:
-                        if principal_name not in finding["Principals"]:
-                            finding["Principals"].append(principal_name)
-
-                # AWS Managed Policies
-                if finding.get("Type") == "Policy" and finding.get("ManagedBy") == "AWS":
-                    if "Principals" not in finding:
-                        finding["Principals"] = [principal_name]
-                    else:
-                        if principal_name not in finding["Principals"]:
-                            finding["Principals"].append(principal_name)
-
+    results = authorization_details.results(exclusions)
     # Lazy method to get an account ID
     account_id = None
-    for item in results:
-        if item["ManagedBy"] == "Customer":
-            account_id = item["AccountID"]
+    for role in results.get("roles"):
+        if "arn:aws:iam::aws:" not in results["roles"][role]["arn"]:
+            account_id = get_account_from_arn(results["roles"][role]["arn"])
             break
-
     html_report = HTMLReport(
         account_id=account_id,
         account_name=account_name,
         results=results,
         exclusions_cfg=exclusions,
-        principal_policy_mapping=principal_policy_mapping
     )
     rendered_report = html_report.get_html_report()
 
@@ -214,18 +177,7 @@ def scan_account_authorization_details(
         raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
         raw_data_filepath = write_results_data_file(results, raw_data_file)
         print(f"Raw data file saved: {str(raw_data_filepath)}")
-
-        # Principal policy mapping
-        principal_policy_mapping_file = os.path.join(
-            output_directory, f"iam-principals-{account_name}.json"
-        )
-        principal_policy_mapping_filepath = write_results_data_file(
-            principal_policy_mapping, principal_policy_mapping_file
-        )
-        print(f"Principals data file saved: {str(principal_policy_mapping_filepath)}")
-
-        # Create the CSV triage sheet
-        create_triage_worksheet(account_name, results, output_directory)
+        # create_triage_worksheet(account_name, results, output_directory)
 
     return rendered_report
 

@@ -61,12 +61,7 @@ Attached to Principal: {{ finding["AttachedToPrincipal"] }}
         {% if finding["AssumableByComputeService"]|length > 0 %}
           <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
                title="Role Assumable by Compute Service"
-               data-content='
-               <p>
-               IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.
-
-               For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.
-               </p>'
+               data-content='<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>'
                role="alert">Role Assumable by Compute Service</div>
         {% endif %}
       </div><!-- /card-footer -->

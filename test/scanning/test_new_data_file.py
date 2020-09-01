@@ -31,6 +31,6 @@ with open(example_data_file) as f:
 class TestNewDataFilePolicyDetail(unittest.TestCase):
     def test_new_principal_policy_mapping(self):
         authorization_details = AuthorizationDetails(auth_details_json)
-        new_principal_policy_mapping = authorization_details.new_principal_policy_mapping
-        print(json.dumps(new_principal_policy_mapping))
-        self.assertDictEqual(expected_data_file, new_principal_policy_mapping)
+        results = authorization_details.results
+        # print(json.dumps(results))
+        self.assertDictEqual(expected_data_file, results)
