@@ -6,7 +6,7 @@ chardet==3.0.4
 click-log==0.3.2
 click==7.1.2
 contextlib2==0.6.0.post1
-docutils<0.16,>=0.10
+docutils==0.16
 idna==2.10
 importlib-metadata==1.7.0
 jinja2==2.11.2
