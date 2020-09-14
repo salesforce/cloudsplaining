@@ -37,7 +37,7 @@ class TestInlinePolicyDetail(unittest.TestCase):
         }
         inline_policy = InlinePolicy(inline_policy_detail)
         results = inline_policy.json
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results))
 
         expected_policy_details_results_file = os.path.abspath(
             os.path.join(

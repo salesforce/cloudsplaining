@@ -38,4 +38,5 @@ class TestRoleDetail(unittest.TestCase):
 
         results = role_detail.json
         # print(json.dumps(results))
+        self.maxDiff = None
         self.assertDictEqual(results, expected_result)
