@@ -1,6 +1,6 @@
 import unittest
 import json
-from cloudsplaining.output.findings import (
+from cloudsplaining.output.src import (
     UserFinding,
     GroupFinding,
     RoleFinding,

@@ -1,10 +1,8 @@
 import unittest
 import os
 import json
-import webbrowser
 from cloudsplaining.command.scan import scan_account_authorization_details
-from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.output.report import HTMLReport
 from cloudsplaining.scan.authorization_details import AuthorizationDetails

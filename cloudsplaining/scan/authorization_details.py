@@ -9,7 +9,7 @@ from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
-from cloudsplaining.output.findings import (
+from cloudsplaining.output.src import (
     Findings,
     UserFinding,
     GroupFinding,
