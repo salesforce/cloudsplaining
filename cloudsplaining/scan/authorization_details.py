@@ -7,8 +7,6 @@
 import logging
 from operator import itemgetter
 from policy_sentry.querying.all import get_all_service_prefixes
-
-# from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.principal_detail import PrincipalTypeDetails
 from cloudsplaining.output.findings import (
@@ -21,8 +19,6 @@ from cloudsplaining.output.findings import (
 from cloudsplaining.scan.group_details import GroupDetailList
 from cloudsplaining.scan.role_details import RoleDetailList
 from cloudsplaining.scan.user_details import UserDetailList
-
-# from cloudsplaining.shared.exclusions import is_name_excluded
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 
 all_service_prefixes = get_all_service_prefixes()
@@ -37,6 +33,7 @@ class AuthorizationDetails:
 
     def __init__(self, auth_json):
         self.auth_json = auth_json
+        # TODO: Separate Customer Managed vs AWS managed here
         self.policies = ManagedPolicyDetails(auth_json.get("Policies", None))
         self.user_detail_list = PrincipalTypeDetails(
             auth_json.get("UserDetailList", None)
@@ -49,23 +46,32 @@ class AuthorizationDetails:
         )
         self._update_group_membership()
         self.findings = Findings()
-        self.customer_managed_policies_in_use = self._customer_managed_policies_in_use()
-        self.aws_managed_policies_in_use = self._aws_managed_policies_in_use()
-        # New Authorization file stuff
 
+        # New Authorization file stuff
         self.new_group_detail_list = GroupDetailList(auth_json.get("GroupDetailList"), self.policies)
         self.new_user_detail_list = UserDetailList(auth_json.get("UserDetailList"), self.policies,
                                                    self.new_group_detail_list)
         self.new_role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies)
 
     @property
-    def new_principal_policy_mapping(self):
+    def inline_policies(self):
+        """Return inline policy details"""
+        results = {}
+        results.update(self.new_group_detail_list.inline_policies_json)
+        results.update(self.new_role_detail_list.inline_policies_json)
+        results.update(self.new_user_detail_list.inline_policies_json)
+        return results
+
+    def results(self, exclusions=DEFAULT_EXCLUSIONS):
         """Get the new JSON format of the Principals data"""
         results = {
             "groups": self.new_group_detail_list.json,
             "users": self.new_user_detail_list.json,
             "roles": self.new_role_detail_list.json,
-            "policies": self.policies.json
+            "aws_managed_policies": self.policies.json_large_aws_managed,
+            "customer_managed_policies": self.policies.json_large_customer_managed,
+            "inline_policies": self.inline_policies,
+            "exclusions": exclusions.config
         }
         return results
 
@@ -95,72 +101,6 @@ class AuthorizationDetails:
                         principal.members.extend(groups[group])
                         logger.debug(f"_update_group_membership: The group {group} has members: {groups[group]}")
 
-    def _aws_managed_policies_in_use(self):
-        aws_managed_policies = []
-        for policy in self.policies.policy_details:
-            if "arn:aws:iam::aws:" in policy.arn:
-                aws_managed_policies.append(policy.policy_name)
-        # Policies attached to groups
-        for principal in self.group_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        # Policies attached to users
-        for principal in self.user_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        # Policies attached to roles
-        for principal in self.role_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                if "arn:aws:iam::aws:" in attached_managed_policy.get("PolicyArn"):
-                    aws_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        aws_managed_policies = list(dict.fromkeys(aws_managed_policies))
-        return aws_managed_policies
-
-    def _customer_managed_policies_in_use(self):
-        customer_managed_policies = []
-        for policy in self.policies.policy_details:
-            if "arn:aws:iam::aws:" not in policy.arn:
-                customer_managed_policies.append(policy.policy_name)
-        # Policies attached to groups
-        for principal in self.group_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
-                    "PolicyArn"
-                ):  # pragma: no cover
-                    customer_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        # Policies attached to users
-        for principal in self.user_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
-                    "PolicyArn"
-                ):  # pragma: no cover
-                    customer_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        # Policies attached to roles
-        for principal in self.role_detail_list.principals:
-            for attached_managed_policy in principal.attached_managed_policies:
-                # Skipping coverage here because it would be redundant
-                if "arn:aws:iam::aws:" not in attached_managed_policy.get(
-                    "PolicyArn"
-                ):  # pragma: no cover
-                    customer_managed_policies.append(
-                        attached_managed_policy.get("PolicyName")
-                    )
-        customer_managed_policies = list(dict.fromkeys(customer_managed_policies))
-        return customer_managed_policies
 
     @property
     def groups(self):

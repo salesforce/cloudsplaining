@@ -14,30 +14,13 @@
       ]
     }
   },
+  "aws_managed_policies": {},
   "create_date": "2018-08-20 18:48:00+00:00",
+  "customer_managed_policies": {"InsecurePolicy": "InsecurePolicy"},
   "id": "OverprivilegedEC2",
   "inline_policies": {
-    "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": {
-      "PolicyName": "SupYo",
-      "PolicyId": "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d",
-      "PrivilegeEscalation": [
-        {
-          "type": "CreateAccessKey",
-          "actions": [
-            "iam:createaccesskey"
-          ]
-        }
-      ],
-      "DataExfiltration": [
-        "s3:GetObject",
-        "secretsmanager:GetSecretValue"
-      ],
-      "ResourceExposure": [
-        "iam:CreateAccessKey"
-      ]
-    }
+    "946be6acd0316408ed304d2dcd5147aa2f2a4d2634c6121f841615e75b95cc8d": "SupYo"
   },
-  "inline_policies_count": 1,
   "instance_profiles": [
     {
       "Path": "/",
@@ -69,27 +52,5 @@
     }
   ],
   "instances_count": 1,
-  "path": "/",
-  "managed_policies_count": 1,
-  "managed_policies": {
-    "InsecurePolicy": "InsecurePolicy"
-  },
-  "risks": {
-    "PrivilegeEscalation": [
-      {
-        "type": "CreateAccessKey",
-        "actions": [
-          "iam:createaccesskey"
-        ]
-      }
-    ],
-    "ResourceExposure": [
-      "iam:CreateAccessKey",
-      "s3:PutObjectAcl"
-    ],
-    "DataExfiltration": [
-      "s3:GetObject",
-      "secretsmanager:GetSecretValue"
-    ]
-  }
+  "path": "/"
 }

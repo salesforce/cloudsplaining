@@ -1,6 +1,7 @@
 """Creates the HTML Reports"""
 import os
 import codecs
+import json
 import datetime
 import markdown
 import yaml
@@ -13,28 +14,12 @@ class HTMLReport:
     HTML Report
     """
     # pylint: disable=too-many-instance-attributes
-    def __init__(self, account_name, account_id, exclusions_cfg, results, principal_policy_mapping):
+    def __init__(self, account_name, account_id, exclusions_cfg, results):
         self.account_name = account_name
         self.account_id = account_id
         self.scan_results = results
-        self.principal_policy_mapping = principal_policy_mapping
         self.exclusions_cfg = exclusions_cfg
-
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
-
-        # Calculate ratio of policies with PrivEsc, Permissions management, or Data Exfiltration potential
-        self.policies_with_data_exfiltration = 0
-        self.policies_with_permissions_management = 0
-        self.policies_with_privilege_escalation = 0
-
-        for finding in results:
-            # These are stats we care about regardless of who manages it, as they help with prioritization
-            if finding["DataExfiltration"]:
-                self.policies_with_data_exfiltration += 1
-            if finding["PrivilegeEscalation"]:
-                self.policies_with_privilege_escalation += 1
-            if finding["ResourceExposure"]:
-                self.policies_with_permissions_management += 1
 
     def get_html_report(self):
         """Get the HTML Report as a string"""
@@ -45,16 +30,12 @@ class HTMLReport:
             account_id=self.account_id,
             report_generated_time=self.report_generated_time,
             cloudsplaining_version=__version__,
-            results=self.scan_results,
-            principal_policy_mapping=self.principal_policy_mapping,
+            results=json.dumps(self.scan_results),
             overview_write_up=report_documentation.overview_html,
             triage_guidance_write_up=report_documentation.triage_guidance_html,
             remediation_guidance_write_up=report_documentation.remediation_guidance_html,
             validation_guidance_write_up=report_documentation.validation_guidance_html,
             glossary_write_up=report_documentation.glossary_html,
-            policies_with_data_exfiltration=self.policies_with_data_exfiltration,
-            policies_with_privilege_escalation=self.policies_with_privilege_escalation,
-            policies_with_permissions_management=self.policies_with_permissions_management,
             exclusions_configuration=yaml.dump(self.exclusions_cfg),
         )
         # HTML Report template

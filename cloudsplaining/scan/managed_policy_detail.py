@@ -38,6 +38,32 @@ class ManagedPolicyDetails:
             result[policy.policy_id] = policy.json
         return result
 
+    @property
+    def json_large(self):
+        """Get all JSON results"""
+        result = {}
+        for policy in self.policy_details:
+            result[policy.policy_id] = policy.json_large
+        return result
+
+    @property
+    def json_large_aws_managed(self):
+        """Get all JSON results"""
+        result = {}
+        for policy in self.policy_details:
+            if policy.managed_by == "AWS":
+                result[policy.policy_id] = policy.json_large
+        return result
+
+    @property
+    def json_large_customer_managed(self):
+        """Get all JSON results"""
+        result = {}
+        for policy in self.policy_details:
+            if policy.managed_by == "Customer":
+                result[policy.policy_id] = policy.json_large
+        return result
+
 
 # pylint: disable=too-many-instance-attributes
 class ManagedPolicy:
@@ -103,6 +129,18 @@ class ManagedPolicy:
             return account_id
 
     @property
+    def infrastructure_modification(self):
+        """Return a list of modify only missing resource constraints"""
+        policy_document = self.policy_document
+        actions_missing_resource_constraints = []
+        for statement in policy_document.statements:
+            if statement.effect == "Allow":
+                actions_missing_resource_constraints.extend(
+                    statement.missing_resource_constraints_for_modify_actions()
+                )
+        return actions_missing_resource_constraints
+
+    @property
     def json(self):
         """Return JSON output for high risk actions"""
         result = dict(
@@ -139,6 +177,7 @@ class ManagedPolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
-            InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
+            InfrastructureModification=self.infrastructure_modification
+            # InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
         )
         return result

@@ -104,7 +104,6 @@ class PolicyFileTestCase(unittest.TestCase):
             account_name="CHANGEME",
             results=results,
             exclusions_cfg=exclusions,
-            principal_policy_mapping=principal_policy_mapping
         )
         rendered_report = html_report.get_html_report()
         # print(rendered_report)
@@ -140,4 +139,4 @@ class PolicyFileTestCase(unittest.TestCase):
             cfg, DEFAULT_EXCLUSIONS, account_name="Something", output_directory=os.getcwd(),
             write_data_files=False
         )
-        print(rendered_html_report)
+        # print(rendered_html_report)

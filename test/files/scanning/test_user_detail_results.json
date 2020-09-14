@@ -3,121 +3,24 @@
   "create_date": "2019-12-18 19:10:08+00:00",
   "id": "biden",
   "inline_policies": {
-    "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": {
-      "PolicyName": "InsecureUserPolicy",
-      "PolicyId": "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8",
-      "PrivilegeEscalation": [],
-      "DataExfiltration": [
-        "s3:GetObject"
-      ],
-      "ResourceExposure": [
-        "s3:PutObjectAcl"
-      ]
-    }
+    "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
   },
-  "inline_policies_count": 1,
   "groups": {
     "biden": {
       "arn": "arn:aws:iam::012345678901:group/biden",
       "create_date": "2017-05-15 17:33:36+00:00",
       "id": "aaaaaaaaabbbbbbbccccccc",
       "inline_policies": {
-        "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": {
-          "PolicyName": "InlinePolicyForBidenGroup",
-          "PolicyId": "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
-          "PrivilegeEscalation": [],
-          "DataExfiltration": [
-            "s3:GetObject"
-          ],
-          "ResourceExposure": [
-            "s3:PutObjectAcl"
-          ]
-        }
+        "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
       },
-      "inline_policies_count": 1,
       "path": "/",
-      "managed_policies_count": 1,
       "managed_policies": {
         "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
-      },
-      "risks": {
-        "PrivilegeEscalation": [],
-        "ResourceExposure": [
-          "iam:CreateServiceLinkedRole",
-          "rds:AuthorizeDBSecurityGroupIngress",
-          "s3:PutObjectAcl"
-        ],
-        "DataExfiltration": [
-          "s3:GetObject"
-        ]
       }
     }
   },
   "path": "/",
-  "managed_policies_count": 1,
   "managed_policies": {
     "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
-  },
-  "risks": {
-    "PrivilegeEscalation": [
-      {
-        "type": "PassExistingRoleToNewLambdaThenInvoke",
-        "actions": [
-          "iam:passrole",
-          "lambda:createfunction",
-          "lambda:invokefunction"
-        ]
-      },
-      {
-        "type": "PassExistingRoleToNewLambdaThenTriggerWithNewDynamo",
-        "actions": [
-          "iam:passrole",
-          "lambda:createfunction",
-          "lambda:createeventsourcemapping",
-          "dynamodb:createtable",
-          "dynamodb:putitem"
-        ]
-      },
-      {
-        "type": "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo",
-        "actions": [
-          "iam:passrole",
-          "lambda:createfunction",
-          "lambda:createeventsourcemapping"
-        ]
-      },
-      {
-        "type": "EditExistingLambdaFunctionWithRole",
-        "actions": [
-          "lambda:updatefunctioncode"
-        ]
-      }
-    ],
-    "ResourceExposure": [
-      "iam:PassRole",
-      "iot:AttachPrincipalPolicy",
-      "lambda:AddLayerVersionPermission",
-      "lambda:AddPermission",
-      "lambda:DisableReplication",
-      "lambda:EnableReplication",
-      "lambda:RemoveLayerVersionPermission",
-      "lambda:RemovePermission",
-      "logs:DeleteResourcePolicy",
-      "logs:PutResourcePolicy",
-      "s3:BypassGovernanceRetention",
-      "s3:DeleteAccessPointPolicy",
-      "s3:DeleteBucketPolicy",
-      "s3:ObjectOwnerOverrideToBucketOwner",
-      "s3:PutAccessPointPolicy",
-      "s3:PutAccountPublicAccessBlock",
-      "s3:PutBucketAcl",
-      "s3:PutBucketPolicy",
-      "s3:PutBucketPublicAccessBlock",
-      "s3:PutObjectAcl",
-      "s3:PutObjectVersionAcl"
-    ],
-    "DataExfiltration": [
-      "s3:GetObject"
-    ]
   }
 }

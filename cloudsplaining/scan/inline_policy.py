@@ -24,6 +24,7 @@ class InlinePolicy:
         result = dict(
             PolicyName=self.policy_name,
             PolicyId=self.policy_id,
+            PolicyDocument=self.policy_document.json,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
@@ -36,6 +37,7 @@ class InlinePolicy:
         result = dict(
             PolicyName=self.policy_name,
             PolicyId=self.policy_id,
+            PolicyDocument=self.policy_document.json,
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
