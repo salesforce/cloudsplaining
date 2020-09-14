@@ -10,10 +10,8 @@
   <title>Cloudsplaining: AWS IAM Policy Audit Report</title>
 
   <!--Bootstrap theme-->
-<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"-->
-<!--        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   <!--Data Tables-->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
@@ -37,7 +35,6 @@
 
     body {
       position: relative;
-      /*background-color: #f5f5f8*/
     }
     div.customer-managed-table {
       word-wrap: break-word;
@@ -63,8 +60,6 @@
 </head>
 
 <body>
-<div id="app">
-
 <!------------------>
 <!-- Row          -->
 <!------------------>
@@ -85,9 +80,6 @@
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a class="nav-item nav-link active" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Summary</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-item nav-link" id="nav-inline-policies-tab" data-toggle="tab" href="#nav-inline-policies" role="tab" aria-controls="nav-inline-policies" aria-selected="false">Inline policies</a>
           </li>
           <li class="nav-item">
             <a class="nav-item nav-link" id="nav-customer-managed-tab" data-toggle="tab" href="#nav-customer-managed" role="tab" aria-controls="nav-customer-managed" aria-selected="false">Customer policies</a>
@@ -166,7 +158,7 @@
             <br>
             <!--Executive Summary-->
             <h3 id="executive-summary">Executive Summary</h3>
-<!--             include 'summary/executive-summary.html' -->
+            {% include 'summary/executive-summary.html' %}
           </div><!--/END SUMMARY TAB-->
 
           <!--PRINCIPALS TAB-->
@@ -174,31 +166,19 @@
             <br>
             <h3 id="iam-principals">IAM Principals</h3>
 
-<!--             include 'summary/iam-principals.html'-->
+            {% include 'summary/iam-principals.html' %}
           </div><!--/end PRINCIPALS TAB-->
-
-          <!--INLINE-POLICY TAB-->
-          <div class="tab-pane fade" id="nav-inline-policies" role="tabpanel" aria-labelledby="nav-inline-policies-tab">
-            <br>
-            <!--Summary: Inline policies-->
-            <h3 id="inline-policies-summary">Findings: Inline Policies</h3>
-<!--            include 'summary/inline-policies.html' -->
-
-            <!--Analysis: Inline policies-->
-            <h3 id="inline-policies-in-depth-analysis">In-depth analysis: Inline Policies</h3>
-            {% include 'analysis/inline-policies-v2.html' %}
-          </div><!--/end CUSTOMER-MANAGED TAB-->
 
           <!--CUSTOMER-MANAGED TAB-->
           <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel" aria-labelledby="nav-customer-managed-tab">
             <br>
             <!--Summary: Customer-managed policies-->
-            <h3 id="customer-managed-policies-summary">Findings: Customer-Managed Policies</h3>
-<!--            include 'summary/customer-managed.html' -->
+            <h3 id="customer-managed-policies-summary">Findings: Customer-Managed and Inline Policies</h3>
+            {% include 'summary/customer-managed.html' %}
 
             <!--Analysis: Customer-managed-policies-->
-            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-Managed Policies</h3>
-            {% include 'analysis/customer-managed-v2.html' %}
+            <h3 id="customer-managed-in-depth-analysis">In-depth analysis: Customer-Managed and Inline Policies</h3>
+            {% include 'analysis/customer-managed.html' %}
           </div><!--/end CUSTOMER-MANAGED TAB-->
 
 
@@ -208,12 +188,12 @@
             <!--Summary: AWS-managed policies-->
             <h3 id="aws-managed-policies-summary">Findings: AWS-Managed Policies</h3>
             <br>
-<!--            include 'summary/aws-managed.html'-->
+            {% include 'summary/aws-managed.html' %}
 
             <!--Analysis: AWS-managed-policies-->
             <h3 id="aws-managed-in-depth-analysis">In-depth analysis: AWS-Managed Policies</h3>
             <br>
-            {% include 'analysis/aws-managed-v2.html' %}
+            {% include 'analysis/aws-managed.html' %}
 
           </div><!--/end AWS-MANAGED TAB-->
 
@@ -249,17 +229,8 @@
       </div> <!-- /column containing all contents-->
     </div><!-- /row holding all contents-->
   </div><!-- /container -->
-<!--</div>&lt;!&ndash; /row holding container holding all contents &ndash;&gt;-->
-</div>
-<!-- Load required Bootstrap and BootstrapVue CSS -->
-<!-- Load polyfills to support older browsers -->
-<script src="https:///polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
-        crossorigin="anonymous"></script>
+</div><!-- /row holding container holding all contents -->
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-<!-- Load the following for BootstrapVueIcons support -->
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 <!-- JQuery-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -291,261 +262,6 @@
 <!--} );-->
 <!--</script>-->
 
-<!--VUE-->
-<script>
-    // MANAGED POLICIES
-    function getManagedPolicyIds(iam_data) {
-        return Object.keys(iam_data["managed-policies"]);
-    }
-
-    function getManagedPolicyDocument(iam_data, policyId) {
-        return iam_data['managed-policies'][policyId]['PolicyVersionList'][0]['Document'];
-    }
-
-    function getManagedPolicy(iam_data, policyId) {
-        return iam_data["managed-policies"][policyId];
-    }
-
-    function getManagedPolicyFindings(iam_data, policyId, riskType) {
-        return iam_data["managed-policies"][policyId][riskType];
-    }
-
-    function getManagedPolicyName(iam_data, policyId) {
-        return iam_data["managed-policies"][policyId]["PolicyName"];
-    }
-
-    function managedPolicyManagedBy(iam_data, policyId) {
-        let arn = iam_data["managed-policies"][policyId]["Arn"];
-        if (arn.startsWith("arn:aws:iam::aws:")) {
-            return "AWS";
-        }
-        else {
-            return "Customer"
-        }
-    }
-
-    function getRolesLeveragingManagedPolicy(iam_data, policyId) {
-        let roles;
-        roles = Object.keys(iam_data["roles"]);
-        var rolesInQuestion = [];
-        for (let i = 0; i < roles.length; i++) {
-            var roleName = roles[i];
-            let managedPolicies = iam_data["roles"][roleName]["managed_policies"];
-            if (managedPolicies.hasOwnProperty(policyId)) {
-                rolesInQuestion.push(roleName);
-            }
-        }
-        return rolesInQuestion
-    }
-
-    function getUsersLeveragingManagedPolicy(iam_data, policyId) {
-        let users;
-        users = Object.keys(iam_data["users"]);
-        var usersInQuestion = [];
-        for (let i = 0; i < users.length; i++){
-            var userName = users[i];
-            let managedPolicies = iam_data["users"][userName]["managed_policies"];
-            if (managedPolicies.hasOwnProperty(policyId)) {
-                usersInQuestion.push(userName);
-            }
-        }
-        return usersInQuestion
-    }
-
-    function getGroupsLeveragingManagedPolicy(iam_data, policyId) {
-        let groups;
-        groups = Object.keys(iam_data["groups"]);
-        var groupsInQuestion = [];
-        for (let i = 0; i < groups.length; i++){
-            var groupName = groups[i];
-            let managedPolicies = iam_data["groups"][groupName]["managed_policies"];
-            if (managedPolicies.hasOwnProperty(policyId)) {
-                groupsInQuestion.push(groupName);
-            }
-        }
-        return groupsInQuestion
-    }
-    function getServicesAffectedByManagedPolicy(iam_data, policyId) {
-        let servicesAffected = [];
-        let actions = iam_data["managed-policies"][policyId]["InfrastructureModification"];
-        let action;
-        for (action of actions) {
-            let service = action.split(':')[0];
-            if (!(service in servicesAffected)) {
-                servicesAffected.push(service);
-            }
-        }
-        return Array.from(new Set(servicesAffected));
-    }
-
-    // INLINE POLICIES
-    function getInlinePolicyIds(iam_data) {
-        return Object.keys(iam_data["inline-policies"]);
-    }
-
-    function getInlinePolicyDocument(iam_data, policyId) {
-        return iam_data["inline-policies"][policyId]["PolicyDocument"];
-    }
-
-    function getInlinePolicy(iam_data, policyId) {
-        return iam_data["inline-policies"][policyId];
-    }
-
-    function getInlinePolicyFindings(iam_data, policyId, riskType) {
-        return iam_data["inline-policies"][policyId][riskType];
-    }
-
-    function getRolesLeveragingInlinePolicy(iam_data, policyId) {
-        // Look through roles
-        let roles;
-        roles = Object.keys(iam_data["roles"]);
-        const rolesInQuestion = []
-        for (let i = 0; i < roles.length; i++){
-            let roleName = roles[i];
-            let inlinePolicies = iam_data["roles"][roleName]["inline_policies"];
-            if (inlinePolicies.hasOwnProperty(policyId)) {
-                rolesInQuestion.push(roleName)
-            }
-        }
-        return rolesInQuestion
-    }
-
-    function getGroupsLeveragingInlinePolicy(iam_data, policyId) {
-        // Look through groups
-        let groups;
-        groups = Object.keys(iam_data["groups"]);
-        const groupsInQuestion = []
-        for (let i = 0; i < groups.length; i++){
-            let groupName = groups[i];
-            let inlinePolicies = iam_data["groups"][groupName]["inline_policies"];
-            if (inlinePolicies.hasOwnProperty(policyId)) {
-                groupsInQuestion.push(groupName)
-            }
-        }
-        return groupsInQuestion
-    }
-
-    function getUsersLeveragingInlinePolicy(iam_data, policyId) {
-        // Look through users
-        let users;
-        users = Object.keys(iam_data["users"]);
-        const usersInQuestion = []
-        for (let i = 0; i < users.length; i++){
-            let userName = users[i];
-            let inlinePolicies = iam_data["users"][userName]["inline_policies"];
-            if (inlinePolicies.hasOwnProperty(policyId)) {
-                usersInQuestion.push(userName)
-            }
-        }
-        return usersInQuestion
-    }
-
-    function getServicesAffectedByInlinePolicy(iam_data, policyId) {
-        let servicesAffected = [];
-        let actions = iam_data["inline-policies"][policyId]["InfrastructureModification"];
-        let action;
-        for (action of actions) {
-            let service = action.split(':')[0];
-            if (!(service in servicesAffected)) {
-                servicesAffected.push(service);
-            }
-        }
-        return Array.from(new Set(servicesAffected)).sort();
-    }
-
-    const privilegeEscalationDefinition = '<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>'
-    const dataExfiltrationDefinition = '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>'
-    const resourceExposureDefinition = '<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>'
-    const assumableByComputeServiceDefinition = '<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>'
-
-    window.app = new Vue({
-        el: "#app",
-        // components: {
-        //     SummaryBarChart
-        // },
-        delimiters: ['${', '}'],
-        data: {
-            privateState: {},
-            riskDefinitions: {
-                PrivilegeEscalation: privilegeEscalationDefinition,
-                DataExfiltration: dataExfiltrationDefinition,
-                ResourceExposure: resourceExposureDefinition,
-                AssumableByComputeService: assumableByComputeServiceDefinition,
-            },
-            // sharedState: window.__REPORT__ || {},
-            sharedStateV2: {{ t['results'] }} || {},
-        },
-        computed: {
-            managedPolicyIds() {
-                return getManagedPolicyIds(this.sharedStateV2);
-            },
-            inlinePolicyIds() {
-                return getInlinePolicyIds(this.sharedStateV2);
-            },
-        },
-        methods: {
-            managedPolicyName(policyId) {
-                return  getManagedPolicyName(this.sharedStateV2, policyId);
-            },
-            managedPolicyDocument(policyId) {
-                return  getManagedPolicyDocument(this.sharedStateV2, policyId);
-            },
-            managedPolicy: function(policyId) {
-                return getManagedPolicy(this.sharedStateV2, policyId);
-            },
-            managedBy: function(policyId) {
-                return managedPolicyManagedBy(this.sharedStateV2, policyId);
-            },
-            rolesLeveragingManagedPolicy: function (policyId) {
-                return getRolesLeveragingManagedPolicy(this.sharedStateV2, policyId);
-            },
-            usersLeveragingManagedPolicy: function (policyId) {
-                return getUsersLeveragingManagedPolicy(this.sharedStateV2, policyId);
-            },
-            groupsLeveragingManagedPolicy: function (policyId) {
-                return getGroupsLeveragingManagedPolicy(this.sharedStateV2, policyId);
-            },
-            isManagedPolicyLeveraged: function (policyId) {
-                let groupCount = getGroupsLeveragingManagedPolicy(this.sharedStateV2, policyId).length;
-                let userCount = getUsersLeveragingManagedPolicy(this.sharedStateV2, policyId).length;
-                let roleCount = getRolesLeveragingManagedPolicy(this.sharedStateV2, policyId).length;
-                return groupCount + userCount + roleCount
-            },
-            managedPolicyFindings: function(policyId, riskType) {
-                return getManagedPolicyFindings(this.sharedStateV2, policyId, riskType);
-            },
-            servicesAffectedByManagedPolicy: function(policyId) {
-                return getServicesAffectedByManagedPolicy(this.sharedStateV2, policyId)
-            },
-            servicesAffectedByInlinePolicy: function(policyId) {
-                return getServicesAffectedByInlinePolicy(this.sharedStateV2, policyId)
-            },
-            // INLINE POLICIES
-            inlinePolicy: function(policyId) {
-                return getInlinePolicy(this.sharedStateV2, policyId);
-            },
-            inlinePolicyDocument(policyId) {
-                return getInlinePolicyDocument(this.sharedStateV2, policyId);
-            },
-            inlinePolicyFindings: function(policyId, riskType) {
-                return getInlinePolicyFindings(this.sharedStateV2, policyId, riskType);
-            },
-            usersLeveragingInlinePolicy: function(policyId) {
-                return getUsersLeveragingInlinePolicy(this.sharedStateV2, policyId)
-            },
-            groupsLeveragingInlinePolicy: function(policyId) {
-                return getGroupsLeveragingInlinePolicy(this.sharedStateV2, policyId)
-            },
-            rolesLeveragingInlinePolicy: function(policyId) {
-                return getRolesLeveragingInlinePolicy(this.sharedStateV2, policyId)
-            },
-            // DEFINITIONS
-            getRiskDefinition: function(riskType) {
-                return this.riskDefinitions[riskType]
-            }
-        }
-    })
-</script>
 <!--Customer Table: Filter by Column-->
 <script>
 $(document).ready(function() {
@@ -740,16 +456,6 @@ $(document).ready(function() {
     $("html, body").animate({ scrollTop: 0 }, 600);
     $('.nav-tabs a[href="#nav-summary"]').tab('show');
     return false;
- });
-</script>
-<!--When Inline Policy Tab is clicked, switch to its tab and then scroll to the top-->
-<script>
-   $('#nav-customer-managed-tab').click(function(){
-    $('a[href="#nav-inline-policies-tab"]').click();
-    $('.nav-tabs a[href="#nav-inline-policies"]').tab('show');
-    $("html, body").animate({ scrollTop: 0 }, 600);
-    return false;
-    console.log($('a[href="#nav-inline-policies-tab"]').text() + ' click triggered');
  });
 </script>
 <!--When Customer Managed Tab is clicked, switch to its tab and then scroll to the top-->

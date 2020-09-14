@@ -89,3 +89,8 @@ def get_non_provider_id(name):
     name_hash = sha256()  # nosec
     name_hash.update(name.encode('utf-8'))
     return name_hash.hexdigest()
+
+
+def is_aws_managed(arn):
+    """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
+    return bool("arn:aws:iam::aws:" in arn)

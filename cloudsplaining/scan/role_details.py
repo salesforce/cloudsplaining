@@ -1,6 +1,7 @@
 """Processes RoleDetailList"""
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
+from cloudsplaining.shared.utils import is_aws_managed
 
 
 class RoleDetailList:
@@ -228,6 +229,24 @@ class RoleDetail:
         return policies
 
     @property
+    def attached_customer_managed_policies_pointer_json(self):
+        """Return metadata on attached managed policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            if not is_aws_managed(policy.arn):
+                policies[policy.policy_id] = policy.policy_name
+        return policies
+
+    @property
+    def attached_aws_managed_policies_pointer_json(self):
+        """Return metadata on attached managed policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            if is_aws_managed(policy.arn):
+                policies[policy.policy_id] = policy.policy_name
+        return policies
+
+    @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         policies = {}
@@ -260,6 +279,8 @@ class RoleDetail:
             instance_profiles=self.instance_profile_list,
             instances_count=len(self.instance_profile_list),
             path=self.path,
-            managed_policies=self.attached_managed_policies_pointer_json,
+            customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
+            aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
+            # managed_policies=self.attached_managed_policies_pointer_json,
         )
         return this_role_detail

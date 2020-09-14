@@ -28,33 +28,36 @@ class TestUserDetail(unittest.TestCase):
 
         user_detail = UserDetail(user_detail_json_input, policy_details, all_group_details)
         expected_result = {
-          "arn": "arn:aws:iam::012345678901:user/biden",
-          "create_date": "2019-12-18 19:10:08+00:00",
-          "id": "biden",
-          "inline_policies": {
-            "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
-          },
-          "groups": {
-            "biden": {
-              "arn": "arn:aws:iam::012345678901:group/biden",
-              "create_date": "2017-05-15 17:33:36+00:00",
-              "id": "aaaaaaaaabbbbbbbccccccc",
-              "inline_policies": {
-                "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
-              },
-              "path": "/",
-              "managed_policies": {
-                "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
-              }
+            "arn": "arn:aws:iam::012345678901:user/biden",
+            "create_date": "2019-12-18 19:10:08+00:00",
+            "id": "biden",
+            "inline_policies": {
+                "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
+            },
+            "groups": {
+                "biden": {
+                    "arn": "arn:aws:iam::012345678901:group/biden",
+                    "create_date": "2017-05-15 17:33:36+00:00",
+                    "id": "aaaaaaaaabbbbbbbccccccc",
+                    "inline_policies": {
+                        "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
+                    },
+                    "path": "/",
+                    "customer_managed_policies": {},
+                    "aws_managed_policies": {
+                        "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
+                    }
+                }
+            },
+            "path": "/",
+            "customer_managed_policies": {},
+            "aws_managed_policies": {
+                "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
             }
-          },
-          "path": "/",
-          "managed_policies": {
-            "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
-          }
         }
 
+
         results = user_detail.json
-        # print(json.dumps(results))
+        print(json.dumps(results, indent=4))
         # self.maxDiff = None
         self.assertDictEqual(results, expected_result)

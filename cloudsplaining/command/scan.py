@@ -169,15 +169,14 @@ def scan_account_authorization_details(
         if output_directory is None:
             output_directory = os.getcwd()
 
-        # new_data = authorization_details.new_principal_policy_mapping
-        # new_raw_data_file = os.path.join(output_directory, f"iam-new-principal-policy-mapping-{account_name}.json")
-        # new_raw_data_filepath = write_results_data_file(new_data, new_raw_data_file)
-        # print(f"Raw data file saved: {str(new_raw_data_filepath)}")
+        new_data = authorization_details.results(exclusions)
+        new_raw_data_file = os.path.join(output_directory, f"iam-new-principal-policy-mapping-{account_name}.json")
+        new_raw_data_filepath = write_results_data_file(new_data, new_raw_data_file)
+        print(f"Raw data file saved: {str(new_raw_data_filepath)}")
 
         raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
         raw_data_filepath = write_results_data_file(results, raw_data_file)
         print(f"Raw data file saved: {str(raw_data_filepath)}")
-        # create_triage_worksheet(account_name, results, output_directory)
 
     return rendered_report
 

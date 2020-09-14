@@ -1,5 +1,6 @@
 """Processes UserDetailList"""
 from cloudsplaining.scan.inline_policy import InlinePolicy
+from cloudsplaining.shared.utils import is_aws_managed
 
 
 class UserDetailList:
@@ -226,6 +227,24 @@ class UserDetail:
         return policies
 
     @property
+    def attached_customer_managed_policies_pointer_json(self):
+        """Return metadata on attached managed policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            if not is_aws_managed(policy.arn):
+                policies[policy.policy_id] = policy.policy_name
+        return policies
+
+    @property
+    def attached_aws_managed_policies_pointer_json(self):
+        """Return metadata on attached managed policies so you can look it up in the policies section later."""
+        policies = {}
+        for policy in self.attached_managed_policies:
+            if is_aws_managed(policy.arn):
+                policies[policy.policy_id] = policy.policy_name
+        return policies
+
+    @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         policies = {}
@@ -260,12 +279,11 @@ class UserDetail:
             create_date=self.create_date,
             id=self.user_id,
             inline_policies=self.inline_policies_pointer_json,
-            # inline_policies_count=len(self.inline_policies_pointer_json),
-            # groups=self.groups,
             groups=self.groups_json,
             path=self.path,
-            # managed_policies_count=len(self.attached_managed_policies),
-            managed_policies=self.attached_managed_policies_pointer_json,
+            customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
+            aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
+            # managed_policies=self.attached_managed_policies_pointer_json,
             # risks=self.consolidated_risks
         )
         return this_user_detail
