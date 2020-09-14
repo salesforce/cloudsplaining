@@ -1,12 +1,13 @@
 {
   "name": "cloudsplaining",
+  "main": "cloudsplaining/output",
   "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build --mode production",
+    "build": "vue-cli-service build --mode production --dest cloudsplaining/output/dist --no-clean",
     "lint": "vue-cli-service lint",
-    "test": "mocha --recursive src/test/"
+    "test": "mocha --recursive cloudsplaining/output/src/test/"
   },
   "directories": {
     "test": "src/test/"
