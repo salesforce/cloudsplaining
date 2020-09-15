@@ -32,12 +32,13 @@ function getGroupMemberships(iam_data, userId) {
         // the "groups" under here are the group IDs, not the group names.
         // Let's go retrieve an object that maps the IDs to the Group names
 
-        for (let i = 0; i < Object.keys(groupMembershipIds).length; i++) {
-            let groupId = groupMembershipIds[i];
+
+        for (let groupId of groupMembershipIds) {
+        // for (let i = 0; i < Object.keys(groupMembershipIds).length; i++) {
             if (Object.prototype.hasOwnProperty.call(iam_data["groups"], groupId)) {
                 let entry = {
-                    group_id: groupId,
-                    group_name: iam_data["groups"][groupId]["name"]
+                    group_id: groupId.slice(),
+                    group_name: iam_data["groups"][groupId]["name"].slice()
                 };
                 result.push(Object.assign(entry));
             }
