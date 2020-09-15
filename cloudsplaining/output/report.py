@@ -9,6 +9,7 @@ app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "index.bundle.
 
 
 class HTMLReport:
+    """Inject the JS files and report results into the final HTML report"""
     def __init__(self, account_id, account_name, results):
         self.account_name = account_name
         self.account_id = account_id
@@ -22,6 +23,7 @@ class HTMLReport:
             self.vendor_bundle = f.read()
 
     def get_html_report(self):
+        """Returns the rendered HTML report"""
         template_contents = dict(
             vendor_bundle_js=self.vendor_bundle,
             app_bundle_js=self.app_bundle,
@@ -40,6 +42,7 @@ class HTMLReport:
 
 
 def get_vendor_bundle_path():
+    """Finds the vendored javascript bundle even if it has a hash suffix"""
     vendor_bundle_directory = os.path.join(os.path.dirname(__file__), "dist", "js")
     file_list = [
         f for f in os.listdir(vendor_bundle_directory) if os.path.isfile(os.path.join(vendor_bundle_directory, f))
@@ -50,8 +53,4 @@ def get_vendor_bundle_path():
             file_list_with_full_path.append(
                 os.path.abspath(os.path.join(vendor_bundle_directory, file))
             )
-    if len(file_list_with_full_path) != 1:
-        raise Exception("There should only be one vendor file in the directory.")
-    else:
-        return file_list_with_full_path[0]
-
+    return file_list_with_full_path[0]
