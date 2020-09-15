@@ -3,7 +3,7 @@
 
         <b-navbar toggleable="md" variant="faded">
             <b-navbar-brand href="#" @click="activeSection = 0">
-                <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">
+<!--                <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">-->
                 Cloudsplaining
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -136,11 +136,12 @@
     if ((process.env.NODE_ENV === "development") || (isLocalExample === true)) {
         // eslint-disable-next-line no-undef
         console.log(`isLocalExample is set to: ${isLocalExample}`)
+        console.log(`process.env.NODE_ENV: ${process.env.NODE_ENV}`)
         console.log(`Note: a report generated with the Python template will not have isLocalExample set to True, because that uses a separate template.html file, which has isLocalExample set to False.`)
         // eslint-disable-next-line no-unused-vars,no-undef
         iam_data = sampleData.sample_iam_data;
         // eslint-disable-next-line no-undef
-        console.log(`IAM Data keys: ${Object.keys(iam_data)}`);
+        console.log(`IAM Data keys inside the development if statement: ${Object.keys(iam_data)}`);
         // eslint-disable-next-line no-unused-vars,no-undef
         account_id = "12345678912";
         // eslint-disable-next-line no-unused-vars,no-undef
@@ -156,7 +157,7 @@
     }
 
     // eslint-disable-next-line no-undef
-    console.log(`IAM Data keys: ${iam_data}`);
+    console.log(`IAM Data keys outside of the NODE_ENV if statements: ${Object.keys(iam_data)}`);
 
 
     function getManagedPolicyNameMapping(managedBy) {

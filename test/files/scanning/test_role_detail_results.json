@@ -52,6 +52,7 @@
     }
   ],
   "instances_count": 1,
+  "is_excluded": false,
   "name": "OverprivilegedEC2",
   "path": "/"
 }

@@ -21,5 +21,6 @@
   ],
   "ResourceExposure": [
     "s3:PutObjectAcl"
-  ]
+  ],
+  "is_excluded": false
 }

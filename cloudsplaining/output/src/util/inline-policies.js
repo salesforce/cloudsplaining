@@ -7,19 +7,60 @@ function getInlinePolicyIds(iam_data) {
 }
 
 function getInlinePolicy(iam_data, policyId) {
-    return Object.assign(iam_data["inline_policies"][policyId]);
+    if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"], policyId)) {
+        return Object.assign(iam_data["inline_policies"][policyId]);
+    } else {
+        return {};
+    }
 }
 
 function getInlinePolicyName(iam_data, policyId) {
-    return iam_data["inline_policies"][policyId]["PolicyName"].slice();
+    if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"], policyId)) {
+        return iam_data["inline_policies"][policyId]["PolicyName"].slice();
+    } else {
+        console.log(`Error: ${policyId} is not available under Inline Policies`)
+    }
 }
 
 function getInlinePolicyDocument(iam_data, policyId) {
-    return Object.assign(iam_data["inline_policies"][policyId]["PolicyDocument"]);
+    if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"], policyId)) {
+        return Object.assign(iam_data["inline_policies"][policyId]["PolicyDocument"]);
+    } else {
+        return {};
+    }
 }
 
 function getInlinePolicyFindings(iam_data, policyId, riskType) {
-    return Object.assign(iam_data["inline_policies"][policyId][riskType]);
+    let exclusionStatus = getInlinePolicyExclusionStatus(iam_data, policyId);
+    if (exclusionStatus === true) {
+        console.log(`The Inline Policy ID ${policyId} was excluded from the scan`)
+        return [];
+    } else {
+        return Array.from(iam_data["inline_policies"][policyId][riskType]);
+    }
+}
+
+function getInlinePolicyIdsInUse(iam_data) {
+    let result = [];
+    let policyIds = [];
+    policyIds = Array.from(Object.keys(iam_data["inline_policies"]));
+    for(let i = 0; i < policyIds.length; i++){
+        if (getInlinePolicyFindings(iam_data, policyIds[i], "InfrastructureModification").length === 0) {
+            console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
+        } else {
+            result.push(policyIds[i].slice())
+        }
+    }
+    return Array.from(result);
+}
+
+
+function getInlinePolicyExclusionStatus(iam_data, policyId) {
+    if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"], policyId)) {
+        return Object.assign(iam_data["inline_policies"][policyId]["is_excluded"]);
+    } else {
+        return {};
+    }
 }
 
 function getServicesAffectedByInlinePolicy(iam_data, policyId) {
@@ -148,7 +189,7 @@ function getInlinePolicyItems(iam_data, inlinePolicyIds) {
             resource_exposure: resourceExposure,
             data_exfiltration: dataExfiltration,
             infrastructure_modification: infrastructureModification,
-            compute_role: computeRole
+            compute_role: computeRole,
         }
         items.push(item)
     }
@@ -156,20 +197,32 @@ function getInlinePolicyItems(iam_data, inlinePolicyIds) {
 }
 
 function getInlinePolicyNameMapping(iam_data) {
-    let managedPolicyIds = getInlinePolicyIds(iam_data);
+    let inlinePolicyIds = getInlinePolicyIdsInUse(iam_data);
     let names = [];
     let policyId;
-    for (policyId of managedPolicyIds) {
-        let policyName = iam_data["inline_policies"][policyId]["PolicyName"].slice();
-        names.push({policy_name: policyName, policy_id: policyId})
+    for (policyId of inlinePolicyIds) {
+        if (!(getInlinePolicyExclusionStatus(iam_data, policyId))) {
+            if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"], policyId)) {
+                if (Object.prototype.hasOwnProperty.call(iam_data["inline_policies"][policyId], "PolicyName")) {
+                    // policyName = iam_data["inline_policies"][policyId]["PolicyName"].slice();
+                    names.push(
+                        {
+                            policy_name: iam_data["inline_policies"][policyId]["PolicyName"].slice(),
+                            policy_id: policyId.slice()
+                        }
+                    )
+                }
+            }
+        }
     }
     names.sort(otherUtils.compareValues("policy_name", "asc"));
-    return getInlinePolicyItems(iam_data, managedPolicyIds);
+    return getInlinePolicyItems(iam_data, inlinePolicyIds);
 }
 
 exports.getInlinePolicyIds = getInlinePolicyIds;
 exports.getInlinePolicy = getInlinePolicy;
 exports.getInlinePolicyDocument = getInlinePolicyDocument;
+exports.getInlinePolicyIdsInUse = getInlinePolicyIdsInUse;
 exports.getInlinePolicyFindings = getInlinePolicyFindings;
 exports.getServicesAffectedByInlinePolicy = getServicesAffectedByInlinePolicy;
 exports.getRolesLeveragingInlinePolicy = getRolesLeveragingInlinePolicy;
@@ -180,3 +233,4 @@ exports.getAllPrincipalTypesLeveragingInlinePolicy = getAllPrincipalTypesLeverag
 exports.inlinePolicyAssumableByComputeService = inlinePolicyAssumableByComputeService;
 exports.getInlinePolicyItems = getInlinePolicyItems;
 exports.getInlinePolicyNameMapping = getInlinePolicyNameMapping;
+exports.getInlinePolicyExclusionStatus = getInlinePolicyExclusionStatus;

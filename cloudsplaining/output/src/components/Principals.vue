@@ -66,10 +66,6 @@
                                 <b-col>
                                     <h5>Metadata</h5>
                                     <dl class="row">
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(roleId, 'Role')['create_date']}}
-                                        </dd>
-
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleId,
                                             'Role')['arn']}}
@@ -79,6 +75,16 @@
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleId,
                                             'Role')['id']}}
                                         </dd>
+
+                                        <dt class="col-sm-3">Excluded from scan?</dt>
+                                        <dd class="col-sm-8 text-monospace">{{getPrincipalMetadata(roleId,
+                                            'Role')['is_excluded']}}
+                                        </dd>
+
+                                        <dt class="col-sm-3">Created</dt>
+                                        <dd class="col-sm-9">{{getPrincipalMetadata(roleId, 'Role')['create_date']}}
+                                        </dd>
+
 
                                         <dt class="col-sm-3">Inline Policies</dt>
                                         <dd class="col-sm-9">
@@ -214,18 +220,23 @@
                                 <b-col>
                                     <h5>Metadata</h5>
                                     <dl class="row">
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(groupId, 'Group')['create_date']}}
-                                        </dd>
-
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
                                             'Group')['arn']}}
                                         </dd>
 
+                                        <dt class="col-sm-3">Excluded from scan?</dt>
+                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
+                                            'Group')['is_excluded']}}
+                                        </dd>
+
                                         <dt class="col-sm-3">ID</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
                                             'Group')['id']}}
+                                        </dd>
+
+                                        <dt class="col-sm-3">Created</dt>
+                                        <dd class="col-sm-9">{{getPrincipalMetadata(groupId, 'Group')['create_date']}}
                                         </dd>
 
                                         <dt class="col-sm-3">Inline Policies</dt>
@@ -350,9 +361,7 @@
                                 <b-col>
                                     <h5>Metadata</h5>
                                     <dl class="row">
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(userId, 'User')['create_date']}}
-                                        </dd>
+
 
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
@@ -362,6 +371,15 @@
                                         <dt class="col-sm-3">ID</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
                                             'User')['id']}}
+                                        </dd>
+
+                                        <dt class="col-sm-3">Excluded from scan?</dt>
+                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
+                                            'User')['is_excluded']}}
+                                        </dd>
+
+                                        <dt class="col-sm-3">Created</dt>
+                                        <dd class="col-sm-9">{{getPrincipalMetadata(userId, 'User')['create_date']}}
                                         </dd>
 
                                         <dt class="col-sm-3">Inline Policies</dt>

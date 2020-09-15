@@ -48,16 +48,18 @@ class TestUserDetail(unittest.TestCase):
                     "customer_managed_policies": {},
                     "aws_managed_policies": {
                         "ANPAI3R4QMOG6Q5A4VWVG": "AmazonRDSFullAccess"
-                    }
+                    },
+                    "is_excluded": False
                 }
             },
             "path": "/",
             "customer_managed_policies": {},
             "aws_managed_policies": {
                 "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
-            }
+            },
+            "is_excluded": False
         }
         results = user_detail.json
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         # self.maxDiff = None
         self.assertDictEqual(results, expected_result)

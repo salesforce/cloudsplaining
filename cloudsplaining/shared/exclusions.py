@@ -160,13 +160,16 @@ def is_name_excluded(name, exclusions_list):
     :param exclusions_list: List of exclusions
     :return:
     """
+    result = None
+
     for exclusion in exclusions_list:
         # Skip empty items
         if exclusion == "":
             continue
         if exclusion.lower() == name.lower():
             logger.debug(f"\tExcluded: {exclusion}")
-            return True
+            result = True
+            break
         # ThePerfectManDoesntExi*
         if exclusion.endswith("*"):
             prefix = exclusion[: exclusion.index("*")]
@@ -174,12 +177,15 @@ def is_name_excluded(name, exclusions_list):
             if name.lower().startswith(prefix.lower()):
                 # logger.debug(f"Excluded prefix: {exclusion}")
                 print(f"\tExcluded prefix: {exclusion}")
-                return True
+                result = True
+                break
         if exclusion.startswith("*"):
             suffix = exclusion.split("*")[-1]
             if name.lower().endswith(suffix.lower()):
                 print(f"\tExcluded suffix: {exclusion}")
-                return True
+                result = True
+                break
+    return result
 
 
 DEFAULT_EXCLUSIONS = Exclusions(DEFAULT_EXCLUSIONS_CONFIG)

@@ -9,6 +9,7 @@ import logging
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
 from cloudsplaining.shared.constants import READ_ONLY_DATA_EXFILTRATION_ACTIONS
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
@@ -20,10 +21,18 @@ class PolicyDocument:
     Holds the actual AWS IAM Policy document
     """
 
-    def __init__(self, policy):
+    def __init__(self, policy, exclusions=DEFAULT_EXCLUSIONS):
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
+
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.exclusions = exclusions
+
         # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
         if not isinstance(statement_structure, list):
             statement_structure = [statement_structure]  # pragma: no cover
@@ -56,6 +65,17 @@ class PolicyDocument:
                     allowed_actions.extend(statement.expanded_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
+
+    @property
+    def infrastructure_modification(self):
+        """Return a list of modify only missing resource constraints"""
+        actions_missing_resource_constraints = []
+        for statement in self.statements:
+            if statement.effect == "Allow":
+                actions_missing_resource_constraints.extend(
+                    statement.missing_resource_constraints_for_modify_actions()
+                )
+        return actions_missing_resource_constraints
 
     @property
     def contains_statement_using_not_action(self):

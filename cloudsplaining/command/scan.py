@@ -148,8 +148,8 @@ def scan_account_authorization_details(
         "resource constraints..."
     )
     check_authorization_details_schema(account_authorization_details_cfg)
-    authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-    results = authorization_details.results(exclusions)
+    authorization_details = AuthorizationDetails(account_authorization_details_cfg, exclusions)
+    results = authorization_details.results
 
     # Lazy method to get an account ID
     account_id = None
@@ -171,7 +171,7 @@ def scan_account_authorization_details(
             output_directory = os.getcwd()
 
         results_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
-        results_data_filepath = write_results_data_file(authorization_details.results(exclusions), results_data_file)
+        results_data_filepath = write_results_data_file(authorization_details.results, results_data_file)
         print(f"Results data saved: {str(results_data_filepath)}")
 
         findings_data_file = os.path.join(output_directory, f"iam-findings-{account_name}.json")

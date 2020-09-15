@@ -7,6 +7,7 @@
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.utils import get_full_policy_path
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class ManagedPolicyDetails:
@@ -14,10 +15,17 @@ class ManagedPolicyDetails:
     Holds ManagedPolicy objects. This is sourced from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
     """
 
-    def __init__(self, policy_details):
+    def __init__(self, policy_details, exclusions=DEFAULT_EXCLUSIONS):
         self.policy_details = []
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.exclusions = exclusions
+
         for policy_detail in policy_details:
-            self.policy_details.append(ManagedPolicy(policy_detail))
+            self.policy_details.append(ManagedPolicy(policy_detail, exclusions))
 
     def get_policy_detail(self, arn):
         """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
@@ -73,7 +81,7 @@ class ManagedPolicy:
     https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyDetail.html
     """
 
-    def __init__(self, policy_detail):
+    def __init__(self, policy_detail, exclusions=DEFAULT_EXCLUSIONS):
         # Store the Raw JSON data from this for safekeeping
         self.policy_detail = policy_detail
 
@@ -91,18 +99,33 @@ class ManagedPolicy:
         self.create_date = policy_detail.get("CreateDate")
         self.update_date = policy_detail.get("UpdateDate")
 
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.exclusions = exclusions
+        self.is_excluded = self._is_excluded(exclusions)
+
         # Policy Documents are stored here. Multiple indices though. We will evaluate the one
         #   with IsDefaultVersion only.
         self.policy_version_list = policy_detail.get("PolicyVersionList")
 
         self.policy_document = self._policy_document()
 
+    def _is_excluded(self, exclusions):
+        """Determine whether the policy name or policy ID is excluded"""
+        return bool(
+            exclusions.is_policy_excluded(self.policy_name)
+            or exclusions.is_policy_excluded(self.policy_id)
+        )
+
     def _policy_document(self):
         """Return the policy document object"""
         policy_document = {}
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
-                policy_document = PolicyDocument(policy_version.get("Document"))
+                policy_document = PolicyDocument(policy_version.get("Document"), exclusions=self.exclusions)
         return policy_document
 
     # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.
@@ -129,18 +152,6 @@ class ManagedPolicy:
             return account_id
 
     @property
-    def infrastructure_modification(self):
-        """Return a list of modify only missing resource constraints"""
-        policy_document = self.policy_document
-        actions_missing_resource_constraints = []
-        for statement in policy_document.statements:
-            if statement.effect == "Allow":
-                actions_missing_resource_constraints.extend(
-                    statement.missing_resource_constraints_for_modify_actions()
-                )
-        return actions_missing_resource_constraints
-
-    @property
     def json(self):
         """Return JSON output for high risk actions"""
         result = dict(
@@ -157,6 +168,7 @@ class ManagedPolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
+            is_excluded=self.is_excluded
         )
         return result
 
@@ -177,7 +189,8 @@ class ManagedPolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
-            InfrastructureModification=self.infrastructure_modification
+            InfrastructureModification=self.policy_document.infrastructure_modification,
+            is_excluded=self.is_excluded,
             # InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions
         )
         return result

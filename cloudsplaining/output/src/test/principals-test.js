@@ -18,6 +18,7 @@ it("principals.getPrincipalMetadata: should return principal object", function (
         "customer_managed_policies": {
             "NotYourPolicy": "NotYourPolicy"
         },
+        "is_excluded": false,
         "name": "admin",
         "aws_managed_policies": {
             "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess",
@@ -52,20 +53,18 @@ it("principals.getPrincipalPolicies: should return Inline policies with principa
 
 
 it("principals.getRiskAssociatedWithPrincipal: should return risks associated with principal", function () {
-    var result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
+    let result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
     chai.assert(result != null);
-    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
-    chai.assert(result.length > 290)
+    console.log(`ResourceExposure risks associated with the group admin should be greater than 20: ${JSON.stringify(result.length)}`);
+    chai.assert.isAtLeast(result.length, 20, `ResourceExposure risks associated with the group admin should be greater than 20: ${JSON.stringify(result.length)}`)
     // chai.assert.deepStrictEqual(result, expectedResult);
-    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
 });
 
 
 it("principals.getRiskAssociatedWithPrincipal: should return risks associated with principal", function () {
-    var result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
+    let result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
     chai.assert(result != null);
-    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
-    chai.assert(result.length > 290)
+    console.log(`ResourceExposure risks associated with the group admin should be greater than 20: ${JSON.stringify(result.length)}`);
+    chai.assert.isAtLeast(result.length, 20, `ResourceExposure risks associated with the group admin should be greater than 20: ${JSON.stringify(result.length)}`)
     // chai.assert.deepStrictEqual(result, expectedResult);
-    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
 });

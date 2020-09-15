@@ -1,14 +1,22 @@
 """Processes an entry under GroupDetailList"""
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.shared.utils import is_aws_managed
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class GroupDetailList:
     """Processes all entries under the GroupDetailList"""
-    def __init__(self, group_details, policy_details):
+    def __init__(self, group_details, policy_details, exclusions=DEFAULT_EXCLUSIONS):
         self.groups = []
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.exclusions = exclusions
+
         for group_detail in group_details:
-            self.groups.append(GroupDetail(group_detail, policy_details))
+            self.groups.append(GroupDetail(group_detail, policy_details, exclusions))
 
     def get_group_detail(self, name):
         """Get a GroupDetail object by providing the Name of the group. This is useful to UserDetail objects"""
@@ -67,9 +75,10 @@ class GroupDetailList:
         return result
 
 
+# pylint: disable=too-many-instance-attributes
 class GroupDetail:
     """Processes an entry under GroupDetailList"""
-    def __init__(self, group_detail, policy_details):
+    def __init__(self, group_detail, policy_details, exclusions=DEFAULT_EXCLUSIONS):
         """
         Initialize the GroupDetail object.
 
@@ -81,6 +90,13 @@ class GroupDetail:
         self.path = group_detail.get("Path")
         self.group_id = group_detail.get("GroupId")
         self.group_name = group_detail.get("GroupName")
+
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.is_excluded = self._is_excluded(exclusions)
 
         # Inline Policies
         self.inline_policies = []
@@ -96,6 +112,13 @@ class GroupDetail:
                 group_detail.get("AttachedManagedPolicies"),
                 policy_details
             )
+
+    def _is_excluded(self, exclusions):
+        """Determine whether the principal name or principal ID is excluded"""
+        return bool(
+            exclusions.is_principal_excluded(self.group_name, "Group")
+            or exclusions.is_principal_excluded(self.group_name, "Group")
+        )
 
     def _attached_managed_policies_details(self, attached_managed_policies_list, policy_details):
         for policy in attached_managed_policies_list:
@@ -127,72 +150,6 @@ class GroupDetail:
         for inline_policy in self.inline_policies:
             statements.extend(inline_policy.policy_document.statements)
         return statements
-
-    @property
-    def consolidated_risks(self):
-        """Return a dict containing the consolidated risks from all inline and managed policies for the group"""
-        privilege_escalation_results = {}
-        resource_exposure_results = []
-        data_exfiltration_results = []
-
-        # Get it from each inline policy
-        if self.inline_policies:
-            for inline_policy in self.inline_policies:
-                # Privilege Escalation
-                if inline_policy.policy_document.allows_privilege_escalation:
-                    for entry in inline_policy.policy_document.allows_privilege_escalation:
-                        if entry["type"] not in privilege_escalation_results.keys():
-                            privilege_escalation_results[entry["type"]] = entry["actions"]
-                # Resource Exposure
-                if inline_policy.policy_document.permissions_management_without_constraints:
-                    for action in inline_policy.policy_document.permissions_management_without_constraints:
-                        if action not in resource_exposure_results:
-                            resource_exposure_results.append(action)
-                # Data Exfiltration
-                if inline_policy.policy_document.allows_data_exfiltration_actions:
-                    for action in inline_policy.policy_document.allows_data_exfiltration_actions:
-                        if action not in data_exfiltration_results:
-                            data_exfiltration_results.append(action)
-
-        if self.attached_managed_policies:
-            for managed_policy in self.attached_managed_policies:
-                # Privilege Escalation
-                if managed_policy.policy_document.allows_privilege_escalation:
-                    for entry in managed_policy.policy_document.allows_privilege_escalation:
-                        if entry["type"] not in privilege_escalation_results.keys():
-                            privilege_escalation_results[entry["type"]] = entry["actions"]
-                # Resource Exposure
-                if managed_policy.policy_document.permissions_management_without_constraints:
-                    for action in managed_policy.policy_document.permissions_management_without_constraints:
-                        if action not in resource_exposure_results:
-                            resource_exposure_results.append(action)
-                # Data Exfiltration
-                if managed_policy.policy_document.allows_data_exfiltration_actions:
-                    for action in managed_policy.policy_document.allows_data_exfiltration_actions:
-                        if action not in data_exfiltration_results:
-                            data_exfiltration_results.append(action)
-
-        # turn it into a list because we want to be able to count the number of results
-        these_privilege_escalation_results = []
-
-        for key in privilege_escalation_results:
-            result = {
-                "type": key,
-                "actions": privilege_escalation_results[key]
-            }
-            these_privilege_escalation_results.append(result)
-
-        # resource_exposure_results.sort()
-        # data_exfiltration_results.sort()
-
-        # Let's just return the count
-        results = {
-            "PrivilegeEscalation": len(these_privilege_escalation_results),
-            "ResourceExposure": len(resource_exposure_results),
-            "DataExfiltration": len(data_exfiltration_results),
-        }
-
-        return results
 
     @property
     def attached_managed_policies_json(self):
@@ -256,7 +213,6 @@ class GroupDetail:
             path=self.path,
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            # managed_policies=self.attached_managed_policies_pointer_json,
-            # risks=self.consolidated_risks
+            is_excluded=self.is_excluded
         )
         return this_group_detail

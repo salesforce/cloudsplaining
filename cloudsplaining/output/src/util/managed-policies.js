@@ -36,6 +36,13 @@ function getManagedPolicyIdsInUse(iam_data, managedBy) {
     return Array.from(result);
 }
 
+function getManagedPolicyExclusionStatus(iam_data, managedBy, policyId) {
+    if (managedBy === "AWS") {
+        return iam_data["aws_managed_policies"][policyId]["is_excluded"];
+    } else if (managedBy === "Customer") {
+        return iam_data["customer_managed_policies"][policyId]["is_excluded"];
+    }
+}
 
 function isManagedPolicyLeveraged(iam_data, managedBy, policyId) {
     let groupCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'Group').length;
@@ -73,15 +80,21 @@ function getManagedPolicyDocument(iam_data, managedBy, policyId) {
 }
 
 function getManagedPolicyFindings(iam_data, managedBy, policyId, riskType) {
-    let result = []
-    if (managedBy === "AWS") {
-        result = Array.from(iam_data["aws_managed_policies"][policyId][riskType]);
+    let result = [];
+    let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
+    if (exclusionStatus === true) {
+        console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
+        return [];
+    } else {
+        if (managedBy === "AWS") {
+            result = Array.from(iam_data["aws_managed_policies"][policyId][riskType]);
+        }
+        else if (managedBy === "Customer") {
+            result = Array.from(iam_data["customer_managed_policies"][policyId][riskType]);
+        }
+        result.sort();
+        return result;
     }
-    else if (managedBy === "Customer") {
-        result = Array.from(iam_data["customer_managed_policies"][policyId][riskType]);
-    }
-    result.sort();
-    return result;
 }
 
 function getManagedPolicyName(iam_data, managedBy, policyId) {
@@ -279,3 +292,4 @@ exports.managedPolicyAssumableByComputeService = managedPolicyAssumableByCompute
 exports.getAllPrincipalsLeveragingManagedPolicy = getAllPrincipalsLeveragingManagedPolicy;
 exports.getManagedPolicyItems = getManagedPolicyItems;
 exports.getManagedPolicyNameMapping = getManagedPolicyNameMapping;
+exports.getManagedPolicyExclusionStatus = getManagedPolicyExclusionStatus;
