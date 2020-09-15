@@ -32,30 +32,30 @@
                                 <b-col lg="4">
                                     <h5>Risks</h5>
                                     <b-list-group>
-                                        <div v-bind:key="riskName" v-for="riskName in riskNames">
+                                        <div v-bind:key="roleRiskName" v-for="roleRiskName in riskNames">
                                             <template
-                                                    v-show="getRiskAssociatedWithPrincipal(roleId, 'Role', riskName).length > 0">
+                                                    v-show="getRiskAssociatedWithPrincipal(roleId, 'Role', roleRiskName).length > 0">
                                                 <dd class="col-sm-12">
                                                     <dl class="row">
                                                         <b-list-group-item
                                                                 class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'"
+                                                                v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'"
                                                                 :action="true">
-                                                            {{ addSpacesInPascalCaseString(riskName) }}
+                                                            {{ addSpacesInPascalCaseString(roleRiskName) }}
 
-                                                            <b-button v-bind:variant="getRiskLevel(riskName)" size="sm"
+                                                            <b-button v-bind:variant="getRiskLevel(roleRiskName)" size="sm"
                                                                       >
                                                                 {{ getRiskAssociatedWithPrincipal(roleId, "Role",
-                                                                riskName).length }}
+                                                                roleRiskName).length }}
                                                             </b-button>
                                                         </b-list-group-item>
                                                     </dl>
                                                 </dd>
                                                 <b-collapse
-                                                        v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'">
+                                                        v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
                                                         <br>
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", riskName) }}</code></pre>
+                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", roleRiskName) }}</code></pre>
                                                         <br>
                                                     </dd>
                                                 </b-collapse>
@@ -181,29 +181,29 @@
                                 <b-col lg="4">
                                     <h5>Risks</h5>
                                     <b-list-group>
-                                        <div v-bind:key="riskName" v-for="riskName in riskNames">
+                                        <div v-bind:key="groupRiskName" v-for="groupRiskName in riskNames">
                                             <template
-                                                    v-show="getRiskAssociatedWithPrincipal(groupId, 'Group', riskName).length > 0">
+                                                    v-show="getRiskAssociatedWithPrincipal(groupId, 'Group', groupRiskName).length > 0">
                                                 <dd class="col-sm-12">
                                                     <dl class="row">
                                                         <b-list-group-item
                                                                 class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'"
+                                                                v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'"
                                                                 :action="true">
-                                                            {{ addSpacesInPascalCaseString(riskName) }}
+                                                            {{ addSpacesInPascalCaseString(groupRiskName) }}
 
-                                                            <b-button v-bind:variant="getRiskLevel(riskName)" size="sm">
+                                                            <b-button v-bind:variant="getRiskLevel(groupRiskName)" size="sm">
                                                                 {{ getRiskAssociatedWithPrincipal(groupId, "Group",
-                                                                riskName).length }}
+                                                                groupRiskName).length }}
                                                             </b-button>
                                                         </b-list-group-item>
                                                     </dl>
                                                 </dd>
                                                 <b-collapse
-                                                        v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'">
+                                                        v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
                                                         <br>
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(groupId, "Group", riskName) }}</code></pre>
+                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(groupId, "Group", groupRiskName) }}</code></pre>
                                                         <br>
                                                     </dd>
                                                 </b-collapse>
@@ -317,29 +317,29 @@
                                 <b-col lg="4">
                                     <h5>Risks</h5>
                                     <b-list-group>
-                                        <div v-bind:key="riskName" v-for="riskName in riskNames">
+                                        <div v-bind:key="userRiskName" v-for="userRiskName in riskNames">
                                             <template
-                                                    v-show="getRiskAssociatedWithPrincipal(userId, 'User', riskName).length > 0">
+                                                    v-show="getRiskAssociatedWithPrincipal(userId, 'User', userRiskName).length > 0">
                                                 <dd class="col-sm-12">
                                                     <dl class="row">
                                                         <b-list-group-item
                                                                 class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'"
+                                                                v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'"
                                                                 :action="true">
-                                                            {{ addSpacesInPascalCaseString(riskName) }}
+                                                            {{ addSpacesInPascalCaseString(userRiskName) }}
 
-                                                            <b-button v-bind:variant="getRiskLevel(riskName)" size="sm">
+                                                            <b-button v-bind:variant="getRiskLevel(userRiskName)" size="sm">
                                                                 {{ getRiskAssociatedWithPrincipal(userId, "User",
-                                                                riskName).length }}
+                                                                userRiskName).length }}
                                                             </b-button>
                                                         </b-list-group-item>
                                                     </dl>
                                                 </dd>
                                                 <b-collapse
-                                                        v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'">
+                                                        v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
                                                         <br>
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(userId, "User", riskName) }}</code></pre>
+                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(userId, "User", userRiskName) }}</code></pre>
                                                         <br>
                                                     </dd>
                                                 </b-collapse>

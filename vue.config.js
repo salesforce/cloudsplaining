@@ -1,7 +1,7 @@
 const path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
+// const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 module.exports = {
     publicPath: '',
@@ -30,7 +30,7 @@ module.exports = {
             // path: path.resolve(__dirname, 'dist'),
         },
         plugins: [
-            new PreloadWebpackPlugin(),
+            // new PreloadWebpackPlugin(),
             new HtmlWebpackInlineSourcePlugin(),
             new HtmlWebpackPlugin({
                 inlineSource: '.(js|css)$', // embed all javascript and css inline
@@ -69,6 +69,7 @@ module.exports = {
     chainWebpack: (config) => {
         if (process.env.NODE_ENV === 'development') {
             config.plugins.delete('preload')
+            config.plugins.delete('prefetch')
         }
     }
 }
