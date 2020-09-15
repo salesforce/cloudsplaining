@@ -7,7 +7,11 @@
                         <h6 class="card-header" v-bind:id="'inline-policy' + '.' + policyId + '.' + 'card'">
                             Name: {{ inlinePolicy(policyId).PolicyName }}
                             <br>
-                            <br>
+                          <br>
+                          Policy Document SHA-256:
+                          <ul>
+                            <li><span><small>{{ policyId }}</small></span></li>
+                          </ul>
                             Attached to Principals:
                             <ul>
                                 <li v-if="principalTypeLeveragingInlinePolicy(policyId, 'Role').length > 0">
