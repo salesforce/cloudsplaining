@@ -275,9 +275,9 @@
                                             </b-button>
                                             <b-collapse
                                                     v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'group-members' + '.' + 'collapse'">
-                                                Group Memberships:
-                                                <ul v-bind:key="groupMemberEntry" v-for="groupMemberEntry in getGroupMembers(groupId)">
-                                                  <li>{{ groupMemberEntry['user_name'] }} (ID: {{ groupMemberEntry['user_id'] }})</li>
+                                                Group Members:
+                                                <ul v-bind:key="groupMemberEntry" v-for="groupMemberEntry in getGroupMembers(groupId).length">
+                                                  <li>{{ getGroupMembers(groupId)[groupMemberEntry - 1]['user_name'] }} (ID: {{ getGroupMembers(groupId)[groupMemberEntry - 1]['user_id'] }})</li>
                                                 </ul>
                                             </b-collapse>
                                         </dd>
@@ -414,8 +414,8 @@
                                                     v-show="Object.keys(getGroupMemberships(userId)).length === 0"
                                             >
                                                 Group Memberships:
-                                                <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(userId)">
-                                                  <li>{{ groupMembershipEntry['group_name'] }} (ID: {{ groupMembershipEntry['group_id'] }})</li>
+                                                <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(userId).length">
+                                                  <li>{{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_name'] }} (ID: {{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_id'] }})</li>
                                                 </ul>
                                             </b-collapse>
                                         </dd>
