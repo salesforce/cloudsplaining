@@ -75,6 +75,11 @@
                                             'Role')['arn']}}
                                         </dd>
 
+                                        <dt class="col-sm-3">ID</dt>
+                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleId,
+                                            'Role')['id']}}
+                                        </dd>
+
                                         <dt class="col-sm-3">Inline Policies</dt>
                                         <dd class="col-sm-9">
                                             <b-button size="sm"
@@ -218,6 +223,11 @@
                                             'Group')['arn']}}
                                         </dd>
 
+                                        <dt class="col-sm-3">ID</dt>
+                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
+                                            'Group')['id']}}
+                                        </dd>
+
                                         <dt class="col-sm-3">Inline Policies</dt>
                                         <dd class="col-sm-9">
                                             <b-button size="sm"
@@ -261,12 +271,14 @@
                                         <dd class="col-sm-9">
                                             <b-button size="sm"
                                                       v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'group-members' + '.' + 'collapse'">
-                                                Details
+                                              {{ getGroupMembers(groupId).length }}
                                             </b-button>
                                             <b-collapse
                                                     v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'group-members' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ JSON.parse(JSON.stringify(getGroupMembers(groupId))) }}</code></pre>
+                                                Group Memberships:
+                                                <ul v-bind:key="groupMemberEntry" v-for="groupMemberEntry in getGroupMembers(groupId)">
+                                                  <li>{{ groupMemberEntry['user_name'] }} (ID: {{ groupMemberEntry['user_id'] }})</li>
+                                                </ul>
                                             </b-collapse>
                                         </dd>
                                     </dl>
@@ -347,6 +359,11 @@
                                             'User')['arn']}}
                                         </dd>
 
+                                        <dt class="col-sm-3">ID</dt>
+                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
+                                            'User')['id']}}
+                                        </dd>
+
                                         <dt class="col-sm-3">Inline Policies</dt>
                                         <dd class="col-sm-9">
                                             <b-button size="sm"
@@ -390,13 +407,16 @@
                                         <dd class="col-sm-9">
                                             <b-button size="sm"
                                                       v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'">
-                                                Details
+                                                {{ Object.keys(getGroupMemberships(userId)).length }}
                                             </b-button>
                                             <b-collapse
-                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'">
-                                                <br>
-                                                <p>Group Memberships</p>
-                                                <pre><code>{{ JSON.parse(JSON.stringify(getGroupMembers(userId))) }}</code></pre>
+                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'"
+                                                    v-show="Object.keys(getGroupMemberships(userId)).length === 0"
+                                            >
+                                                Group Memberships:
+                                                <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(userId)">
+                                                  <li>{{ groupMembershipEntry['group_name'] }} (ID: {{ groupMembershipEntry['group_id'] }})</li>
+                                                </ul>
                                             </b-collapse>
                                         </dd>
                                     </dl>
@@ -462,6 +482,9 @@
             },
             getGroupMembers: function (groupId) {
                 return groupsUtil.getGroupMembers(this.iam_data, groupId)
+            },
+            getGroupMemberships: function (groupId) {
+                return groupsUtil.getGroupMemberships(this.iam_data, groupId)
             },
             addSpacesInPascalCaseString: function (s) {
                 return otherUtil.addSpacesInPascalCaseString(s)
