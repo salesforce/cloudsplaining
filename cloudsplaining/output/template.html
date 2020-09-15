@@ -23,26 +23,26 @@
 </head>
 <body>
 <div id="app"></div>
+
 <!-- built files will be auto injected -->
+<script>
+    var isLocalExample = false;
+    var account_id;
+    var account_name;
+    var report_generated_time;
+    var cloudsplaining_version;
+    account_id = "{{ t.account_id }}";
+    account_name = "{{ t.account_name }}";
+    report_generated_time = "{{ t.report_generated_time }}";
+    cloudsplaining_version = "{{ t.cloudsplaining_version }}";
 
-    <script>
-        var isLocalExample = false;
-        var account_id;
-        var account_name;
-        var report_generated_time;
-        var cloudsplaining_version;
-        account_id = "{{ t.account_id }}";
-        account_name = "{{ t.account_name }}";
-        report_generated_time = "{{ t.report_generated_time }}";
-        cloudsplaining_version = "{{ t.cloudsplaining_version }}";
+    {{ t.results }}
 
-        {{ t.results }}
+    console.log(account_id);
+    console.log(isLocalExample);
+    console.log(`iam data keys: ${Object.keys(iam_data)}`);
 
-        console.log(account_id);
-        console.log(isLocalExample);
-        console.log(`iam data keys: ${Object.keys(iam_data)}`);
-
-    </script>
+</script>
 <script>
     {{ t.vendor_bundle_js }}
 </script>
