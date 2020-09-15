@@ -249,6 +249,7 @@ class GroupDetail:
         """Return the JSON representation of the Group Detail"""
         this_group_detail = dict(
             arn=self.arn,
+            name=self.group_name,
             create_date=self.create_date,
             id=self.group_id,
             inline_policies=self.inline_policies_pointer_json,

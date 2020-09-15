@@ -81,13 +81,13 @@ def capitalize_first_character(some_string):
     return " ".join("".join([w[0].upper(), w[1:].lower()]) for w in some_string.split())
 
 
-def get_non_provider_id(name):
+def get_non_provider_id(some_string):
     """
     Not all resources have an ID and some services allow the use of "." in names, which breaks our recursion scheme
-    if name is used as an ID. Use SHA1(name) instead.
+    if name is used as an ID. Use SHA256(name) instead.
     """
     name_hash = sha256()  # nosec
-    name_hash.update(name.encode('utf-8'))
+    name_hash.update(some_string.encode('utf-8'))
     return name_hash.hexdigest()
 
 

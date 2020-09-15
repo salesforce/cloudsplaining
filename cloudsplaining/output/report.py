@@ -1,114 +1,57 @@
 """Creates the HTML Reports"""
 import os
-import codecs
 import json
 import datetime
-import markdown
-import yaml
 from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.bin.version import __version__
 
+app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "index.bundle.js")
+
 
 class HTMLReport:
-    """
-    HTML Report
-    """
-    # pylint: disable=too-many-instance-attributes
-    def __init__(self, account_name, account_id, exclusions_cfg, results):
+    def __init__(self, account_id, account_name, results):
         self.account_name = account_name
         self.account_id = account_id
-        self.scan_results = results
-        self.exclusions_cfg = exclusions_cfg
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
 
+        self.results = f"var iam_data = {json.dumps(results)}"
+        with open(app_bundle_path, "r") as f:
+            self.app_bundle = f.read()
+        vendor_bundle_path = get_vendor_bundle_path()
+        with open(vendor_bundle_path, "r") as f:
+            self.vendor_bundle = f.read()
+
     def get_html_report(self):
-        """Get the HTML Report as a string"""
-        report_documentation = ReportDocumentation()
-        # Formatted results to feed into the HTML
-        iam_report_results_formatted = dict(
-            account_name=self.account_name,
+        template_contents = dict(
+            vendor_bundle_js=self.vendor_bundle,
+            app_bundle_js=self.app_bundle,
+            # results
+            results=self.results,
+            # account metadata
             account_id=self.account_id,
-            report_generated_time=self.report_generated_time,
+            account_name=self.account_name,
+            report_generated_time=str(self.report_generated_time),
             cloudsplaining_version=__version__,
-            results=json.dumps(self.scan_results),
-            overview_write_up=report_documentation.overview_html,
-            triage_guidance_write_up=report_documentation.triage_guidance_html,
-            remediation_guidance_write_up=report_documentation.remediation_guidance_html,
-            validation_guidance_write_up=report_documentation.validation_guidance_html,
-            glossary_write_up=report_documentation.glossary_html,
-            exclusions_configuration=yaml.dump(self.exclusions_cfg),
         )
-        # HTML Report template
-        template_path = os.path.join(os.path.dirname(__file__), "templates")
+        template_path = os.path.join(os.path.dirname(__file__))
         env = Environment(loader=FileSystemLoader(template_path))  # nosec
         template = env.get_template("template.html")
-        return template.render(t=iam_report_results_formatted)
+        return template.render(t=template_contents)
 
 
-class ReportDocumentation:
-    """Holds the rendered Markdown documentation that goes along with the report"""
-    def __init__(self):
-        # MARKDOWN WRITE-UPS
-        # Leverage this documentation for setting HTML in the markdown file.
-        # We are using markdown because it's just an easier way to modify the general reusable text content.
-        # https://python-markdown.github.io/extensions/md_in_html/
-        # 1. Overview
-        overview_file = codecs.open(
-            os.path.join(
-                os.path.dirname(__file__), "templates", "guidance", "1-overview.md"
-            ),
-            mode="r",
-            encoding="utf-8",
-        )
-        self.overview_html = markdown.markdown(
-            overview_file.read(), extensions=["markdown.extensions.extra"]
-        )
+def get_vendor_bundle_path():
+    vendor_bundle_directory = os.path.join(os.path.dirname(__file__), "dist", "js")
+    file_list = [
+        f for f in os.listdir(vendor_bundle_directory) if os.path.isfile(os.path.join(vendor_bundle_directory, f))
+    ]
+    file_list_with_full_path = []
+    for file in file_list:
+        if file.endswith(".js") and file.startswith("chunk-vendors."):
+            file_list_with_full_path.append(
+                os.path.abspath(os.path.join(vendor_bundle_directory, file))
+            )
+    if len(file_list_with_full_path) != 1:
+        raise Exception("There should only be one vendor file in the directory.")
+    else:
+        return file_list_with_full_path[0]
 
-        # 2. Triage guidance
-        triage_guidance_file = codecs.open(
-            os.path.join(
-                os.path.dirname(__file__), "templates", "guidance", "2-triage-guidance.md"
-            ),
-            mode="r",
-            encoding="utf-8",
-        )
-        self.triage_guidance_html = markdown.markdown(
-            triage_guidance_file.read(), extensions=["markdown.extensions.extra"]
-        )
-
-        # 3. Remediation Guidance
-        remediation_guidance_file = codecs.open(
-            os.path.join(
-                os.path.dirname(__file__),
-                "templates",
-                "guidance",
-                "3-remediation-guidance.md",
-            ),
-            mode="r",
-            encoding="utf-8",
-        )
-        self.remediation_guidance_html = markdown.markdown(
-            remediation_guidance_file.read(), extensions=["markdown.extensions.extra"]
-        )
-
-        # 4. Validation
-        validation_guidance_file = codecs.open(
-            os.path.join(
-                os.path.dirname(__file__), "templates", "guidance", "4-validation.md"
-            ),
-            mode="r",
-            encoding="utf-8",
-        )
-        self.validation_guidance_html = markdown.markdown(
-            validation_guidance_file.read(), extensions=["markdown.extensions.extra"]
-        )
-
-        # 5. Glossary
-        glossary_file = codecs.open(
-            os.path.join(os.path.dirname(__file__), "templates", "guidance", "glossary.md"),
-            mode="r",
-            encoding="utf-8",
-        )
-        self.glossary_html = markdown.markdown(
-            glossary_file.read(), extensions=["markdown.extensions.extra"]
-        )

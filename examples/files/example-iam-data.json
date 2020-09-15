@@ -1,4 +1,4 @@
-var sample_iam_data = {
+{
     "groups": {
         "admin": {
             "arn": "arn:aws:iam::012345678901:group/admin",
@@ -13055,6 +13055,3 @@ var sample_iam_data = {
         ]
     }
 }
-
-
-exports.sample_iam_data = sample_iam_data;

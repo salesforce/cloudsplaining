@@ -31,16 +31,18 @@ class TestUserDetail(unittest.TestCase):
             "arn": "arn:aws:iam::012345678901:user/biden",
             "create_date": "2019-12-18 19:10:08+00:00",
             "id": "biden",
+            "name": "biden",
             "inline_policies": {
-                "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8": "InsecureUserPolicy"
+                "354d81e1788639707f707738fb4c630cb7c5d23614cc467ff9a469a670049e3f": "InsecureUserPolicy"
             },
             "groups": {
                 "biden": {
                     "arn": "arn:aws:iam::012345678901:group/biden",
+                    "name": "biden",
                     "create_date": "2017-05-15 17:33:36+00:00",
                     "id": "aaaaaaaaabbbbbbbccccccc",
                     "inline_policies": {
-                        "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
+                        "e8bca32ff7d1f7990d71c64d95a04b7caa5aad5791f06f69db59653228c6853d": "InlinePolicyForBidenGroup"
                     },
                     "path": "/",
                     "customer_managed_policies": {},
@@ -55,9 +57,7 @@ class TestUserDetail(unittest.TestCase):
                 "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
             }
         }
-
-
         results = user_detail.json
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         # self.maxDiff = None
         self.assertDictEqual(results, expected_result)

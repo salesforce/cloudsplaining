@@ -1,4 +1,5 @@
 """Represents the Inline Policies (UserPolicyList, GroupPolicyList, RolePolicyList) entries under each principal."""
+import json
 from cloudsplaining.shared.utils import get_non_provider_id
 from cloudsplaining.scan.policy_document import PolicyDocument
 
@@ -16,7 +17,10 @@ class InlinePolicy:
         """
         self.policy_name = policy_detail.get("PolicyName")
         self.policy_document = PolicyDocument(policy_detail.get("PolicyDocument"))
-        self.policy_id = get_non_provider_id(self.policy_name)
+        # Generating the provider ID based on a string representation of the Policy Document,
+        # to avoid collisions where there are inline policies with the same name but different contents
+        self.policy_id = get_non_provider_id(json.dumps(self.policy_document.json))
+        # self.policy_id = get_non_provider_id(self.policy_name)
 
     @property
     def json(self):

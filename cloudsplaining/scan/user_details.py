@@ -278,6 +278,7 @@ class UserDetail:
             arn=self.arn,
             create_date=self.create_date,
             id=self.user_id,
+            name=self.user_name,
             inline_policies=self.inline_policies_pointer_json,
             groups=self.groups_json,
             path=self.path,

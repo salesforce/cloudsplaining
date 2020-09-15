@@ -131,16 +131,16 @@ function getRolesLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     // console.log(roles);
     var rolesInQuestion = [];
     for (let i = 0; i < roles.length; i++){
-        var roleName = roles[i];
+        var roleId = roles[i];
         let managedPolicies = [];
         if (managedBy === "AWS") {
-            managedPolicies = Object.assign(iam_data["roles"][roleName]["aws_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["roles"][roleId]["aws_managed_policies"]);
         }
         else if (managedBy === "Customer") {
-            managedPolicies = Object.assign(iam_data["roles"][roleName]["customer_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["roles"][roleId]["customer_managed_policies"]);
         }
         if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
-            rolesInQuestion.push(roleName);
+            rolesInQuestion.push(iam_data["roles"][roleId]["name"]);
         }
     }
     return rolesInQuestion
@@ -151,16 +151,16 @@ function getUsersLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     users = Array.from(Object.keys(iam_data["users"]));
     var usersInQuestion = [];
     for (let i = 0; i < users.length; i++){
-        var userName = users[i];
+        var userId = users[i];
         let managedPolicies = [];
         if (managedBy === "AWS") {
-            managedPolicies = Object.assign(iam_data["users"][userName]["aws_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["users"][userId]["aws_managed_policies"]);
         }
         else if (managedBy === "Customer") {
-            managedPolicies = Object.assign(iam_data["users"][userName]["customer_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["users"][userId]["customer_managed_policies"]);
         }
         if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
-            usersInQuestion.push(userName);
+            usersInQuestion.push(iam_data["users"][userId]["name"]);
         }
     }
     return usersInQuestion
@@ -171,16 +171,16 @@ function getGroupsLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     groups = Object.keys(iam_data["groups"]);
     var groupsInQuestion = [];
     for (let i = 0; i < groups.length; i++){
-        var groupName = groups[i];
+        var groupId = groups[i];
         let managedPolicies = [];
         if (managedBy === "AWS") {
-            managedPolicies = Object.assign(iam_data["groups"][groupName]["aws_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["groups"][groupId]["aws_managed_policies"]);
         }
         else if (managedBy === "Customer") {
-            managedPolicies = Object.assign(iam_data["groups"][groupName]["customer_managed_policies"]);
+            managedPolicies = Object.assign(iam_data["groups"][groupId]["customer_managed_policies"]);
         }
         if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
-            groupsInQuestion.push(groupName);
+            groupsInQuestion.push(iam_data["groups"][groupId]["name"]);
         }
     }
     return groupsInQuestion

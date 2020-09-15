@@ -16,6 +16,33 @@ function getPrincipalMetadata(iam_data, principalName, principalType) {
 }
 
 function getPrincipalNames(iam_data, principalType) {
+    let result = [];
+    if (principalType === "Role") {
+        let principalIds = Object.keys(iam_data["roles"])
+        for (let principalId of principalIds) {
+            result.push(iam_data["roles"][principalId]["name"])
+        }
+        return result.sort();
+    }
+    if (principalType === "Group") {
+        let principalIds = Object.keys(iam_data["groups"]);
+        for (let principalId of principalIds) {
+            result.push(iam_data["groups"][principalId]["name"])
+        }
+        result.sort();
+        return result
+    }
+    if (principalType === "User") {
+        let principalIds = Object.keys(iam_data["users"]);
+        for (let principalId of principalIds) {
+            result.push(iam_data["users"][principalId]["name"])
+        }
+        result.sort();
+        return result
+    }
+}
+
+function getPrincipalIds(iam_data, principalType) {
     let result;
     if (principalType === "Role") {
         result = Object.keys(iam_data["roles"])
@@ -133,6 +160,7 @@ function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, 
 
 exports.getPrincipalMetadata = getPrincipalMetadata;
 exports.getPrincipalNames = getPrincipalNames;
+exports.getPrincipalIds = getPrincipalIds;
 exports.getPrincipalPolicies = getPrincipalPolicies;
 exports.getRiskAssociatedWithPrincipal = getRiskAssociatedWithPrincipal;
 exports.getPrincipalPolicyNames = getPrincipalPolicyNames;

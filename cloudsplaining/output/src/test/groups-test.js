@@ -18,7 +18,7 @@ it("groups.getGroupNames: should return list of group names", function () {
 
 it("groups.getGroupMembers: should a list of users that are a member of this group", function () {
     var result = groups.getGroupMembers(iam_data, "admin");
-    var expectedResult = ["obama", "userwithlotsofpermissions"];
+    var expectedResult = ["obama", "ASIAZZUSERZZPLACEHOLDER"];
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
     console.log(`Should be ["obama", "userwithlotsofpermissions"] : ${JSON.stringify(result)}`);

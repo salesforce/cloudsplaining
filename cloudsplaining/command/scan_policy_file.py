@@ -13,7 +13,7 @@ from pathlib import Path
 import yaml
 import click
 import click_log
-from cloudsplaining.output.src import Findings, PolicyFinding
+from cloudsplaining.output.findings import Findings, PolicyFinding
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import (

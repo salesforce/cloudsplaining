@@ -275,6 +275,7 @@ class RoleDetail:
             assume_role_policy=dict(PolicyDocument=assume_role_json),
             create_date=self.create_date,
             id=self.role_id,
+            name=self.role_name,
             inline_policies=self.inline_policies_pointer_json,
             instance_profiles=self.instance_profile_list,
             instances_count=len(self.instance_profile_list),
