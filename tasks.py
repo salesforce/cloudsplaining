@@ -34,6 +34,9 @@ ns.add_collection(build)
 docs = Collection("docs")
 ns.add_collection(docs)
 
+js = Collection("js")
+ns.add_collection(js)
+
 
 @task
 def build_docs(c):
@@ -212,6 +215,36 @@ def run_pytest(c):
         sys.exit(1)
 
 
+@task
+def npm_build(c):
+    """Build the javascript bundle"""
+    c.run('echo "Building the javascript bundle"')
+    try:
+        c.run('npm install --production')
+        c.run('npm run build')
+    except UnexpectedExit as u_e:
+        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
+        sys.exit(1)
+    except Failure as f_e:
+        logger.critical(f"FAIL: Failure: {f_e}")
+        sys.exit(1)
+
+
+@task
+def npm_serve(c):
+    """Serve the report locally"""
+    c.run('Serve the report locally"')
+    try:
+        c.run('npm install --production')
+        c.run('npm run serve')
+    except UnexpectedExit as u_e:
+        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
+        sys.exit(1)
+    except Failure as f_e:
+        logger.critical(f"FAIL: Failure: {f_e}")
+        sys.exit(1)
+
+
 docs.add_task(build_docs, "build-docs")
 docs.add_task(serve_docs, "serve-docs")
 
@@ -231,3 +264,6 @@ build.add_task(install_package, "install-package")
 build.add_task(uninstall_package, "uninstall-package")
 build.add_task(upload_to_pypi_test_server, "upload-test")
 build.add_task(upload_to_pypi_prod_server, "upload-prod")
+
+# js.add_task(npm_build, "build")
+# js.add_task(npm_serve, "serve")

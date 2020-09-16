@@ -36,7 +36,7 @@ indent_size = 2
 
 # Web Files
 [*.{htm,html,js,jsm,ts,tsx,css,sass,scss,less,svg,vue}]
-indent_size = 2
+indent_size = 4
 end_of_line = lf
 
 # Bash Files

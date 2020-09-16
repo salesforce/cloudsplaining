@@ -5,7 +5,9 @@
   "customer_managed_policies": {},
   "id": "aaaaaaaaabbbbbbbccccccc",
   "inline_policies": {
-    "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986": "InlinePolicyForBidenGroup"
+    "e8bca32ff7d1f7990d71c64d95a04b7caa5aad5791f06f69db59653228c6853d": "InlinePolicyForBidenGroup"
   },
+  "is_excluded": false,
+  "name": "biden",
   "path": "/"
 }
