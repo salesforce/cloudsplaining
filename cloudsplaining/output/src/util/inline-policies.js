@@ -87,10 +87,10 @@ function getRolesLeveragingInlinePolicy(iam_data, policyId) {
     roles = Object.keys(iam_data["roles"]);
     const rolesInQuestion = []
     for (let i = 0; i < roles.length; i++){
-        let roleName = roles[i];
-        let inlinePolicies = Object.assign(iam_data["roles"][roleName]["inline_policies"]);
+        let roleId = roles[i];
+        let inlinePolicies = Object.assign(iam_data["roles"][roleId]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
-            rolesInQuestion.push(roleName)
+            rolesInQuestion.push(iam_data["roles"][roleId]["name"])
         }
     }
     return rolesInQuestion
@@ -102,10 +102,10 @@ function getGroupsLeveragingInlinePolicy(iam_data, policyId) {
     groups = Object.keys(iam_data["groups"]);
     const groupsInQuestion = []
     for (let i = 0; i < groups.length; i++){
-        let groupName = groups[i];
-        let inlinePolicies = Object.assign(iam_data["groups"][groupName]["inline_policies"]);
+        let groupId = groups[i];
+        let inlinePolicies = Object.assign(iam_data["groups"][groupId]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
-            groupsInQuestion.push(groupName)
+            groupsInQuestion.push(iam_data["groups"][groupId]["name"])
         }
     }
     return groupsInQuestion
@@ -117,10 +117,10 @@ function getUsersLeveragingInlinePolicy(iam_data, policyId) {
     users = Object.keys(iam_data["users"]);
     const usersInQuestion = []
     for (let i = 0; i < users.length; i++){
-        let userName = users[i];
-        let inlinePolicies = Object.assign(iam_data["users"][userName]["inline_policies"]);
+        let userId = users[i];
+        let inlinePolicies = Object.assign(iam_data["users"][userId]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
-            usersInQuestion.push(userName)
+            usersInQuestion.push(iam_data["users"][userId]["name"])
         }
     }
     return usersInQuestion

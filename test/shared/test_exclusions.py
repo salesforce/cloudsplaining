@@ -6,6 +6,28 @@ from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.scan.principal_detail import PrincipalDetail
 
 
+class ExclusionsNewTestCase(unittest.TestCase):
+    def test_new_exclusions_approach(self):
+        exclusions_cfg = {
+            "policies": [
+                "aws-service-role*"
+            ],
+            "roles": ["aws-service-role*"],
+            "users": [""],
+            "include-actions": ["s3:GetObject"],
+            "exclude-actions": ["kms:Decrypt"]
+        }
+        exclusions = Exclusions(exclusions_cfg)
+        test_actions_list = [
+            "s3:GetObject",
+            "kms:decrypt",
+            "ssm:GetParameter",
+            "ec2:DescribeInstances"
+        ]
+        result = exclusions.get_allowed_actions(test_actions_list)
+        self.assertListEqual(result, ['s3:GetObject', 'ssm:GetParameter', 'ec2:DescribeInstances'])
+
+
 class ExclusionsTestCase(unittest.TestCase):
     def test_exclusions_exact_match(self):
         """test_exclusions_exact_match: If there is an exact match in the exclusions list"""

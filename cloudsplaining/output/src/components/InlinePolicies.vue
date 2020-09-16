@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-bind:key="policyId" v-for="policyId in inlinePolicyIds">
+        <div v-bind:key="policyId" v-for="policyId in inlinePolicyIdsInUse">
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">
@@ -239,7 +239,10 @@
             },
             summary() {
                 return summary;
-            }
+            },
+            inlinePolicyIdsInUse() {
+                return inlinePoliciesUtil.getInlinePolicyIdsInUse(this.iam_data);
+            },
         },
         methods: {
             inlinePolicyDocument(policyId) {

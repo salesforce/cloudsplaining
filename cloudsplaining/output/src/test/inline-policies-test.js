@@ -90,10 +90,10 @@ it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of 
 
 it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of USERS that leverage this inline policy", function () {
     var result = inlinePolicies.getPrincipalTypeLeveragingInlinePolicy(iam_data, "354d81e1788639707f707738fb4c630cb7c5d23614cc467ff9a469a670049e3f", "User")
-    var expectedResult = ["ASIAZZUSERZZPLACEHOLDER"]
+    var expectedResult = ["userwithlotsofpermissions"]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
-    console.log(`Users leveraging the InsecureUserPolicy inline policy: ${JSON.stringify(result)}`);
+    console.log(`User names leveraging the InsecureUserPolicy inline policy: ${JSON.stringify(result)}`);
 });
 
 it("inlinePolicies.getRolesLeveragingInlinePolicy: should return list of ROLES leveraging Inline policy", function () {
