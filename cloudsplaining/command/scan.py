@@ -19,7 +19,7 @@ from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
-from cloudsplaining.output.data_file import write_results_data_file
+from cloudsplaining.shared.utils import write_results_data_file
 from cloudsplaining.output.report import HTMLReport
 
 logger = logging.getLogger(__name__)

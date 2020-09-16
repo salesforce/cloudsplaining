@@ -4,10 +4,13 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+import logging
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.utils import get_full_policy_path
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions, is_name_excluded
+
+logger = logging.getLogger(__name__)
 
 
 class ManagedPolicyDetails:
@@ -25,6 +28,13 @@ class ManagedPolicyDetails:
         self.exclusions = exclusions
 
         for policy_detail in policy_details:
+            this_policy_name = policy_detail.get("PolicyName")
+            this_policy_id = policy_detail.get("PolicyId")
+            this_policy_path = policy_detail.get("Path")
+            if is_name_excluded(this_policy_path, "aws-service-role*"):
+                logger.debug("The %s Policy with the policy ID %s is excluded because it is "
+                             "an immutable AWS Service role with a path of %s",
+                             this_policy_name, this_policy_id, this_policy_path)
             self.policy_details.append(ManagedPolicy(policy_detail, exclusions))
 
     def get_policy_detail(self, arn):
@@ -118,6 +128,8 @@ class ManagedPolicy:
         return bool(
             exclusions.is_policy_excluded(self.policy_name)
             or exclusions.is_policy_excluded(self.policy_id)
+            or exclusions.is_policy_excluded(self.path)
+            or is_name_excluded(self.path, "/aws-service-role*")
         )
 
     def _policy_document(self):

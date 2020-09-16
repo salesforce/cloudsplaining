@@ -124,6 +124,7 @@ class UserDetail:
         return bool(
             exclusions.is_principal_excluded(self.user_name, "User")
             or exclusions.is_principal_excluded(self.user_id, "User")
+            or exclusions.is_principal_excluded(self.path, "User")
         )
 
     def _add_group_details(self, group_list, all_group_details):
