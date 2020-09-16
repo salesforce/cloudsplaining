@@ -118,6 +118,7 @@ class GroupDetail:
         return bool(
             exclusions.is_principal_excluded(self.group_name, "Group")
             or exclusions.is_principal_excluded(self.group_name, "Group")
+            or exclusions.is_principal_excluded(self.path, "Group")
         )
 
     def _attached_managed_policies_details(self, attached_managed_policies_list, policy_details):

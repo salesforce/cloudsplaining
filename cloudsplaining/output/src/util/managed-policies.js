@@ -146,6 +146,12 @@ function getRolesLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     for (let i = 0; i < roles.length; i++){
         var roleId = roles[i];
         let managedPolicies = [];
+        let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
+        if (exclusionStatus === true) {
+            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
+            return [];
+        }
+        // if it is not excluded, continue
         if (managedBy === "AWS") {
             managedPolicies = Object.assign(iam_data["roles"][roleId]["aws_managed_policies"]);
         }
@@ -166,6 +172,12 @@ function getUsersLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     for (let i = 0; i < users.length; i++){
         var userId = users[i];
         let managedPolicies = [];
+        let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
+        if (exclusionStatus === true) {
+            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
+            return [];
+        }
+        // if it is not excluded, continue
         if (managedBy === "AWS") {
             managedPolicies = Object.assign(iam_data["users"][userId]["aws_managed_policies"]);
         }
@@ -186,6 +198,12 @@ function getGroupsLeveragingManagedPolicy(iam_data, managedBy, policyId) {
     for (let i = 0; i < groups.length; i++){
         var groupId = groups[i];
         let managedPolicies = [];
+        let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
+        if (exclusionStatus === true) {
+            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
+            return [];
+        }
+        // if it is not excluded, continue
         if (managedBy === "AWS") {
             managedPolicies = Object.assign(iam_data["groups"][groupId]["aws_managed_policies"]);
         }

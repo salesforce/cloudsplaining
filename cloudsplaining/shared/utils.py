@@ -4,6 +4,8 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+import os
+import json
 import logging
 from hashlib import sha256
 from policy_sentry.querying.actions import (
@@ -94,3 +96,20 @@ def get_non_provider_id(some_string):
 def is_aws_managed(arn):
     """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
     return bool("arn:aws:iam::aws:" in arn)
+
+
+# pragma: no cover
+def write_results_data_file(results, raw_data_file):
+    """
+    Writes the raw data file containing all the results for an AWS account
+
+    :param results: Dictionary containing the scan results for a particular account
+    :param raw_data_file:
+    :return:
+    """
+    # Write the output to a results file if that was specified. Otherwise, just print to stdout
+    if os.path.exists(raw_data_file):
+        os.remove(raw_data_file)
+    with open(raw_data_file, "w") as file:
+        json.dump(results, file, indent=4)
+    return raw_data_file

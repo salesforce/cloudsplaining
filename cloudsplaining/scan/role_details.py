@@ -1,8 +1,11 @@
 """Processes RoleDetailList"""
+import logging
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.shared.utils import is_aws_managed
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions, is_name_excluded
+
+logger = logging.getLogger(__name__)
 
 
 class RoleDetailList:
@@ -16,7 +19,13 @@ class RoleDetailList:
         self.exclusions = exclusions
 
         for role_detail in role_details:
-            self.roles.append(RoleDetail(role_detail, policy_details, exclusions))
+            this_role_name = role_detail.get("RoleName")
+            this_role_path = role_detail.get("Path")
+            if is_name_excluded(this_role_path, "/aws-service-role*"):
+                logger.debug("%s role is excluded because it is an immutable AWS Service role with a path of %s",
+                             this_role_name, this_role_path)
+            else:
+                self.roles.append(RoleDetail(role_detail, policy_details, exclusions))
 
     def get_all_allowed_actions_for_role(self, name):
         """Returns a list of all allowed actions by the role across all its policies"""
@@ -123,6 +132,8 @@ class RoleDetail:
         return bool(
             exclusions.is_principal_excluded(self.role_name, "Role")
             or exclusions.is_principal_excluded(self.role_id, "Role")
+            or exclusions.is_principal_excluded(self.path, "Role")
+            or is_name_excluded(self.path, "/aws-service-role*")
         )
 
     def _attached_managed_policies_details(self, attached_managed_policies_list, policy_details):
