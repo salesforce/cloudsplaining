@@ -2179,7 +2179,7 @@
     "ResourceExposure": [
       "iam:CreateServiceLinkedRole"
     ],
-    "is_excluded": false
+    "is_excluded": true
   },
   "ANPAIQNUJTQYDRJPC3BNK": {
     "PolicyName": "AWSCloudTrailFullAccess",
@@ -5623,6 +5623,6 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
-    "is_excluded": false
+    "is_excluded": true
   }
 }

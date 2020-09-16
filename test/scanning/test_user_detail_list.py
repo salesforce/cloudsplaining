@@ -60,6 +60,6 @@ class TestUserDetail(unittest.TestCase):
             "is_excluded": False
         }
         results = user_detail.json
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         # self.maxDiff = None
         self.assertDictEqual(results, expected_result)
