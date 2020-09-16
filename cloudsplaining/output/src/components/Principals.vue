@@ -9,14 +9,13 @@
         <h3>Roles</h3>
             <div id="iam.roles">
                 <div v-bind:key="roleId" v-for="roleId in roleIds">
-                    <br>
                     <b-container>
                         <b-row class="px-2">
                             <b-col>
-                                <h4>{{ getPrincipalMetadata(roleId, 'Role')['name'] }}
+                                <h5 v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id']">{{ getPrincipalMetadata(roleId, 'Role')['name'] }}
                                     <br>
                                     <small class="text-muted">{{getPrincipalMetadata(roleId, 'Role')['arn']}}</small>
-                                </h4>
+                                </h5>
                             </b-col>
                             <b-col>
                                 <b-button
@@ -25,7 +24,6 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-                        <br>
                         <b-collapse
                                 v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
@@ -54,9 +52,7 @@
                                                 <b-collapse
                                                         v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
-                                                        <br>
                                                         <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", roleRiskName) }}</code></pre>
-                                                        <br>
                                                     </dd>
                                                 </b-collapse>
                                             </template>
@@ -154,7 +150,6 @@
                                 </b-col>
                             </b-row>
                             <br>
-                            <br>
                         </b-collapse>
                     </b-container>
                 </div>
@@ -164,14 +159,13 @@
         <h3>Groups</h3>
         <div id="iam.groups">
             <div v-bind:key="groupId" v-for="groupId in groupIds">
-                    <br>
                     <b-container>
                         <b-row class="px-2">
                             <b-col>
-                                <h4>{{ getPrincipalMetadata(groupId, 'Group')['name'] }}
+                                <h5 v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id']">{{ getPrincipalMetadata(groupId, 'Group')['name'] }}
                                     <br>
                                     <small class="text-muted">{{getPrincipalMetadata(groupId, 'Group')['arn']}}</small>
-                                </h4>
+                                </h5>
                             </b-col>
                             <b-col>
                                 <b-button
@@ -180,7 +174,6 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-                        <br>
                         <b-collapse
                                 v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
@@ -208,9 +201,7 @@
                                                 <b-collapse
                                                         v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
-                                                        <br>
                                                         <pre><code>{{ getRiskAssociatedWithPrincipal(groupId, "Group", groupRiskName) }}</code></pre>
-                                                        <br>
                                                     </dd>
                                                 </b-collapse>
                                             </template>
@@ -296,7 +287,6 @@
                                 </b-col>
                             </b-row>
                             <br>
-                            <br>
                         </b-collapse>
                     </b-container>
                 </div>
@@ -304,15 +294,15 @@
         <br>
         <!--USERS-->
         <h3>Users</h3>
+        <div id="iam.users">
             <div v-bind:key="userId" v-for="userId in userIds">
-                    <br>
                     <b-container>
                         <b-row class="px-2">
                             <b-col>
-                                <h4>{{ getPrincipalMetadata(userId, 'User')['name'] }}
+                                <h5 v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id']">{{ getPrincipalMetadata(userId, 'User')['name'] }}
                                     <br>
                                     <small class="text-muted">{{getPrincipalMetadata(userId, 'User')['arn']}}</small>
-                                </h4>
+                                </h5>
                             </b-col>
                             <b-col>
                                 <b-button
@@ -321,7 +311,6 @@
                                 </b-button>
                             </b-col>
                         </b-row>
-                        <br>
                         <b-collapse
                                 v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
@@ -349,9 +338,7 @@
                                                 <b-collapse
                                                         v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'">
                                                     <dd class="col-sm-12">
-                                                        <br>
                                                         <pre><code>{{ getRiskAssociatedWithPrincipal(userId, "User", userRiskName) }}</code></pre>
-                                                        <br>
                                                     </dd>
                                                 </b-collapse>
                                             </template>
@@ -361,8 +348,6 @@
                                 <b-col>
                                     <h5>Metadata</h5>
                                     <dl class="row">
-
-
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
                                             'User')['arn']}}
@@ -441,11 +426,9 @@
                                 </b-col>
                             </b-row>
                             <br>
-                            <br>
                         </b-collapse>
                     </b-container>
                 </div>
-        <div id="iam.users">
         </div><!--iam.users-->
     </div>
 

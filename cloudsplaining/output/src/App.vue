@@ -60,17 +60,17 @@
                     <Summary v-bind:iam_data="iam_data" :policy-filter="policyFilter"/>
                 </b-tab>
                 <b-tab key="custom-policies">
-                    <h3>Customer-Managed Policies</h3>
+                    <h3>Customer-Managed Policies ({{ getManagedPolicyNameMapping('Customer').length }})</h3>
                     <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"/>
                     <ManagedPolicies v-bind:iam_data="iam_data" managedBy="Customer"/>
                 </b-tab>
                 <b-tab key="inline-policies">
-                    <h3>Inline Policies</h3>
+                    <h3>Inline Policies ({{ getInlinePolicyNameMapping().length }})</h3>
                     <PolicyTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>
                     <InlinePolicies v-bind:iam_data="iam_data"/>
                 </b-tab>
                 <b-tab key="aws-policies">
-                    <h3>AWS-Managed Policies</h3>
+                    <h3>AWS-Managed Policies ({{ getManagedPolicyNameMapping('AWS').length }})</h3>
                     <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"/>
                     <ManagedPolicies v-bind:iam_data="iam_data" managedBy="AWS"/>
                 </b-tab>

@@ -30,7 +30,8 @@
         <div style="" class="d-none d-sm-block">
           <summary-findings
               :inline-policy-risks="inlinePolicyRisks"
-              :managed-policy-risks="managedPolicyRisks"
+              :customer-managed-policy-risks="customerManagedPolicyRisks"
+              :aws-managed-policy-risks="awsManagedPolicyRisks"
               :height="200"
           ></summary-findings>
         </div>
@@ -103,8 +104,11 @@ export default {
     inlinePolicyRisks() {
       return policyViolations(Object.assign(this.iam_data["inline_policies"]))
     },
-    managedPolicyRisks() {
-      return policyViolations(Object.assign(this.iam_data["aws_managed_policies"], this.iam_data["customer_managed_policies"]))
+    customerManagedPolicyRisks() {
+      return policyViolations(Object.assign(this.iam_data["customer_managed_policies"]))
+    },
+    awsManagedPolicyRisks() {
+      return policyViolations(Object.assign(this.iam_data["aws_managed_policies"]))
     },
     policyRisks() {
 
@@ -112,15 +116,19 @@ export default {
         return this.inlinePolicyRisks
       }
 
-      if (["custManaged", "awsManaged"].indexOf(this.policyFilter) !== -1) {
-        return this.managedPolicyRisks;
+      if (["custManaged"].indexOf(this.policyFilter) !== -1) {
+        return this.customerManagedPolicyRisks;
+      }
+
+      if (["awsManaged"].indexOf(this.policyFilter) !== -1) {
+        return this.awsManagedPolicyRisks;
       }
 
       return {
-        "PrivilegeEscalation": this.inlinePolicyRisks.PrivilegeEscalation + this.managedPolicyRisks.PrivilegeEscalation,
-        "DataExfiltration": this.inlinePolicyRisks.DataExfiltration + this.managedPolicyRisks.DataExfiltration,
-        "ResourceExposure": this.inlinePolicyRisks.ResourceExposure + this.managedPolicyRisks.ResourceExposure,
-        "InfrastructureModification": this.inlinePolicyRisks.InfrastructureModification + this.managedPolicyRisks.InfrastructureModification
+        "PrivilegeEscalation": this.inlinePolicyRisks.PrivilegeEscalation + this.awsManagedPolicyRisks.PrivilegeEscalation + this.customerManagedPolicyRisks.PrivilegeEscalation,
+        "DataExfiltration": this.inlinePolicyRisks.DataExfiltration + this.awsManagedPolicyRisks.DataExfiltration + this.customerManagedPolicyRisks.DataExfiltration,
+        "ResourceExposure": this.inlinePolicyRisks.ResourceExposure + this.awsManagedPolicyRisks.ResourceExposure + this.customerManagedPolicyRisks.ResourceExposure,
+        "InfrastructureModification": this.inlinePolicyRisks.InfrastructureModification + this.awsManagedPolicyRisks.InfrastructureModification + this.customerManagedPolicyRisks.InfrastructureModification
       }
     },
 
