@@ -3,6 +3,15 @@
 ## Unreleased
 * Docker
 
+## 0.2.0 (Unreleased)
+* Major UI uplift: 
+  * Added Bar chart of results
+  * Upgraded Principals metadata page
+  * Standalone page for Inline Policies now
+* Migration to Vue.js
+* Leveraging an updated data JSON file
+* Many bug fixes that were present with the previous UI
+
 ## 0.1.8 (2020-08-27)
 * UI: The Exclusions configuration was not showing up in the report due to a typo
 * Changed `--input` flag to `--input-file` for all commands
