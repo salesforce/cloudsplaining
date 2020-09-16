@@ -1,5 +1,5 @@
 appdirs==1.4.3
-astroid==2.3.3
+astroid==2.4.2
 atomicwrites==1.4.0
 attrs==19.3.0
 bandit==1.6.2
@@ -31,8 +31,8 @@ Markdown==3.2.2
 MarkupSafe==2.0.0a1
 mccabe==0.6.1
 mkdocs==1.1
-mkdocs-material==5.1.5
-mkdocs-material-extensions==1.0b2
+mkdocs-material==5.5.12
+mkdocs-material-extensions==1.0
 mkdocstrings==0.11.0
 more-itertools==8.2.0
 nltk==3.5
@@ -44,7 +44,7 @@ pluggy==0.13.1
 policy-sentry==0.8.0.5
 py==1.8.1
 Pygments==2.6.1
-pylint==2.5.2
+pylint==2.6.0
 pymdown-extensions==7.1
 pyparsing==3.0.0a1
 pytest==5.2.1
