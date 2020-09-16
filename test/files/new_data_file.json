@@ -3166,7 +3166,7 @@
       "InfrastructureModification": [
         "iam:CreateServiceLinkedRole"
       ],
-      "is_excluded": false
+      "is_excluded": true
     },
     "ANPAIQNUJTQYDRJPC3BNK": {
       "PolicyName": "AWSCloudTrailFullAccess",
@@ -12541,7 +12541,7 @@
       "DataExfiltration": [],
       "ResourceExposure": [],
       "InfrastructureModification": [],
-      "is_excluded": false
+      "is_excluded": true
     }
   },
   "customer_managed_policies": {

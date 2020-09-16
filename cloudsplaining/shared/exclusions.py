@@ -161,6 +161,8 @@ def is_name_excluded(name, exclusions_list):
     :return:
     """
     result = None
+    if isinstance(exclusions_list, str):
+        exclusions_list = [exclusions_list]
 
     for exclusion in exclusions_list:
         # Skip empty items

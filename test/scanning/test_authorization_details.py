@@ -305,7 +305,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
             }
         }
 
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertDictEqual(results, expected_results)
 
