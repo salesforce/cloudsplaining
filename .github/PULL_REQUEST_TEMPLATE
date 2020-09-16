@@ -1,0 +1,22 @@
+## What does this PR do?
+
+[//]: # (Required: Describe the effects of your pull request in detail. If
+multiple changes are involved, a bulleted list is often useful.)
+
+## What gif best describes this PR or how it makes you feel?
+
+[//]: # (Encouraged: Insert an appropriate gif/meme to brighten up your reviewer's day.)
+
+## Completion checklist
+
+- [ ] Additions and changes have unit tests
+- [ ] [Python Unit tests, Pylint, security testing, and Integration tests are passing.](https://github.com/salesforce/policy_sentry/actions). GitHub actions checks this automatically.
+  - [ ] `invoke test.format`
+  - [ ] `invoke test.lint`
+  - [ ] `invoke unit.pytest`
+  - [ ] `invoke test.security`
+- [ ] Javascript tests are passing (`npm test`)
+- [ ] If the UI has been modified, generate a new example report
+  - [ ] `npm build` - to build the Javascript bundle
+  - [ ] `python3 ./utils/generate_example_report.py` - to generate the new example report
+- [ ] The pull request has been appropriately labeled using the provided PR labels
