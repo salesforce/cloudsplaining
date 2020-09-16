@@ -5,11 +5,12 @@ import { Bar } from 'vue-chartjs'
 export default {
   name: "SummaryFindings",
   extends: Bar,
-  props: ["inlinePolicyRisks", "managedPolicyRisks"],
+  props: ["inlinePolicyRisks", "awsManagedPolicyRisks", "customerManagedPolicyRisks"],
   computed: {
     myStyles() {
       return {
-        height: "100%"
+        height: "100%",
+          fontSize: 14
       }
     }
   },
@@ -26,27 +27,50 @@ export default {
           label: "Inline Policies",
           data: Object.values(this.inlinePolicyRisks),// TODO: Fix Scaling Object.values(this.inlinePolicyRisks),
           backgroundColor: [
-            "#f87979",
-            "#f87979",
-            "#f87979",
-            "#f87979",
+            "#59575c",
+            "#59575c",
+            "#59575c",
+            "#59575c",
           ]
         },
           {
-            label: "Managed Policies",
-            data: Object.values(this.managedPolicyRisks), // TODO: Fix scaling for dynamic values Object.values(this.managedPolicyRisks)
+            label: "AWS-managed Policies",
+            data: Object.values(this.awsManagedPolicyRisks), // TODO: Fix scaling for dynamic values Object.values(this.managedPolicyRisks)
             backgroundColor: [
-              "#2247c6",
-              "#2247c6",
-              "#2247c6",
-              "#2247c6",
-              "#2247c6",
+              "#215ca0",
+              "#215ca0",
+              "#215ca0",
+              "#215ca0",
+              "#215ca0",
             ]
-          }]
+          },{
+            label: "Customer-managed Policies",
+            data: Object.values(this.customerManagedPolicyRisks), // TODO: Fix scaling for dynamic values Object.values(this.managedPolicyRisks)
+            backgroundColor: [
+              "#00857d",
+              "#00857d",
+              "#00857d",
+              "#00857d",
+              "#00857d",
+            ]
+          }
+          ]
       },
       options: {
         responsive: true,
-        legend: {display: true, position: "bottom"},
+        legend: {
+            display: true,
+            position: "bottom",
+            labels: {
+                fontSize: 14,
+                defaultFontSize: 14,
+            }
+        },
+        tooltips: {
+          titleFontSize: 14,
+          bodyFontSize: 14,
+          footerFontSize: 14,
+        },
         scales: {
           xAxes: [{
             stacked: true,
