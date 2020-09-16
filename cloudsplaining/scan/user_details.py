@@ -1,15 +1,24 @@
 """Processes UserDetailList"""
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.shared.utils import is_aws_managed
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class UserDetailList:
     """Processes all entries under the UserDetailList"""
 
-    def __init__(self, user_details, policy_details, all_group_details):
+    def __init__(self, user_details, policy_details, all_group_details, exclusions=DEFAULT_EXCLUSIONS):
         self.users = []
+
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.exclusions = exclusions
+
         for user_detail in user_details:
-            self.users.append(UserDetail(user_detail, policy_details, all_group_details))
+            self.users.append(UserDetail(user_detail, policy_details, all_group_details, exclusions))
 
     def get_all_allowed_actions_for_user(self, name):
         """Returns a list of all allowed actions by the user across all its policies"""
@@ -63,7 +72,7 @@ class UserDetailList:
 class UserDetail:
     """Processes an entry under UserDetailList"""
 
-    def __init__(self, user_detail, policy_details, all_group_details):
+    def __init__(self, user_detail, policy_details, all_group_details, exclusions=DEFAULT_EXCLUSIONS):
         """
         Initialize the UserDetail object.
 
@@ -77,6 +86,13 @@ class UserDetail:
         self.path = user_detail.get("Path")
         self.user_id = user_detail.get("UserId")
         self.user_name = user_detail.get("UserName")
+
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(
+                "The exclusions provided is not an Exclusions type object. "
+                "Please supply an Exclusions object and try again."
+            )
+        self.is_excluded = self._is_excluded(exclusions)
 
         # Groups
         self.groups = []
@@ -102,6 +118,13 @@ class UserDetail:
                 user_detail.get("AttachedManagedPolicies"),
                 policy_details
             )
+
+    def _is_excluded(self, exclusions):
+        """Determine whether the principal name or principal ID is excluded"""
+        return bool(
+            exclusions.is_principal_excluded(self.user_name, "User")
+            or exclusions.is_principal_excluded(self.user_id, "User")
+        )
 
     def _add_group_details(self, group_list, all_group_details):
         for group in group_list:
@@ -144,71 +167,6 @@ class UserDetail:
         for group in self.groups:
             statements.extend(group.all_iam_statements)
         return statements
-
-    @property
-    def consolidated_risks(self):
-        """Return a dict containing the consolidated risks from all inline and managed policies"""
-        privilege_escalation_results = {}
-        resource_exposure_results = []
-        data_exfiltration_results = []
-
-        # Get it from each inline policy
-        if self.inline_policies:
-            for inline_policy in self.inline_policies:
-                # Privilege Escalation
-                if inline_policy.policy_document.allows_privilege_escalation:
-                    for entry in inline_policy.policy_document.allows_privilege_escalation:
-                        if entry["type"] not in privilege_escalation_results.keys():
-                            privilege_escalation_results[entry["type"]] = entry["actions"]
-                # Resource Exposure
-                if inline_policy.policy_document.permissions_management_without_constraints:
-                    for action in inline_policy.policy_document.permissions_management_without_constraints:
-                        if action not in resource_exposure_results:
-                            resource_exposure_results.append(action)
-                # Data Exfiltration
-                if inline_policy.policy_document.allows_data_exfiltration_actions:
-                    for action in inline_policy.policy_document.allows_data_exfiltration_actions:
-                        if action not in data_exfiltration_results:
-                            data_exfiltration_results.append(action)
-
-        if self.attached_managed_policies:
-            for managed_policy in self.attached_managed_policies:
-                # Privilege Escalation
-                if managed_policy.policy_document.allows_privilege_escalation:
-                    for entry in managed_policy.policy_document.allows_privilege_escalation:
-                        if entry["type"] not in privilege_escalation_results.keys():
-                            privilege_escalation_results[entry["type"]] = entry["actions"]
-                # Resource Exposure
-                if managed_policy.policy_document.permissions_management_without_constraints:
-                    for action in managed_policy.policy_document.permissions_management_without_constraints:
-                        if action not in resource_exposure_results:
-                            resource_exposure_results.append(action)
-                # Data Exfiltration
-                if managed_policy.policy_document.allows_data_exfiltration_actions:
-                    for action in managed_policy.policy_document.allows_data_exfiltration_actions:
-                        if action not in data_exfiltration_results:
-                            data_exfiltration_results.append(action)
-
-        # turn it into a list because we want to be able to count the number of results
-        these_privilege_escalation_results = []
-
-        for key in privilege_escalation_results:
-            result = {
-                "type": key,
-                "actions": privilege_escalation_results[key]
-            }
-            these_privilege_escalation_results.append(result)
-
-        # resource_exposure_results.sort()
-        # data_exfiltration_results.sort()
-
-        # Let's just return the count
-        results = {
-            "PrivilegeEscalation": len(these_privilege_escalation_results),
-            "ResourceExposure": len(resource_exposure_results),
-            "DataExfiltration": len(data_exfiltration_results),
-        }
-        return results
 
     @property
     def attached_managed_policies_json(self):
@@ -264,10 +222,11 @@ class UserDetail:
     def groups_json(self):
         """Return JSON representation of group object"""
         these_groups = {}
-        if self.groups:
-            for group in self.groups:
-                # TODO: Change this to a group pointer?
-                these_groups[group.group_name] = group.json
+        if len(self.groups) > 0:
+            if self.groups[0] is not None:
+                for group in self.groups:
+                    # TODO: Change this to a group pointer?
+                    these_groups[group.group_name] = group.json
         return these_groups
 
     @property
@@ -278,12 +237,12 @@ class UserDetail:
             arn=self.arn,
             create_date=self.create_date,
             id=self.user_id,
+            name=self.user_name,
             inline_policies=self.inline_policies_pointer_json,
             groups=self.groups_json,
             path=self.path,
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            # managed_policies=self.attached_managed_policies_pointer_json,
-            # risks=self.consolidated_risks
+            is_excluded=self.is_excluded
         )
         return this_user_detail

@@ -9,8 +9,10 @@ default-iam-report.csv
 private/default-iam-results.json
 default-results-summary.csv
 iam-new-principal-policy-mapping-example.json
+iam-findings-example.json
 private/*
 current.json
+TODO.md
 
 venv
 Pipfile.lock
@@ -27,6 +29,34 @@ iam-principals-example.json
 fake.html
 ## ReadTheDocs
 site/
+
+.DS_Store
+node_modules
+venv/*
+
+private.html
+
+*.js.map
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 
 ##### HashiCorp #####
 #### Terraform
@@ -116,7 +146,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+/dist/
 downloads/
 eggs/
 .eggs/

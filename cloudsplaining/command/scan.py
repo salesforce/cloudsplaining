@@ -148,19 +148,20 @@ def scan_account_authorization_details(
         "resource constraints..."
     )
     check_authorization_details_schema(account_authorization_details_cfg)
-    authorization_details = AuthorizationDetails(account_authorization_details_cfg)
-    results = authorization_details.results(exclusions)
+    authorization_details = AuthorizationDetails(account_authorization_details_cfg, exclusions)
+    results = authorization_details.results
+
     # Lazy method to get an account ID
     account_id = None
     for role in results.get("roles"):
         if "arn:aws:iam::aws:" not in results["roles"][role]["arn"]:
             account_id = get_account_from_arn(results["roles"][role]["arn"])
             break
+
     html_report = HTMLReport(
         account_id=account_id,
         account_name=account_name,
         results=results,
-        exclusions_cfg=exclusions,
     )
     rendered_report = html_report.get_html_report()
 
@@ -169,14 +170,13 @@ def scan_account_authorization_details(
         if output_directory is None:
             output_directory = os.getcwd()
 
-        new_data = authorization_details.results(exclusions)
-        new_raw_data_file = os.path.join(output_directory, f"iam-new-principal-policy-mapping-{account_name}.json")
-        new_raw_data_filepath = write_results_data_file(new_data, new_raw_data_file)
-        print(f"Raw data file saved: {str(new_raw_data_filepath)}")
+        results_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
+        results_data_filepath = write_results_data_file(authorization_details.results, results_data_file)
+        print(f"Results data saved: {str(results_data_filepath)}")
 
-        raw_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
-        raw_data_filepath = write_results_data_file(results, raw_data_file)
-        print(f"Raw data file saved: {str(raw_data_filepath)}")
+        findings_data_file = os.path.join(output_directory, f"iam-findings-{account_name}.json")
+        findings_data_filepath = write_results_data_file(results, findings_data_file)
+        print(f"Findings data file saved: {str(findings_data_filepath)}")
 
     return rendered_report
 

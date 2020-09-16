@@ -6,6 +6,28 @@ from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.scan.principal_detail import PrincipalDetail
 
 
+class ExclusionsNewTestCase(unittest.TestCase):
+    def test_new_exclusions_approach(self):
+        exclusions_cfg = {
+            "policies": [
+                "aws-service-role*"
+            ],
+            "roles": ["aws-service-role*"],
+            "users": [""],
+            "include-actions": ["s3:GetObject"],
+            "exclude-actions": ["kms:Decrypt"]
+        }
+        exclusions = Exclusions(exclusions_cfg)
+        test_actions_list = [
+            "s3:GetObject",
+            "kms:decrypt",
+            "ssm:GetParameter",
+            "ec2:DescribeInstances"
+        ]
+        result = exclusions.get_allowed_actions(test_actions_list)
+        self.assertListEqual(result, ['s3:GetObject', 'ssm:GetParameter', 'ec2:DescribeInstances'])
+
+
 class ExclusionsTestCase(unittest.TestCase):
     def test_exclusions_exact_match(self):
         """test_exclusions_exact_match: If there is an exact match in the exclusions list"""
@@ -158,9 +180,309 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
                 "aws-service-role*"
             ]
         }
-        authorization_details = AuthorizationDetails(authz_file)
         exclusions = Exclusions(exclusions_cfg)
-        results = authorization_details.missing_resource_constraints(exclusions)
-        expected_results = []
+        authorization_details = AuthorizationDetails(authz_file, exclusions)
+        results = authorization_details.results
+        expected_results = {
+            "groups": {},
+            "users": {},
+            "roles": {
+                "LALALALALAALALA": {
+                    "arn": "arn:aws:iam::115657980943:role/aws-service-role/cloudwatch-crossaccount.amazonaws.com/AWSServiceRoleForCloudWatchCrossAccount",
+                    "assume_role_policy": {
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Principal": {
+                                        "Service": "cloudwatch-crossaccount.amazonaws.com"
+                                    },
+                                    "Action": "sts:AssumeRole"
+                                }
+                            ]
+                        }
+                    },
+                    "create_date": "2019-11-07 20:21:23+00:00",
+                    "id": "LALALALALAALALA",
+                    "name": "AWSServiceRoleForCloudWatchCrossAccount",
+                    "inline_policies": {},
+                    "instance_profiles": [],
+                    "instances_count": 0,
+                    "path": "/aws-service-role/cloudwatch-crossaccount.amazonaws.com/",
+                    "customer_managed_policies": {},
+                    "aws_managed_policies": {
+                        "LALALALALAALALA": "CloudWatch-CrossAccountAccess"
+                    },
+                    "is_excluded": False
+                }
+            },
+            "aws_managed_policies": {
+                "LALALALALAALALA": {
+                    "PolicyName": "CloudWatch-CrossAccountAccess",
+                    "PolicyId": "LALALALALAALALA",
+                    "Arn": "arn:aws:iam::aws:policy/aws-service-role/CloudWatch-CrossAccountAccess",
+                    "Path": "/aws-service-role/",
+                    "DefaultVersionId": "v1",
+                    "AttachmentCount": 1,
+                    "IsAttachable": True,
+                    "CreateDate": "2019-07-23 09:59:27+00:00",
+                    "UpdateDate": "2019-07-23 09:59:27+00:00",
+                    "PolicyVersionList": [
+                        {
+                            "Document": {
+                                "Version": "2012-10-17",
+                                "Statement": [
+                                    {
+                                        "Action": [
+                                            "iam:*"
+                                        ],
+                                        "Resource": [
+                                            "*"
+                                        ],
+                                        "Effect": "Allow"
+                                    }
+                                ]
+                            },
+                            "VersionId": "v1",
+                            "IsDefaultVersion": True,
+                            "CreateDate": "2019-07-23 09:59:27+00:00"
+                        }
+                    ],
+                    "PrivilegeEscalation": [
+                        {
+                            "type": "CreateAccessKey",
+                            "actions": [
+                                "iam:createaccesskey"
+                            ]
+                        },
+                        {
+                            "type": "CreateLoginProfile",
+                            "actions": [
+                                "iam:createloginprofile"
+                            ]
+                        },
+                        {
+                            "type": "UpdateLoginProfile",
+                            "actions": [
+                                "iam:updateloginprofile"
+                            ]
+                        },
+                        {
+                            "type": "CreateNewPolicyVersion",
+                            "actions": [
+                                "iam:createpolicyversion"
+                            ]
+                        },
+                        {
+                            "type": "SetExistingDefaultPolicyVersion",
+                            "actions": [
+                                "iam:setdefaultpolicyversion"
+                            ]
+                        },
+                        {
+                            "type": "AttachUserPolicy",
+                            "actions": [
+                                "iam:attachuserpolicy"
+                            ]
+                        },
+                        {
+                            "type": "AttachGroupPolicy",
+                            "actions": [
+                                "iam:attachgrouppolicy"
+                            ]
+                        },
+                        {
+                            "type": "PutUserPolicy",
+                            "actions": [
+                                "iam:putuserpolicy"
+                            ]
+                        },
+                        {
+                            "type": "PutGroupPolicy",
+                            "actions": [
+                                "iam:putgrouppolicy"
+                            ]
+                        },
+                        {
+                            "type": "AddUserToGroup",
+                            "actions": [
+                                "iam:addusertogroup"
+                            ]
+                        }
+                    ],
+                    "DataExfiltration": [],
+                    "ResourceExposure": [
+                        "iam:AddClientIDToOpenIDConnectProvider",
+                        "iam:AddRoleToInstanceProfile",
+                        "iam:AddUserToGroup",
+                        "iam:AttachGroupPolicy",
+                        "iam:AttachRolePolicy",
+                        "iam:AttachUserPolicy",
+                        "iam:ChangePassword",
+                        "iam:CreateAccessKey",
+                        "iam:CreateAccountAlias",
+                        "iam:CreateGroup",
+                        "iam:CreateInstanceProfile",
+                        "iam:CreateLoginProfile",
+                        "iam:CreateOpenIDConnectProvider",
+                        "iam:CreatePolicy",
+                        "iam:CreatePolicyVersion",
+                        "iam:CreateRole",
+                        "iam:CreateSAMLProvider",
+                        "iam:CreateServiceLinkedRole",
+                        "iam:CreateServiceSpecificCredential",
+                        "iam:CreateUser",
+                        "iam:CreateVirtualMFADevice",
+                        "iam:DeactivateMFADevice",
+                        "iam:DeleteAccessKey",
+                        "iam:DeleteAccountAlias",
+                        "iam:DeleteAccountPasswordPolicy",
+                        "iam:DeleteGroup",
+                        "iam:DeleteGroupPolicy",
+                        "iam:DeleteInstanceProfile",
+                        "iam:DeleteLoginProfile",
+                        "iam:DeleteOpenIDConnectProvider",
+                        "iam:DeletePolicy",
+                        "iam:DeletePolicyVersion",
+                        "iam:DeleteRole",
+                        "iam:DeleteRolePermissionsBoundary",
+                        "iam:DeleteRolePolicy",
+                        "iam:DeleteSAMLProvider",
+                        "iam:DeleteSSHPublicKey",
+                        "iam:DeleteServerCertificate",
+                        "iam:DeleteServiceLinkedRole",
+                        "iam:DeleteServiceSpecificCredential",
+                        "iam:DeleteSigningCertificate",
+                        "iam:DeleteUser",
+                        "iam:DeleteUserPermissionsBoundary",
+                        "iam:DeleteUserPolicy",
+                        "iam:DeleteVirtualMFADevice",
+                        "iam:DetachGroupPolicy",
+                        "iam:DetachRolePolicy",
+                        "iam:DetachUserPolicy",
+                        "iam:EnableMFADevice",
+                        "iam:PassRole",
+                        "iam:PutGroupPolicy",
+                        "iam:PutRolePermissionsBoundary",
+                        "iam:PutRolePolicy",
+                        "iam:PutUserPermissionsBoundary",
+                        "iam:PutUserPolicy",
+                        "iam:RemoveClientIDFromOpenIDConnectProvider",
+                        "iam:RemoveRoleFromInstanceProfile",
+                        "iam:RemoveUserFromGroup",
+                        "iam:ResetServiceSpecificCredential",
+                        "iam:ResyncMFADevice",
+                        "iam:SetDefaultPolicyVersion",
+                        "iam:SetSecurityTokenServicePreferences",
+                        "iam:UpdateAccessKey",
+                        "iam:UpdateAccountPasswordPolicy",
+                        "iam:UpdateAssumeRolePolicy",
+                        "iam:UpdateGroup",
+                        "iam:UpdateLoginProfile",
+                        "iam:UpdateOpenIDConnectProviderThumbprint",
+                        "iam:UpdateRole",
+                        "iam:UpdateRoleDescription",
+                        "iam:UpdateSAMLProvider",
+                        "iam:UpdateSSHPublicKey",
+                        "iam:UpdateServerCertificate",
+                        "iam:UpdateServiceSpecificCredential",
+                        "iam:UpdateSigningCertificate",
+                        "iam:UpdateUser",
+                        "iam:UploadSSHPublicKey",
+                        "iam:UploadServerCertificate",
+                        "iam:UploadSigningCertificate"
+                    ],
+                    "InfrastructureModification": [
+                        "iam:AddClientIDToOpenIDConnectProvider",
+                        "iam:AddRoleToInstanceProfile",
+                        "iam:AddUserToGroup",
+                        "iam:AttachGroupPolicy",
+                        "iam:AttachRolePolicy",
+                        "iam:AttachUserPolicy",
+                        "iam:ChangePassword",
+                        "iam:CreateAccessKey",
+                        "iam:CreateGroup",
+                        "iam:CreateInstanceProfile",
+                        "iam:CreateLoginProfile",
+                        "iam:CreateOpenIDConnectProvider",
+                        "iam:CreatePolicy",
+                        "iam:CreatePolicyVersion",
+                        "iam:CreateRole",
+                        "iam:CreateSAMLProvider",
+                        "iam:CreateServiceLinkedRole",
+                        "iam:CreateServiceSpecificCredential",
+                        "iam:CreateUser",
+                        "iam:CreateVirtualMFADevice",
+                        "iam:DeactivateMFADevice",
+                        "iam:DeleteAccessKey",
+                        "iam:DeleteGroup",
+                        "iam:DeleteGroupPolicy",
+                        "iam:DeleteInstanceProfile",
+                        "iam:DeleteLoginProfile",
+                        "iam:DeleteOpenIDConnectProvider",
+                        "iam:DeletePolicy",
+                        "iam:DeletePolicyVersion",
+                        "iam:DeleteRole",
+                        "iam:DeleteRolePermissionsBoundary",
+                        "iam:DeleteRolePolicy",
+                        "iam:DeleteSAMLProvider",
+                        "iam:DeleteSSHPublicKey",
+                        "iam:DeleteServerCertificate",
+                        "iam:DeleteServiceLinkedRole",
+                        "iam:DeleteServiceSpecificCredential",
+                        "iam:DeleteSigningCertificate",
+                        "iam:DeleteUser",
+                        "iam:DeleteUserPermissionsBoundary",
+                        "iam:DeleteUserPolicy",
+                        "iam:DeleteVirtualMFADevice",
+                        "iam:DetachGroupPolicy",
+                        "iam:DetachRolePolicy",
+                        "iam:DetachUserPolicy",
+                        "iam:EnableMFADevice",
+                        "iam:PassRole",
+                        "iam:PutGroupPolicy",
+                        "iam:PutRolePermissionsBoundary",
+                        "iam:PutRolePolicy",
+                        "iam:PutUserPermissionsBoundary",
+                        "iam:PutUserPolicy",
+                        "iam:RemoveClientIDFromOpenIDConnectProvider",
+                        "iam:RemoveRoleFromInstanceProfile",
+                        "iam:RemoveUserFromGroup",
+                        "iam:ResetServiceSpecificCredential",
+                        "iam:ResyncMFADevice",
+                        "iam:SetDefaultPolicyVersion",
+                        "iam:TagRole",
+                        "iam:TagUser",
+                        "iam:UntagRole",
+                        "iam:UntagUser",
+                        "iam:UpdateAccessKey",
+                        "iam:UpdateAssumeRolePolicy",
+                        "iam:UpdateGroup",
+                        "iam:UpdateLoginProfile",
+                        "iam:UpdateOpenIDConnectProviderThumbprint",
+                        "iam:UpdateRole",
+                        "iam:UpdateRoleDescription",
+                        "iam:UpdateSAMLProvider",
+                        "iam:UpdateSSHPublicKey",
+                        "iam:UpdateServerCertificate",
+                        "iam:UpdateServiceSpecificCredential",
+                        "iam:UpdateSigningCertificate",
+                        "iam:UpdateUser",
+                        "iam:UploadSSHPublicKey",
+                        "iam:UploadServerCertificate",
+                        "iam:UploadSigningCertificate"
+                    ],
+                    "is_excluded": False
+                }
+            },
+            "customer_managed_policies": {},
+            "inline_policies": {},
+            "exclusions": {
+                "policies": [
+                    "aws-service-role*"
+                ]
+            }
+        }
         # print(json.dumps(results, indent=4))
-        self.assertListEqual(results, expected_results)
+        self.assertDictEqual(results, expected_results)
