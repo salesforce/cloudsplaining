@@ -32,27 +32,27 @@ class AuthorizationDetails:
         self.policies = ManagedPolicyDetails(auth_json.get("Policies", None), exclusions)
 
         # New Authorization file stuff
-        self.new_group_detail_list = GroupDetailList(auth_json.get("GroupDetailList"), self.policies, exclusions)
-        self.new_user_detail_list = UserDetailList(auth_json.get("UserDetailList"), self.policies,
-                                                   self.new_group_detail_list, exclusions)
-        self.new_role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies, exclusions)
+        self.group_detail_list = GroupDetailList(auth_json.get("GroupDetailList"), self.policies, exclusions)
+        self.user_detail_list = UserDetailList(auth_json.get("UserDetailList"), self.policies,
+                                                   self.group_detail_list, exclusions)
+        self.role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies, exclusions)
 
     @property
     def inline_policies(self):
         """Return inline policy details"""
         results = {}
-        results.update(self.new_group_detail_list.inline_policies_json)
-        results.update(self.new_role_detail_list.inline_policies_json)
-        results.update(self.new_user_detail_list.inline_policies_json)
+        results.update(self.group_detail_list.inline_policies_json)
+        results.update(self.role_detail_list.inline_policies_json)
+        results.update(self.user_detail_list.inline_policies_json)
         return results
 
     @property
     def results(self):
         """Get the new JSON format of the Principals data"""
         results = {
-            "groups": self.new_group_detail_list.json,
-            "users": self.new_user_detail_list.json,
-            "roles": self.new_role_detail_list.json,
+            "groups": self.group_detail_list.json,
+            "users": self.user_detail_list.json,
+            "roles": self.role_detail_list.json,
             "aws_managed_policies": self.policies.json_large_aws_managed,
             "customer_managed_policies": self.policies.json_large_customer_managed,
             "inline_policies": self.inline_policies,
