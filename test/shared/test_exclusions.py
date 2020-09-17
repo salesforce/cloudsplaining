@@ -3,7 +3,6 @@ import os
 import json
 from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
-from cloudsplaining.scan.principal_detail import PrincipalDetail
 
 
 class ExclusionsNewTestCase(unittest.TestCase):
@@ -58,49 +57,6 @@ class ExclusionsTestCase(unittest.TestCase):
 
 
 class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
-
-    def test_is_principal_excluded(self):
-        """scan.principals.Principal.is_principal_excluded"""
-        example_authz_details_file = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                os.path.pardir,
-                "files",
-                "example-authz-details.json",
-            )
-        )
-        with open(example_authz_details_file) as f:
-            contents = f.read()
-            auth_details_json = json.loads(contents)
-        user_principal_detail = PrincipalDetail(auth_details_json["UserDetailList"][0])
-        group_principal_detail = PrincipalDetail(auth_details_json["GroupDetailList"][0])
-        role_principal_detail = PrincipalDetail(auth_details_json["RoleDetailList"][0])
-        exclusions_cfg = {
-            "users": [
-                "obama"
-            ],
-            "groups": [
-                "admin"
-            ],
-            "roles": [
-                "MyRole",
-            ],
-        }
-        exclusions = Exclusions(exclusions_cfg)
-        self.assertTrue(user_principal_detail.is_principal_excluded(exclusions))
-        self.assertTrue(group_principal_detail.is_principal_excluded(exclusions))
-        self.assertTrue(role_principal_detail.is_principal_excluded(exclusions))
-
-        # Testing these with mismatched categories
-        exclusions_cfg = dict(
-            users=["MyRole"],
-            groups=["obama"],
-            roles=["admin"]
-        )
-        exclusions = Exclusions(exclusions_cfg)
-        self.assertFalse(user_principal_detail.is_principal_excluded(exclusions))
-        self.assertFalse(group_principal_detail.is_principal_excluded(exclusions))
-        self.assertFalse(role_principal_detail.is_principal_excluded(exclusions))
 
     def test_exclusions_for_service_roles(self):
         """test_exclusions_for_service_roles: Ensuring that exclusions config of service roles are specifically
