@@ -9,18 +9,13 @@ Scan a single policy file to identify missing resource constraints.
 import sys
 import logging
 import json
-from pathlib import Path
 import yaml
 import click
 import click_log
-from cloudsplaining.output.findings import Findings, PolicyFinding
-from cloudsplaining.shared.constants import EXCLUSIONS_FILE
+from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.exclusions import (
-    Exclusions,
-    DEFAULT_EXCLUSIONS,
-)
-
+from cloudsplaining.shared.exclusions import Exclusions
+from cloudsplaining.output.policy_finding import PolicyFinding
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
 BOLD = "\033[1m"
@@ -61,92 +56,90 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma
         with open(input_file) as json_file:
             logger.debug(f"Opening {input_file}")
             policy = json.load(json_file)
-        policy_name = Path(input_file).stem
+    # If a file is not provided, it should be supplied via STDIN
     else:
         try:
             policy = json.load(sys.stdin)
         except json.decoder.JSONDecodeError as j_e:
             logger.critical(j_e)
             sys.exit()
-        policy_name = "StdinPolicy"
 
-    # Get the exclusions configuration
+    # Get the exclusions configuration from the file
     with open(exclusions_file, "r") as yaml_file:
         try:
             exclusions_cfg = yaml.safe_load(yaml_file)
         except yaml.YAMLError as exc:
             logger.critical(exc)
-    exclusions = Exclusions(exclusions_cfg)
+    # exclusions = Exclusions(exclusions_cfg)
 
     # Run the scan and get the raw data.
-    results = scan_policy(policy, policy_name, exclusions)
+    results = scan_policy(policy, exclusions_cfg)
 
     # There will only be one finding in the results but it is in a list.
     results_exist = 0
     if results:
+        # Privilege Escalation
         if results.get("PrivilegeEscalation"):
             print(f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}")
             results_exist += 1
             for item in results.get("PrivilegeEscalation"):
                 print(f"- Method: {item.get('type')}")
                 print(f"  Actions: {', '.join(item.get('PrivilegeEscalation'))}\n")
+
+        # Data Exfiltration
         if results.get("DataExfiltration"):
             results_exist += 1
             print(f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}")
             print(
                 f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration'))}\n"
             )
+
+        # Resource Exposure
         if results.get("ResourceExposure"):
             results_exist += 1
             print(f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}")
             print(
                 f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure'))}\n"
             )
+
+        # Service Wildcard
+        if results.get("ServiceWildcard"):
+            results_exist += 1
+            print(f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard'))}\n"
+            )
+
+        # Credentials Exposure
+        if results.get("CredentialsExposure"):
+            results_exist += 1
+            print(f"{RED}Potential Issue found: Policy allows actions that return credentials{END}")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure'))}\n"
+            )
+
         if not high_priority_only:
+
+            # Infrastructure Modification
             results_exist += 1
             print(f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}")
-            print(f"{BOLD}Actions{END}: {', '.join(results.get('Actions'))}")
+            print(f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification'))}")
+
         if results_exist == 0:
             print("There were no results found.")
     else:
         print("There were no results found.")
 
 
-def scan_policy(policy_json, policy_name, exclusions=DEFAULT_EXCLUSIONS):
+def scan_policy(policy_json, exclusions_config=DEFAULT_EXCLUSIONS_CONFIG):
     """
     Scan a policy document for missing resource constraints.
 
-    :param exclusions: Exclusions object
-    :param policy_json: The AWS IAM policy document.
-    :param policy_name: The name of the IAM policy. Defaults to the filename when used from command line.
+    :param policy_json: Dictionary containing the IAM policy.
+    :param exclusions_config: Exclusions configuration. If none, just send an empty dictionary. Defaults to the contents of cloudsplaining.shared.default-exclusions.yml
     :return:
     """
-    actions_missing_resource_constraints = []
-
     policy_document = PolicyDocument(policy_json)
-
-    findings = Findings(exclusions)
-
-    for statement in policy_document.statements:
-        logger.debug("Evaluating statement: %s", statement.json)
-        if statement.effect == "Allow":
-            actions_missing_resource_constraints.extend(
-                statement.missing_resource_constraints_for_modify_actions(exclusions)
-            )
-    if actions_missing_resource_constraints:
-        these_results = list(
-            dict.fromkeys(actions_missing_resource_constraints)
-        )  # remove duplicates
-        these_results.sort()
-        finding = PolicyFinding(
-            policy_name=policy_name,
-            arn=policy_name,
-            actions=these_results,
-            policy_document=policy_document,
-            exclusions=exclusions,
-        )
-        findings.add_policy_finding(finding)
-        findings.single_use = True
-        return finding.json
-    else:
-        return {}
+    exclusions = Exclusions(exclusions_config)
+    policy_finding = PolicyFinding(policy_document, exclusions)
+    return policy_finding.results

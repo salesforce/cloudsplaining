@@ -94,6 +94,20 @@ pip3 install --user cloudsplaining
 
 * Now you should be able to execute `cloudsplaining` from command line by running `cloudsplaining --help`.
 
+* Shell completion
+
+To enable Bash completion, put this in your `.bashrc`:
+
+```bash
+eval "$(_CLOUDSPLAINING_COMPLETE=source cloudsplaining)"
+```
+
+To enable ZSH completion, put this in your .zshrc:
+
+```bash
+eval "$(_CLOUDSPLAINING_COMPLETE=source_zsh cloudsplaining)"
+```
+
 ### Scanning a single IAM policy
 
 You can also scan a single policy file to identify risks instead of an entire account.

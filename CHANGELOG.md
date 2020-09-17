@@ -8,9 +8,11 @@
   * Added Bar chart of results
   * Upgraded Principals metadata page
   * Standalone page for Inline Policies now
-* Migration to Vue.js
-* Leveraging an updated data JSON file
-* Many bug fixes that were present with the previous UI
+  * Many bug fixes that were present with the previous UI
+* Backend
+  * Migration to Vue.js
+  * Leveraging an updated data JSON file
+* `scan-policy-file` command now returns Service Wildcard (#82) and Credentials Exposure (#99). That will not be in the HTML Report for this release though.
 
 ## 0.1.8 (2020-08-27)
 * UI: The Exclusions configuration was not showing up in the report due to a typo

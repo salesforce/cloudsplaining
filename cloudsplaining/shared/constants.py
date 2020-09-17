@@ -116,3 +116,34 @@ PRIVILEGE_ESCALATION_METHODS = {
 }
 
 SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
+
+# AWS API calls that return credentials
+# https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
+ACTIONS_THAT_RETURN_CREDENTIALS = [
+    "chime:createapikey",
+    "codepipeline:pollforjobs",
+    "cognito-identity:getopenidtoken",
+    "cognito-identity:getopenidtokenfordeveloperidentity",
+    "cognito-identity:getcredentialsforidentity",
+    "connect:getfederationtoken",
+    "connect:getfederationtokens",
+    "ecr:getauthorizationtoken",
+    "gamelift:requestuploadcredentials",
+    "iam:createaccesskey",
+    "iam:createloginprofile",
+    "iam:createservicespecificcredential",
+    "iam:resetservicespecificcredential",
+    "iam:updateaccesskey",
+    "lightsail:getinstanceaccessdetails",
+    "lightsail:getrelationaldatabasemasteruserpassword",
+    "rds-db:connect",
+    "redshift:getclustercredentials",
+    "sso:getrolecredentials",
+    "mediapackage:rotatechannelcredentials",
+    "mediapackage:rotateingestendpointcredentials",
+    "sts:assumerole",
+    "sts:assumerolewithsaml",
+    "sts:assumerolewithwebidentity",
+    "sts:getfederationtoken",
+    "sts:getsessiontoken"
+]
