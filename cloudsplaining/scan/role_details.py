@@ -156,7 +156,7 @@ class RoleDetail:
         for managed_policy in self.attached_managed_policies:
             actions.extend(managed_policy.policy_document.all_allowed_actions)
         for inline_policy in self.inline_policies:
-            actions.extend(self.inline_policies[inline_policy]["PolicyDocument"].all_allowed_actions)
+            actions.extend(inline_policy.policy_document.all_allowed_actions)
         actions = list(dict.fromkeys(actions))
         actions.sort()
         return actions
@@ -168,7 +168,7 @@ class RoleDetail:
         for managed_policy in self.attached_managed_policies:
             statements.extend(managed_policy.policy_document.statements)
         for inline_policy in self.inline_policies:
-            statements.extend(self.inline_policies[inline_policy]["PolicyDocument"].statements)
+            statements.extend(inline_policy.policy_document.statements)
         return statements
 
     @property
