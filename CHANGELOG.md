@@ -3,7 +3,7 @@
 ## Unreleased
 * Docker
 
-## 0.2.0 (Unreleased)
+## 0.2.0 (9/21/2020)
 * Major UI uplift: 
   * Added Bar chart of results
   * Upgraded Principals metadata page
