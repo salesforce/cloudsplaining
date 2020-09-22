@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/d6/5a/d17340572b27c1d96002cc3b5ac879748179a2567dde7cef1b0c022789bb/cloudsplaining-0.1.8.tar.gz"
-  sha256 "88035a924c6bac4e80f70a256565a84985a6ac4519cd60f2f3ab7d8b6c9d2089"
+  url "https://files.pythonhosted.org/packages/3f/fc/780f5ef595b228dd546637e20ddff7551475a810e72b327214e7fe40f576/cloudsplaining-0.2.0.tar.gz"
+  sha256 "fe3d3e980c626e4f61b63631d8f6fb4baeaa7b01b9eacdebaf45287bfa594dd9"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/eb/46/c1d74bcd4704234ad75c42cd617080d09e297144efc72e41621f853bbdf9/boto3-1.14.49.tar.gz"
-    sha256 "a2bf58d375ad1b918e6007a46e415721b51dd7bb23703332cc64afa1470b056d"
+    url "https://files.pythonhosted.org/packages/80/83/00c4d3f512d63771456dfe8666e9214703235a66fe353f624da6c458c45f/boto3-1.15.2.tar.gz"
+    sha256 "7e22c4e21533d7c532e0136610b9cc45e3f81e57b738ff434a1f3d0a3b16e05e"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/ac/e5/2915bf66486cf069bb1d22e53ea29605a874cf772a34ba8d6e644be1150a/botocore-1.17.49.tar.gz"
-    sha256 "87326c2d3b68c49a56f2d9237aa47a0476bb9ec6c6bc50d04df8bba66991930c"
+    url "https://files.pythonhosted.org/packages/a1/92/5336c9b5beac8bded4c3f6ee408e88c193d3545e3a9a901d8918a533688c/botocore-1.18.2.tar.gz"
+    sha256 "7fcfc20921de61bd015d363226476c6f51f38846c2a93f67ee7c70b66f54e223"
   end
 
   resource "certifi" do
@@ -46,11 +46,6 @@ class Cloudsplaining < Formula
   resource "contextlib2" do
     url "https://files.pythonhosted.org/packages/02/54/669207eb72e3d8ae8b38aa1f0703ee87a0e9f88f30d3c0a47bebdb6de242/contextlib2-0.6.0.post1.tar.gz"
     sha256 "01f490098c18b19d2bd5bb5dc445b2054d2fa97f09a4280ba2c5f3c394c8162e"
-  end
-
-  resource "docutils" do
-    url "https://files.pythonhosted.org/packages/93/22/953e071b589b0b1fee420ab06a0d15e5aa0c7470eb9966d60393ce58ad61/docutils-0.15.2.tar.gz"
-    sha256 "a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"
   end
 
   resource "idna" do
@@ -84,8 +79,8 @@ class Cloudsplaining < Formula
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/ee/a3/ce14ececab140f5122c3a62520c93777de6d84596cbab8e43c5024587dd6/policy_sentry-0.8.5.tar.gz"
-    sha256 "6d69d29902b8025d1a36a46ae4e03a39d75301b596139f082978c614da75e8d6"
+    url "https://files.pythonhosted.org/packages/df/9b/6ab4b36be4f7459a832a399a96fd06f3a71fd4566885eaabad69d665a5d4/policy_sentry-0.8.8.tar.gz"
+    sha256 "08743be2e284698e8fb8dc87bbd8403e0c0ddbfb9c465f8b6c4be172f3f8471c"
   end
 
   resource "python-dateutil" do
