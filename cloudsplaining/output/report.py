@@ -5,7 +5,7 @@ import datetime
 from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.bin.version import __version__
 
-app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "index.bundle.js")
+app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.js")
 
 
 class HTMLReport:
