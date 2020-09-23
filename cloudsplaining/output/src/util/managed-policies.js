@@ -83,7 +83,6 @@ function getManagedPolicyFindings(iam_data, managedBy, policyId, riskType) {
     let result = [];
     let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
     if (exclusionStatus === true) {
-        console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
         return [];
     } else {
         if (managedBy === "AWS") {
@@ -148,7 +147,6 @@ function getRolesLeveragingManagedPolicy(iam_data, managedBy, policyId) {
         let managedPolicies = [];
         let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
         if (exclusionStatus === true) {
-            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
             return [];
         }
         // if it is not excluded, continue
@@ -174,7 +172,6 @@ function getUsersLeveragingManagedPolicy(iam_data, managedBy, policyId) {
         let managedPolicies = [];
         let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
         if (exclusionStatus === true) {
-            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
             return [];
         }
         // if it is not excluded, continue
@@ -200,7 +197,6 @@ function getGroupsLeveragingManagedPolicy(iam_data, managedBy, policyId) {
         let managedPolicies = [];
         let exclusionStatus = getManagedPolicyExclusionStatus(iam_data, managedBy, policyId);
         if (exclusionStatus === true) {
-            console.log(`The Managed Policy ID ${policyId} was excluded from the scan`)
             return [];
         }
         // if it is not excluded, continue

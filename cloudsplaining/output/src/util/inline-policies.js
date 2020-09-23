@@ -33,7 +33,6 @@ function getInlinePolicyDocument(iam_data, policyId) {
 function getInlinePolicyFindings(iam_data, policyId, riskType) {
     let exclusionStatus = getInlinePolicyExclusionStatus(iam_data, policyId);
     if (exclusionStatus === true) {
-        console.log(`The Inline Policy ID ${policyId} was excluded from the scan`)
         return [];
     } else {
         return Array.from(iam_data["inline_policies"][policyId][riskType]);
