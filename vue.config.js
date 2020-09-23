@@ -1,6 +1,5 @@
 const path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-// require('html-webpack-plugin');
 let HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 // const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
@@ -16,18 +15,18 @@ module.exports = {
             template: 'cloudsplaining/output/public/index.html',
             // output as dist/index.html
             filename: 'index.html',
-            chunks: ['chunk-vendors']
+            chunks: ['chunk-vendors', 'index']
         },
     },
     css: {extract: false},
 
     chainWebpack: config => {
-        config.output
-            .filename = '[name].bundle.js';
+        // config.output
+        //     .filename = '[name].bundle.js';
         if (process.env.NODE_ENV === 'development') {
             config.plugins
                 .delete('preload')
-                // .delete('prefetch');
+                .delete('prefetch');
         }
         config
             .plugin('html-webpack-inline-source-plugin')
@@ -35,12 +34,19 @@ module.exports = {
         config
             .plugin('html-webpack-plugin')
                 .use(new HtmlWebpackPlugin({
-                        inlineSource: '.(js|css)$', // embed all javascript and css inline
-                        inject: true,
-                        template: 'cloudsplaining/output/public/index.html',  //template file to embed the source
-                        title: 'Cloudsplaining report',
-                    }
-                ))
+                    inlineSource: '.(js|css)$', // embed all javascript and css inline
+                    inject: true,
+                    template: 'cloudsplaining/output/public/index.html',  //template file to embed the source
+                    title: 'Cloudsplaining report',
+                }
+            ));
+        // config
+        //     .plugin('preload-webpack-plugin')
+        //         .use(new PreloadWebpackPlugin({
+        //             rel: 'prefetch',
+        //             as: 'script'
+        //         }
+        //     ));
         config.optimization
             .splitChunks({
                 name: false,

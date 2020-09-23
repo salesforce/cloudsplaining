@@ -25,7 +25,7 @@ function getManagedPolicyIdsInUse(iam_data, managedBy) {
         let leveraged = isManagedPolicyLeveraged(iam_data, managedBy, policyIds[i])
         if (leveraged > 0) {
             if (getManagedPolicyFindings(iam_data, managedBy, policyIds[i], "InfrastructureModification").length === 0) {
-                console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
+                // console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
             } else {
                 result.push(policyIds[i].slice())
             }

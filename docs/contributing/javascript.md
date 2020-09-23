@@ -84,7 +84,7 @@ npm build
 
 This generates JavaScript files that are bundled with [webpack](https://cli.vuejs.org/guide/webpack.html). 
 
-The JavaScript file at [/cloudsplaining/output/dist/index.bundle.js](/cloudsplaining/output/dist/index.bundle.js) contains the **bundled application code**. The JavaScript file at [/cloudsplaining/output/dist/js/chunk-vendors.js](/cloudsplaining/output/dist/js/chunk-vendors.js) contains a bundle of  **all required dependencies** that would other wise be under the `/node_modules/` directory.
+The JavaScript file at [/cloudsplaining/output/dist/index.bundle.js](/tmp/index.bundle.js) contains the **bundled application code**. The JavaScript file at [/cloudsplaining/output/dist/js/chunk-vendors.js](/cloudsplaining/output/dist/js/chunk-vendors.js) contains a bundle of  **all required dependencies** that would other wise be under the `/node_modules/` directory.
 
 The `npm build` command will also generate a file titled `index.html` at  [/cloudsplaining/output/dist/index.html](/cloudsplaining/output/dist/index.html). However, Cloudsplaining does not actually use that file, since that file assumes that the JavaScript is available at local relative paths. Instead, Cloudsplaining injects the **contents** of the `index.bundle.js` file (the application code) and the `chunk-vendors.js` file (the dependencies) into a nearly identical file - [template.html](/cloudsplaining/output/template.html) - along with the results of the Cloudsplaining scan. The relevant sections of the [template.html](/cloudsplaining/output/template.html) file look like this:
 

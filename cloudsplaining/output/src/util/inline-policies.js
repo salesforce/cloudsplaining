@@ -45,7 +45,7 @@ function getInlinePolicyIdsInUse(iam_data) {
     policyIds = Array.from(Object.keys(iam_data["inline_policies"]));
     for(let i = 0; i < policyIds.length; i++){
         if (getInlinePolicyFindings(iam_data, policyIds[i], "InfrastructureModification").length === 0) {
-            console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
+            // console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
         } else {
             result.push(policyIds[i].slice())
         }

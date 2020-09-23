@@ -40,11 +40,11 @@
                             @click="activeSection = 6"
                             href="#">Appendices
                     </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'task-table'"
-                            @click="activeSection = 7"
-                            href="#">Task Table Demo
-                    </b-nav-item>
+<!--                    <b-nav-item-->
+<!--                            :active="activeSection === 'task-table'"-->
+<!--                            @click="activeSection = 7"-->
+<!--                            href="#">Task Table Demo-->
+<!--                    </b-nav-item>-->
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-nav-text><strong>Account ID:</strong> {{ account_id }} | <strong>Account Name:</strong> {{ account_name }}</b-nav-text>
