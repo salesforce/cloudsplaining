@@ -65,19 +65,8 @@
         }
       },
       "path": "/",
-      "customer_managed_policies": {
-        "InsecurePolicy": "InsecurePolicy",
-        "NotYourPolicy": "NotYourPolicy"
-      },
-      "aws_managed_policies": {
-        "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess",
-        "ANPAIFIR6V6BVTRAHWINE": "AmazonS3FullAccess",
-        "ANPAI3VAJF5ZCRZ7MCQE6": "AmazonEC2FullAccess",
-        "ANPAIQNUJTQYDRJPC3BNK": "AWSCloudTrailFullAccess",
-        "ANPAI4VCZ3XPIZLQ5NZV2": "AWSCodeCommitFullAccess",
-        "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess",
-        "ANPAIKEABORKUXN6DEAZU": "CloudWatchFullAccess"
-      },
+      "customer_managed_policies": {},
+      "aws_managed_policies": {},
       "is_excluded": true
     },
     "ASIAZZUSERZZPLACEHOLDER": {
@@ -143,17 +132,12 @@
       "create_date": "2019-08-16 17:27:59+00:00",
       "id": "MyRole",
       "name": "MyRole",
-      "inline_policies": {
-        "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca": "EC2-IAM-example"
-      },
+      "inline_policies": {},
       "instance_profiles": [],
       "instances_count": 0,
       "path": "/",
       "customer_managed_policies": {},
-      "aws_managed_policies": {
-        "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess",
-        "ANPAIKEABORKUXN6DEAZU": "CloudWatchFullAccess"
-      },
+      "aws_managed_policies": {},
       "is_excluded": true
     },
     "MyOtherRole": {
@@ -12905,7 +12889,7 @@
       "is_excluded": false
     },
     "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca": {
-      "PolicyName": "EC2-IAM-example",
+      "PolicyName": "MyOtherRolePolicy",
       "PolicyId": "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca",
       "PolicyDocument": {
         "Version": "2012-10-17",
