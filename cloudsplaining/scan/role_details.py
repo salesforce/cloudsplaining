@@ -114,18 +114,23 @@ class RoleDetail:
 
         # Inline Policies
         self.inline_policies = []
-        if role_detail.get("RolePolicyList"):
-            self._inline_policies_details(
-                role_detail.get("RolePolicyList")
-            )
+        # If the role itself is NOT excluded, add its inline policies
+        if not self.is_excluded:
+            if role_detail.get("RolePolicyList"):
+                for policy in role_detail.get("RolePolicyList"):
+                    inline_policy = InlinePolicy(policy)
+                    if not inline_policy.is_excluded:
+                        self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
         self.attached_managed_policies = []
-        if role_detail.get("AttachedManagedPolicies"):
-            self._attached_managed_policies_details(
-                role_detail.get("AttachedManagedPolicies"),
-                policy_details
-            )
+        # If the role itself is NOT excluded, add its AWS-managed or Customer-managed policies
+        if not self.is_excluded:
+            if role_detail.get("AttachedManagedPolicies"):
+                for policy in role_detail.get("AttachedManagedPolicies"):
+                    arn = policy.get("PolicyArn")
+                    attached_managed_policy_details = policy_details.get_policy_detail(arn)
+                    self.attached_managed_policies.append(attached_managed_policy_details)
 
     def _is_excluded(self, exclusions):
         """Determine whether the principal name or principal ID is excluded"""
@@ -135,19 +140,6 @@ class RoleDetail:
             or exclusions.is_principal_excluded(self.path, "Role")
             or is_name_excluded(self.path, "/aws-service-role*")
         )
-
-    def _attached_managed_policies_details(self, attached_managed_policies_list, policy_details):
-        if attached_managed_policies_list:
-            for policy in attached_managed_policies_list:
-                arn = policy.get("PolicyArn")
-                attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                self.attached_managed_policies.append(attached_managed_policy_details)
-
-    def _inline_policies_details(self, group_policies_list):
-        if group_policies_list:
-            for policy in group_policies_list:
-                inline_policy = InlinePolicy(policy)
-                self.inline_policies.append(inline_policy)
 
     @property
     def all_allowed_actions(self):

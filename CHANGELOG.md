@@ -3,6 +3,9 @@
 ## Unreleased
 * Docker
 
+## 0.2.1 (9/25/2020)
+* Fixes issue where Inline Policies were showing up as findings even when they were attached to excluded IAM principals. Fixes #104
+
 ## 0.2.0 (9/21/2020)
 * Major UI uplift: 
   * Added Bar chart of results
