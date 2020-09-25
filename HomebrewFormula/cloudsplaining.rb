@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/3f/fc/780f5ef595b228dd546637e20ddff7551475a810e72b327214e7fe40f576/cloudsplaining-0.2.0.tar.gz"
-  sha256 "fe3d3e980c626e4f61b63631d8f6fb4baeaa7b01b9eacdebaf45287bfa594dd9"
+  url "https://files.pythonhosted.org/packages/ec/28/b3da5d423c70f565a1e19165c82984b3fc5afff01482b86bce6135916e66/cloudsplaining-0.2.1.tar.gz"
+  sha256 "571cc60087c550373f6309e598772ac887e761714262cb66397af3f190699f60"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/80/83/00c4d3f512d63771456dfe8666e9214703235a66fe353f624da6c458c45f/boto3-1.15.2.tar.gz"
-    sha256 "7e22c4e21533d7c532e0136610b9cc45e3f81e57b738ff434a1f3d0a3b16e05e"
+    url "https://files.pythonhosted.org/packages/80/d0/252c949b31b7915c9d143ff29d3ebdd453bad927bf0c8e7eca122bdcffba/boto3-1.15.5.tar.gz"
+    sha256 "0fce548e19d6db8e11fd0e2ae7809e1e3282080636b4062b2452bfa20e4f0233"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/a1/92/5336c9b5beac8bded4c3f6ee408e88c193d3545e3a9a901d8918a533688c/botocore-1.18.2.tar.gz"
-    sha256 "7fcfc20921de61bd015d363226476c6f51f38846c2a93f67ee7c70b66f54e223"
+    url "https://files.pythonhosted.org/packages/16/7c/b943f7e8dc5e1000f540bd29414f9ec67559b15bb0a7c4eeb9e6839dabff/botocore-1.18.5.tar.gz"
+    sha256 "7ce7a05b98ffb3170396960273383e8aade9be6026d5a762f5f40969d5d6b761"
   end
 
   resource "certifi" do
@@ -54,8 +54,8 @@ class Cloudsplaining < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/e2/ae/0b037584024c1557e537d25482c306cf6327b5a09b6c4b893579292c1c38/importlib_metadata-1.7.0.tar.gz"
-    sha256 "90bb658cdbbf6d1735b6341ce708fc7024a3e14e99ffdc5783edea9f9b077f83"
+    url "https://files.pythonhosted.org/packages/56/1f/74c3e29389d34feea2d62ba3de1169efea2566eb22e9546d379756860525/importlib_metadata-2.0.0.tar.gz"
+    sha256 "77a540690e24b0305878c37ffd421785a6f7e53c8b5720d211b211de8d0e95da"
   end
 
   resource "Jinja2" do
@@ -124,8 +124,8 @@ class Cloudsplaining < Formula
   end
 
   resource "zipp" do
-    url "https://files.pythonhosted.org/packages/ce/8c/2c5f7dc1b418f659d36c04dec9446612fc7b45c8095cc7369dd772513055/zipp-3.1.0.tar.gz"
-    sha256 "c599e4d75c98f6798c509911d08a22e6c021d074469042177c8c86fb92eefd96"
+    url "https://files.pythonhosted.org/packages/30/a3/a67b64feac23b22c71ca2a4084387a6f205dc7cb4f0c67c755d6a4b29a7f/zipp-3.2.0.tar.gz"
+    sha256 "b52f22895f4cfce194bc8172f3819ee8de7540aa6d873535a8668b730b8b411f"
   end
 
   def install
