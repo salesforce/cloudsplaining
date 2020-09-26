@@ -1,6 +1,7 @@
 import unittest
 import json
 from cloudsplaining.scan.policy_document import PolicyDocument
+from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
 
 
 class TestPolicyDocument(unittest.TestCase):
@@ -248,3 +249,56 @@ class TestPolicyDocument(unittest.TestCase):
         ]
         # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
+
+    def test_gh_106_excluded_actions_should_not_show_in_results(self):
+        """test_gh_106_excluded_actions_should_not_show_in_results: Make sure that autoscaling:SetDesiredCapacity does not show in results when it is excluded"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "Something",
+                    "Effect": "Allow",
+                    "Action": [
+                        "autoscaling:SetDesiredCapacity",
+                        "autoscaling:TerminateInstanceInAutoScalingGroup",
+                        "autoscaling:UpdateAutoScalingGroup"
+                    ],
+                    "Resource": "*",
+                }
+            ]
+        }
+        exclusions_cfg = {
+            "policies": [
+                "aws-service-role*"
+            ],
+            "roles": ["aws-service-role*"],
+            "users": [""],
+            "include-actions": ["s3:GetObject"],
+            "exclude-actions": [
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "autoscaling:UpdateAutoScalingGroup"
+            ]
+        }
+        exclusions = Exclusions(exclusions_cfg)
+        policy_document = PolicyDocument(test_policy, exclusions)
+        print(policy_document.infrastructure_modification)
+        self.assertEqual(policy_document.infrastructure_modification, [])
+
+        exclusions_cfg_2 = {
+            "policies": [
+                "aws-service-role*"
+            ],
+            "roles": ["aws-service-role*"],
+            "users": [""],
+            "include-actions": ["s3:GetObject"],
+            "exclude-actions": [
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+            ]
+        }
+        exclusions_2 = Exclusions(exclusions_cfg_2)
+        policy_document_2 = PolicyDocument(test_policy, exclusions_2)
+        # Should still include one result
+        print(policy_document_2.infrastructure_modification)
+        self.assertEqual(policy_document_2.infrastructure_modification, ["autoscaling:UpdateAutoScalingGroup"])
