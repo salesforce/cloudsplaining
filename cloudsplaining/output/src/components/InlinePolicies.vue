@@ -54,43 +54,11 @@
                             </p>
                         </div> <!-- /card-text -->
                         <div class="card-footer">
-                            <!--Alert for Risk Type: Privilege Escalation Exposure-->
-                            <template v-if="inlinePolicyFindings(policyId, 'PrivilegeEscalation').length > 0">
-                                <div class="alert alert-danger popovers" data-html="true" data-placement="top"
-                                     data-toggle="popover"
-                                     role="alert"
-                                     title="Privilege Escalation"
-                                     v-bind:data-content="getRiskDefinition('PrivilegeEscalation')">Privilege Escalation
-                                </div>
-                            </template>
-                            <!--Alert for Risk Type: Data Exfiltration Escalation-->
-                            <template v-if="inlinePolicyFindings(policyId, 'DataExfiltration').length > 0">
-                                <div class="alert alert-warning popovers" data-html="true" data-placement="top"
-                                     data-toggle="popover"
-                                     role="alert"
-                                     title="Data Exfiltration"
-                                     v-bind:data-content="getRiskDefinition('DataExfiltration')">Data Exfiltration
-                                </div>
-                            </template>
-                            <!--Alert for Risk Type: Resource Exposure-->
-                            <template v-if="inlinePolicyFindings(policyId, 'ResourceExposure').length > 0">
-                                <div class="alert alert-danger popovers" data-html="true" data-placement="top"
-                                     data-toggle="popover"
-                                     role="alert"
-                                     title="Resource Exposure"
-                                     v-bind:data-content="getRiskDefinition('ResourceExposure')">Resource Exposure
-                                </div>
-                            </template>
-                            <!--Alert for Assumable By Compute Service-->
-                            <template v-if="inlinePolicyAssumableByComputeService(policyId).length > 0">
-                                <div class="alert alert-info popovers" data-html="true" data-placement="top"
-                                     data-toggle="popover"
-                                     role="alert"
-                                     title="Policy leveraged by Compute Service Role"
-                                     v-bind:data-content="getRiskDefinition('AssumableByComputeService')">Policy
-                                    leveraged by Compute Service Role
-                                </div>
-                            </template>
+                            <RiskAlertIndicators
+                                :iam_data="iam_data"
+                                :policy-id="policyId"
+                                :managed-by="'Inline'"
+                            ></RiskAlertIndicators>
                         </div>
                     </div>
                     <br>
@@ -210,6 +178,7 @@
 
 <script>
     // eslint-disable-next-line no-unused-vars
+    import RiskAlertIndicators from "./risk-definitions/RiskAlertIndicators";
     const inlinePoliciesUtil = require('../util/inline-policies');
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
@@ -225,13 +194,16 @@
 
     export default {
         name: "InlinePolicies",
+        components: {
+            RiskAlertIndicators
+        },
         props: {
             iam_data: {
                 type: Object
             },
-            riskDefinitions: {
-                type: Array
-            }
+            // riskDefinitions: {
+            //     type: Array
+            // }
         },
         computed: {
             inlinePolicyIds() {
