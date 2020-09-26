@@ -22,109 +22,13 @@
                         <br>
                     </div>
                     <div class="col-md-7">
-                        <div v-bind:id="'managed-policy'  + '-' + policyId + '-' + 'card-details'">
-                            <div class="card">
-                                <!--Policy Document-->
-                                <div class="card-header">
-                                    <a class="card-link" data-toggle="collapse"
-                                       v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                       v-bind:href="'#managed-policy' + '-' + policyId + '-' +'policydocument'"
-                                    >Policy Document</a>
-                                </div>
-                                <div class="panel-collapse collapse"
-                                     v-bind:id="'managed-policy' + '-' + policyId + '-' +'policydocument'">
-                                    <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyDocument(policyId), undefined, '\t')) }}
-</code></pre>
-                                    </div>
-                                </div><!--Policy Document-->
-                                <!--Assumable by Compute Service-->
-                                <div v-if="managedPolicyAssumableByComputeService(policyId).length > 0">
-                                    <div class="card-header">
-                                        <a class="card-link" data-toggle="collapse"
-                                           v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                           v-bind:href="'#managed-policy' + '-' + policyId + '-' +'assumable'"
-                                        >Compute Services that leverage this IAM Policy via AssumeRole</a>
-                                    </div>
-                                    <div class="panel-collapse collapse"
-                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'assumable'">
-                                        <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyAssumableByComputeService(policyId), undefined, '\t')) }}
-</code></pre>
-                                        </div>
-                                    </div>
-                                </div><!--Assumable by Compute Service-->
-                                <!--Data Exfiltration-->
-                                <div v-if="managedPolicyFindings(policyId, 'DataExfiltration').length > 0">
-                                    <div class="card-header">
-                                        <a class="card-link" data-toggle="collapse"
-                                           v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                           v-bind:href="'#managed-policy' + '-' + policyId + '-' +'data-exfiltration'"
-                                        >Data Exfiltration</a>
-                                    </div>
-                                    <div class="panel-collapse collapse"
-                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'data-exfiltration'">
-                                        <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'DataExfiltration'), undefined, '\t')) }}
-</code></pre>
-                                        </div>
-                                    </div>
-                                </div><!--Data Exfiltration-->
-                                <!--Infrastructure Modification Actions-->
-                                <div class="card-header">
-                                    <a class="card-link" data-toggle="collapse"
-                                       v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                       v-bind:href="'#managed-policy' + '-' + policyId + '-' +'infrastructure-modification-actions'"
-                                    >Infrastructure Modification Actions</a>
-                                </div>
-                                <div class="panel-collapse collapse"
-                                     v-bind:id="'managed-policy' + '-' + policyId + '-' +'infrastructure-modification-actions'">
-                                    <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'InfrastructureModification'), undefined, '\t')) }}
-</code></pre>
-                                    </div>
-                                </div><!--Infrastructure Modification Actions-->
-                                <!--PrivilegeEscalation-->
-                                <div v-if="managedPolicyFindings(policyId, 'PrivilegeEscalation').length > 0">
-                                    <div class="card-header">
-                                        <a class="card-link" data-toggle="collapse"
-                                           v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                           v-bind:href="'#managed-policy' + '-' + policyId + '-' +'privilege-escalation'"
-                                        >Privilege Escalation</a>
-                                    </div>
-                                    <div class="panel-collapse collapse"
-                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'privilege-escalation'">
-                                        <!--TODO: Format the Privilege Escalation stuff-->
-                                        <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'PrivilegeEscalation'), undefined, '\t')) }}
-</code></pre>
-                                        </div>
-                                    </div>
-                                </div><!--Privilege Escalation-->
-                                <!--ResourceExposure-->
-                                <div v-if="managedPolicyFindings(policyId, 'ResourceExposure').length > 0">
-                                    <div class="card-header">
-                                        <a class="card-link" data-toggle="collapse"
-                                           v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
-                                           v-bind:href="'#managed-policy' + '-' + policyId + '-' +'resource-exposure'"
-                                        >Resource Exposure</a>
-                                    </div>
-                                    <div class="panel-collapse collapse"
-                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'resource-exposure'">
-                                        <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'ResourceExposure'), undefined, '\t')) }}
-</code></pre>
-                                        </div>
-                                    </div>
-                                </div><!--Resource Exposure-->
-                            </div>
-                        </div>
+                        <FindingDetails
+                            :managed-by="managedBy"
+                            :iam_data="iam_data"
+                            :policy-id="policyId"
+                        ></FindingDetails>
+                        <br>
+                        <br>
                     </div>
                 </div>
             <br>
@@ -135,6 +39,7 @@
 <script>
     import RiskAlertIndicators from "./finding/RiskAlertIndicators";
     import FindingCard from "./finding/FindingCard";
+    import FindingDetails from "./finding/FindingDetails";
     // eslint-disable-next-line no-unused-vars
     const managedPoliciesUtil = require('../util/managed-policies');
     // eslint-disable-next-line no-unused-vars
@@ -145,7 +50,8 @@
         name: "ManagedPolicies",
         components: {
             RiskAlertIndicators,
-            FindingCard
+            FindingCard,
+            FindingDetails
         },
         props: {
             iam_data: {

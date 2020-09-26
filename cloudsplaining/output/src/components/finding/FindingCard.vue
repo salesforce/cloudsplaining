@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h6 class="card-header" v-bind:id="inlineOrManaged.toLowerCase()-'policy' + '.' + policyId + '.' + 'card'">
+        <h6 class="card-header" v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '.' + policyId + '.' + 'card'">
             Name: {{ policyName(policyId) }}
             <br>
             <br>
