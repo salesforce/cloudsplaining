@@ -3,6 +3,9 @@
 ## Unreleased
 * Docker
 
+## 0.2.2 (Unreleased)
+* Excluded actions no longer show up in results (Fixes #106)
+
 ## 0.2.1 (9/25/2020)
 * Fixes issue where Inline Policies were showing up as findings even when they were attached to excluded IAM principals. Fixes #104
 

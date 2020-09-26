@@ -100,9 +100,11 @@ class PolicyFinding:
     @property
     def data_exfiltration(self):
         """Returns data exfiltration actions in the policy, if present"""
-        return self.policy_document.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_EXFILTRATION_ACTIONS
-        )
+        result = []
+        for action in self.policy_document.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
+            if action.lower() not in self.exclusions.exclude_actions:
+                result.append(action)
+        return result
 
     @property
     def service_wildcard(self):
@@ -127,7 +129,11 @@ class PolicyFinding:
     def credentials_exposure(self):
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
-        return self.policy_document.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS)
+        results = []
+        for action in self.policy_document.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
+            if action.lower() not in self.exclusions.exclude_actions:
+                results.append(action)
+        return results
 
     @property
     def results(self):
