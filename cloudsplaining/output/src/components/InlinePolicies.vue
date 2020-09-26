@@ -4,55 +4,12 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">
-                        <h6 class="card-header" v-bind:id="'inline-policy' + '.' + policyId + '.' + 'card'">
-                            Name: {{ inlinePolicy(policyId).PolicyName }}
-                            <br>
-                          <br>
-                          Policy Document SHA-256:
-                          <ul>
-                            <li><span><small>{{ policyId }}</small></span></li>
-                          </ul>
-                            Attached to Principals:
-                            <ul>
-                                <li v-if="principalTypeLeveragingInlinePolicy(policyId, 'Role').length > 0">
-                                    Roles:
-                                    <ul>
-                                        <li v-bind:key="role"
-                                            v-for="role in principalTypeLeveragingInlinePolicy(policyId, 'Role')">
-                                            {{ role }}
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li v-if="principalTypeLeveragingInlinePolicy(policyId, 'User').length > 0">
-                                    Users:
-                                    <ul>
-                                        <li v-bind:key="user"
-                                            v-for="user in principalTypeLeveragingInlinePolicy(policyId, 'User')">
-                                            {{ user }}
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li v-if="principalTypeLeveragingInlinePolicy(policyId, 'Group').length > 0">
-                                    Groups:
-                                    <ul>
-                                        <li v-bind:key="group"
-                                            v-for="group in principalTypeLeveragingInlinePolicy(policyId, 'Group')">
-                                            {{ group }}
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </h6>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Services: {{ servicesAffectedByInlinePolicy(policyId).length }}
-                                <br>
-                                <br>
-                                Infrastructure Modification Actions: {{ inlinePolicyFindings(policyId,
-                                "InfrastructureModification").length }}
-                                <br>
-                            </p>
-                        </div> <!-- /card-text -->
+                            <FindingCard
+                                :policy-id="policyId"
+                                :iam_data="iam_data"
+                                :managed-by="'Inline'"
+                            >
+                            </FindingCard>
                         <div class="card-footer">
                             <RiskAlertIndicators
                                 :iam_data="iam_data"
@@ -178,7 +135,9 @@
 
 <script>
     // eslint-disable-next-line no-unused-vars
-    import RiskAlertIndicators from "./risk-definitions/RiskAlertIndicators";
+    import RiskAlertIndicators from "./finding/RiskAlertIndicators";
+    import FindingCard from "./finding/FindingCard";
+
     const inlinePoliciesUtil = require('../util/inline-policies');
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
@@ -195,15 +154,13 @@
     export default {
         name: "InlinePolicies",
         components: {
-            RiskAlertIndicators
+            RiskAlertIndicators,
+            FindingCard
         },
         props: {
             iam_data: {
                 type: Object
             },
-            // riskDefinitions: {
-            //     type: Array
-            // }
         },
         computed: {
             inlinePolicyIds() {
