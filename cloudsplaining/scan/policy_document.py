@@ -72,11 +72,7 @@ class PolicyDocument:
         actions_missing_resource_constraints = []
         for statement in self.statements:
             if statement.effect == "Allow":
-                # TODO: Extend that list, but don't include the excluded actions
-                # actions_missing_resource_constraints.extend(
-                #     statement.missing_resource_constraints_for_modify_actions()
-                # )
-                for action in statement.missing_resource_constraints_for_modify_actions():
+                for action in statement.missing_resource_constraints_for_modify_actions(self.exclusions):
                     if action.lower() not in self.exclusions.exclude_actions:
                         actions_missing_resource_constraints.append(action)
         return actions_missing_resource_constraints
@@ -165,6 +161,8 @@ class PolicyDocument:
     @property
     def allows_data_exfiltration_actions(self):
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
-        return self.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_EXFILTRATION_ACTIONS
-        )
+        results = []
+        for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
+            if action.lower() not in self.exclusions.exclude_actions:
+                results.append(action)
+        return results
