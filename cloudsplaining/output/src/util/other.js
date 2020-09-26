@@ -27,6 +27,7 @@ const policyViolations = (policies) => {
 }
 
 function addSpacesInPascalCaseString(string) {
+    // "DataExfiltration" => "Data Exfiltration"
     string = string.replace(/([a-z])([A-Z])/g, '$1 $2');
     // console.log(string)
     string = string.replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
@@ -41,6 +42,24 @@ function convertStringToSnakeCase(string) {
         .map(x => x.toLowerCase())
         .join('_');
     return toSnakeCase(string)
+}
+
+function convertStringToKebabCase(string) {
+    const toKebabCase = str =>
+    str &&
+    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        .map(x => x.toLowerCase())
+        .join('-');
+    return toKebabCase(string)
+}
+
+function convertStringToSpaceCase(string) {
+    const toSpaceCase = str =>
+    str &&
+    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        .map(x => x.charAt(0).toUpperCase() + x.slice(1))
+        .join(' ');
+    return toSpaceCase(string)
 }
 
 function removeDuplicatesFromArray(someArray) {
@@ -84,3 +103,5 @@ exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
 exports.compareValues = compareValues;
 exports.removeDuplicatesFromArray = removeDuplicatesFromArray;
 exports.convertStringToSnakeCase = convertStringToSnakeCase;
+exports.convertStringToKebabCase = convertStringToKebabCase;
+exports.convertStringToSpaceCase = convertStringToSpaceCase;
