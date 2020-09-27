@@ -27,7 +27,7 @@
                         <b-collapse
                                 v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
-                                <b-col lg="4">
+                                <b-col>
                                     <h5>Risks</h5>
                                     <b-list-group>
                                         <div v-bind:key="roleRiskName" v-for="roleRiskName in riskNames">
@@ -177,7 +177,7 @@
                         <b-collapse
                                 v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
-                                <b-col lg="4">
+                                <b-col>
                                     <h5>Risks</h5>
                                     <b-list-group>
                                         <div v-bind:key="groupRiskName" v-for="groupRiskName in riskNames">
@@ -314,7 +314,7 @@
                         <b-collapse
                                 v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">
                             <b-row class="px-2">
-                                <b-col lg="4">
+                                <b-col>
                                     <h5>Risks</h5>
                                     <b-list-group>
                                         <div v-bind:key="userRiskName" v-for="userRiskName in riskNames">
