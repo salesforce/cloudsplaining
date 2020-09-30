@@ -40,11 +40,11 @@
                             @click="activeSection = 6"
                             href="#">Appendices
                     </b-nav-item>
-<!--                    <b-nav-item-->
-<!--                            :active="activeSection === 'task-table'"-->
-<!--                            @click="activeSection = 7"-->
-<!--                            href="#">Task Table Demo-->
-<!--                    </b-nav-item>-->
+                    <b-nav-item
+                            :active="activeSection === 'task-table'"
+                            @click="activeSection = 7"
+                            href="#">Task Table Demo
+                    </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-nav-text><strong>Account ID:</strong> {{ account_id }} | <strong>Account Name:</strong> {{ account_name }}</b-nav-text>
@@ -81,20 +81,20 @@
                 <b-tab id="appendices">
                     <Glossary/>
                 </b-tab>
-<!--                <b-tab key="task-table">-->
-<!--                    <br>-->
-<!--                    <h3>Tasks (demo WIP)</h3>-->
-<!--                    <br>-->
+                <b-tab key="task-table">
+                    <br>
+                    <h3>Tasks (demo WIP)</h3>
+                    <br>
 <!--                    <h3>Customer-Managed Policies</h3>-->
 <!--                    <TaskTable managedBy="Customer" v-bind:items_mapping="getTaskTableMapping('Customer')"/>-->
 <!--                    <br>-->
-<!--                    &lt;!&ndash;TODO: Figure out the overlap issue where the two tables results in a double info field in Customer policies&ndash;&gt;-->
-<!--                    <h3>AWS-Managed Policies</h3>-->
-<!--                    <TaskTable managedBy="AWS" v-bind:items_mapping="getTaskTableMapping('AWS')"/>-->
-<!--                    &lt;!&ndash;TODO: Task table for Inline Policies&ndash;&gt;-->
+                    <!--TODO: Figure out the overlap issue where the two tables results in a double info field in Customer policies-->
+                    <h3>AWS-Managed Policies</h3>
+                    <TaskTable managedBy="AWS" v-bind:items_mapping="getTaskTableMapping('AWS')"/>
+                    <!--TODO: Task table for Inline Policies-->
 <!--                    <h3>Inline Policies</h3>-->
 <!--                    <TaskTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>-->
-<!--                </b-tab>-->
+                </b-tab>
             </b-tabs>
         </b-container>
         <b-container>
@@ -117,7 +117,7 @@
     import Guidance from './components/Guidance'
     import Glossary from './components/Glossary'
     import PolicyTable from './components/PolicyTable'
-    // import TaskTable from './components/TaskTable'
+    import TaskTable from './components/TaskTable'
 
     const managedPoliciesUtil = require('./util/managed-policies');
     const inlinePoliciesUtil = require('./util/inline-policies');
@@ -182,7 +182,7 @@
             Guidance,
             Glossary,
             PolicyTable,
-            // TaskTable
+            TaskTable
         },
 
         data() {
