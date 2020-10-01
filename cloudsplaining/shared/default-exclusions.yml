@@ -7,6 +7,8 @@ policies:
   - "AdministratorAccess" # Otherwise, this will take a long time
   - "service-role*"
   - "aws-service-role*"
+  - "/service-role*"
+  - "/aws-service-role*"
   - "MyRole"
 # Don't evaluate these roles, users, or groups as part of the evaluation
 roles:

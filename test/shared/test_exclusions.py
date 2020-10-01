@@ -140,17 +140,5 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
         authorization_details = AuthorizationDetails(authz_file, exclusions)
         results = authorization_details.results
 
-        expected_results_file = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                os.path.pardir,
-                "files",
-                "shared",
-                "test_exclusions_for_service_roles_expected.json",
-            )
-        )
-        with open(expected_results_file, 'r') as json_file:
-            expected_results = json.load(json_file)
-
-        # print(json.dumps(results))
+        expected_results = {"groups": {}, "users": {}, "roles": {}, "aws_managed_policies": {}, "customer_managed_policies": {}, "inline_policies": {}, "exclusions": {"policies": ["aws-service-role*"]}}
         self.assertDictEqual(results, expected_results)
