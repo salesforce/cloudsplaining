@@ -7,8 +7,11 @@ aws iam get-account-authorization-details command."""
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from cloudsplaining.scan.statement_detail import StatementDetail
-from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
-from cloudsplaining.shared.constants import READ_ONLY_DATA_EXFILTRATION_ACTIONS
+from cloudsplaining.shared.constants import (
+    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
+    PRIVILEGE_ESCALATION_METHODS,
+    ACTIONS_THAT_RETURN_CREDENTIALS
+)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 logger = logging.getLogger(__name__)
@@ -166,3 +169,32 @@ class PolicyDocument:
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
+
+    @property
+    def credentials_exposure(self):
+        """Determine if the action returns credentials"""
+        # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
+        results = []
+        for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
+            if action.lower() not in self.exclusions.exclude_actions:
+                results.append(action)
+        return results
+
+    @property
+    def service_wildcard(self):
+        """Determine if the policy gives access to all actions within a service - simple grepping"""
+        services = []
+        for statement in self.statements:
+            logger.debug("Evaluating statement: %s", statement.json)
+            if statement.effect == "Allow":
+                for action in statement.actions:
+                    # service:*
+                    service, action = action.split(":")
+                    if action == "*":
+                        services.append(service)
+        if services:
+            # Remove duplicates and sort
+            services = list(dict.fromkeys(services))
+            return services.sort()
+        else:
+            return []
