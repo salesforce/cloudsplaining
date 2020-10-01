@@ -178,6 +178,16 @@
         "iam:UploadServerCertificate",
         "iam:UploadSigningCertificate"
       ],
+      "ServiceWildcard": [
+        "iam"
+      ],
+      "CredentialsExposure": [
+        "iam:CreateAccessKey",
+        "iam:CreateLoginProfile",
+        "iam:CreateServiceSpecificCredential",
+        "iam:ResetServiceSpecificCredential",
+        "iam:UpdateAccessKey"
+      ],
       "InfrastructureModification": [
         "iam:AddClientIDToOpenIDConnectProvider",
         "iam:AddRoleToInstanceProfile",

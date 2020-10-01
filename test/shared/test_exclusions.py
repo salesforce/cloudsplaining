@@ -152,5 +152,5 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
         with open(expected_results_file, 'r') as json_file:
             expected_results = json.load(json_file)
 
-        # print(json.dumps(results))
+        print(json.dumps(results))
         self.assertDictEqual(results, expected_results)

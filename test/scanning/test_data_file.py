@@ -23,7 +23,7 @@ example_data_file = os.path.abspath(
         os.path.dirname(__file__),
         os.path.pardir,
         "files",
-        "new_data_file.json",
+        "data_file.json",
     )
 )
 with open(example_data_file, 'r') as json_file:
@@ -70,5 +70,5 @@ class TestNewDataFilePolicyDetail(unittest.TestCase):
     def test_new_principal_policy_mapping(self):
         authorization_details = AuthorizationDetails(cfg, exclusions)
         results = authorization_details.results
-        # print(json.dumps(results))
+        print(json.dumps(results))
         self.assertDictEqual(expected_data_file, results)

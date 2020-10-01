@@ -5,6 +5,7 @@
 
 ## 0.2.2 (Unreleased)
 * Excluded actions no longer show up in results (Fixes #106)
+* Fixed issue where `*:*` policy would break results due to how the Service Wildcard finding was implemented (Fixes #109)
 * Credentials Exposure and Service Wildcard now show up in the data file results
 
 ## 0.2.1 (9/25/2020)

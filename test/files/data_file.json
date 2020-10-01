@@ -587,6 +587,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "codecommit:AssociateApprovalRuleTemplateWithRepository",
         "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -715,6 +717,11 @@
         "rds:AuthorizeDBSecurityGroupIngress",
         "iam:CreateServiceLinkedRole"
       ],
+      "ServiceWildcard": [
+        "pi",
+        "rds"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "cloudwatch:DeleteAlarms",
         "cloudwatch:PutMetricAlarm",
@@ -872,6 +879,13 @@
         "ec2:ResetSnapshotAttribute",
         "iam:CreateServiceLinkedRole"
       ],
+      "ServiceWildcard": [
+        "autoscaling",
+        "cloudwatch",
+        "ec2",
+        "elasticloadbalancing"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ec2:AcceptTransitGatewayPeeringAttachment",
         "ec2:AcceptTransitGatewayVpcAttachment",
@@ -1277,6 +1291,10 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [
+        "codecommit"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "codecommit:AssociateApprovalRuleTemplateWithRepository",
         "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -1371,6 +1389,10 @@
         "sqs:RemovePermission",
         "sqs:SetQueueAttributes"
       ],
+      "ServiceWildcard": [
+        "sqs"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "sqs:AddPermission",
         "sqs:ChangeMessageVisibility",
@@ -1529,6 +1551,15 @@
         "s3:PutObjectAcl",
         "s3:PutObjectVersionAcl"
       ],
+      "ServiceWildcard": [
+        "cloudwatch",
+        "dynamodb",
+        "events",
+        "lambda",
+        "logs",
+        "s3"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "cloudwatch:DeleteAlarms",
         "cloudwatch:DeleteDashboards",
@@ -1867,6 +1898,16 @@
         "iam:UploadServerCertificate",
         "iam:UploadSigningCertificate"
       ],
+      "ServiceWildcard": [
+        "iam"
+      ],
+      "CredentialsExposure": [
+        "iam:CreateAccessKey",
+        "iam:CreateLoginProfile",
+        "iam:CreateServiceSpecificCredential",
+        "iam:ResetServiceSpecificCredential",
+        "iam:UpdateAccessKey"
+      ],
       "InfrastructureModification": [
         "iam:AddClientIDToOpenIDConnectProvider",
         "iam:AddRoleToInstanceProfile",
@@ -1993,6 +2034,10 @@
         "s3:PutObjectAcl",
         "s3:PutObjectVersionAcl"
       ],
+      "ServiceWildcard": [
+        "s3"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:AbortMultipartUpload",
         "s3:BypassGovernanceRetention",
@@ -2109,6 +2154,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": false
     },
@@ -2167,6 +2214,12 @@
         "sns:RemovePermission",
         "sns:SetTopicAttributes"
       ],
+      "ServiceWildcard": [
+        "cloudwatch",
+        "logs",
+        "sns"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "cloudwatch:DeleteAlarms",
         "cloudwatch:DeleteDashboards",
@@ -2772,6 +2825,17 @@
         "ssm:GetParametersByPath"
       ],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [
+        "cognito-identity:GetOpenIdToken",
+        "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+        "cognito-identity:GetCredentialsForIdentity",
+        "connect:GetFederationToken",
+        "ecr:GetAuthorizationToken",
+        "gamelift:RequestUploadCredentials",
+        "sts:GetFederationToken",
+        "sts:GetSessionToken"
+      ],
       "InfrastructureModification": [
         "dataexchange:GetJob",
         "mobilehub:GenerateProjectParameters",
@@ -2841,6 +2905,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ec2:AuthorizeSecurityGroupIngress"
       ],
@@ -2945,6 +3011,10 @@
         "ds:CreateTrust",
         "ds:ShareDirectory"
       ],
+      "ServiceWildcard": [
+        "ds"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ds:AcceptSharedDirectory",
         "ds:AddIpRoutes",
@@ -3077,6 +3147,10 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [
+        "codedeploy"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "codedeploy:AddTagsToOnPremisesInstances",
         "codedeploy:CreateApplication",
@@ -3147,6 +3221,8 @@
       "ResourceExposure": [
         "iam:CreateServiceLinkedRole"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "iam:CreateServiceLinkedRole"
       ],
@@ -3259,6 +3335,10 @@
         "s3:PutBucketPolicy",
         "iam:PassRole"
       ],
+      "ServiceWildcard": [
+        "cloudtrail"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "sns:AddPermission",
         "sns:CreateTopic",
@@ -3467,6 +3547,8 @@
         "s3:GetObject"
       ],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "config:PutAggregationAuthorization",
         "config:PutConfigRule",
@@ -3951,6 +4033,258 @@
         "workmail:ResetPassword",
         "workmail:ResetUserPassword",
         "xray:PutEncryptionConfig"
+      ],
+      "ServiceWildcard": [
+        "a4b",
+        "access-analyzer",
+        "account",
+        "acm",
+        "acm-pca",
+        "amplify",
+        "apigateway",
+        "appconfig",
+        "appflow",
+        "application-autoscaling",
+        "applicationinsights",
+        "appmesh",
+        "appmesh-preview",
+        "appstream",
+        "appsync",
+        "arsenal",
+        "artifact",
+        "athena",
+        "autoscaling",
+        "autoscaling-plans",
+        "aws-marketplace",
+        "aws-marketplace-management",
+        "aws-portal",
+        "awsconnector",
+        "backup",
+        "backup-storage",
+        "batch",
+        "budgets",
+        "cassandra",
+        "ce",
+        "chatbot",
+        "chime",
+        "cloud9",
+        "clouddirectory",
+        "cloudformation",
+        "cloudfront",
+        "cloudhsm",
+        "cloudsearch",
+        "cloudtrail",
+        "cloudwatch",
+        "codeartifact",
+        "codebuild",
+        "codecommit",
+        "codedeploy",
+        "codeguru",
+        "codeguru-profiler",
+        "codeguru-reviewer",
+        "codepipeline",
+        "codestar",
+        "codestar-connections",
+        "codestar-notifications",
+        "cognito-identity",
+        "cognito-idp",
+        "cognito-sync",
+        "comprehend",
+        "comprehendmedical",
+        "compute-optimizer",
+        "config",
+        "connect",
+        "cur",
+        "dataexchange",
+        "datapipeline",
+        "datasync",
+        "dax",
+        "dbqms",
+        "deepcomposer",
+        "deeplens",
+        "deepracer",
+        "detective",
+        "devicefarm",
+        "directconnect",
+        "discovery",
+        "dlm",
+        "dms",
+        "ds",
+        "dynamodb",
+        "ebs",
+        "ec2",
+        "ec2-instance-connect",
+        "ec2messages",
+        "ecr",
+        "ecs",
+        "eks",
+        "elastic-inference",
+        "elasticache",
+        "elasticbeanstalk",
+        "elasticfilesystem",
+        "elasticloadbalancing",
+        "elasticmapreduce",
+        "elastictranscoder",
+        "es",
+        "events",
+        "execute-api",
+        "firehose",
+        "fms",
+        "forecast",
+        "frauddetector",
+        "freertos",
+        "fsx",
+        "gamelift",
+        "glacier",
+        "globalaccelerator",
+        "glue",
+        "greengrass",
+        "groundstation",
+        "groundtruthlabeling",
+        "guardduty",
+        "health",
+        "honeycode",
+        "iam",
+        "imagebuilder",
+        "importexport",
+        "inspector",
+        "iot",
+        "iot-device-tester",
+        "iot1click",
+        "iotanalytics",
+        "iotevents",
+        "iotsitewise",
+        "iotthingsgraph",
+        "iq",
+        "iq-permission",
+        "kafka",
+        "kendra",
+        "kinesis",
+        "kinesisanalytics",
+        "kinesisvideo",
+        "kms",
+        "lakeformation",
+        "lambda",
+        "launchwizard",
+        "lex",
+        "license-manager",
+        "lightsail",
+        "logs",
+        "machinelearning",
+        "macie",
+        "macie2",
+        "managedblockchain",
+        "mechanicalturk",
+        "mediaconnect",
+        "mediaconvert",
+        "medialive",
+        "mediapackage",
+        "mediapackage-vod",
+        "mediastore",
+        "mediatailor",
+        "mgh",
+        "mobileanalytics",
+        "mobilehub",
+        "mobiletargeting",
+        "mq",
+        "neptune-db",
+        "networkmanager",
+        "opsworks",
+        "opsworks-cm",
+        "organizations",
+        "outposts",
+        "personalize",
+        "pi",
+        "polly",
+        "pricing",
+        "purchase-orders",
+        "qldb",
+        "quicksight",
+        "ram",
+        "rds",
+        "rds-data",
+        "rds-db",
+        "redshift",
+        "rekognition",
+        "resource-explorer",
+        "resource-groups",
+        "robomaker",
+        "route53",
+        "route53domains",
+        "route53resolver",
+        "s3",
+        "sagemaker",
+        "savingsplans",
+        "schemas",
+        "sdb",
+        "secretsmanager",
+        "securityhub",
+        "serverlessrepo",
+        "servicecatalog",
+        "servicediscovery",
+        "servicequotas",
+        "ses",
+        "shield",
+        "signer",
+        "sms",
+        "sms-voice",
+        "snowball",
+        "sns",
+        "sqs",
+        "ssm",
+        "ssmmessages",
+        "sso",
+        "sso-directory",
+        "states",
+        "storagegateway",
+        "sts",
+        "sumerian",
+        "support",
+        "swf",
+        "synthetics",
+        "tag",
+        "textract",
+        "transcribe",
+        "transfer",
+        "translate",
+        "trustedadvisor",
+        "waf",
+        "waf-regional",
+        "wafv2",
+        "wam",
+        "wellarchitected",
+        "workdocs",
+        "worklink",
+        "workmail",
+        "workmailmessageflow",
+        "workspaces",
+        "xray"
+      ],
+      "CredentialsExposure": [
+        "chime:CreateApiKey",
+        "codepipeline:PollForJobs",
+        "cognito-identity:GetOpenIdToken",
+        "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+        "cognito-identity:GetCredentialsForIdentity",
+        "connect:GetFederationToken",
+        "connect:GetFederationTokens",
+        "ecr:GetAuthorizationToken",
+        "gamelift:RequestUploadCredentials",
+        "iam:CreateAccessKey",
+        "iam:CreateLoginProfile",
+        "iam:CreateServiceSpecificCredential",
+        "iam:ResetServiceSpecificCredential",
+        "iam:UpdateAccessKey",
+        "lightsail:GetInstanceAccessDetails",
+        "lightsail:GetRelationalDatabaseMasterUserPassword",
+        "rds-db:connect",
+        "redshift:GetClusterCredentials",
+        "mediapackage:RotateIngestEndpointCredentials",
+        "sts:AssumeRole",
+        "sts:AssumeRoleWithSAML",
+        "sts:AssumeRoleWithWebIdentity",
+        "sts:GetFederationToken",
+        "sts:GetSessionToken"
       ],
       "InfrastructureModification": [
         "a4b:AssociateContactWithAddressBook",
@@ -7220,6 +7554,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": false
     },
@@ -7258,6 +7594,8 @@
         "s3:GetObject"
       ],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:GetObject"
       ],
@@ -7295,6 +7633,10 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [
+        "ses"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ses:SendBulkTemplatedEmail",
         "ses:SendCustomVerificationEmail",
@@ -8767,6 +9109,10 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [
+        "lightsail:getInstanceAccessDetails"
+      ],
       "InfrastructureModification": [
         "lightsail:GetInstanceAccessDetails"
       ],
@@ -8948,6 +9294,8 @@
         "ec2:DeleteNetworkInterfacePermission",
         "ec2:ModifyVpcEndpointServicePermissions"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ec2:AcceptVpcEndpointConnections",
         "ec2:AcceptVpcPeeringConnection",
@@ -9100,6 +9448,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": true
     },
@@ -9140,6 +9490,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": false
     },
@@ -9175,6 +9527,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": false
     },
@@ -9221,6 +9575,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "kms:CreateAlias",
         "kms:DeleteAlias",
@@ -9268,6 +9624,8 @@
       "ResourceExposure": [
         "ec2:CreateNetworkInterfacePermission"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ec2:CreateNetworkInterfacePermission"
       ],
@@ -9324,6 +9682,11 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [
+        "route53",
+        "route53domains"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "route53:AssociateVPCWithHostedZone",
         "route53:ChangeResourceRecordSets",
@@ -9624,6 +9987,28 @@
         "xray:PutEncryptionConfig",
         "iam:CreateServiceLinkedRole",
         "iam:DeleteServiceLinkedRole"
+      ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [
+        "chime:CreateApiKey",
+        "codepipeline:PollForJobs",
+        "cognito-identity:GetOpenIdToken",
+        "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+        "cognito-identity:GetCredentialsForIdentity",
+        "connect:GetFederationToken",
+        "connect:GetFederationTokens",
+        "ecr:GetAuthorizationToken",
+        "gamelift:RequestUploadCredentials",
+        "lightsail:GetInstanceAccessDetails",
+        "lightsail:GetRelationalDatabaseMasterUserPassword",
+        "rds-db:connect",
+        "redshift:GetClusterCredentials",
+        "mediapackage:RotateIngestEndpointCredentials",
+        "sts:AssumeRole",
+        "sts:AssumeRoleWithSAML",
+        "sts:AssumeRoleWithWebIdentity",
+        "sts:GetFederationToken",
+        "sts:GetSessionToken"
       ],
       "InfrastructureModification": [
         "a4b:AssociateContactWithAddressBook",
@@ -12524,6 +12909,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": true
     }
@@ -12566,6 +12953,8 @@
       "PrivilegeEscalation": [],
       "DataExfiltration": [],
       "ResourceExposure": [],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [],
       "is_excluded": false
     },
@@ -12607,6 +12996,8 @@
       "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:PutObject",
         "s3:PutObjectAcl"
@@ -12680,6 +13071,12 @@
         "secretsmanager:DeleteResourcePolicy",
         "secretsmanager:PutResourcePolicy"
       ],
+      "ServiceWildcard": [
+        "lambda",
+        "s3",
+        "secretsmanager"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "lambda:AddLayerVersionPermission",
         "lambda:AddPermission",
@@ -12807,6 +13204,10 @@
         "s3:PutObjectAcl",
         "s3:PutObjectVersionAcl"
       ],
+      "ServiceWildcard": [
+        "s3"
+      ],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:AbortMultipartUpload",
         "s3:BypassGovernanceRetention",
@@ -12882,6 +13283,8 @@
       "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:GetObject",
         "s3:PutObjectAcl"
@@ -12918,6 +13321,8 @@
         "iam:CreateInstanceProfile",
         "iam:PassRole"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "ec2:AssociateIamInstanceProfile",
         "ec2:DisassociateIamInstanceProfile",
@@ -12960,6 +13365,10 @@
       "ResourceExposure": [
         "iam:CreateAccessKey"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [
+        "iam:CreateAccessKey"
+      ],
       "InfrastructureModification": [
         "iam:CreateAccessKey",
         "s3:GetObject",
@@ -12994,6 +13403,8 @@
       "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
+      "ServiceWildcard": [],
+      "CredentialsExposure": [],
       "InfrastructureModification": [
         "s3:GetObject",
         "s3:PutObject",

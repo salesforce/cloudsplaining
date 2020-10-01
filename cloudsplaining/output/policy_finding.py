@@ -109,21 +109,7 @@ class PolicyFinding:
     @property
     def service_wildcard(self):
         """Determine if the policy gives access to all actions within a service - simple grepping"""
-        services = []
-        for statement in self.policy_document.statements:
-            logger.debug("Evaluating statement: %s", statement.json)
-            if statement.effect == "Allow":
-                for action in statement.actions:
-                    # service:*
-                    service, action = action.split(":")
-                    if action == "*":
-                        services.append(service)
-        if services:
-            # Remove duplicates and sort
-            services = list(dict.fromkeys(services))
-            return services.sort()
-        else:
-            return []
+        return self.policy_document.service_wildcard
 
     @property
     def credentials_exposure(self):

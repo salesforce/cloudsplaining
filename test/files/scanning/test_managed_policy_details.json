@@ -36,6 +36,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "InsecurePolicy": {
@@ -76,6 +78,8 @@
     "ResourceExposure": [
       "s3:PutObjectAcl"
     ],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI4UIINUVGB5SEC57G": {
@@ -431,6 +435,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI3R4QMOG6Q5A4VWVG": {
@@ -509,6 +515,11 @@
       "rds:AuthorizeDBSecurityGroupIngress",
       "iam:CreateServiceLinkedRole"
     ],
+    "ServiceWildcard": [
+      "pi",
+      "rds"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI3VAJF5ZCRZ7MCQE6": {
@@ -580,6 +591,13 @@
       "ec2:ResetSnapshotAttribute",
       "iam:CreateServiceLinkedRole"
     ],
+    "ServiceWildcard": [
+      "autoscaling",
+      "cloudwatch",
+      "ec2",
+      "elasticloadbalancing"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI4VCZ3XPIZLQ5NZV2": {
@@ -784,6 +802,10 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [
+      "codecommit"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI65L554VRJ33ECQS6": {
@@ -823,6 +845,10 @@
       "sqs:RemovePermission",
       "sqs:SetQueueAttributes"
     ],
+    "ServiceWildcard": [
+      "sqs"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI6E2CYYMI4XI7AA5K": {
@@ -965,6 +991,15 @@
       "s3:PutObjectAcl",
       "s3:PutObjectVersionAcl"
     ],
+    "ServiceWildcard": [
+      "cloudwatch",
+      "dynamodb",
+      "events",
+      "lambda",
+      "logs",
+      "s3"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAI7XKCFMBPM3QQRRVQ": {
@@ -1150,6 +1185,16 @@
       "iam:UploadServerCertificate",
       "iam:UploadSigningCertificate"
     ],
+    "ServiceWildcard": [
+      "iam"
+    ],
+    "CredentialsExposure": [
+      "iam:CreateAccessKey",
+      "iam:CreateLoginProfile",
+      "iam:CreateServiceSpecificCredential",
+      "iam:ResetServiceSpecificCredential",
+      "iam:UpdateAccessKey"
+    ],
     "is_excluded": false
   },
   "ANPAIFIR6V6BVTRAHWINE": {
@@ -1196,6 +1241,10 @@
       "s3:PutObjectAcl",
       "s3:PutObjectVersionAcl"
     ],
+    "ServiceWildcard": [
+      "s3"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIICZJNOJN36GTG6CM": {
@@ -1263,6 +1312,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIKEABORKUXN6DEAZU": {
@@ -1320,6 +1371,12 @@
       "sns:RemovePermission",
       "sns:SetTopicAttributes"
     ],
+    "ServiceWildcard": [
+      "cloudwatch",
+      "logs",
+      "sns"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAILL3HVNFSB6DCOWYQ": {
@@ -1885,6 +1942,17 @@
       "ssm:GetParametersByPath"
     ],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [
+      "cognito-identity:GetOpenIdToken",
+      "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+      "cognito-identity:GetCredentialsForIdentity",
+      "connect:GetFederationToken",
+      "ecr:GetAuthorizationToken",
+      "gamelift:RequestUploadCredentials",
+      "sts:GetFederationToken",
+      "sts:GetSessionToken"
+    ],
     "is_excluded": false
   },
   "ANPAIMHWGGSRHLOQUICJQ": {
@@ -1945,6 +2013,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": true
   },
   "ANPAINAW5ANUWTH3R4ANI": {
@@ -2046,6 +2116,10 @@
       "ds:CreateTrust",
       "ds:ShareDirectory"
     ],
+    "ServiceWildcard": [
+      "ds"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIONKN3TJZUKXCHXWC": {
@@ -2132,6 +2206,10 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [
+      "codedeploy"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIQH6ROMVVECFVRJPK": {
@@ -2179,6 +2257,8 @@
     "ResourceExposure": [
       "iam:CreateServiceLinkedRole"
     ],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": true
   },
   "ANPAIQNUJTQYDRJPC3BNK": {
@@ -2288,6 +2368,10 @@
       "s3:PutBucketPolicy",
       "iam:PassRole"
     ],
+    "ServiceWildcard": [
+      "cloudtrail"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIQRXRDRGJUA33ELIO": {
@@ -2476,6 +2560,8 @@
       "s3:GetObject"
     ],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIWMBCKSKIEE64ZLYK": {
@@ -2954,6 +3040,258 @@
       "workmail:ResetUserPassword",
       "xray:PutEncryptionConfig"
     ],
+    "ServiceWildcard": [
+      "a4b",
+      "access-analyzer",
+      "account",
+      "acm",
+      "acm-pca",
+      "amplify",
+      "apigateway",
+      "appconfig",
+      "appflow",
+      "application-autoscaling",
+      "applicationinsights",
+      "appmesh",
+      "appmesh-preview",
+      "appstream",
+      "appsync",
+      "arsenal",
+      "artifact",
+      "athena",
+      "autoscaling",
+      "autoscaling-plans",
+      "aws-marketplace",
+      "aws-marketplace-management",
+      "aws-portal",
+      "awsconnector",
+      "backup",
+      "backup-storage",
+      "batch",
+      "budgets",
+      "cassandra",
+      "ce",
+      "chatbot",
+      "chime",
+      "cloud9",
+      "clouddirectory",
+      "cloudformation",
+      "cloudfront",
+      "cloudhsm",
+      "cloudsearch",
+      "cloudtrail",
+      "cloudwatch",
+      "codeartifact",
+      "codebuild",
+      "codecommit",
+      "codedeploy",
+      "codeguru",
+      "codeguru-profiler",
+      "codeguru-reviewer",
+      "codepipeline",
+      "codestar",
+      "codestar-connections",
+      "codestar-notifications",
+      "cognito-identity",
+      "cognito-idp",
+      "cognito-sync",
+      "comprehend",
+      "comprehendmedical",
+      "compute-optimizer",
+      "config",
+      "connect",
+      "cur",
+      "dataexchange",
+      "datapipeline",
+      "datasync",
+      "dax",
+      "dbqms",
+      "deepcomposer",
+      "deeplens",
+      "deepracer",
+      "detective",
+      "devicefarm",
+      "directconnect",
+      "discovery",
+      "dlm",
+      "dms",
+      "ds",
+      "dynamodb",
+      "ebs",
+      "ec2",
+      "ec2-instance-connect",
+      "ec2messages",
+      "ecr",
+      "ecs",
+      "eks",
+      "elastic-inference",
+      "elasticache",
+      "elasticbeanstalk",
+      "elasticfilesystem",
+      "elasticloadbalancing",
+      "elasticmapreduce",
+      "elastictranscoder",
+      "es",
+      "events",
+      "execute-api",
+      "firehose",
+      "fms",
+      "forecast",
+      "frauddetector",
+      "freertos",
+      "fsx",
+      "gamelift",
+      "glacier",
+      "globalaccelerator",
+      "glue",
+      "greengrass",
+      "groundstation",
+      "groundtruthlabeling",
+      "guardduty",
+      "health",
+      "honeycode",
+      "iam",
+      "imagebuilder",
+      "importexport",
+      "inspector",
+      "iot",
+      "iot-device-tester",
+      "iot1click",
+      "iotanalytics",
+      "iotevents",
+      "iotsitewise",
+      "iotthingsgraph",
+      "iq",
+      "iq-permission",
+      "kafka",
+      "kendra",
+      "kinesis",
+      "kinesisanalytics",
+      "kinesisvideo",
+      "kms",
+      "lakeformation",
+      "lambda",
+      "launchwizard",
+      "lex",
+      "license-manager",
+      "lightsail",
+      "logs",
+      "machinelearning",
+      "macie",
+      "macie2",
+      "managedblockchain",
+      "mechanicalturk",
+      "mediaconnect",
+      "mediaconvert",
+      "medialive",
+      "mediapackage",
+      "mediapackage-vod",
+      "mediastore",
+      "mediatailor",
+      "mgh",
+      "mobileanalytics",
+      "mobilehub",
+      "mobiletargeting",
+      "mq",
+      "neptune-db",
+      "networkmanager",
+      "opsworks",
+      "opsworks-cm",
+      "organizations",
+      "outposts",
+      "personalize",
+      "pi",
+      "polly",
+      "pricing",
+      "purchase-orders",
+      "qldb",
+      "quicksight",
+      "ram",
+      "rds",
+      "rds-data",
+      "rds-db",
+      "redshift",
+      "rekognition",
+      "resource-explorer",
+      "resource-groups",
+      "robomaker",
+      "route53",
+      "route53domains",
+      "route53resolver",
+      "s3",
+      "sagemaker",
+      "savingsplans",
+      "schemas",
+      "sdb",
+      "secretsmanager",
+      "securityhub",
+      "serverlessrepo",
+      "servicecatalog",
+      "servicediscovery",
+      "servicequotas",
+      "ses",
+      "shield",
+      "signer",
+      "sms",
+      "sms-voice",
+      "snowball",
+      "sns",
+      "sqs",
+      "ssm",
+      "ssmmessages",
+      "sso",
+      "sso-directory",
+      "states",
+      "storagegateway",
+      "sts",
+      "sumerian",
+      "support",
+      "swf",
+      "synthetics",
+      "tag",
+      "textract",
+      "transcribe",
+      "transfer",
+      "translate",
+      "trustedadvisor",
+      "waf",
+      "waf-regional",
+      "wafv2",
+      "wam",
+      "wellarchitected",
+      "workdocs",
+      "worklink",
+      "workmail",
+      "workmailmessageflow",
+      "workspaces",
+      "xray"
+    ],
+    "CredentialsExposure": [
+      "chime:CreateApiKey",
+      "codepipeline:PollForJobs",
+      "cognito-identity:GetOpenIdToken",
+      "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+      "cognito-identity:GetCredentialsForIdentity",
+      "connect:GetFederationToken",
+      "connect:GetFederationTokens",
+      "ecr:GetAuthorizationToken",
+      "gamelift:RequestUploadCredentials",
+      "iam:CreateAccessKey",
+      "iam:CreateLoginProfile",
+      "iam:CreateServiceSpecificCredential",
+      "iam:ResetServiceSpecificCredential",
+      "iam:UpdateAccessKey",
+      "lightsail:GetInstanceAccessDetails",
+      "lightsail:GetRelationalDatabaseMasterUserPassword",
+      "rds-db:connect",
+      "redshift:GetClusterCredentials",
+      "mediapackage:RotateIngestEndpointCredentials",
+      "sts:AssumeRole",
+      "sts:AssumeRoleWithSAML",
+      "sts:AssumeRoleWithWebIdentity",
+      "sts:GetFederationToken",
+      "sts:GetSessionToken"
+    ],
     "is_excluded": true
   },
   "ANPAIX2T3QCXHR2OGGCTO": {
@@ -3268,6 +3606,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAIZTJ4DXE7G6AGAE6M": {
@@ -3305,6 +3645,8 @@
       "s3:GetObject"
     ],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJ2P4NXCHAT7NDPNR4": {
@@ -3339,6 +3681,10 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [
+      "ses"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJ7W6266ELXF5MISDS": {
@@ -4804,6 +5150,10 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [
+      "lightsail:getInstanceAccessDetails"
+    ],
     "is_excluded": true
   },
   "ANPAJBWPGNOVKZD3JI2P2": {
@@ -4982,6 +5332,8 @@
       "ec2:DeleteNetworkInterfacePermission",
       "ec2:ModifyVpcEndpointServicePermissions"
     ],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJH4QJ2WMHBOB47BUE": {
@@ -5094,6 +5446,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": true
   },
   "ANPAJKSO7NDY4T57MWDSQ": {
@@ -5133,6 +5487,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJLIB4VSBVO47ZSBB6": {
@@ -5167,6 +5523,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJNPP7PPPPMJRV2SA4": {
@@ -5212,6 +5570,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJS2PBJSYV2EZW3MIQ": {
@@ -5253,6 +5613,8 @@
     "ResourceExposure": [
       "ec2:CreateNetworkInterfacePermission"
     ],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": true
   },
   "ANPAJWVDLG5RPST6PHQ3A": {
@@ -5306,6 +5668,11 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [
+      "route53",
+      "route53domains"
+    ],
+    "CredentialsExposure": [],
     "is_excluded": false
   },
   "ANPAJYRXTHIB4FOVS3ZXS": {
@@ -5587,6 +5954,28 @@
       "iam:CreateServiceLinkedRole",
       "iam:DeleteServiceLinkedRole"
     ],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [
+      "chime:CreateApiKey",
+      "codepipeline:PollForJobs",
+      "cognito-identity:GetOpenIdToken",
+      "cognito-identity:GetOpenIdTokenForDeveloperIdentity",
+      "cognito-identity:GetCredentialsForIdentity",
+      "connect:GetFederationToken",
+      "connect:GetFederationTokens",
+      "ecr:GetAuthorizationToken",
+      "gamelift:RequestUploadCredentials",
+      "lightsail:GetInstanceAccessDetails",
+      "lightsail:GetRelationalDatabaseMasterUserPassword",
+      "rds-db:connect",
+      "redshift:GetClusterCredentials",
+      "mediapackage:RotateIngestEndpointCredentials",
+      "sts:AssumeRole",
+      "sts:AssumeRoleWithSAML",
+      "sts:AssumeRoleWithWebIdentity",
+      "sts:GetFederationToken",
+      "sts:GetSessionToken"
+    ],
     "is_excluded": false
   },
   "ANPAZKAPJZG4OV6AFDA5J": {
@@ -5623,6 +6012,8 @@
     "PrivilegeEscalation": [],
     "DataExfiltration": [],
     "ResourceExposure": [],
+    "ServiceWildcard": [],
+    "CredentialsExposure": [],
     "is_excluded": true
   }
 }
