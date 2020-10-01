@@ -6,7 +6,6 @@ class TestUtils(unittest.TestCase):
     def test_remove_wildcard_only_actions(self):
         actions = [
             # 3 wildcard only actions
-            "secretsmanager:createsecret",
             "secretsmanager:getrandompassword",
             "secretsmanager:listsecrets",
             # This one is wildcard OR "secret"

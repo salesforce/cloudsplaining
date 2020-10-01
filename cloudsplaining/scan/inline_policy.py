@@ -48,6 +48,8 @@ class InlinePolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
+            ServiceWildcard=self.policy_document.service_wildcard,
+            CredentialsExposure=self.policy_document.credentials_exposure,
             is_excluded=self.is_excluded
         )
         return result
@@ -62,6 +64,8 @@ class InlinePolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
+            ServiceWildcard=self.policy_document.service_wildcard,
+            CredentialsExposure=self.policy_document.credentials_exposure,
             InfrastructureModification=self.policy_document.infrastructure_modification,
             is_excluded=self.is_excluded
         )

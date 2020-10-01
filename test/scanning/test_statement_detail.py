@@ -79,7 +79,7 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints()
         # print(result)
-        self.assertListEqual(result, ['secretsmanager:PutSecretValue'])
+        self.assertListEqual(result, ['secretsmanager:CreateSecret', 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions(self):
         this_statement = {
@@ -101,11 +101,11 @@ class TestStatementDetail(unittest.TestCase):
         result = statement.missing_resource_constraints()
 
         # print(result)
-        self.assertListEqual(result, ["s3:GetObject", 'secretsmanager:PutSecretValue'])
+        self.assertListEqual(result, ["s3:GetObject", "secretsmanager:CreateSecret", 'secretsmanager:PutSecretValue'])
         result = statement.missing_resource_constraints_for_modify_actions()
         # print(result)
         # There is no exclusion here so s3:GetObject will not be included
-        self.assertListEqual(result, ["s3:GetObject", 'secretsmanager:PutSecretValue'])
+        self.assertListEqual(result, ["s3:GetObject", "secretsmanager:CreateSecret", 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions_with_override(self):
         this_statement = {
@@ -127,7 +127,7 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions(DEFAULT_EXCLUSIONS)
         # print(results)
-        self.assertListEqual(results, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertListEqual(results, ['s3:GetObject', "secretsmanager:CreateSecret", 'secretsmanager:PutSecretValue'])
 
     def test_statement_details_for_action_as_string_instead_of_list(self):
         # Case: when the "Action" is a string

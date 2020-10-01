@@ -20,7 +20,7 @@ class TestManagedPolicyDetail(unittest.TestCase):
     def test_managed_policies(self):
         policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
         results = policy_details.json
-        # print(json.dumps(results))
+        print(json.dumps(results))
 
         expected_policy_details_results_file = os.path.abspath(
             os.path.join(
