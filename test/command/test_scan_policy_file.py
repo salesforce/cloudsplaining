@@ -157,6 +157,38 @@ class PolicyFileTestCase(unittest.TestCase):
         }
         exclusions_cfg_custom = {}
         results = scan_policy(test_policy, exclusions_cfg_custom)
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertDictEqual(results, expected_results)
+
+    def test_gh_109_full_access_policy(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "*",
+                    "Resource": "*"
+                },
+            ]
+        }
+        exclusions_cfg_custom = {}
+        results = scan_policy(test_policy, exclusions_cfg_custom)
+        self.assertTrue(len(results.get("ServiceWildcard")) > 150)
+        self.assertTrue(len(results.get("ServicesAffected")) > 150)
+
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": ["*"],
+                    "Resource": ["*"]
+                },
+            ]
+        }
+        results = scan_policy(test_policy, exclusions_cfg_custom)
+        # print(json.dumps(results, indent=4))
+        self.assertTrue(len(results.get("ServiceWildcard")) > 150)
+        self.assertTrue(len(results.get("ServicesAffected")) > 150)
+
