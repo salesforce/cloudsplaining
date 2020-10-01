@@ -284,6 +284,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                     "AdministratorAccess",
                     "service-role*",
                     "aws-service-role*",
+                    "/service-role*",
+                    "/aws-service-role*",
                     "MyRole"
                 ],
                 "roles": [

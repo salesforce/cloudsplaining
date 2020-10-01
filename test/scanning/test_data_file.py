@@ -37,11 +37,15 @@ exclusions_cfg = {
         "AdministratorAccess",
         "service-role*",
         "aws-service-role*",
+        "/service-role*",
+        "/aws-service-role*",
         "MyRole"
     ],
     "roles": [
         "service-role*",
         "aws-service-role*",
+        "/service-role*",
+        "/aws-service-role*",
         "MyRole"
     ],
     "users": [

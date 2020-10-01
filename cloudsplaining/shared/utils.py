@@ -31,17 +31,17 @@ def remove_wildcard_only_actions(actions_list):
         if service_prefix not in all_service_prefixes:
             continue  # pragma: no cover
         action_data = get_action_data(service_prefix, action_name)
-
-        if len(action_data[service_prefix]) == 0:
-            pass  # pragma: no cover
-        elif len(action_data[service_prefix]) == 1:
-            if action_data[service_prefix][0]["resource_arn_format"] == "*":
-                pass
+        if action_data:
+            if len(action_data.get(service_prefix)) == 0:
+                pass  # pragma: no cover
+            elif len(action_data.get(service_prefix)) == 1:
+                if action_data[service_prefix][0]["resource_arn_format"] == "*":
+                    pass
+                else:
+                    # Let's return the CamelCase action name format
+                    results.append(action_data[service_prefix][0]["action"])
             else:
-                # Let's return the CamelCase action name format
                 results.append(action_data[service_prefix][0]["action"])
-        else:
-            results.append(action_data[service_prefix][0]["action"])
     return results
 
 
@@ -76,6 +76,22 @@ def get_full_policy_path(arn):
     resource_string = resource_string.split("/")[1:]
     resource_string = "/".join(resource_string)
     return resource_string
+
+
+def get_policy_name(arn):
+    """
+    Case 1:
+        Input: arn:aws:iam::aws:policy/aws-service-role/AmazonGuardDutyServiceRolePolicy
+        Output: AmazonGuardDutyServiceRolePolicy
+    Case 2:
+        Input: arn:aws:iam::123456789012:role/ExampleRole
+        Output: ExampleRole
+    :return:
+    """
+    split_arn = arn.split(":")
+    resource_string = ":".join(split_arn[5:])
+    policy_name = resource_string.split("/")[-1:][0]
+    return policy_name
 
 
 def capitalize_first_character(some_string):
