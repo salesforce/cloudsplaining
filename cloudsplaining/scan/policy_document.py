@@ -6,11 +6,14 @@ aws iam get-account-authorization-details command."""
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from policy_sentry.querying.all import get_all_service_prefixes
 from cloudsplaining.scan.statement_detail import StatementDetail
-from cloudsplaining.shared.constants import PRIVILEGE_ESCALATION_METHODS
-from cloudsplaining.shared.constants import READ_ONLY_DATA_EXFILTRATION_ACTIONS
+from cloudsplaining.shared.constants import (
+    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
+    PRIVILEGE_ESCALATION_METHODS,
+    ACTIONS_THAT_RETURN_CREDENTIALS
+)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
-
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
 RESET = "\033[0;0m"
@@ -166,3 +169,51 @@ class PolicyDocument:
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
+
+    @property
+    def credentials_exposure(self):
+        """Determine if the action returns credentials"""
+        # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
+        results = []
+        for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
+            if action.lower() not in self.exclusions.exclude_actions:
+                results.append(action)
+        return results
+
+    @property
+    def service_wildcard(self):
+        """Determine if the policy gives access to all actions within a service - simple grepping"""
+        services = []
+        for statement in self.statements:
+            logger.debug("Evaluating statement: %s", statement.json)
+            if statement.effect == "Allow":
+                if isinstance(statement.actions, list):
+                    for action in statement.actions:
+                        # If the action is a straight up *
+                        if action == "*":
+                            logger.debug("All actions are allowed by this policy")
+                            services.extend(get_all_service_prefixes())
+                        # Otherwise, it will take the format of service:*
+                        else:
+                            service, this_action = action.split(":")
+                            # service:*
+                            if this_action == "*":
+                                services.append(service)
+                elif isinstance(statement.actions, str):
+                    # If the action is a straight up *
+                    if statement.actions == "*":
+                        logger.debug("All actions are allowed by this policy")
+                        services.append(get_all_service_prefixes())
+                    else:
+                        service, this_action = statement.actions.split(":")
+                        # service:*
+                        if this_action == "*":
+                            services.append(service)
+        if services:
+            # Remove duplicates and sort
+            services = list(dict.fromkeys(services))
+            these_services = services.copy()
+            these_services.sort()
+            return these_services
+        else:
+            return []

@@ -31,10 +31,24 @@ class ManagedPolicyDetails:
             this_policy_name = policy_detail.get("PolicyName")
             this_policy_id = policy_detail.get("PolicyId")
             this_policy_path = policy_detail.get("Path")
-            if is_name_excluded(this_policy_path, "aws-service-role*"):
+            # Always exclude the AWS service role policies
+            if (
+                is_name_excluded(this_policy_path, "aws-service-role*")
+                or is_name_excluded(this_policy_path, "/aws-service-role*")
+            ):
                 logger.debug("The %s Policy with the policy ID %s is excluded because it is "
                              "an immutable AWS Service role with a path of %s",
                              this_policy_name, this_policy_id, this_policy_path)
+                continue
+            # Exclude the managed policies
+            if (
+                exclusions.is_policy_excluded(this_policy_name)
+                or exclusions.is_policy_excluded(this_policy_id)
+                or exclusions.is_policy_excluded(this_policy_path)
+            ):
+                logger.debug("The %s Managed Policy with the policy ID %s and %s path is excluded.",
+                             this_policy_name, this_policy_id, this_policy_path)
+                continue
             self.policy_details.append(ManagedPolicy(policy_detail, exclusions))
 
     def get_policy_detail(self, arn):
@@ -180,6 +194,8 @@ class ManagedPolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
+            ServiceWildcard=self.policy_document.service_wildcard,
+            CredentialsExposure=self.policy_document.credentials_exposure,
             is_excluded=self.is_excluded
         )
         return result
@@ -201,6 +217,8 @@ class ManagedPolicy:
             PrivilegeEscalation=self.policy_document.allows_privilege_escalation,
             DataExfiltration=self.policy_document.allows_data_exfiltration_actions,
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
+            ServiceWildcard=self.policy_document.service_wildcard,
+            CredentialsExposure=self.policy_document.credentials_exposure,
             InfrastructureModification=self.policy_document.infrastructure_modification,
             is_excluded=self.is_excluded,
             # InfrastructureModification=self.policy_document.all_allowed_unrestricted_actions

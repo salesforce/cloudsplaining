@@ -207,6 +207,10 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                     "PrivilegeEscalation": [],
                     "DataExfiltration": [],
                     "ResourceExposure": [],
+                    "ServiceWildcard": [],
+                    "CredentialsExposure": [
+                        "ecr:GetAuthorizationToken"
+                    ],
                     "InfrastructureModification": [
                         "ecr:CompleteLayerUpload",
                         "ecr:PutImage",
@@ -262,6 +266,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                         "s3:GetObject"
                     ],
                     "ResourceExposure": [],
+                    "ServiceWildcard": [],
+                    "CredentialsExposure": [],
                     "InfrastructureModification": [
                         "s3:GetObject",
                         "s3:PutObject"
@@ -278,6 +284,8 @@ class TestAuthorizationFileDetails(unittest.TestCase):
                     "AdministratorAccess",
                     "service-role*",
                     "aws-service-role*",
+                    "/service-role*",
+                    "/aws-service-role*",
                     "MyRole"
                 ],
                 "roles": [

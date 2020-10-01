@@ -1,6 +1,7 @@
 """Processes an entry under GroupDetailList"""
+import json
 from cloudsplaining.scan.inline_policy import InlinePolicy
-from cloudsplaining.shared.utils import is_aws_managed
+from cloudsplaining.shared.utils import is_aws_managed, get_full_policy_path, get_policy_name, get_non_provider_id
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
@@ -103,9 +104,15 @@ class GroupDetail:
         # If the group itself is NOT excluded, add its inline policies
         if not self.is_excluded:
             if group_detail.get("GroupPolicyList"):
-                for policy in group_detail.get("GroupPolicyList"):
-                    inline_policy = InlinePolicy(policy)
-                    if not inline_policy.is_excluded:
+                for policy_detail in group_detail.get("GroupPolicyList"):
+                    policy_name = policy_detail.get("PolicyName")
+                    policy_document = policy_detail.get("PolicyDocument")
+                    policy_id = get_non_provider_id(json.dumps(policy_document))
+                    if not (
+                        exclusions.is_policy_excluded(policy_name)
+                        or exclusions.is_policy_excluded(policy_id)
+                    ):
+                        inline_policy = InlinePolicy(policy_detail)
                         self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
@@ -115,8 +122,13 @@ class GroupDetail:
             if group_detail.get("AttachedManagedPolicies"):
                 for policy in group_detail.get("AttachedManagedPolicies"):
                     arn = policy.get("PolicyArn")
-                    attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                    self.attached_managed_policies.append(attached_managed_policy_details)
+                    if not (
+                        exclusions.is_policy_excluded(arn)
+                        or exclusions.is_policy_excluded(get_full_policy_path(arn))
+                        or exclusions.is_policy_excluded(get_policy_name(arn))
+                    ):
+                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
+                        self.attached_managed_policies.append(attached_managed_policy_details)
 
     def _is_excluded(self, exclusions):
         """Determine whether the principal name or principal ID is excluded"""
