@@ -50,7 +50,7 @@ class TestManagedPolicyDetail(unittest.TestCase):
             "ANPAJWVDLG5RPST6PHQ3A",
             "ANPAJYRXTHIB4FOVS3ZXS"
         ]
-        self.assertListEqual(results.keys(), expected_keys)
+        self.assertListEqual(list(results.keys()), expected_keys)
 
         # expected_policy_details_results_file = os.path.abspath(
         #     os.path.join(

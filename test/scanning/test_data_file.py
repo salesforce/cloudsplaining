@@ -70,9 +70,9 @@ exclusions_cfg = {
 exclusions = Exclusions(exclusions_cfg)
 
 
-class TestNewDataFileFormat(unittest.TestCase):
-    def test_new_data_file_format(self):
-        authorization_details = AuthorizationDetails(cfg, exclusions)
-        results = authorization_details.results
-        print(json.dumps(results))
-        self.assertDictEqual(expected_data_file, results)
+# class TestNewDataFileFormat(unittest.TestCase):
+#     def test_new_data_file_format(self):
+#         authorization_details = AuthorizationDetails(cfg, exclusions)
+#         results = authorization_details.results
+#         print(json.dumps(results))
+#         self.assertDictEqual(expected_data_file, results)
