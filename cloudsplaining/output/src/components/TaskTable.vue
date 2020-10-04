@@ -182,7 +182,7 @@
         },
         methods: {
             info(item, index, button, column_name) {
-                this.infoModal.title = `Column: ${column_name}`
+                this.infoModal.title = `${column_name}`
                 this.infoModal.content = JSON.stringify(item[column_name], null, 2)
                 this.$root.$emit('bv::show::modal', this.infoModal.id, button)
             },

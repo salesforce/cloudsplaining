@@ -3084,8 +3084,6 @@
     "ResourceExposure": [
       "acm-pca:CreatePermission",
       "acm-pca:DeletePermission",
-      "acm-pca:DeletePolicy",
-      "acm-pca:PutPolicy",
       "apigateway:UpdateRestApiPolicy",
       "backup:DeleteBackupVaultAccessPolicy",
       "backup:PutBackupVaultAccessPolicy",
@@ -3226,7 +3224,6 @@
       "s3:PutObjectVersionAcl",
       "secretsmanager:DeleteResourcePolicy",
       "secretsmanager:PutResourcePolicy",
-      "secretsmanager:ValidateResourcePolicy",
       "servicecatalog:CreatePortfolioShare",
       "servicecatalog:DeletePortfolioShare",
       "sns:AddPermission",
