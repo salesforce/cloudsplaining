@@ -10,7 +10,7 @@ export default {
     myStyles() {
       return {
         height: "100%",
-          fontSize: 14
+        fontSize: 16
       }
     }
   },
@@ -62,14 +62,14 @@ export default {
             display: true,
             position: "bottom",
             labels: {
-                fontSize: 14,
-                defaultFontSize: 14,
+                fontSize: 16,
+                defaultFontSize: 16,
             }
         },
         tooltips: {
-          titleFontSize: 14,
-          bodyFontSize: 14,
-          footerFontSize: 14,
+          titleFontSize: 16,
+          bodyFontSize: 16,
+          footerFontSize: 16,
         },
         scales: {
           xAxes: [{

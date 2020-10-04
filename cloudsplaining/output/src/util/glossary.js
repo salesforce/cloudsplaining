@@ -10,8 +10,52 @@ let riskDefinitions = {
     AssumableByComputeService: assumableByComputeServiceDefinition,
 }
 
+let riskAlertIndicatorColors = {
+    PrivilegeEscalation: 'danger',
+    DataExfiltration: 'warning',
+    ResourceExposure: 'danger',
+    AssumableByComputeService: 'info',
+}
+
+let riskDetailsToDisplay = [
+    // {
+    //     risk_type: "PrivilegeEscalation",
+    //     explanation: "Explanation!"
+    // },
+    {
+        risk_type: "DataExfiltration",
+        explanation: "Explanation!"
+    },
+        {
+        risk_type: "ResourceExposure",
+        explanation: "Explanation!"
+    },
+        {
+        risk_type: "InfrastructureModification",
+        explanation: "Explanation!"
+    },
+    // {
+    //     risk_type: "CredentialsExposure",
+    //     explanation: "Explanation!"
+    // },
+    // {
+    //     risk_type: "ServiceStar",
+    //     explanation: "Explanation!"
+    // }
+]
+
 function getRiskDefinition(riskType) {
     return riskDefinitions[riskType]
 }
 
+function getRiskAlertIndicatorColor(riskType) {
+    return riskAlertIndicatorColors[riskType]
+}
+
+function getRiskDetailsToDisplay() {
+    return riskDetailsToDisplay
+}
+
 exports.getRiskDefinition = getRiskDefinition;
+exports.getRiskAlertIndicatorColor = getRiskAlertIndicatorColor;
+exports.getRiskDetailsToDisplay = getRiskDetailsToDisplay;
