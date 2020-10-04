@@ -6,441 +6,307 @@
         <br>
         <br>
         <!--ROLES-->
-        <h3>Roles</h3>
-            <div id="iam.roles">
-                <div v-bind:key="roleId" v-for="roleId in roleIds">
-                    <b-container>
+        <div v-bind:key="principalType" v-for="principalType in ['role', 'group', 'user']">
+        <h3>{{ capitalizeFirstLetter(principalType) }}</h3>
+            <div v-bind:key="principalId" v-for="principalId in principalTypeIds(principalType)">
+                <b-container>
+                    <b-row class="px-2">
+                        <b-col class="col-sm-5">
+                            <h5 v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}`">{{ getPrincipalMetadata(principalId, principalType)['name'] }}
+                                <br>
+                                <small class="text-muted">{{getPrincipalMetadata(principalId, principalType)['arn']}}</small>
+                            </h5>
+                        </b-col>
+                        <b-col class="col-sm-7">
+                            <b-button v-b-toggle="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.risk.collapse`">
+                                Show
+                            </b-button>
+                        </b-col>
+                    </b-row>
+                    <b-collapse
+                        v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.risk.collapse`">
                         <b-row class="px-2">
-                            <b-col>
-                                <h5 v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id']">{{ getPrincipalMetadata(roleId, 'Role')['name'] }}
-                                    <br>
-                                    <small class="text-muted">{{getPrincipalMetadata(roleId, 'Role')['arn']}}</small>
-                                </h5>
+                            <b-col class="col-sm-5">
+                                <h5>Risks</h5>
+                                <RisksPerPrincipal
+                                    :iam_data="iam_data"
+                                    :principal-id="principalId"
+                                    :principal-type="principalType"
+                                ></RisksPerPrincipal>
                             </b-col>
-                            <b-col>
-                                <b-button
-                                        v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                                    Show
-                                </b-button>
+                            <b-col class="col-sm-7">
+                                <h5>Metadata</h5>
+                                <dl class="row">
+                                    <PrincipalMetadata
+                                        :iam_data="iam_data"
+                                        :principal-type="principalId"
+                                        :principal-id="principalType"
+                                    ></PrincipalMetadata>
+                                </dl>
                             </b-col>
                         </b-row>
-                        <b-collapse
-                                v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                            <b-row class="px-2">
-                                <b-col>
-                                    <h5>Risks</h5>
+                    </b-collapse>
+                </b-container>
+            </div>
+        </div>
+<!--            <div id="iam.roles">-->
+<!--                <div v-bind:key="roleId" v-for="roleId in principalTypeIds('role')">-->
+<!--                    <b-container>-->
+<!--                        <b-row class="px-2">-->
+<!--                            <b-col class="col-sm-5">-->
+<!--                                <h5 v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id']">{{ getPrincipalMetadata(roleId, 'Role')['name'] }}-->
+<!--                                    <br>-->
+<!--                                    <small class="text-muted">{{getPrincipalMetadata(roleId, 'Role')['arn']}}</small>-->
+<!--                                </h5>-->
+<!--                            </b-col>-->
+<!--                            <b-col class="col-sm-7">-->
+<!--                                <b-button-->
+<!--                                        v-b-toggle="`iam.roles.${getPrincipalMetadata(roleId, 'Role')['id']}.risk.collapse`">-->
+<!--                                    Show-->
+<!--                                </b-button>-->
+<!--                            </b-col>-->
+<!--                        </b-row>-->
+<!--                        <b-collapse-->
+<!--                                v-bind:id="`iam.roles.${getPrincipalMetadata(roleId, 'Role')['id']}.risk.collapse`">-->
+<!--                            <b-row class="px-2">-->
+<!--                                <b-col class="col-sm-5">-->
+<!--                                    <h5>Risks</h5>-->
+<!--                                    <RisksPerPrincipal-->
+<!--                                        :iam_data="iam_data"-->
+<!--                                        :principal-id="roleId"-->
+<!--                                        :principal-type="'role'"-->
+<!--                                    ></RisksPerPrincipal>-->
+<!--                                </b-col>-->
+<!--                                <b-col class="col-sm-7">-->
+<!--                                    <h5>Metadata</h5>-->
+<!--                                    <dl class="row">-->
+<!--                                        <PrincipalMetadata-->
+<!--                                            :iam_data="iam_data"-->
+<!--                                            :principal-type="'role'"-->
+<!--                                            :principal-id="roleId"-->
+<!--                                        ></PrincipalMetadata>-->
+<!--                                    </dl>-->
+<!--                                </b-col>-->
+<!--                            </b-row>-->
+<!--                            <br>-->
+<!--                        </b-collapse>-->
+<!--                    </b-container>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        <br>-->
+<!--        &lt;!&ndash;GROUPS&ndash;&gt;-->
+<!--        <h3>Groups</h3>-->
+<!--        <div id="iam.groups">-->
+<!--            <div v-bind:key="groupId" v-for="groupId in groupIds">-->
+<!--                    <b-container>-->
+<!--                        <b-row class="px-2">-->
+<!--                            <b-col>-->
+<!--                                <h5 v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id']">{{ getPrincipalMetadata(groupId, 'Group')['name'] }}-->
+<!--                                    <br>-->
+<!--                                    <small class="text-muted">{{getPrincipalMetadata(groupId, 'Group')['arn']}}</small>-->
+<!--                                </h5>-->
+<!--                            </b-col>-->
+<!--                            <b-col>-->
+<!--                                <b-button-->
+<!--                                        v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">-->
+<!--                                    Show-->
+<!--                                </b-button>-->
+<!--                            </b-col>-->
+<!--                        </b-row>-->
+<!--                        <b-collapse-->
+<!--                                v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">-->
+<!--                            <b-row class="px-2">-->
+<!--                                <b-col>-->
+<!--                                    <h5>Risks</h5>-->
 <!--                                    <b-list-group>-->
-<!--                                        <div v-bind:key="roleRiskName" v-for="roleRiskName in riskNames">-->
+<!--                                        <div v-bind:key="groupRiskName" v-for="groupRiskName in riskNames">-->
 <!--                                            <template-->
-<!--                                                    v-show="getRiskAssociatedWithPrincipal(roleId, 'Role', roleRiskName).length > 0">-->
+<!--                                                    v-show="getRiskAssociatedWithPrincipal(groupId, 'Group', groupRiskName).length > 0">-->
 <!--                                                <dd class="col-sm-12">-->
 <!--                                                    <dl class="row">-->
 <!--                                                        <b-list-group-item-->
 <!--                                                                class="d-flex justify-content-between align-items-center"-->
-<!--                                                                v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'"-->
+<!--                                                                v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'"-->
 <!--                                                                :action="true">-->
-<!--                                                            {{ addSpacesInPascalCaseString(roleRiskName) }}-->
+<!--                                                            {{ addSpacesInPascalCaseString(groupRiskName) }}-->
 
-<!--                                                            <b-button v-bind:variant="getRiskLevel(roleRiskName)" size="sm"-->
-<!--                                                                      >-->
-<!--                                                                {{ getRiskAssociatedWithPrincipal(roleId, "Role",-->
-<!--                                                                roleRiskName).length }}-->
+<!--                                                            <b-button v-bind:variant="getRiskLevel(groupRiskName)" size="sm">-->
+<!--                                                                {{ getRiskAssociatedWithPrincipal(groupId, "Group",-->
+<!--                                                                groupRiskName).length }}-->
 <!--                                                            </b-button>-->
 <!--                                                        </b-list-group-item>-->
 <!--                                                    </dl>-->
 <!--                                                </dd>-->
 <!--                                                <b-collapse-->
-<!--                                                        v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'">-->
+<!--                                                        v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'">-->
 <!--                                                    <dd class="col-sm-12">-->
-<!--                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", roleRiskName) }}</code></pre>-->
+<!--                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(groupId, "Group", groupRiskName) }}</code></pre>-->
 <!--                                                    </dd>-->
 <!--                                                </b-collapse>-->
 <!--                                            </template>-->
 <!--                                        </div>-->
 <!--                                    </b-list-group>-->
-                                    <RisksPerPrincipal
-                                        :iam_data="iam_data"
-                                        :principal-id="roleId"
-                                        :principal-type="'role'"
-                                    ></RisksPerPrincipal>
-                                </b-col>
-                                <b-col>
-                                    <h5>Metadata</h5>
-                                    <dl class="row">
-                                        <dt class="col-sm-3">ARN</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleId,
-                                            'Role')['arn']}}
-                                        </dd>
+<!--                                </b-col>-->
+<!--                                <b-col>-->
+<!--                                    <h5>Metadata</h5>-->
+<!--                                    <PrincipalMetadata-->
+<!--                                        :iam_data="iam_data"-->
+<!--                                        :principal-type="'group'"-->
+<!--                                        :principal-id="groupId"-->
+<!--                                    ></PrincipalMetadata>-->
+<!--                                </b-col>-->
+<!--                            </b-row>-->
+<!--                            <br>-->
+<!--                        </b-collapse>-->
+<!--                    </b-container>-->
+<!--                </div>-->
+<!--        </div>&lt;!&ndash;iam.groups&ndash;&gt;-->
+<!--        <br>-->
+<!--        &lt;!&ndash;USERS&ndash;&gt;-->
+<!--        <h3>Users</h3>-->
+<!--        <div id="iam.users">-->
+<!--            <div v-bind:key="userId" v-for="userId in userIds">-->
+<!--                    <b-container>-->
+<!--                        <b-row class="px-2">-->
+<!--                            <b-col>-->
+<!--                                <h5 v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id']">{{ getPrincipalMetadata(userId, 'User')['name'] }}-->
+<!--                                    <br>-->
+<!--                                    <small class="text-muted">{{getPrincipalMetadata(userId, 'User')['arn']}}</small>-->
+<!--                                </h5>-->
+<!--                            </b-col>-->
+<!--                            <b-col>-->
+<!--                                <b-button-->
+<!--                                        v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">-->
+<!--                                    Show-->
+<!--                                </b-button>-->
+<!--                            </b-col>-->
+<!--                        </b-row>-->
+<!--                        <b-collapse-->
+<!--                                v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">-->
+<!--                            <b-row class="px-2">-->
+<!--                                <b-col>-->
+<!--                                    <h5>Risks</h5>-->
+<!--                                    <b-list-group>-->
+<!--                                        <div v-bind:key="userRiskName" v-for="userRiskName in riskNames">-->
+<!--                                            <template-->
+<!--                                                    v-show="getRiskAssociatedWithPrincipal(userId, 'User', userRiskName).length > 0">-->
+<!--                                                <dd class="col-sm-12">-->
+<!--                                                    <dl class="row">-->
+<!--                                                        <b-list-group-item-->
+<!--                                                                class="d-flex justify-content-between align-items-center"-->
+<!--                                                                v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'"-->
+<!--                                                                :action="true">-->
+<!--                                                            {{ addSpacesInPascalCaseString(userRiskName) }}-->
 
-                                        <dt class="col-sm-3">ID</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleId,
-                                            'Role')['id']}}
-                                        </dd>
+<!--                                                            <b-button v-bind:variant="getRiskLevel(userRiskName)" size="sm">-->
+<!--                                                                {{ getRiskAssociatedWithPrincipal(userId, "User",-->
+<!--                                                                userRiskName).length }}-->
+<!--                                                            </b-button>-->
+<!--                                                        </b-list-group-item>-->
+<!--                                                    </dl>-->
+<!--                                                </dd>-->
+<!--                                                <b-collapse-->
+<!--                                                        v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'">-->
+<!--                                                    <dd class="col-sm-12">-->
+<!--                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(userId, "User", userRiskName) }}</code></pre>-->
+<!--                                                    </dd>-->
+<!--                                                </b-collapse>-->
+<!--                                            </template>-->
+<!--                                        </div>-->
+<!--                                    </b-list-group>-->
+<!--                                </b-col>-->
+<!--                                <b-col>-->
+<!--                                    <h5>Metadata</h5>-->
+<!--                                    <dl class="row">-->
+<!--                                        <dt class="col-sm-3">ARN</dt>-->
+<!--                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,-->
+<!--                                            'User')['arn']}}-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">Excluded from scan?</dt>
-                                        <dd class="col-sm-8 text-monospace">{{getPrincipalMetadata(roleId,
-                                            'Role')['is_excluded']}}
-                                        </dd>
+<!--                                        <dt class="col-sm-3">ID</dt>-->
+<!--                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,-->
+<!--                                            'User')['id']}}-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(roleId, 'Role')['create_date']}}
-                                        </dd>
+<!--                                        <dt class="col-sm-3">Excluded from scan?</dt>-->
+<!--                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,-->
+<!--                                            'User')['is_excluded']}}-->
+<!--                                        </dd>-->
 
+<!--                                        <dt class="col-sm-3">Created</dt>-->
+<!--                                        <dd class="col-sm-9">{{getPrincipalMetadata(userId, 'User')['create_date']}}-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">Inline Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(roleId, "Role", "Inline").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(roleId, "Role", "Inline") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
+<!--                                        <dt class="col-sm-3">Inline Policies</dt>-->
+<!--                                        <dd class="col-sm-9">-->
+<!--                                            <b-button size="sm"-->
+<!--                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">-->
+<!--                                                {{ getPrincipalPolicyNames(userId, "User", "Inline").length }}-->
+<!--                                            </b-button>-->
+<!--                                            <b-collapse-->
+<!--                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">-->
+<!--                                                <br>-->
+<!--                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "Inline") }}</code></pre>-->
+<!--                                            </b-collapse>-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">AWS-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(roleId, "Role", "AWS").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(roleId, "Role", "AWS") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
+<!--                                        <dt class="col-sm-3">AWS-Managed Policies</dt>-->
+<!--                                        <dd class="col-sm-9">-->
+<!--                                            <b-button size="sm"-->
+<!--                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">-->
+<!--                                                {{ getPrincipalPolicyNames(userId, "User", "AWS").length }}-->
+<!--                                            </b-button>-->
+<!--                                            <b-collapse-->
+<!--                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">-->
+<!--                                                <br>-->
+<!--                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "AWS") }}</code></pre>-->
+<!--                                            </b-collapse>-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">Customer-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(roleId, "Role", "Customer").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(roleId, "Role", "Customer") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
+<!--                                        <dt class="col-sm-3">Customer-Managed Policies</dt>-->
+<!--                                        <dd class="col-sm-9">-->
+<!--                                            <b-button size="sm"-->
+<!--                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">-->
+<!--                                                {{ getPrincipalPolicyNames(userId, "User", "Customer").length }}-->
+<!--                                            </b-button>-->
+<!--                                            <b-collapse-->
+<!--                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">-->
+<!--                                                <br>-->
+<!--                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "Customer") }}</code></pre>-->
+<!--                                            </b-collapse>-->
+<!--                                        </dd>-->
 
-                                        <dt class="col-sm-3">Role Trust Policy</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">
-                                                Details
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ JSON.parse(JSON.stringify(getRoleTrustPolicy(roleId))) }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-                                        <!--Instance Profiles-->
-                                        <dt class="col-sm-3">Instance Profiles</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'instance-profiles' + '.' + 'collapse'">
-                                                {{ getPrincipalMetadata(roleId, 'Role')['instance_profiles'].length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'instance-profiles' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ JSON.parse(JSON.stringify(getPrincipalMetadata(roleId, 'Role')['instance_profiles'])) }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-                                    </dl>
-                                </b-col>
-                            </b-row>
-                            <br>
-                        </b-collapse>
-                    </b-container>
-                </div>
-            </div>
-        <br>
-        <!--GROUPS-->
-        <h3>Groups</h3>
-        <div id="iam.groups">
-            <div v-bind:key="groupId" v-for="groupId in groupIds">
-                    <b-container>
-                        <b-row class="px-2">
-                            <b-col>
-                                <h5 v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id']">{{ getPrincipalMetadata(groupId, 'Group')['name'] }}
-                                    <br>
-                                    <small class="text-muted">{{getPrincipalMetadata(groupId, 'Group')['arn']}}</small>
-                                </h5>
-                            </b-col>
-                            <b-col>
-                                <b-button
-                                        v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                                    Show
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                        <b-collapse
-                                v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                            <b-row class="px-2">
-                                <b-col>
-                                    <h5>Risks</h5>
-                                    <b-list-group>
-                                        <div v-bind:key="groupRiskName" v-for="groupRiskName in riskNames">
-                                            <template
-                                                    v-show="getRiskAssociatedWithPrincipal(groupId, 'Group', groupRiskName).length > 0">
-                                                <dd class="col-sm-12">
-                                                    <dl class="row">
-                                                        <b-list-group-item
-                                                                class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'"
-                                                                :action="true">
-                                                            {{ addSpacesInPascalCaseString(groupRiskName) }}
-
-                                                            <b-button v-bind:variant="getRiskLevel(groupRiskName)" size="sm">
-                                                                {{ getRiskAssociatedWithPrincipal(groupId, "Group",
-                                                                groupRiskName).length }}
-                                                            </b-button>
-                                                        </b-list-group-item>
-                                                    </dl>
-                                                </dd>
-                                                <b-collapse
-                                                        v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'risk' + '.' + groupRiskName + '.' + 'collapse'">
-                                                    <dd class="col-sm-12">
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(groupId, "Group", groupRiskName) }}</code></pre>
-                                                    </dd>
-                                                </b-collapse>
-                                            </template>
-                                        </div>
-                                    </b-list-group>
-                                </b-col>
-                                <b-col>
-                                    <h5>Metadata</h5>
-                                    <dl class="row">
-                                        <dt class="col-sm-3">ARN</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
-                                            'Group')['arn']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Excluded from scan?</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
-                                            'Group')['is_excluded']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">ID</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(groupId,
-                                            'Group')['id']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(groupId, 'Group')['create_date']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Inline Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(groupId, "Group", "Inline").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(groupId, "Group", "Inline") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">AWS-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(groupId, "Group", "AWS").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(groupId, "Group", "AWS") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">Customer-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(groupId, "Group", "Customer").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(groupId, "Group", "Customer") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">Group Members</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'group-members' + '.' + 'collapse'">
-                                              {{ getGroupMembers(groupId).length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.groups' + '.' + getPrincipalMetadata(groupId, 'Group')['id'] + '.' + 'group-members' + '.' + 'collapse'">
-                                                Group Members:
-                                                <ul v-bind:key="groupMemberEntry" v-for="groupMemberEntry in getGroupMembers(groupId).length">
-                                                  <li>{{ getGroupMembers(groupId)[groupMemberEntry - 1]['user_name'] }} (ID: {{ getGroupMembers(groupId)[groupMemberEntry - 1]['user_id'] }})</li>
-                                                </ul>
-                                            </b-collapse>
-                                        </dd>
-                                    </dl>
-                                </b-col>
-                            </b-row>
-                            <br>
-                        </b-collapse>
-                    </b-container>
-                </div>
-        </div><!--iam.groups-->
-        <br>
-        <!--USERS-->
-        <h3>Users</h3>
-        <div id="iam.users">
-            <div v-bind:key="userId" v-for="userId in userIds">
-                    <b-container>
-                        <b-row class="px-2">
-                            <b-col>
-                                <h5 v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id']">{{ getPrincipalMetadata(userId, 'User')['name'] }}
-                                    <br>
-                                    <small class="text-muted">{{getPrincipalMetadata(userId, 'User')['arn']}}</small>
-                                </h5>
-                            </b-col>
-                            <b-col>
-                                <b-button
-                                        v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                                    Show
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                        <b-collapse
-                                v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + 'collapse'">
-                            <b-row class="px-2">
-                                <b-col>
-                                    <h5>Risks</h5>
-                                    <b-list-group>
-                                        <div v-bind:key="userRiskName" v-for="userRiskName in riskNames">
-                                            <template
-                                                    v-show="getRiskAssociatedWithPrincipal(userId, 'User', userRiskName).length > 0">
-                                                <dd class="col-sm-12">
-                                                    <dl class="row">
-                                                        <b-list-group-item
-                                                                class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'"
-                                                                :action="true">
-                                                            {{ addSpacesInPascalCaseString(userRiskName) }}
-
-                                                            <b-button v-bind:variant="getRiskLevel(userRiskName)" size="sm">
-                                                                {{ getRiskAssociatedWithPrincipal(userId, "User",
-                                                                userRiskName).length }}
-                                                            </b-button>
-                                                        </b-list-group-item>
-                                                    </dl>
-                                                </dd>
-                                                <b-collapse
-                                                        v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'risk' + '.' + userRiskName + '.' + 'collapse'">
-                                                    <dd class="col-sm-12">
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(userId, "User", userRiskName) }}</code></pre>
-                                                    </dd>
-                                                </b-collapse>
-                                            </template>
-                                        </div>
-                                    </b-list-group>
-                                </b-col>
-                                <b-col>
-                                    <h5>Metadata</h5>
-                                    <dl class="row">
-                                        <dt class="col-sm-3">ARN</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
-                                            'User')['arn']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">ID</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
-                                            'User')['id']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Excluded from scan?</dt>
-                                        <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(userId,
-                                            'User')['is_excluded']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Created</dt>
-                                        <dd class="col-sm-9">{{getPrincipalMetadata(userId, 'User')['create_date']}}
-                                        </dd>
-
-                                        <dt class="col-sm-3">Inline Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(userId, "User", "Inline").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "Inline") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">AWS-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(userId, "User", "AWS").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'aws-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "AWS") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">Customer-Managed Policies</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                {{ getPrincipalPolicyNames(userId, "User", "Customer").length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'customer-managed-policies' + '.' + 'collapse'">
-                                                <br>
-                                                <pre><code>{{ getPrincipalPolicyNames(userId, "User", "Customer") }}</code></pre>
-                                            </b-collapse>
-                                        </dd>
-
-                                        <dt class="col-sm-3">Group Memberships</dt>
-                                        <dd class="col-sm-9">
-                                            <b-button size="sm"
-                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'">
-                                                {{ Object.keys(getGroupMemberships(userId)).length }}
-                                            </b-button>
-                                            <b-collapse
-                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'"
-                                                    v-show="Object.keys(getGroupMemberships(userId)).length === 0"
-                                            >
-                                                Group Memberships:
-                                                <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(userId).length">
-                                                  <li>{{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_name'] }} (ID: {{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_id'] }})</li>
-                                                </ul>
-                                            </b-collapse>
-                                        </dd>
-                                    </dl>
-                                </b-col>
-                            </b-row>
-                            <br>
-                        </b-collapse>
-                    </b-container>
-                </div>
-        </div><!--iam.users-->
+<!--                                        <dt class="col-sm-3">Group Memberships</dt>-->
+<!--                                        <dd class="col-sm-9">-->
+<!--                                            <b-button size="sm"-->
+<!--                                                      v-b-toggle="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'">-->
+<!--                                                {{ Object.keys(getGroupMemberships(userId)).length }}-->
+<!--                                            </b-button>-->
+<!--                                            <b-collapse-->
+<!--                                                    v-bind:id="'iam.users' + '.' + getPrincipalMetadata(userId, 'User')['id'] + '.' + 'group-membership' + '.' + 'collapse'"-->
+<!--                                                    v-show="Object.keys(getGroupMemberships(userId)).length === 0"-->
+<!--                                            >-->
+<!--                                                Group Memberships:-->
+<!--                                                <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(userId).length">-->
+<!--                                                  <li>{{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_name'] }} (ID: {{ getGroupMemberships(userId)[groupMembershipEntry - 1]['group_id'] }})</li>-->
+<!--                                                </ul>-->
+<!--                                            </b-collapse>-->
+<!--                                        </dd>-->
+<!--                                    </dl>-->
+<!--                                </b-col>-->
+<!--                            </b-row>-->
+<!--                            <br>-->
+<!--                        </b-collapse>-->
+<!--                    </b-container>-->
+<!--                </div>-->
+<!--        </div>&lt;!&ndash;iam.users&ndash;&gt;-->
     </div>
 
 </template>
 
 <script>
     import RisksPerPrincipal from "./principals/RisksPerPrincipal";
+    import PrincipalMetadata from "./principals/PrincipalMetadata";
     const principalsUtil = require('../util/principals');
     const rolesUtil = require('../util/roles');
     const groupsUtil = require('../util/groups');
@@ -456,7 +322,8 @@
             },
         },
         components: {
-            RisksPerPrincipal
+            RisksPerPrincipal,
+            PrincipalMetadata
         },
         computed: {
             roleIds() {
@@ -473,6 +340,10 @@
             }
         },
         methods: {
+            principalTypeIds: function(principalType) {
+                // principalType should be role, group, or user
+                return principalsUtil.getPrincipalIds(this.iam_data, principalType);
+            },
             getPrincipalMetadata: function (principalName, principalType) {
                 return principalsUtil.getPrincipalMetadata(this.iam_data, principalName, principalType)
             },
@@ -514,6 +385,9 @@
                 if (riskType === "InfrastructureModification") {
                     return "info"
                 }
+            },
+            capitalizeFirstLetter: function(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
             }
         }
     }

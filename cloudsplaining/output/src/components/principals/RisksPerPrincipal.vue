@@ -3,7 +3,7 @@
         <b-list-group>
             <div v-bind:key="riskName" v-for="riskName in riskNames">
                 <template
-                        v-show="getRiskAssociatedWithPrincipal(principalId, principalType, riskName).length > 0">
+                        v-if="getRiskAssociatedWithPrincipal(principalId, principalType, riskName).length > 0">
                     <dd class="col-sm-12">
                         <dl class="row">
                             <b-list-group-item
