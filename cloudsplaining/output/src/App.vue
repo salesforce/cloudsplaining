@@ -85,15 +85,15 @@
 <!--                    <br>-->
 <!--                    <h3>Tasks (demo WIP)</h3>-->
 <!--                    <br>-->
-<!--                    <h3>Customer-Managed Policies</h3>-->
-<!--                    <TaskTable managedBy="Customer" v-bind:items_mapping="getTaskTableMapping('Customer')"/>-->
-<!--                    <br>-->
+<!--&lt;!&ndash;                    <h3>Customer-Managed Policies</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <TaskTable managedBy="Customer" v-bind:items_mapping="getTaskTableMapping('Customer')"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <br>&ndash;&gt;-->
 <!--                    &lt;!&ndash;TODO: Figure out the overlap issue where the two tables results in a double info field in Customer policies&ndash;&gt;-->
 <!--                    <h3>AWS-Managed Policies</h3>-->
 <!--                    <TaskTable managedBy="AWS" v-bind:items_mapping="getTaskTableMapping('AWS')"/>-->
 <!--                    &lt;!&ndash;TODO: Task table for Inline Policies&ndash;&gt;-->
-<!--                    <h3>Inline Policies</h3>-->
-<!--                    <TaskTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>-->
+<!--&lt;!&ndash;                    <h3>Inline Policies</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <TaskTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>&ndash;&gt;-->
 <!--                </b-tab>-->
             </b-tabs>
         </b-container>
@@ -145,7 +145,7 @@
         // eslint-disable-next-line no-unused-vars,no-undef
         report_generated_time = "2020-09-01";
         // eslint-disable-next-line no-unused-vars,no-undef
-        cloudsplaining_version = "0.2.0";
+        cloudsplaining_version = "0.2.2";
     }
     else {
         // eslint-disable-next-line no-undef
