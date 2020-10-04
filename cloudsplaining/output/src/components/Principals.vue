@@ -29,35 +29,40 @@
                             <b-row class="px-2">
                                 <b-col>
                                     <h5>Risks</h5>
-                                    <b-list-group>
-                                        <div v-bind:key="roleRiskName" v-for="roleRiskName in riskNames">
-                                            <template
-                                                    v-show="getRiskAssociatedWithPrincipal(roleId, 'Role', roleRiskName).length > 0">
-                                                <dd class="col-sm-12">
-                                                    <dl class="row">
-                                                        <b-list-group-item
-                                                                class="d-flex justify-content-between align-items-center"
-                                                                v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'"
-                                                                :action="true">
-                                                            {{ addSpacesInPascalCaseString(roleRiskName) }}
+<!--                                    <b-list-group>-->
+<!--                                        <div v-bind:key="roleRiskName" v-for="roleRiskName in riskNames">-->
+<!--                                            <template-->
+<!--                                                    v-show="getRiskAssociatedWithPrincipal(roleId, 'Role', roleRiskName).length > 0">-->
+<!--                                                <dd class="col-sm-12">-->
+<!--                                                    <dl class="row">-->
+<!--                                                        <b-list-group-item-->
+<!--                                                                class="d-flex justify-content-between align-items-center"-->
+<!--                                                                v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'"-->
+<!--                                                                :action="true">-->
+<!--                                                            {{ addSpacesInPascalCaseString(roleRiskName) }}-->
 
-                                                            <b-button v-bind:variant="getRiskLevel(roleRiskName)" size="sm"
-                                                                      >
-                                                                {{ getRiskAssociatedWithPrincipal(roleId, "Role",
-                                                                roleRiskName).length }}
-                                                            </b-button>
-                                                        </b-list-group-item>
-                                                    </dl>
-                                                </dd>
-                                                <b-collapse
-                                                        v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'">
-                                                    <dd class="col-sm-12">
-                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", roleRiskName) }}</code></pre>
-                                                    </dd>
-                                                </b-collapse>
-                                            </template>
-                                        </div>
-                                    </b-list-group>
+<!--                                                            <b-button v-bind:variant="getRiskLevel(roleRiskName)" size="sm"-->
+<!--                                                                      >-->
+<!--                                                                {{ getRiskAssociatedWithPrincipal(roleId, "Role",-->
+<!--                                                                roleRiskName).length }}-->
+<!--                                                            </b-button>-->
+<!--                                                        </b-list-group-item>-->
+<!--                                                    </dl>-->
+<!--                                                </dd>-->
+<!--                                                <b-collapse-->
+<!--                                                        v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleId, 'Role')['id'] + '.' + 'risk' + '.' + roleRiskName + '.' + 'collapse'">-->
+<!--                                                    <dd class="col-sm-12">-->
+<!--                                                        <pre><code>{{ getRiskAssociatedWithPrincipal(roleId, "Role", roleRiskName) }}</code></pre>-->
+<!--                                                    </dd>-->
+<!--                                                </b-collapse>-->
+<!--                                            </template>-->
+<!--                                        </div>-->
+<!--                                    </b-list-group>-->
+                                    <RisksPerPrincipal
+                                        :iam_data="iam_data"
+                                        :principal-id="roleId"
+                                        :principal-type="'role'"
+                                    ></RisksPerPrincipal>
                                 </b-col>
                                 <b-col>
                                     <h5>Metadata</h5>
@@ -435,9 +440,8 @@
 </template>
 
 <script>
+    import RisksPerPrincipal from "./principals/RisksPerPrincipal";
     const principalsUtil = require('../util/principals');
-    // const managedPoliciesUtil = require('../util/managed-policies');
-    // const inlinePoliciesUtil = require('../util/inline-policies');
     const rolesUtil = require('../util/roles');
     const groupsUtil = require('../util/groups');
     const otherUtil = require('../util/other');
@@ -450,6 +454,9 @@
             iam_data: {
                 type: Object
             },
+        },
+        components: {
+            RisksPerPrincipal
         },
         computed: {
             roleIds() {
