@@ -4,27 +4,27 @@ let managedPolicyUtils = require("./managed-policies");
 let otherUtils = require("./other");
 
 function getPrincipalMetadata(iam_data, principalName, principalType) {
-    if (principalType === "Role") {
+    if (principalType.toLowerCase() === "role") {
         return iam_data["roles"][principalName]
     }
-    if (principalType === "Group") {
+    if (principalType.toLowerCase() === "group") {
         return iam_data["groups"][principalName]
     }
-    if (principalType === "User") {
+    if (principalType.toLowerCase() === "user") {
         return iam_data["users"][principalName]
     }
 }
 
 function getPrincipalNames(iam_data, principalType) {
     let result = [];
-    if (principalType === "Role") {
+    if (principalType.toLowerCase() === "role") {
         let principalIds = Object.keys(iam_data["roles"])
         for (let principalId of principalIds) {
             result.push(iam_data["roles"][principalId]["name"])
         }
         return result.sort();
     }
-    if (principalType === "Group") {
+    if (principalType.toLowerCase() === "group") {
         let principalIds = Object.keys(iam_data["groups"]);
         for (let principalId of principalIds) {
             result.push(iam_data["groups"][principalId]["name"])
@@ -32,7 +32,7 @@ function getPrincipalNames(iam_data, principalType) {
         result.sort();
         return result
     }
-    if (principalType === "User") {
+    if (principalType.toLowerCase() === "user") {
         let principalIds = Object.keys(iam_data["users"]);
         for (let principalId of principalIds) {
             result.push(iam_data["users"][principalId]["name"])
@@ -44,16 +44,16 @@ function getPrincipalNames(iam_data, principalType) {
 
 function getPrincipalIds(iam_data, principalType) {
     let result;
-    if (principalType === "Role") {
+    if (principalType.toLowerCase() === "role") {
         result = Object.keys(iam_data["roles"])
         return result.sort();
     }
-    if (principalType === "Group") {
+    if (principalType.toLowerCase() === "group") {
         result = Object.keys(iam_data["groups"]);
         result.sort();
         return result
     }
-    if (principalType === "User") {
+    if (principalType.toLowerCase() === "user") {
         result = Object.keys(iam_data["users"]);
         result.sort();
         return result
@@ -62,16 +62,16 @@ function getPrincipalIds(iam_data, principalType) {
 
 function getPrincipalPolicies(iam_data, principalName, principalType, policyType) {
     let thePrincipalType;
-    if (principalType === "Role") {
+    if (principalType.toLowerCase() === "role") {
         thePrincipalType = "roles";
-    } else if (principalType === "Group") {
+    } else if (principalType.toLowerCase() === "group") {
         thePrincipalType = "groups";
-    } else if (principalType === "User") {
+    } else if (principalType.toLowerCase() === "user") {
         thePrincipalType = "users";
     }
 
     let thePolicyType;
-    if (policyType === "Inline") {
+    if (policyType.toLowerCase() === "inline") {
         thePolicyType = "inline_policies";
     } else if (policyType === "Customer") {
         thePolicyType = "customer_managed_policies";
@@ -88,7 +88,7 @@ function getPrincipalPolicyNames(iam_data, principalName, principalType, policyT
     let policyNames = [];
     let policyIds = getPrincipalPolicies(iam_data, principalName, principalType, policyType);
     let policyId;
-    if (policyType === "Inline") {
+    if (policyType.toLowerCase() === "inline") {
         for (policyId in policyIds) {
             policyNames.push(inlinePolicyUtils.getInlinePolicy(iam_data, policyIds[policyId])["PolicyName"])
         }
