@@ -3,17 +3,17 @@
         <b-list-group>
             <div v-bind:key="riskName" v-for="riskName in riskNames">
                 <template
-                        v-if="getRiskAssociatedWithPrincipal(principalId, principalType, riskName).length > 0">
+                    v-if="getRiskAssociatedWithPrincipal(principalId, principalType, riskName).length > 0">
                     <dd class="col-sm-12">
                         <dl class="row">
                             <b-list-group-item
-                                    class="d-flex justify-content-between align-items-center"
-                                    v-b-toggle="'iam' + '.' + principalType + '.' + getPrincipalMetadata(principalId, principalType)['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'"
-                                    :action="true">
+                                :action="true"
+                                class="d-flex justify-content-between align-items-center"
+                                v-b-toggle="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.risk.${riskName}.collapse`">
                                 {{ addSpacesInPascalCaseString(riskName) }}
 
-                                <b-button v-bind:variant="getRiskLevel(riskName)" size="sm"
-                                          >
+                                <b-button size="sm" v-bind:variant="getRiskLevel(riskName)"
+                                >
                                     {{ getRiskAssociatedWithPrincipal(principalId, principalType,
                                     riskName).length }}
                                 </b-button>
@@ -21,7 +21,7 @@
                         </dl>
                     </dd>
                     <b-collapse
-                            v-bind:id="'iam' + '.' + principalType + '.' + getPrincipalMetadata(principalId, principalType)['id'] + '.' + 'risk' + '.' + riskName + '.' + 'collapse'">
+                        v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.risk.${riskName}.collapse`">
                         <dd class="col-sm-12">
                             <pre><code>{{ getRiskAssociatedWithPrincipal(principalId, principalType, riskName) }}</code></pre>
                         </dd>
