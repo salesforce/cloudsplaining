@@ -1,39 +1,18 @@
 <template>
     <div v-bind:id="inlineOrManaged.toLowerCase() + '-policy'  + '-' + policyId + '-' + 'card-details'">
         <div class="card">
-            <!--Policy Document-->
-            <div class="card-header">
-                <a class="card-link" data-toggle="collapse"
-                   v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-                   v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'"
-                >Policy Document</a>
-            </div>
-            <div class="panel-collapse collapse"
-                 v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
-                <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
-</code></pre>
-                </div>
-            </div><!--Policy Document-->
 
-            <!--Assumable by Compute Service-->
-            <template v-if="policyAssumableByComputeService(policyId).length > 0">
-                <div class="card-header">
-                    <a class="card-link" data-toggle="collapse"
-                       v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-                       v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'"
-                    >Compute Services that leverage this IAM Policy via AssumeRole</a>
-                </div>
-                <div class="panel-collapse collapse"
-                     v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'">
-                    <div class="card-body">
-<pre><code>
-{{ JSON.parse(JSON.stringify(policyAssumableByComputeService(policyId), undefined, '\t')) }}
-</code></pre>
-                    </div>
-                </div>
-            </template><!--Assumable by Compute Service-->
+            <PolicyDocumentDetails
+                :policy-id="policyId"
+                :iam_data="iam_data"
+                :managed-by="managedBy"
+            ></PolicyDocumentDetails>
+
+            <AssumeRoleDetails
+                :policy-id="policyId"
+                :iam_data="iam_data"
+                :managed-by="managedBy"
+            ></AssumeRoleDetails>
 
             <PrivilegeEscalationDetails
                 :policy-id="policyId"
@@ -57,12 +36,16 @@
     const inlinePoliciesUtil = require('../../util/inline-policies');
     import PrivilegeEscalationDetails from "./PrivilegeEscalationDetails";
     import StandardRiskDetails from "./StandardRiskDetails";
+    import AssumeRoleDetails from "./AssumeRoleDetails";
+    import PolicyDocumentDetails from "./PolicyDocumentDetails";
 
     export default {
         name: "FindingDetails",
         components: {
+            PolicyDocumentDetails,
+            AssumeRoleDetails,
+            StandardRiskDetails,
             PrivilegeEscalationDetails,
-            StandardRiskDetails
         },
         props: {
             // Either "Inline", "AWS", or "Customer"
