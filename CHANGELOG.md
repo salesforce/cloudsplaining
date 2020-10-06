@@ -10,15 +10,15 @@
   * Inline Explanation of findings (`#115`)
   * Better formatting for Privilege Escalation findings (`#114`)
   * Exclusions config is in its own tab in the UI (`#107`)
-* Backend
-  * Vue components are cleaned up - less HTML, more config and JS
-  * Unit tests are down from 3.25 minutes to 60 seconds (Fixes #117)
 
-## 0.2.2 (2020-10-01)
+## 0.2.2 (2020-10-06)
 * Excluded actions no longer show up in results (Fixes #106)
 * Fixed issue where `*:*` policy would break results due to how the Service Wildcard finding was implemented (Fixes #109)
 * Credentials Exposure and Service Wildcard now show up in the data file results
 * Exclusions are now applied earlier in the scan
+* Backend
+  * Vue components are cleaned up - less HTML, more config and JS
+  * Unit tests are down from 3.25 minutes to 60 seconds (Fixes #117)
 
 ## 0.2.1 (9/25/2020)
 * Fixes issue where Inline Policies were showing up as findings even when they were attached to excluded IAM principals. Fixes #104
