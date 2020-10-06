@@ -20,7 +20,7 @@ class TestManagedPolicyDetail(unittest.TestCase):
     def test_managed_policies(self):
         policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
         results = policy_details.json
-        print(json.dumps(results))
+        # print(json.dumps(results))
         # Just going to check what the keys look like. If we try to match all the contents,
         # we'll have to change the test results every time Policy Sentry updates its IAM database
         expected_keys = [
@@ -36,7 +36,7 @@ class TestManagedPolicyDetail(unittest.TestCase):
             "ANPAIFIR6V6BVTRAHWINE",
             "ANPAIICZJNOJN36GTG6CM",
             "ANPAIKEABORKUXN6DEAZU",
-            "ANPAILL3HVNFSB6DCOWYQ",
+            # "ANPAILL3HVNFSB6DCOWYQ", # ReadOnlyAccess slows the scan down a lot
             "ANPAINAW5ANUWTH3R4ANI",
             "ANPAIONKN3TJZUKXCHXWC",
             "ANPAIQNUJTQYDRJPC3BNK",
@@ -51,17 +51,3 @@ class TestManagedPolicyDetail(unittest.TestCase):
             "ANPAJYRXTHIB4FOVS3ZXS"
         ]
         self.assertListEqual(list(results.keys()), expected_keys)
-
-        # expected_policy_details_results_file = os.path.abspath(
-        #     os.path.join(
-        #         os.path.dirname(__file__),
-        #         os.path.pardir,
-        #         "files",
-        #         "scanning",
-        #         "test_managed_policy_details.json",
-        #     )
-        # )
-        # with open(expected_policy_details_results_file) as f:
-        #     contents = f.read()
-        #     expected_results = json.loads(contents)
-        # self.assertDictEqual(results, expected_results)

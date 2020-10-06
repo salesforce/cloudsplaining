@@ -3,6 +3,17 @@
 ## Unreleased
 * Docker
 
+## 0.2.3 (Unreleased)
+* UI
+  * Credentials Exposure as a new finding (`#99`)
+  * Service Wildcard as a new finding (`#82`)
+  * Inline Explanation of findings (`#115`)
+  * Better formatting for Privilege Escalation findings (`#114`)
+  * Exclusions config is in its own tab in the UI (`#107`)
+* Backend
+  * Vue components are cleaned up - less HTML, more config and JS
+  * Unit tests are down from 3.25 minutes to 60 seconds (Fixes #117)
+
 ## 0.2.2 (2020-10-01)
 * Excluded actions no longer show up in results (Fixes #106)
 * Fixed issue where `*:*` policy would break results due to how the Service Wildcard finding was implemented (Fixes #109)

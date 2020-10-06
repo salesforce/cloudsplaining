@@ -130,7 +130,7 @@ def scan(c):
     """Integration testing: tests the scan command"""
     try:
         c.run(
-            "./cloudsplaining/bin/cli.py scan --input-file examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report",
+            "./cloudsplaining/bin/cli.py scan --input-file examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report -v debug",
             pty=True,
         )
     except UnexpectedExit as u_e:
