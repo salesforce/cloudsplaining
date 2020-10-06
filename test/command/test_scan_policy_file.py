@@ -109,7 +109,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "s3:GetObject"
             ]
         }
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertDictEqual(results, expected_results)
 
@@ -157,7 +157,7 @@ class PolicyFileTestCase(unittest.TestCase):
         }
         exclusions_cfg_custom = {}
         results = scan_policy(test_policy, exclusions_cfg_custom)
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.maxDiff = None
         self.assertDictEqual(results, expected_results)
 
