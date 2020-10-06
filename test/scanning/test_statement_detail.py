@@ -107,6 +107,16 @@ class TestStatementDetail(unittest.TestCase):
         self.assertListEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions_with_override(self):
+        import logging
+        import sys
+        logger = logging.getLogger(__name__)
+        root = logging.getLogger()
+        root.setLevel(logging.DEBUG)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        root.addHandler(handler)
         this_statement = {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
