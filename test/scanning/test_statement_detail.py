@@ -79,15 +79,14 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints()
         # print(result)
-        self.assertListEqual(result, ['secretsmanager:PutSecretValue'])
+        self.assertListEqual(result, ['secretsmanager:CreateSecret', 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions(self):
         this_statement = {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                # 3 wildcard only actions
-                "secretsmanager:createsecret",
+                # wildcard only actions
                 "secretsmanager:getrandompassword",
                 "secretsmanager:listsecrets",
                 # This one is wildcard OR "secret"
@@ -121,8 +120,7 @@ class TestStatementDetail(unittest.TestCase):
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                # 3 wildcard only actions
-                "secretsmanager:createsecret",
+                # wildcard only actions
                 "secretsmanager:getrandompassword",
                 "secretsmanager:listsecrets",
                 # This one is wildcard OR "secret"
