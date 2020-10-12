@@ -34,8 +34,8 @@
                     :current-page="currentPage"
                     :per-page="perPage"
                     responsive="sm"
-                    sticky-header=true
-                    no-border-collapse="true"
+                    :sticky-header=true
+                    :no-border-collapse=true
                     small
             >
                 <template v-slot:cell(policy_name)="data">

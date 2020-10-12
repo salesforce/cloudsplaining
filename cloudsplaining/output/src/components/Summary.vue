@@ -62,6 +62,11 @@
               <b-td>med</b-td>
             </b-tr>
             <b-tr>
+              <b-th>Credentials Exposure</b-th>
+              <b-td>{{ policyRisks.CredentialsExposure }}</b-td>
+              <b-td>med</b-td>
+            </b-tr>
+            <b-tr>
               <b-th>Infrastructure Modification</b-th>
               <b-td>{{ policyRisks.InfrastructureModification }}</b-td>
               <b-td>low</b-td>
@@ -125,10 +130,25 @@ export default {
       }
 
       return {
-        "PrivilegeEscalation": this.inlinePolicyRisks.PrivilegeEscalation + this.awsManagedPolicyRisks.PrivilegeEscalation + this.customerManagedPolicyRisks.PrivilegeEscalation,
-        "DataExfiltration": this.inlinePolicyRisks.DataExfiltration + this.awsManagedPolicyRisks.DataExfiltration + this.customerManagedPolicyRisks.DataExfiltration,
-        "ResourceExposure": this.inlinePolicyRisks.ResourceExposure + this.awsManagedPolicyRisks.ResourceExposure + this.customerManagedPolicyRisks.ResourceExposure,
-        "InfrastructureModification": this.inlinePolicyRisks.InfrastructureModification + this.awsManagedPolicyRisks.InfrastructureModification + this.customerManagedPolicyRisks.InfrastructureModification
+        "PrivilegeEscalation":
+            this.inlinePolicyRisks.PrivilegeEscalation
+            + this.awsManagedPolicyRisks.PrivilegeEscalation
+            + this.customerManagedPolicyRisks.PrivilegeEscalation,
+        "DataExfiltration": this.inlinePolicyRisks.DataExfiltration
+            + this.awsManagedPolicyRisks.DataExfiltration
+            + this.customerManagedPolicyRisks.DataExfiltration,
+        "ResourceExposure":
+            this.inlinePolicyRisks.ResourceExposure
+            + this.awsManagedPolicyRisks.ResourceExposure
+            + this.customerManagedPolicyRisks.ResourceExposure,
+        "CredentialsExposure":
+            this.inlinePolicyRisks.CredentialsExposure
+            + this.awsManagedPolicyRisks.CredentialsExposure
+            + this.customerManagedPolicyRisks.CredentialsExposure,
+        "InfrastructureModification":
+            this.inlinePolicyRisks.InfrastructureModification
+            + this.awsManagedPolicyRisks.InfrastructureModification
+            + this.customerManagedPolicyRisks.InfrastructureModification
       }
     },
 
