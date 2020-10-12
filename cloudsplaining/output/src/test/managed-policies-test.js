@@ -41,7 +41,32 @@ it("managedPolicies.getManagedPolicyFindings: should return Managed policy findi
 
 it("managedPolicies.getManagedPolicyIds: should print out all managed Policy IDs", function () {
     var result = managedPolicies.getManagedPolicyIds(iam_data, "AWS")
-    var expectedResult = ["ANPAI4UIINUVGB5SEC57G","ANPAI3R4QMOG6Q5A4VWVG","ANPAI3VAJF5ZCRZ7MCQE6","ANPAI4VCZ3XPIZLQ5NZV2","ANPAI65L554VRJ33ECQS6","ANPAI6E2CYYMI4XI7AA5K","ANPAI7XKCFMBPM3QQRRVQ","ANPAIFIR6V6BVTRAHWINE","ANPAIICZJNOJN36GTG6CM","ANPAIKEABORKUXN6DEAZU","ANPAILL3HVNFSB6DCOWYQ","ANPAIMHWGGSRHLOQUICJQ","ANPAINAW5ANUWTH3R4ANI","ANPAIONKN3TJZUKXCHXWC","ANPAIQH6ROMVVECFVRJPK","ANPAIQNUJTQYDRJPC3BNK","ANPAIQRXRDRGJUA33ELIO","ANPAIWMBCKSKIEE64ZLYK","ANPAIX2T3QCXHR2OGGCTO","ANPAIZTJ4DXE7G6AGAE6M","ANPAJ2P4NXCHAT7NDPNR4","ANPAJ7W6266ELXF5MISDS","ANPAJBWPGNOVKZD3JI2P2","ANPAJH4QJ2WMHBOB47BUE","ANPAJKSO7NDY4T57MWDSQ","ANPAJLIB4VSBVO47ZSBB6","ANPAJNPP7PPPPMJRV2SA4","ANPAJS2PBJSYV2EZW3MIQ","ANPAJWVDLG5RPST6PHQ3A","ANPAJYRXTHIB4FOVS3ZXS","ANPAZKAPJZG4OV6AFDA5J"]
+    var expectedResult = [
+      "ANPAI4UIINUVGB5SEC57G",
+      "ANPAI3R4QMOG6Q5A4VWVG",
+      "ANPAI3VAJF5ZCRZ7MCQE6",
+      "ANPAI4VCZ3XPIZLQ5NZV2",
+      "ANPAI65L554VRJ33ECQS6",
+      "ANPAI6E2CYYMI4XI7AA5K",
+      "ANPAI7XKCFMBPM3QQRRVQ",
+      "ANPAIFIR6V6BVTRAHWINE",
+      "ANPAIICZJNOJN36GTG6CM",
+      "ANPAIKEABORKUXN6DEAZU",
+      "ANPAINAW5ANUWTH3R4ANI",
+      "ANPAIONKN3TJZUKXCHXWC",
+      "ANPAIQNUJTQYDRJPC3BNK",
+      "ANPAIQRXRDRGJUA33ELIO",
+      "ANPAIX2T3QCXHR2OGGCTO",
+      "ANPAIZTJ4DXE7G6AGAE6M",
+      "ANPAJ2P4NXCHAT7NDPNR4",
+      "ANPAJBWPGNOVKZD3JI2P2",
+      "ANPAJKSO7NDY4T57MWDSQ",
+      "ANPAJLIB4VSBVO47ZSBB6",
+      "ANPAJNPP7PPPPMJRV2SA4",
+      "ANPAJWVDLG5RPST6PHQ3A",
+      "ANPAJYRXTHIB4FOVS3ZXS"
+    ]
+    // console.log(result.length)
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
     console.log(`Managed Policy IDs: ${JSON.stringify(result)}`);
@@ -113,16 +138,18 @@ it("managedPolicies.getManagedPolicyItems: should give us the object to feed int
     var result = managedPolicies.getManagedPolicyItems(iam_data, "AWS", managedPolicyIds)
     chai.assert(result != null);
     console.log(`Result: ${JSON.stringify(result.length)}`);
-    console.log(`Result: ${JSON.stringify(result)}`);
-    chai.assert(result.length > 30, "The results dictionary is not as large as expected")
+    let resultPolicyNameArray = result.map(function (el) { return el.policy_name; });
+    console.log(`Policy names in result: ${JSON.stringify(resultPolicyNameArray)}`)
+    chai.assert(result.length > 22, "The results dictionary is not as large as expected")
 });
 
 it("managedPolicies.getManagedPolicyItems: should give us the object to feed into the table for customers", function() {
     let managedPolicyIds = managedPolicies.getManagedPolicyIds(iam_data, "Customer")
-    var result = managedPolicies.getManagedPolicyItems(iam_data, "Customer", managedPolicyIds)
+    let result = managedPolicies.getManagedPolicyItems(iam_data, "Customer", managedPolicyIds)
     chai.assert(result != null);
     console.log(`Result: ${JSON.stringify(result.length)}`);
-    console.log(`Result: ${JSON.stringify(result)}`);
+    let resultPolicyNameArray = result.map(function (el) { return el.policy_name; });
+    console.log(`Policy names in result: ${JSON.stringify(resultPolicyNameArray)}`)
     chai.assert(result.length > 1, "The results dictionary is not as large as expected")
 });
 

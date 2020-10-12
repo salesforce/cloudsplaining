@@ -10,6 +10,8 @@
   * Inline Explanation of findings (`#115`)
   * Better formatting for Privilege Escalation findings (`#114`)
   * Exclusions config is in its own tab in the UI (`#107`)
+* Backend
+  * Updated tests to include updated sample data
 
 ## 0.2.2 (2020-10-06)
 * Excluded actions no longer show up in results (Fixes #106)
