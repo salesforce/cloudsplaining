@@ -36,10 +36,12 @@ def generate_example_report():
     # rendered_report = scan_account_authorization_details(
     #     results_file, DEFAULT_EXCLUSIONS, account_name="example", output_directory=os.getcwd()
     # )
+    minimize = False
     html_report = HTMLReport(
         account_id=account_id,
         account_name=account_name,
         results=results,
+        minimize=minimize
     )
     rendered_report = html_report.get_html_report()
 
