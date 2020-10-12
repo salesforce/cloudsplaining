@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--Alert for Risk Type: Privilege Escalation Exposure-->
+        <!--Alert boxes for different risks-->
         <div v-for="riskType in highRisksToDisplayAlertsFor" :key="riskType">
             <template v-if="findings(policyId, riskType).length > 0">
                 <div v-bind:class="'alert alert-' + getRiskAlertIndicatorColor(riskType) + ' popovers'" data-html="true" data-placement="top"
