@@ -35,6 +35,7 @@
 <script>
     const principalsUtil = require('../../util/principals');
     const otherUtil = require('../../util/other');
+    const glossary = require('../../util/glossary');
 
     export default {
         name: "RisksPerPrincipal",
@@ -51,7 +52,13 @@
         },
         computed: {
             riskNames() {
-                return ["DataExfiltration", "ResourceExposure", "PrivilegeEscalation", "InfrastructureModification"]
+                let riskDetails = glossary.getRiskDetailsToDisplay();
+                let riskNameArray = riskDetails.map(function (risk) { return risk.risk_type; });
+                // console.log(`Risk names: ${riskNameArray}`);
+                riskNameArray.push("PrivilegeEscalation");
+                riskNameArray.sort();
+                return riskNameArray;
+                // return ["DataExfiltration", "ResourceExposure", "PrivilegeEscalation", "InfrastructureModification"]
             },
         },
         methods: {
@@ -62,18 +69,19 @@
                 return principalsUtil.getRiskAssociatedWithPrincipal(this.iam_data, principalName, principalType, riskType)
             },
             getRiskLevel: function (riskType) {
-                if (riskType === "DataExfiltration") {
-                    return "warning"
-                }
-                if (riskType === "PrivilegeEscalation") {
-                    return "danger"
-                }
-                if (riskType === "ResourceExposure") {
-                    return "warning"
-                }
-                if (riskType === "InfrastructureModification") {
-                    return "info"
-                }
+                return glossary.getRiskAlertIndicatorColor(riskType)
+                // if (riskType === "DataExfiltration") {
+                //     return "warning"
+                // }
+                // if (riskType === "PrivilegeEscalation") {
+                //     return "danger"
+                // }
+                // if (riskType === "ResourceExposure") {
+                //     return "warning"
+                // }
+                // if (riskType === "InfrastructureModification") {
+                //     return "info"
+                // }
             },
             addSpacesInPascalCaseString: function (s) {
                 return otherUtil.addSpacesInPascalCaseString(s)
