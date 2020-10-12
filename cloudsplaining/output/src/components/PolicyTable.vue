@@ -26,7 +26,6 @@
                 </b-col>
 
             </b-row>
-
             <b-table
                     :items="policyNameMapping"
                     :fields="fields"
@@ -35,16 +34,20 @@
                     :current-page="currentPage"
                     :per-page="perPage"
                     responsive="sm"
+                    :sticky-header=true
+                    :no-border-collapse=true
                     small
             >
-              <template v-slot:cell(attached_to_principals)="data">
-                {{ data.item.attached_to_principals.length }}
-                <!--{{ data.item.attached_to_principals.join(", ") }}-->
-              </template>
+                <template v-slot:cell(policy_name)="data">
+                    {{ data.item.policy_name }}
+                </template>
+                <template v-slot:cell(attached_to_principals)="data">
+                    {{ data.item.attached_to_principals.length }}
+                </template>
 
-              <template v-slot:cell(compute_role)="data">
-                {{ data.item.compute_role.join(", ") }}
-              </template>
+                <template v-slot:cell(compute_role)="data">
+                    {{ data.item.compute_role.join(", ") }}
+                </template>
             </b-table>
         </b-container>
         <br>
@@ -70,9 +73,11 @@
                     {key: 'attached_to_principals', sortable: true},
                     {key: 'services', sortable: true},
                     {key: 'infrastructure_modification', sortable: true},
+                    {key: 'service_wildcard', sortable: true},
                     {key: 'privilege_escalation', sortable: true},
                     {key: 'resource_exposure', sortable: true},
                     {key: 'data_exfiltration', sortable: true},
+                    {key: 'credentials_exposure', sortable: true},
                     {key: 'compute_role', sortable: true},
                 ],
                 totalRows: 1,

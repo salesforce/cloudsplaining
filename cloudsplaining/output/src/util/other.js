@@ -1,7 +1,7 @@
 'use strict';
 
 const policyViolations = (policies) => {
-    let [privEsc, dataExfil, resExposure, infraMod] = Array(4).fill(0);
+    let [privEsc, dataExfil, resExposure, infraMod, credExposure] = Array(5).fill(0);
 
     Object.keys(policies).forEach((policyId) => {
         if (policies[policyId]["PrivilegeEscalation"].length > 0){
@@ -16,13 +16,17 @@ const policyViolations = (policies) => {
         if (policies[policyId]["InfrastructureModification"].length > 0){
             infraMod += 1
         }
+        if (policies[policyId]["CredentialsExposure"].length > 0){
+            credExposure += 1
+        }
     })
 
     return {
         "PrivilegeEscalation": privEsc,
         "DataExfiltration": dataExfil,
         "ResourceExposure": resExposure,
-        "InfrastructureModification": infraMod
+        "CredentialsExposure": credExposure,
+        "InfrastructureModification": infraMod,
     }
 }
 

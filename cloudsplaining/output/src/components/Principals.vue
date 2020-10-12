@@ -5,7 +5,6 @@
         This page displays IAM Users, Groups, and Roles in the account, their associated policies, the risks associated with each principal, and various metadata that can be expanded per principal.
         <br>
         <br>
-        <!--ROLES-->
         <div v-bind:key="principalType" v-for="principalType in principalTypes">
         <h3>{{ capitalizeFirstLetter(principalType) }}</h3>
             <div v-bind:key="principalId" v-for="principalId in principalTypeIds(principalType)">
