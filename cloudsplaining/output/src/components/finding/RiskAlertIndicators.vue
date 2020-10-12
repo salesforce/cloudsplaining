@@ -31,9 +31,11 @@
     const managedPoliciesUtil = require('../../util/managed-policies');
 
     var highRisksToDisplayAlertsFor = [
-        "PrivilegeEscalation",
+        "CredentialsExposure",
         "DataExfiltration",
-        "ResourceExposure"
+        "ResourceExposure",
+        "ServiceWildcard",
+        "PrivilegeEscalation",
     ]
 
     export default {
