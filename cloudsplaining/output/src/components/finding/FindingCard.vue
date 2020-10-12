@@ -6,13 +6,13 @@
             <br>
             <span v-show="inlineOrManaged === 'Managed'">
                 PolicyId: {{ policyId }}
+            <br>
+            <br>
             </span>
             <span v-show="inlineOrManaged === 'Inline'">
                 Policy Document SHA-256:
                 <ul><li><span><small>{{ policyId }}</small></span></li></ul>
             </span>
-            <br>
-            <br>
             Attached to Principals:
             <ul>
                 <li v-if="principalLeveragingPolicy(policyId, 'Role').length > 0">
