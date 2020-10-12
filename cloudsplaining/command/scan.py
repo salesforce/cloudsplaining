@@ -91,7 +91,8 @@ def scan(
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
         rendered_html_report = scan_account_authorization_details(
-            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
+            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
+            minimize=minimize
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -123,7 +124,8 @@ def scan(
             account_name = Path(file).stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
-                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
+                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
+                minimize=minimize
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
             logger.info("Saving the report to %s", html_output_file)
