@@ -19,8 +19,8 @@ class HTMLReport:
 
     @property
     def app_bundle(self):
+        """The Cloudsplaining Javascript application code should be loaded either from the CDN or locally, depending on if the user specified the --minimize option"""
         if self.minimize:
-            "https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@0.2.2/cloudsplaining/output/dist/js/index.js"
             js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/index.js"
             bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
             return bundle
@@ -32,6 +32,8 @@ class HTMLReport:
 
     @property
     def vendor_bundle(self):
+        """The Javascript vendor bundle should be loaded either from the CDN or locally, depending on if the user specified the --minimize option"""
+
         if self.minimize:
             js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/chunk-vendors.js"
             bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
