@@ -21,8 +21,7 @@ it("principals.getPrincipalMetadata: should return principal object", function (
         "is_excluded": false,
         "name": "admin",
         "aws_managed_policies": {
-            "ANPAIWMBCKSKIEE64ZLYK": "AdministratorAccess",
-            "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess"
+            "ANPAI6E2CYYMI4XI7AA5K": "AWSLambdaFullAccess",
         }
     }
     chai.assert.deepStrictEqual(result, expectedResult);
