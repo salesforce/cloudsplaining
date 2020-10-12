@@ -257,14 +257,18 @@ function getManagedPolicyItems(iam_data, managedBy, managedPolicyIds) {
         let privilegeEscalation = getManagedPolicyFindings(iam_data, managedBy, policyId, "PrivilegeEscalation").length;
         let resourceExposure = getManagedPolicyFindings(iam_data, managedBy, policyId, "ResourceExposure").length;
         let dataExfiltration = getManagedPolicyFindings(iam_data, managedBy, policyId, "DataExfiltration").length;
+        let credentialsExposure = getManagedPolicyFindings(iam_data, managedBy, policyId, "CredentialsExposure").length;
+        let serviceWildcard = getManagedPolicyFindings(iam_data, managedBy, policyId, "ServiceWildcard").length;
         let computeRole = managedPolicyAssumableByComputeService(iam_data, managedBy, policyId);
         let item = {
             policy_name: policyName,
             attached_to_principals: attachedToPrincipals,
             services: services,
+            service_wildcard: serviceWildcard,
             privilege_escalation: privilegeEscalation,
             resource_exposure: resourceExposure,
             data_exfiltration: dataExfiltration,
+            credentials_exposure: credentialsExposure,
             infrastructure_modification: infrastructureModification,
             compute_role: computeRole
         }

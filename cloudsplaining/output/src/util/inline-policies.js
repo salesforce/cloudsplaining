@@ -179,14 +179,18 @@ function getInlinePolicyItems(iam_data, inlinePolicyIds) {
         let privilegeEscalation = getInlinePolicyFindings(iam_data, policyId, "PrivilegeEscalation").length;
         let resourceExposure = getInlinePolicyFindings(iam_data, policyId, "ResourceExposure").length;
         let dataExfiltration = getInlinePolicyFindings(iam_data, policyId, "DataExfiltration").length;
+        let credentialsExposure = getInlinePolicyFindings(iam_data, policyId, "CredentialsExposure").length;
+        let serviceWildcard = getInlinePolicyFindings(iam_data, policyId, "ServiceWildcard").length;
         let computeRole = inlinePolicyAssumableByComputeService(iam_data, policyId);
         let item = {
             policy_name: policyName,
             attached_to_principals: attachedToPrincipals,
             services: services,
+            service_wildcard: serviceWildcard,
             privilege_escalation: privilegeEscalation,
             resource_exposure: resourceExposure,
             data_exfiltration: dataExfiltration,
+            credentials_exposure: credentialsExposure,
             infrastructure_modification: infrastructureModification,
             compute_role: computeRole,
         }
