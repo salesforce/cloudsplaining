@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/ad/9b/404846987ee5049bd10f3171bbed773695adef1d3a45328767f611a119ee/cloudsplaining-0.2.2.tar.gz"
-  sha256 "4446db91d937b2daea64d3414c0270d2b686dcc2f54d84457f2587fcf695dfda"
+  url "https://files.pythonhosted.org/packages/ed/0d/d447cdff88db5fa06af4f8454ec14006b1ea13b99b48314aa6b111f9cba0/cloudsplaining-0.2.3.tar.gz"
+  sha256 "ff8f9f263e23bf3fdd8f2b927be2230c794aec2616c8c3bccbc9d86d83233705"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/e7/4f/9078e9914f3a6d07cff4d0aed269e33c45d5830042737eb03d9f14520e1d/boto3-1.15.13.tar.gz"
-    sha256 "329178bd505b5d1dbb5eab25e9697c0e592c45548c895f451a91772d0e5a9329"
+    url "https://files.pythonhosted.org/packages/d0/23/69cc4d4f0534bcce81d9fc84785ead4d9de4b6061219df19f2d157c205de/boto3-1.15.16.tar.gz"
+    sha256 "454a8dfb7b367a058c7967ef6b4e2a192c318f10761769fd1003cf7f2f5a7db9"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/7b/1c/2a1a7d9aa13af2780f17bc5423c047ba594821870a2908fa308fadd3deed/botocore-1.18.13.tar.gz"
-    sha256 "570609095c992732cf6158c3dd0a38619c77818fa700d6779b27277b34f98959"
+    url "https://files.pythonhosted.org/packages/b1/04/657b179b56e12dfe759979e9736d70dcd5c449e4345c629fd2bede0a3235/botocore-1.18.16.tar.gz"
+    sha256 "f0616d2c719691b94470307cee8adf89ceb1657b7b6f9aa1bf61f9de5543dbbb"
   end
 
   resource "certifi" do
@@ -69,8 +69,8 @@ class Cloudsplaining < Formula
   end
 
   resource "Markdown" do
-    url "https://files.pythonhosted.org/packages/92/57/9fd44cf022281ac9af66ac86d309351320ada5ec177c7e59e8e7861e90c3/Markdown-3.3.tar.gz"
-    sha256 "4f4172a4e989b97f96860fa434b89895069c576e2b537c4b4eed265266a7affc"
+    url "https://files.pythonhosted.org/packages/cf/76/688d96f8e1d5e2be2ccf66bb4b2e84e0f38b4748c13d5ff756ee0ae352fd/Markdown-3.3.1.tar.gz"
+    sha256 "c3ce9ebb035c078cac0f2036068d054e7dc34354eeecc49c173c33c96b124af6"
   end
 
   resource "MarkupSafe" do
