@@ -5,7 +5,17 @@ import { Bar } from 'vue-chartjs'
 export default {
   name: "SummaryFindings",
   extends: Bar,
-  props: ["inlinePolicyRisks", "awsManagedPolicyRisks", "customerManagedPolicyRisks"],
+  props: {
+      inlinePolicyRisks: {
+          type: Object
+      },
+      awsManagedPolicyRisks: {
+          type: Object
+      },
+      customerManagedPolicyRisks: {
+          type: Object
+      },
+  },
   computed: {
     myStyles() {
       return {
@@ -21,12 +31,14 @@ export default {
           "Privilege Escalation",
           "Data Exfiltration",
           "Resource Exposure",
-          "Infrastructure Modification"
+          "Credentials Exposure",
+          "Infrastructure Modification",
         ],
         datasets: [{
           label: "Inline Policies",
           data: Object.values(this.inlinePolicyRisks),// TODO: Fix Scaling Object.values(this.inlinePolicyRisks),
           backgroundColor: [
+            "#59575c",
             "#59575c",
             "#59575c",
             "#59575c",
@@ -42,11 +54,13 @@ export default {
               "#215ca0",
               "#215ca0",
               "#215ca0",
+              "#215ca0",
             ]
           },{
             label: "Customer-managed Policies",
             data: Object.values(this.customerManagedPolicyRisks), // TODO: Fix scaling for dynamic values Object.values(this.managedPolicyRisks)
             backgroundColor: [
+              "#00857d",
               "#00857d",
               "#00857d",
               "#00857d",
