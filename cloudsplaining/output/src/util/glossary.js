@@ -29,25 +29,25 @@ let riskDetailsToDisplay = [
     //     explanation: "Explanation!"
     // },
     {
-        risk_type: "DataExfiltration",
-        explanation: "Explanation!"
-    },
-        {
-        risk_type: "ResourceExposure",
-        explanation: "Explanation!"
-    },
-        {
-        risk_type: "InfrastructureModification",
+        risk_type: "CredentialsExposure",
         explanation: "Explanation!"
     },
     {
-        risk_type: "CredentialsExposure",
+        risk_type: "DataExfiltration",
+        explanation: "Explanation!"
+    },
+    {
+        risk_type: "ResourceExposure",
         explanation: "Explanation!"
     },
     {
         risk_type: "ServiceWildcard",
         explanation: "Explanation!"
-    }
+    },
+    {
+        risk_type: "InfrastructureModification",
+        explanation: "Explanation!"
+    },
 ]
 
 function getRiskDefinition(riskType) {
