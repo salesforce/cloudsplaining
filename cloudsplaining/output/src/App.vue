@@ -1,50 +1,21 @@
 <template>
     <div id="main">
-
         <b-navbar toggleable="md" variant="faded">
-            <b-navbar-brand href="#" @click="activeSection = 0">
-<!--                <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">-->
+            <b-navbar-brand to="/summary">
+            <!-- <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten"> -->
                 Cloudsplaining
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item
-                            :active="activeSection === 'custom-policies'"
-                            @click="activeSection = 1"
-                            href="#">Customer Policies
-                    </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'inline-policies'"
-                            @click="activeSection = 2"
-                            href="#">Inline Policies
-                    </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'aws-policies'"
-                            @click="activeSection = 3"
-                            href="#">AWS Policies
-                    </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'iam-principals'"
-                            @click="activeSection = 4"
-                            href="#">IAM Principals
-                    </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'guidance'"
-                            @click="activeSection = 5"
-                            href="#">Guidance
-                    </b-nav-item>
-                    <b-nav-item
-                            :active="activeSection === 'appendices'"
-                            @click="activeSection = 6"
-                            href="#">Appendices
-                    </b-nav-item>
-<!--                    <b-nav-item-->
-<!--                            :active="activeSection === 'task-table'"-->
-<!--                            @click="activeSection = 7"-->
-<!--                            href="#">Task Table Demo-->
-<!--                    </b-nav-item>-->
+                    <b-nav-item to="/custom-policies">Customer Policies</b-nav-item>
+                    <b-nav-item to="/inline-policies">Inline Policies</b-nav-item>
+                    <b-nav-item to="/aws-policies">AWS Policies</b-nav-item>
+                    <b-nav-item to="/iam-principals">IAM Principals</b-nav-item>
+                    <b-nav-item to="/guidance">Guidance</b-nav-item>
+                    <b-nav-item to="/appendices">Appendices</b-nav-item>
+                    <!-- <b-nav-item to="/task-table">Task Table Demo</b-nav-item> -->
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-nav-text><strong>Account ID:</strong> {{ account_id }} | <strong>Account Name:</strong> {{ account_name }}</b-nav-text>
@@ -53,34 +24,8 @@
         </b-navbar>
 
         <b-container class="mt-3 pb-3 report">
-            <b-tabs v-model="activeSection" nav-class="d-none">
-                <b-tab key="summary">
-                    <Summary v-bind:iam_data="iam_data" :policy-filter="policyFilter"/>
-                </b-tab>
-                <b-tab key="custom-policies">
-                    <h3>Customer-Managed Policies ({{ getManagedPolicyNameMapping('Customer').length }})</h3>
-                    <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"/>
-                    <ManagedPolicies v-bind:iam_data="iam_data" managedBy="Customer"/>
-                </b-tab>
-                <b-tab key="inline-policies">
-                    <h3>Inline Policies ({{ getInlinePolicyNameMapping().length }})</h3>
-                    <PolicyTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>
-                    <InlinePolicies v-bind:iam_data="iam_data"/>
-                </b-tab>
-                <b-tab key="aws-policies">
-                    <h3>AWS-Managed Policies ({{ getManagedPolicyNameMapping('AWS').length }})</h3>
-                    <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"/>
-                    <ManagedPolicies v-bind:iam_data="iam_data" managedBy="AWS"/>
-                </b-tab>
-                <b-tab key="iam-principals">
-                    <Principals v-bind:iam_data="iam_data"/>
-                </b-tab>
-                <b-tab key="guidance">
-                    <Guidance/>
-                </b-tab>
-                <b-tab id="appendices">
-                    <Glossary/>
-                </b-tab>
+            <b-tabs nav-class="d-none">
+                <router-view />
 <!--                <b-tab key="task-table">-->
 <!--                    <br>-->
 <!--                    <h3>Tasks (demo WIP)</h3>-->
@@ -110,15 +55,6 @@
 </template>
 
 <script>
-    import Summary from './components/Summary.vue';
-    import ManagedPolicies from './components/ManagedPolicies';
-    import InlinePolicies from './components/InlinePolicies'
-    import Principals from './components/Principals'
-    import Guidance from './components/Guidance'
-    import Glossary from './components/Glossary'
-    import PolicyTable from './components/PolicyTable'
-    // import TaskTable from './components/TaskTable'
-
     const managedPoliciesUtil = require('./util/managed-policies');
     const inlinePoliciesUtil = require('./util/inline-policies');
     const taskTableUtil = require('./util/task-table');
@@ -174,23 +110,11 @@
 
     export default {
         name: 'App',
-        components: {
-            Summary,
-            ManagedPolicies,
-            InlinePolicies,
-            Principals,
-            Guidance,
-            Glossary,
-            PolicyTable,
-            // TaskTable
-        },
 
         data() {
             return {
                 // eslint-disable-next-line no-undef
                 sharedState: iam_data,
-                policyFilter: "none",
-                activeSection: 0,
                 // eslint-disable-next-line no-undef
                 account_id: account_id,
                 // eslint-disable-next-line no-undef
@@ -216,6 +140,13 @@
             getTaskTableMapping: function (managedBy) {
                 return getTaskTableMapping(managedBy)
             }
+        },
+        provide() {
+            return {
+                iam_data: this.iam_data,
+                getManagedPolicyNameMapping: this.getManagedPolicyNameMapping,
+                getInlinePolicyNameMapping: this.getInlinePolicyNameMapping,
+            }
         }
     }
 </script>
@@ -227,5 +158,9 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: left;
         color: #2c3e50;
+    }
+
+    .router-link-exact-active {
+        font-weight: bold;
     }
 </style>
