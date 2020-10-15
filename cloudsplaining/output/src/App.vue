@@ -9,7 +9,7 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item to="/custom-policies">Customer Policies</b-nav-item>
+                    <b-nav-item to="/customer-policies">Customer Policies</b-nav-item>
                     <b-nav-item to="/inline-policies">Inline Policies</b-nav-item>
                     <b-nav-item to="/aws-policies">AWS Policies</b-nav-item>
                     <b-nav-item to="/iam-principals">IAM Principals</b-nav-item>

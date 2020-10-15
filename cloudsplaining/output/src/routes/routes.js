@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Summary from '../views/Summary';
-import CustomPolicies from '../views/CustomPolicies';
+import CustomerPolicies from '../views/CustomerPolicies';
 import InlinePolicies from '../views/InlinePolicies';
 import AwsPolicies from '../views/AwsPolicies';
 import IamPrincipals from '../views/IamPrincipals';
@@ -10,9 +10,10 @@ import Appendices from '../views/Appendices';
 
 Vue.use(Router)
 export default new Router({
+  mode: 'history',
   routes: [
     { path: '/summary', component: Summary },
-    { path: '/custom-policies', component: CustomPolicies },
+    { path: '/customer-policies', component: CustomerPolicies },
     { path: '/inline-policies', component: InlinePolicies },
     { path: '/aws-policies', component: AwsPolicies },
     { path: '/iam-principals', component: IamPrincipals },
