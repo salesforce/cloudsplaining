@@ -10,17 +10,42 @@ app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.j
 
 class HTMLReport:
     """Inject the JS files and report results into the final HTML report"""
-    def __init__(self, account_id, account_name, results):
+    def __init__(self, account_id, account_name, results, minimize=False):
         self.account_name = account_name
         self.account_id = account_id
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
-
+        self.minimize = minimize
         self.results = f"var iam_data = {json.dumps(results)}"
-        with open(app_bundle_path, "r") as f:
-            self.app_bundle = f.read()
-        vendor_bundle_path = get_vendor_bundle_path()
-        with open(vendor_bundle_path, "r") as f:
-            self.vendor_bundle = f.read()
+
+    @property
+    def app_bundle(self):
+        """The Cloudsplaining Javascript application code should be loaded either from the CDN or locally,
+        depending on if the user specified the --minimize option"""
+        if self.minimize:
+            js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/index.js"
+            bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
+            return bundle
+        else:
+            with open(app_bundle_path, "r") as f:
+                bundle_content = f.read()
+            bundle = f"<script type=\"text/javascript\">\n{bundle_content}\n</script>"
+            return bundle
+
+    @property
+    def vendor_bundle(self):
+        """The Javascript vendor bundle should be loaded either from the CDN or locally,
+        depending on if the user specified the --minimize option"""
+
+        if self.minimize:
+            js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/chunk-vendors.js"
+            bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
+            return bundle
+        else:
+            vendor_bundle_path = get_vendor_bundle_path()
+            with open(vendor_bundle_path, "r") as f:
+                bundle_content = f.read()
+            bundle = f"<script type=\"text/javascript\">\n{bundle_content}\n</script>"
+            return bundle
 
     def get_html_report(self):
         """Returns the rendered HTML report"""
