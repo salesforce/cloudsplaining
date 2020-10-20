@@ -10,7 +10,6 @@ import Appendices from '../views/Appendices';
 
 Vue.use(Router)
 export default new Router({
-  mode: 'history',
   routes: [
     { path: '/summary', component: Summary },
     { path: '/customer-policies', component: CustomerPolicies },
