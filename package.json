@@ -1,7 +1,7 @@
 {
   "name": "cloudsplaining",
   "main": "cloudsplaining/output",
-  "version": "0.2.0",
+  "version": "0.2.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development --open",
@@ -22,7 +22,8 @@
     "jquery": "^3.5.1",
     "popper": "^1.0.1",
     "vue": "^2.6.12",
-    "vue-chartjs": "^3.5.1"
+    "vue-chartjs": "^3.5.1",
+    "vue-router": "^3.4.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.6",
