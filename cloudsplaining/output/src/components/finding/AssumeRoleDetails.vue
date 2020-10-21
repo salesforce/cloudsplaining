@@ -9,6 +9,7 @@
         <div class="panel-collapse collapse"
              v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'">
             <div class="card-body">
+                <span v-html="getRiskDescription('AssumableByComputeService')"></span>
 <pre><code>
 {{ JSON.parse(JSON.stringify(policyAssumableByComputeService(policyId), undefined, '\t')) }}
 </code></pre>
@@ -20,6 +21,14 @@
 <script>
     const managedPoliciesUtil = require('../../util/managed-policies');
     const inlinePoliciesUtil = require('../../util/inline-policies');
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    import assumableByComputeServiceRaw from '../../assets/definition-assumable-by-compute-service.md'
+    const assumableByComputeServiceDescription = md.render(assumableByComputeServiceRaw)
+
 
     export default {
         name: "AssumeRoleDetails",
@@ -51,7 +60,13 @@
                 } else {
                     return managedPoliciesUtil.managedPolicyAssumableByComputeService(this.iam_data, this.managedBy, policyId);
                 }
+            },
+            getRiskDescription: function (riskType) {
+                if (riskType === "AssumableByComputeService") {
+                    return assumableByComputeServiceDescription
+                }
             }
+
         }
     }
 </script>
