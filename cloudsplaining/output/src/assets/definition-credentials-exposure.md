@@ -1,0 +1,1 @@
+This policy contains actions that could lead to Credentials Exposure. These actions return credentials as part of the API response, such as `ecr:GetAuthorizationToken`, `iam:UpdateAccessKey`, and others. The full list is maintained [here](https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a).
