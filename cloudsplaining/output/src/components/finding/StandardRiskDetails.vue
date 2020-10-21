@@ -13,6 +13,12 @@
                 <div class="panel-collapse collapse"
                      v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}`">
                     <div class="card-body">
+                        <b-button v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-instructions`">Show Instructions</b-button>
+                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-instructions`">
+                            <p>
+                                <span v-html="instructionsGeneral"></span>
+                            </p>
+                        </b-modal>
 <pre><code>
 {{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
 </code></pre>
@@ -28,6 +34,15 @@
     const inlinePoliciesUtil = require('../../util/inline-policies');
     const glossary = require('../../util/glossary');
     let otherUtil = require('../../util/other');
+
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    import instructionsGeneralRaw from '../../assets/instructions-general.md'
+
+    const instructionsGeneral = md.render(instructionsGeneralRaw)
 
     export default {
         name: "StandardRiskDetails",
@@ -53,6 +68,9 @@
             },
             riskDetailsToDisplay() {
                 return glossary.getRiskDetailsToDisplay()
+            },
+            instructionsGeneral() {
+                return instructionsGeneral
             }
         },
         methods: {
