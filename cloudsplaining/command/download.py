@@ -11,11 +11,9 @@ import logging
 from pathlib import Path
 import boto3
 import click
-import click_log
 from botocore.config import Config
 
-logger = logging.getLogger()
-click_log.basic_config(logger)
+logger = logging.getLogger(__name__)
 
 
 @click.command(
@@ -42,7 +40,6 @@ click_log.basic_config(logger)
     help="When downloading AWS managed policy documents, also include the non-default policy versions."
     " Note that this will dramatically increase the size of the downloaded file.",
 )
-@click_log.simple_verbosity_option(logger)
 def download(profile, output, include_non_default_policy_versions):
     """
     Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in

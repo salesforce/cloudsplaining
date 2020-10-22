@@ -11,11 +11,9 @@ import os
 from pathlib import Path
 import logging
 import click
-import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
 
-logger = logging.getLogger()
-click_log.basic_config(logger)
+logger = logging.getLogger(__name__)
 
 
 @click.command(
@@ -29,7 +27,6 @@ click_log.basic_config(logger)
     required=True,
     help="Relative path to output file where we want to store the exclusions template.",
 )
-@click_log.simple_verbosity_option(logger)
 def create_exclusions_file(output_file):
     """
     Creates a YML file to be used as a custom exclusions template,

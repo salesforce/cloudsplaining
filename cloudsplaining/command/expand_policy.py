@@ -9,11 +9,9 @@ Expands the wildcards (*) on an IAM policy file so it is easier for a human to u
 import logging
 import json
 import click
-import click_log
 from policy_sentry.analysis.expand import get_expanded_policy
 
-logger = logging.getLogger()
-click_log.basic_config(logger)
+logger = logging.getLogger(__name__)
 
 
 @click.command(
@@ -25,7 +23,6 @@ click_log.basic_config(logger)
     required=True,
     help="Path to the JSON policy file.",
 )
-@click_log.simple_verbosity_option(logger)
 def expand_policy(input_file):  # pylint: disable=redefined-builtin
     """
     Expand the * Actions in IAM policy files to improve readability

@@ -11,13 +11,11 @@ import logging
 import json
 import yaml
 import click
-import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import Exclusions
 from cloudsplaining.output.policy_finding import PolicyFinding
 logger = logging.getLogger(__name__)
-click_log.basic_config(logger)
 BOLD = "\033[1m"
 RED = "\033[91m"
 END = "\033[0m"
@@ -47,7 +45,6 @@ END = "\033[0m"
     help="If issues are found, only print the high priority risks"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
-@click_log.simple_verbosity_option(logger)
 # pylint: disable=redefined-builtin
 def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""

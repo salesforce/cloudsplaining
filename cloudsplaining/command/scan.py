@@ -13,7 +13,6 @@ import json
 from pathlib import Path
 import yaml
 import click
-import click_log
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.shared.validation import check_authorization_details_schema
@@ -23,7 +22,6 @@ from cloudsplaining.shared.utils import write_results_data_file
 from cloudsplaining.output.report import HTMLReport
 
 logger = logging.getLogger(__name__)
-click_log.basic_config(logger)
 
 
 @click.command(
@@ -65,7 +63,6 @@ click_log.basic_config(logger)
     is_flag=True,
     help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet."
 )
-@click_log.simple_verbosity_option()
 # pylint: disable=redefined-builtin
 def scan(
     input_file, exclusions_file, output, skip_open_report, minimize
