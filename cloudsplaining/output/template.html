@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
     <meta content="width=device-width,initial-scale=1.0" name="viewport">
     <title>Cloudsplaining report</title>
     <!-- Load required Bootstrap and BootstrapVue CSS -->
@@ -43,12 +44,10 @@
     console.log(`iam data keys: ${Object.keys(iam_data)}`);
 
 </script>
-<script>
-    {{ t.vendor_bundle_js }}
-</script>
-<script>
-    {{ t.app_bundle_js }}
-</script>
+
+{{ t.vendor_bundle_js }}
+
+{{ t.app_bundle_js }}
 
 </body>
 <!--  Bootstrap-->

@@ -58,10 +58,17 @@ click_log.basic_config(logger)
     help="Don't open the HTML report in the web browser after creating. "
     "This helps when running the report in automation.",
 )
+@click.option(
+    "--minimize",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet."
+)
 @click_log.simple_verbosity_option()
 # pylint: disable=redefined-builtin
 def scan(
-    input_file, exclusions_file, output, skip_open_report
+    input_file, exclusions_file, output, skip_open_report, minimize
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -84,7 +91,8 @@ def scan(
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
         rendered_html_report = scan_account_authorization_details(
-            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
+            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
+            minimize=minimize
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -116,7 +124,8 @@ def scan(
             account_name = Path(file).stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
-                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True
+                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
+                minimize=minimize
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
             logger.info("Saving the report to %s", html_output_file)
@@ -136,7 +145,8 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg, exclusions, account_name="default", output_directory=os.getcwd(), write_data_files=False
+    account_authorization_details_cfg, exclusions, account_name="default", output_directory=os.getcwd(),
+    write_data_files=False, minimize=False
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -162,6 +172,7 @@ def scan_account_authorization_details(
         account_id=account_id,
         account_name=account_name,
         results=results,
+        minimize=minimize
     )
     rendered_report = html_report.get_html_report()
 
