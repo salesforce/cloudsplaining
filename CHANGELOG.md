@@ -5,15 +5,16 @@
 
 ## 0.2.4 (Unreleased)
 * UI
-  * Inline Explanation of findings (`#115`)
-  * Better formatting for Privilege Escalation findings (`#114`)
-  * Exclusions config is in its own tab in the UI (`#107`)
+  * Inline Explanation of findings (#115)
+  * Vue Router is implemented so you can have routes to reports like http://localhost:8080/#/inline-policies (#116)
+  * Better formatting for Privilege Escalation findings (#114)
+  * Exclusions config is in its own tab in the UI (#107)
 
 ## 0.2.3 (2020-10-12)
 * `scan` command now has a `--minimize` option, which you can use to reduce your report size. The example report size was reduced from 3.9MB (ouch!) to 212KB. (Fixes #125)
 * UI
-  * Credentials Exposure as a new finding (`#99`)
-  * Service Wildcard as a new finding (`#82`)
+  * Credentials Exposure as a new finding (#99)
+  * Service Wildcard as a new finding (#82)
 * Backend
   * Updated tests to include updated sample data
 
