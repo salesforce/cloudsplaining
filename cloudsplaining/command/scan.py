@@ -20,6 +20,7 @@ from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.shared.utils import write_results_data_file
 from cloudsplaining.output.report import HTMLReport
+from cloudsplaining import change_log_level
 
 logger = logging.getLogger(__name__)
 
@@ -63,14 +64,20 @@ logger = logging.getLogger(__name__)
     is_flag=True,
     help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet."
 )
+@click.option(
+    '--verbose','-v',
+    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
+    case_sensitive=False))
 # pylint: disable=redefined-builtin
 def scan(
-    input_file, exclusions_file, output, skip_open_report, minimize
-):  # pragma: no cover
+    input_file, exclusions_file, output, skip_open_report, minimize, verbose):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
     """
+    if verbose:
+        log_level = getattr(logging, verbose.upper())
+        change_log_level(log_level)
     if exclusions_file:
         # Get the exclusions configuration
         with open(exclusions_file, "r") as yaml_file:
