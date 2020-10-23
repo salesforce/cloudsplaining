@@ -73,6 +73,7 @@ PRIVILEGE_ESCALATION_METHODS = {
     "CreateAccessKey": ["iam:createaccesskey"],
     "CreateLoginProfile": ["iam:createloginprofile"],
     "UpdateLoginProfile": ["iam:updateloginprofile"],
+    "AddUserToGroup": ["iam:addusertogroup"],
     # 2. Permissions on Policies
     "CreateNewPolicyVersion": ["iam:createpolicyversion"],
     "SetExistingDefaultPolicyVersion": ["iam:setdefaultpolicyversion"],
@@ -82,7 +83,6 @@ PRIVILEGE_ESCALATION_METHODS = {
     "PutUserPolicy": ["iam:putuserpolicy"],
     "PutGroupPolicy": ["iam:putgrouppolicy"],
     "PutRolePolicy": ["iam:putrolepolicy", "sts:assumerole"],
-    "AddUserToGroup": ["iam:addusertogroup"],
     # 3. Updating an AssumeRolePolicy
     "UpdateRolePolicyToAssumeIt": ["iam:updateassumerolepolicy", "sts:assumerole"],
     # 4. iam:PassRole:*

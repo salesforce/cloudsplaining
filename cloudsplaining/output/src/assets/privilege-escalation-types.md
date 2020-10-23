@@ -21,13 +21,16 @@ Examples of privilege escalation:
         
     7. *Creating/updating an inline policy for a _group_*: An attacker with the _iam:PutGroupPolicy_ permission can escalate privileges by creating or updating an inline policy for a group that they are a part of, adding the permissions of that policy to the attacker.
     8. *Creating/updating an inline policy for a _role_*: An attacker with the _iam:PutRolePolicy_ permission can escalate privileges by creating or updating an inline policy for a role that they have access to, adding the permissions of that policy to the attacker.
+
 3. *Updating an AssumeRole Policy*
     1. *Updating the AssumeRolePolicyDocument of a role*: An attacker with the _iam:UpdateAssumeRolePolicy_ and _sts:AssumeRole_ permissions would be able to change the assume role policy document of any existing role to allow them to assume that role.
+
 4. *iam:PassRole:**
     1. *Passing a new role to a Lambda function, then invoking it*: A user with the _iam:PassRole_, _lambda:CreateFunction_, and _lambda:InvokeFunction_ permissions can escalate privileges by passing an existing IAM role to a new Lambda function that includes code to import the relevant AWS library to their programming language of choice, then using it perform actions of their choice. 
     2. *Passing a role to a new Lambda function, then triggering it with DynamoDB*: A user with the _iam:PassRole_, _lambda:CreateFunction_, and _lambda:CreateEventSourceMapping_ (and possibly _dynamodb:PutItem_ and _dynamodb:CreateTable_) permissions, but without the _lambda:InvokeFunction_ permission, can escalate privileges by passing an existing IAM role to a new Lambda function that includes code to import the relevant AWS library to their programming language of choice, then using it perform actions of their choice.
     3. *Updating the code of an existing privileged Lambda function*: An attacker with the _lambda:UpdateFunctionCode_ permission could update the code in an existing Lambda function with an IAM role attached so that it would import the relevant AWS library in that programming language and use it to perform actions on behalf of that role.
     4. *Creating an EC2 instance with an existing instance profile*: An attacker with the _iam:PassRole_ and _ec2:RunInstances_ permissions can create a new EC2 instance that they will have operating system access to and pass an existing EC2 instance profile/service role to it.
+
 5. *Privilege Escalation using AWS Services*
     1. *Passing a role to a Glue Development Endpoint*: An attacker with the _iam:PassRole_ and _glue:CreateDevEndpoint_ permissions could create a new AWS Glue development endpoint and pass an existing service role to it. 
     2. *Updating an existing Glue Dev Endpoint*: An attacker with the _glue:UpdateDevEndpoint_ permission would be able to update the associated SSH public key of an existing Glue development endpoint, to then SSH into it and have access to the permissions the attached role has access to.
