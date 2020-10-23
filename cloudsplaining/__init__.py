@@ -9,7 +9,7 @@ from logging import NullHandler
 # 2020-10-06 10:04:17,200 - root - DEBUG - Leveraging the bundled IAM Definition.
 # Need to figure out how to get click_log to do this for me.
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.WARNING)
 handler = logging.StreamHandler(sys.stdout)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
