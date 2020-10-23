@@ -20,4 +20,5 @@ logger.addHandler(handler)
 name = "cloudsplaining"  # pylint: disable=invalid-name
 
 def change_log_level(log_level):
+    """"Change log level of module logger"""
     logger.setLevel(log_level)
