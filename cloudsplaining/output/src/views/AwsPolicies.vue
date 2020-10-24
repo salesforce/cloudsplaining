@@ -2,6 +2,8 @@
     <b-tab>
         <h3>AWS-Managed Policies ({{ getManagedPolicyNameMapping('AWS').length }})</h3>
         <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"/>
+        <Button v-bind:placeholder="'Expland All'" :class="'mr-3 mb-4'" @clicked="expandAll" />
+        <Button v-bind:placeholder="'Collapse All'" :class="'mr-3 mb-4'" @clicked="collapseAll" />
         <ManagedPolicies v-bind:iam_data="iam_data" managedBy="AWS"/>
     </b-tab>
 </template>
@@ -10,12 +12,37 @@
 <script>
 import PolicyTable from '../components/PolicyTable';
 import ManagedPolicies from '../components/ManagedPolicies';
+import Button from '../components/Button';
 
 export default {
     inject: ['iam_data', 'getManagedPolicyNameMapping'],
     components: {
         PolicyTable,
-        ManagedPolicies
+        ManagedPolicies,
+        Button
+    },
+    data() {
+        return {
+            toggleData: {
+                isAllExpanded: false,
+                isAllCollapsed: false
+            }
+        }
+    },
+    methods: {
+        expandAll() {
+            this.toggleData.isAllExpanded = true;
+            this.toggleData.isAllCollapsed = false;
+        },
+        collapseAll() {
+            this.toggleData.isAllExpanded = false;
+            this.toggleData.isAllCollapsed = true;
+        }
+    },
+    provide() {
+        return {
+            toggleData: this.toggleData
+        }
     }
 }
 </script>
