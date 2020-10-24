@@ -1,8 +1,11 @@
 #! /usr/bin/env python
+import sys
+import os
+from pathlib import Path
+sys.path.append(str(Path(os.path.dirname(__file__)).parent))
 from cloudsplaining.output.report import HTMLReport
 from cloudsplaining.command.scan import scan_account_authorization_details
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS
-import os
 import webbrowser
 import json
 import shutil
