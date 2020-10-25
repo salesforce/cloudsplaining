@@ -10,7 +10,7 @@
         </div>
         <div 
             class="panel-collapse collapse"
-            :class="toggleClass"
+            ref="PolicyDocumentDetailsDiv"
             v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
             <div class="card-body">
                 <pre><code>
@@ -27,9 +27,6 @@
     export default {
         name: "PolicyDocumentDetails",
         inject: ['toggleData'],
-        data() {
-            return {toggleClass: ''}
-        },
         props: {
             // Either "Inline", "AWS", or "Customer"
             managedBy: {
@@ -59,18 +56,15 @@
                     return managedPoliciesUtil.getManagedPolicyDocument(this.iam_data, this.managedBy, policyId);
                 }
             },
-            toggleAll(className) {
-                this.toggleClass = className
-            }
         },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded) {
-                        this.toggleAll('show');
+                    if (data.isAllExpanded && this.$refs['PolicyDocumentDetailsDiv']) {
+                        this.$refs['PolicyDocumentDetailsDiv'].classList.add('show');
                     }
-                    if (data.isAllCollapsed) {
-                        this.toggleAll(''); 
+                    if (data.isAllCollapsed && this.$refs['PolicyDocumentDetailsDiv']) {
+                        this.$refs['PolicyDocumentDetailsDiv'].classList.remove('show');
                     }
                 },
                 deep: true

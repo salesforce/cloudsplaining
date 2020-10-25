@@ -7,7 +7,7 @@
             >Compute Services that leverage this IAM Policy via AssumeRole</a>
         </div>
         <div class="panel-collapse collapse"
-             :class="toggleClass"
+             ref="AssumeRoleDetailsDiv"
              v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'">
             <div class="card-body">
                 <span v-html="getRiskDescription('AssumableByComputeService')"></span>
@@ -46,9 +46,6 @@
                 type: Object
             },
         },
-        data() {
-            return {toggleClass: ''}
-        },
         computed: {
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
@@ -70,19 +67,16 @@
                 if (riskType === "AssumableByComputeService") {
                     return assumableByComputeServiceDescription
                 }
-            },
-            toggleAll(className) {
-                this.toggleClass = className
             }
         },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded) {
-                        this.toggleAll('show');
+                    if (data.isAllExpanded && this.$refs['AssumeRoleDetailsDiv']) {
+                        this.$refs['AssumeRoleDetailsDiv'].classList.add('show');
                     }
-                    if (data.isAllCollapsed) {
-                        this.toggleAll(''); 
+                    if (data.isAllCollapsed && this.$refs['AssumeRoleDetailsDiv']) {
+                        this.$refs['AssumeRoleDetailsDiv'].classList.remove('show');
                     }
                 },
                 deep: true

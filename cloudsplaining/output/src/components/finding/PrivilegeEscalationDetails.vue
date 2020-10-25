@@ -7,7 +7,7 @@
             >Privilege Escalation</a>
         </div>
         <div class="panel-collapse collapse"
-             :class="toggleClass"
+             ref="PrivilegeEscalationDetailsDiv"
              v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'privilege-escalation'">
             <!--TODO: Format the Privilege Escalation stuff-->
             <div class="card-body">
@@ -79,9 +79,6 @@
                 type: Object
             },
         },
-        data() {
-            return {toggleClass: ''}
-        },
         computed: {
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
@@ -112,19 +109,16 @@
                 if (riskType === "PrivilegeEscalation") {
                     return privilegeEscalationDescription
                 }
-            },
-            toggleAll(className) {
-                this.toggleClass = className
             }
         },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded) {
-                        this.toggleAll('show');
+                    if (data.isAllExpanded && this.$refs['PrivilegeEscalationDetailsDiv']) {
+                        this.$refs['PrivilegeEscalationDetailsDiv'].classList.add('show');
                     }
-                    if (data.isAllCollapsed) {
-                        this.toggleAll(''); 
+                    if (data.isAllCollapsed && this.$refs['PrivilegeEscalationDetailsDiv']) {
+                        this.$refs['PrivilegeEscalationDetailsDiv'].classList.remove('show');
                     }
                 },
                 deep: true

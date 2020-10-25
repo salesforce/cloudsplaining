@@ -11,7 +11,7 @@
             </template>
             <template v-if="findings(policyId, risk.risk_type).length > 0">
                 <div class="panel-collapse collapse"
-                     :class="toggleClass"
+                     ref="StandardRiskDetailsDiv"
                      v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}`">
                     <div class="card-body">
                         <!--What should I do?-->
@@ -39,9 +39,9 @@
                         <br>
                         <span v-html="getRiskDescription(risk.risk_type)"></span>
                         <span>Actions/services:</span>
-<pre><code>
-{{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
-</code></pre>
+                        <pre><code>
+                        {{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
+                        </code></pre>
                     </div>
                 </div>
             </template>
@@ -98,9 +98,6 @@
             iam_data: {
                 type: Object
             },
-        },
-        data() {
-            return {toggleClass: ''}
         },
         computed: {
             inlineOrManaged() {
@@ -165,19 +162,17 @@
                 else {
                     return ""
                 }
-            },
-            toggleAll(className) {
-                this.toggleClass = className
             }
         },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded) {
-                        this.toggleAll('show');
+                    console.log(this.$refs['StandardRiskDetailsDiv'])
+                    if (data.isAllExpanded && this.$refs['StandardRiskDetailsDiv']) {
+                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.add('show'))
                     }
-                    if (data.isAllCollapsed) {
-                        this.toggleAll(''); 
+                    if (data.isAllCollapsed && this.$refs['StandardRiskDetailsDiv']) {
+                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.remove('show'));
                     }
                 },
                 deep: true

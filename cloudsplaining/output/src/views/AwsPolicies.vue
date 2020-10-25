@@ -31,10 +31,12 @@ export default {
     },
     methods: {
         expandAll() {
+            this.toggleData.isAllExpanded = this.toggleData.isAllCollapsed = undefined;
             this.toggleData.isAllExpanded = true;
             this.toggleData.isAllCollapsed = false;
         },
         collapseAll() {
+            this.toggleData.isAllExpanded = this.toggleData.isAllCollapsed = undefined;
             this.toggleData.isAllExpanded = false;
             this.toggleData.isAllCollapsed = true;
         }
