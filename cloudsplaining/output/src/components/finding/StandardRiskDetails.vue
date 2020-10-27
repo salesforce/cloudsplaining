@@ -11,6 +11,7 @@
             </template>
             <template v-if="findings(policyId, risk.risk_type).length > 0">
                 <div class="panel-collapse collapse"
+                     ref="StandardRiskDetailsDiv"
                      v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}`">
                     <div class="card-body">
                         <!--What should I do?-->
@@ -85,6 +86,7 @@
 
     export default {
         name: "StandardRiskDetails",
+        inject: ['toggleData'],
         props: {
             // Either "Inline", "AWS", or "Customer"
             managedBy: {
@@ -160,6 +162,19 @@
                 else {
                     return ""
                 }
+            }
+        },
+        watch: {
+            toggleData: {
+                handler(data) {
+                    if (data.isAllExpanded && this.$refs['StandardRiskDetailsDiv']) {
+                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.add('show'))
+                    }
+                    if (data.isAllCollapsed && this.$refs['StandardRiskDetailsDiv']) {
+                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.remove('show'));
+                    }
+                },
+                deep: true
             }
         }
     }

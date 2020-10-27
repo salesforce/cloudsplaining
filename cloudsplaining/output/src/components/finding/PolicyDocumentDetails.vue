@@ -4,15 +4,18 @@
         <div class="card-header">
             <a class="card-link" data-toggle="collapse"
                v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-               v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'"
-            >Policy Document</a>
+               v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
+               Policy Document
+            </a>
         </div>
-        <div class="panel-collapse collapse"
-             v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
+        <div 
+            class="panel-collapse collapse"
+            ref="PolicyDocumentDetailsDiv"
+            v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
             <div class="card-body">
-    <pre><code>
-    {{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
-    </code></pre>
+<pre><code>
+{{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
+</code></pre>
             </div>
         </div><!--Policy Document-->
     </div>
@@ -23,6 +26,7 @@
     const inlinePoliciesUtil = require('../../util/inline-policies');
     export default {
         name: "PolicyDocumentDetails",
+        inject: ['toggleData'],
         props: {
             // Either "Inline", "AWS", or "Customer"
             managedBy: {
@@ -52,6 +56,19 @@
                     return managedPoliciesUtil.getManagedPolicyDocument(this.iam_data, this.managedBy, policyId);
                 }
             },
+        },
+        watch: {
+            toggleData: {
+                handler(data) {
+                    if (data.isAllExpanded && this.$refs['PolicyDocumentDetailsDiv']) {
+                        this.$refs['PolicyDocumentDetailsDiv'].classList.add('show');
+                    }
+                    if (data.isAllCollapsed && this.$refs['PolicyDocumentDetailsDiv']) {
+                        this.$refs['PolicyDocumentDetailsDiv'].classList.remove('show');
+                    }
+                },
+                deep: true
+            }
         }
     }
 </script>
