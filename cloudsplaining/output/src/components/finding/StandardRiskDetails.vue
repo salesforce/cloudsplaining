@@ -39,9 +39,9 @@
                         <br>
                         <span v-html="getRiskDescription(risk.risk_type)"></span>
                         <span>Actions/services:</span>
-                        <pre><code>
-                        {{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
-                        </code></pre>
+<pre><code>
+{{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
+</code></pre>
                     </div>
                 </div>
             </template>
@@ -167,7 +167,6 @@
         watch: {
             toggleData: {
                 handler(data) {
-                    console.log(this.$refs['StandardRiskDetailsDiv'])
                     if (data.isAllExpanded && this.$refs['StandardRiskDetailsDiv']) {
                         this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.add('show'))
                     }

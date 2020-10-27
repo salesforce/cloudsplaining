@@ -13,9 +13,9 @@
             ref="PolicyDocumentDetailsDiv"
             v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
             <div class="card-body">
-                <pre><code>
-                    {{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
-                </code></pre>
+<pre><code>
+{{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
+</code></pre>
             </div>
         </div><!--Policy Document-->
     </div>

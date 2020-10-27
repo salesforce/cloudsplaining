@@ -11,9 +11,9 @@
              v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'">
             <div class="card-body">
                 <span v-html="getRiskDescription('AssumableByComputeService')"></span>
-                <pre><code>
-                {{ JSON.parse(JSON.stringify(policyAssumableByComputeService(policyId), undefined, '\t')) }}
-                </code></pre>
+<pre><code>
+{{ JSON.parse(JSON.stringify(policyAssumableByComputeService(policyId), undefined, '\t')) }}
+</code></pre>
             </div>
         </div>
     </div>
