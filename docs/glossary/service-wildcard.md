@@ -1,0 +1,1 @@
+"Service Wildcard" is an unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like `s3:*`. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.

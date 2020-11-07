@@ -46,6 +46,7 @@ def build_docs(c):
 @task
 def serve_docs(c):
     """Create the documentation files and open them locally"""
+    c.run('pip3 install -r docs/requirements.txt')
     c.run('mkdocs serve')
 
 
