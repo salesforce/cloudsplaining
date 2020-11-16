@@ -137,6 +137,7 @@ var sample_iam_data = {
                 }
             },
             "create_date": "2019-08-16 17:27:59+00:00",
+            "role_last_used": "2019-03-16 17:27:59+00:00",
             "id": "MyRole",
             "name": "MyRole",
             "inline_policies": {
@@ -169,6 +170,7 @@ var sample_iam_data = {
                 }
             },
             "create_date": "2019-08-16 17:27:59+00:00",
+            "role_last_used": "2020-09-16 17:27:59+00:00",
             "id": "MyOtherRole",
             "name": "MyOtherRole",
             "inline_policies": {
@@ -200,6 +202,7 @@ var sample_iam_data = {
                 }
             },
             "create_date": "2018-08-20 18:48:00+00:00",
+            "role_last_used": "2019-01-20 18:48:00+00:00",
             "id": "OverprivilegedEC2",
             "name": "OverprivilegedEC2",
             "inline_policies": {
