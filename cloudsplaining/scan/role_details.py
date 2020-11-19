@@ -95,7 +95,7 @@ class RoleDetail:
         self.arn = role_detail.get("Arn")
         self.create_date = role_detail.get("CreateDate")
         self.tags = role_detail.get("Tags")
-        self.role_last_used = role_detail.get("RoleLastUsed")
+        self.role_last_used = role_detail.get("RoleLastUsed").get("LastUsedDate")
         self.role_detail = role_detail  # just to reference later in debugging
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -245,6 +245,7 @@ class RoleDetail:
             arn=self.arn,
             assume_role_policy=dict(PolicyDocument=assume_role_json),
             create_date=self.create_date,
+            role_last_used=self.role_last_used,
             id=self.role_id,
             name=self.role_name,
             inline_policies=self.inline_policies_pointer_json,
