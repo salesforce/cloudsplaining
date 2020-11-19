@@ -79,6 +79,8 @@
                         <pre><code>{{ JSON.parse(JSON.stringify(getPrincipalMetadata(principalId, principalType)['instance_profiles'])) }}</code></pre>
                     </b-collapse>
                 </dd>
+                <dt class="col-sm-5">Last Used</dt>
+                <dd class="col-sm-7">{{getPrincipalMetadata(principalId, principalType)['role_last_used']}}</dd>
             </template><!--/role specific details-->
 
             <!--GROUP SPECIFIC-->

@@ -54,5 +54,6 @@
   "instances_count": 1,
   "is_excluded": false,
   "name": "OverprivilegedEC2",
-  "path": "/"
+  "path": "/",
+  "role_last_used": "2019-01-20 18:48:00+00:00"
 }
