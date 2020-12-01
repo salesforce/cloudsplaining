@@ -89,7 +89,7 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose): 
             results_exist += 1
             for item in results.get("PrivilegeEscalation"):
                 print(f"- Method: {item.get('type')}")
-                print(f"  Actions: {', '.join(item.get('PrivilegeEscalation'))}\n")
+                print(f"  Actions: {', '.join(item.get('actions', []))}\n")
 
         # Data Exfiltration
         if results.get("DataExfiltration"):
