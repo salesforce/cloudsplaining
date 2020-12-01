@@ -32,8 +32,10 @@
                         <span v-html="howDoIValidateResultsDescription"></span>
                     </p>
                 </b-modal>
+                <br>
+                <br>
                 <span v-html="getRiskDescription('PrivilegeEscalation')"></span>
-                <span>Instances:</span>
+                <span>Privilege Escalation Methods:</span>
                 <br>
                 <br>
                 <PrivilegeEscalationFormat v-bind:privilege-escalation-finding="privilegeEscalationFindings(policyId)"></PrivilegeEscalationFormat>
@@ -45,7 +47,6 @@
 <script>
     import whatShouldIDoRaw from "../../assets/what-should-i-do.md";
     import PrivilegeEscalationFormat from "./PrivilegeEscalationFormat";
-
     const managedPoliciesUtil = require('../../util/managed-policies');
     const inlinePoliciesUtil = require('../../util/inline-policies');
     var md = require('markdown-it')({
@@ -98,6 +99,7 @@
             howDoIValidateResultsDescription() {
                 return howDoIValidateResultsDescription
             },
+
         },
         methods: {
             findings: function (policyId, riskType) {

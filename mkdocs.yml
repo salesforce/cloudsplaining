@@ -36,7 +36,7 @@ nav:
     - Validation: 'report/validation.md'
 
   - "<b>Glossary</b>":
-    - Privilege Escalation: 'glossary/privilege-escalation-findings.md'
+    - Privilege Escalation: 'glossary/privilege-escalation.md'
     - Resource Exposure: 'glossary/resource-exposure.md'
     - Data Exfiltration: 'glossary/data-exfiltration.md'
     - Credentials Exposure: 'glossary/credentials-exposure.md'
