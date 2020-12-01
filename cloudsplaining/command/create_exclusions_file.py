@@ -11,11 +11,10 @@ import os
 from pathlib import Path
 import logging
 import click
-import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
+from cloudsplaining import change_log_level
 
-logger = logging.getLogger()
-click_log.basic_config(logger)
+logger = logging.getLogger(__name__)
 
 
 @click.command(
@@ -29,12 +28,18 @@ click_log.basic_config(logger)
     required=True,
     help="Relative path to output file where we want to store the exclusions template.",
 )
-@click_log.simple_verbosity_option(logger)
-def create_exclusions_file(output_file):
+@click.option(
+    '--verbose','-v',
+    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
+    case_sensitive=False))
+def create_exclusions_file(output_file, verbose):
     """
     Creates a YML file to be used as a custom exclusions template,
     so users can fill out the fields without needing to look up the required format.
     """
+    if verbose:
+        log_level = getattr(logging, verbose.upper())
+        change_log_level(log_level)
 
     filename = Path(output_file).resolve()
     with open(filename, "a") as file_obj:

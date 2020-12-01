@@ -309,7 +309,12 @@
           "PolicyName": "InsecurePolicy",
           "PolicyArn": "arn:aws:iam::012345678901:policy/InsecurePolicy"
         }
-      ]
+      ],
+      "Tags": [],
+      "RoleLastUsed": {
+        "LastUsedDate": "2019-01-20 18:48:00+00:00",
+        "Region": "us-east-1"
+      }
     }
   ],
   "Policies": [
