@@ -35,10 +35,10 @@
                 <br>
                 <br>
                 <span v-html="getRiskDescription('PrivilegeEscalation')"></span>
-                <span>Action combinations:</span>
-<pre><code>
-{{ JSON.parse(JSON.stringify(findings(policyId, 'PrivilegeEscalation'), undefined, '\t')) }}
-</code></pre>
+                <span>Privilege Escalation Methods:</span>
+                <br>
+                <br>
+                <PrivilegeEscalationFormat v-bind:privilege-escalation-finding="privilegeEscalationFindings(policyId)"></PrivilegeEscalationFormat>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
 
 <script>
     import whatShouldIDoRaw from "../../assets/what-should-i-do.md";
-
+    import PrivilegeEscalationFormat from "./PrivilegeEscalationFormat";
     const managedPoliciesUtil = require('../../util/managed-policies');
     const inlinePoliciesUtil = require('../../util/inline-policies');
     var md = require('markdown-it')({
@@ -79,6 +79,9 @@
                 type: Object
             },
         },
+        components: {
+            PrivilegeEscalationFormat
+        },
         computed: {
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
@@ -96,6 +99,7 @@
             howDoIValidateResultsDescription() {
                 return howDoIValidateResultsDescription
             },
+
         },
         methods: {
             findings: function (policyId, riskType) {
@@ -109,6 +113,9 @@
                 if (riskType === "PrivilegeEscalation") {
                     return privilegeEscalationDescription
                 }
+            },
+            privilegeEscalationFindings: function (policyId) {
+                return this.findings(policyId, 'PrivilegeEscalation')
             }
         },
         watch: {

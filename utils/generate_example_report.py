@@ -50,12 +50,20 @@ def generate_example_report():
 
     # html_output_file = os.path.join(output_directory, f"index.html")
     html_output_file = os.path.join(output_directory, f"iam-report-{account_name}.html")
+    if os.path.exists(html_output_file):
+        print(f"{html_output_file} exists. Removing then replacing...")
+        os.remove(html_output_file)
 
     with open(html_output_file, "w") as f:
         f.write(rendered_report)
 
     print(f"Wrote HTML results to: {html_output_file}")
+
     index_output_file = os.path.join(output_directory, "index.html")
+    if os.path.exists(index_output_file):
+        print(f"{index_output_file} exists. Removing then replacing...")
+        os.remove(index_output_file)
+    print(f"Copying HTML results to the index file: {index_output_file}")
     shutil.copyfile(os.path.join(output_directory, "iam-report-fake.html"), index_output_file)
     url = "file://%s" % os.path.abspath(index_output_file)
     webbrowser.open(url, new=2)
