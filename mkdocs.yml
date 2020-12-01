@@ -35,6 +35,7 @@ nav:
     - Remediation: 'report/remediation.md'
     - Validation: 'report/validation.md'
     - Glossary: 'report/glossary.md'
+    - Privilege Escalation Findings: 'report/privilege-escalation-findings.md'
 
   - "<b>Contributing</b>":
     - Contributing: 'contributing/contributing.md'
