@@ -11,13 +11,12 @@ import logging
 import json
 import yaml
 import click
-import click_log
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import Exclusions
 from cloudsplaining.output.policy_finding import PolicyFinding
+from cloudsplaining import change_log_level
 logger = logging.getLogger(__name__)
-click_log.basic_config(logger)
 BOLD = "\033[1m"
 RED = "\033[91m"
 END = "\033[0m"
@@ -47,10 +46,16 @@ END = "\033[0m"
     help="If issues are found, only print the high priority risks"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
-@click_log.simple_verbosity_option(logger)
+@click.option(
+    '--verbose','-v',
+    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
+    case_sensitive=False))
 # pylint: disable=redefined-builtin
-def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma: no cover
+def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose):  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
+    if verbose:
+        log_level = getattr(logging, verbose.upper())
+        change_log_level(log_level)
     if input_file:
         # Get the Policy
         with open(input_file) as json_file:
@@ -84,7 +89,7 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only):  # pragma
             results_exist += 1
             for item in results.get("PrivilegeEscalation"):
                 print(f"- Method: {item.get('type')}")
-                print(f"  Actions: {', '.join(item.get('PrivilegeEscalation'))}\n")
+                print(f"  Actions: {', '.join(item.get('actions', []))}\n")
 
         # Data Exfiltration
         if results.get("DataExfiltration"):

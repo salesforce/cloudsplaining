@@ -34,8 +34,16 @@ nav:
     - Triage: 'report/triage.md'
     - Remediation: 'report/remediation.md'
     - Validation: 'report/validation.md'
-    - Glossary: 'report/glossary.md'
-    - Privilege Escalation Findings: 'report/privilege-escalation-findings.md'
+
+  - "<b>Glossary</b>":
+    - Privilege Escalation: 'report/privilege-escalation-findings.md'
+    - Resource Exposure: 'glossary/resource-exposure.md'
+    - Data Exfiltration: 'glossary/data-exfiltration.md'
+    - Credentials Exposure: 'glossary/credentials-exposure.md'
+    - Infrastructure Modification: 'glossary/infrastructure-modification.md'
+    - Service Wildcard: 'glossary/service-wildcard.md'
+    - Roles Assumable by Compute Service: 'glossary/roles-assumable-by-compute-service.md'
+    - Trust Policy: 'glossary/trust-policy.md'
 
   - "<b>Contributing</b>":
     - Contributing: 'contributing/contributing.md'
