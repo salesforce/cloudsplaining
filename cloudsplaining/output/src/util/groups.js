@@ -4,47 +4,53 @@ function getGroupNames(iam_data) {
     return Object.keys(iam_data["groups"]);
 }
 
+/**
+ * Collects members that belong to IAM Group matching given groupId
+ * @param iam_data Global container with IAM report
+ * @param groupId Group we are filtering against
+ * @returns [{string: any}]
+ */
 function getGroupMembers(iam_data, groupId) {
-    // Look through users
-    let userObjects;
-    userObjects = Object.keys(iam_data["users"]);
+    const userObjects = Object.keys(iam_data["users"]);
+
+    if (!userObjects.length) {
+        return [];
+    }
+
     const members = [];
+
+    // todo: clean this up with a nicer map/filter/reduce
     for (let i = 0; i < userObjects.length; i++) {
         let userId = userObjects[i];
-        let groupMemberships = iam_data["users"][userId]["groups"];
-        if (Object.prototype.hasOwnProperty.call(groupMemberships, groupId)) {
-            let entry = {
+        let groupMemberships = Object.values(iam_data["users"][userId]["groups"]);
+
+        if (groupMemberships.some(group => group.id === groupId)) {
+            members.push({
                 user_id: userId,
                 user_name: iam_data["users"][userId]["name"]
-            }
-            members.push(Object.assign(entry));
+            })
         }
     }
     return members;
 }
 
+/**
+ * Collects IAM Groups a user belongs to
+ * @param iam_data Global container with IAM report
+ * @param userId AWS unique user identifier to filtering against
+ * @returns [{string: any}]
+ */
 function getGroupMemberships(iam_data, userId) {
-    // Look through users
-    let result = [];
-    let groupMembershipIds;
-    groupMembershipIds = Array.from(Object.keys(iam_data["users"][userId]["groups"]));
-    if (Object.keys(groupMembershipIds).length > 0) {
-        // the "groups" under here are the group IDs, not the group names.
-        // Let's go retrieve an object that maps the IDs to the Group names
 
+    let groupMemberships = iam_data["users"][userId].groups;
 
-        for (let groupId of groupMembershipIds) {
-        // for (let i = 0; i < Object.keys(groupMembershipIds).length; i++) {
-            if (Object.prototype.hasOwnProperty.call(iam_data["groups"], groupId)) {
-                let entry = {
-                    group_id: groupId.slice(),
-                    group_name: iam_data["groups"][groupId]["name"].slice()
-                };
-                result.push(Object.assign(entry));
-            }
-        }
+    if (!groupMemberships || !Object.keys(groupMemberships).length) {
+        return [];
     }
-    return result;
+
+    return Object.values(groupMemberships).reduce((groups, group) => {
+        return [...groups, {group_id: group.id, group_name: group.name}]
+    }, [])
 }
 
 exports.getGroupNames = getGroupNames;
