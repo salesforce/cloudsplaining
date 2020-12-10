@@ -48,10 +48,11 @@ nav:
   - "<b>Contributing</b>":
     - Contributing: 'contributing/contributing.md'
     - Documentation: 'contributing/documentation.md'
-    - Python: 'contributing/python.md'
     - JavaScript: 'contributing/javascript.md'
-    - Testing: 'contributing/testing.md'
+    - Python: 'contributing/python.md'
+    - Release Drafter: 'contributing/release-drafter.md'
     - Report Generation: 'contributing/report.md'
+    - Testing: 'contributing/testing.md'
     - Versioning: 'contributing/versioning.md'
 
   - "<b>Appendices</b>":
