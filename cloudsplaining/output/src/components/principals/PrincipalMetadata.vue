@@ -85,17 +85,16 @@
 
             <!--GROUP SPECIFIC-->
             <template v-if="principalType.toLowerCase() === 'group'">
-                <dt class="col-sm-3">Group Members</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Group Members</dt>
+                <dd class="col-sm-7">
                     <b-button size="sm"
                             v-b-toggle="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.group-members.collapse`">
                         {{ getGroupMembers(principalId).length }}
                     </b-button>
                     <b-collapse
                             v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.group-members.collapse`">
-                        Group Members:
-                        <ul v-bind:key="groupMemberEntry" v-for="groupMemberEntry in getGroupMembers(principalId).length">
-                          <li>{{ getGroupMembers(principalId)[groupMemberEntry - 1]['user_name'] }} (ID: {{ getGroupMembers(principalId)[groupMemberEntry - 1]['user_id'] }})</li>
+                        <ul v-bind:key="groupMemberEntry.user_id" v-for="groupMemberEntry in getGroupMembers(principalId)">
+                          <li class="text-break">{{ groupMemberEntry.user_name }} (ID: {{ groupMemberEntry.user_id }})</li>
                         </ul>
                     </b-collapse>
                 </dd>
@@ -103,19 +102,17 @@
 
             <!--USER SPECIFIC-->
             <template v-if="principalType.toLowerCase() === 'user'">
-                <dt class="col-sm-3">Group Memberships</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Group Memberships</dt>
+                <dd class="col-sm-7">
                     <b-button size="sm"
                               v-b-toggle="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.group-membership.collapse`">
-                        {{ Object.keys(getGroupMemberships(principalId)).length }}
+                        {{ getGroupMemberships(principalId).length }}
                     </b-button>
                     <b-collapse
-                            v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.group-membership.collapse`"
-                            v-if="Object.keys(getGroupMemberships(principalId)).length === 0"
-                    >
-                        Group Memberships:
-                        <ul v-bind:key="groupMembershipEntry" v-for="groupMembershipEntry in getGroupMemberships(principalId).length">
-                          <li>{{ getGroupMemberships(principalId)[groupMembershipEntry - 1]['group_name'] }} (ID: {{ getGroupMemberships(principalId)[groupMembershipEntry - 1]['group_id'] }})</li>
+                        v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}.group-membership.collapse`"
+                        v-if="getGroupMemberships(principalId).length > 0">
+                        <ul v-bind:key="groupMembershipEntry.group_id" v-for="groupMembershipEntry in getGroupMemberships(principalId)">
+                            <li class="text-break">{{ groupMembershipEntry.group_name }} (ID: {{ groupMembershipEntry.group_id }})</li>
                         </ul>
                     </b-collapse>
                 </dd>
