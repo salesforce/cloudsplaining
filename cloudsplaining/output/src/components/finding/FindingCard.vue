@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <h6 class="card-header" v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '.' + policyId + '.' + 'card'">
-            Name: {{ policyName(policyId) }}
-            <br>
-            <br>
-            <span v-show="inlineOrManaged === 'Managed'">
-                PolicyId: {{ policyId }}
-            <br>
-            <br>
-            </span>
-            <span v-show="inlineOrManaged === 'Inline'">
+    <div :id="findingId">
+        <div class="card-header">
+            <h4>
+                 <LinkToFinding :finding-id="findingId">
+                     {{ policyName(policyId) }}
+                 </LinkToFinding>
+            </h4>
+            <p v-show="inlineOrManaged === 'Managed'" class="policy-identifier">
+                Policy Id: {{ policyId }}
+            </p>
+            <p v-show="inlineOrManaged === 'Inline'" class="policy-identifier">
                 Policy Document SHA-256:
-                <ul><li><span><small>{{ policyId }}</small></span></li></ul>
-            </span>
+                <small style="display:block">{{ policyId }}</small>
+            </p>
             Attached to Principals:
             <ul>
                 <li v-if="principalLeveragingPolicy(policyId, 'Role').length > 0">
@@ -43,7 +43,7 @@
                     </ul>
                 </li>
             </ul>
-        </h6>
+        </div>
         <div class="card-body">
             <p class="card-text">
                 Services:
@@ -59,11 +59,17 @@
 </template>
 
 <script>
+    import LinkToFinding from "../LinkToFinding";
+
     const managedPoliciesUtil = require('../../util/managed-policies');
     const inlinePoliciesUtil = require('../../util/inline-policies');
+    const {createFindingId} = require('../../util/other');
 
     export default {
         name: "FindingCard",
+        components: {
+            LinkToFinding
+        },
         props: {
             // Either "Inline", "AWS", or "Customer"
             managedBy: {
@@ -78,12 +84,12 @@
         },
         computed: {
             inlineOrManaged() {
-                if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
-                    return "Managed"
-                }
-                else {
-                    return "Inline"
-                }
+                return ((this.managedBy === "AWS") || (this.managedBy === "Customer"))
+                    ? "Managed"
+                    : "Inline";
+            },
+            findingId() {
+                return createFindingId(this.policyId, this.inlineOrManaged.toLowerCase())
             }
         },
         methods: {
@@ -131,5 +137,10 @@
 </script>
 
 <style scoped>
+
+.policy-identifier > small {
+    margin-left: 1.5rem;
+    display: block;
+}
 
 </style>

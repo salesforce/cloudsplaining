@@ -1,18 +1,20 @@
 <template>
     <div>
         <h2>Principals</h2>
-        <br>
-        This page displays IAM Users, Groups, and Roles in the account, their associated policies, the risks associated with each principal, and various metadata that can be expanded per principal.
-        <br>
-        <br>
+        <p>
+            This page displays IAM Users, Groups, and Roles in the account, their associated policies, the risks associated with each principal, and various metadata that can be expanded per principal.
+        </p>
+
         <div v-bind:key="principalType" v-for="principalType in principalTypes">
         <h3>{{ capitalizeFirstLetter(principalType) }}</h3>
             <div v-bind:key="principalId" v-for="principalId in principalTypeIds(principalType)">
                 <b-container>
-                    <b-row class="px-2">
+                    <b-row class="px-2" :id="principalId">
                         <b-col class="col-sm-5">
-                            <h5 v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}`">{{ getPrincipalMetadata(principalId, principalType)['name'] }}
-                                <br>
+                            <h5 v-bind:id="`iam.${principalType}.${getPrincipalMetadata(principalId, principalType)['id']}`">
+                                <LinkToFinding v-bind:finding-id=principalId>
+                                    {{ getPrincipalMetadata(principalId, principalType)['name'] }}
+                                </LinkToFinding>
                                 <small class="text-muted">{{getPrincipalMetadata(principalId, principalType)['arn']}}</small>
                             </h5>
                         </b-col>
@@ -55,10 +57,10 @@
 <script>
     import RisksPerPrincipal from "./principals/RisksPerPrincipal";
     import PrincipalMetadata from "./principals/PrincipalMetadata";
+    import LinkToFinding from "./LinkToFinding";
     const principalsUtil = require('../util/principals');
     const rolesUtil = require('../util/roles');
     const groupsUtil = require('../util/groups');
-    const otherUtil = require('../util/other');
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
 
@@ -71,7 +73,8 @@
         },
         components: {
             RisksPerPrincipal,
-            PrincipalMetadata
+            PrincipalMetadata,
+            LinkToFinding,
         },
         computed: {
             roleIds() {
@@ -88,7 +91,7 @@
             },
             principalTypes() {
                 return ["role", "group", "user"]
-            }
+            },
         },
         methods: {
             principalTypeIds: function(principalType) {
@@ -116,9 +119,6 @@
             getGroupMemberships: function (groupId) {
                 return groupsUtil.getGroupMemberships(this.iam_data, groupId)
             },
-            addSpacesInPascalCaseString: function (s) {
-                return otherUtil.addSpacesInPascalCaseString(s)
-            },
             getPrincipalPolicyNames: function (principalName, principalType, policyType) {
                 return principalsUtil.getPrincipalPolicyNames(this.iam_data, principalName, principalType, policyType)
             },
@@ -139,7 +139,8 @@
             },
             capitalizeFirstLetter: function(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
-            }
+            },
+
         }
     }
 </script>
