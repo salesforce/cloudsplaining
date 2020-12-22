@@ -2,7 +2,6 @@
     <div id="main">
         <b-navbar toggleable="md" variant="faded">
             <b-navbar-brand to="/summary">
-            <!-- <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten"> -->
                 Cloudsplaining
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -110,7 +109,12 @@
 
     export default {
         name: 'App',
-
+        mounted: function()
+        {
+            // Workaround for handling anchors when vue-router is in hash mode
+            // https://stackoverflow.com/a/45206192
+            setTimeout(() => this.scrollFix(this.$route.hash), 1);
+        },
         data() {
             return {
                 // eslint-disable-next-line no-undef
@@ -139,6 +143,10 @@
             },
             getTaskTableMapping: function (managedBy) {
                 return getTaskTableMapping(managedBy)
+            },
+            scrollFix: function(hashbang)
+            {
+                location.hash = hashbang;
             }
         },
         provide() {
