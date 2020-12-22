@@ -102,6 +102,25 @@ function compareValues(key, order = 'asc') {
   };
 }
 
+const MAX_FINDING_ID_LENGTH = 13;
+/**
+ * Creates simplified selector ID for anchor tags.
+ *
+ * @param resourceId Policy ID, ARN, etc of a resource
+ * @param prefix {string} Insert an optional prefix for the id
+ * @returns {string}
+ */
+const createFindingId = (resourceId, prefix = "") => {
+    const simpleId = resourceId.length <= MAX_FINDING_ID_LENGTH
+        ? String(resourceId)
+        : String(resourceId).slice(-MAX_FINDING_ID_LENGTH);
+
+    if (prefix) {
+        return `${prefix}.${simpleId.toLowerCase()}`;
+    }
+    return simpleId.toLowerCase()
+}
+
 exports.policyViolations = policyViolations;
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
 exports.compareValues = compareValues;
@@ -109,3 +128,4 @@ exports.removeDuplicatesFromArray = removeDuplicatesFromArray;
 exports.convertStringToSnakeCase = convertStringToSnakeCase;
 exports.convertStringToKebabCase = convertStringToKebabCase;
 exports.convertStringToSpaceCase = convertStringToSpaceCase;
+exports.createFindingId = createFindingId
