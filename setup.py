@@ -47,7 +47,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['test*', 'tmp*']),
     tests_require=TESTS_REQUIRE,
     install_requires=[
-        'policy_sentry>=0.11.2',
+        'policy_sentry>=0.11.3',
         'click',
         'schema',
         'boto3',

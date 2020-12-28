@@ -56,6 +56,15 @@ class GroupDetailList:
         return results
 
     @property
+    def all_infrastructure_modification_actions_by_inline_policies(self):
+        """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
+        result = set()
+        for group in self.groups:
+            for policy in group.inline_policies:
+                result.update(policy.policy_document.infrastructure_modification)
+        return sorted(result)
+
+    @property
     def inline_policies_json(self):
         """Return JSON representation of attached inline policies"""
         results = {}
@@ -191,6 +200,14 @@ class GroupDetail:
             if is_aws_managed(policy.arn):
                 policies[policy.policy_id] = policy.policy_name
         return policies
+
+    @property
+    def all_infrastructure_modification_actions_by_inline_policies(self):
+        """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
+        result = set()
+        for policy in self.inline_policies:
+            result.update(policy.policy_document.infrastructure_modification)
+        return sorted(result)
 
     @property
     def inline_policies_json(self):
