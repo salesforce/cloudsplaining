@@ -52,31 +52,30 @@ npm build
 
 ### Adding new JavaScript utility functions: Checklist
 
-- [ ] Add a new `.js` file under [/cloudsplaining/output/src/util](/cloudsplaining/output/src/util/). This should contain your JavaScript functions.
+- Add a new `.js` file under [/cloudsplaining/output/src/util](/cloudsplaining/output/src/util/). This should contain your JavaScript functions.
    * Add your function in this code. See other files in that folder for an example.
    * Ensure that there is an `exports myfunction = myfunction;` line at the end of the file 
   
-- [ ] Add a new `.js` file under [/cloudsplaining/output/src/test](/cloudsplaining/output/src/test/). 
+- Add a new `.js` file under [/cloudsplaining/output/src/test](/cloudsplaining/output/src/test/). 
    * Use this to store your unit tests. See other files in that directory for examples.
  
 ### Adding new Vue Component: Checklist
 
-- [ ] Add a new file under [/cloudsplaining/output/src/components](/cloudsplaining/output/src/components/).
-- [ ] Ensure that the component is imported in the [App.vue](/cloudsplaining/output/src/App.vue) file.
-- [ ] Ensure that the component is added as a component in the component listing in the [App.vue](/cloudsplaining/output/src/App.vue) file.
-- [ ] Ensure that the component is leveraged in the HTML `template` within that [App.vue](/cloudsplaining/output/src/App.vue) file.
-- [ ] Ensure that unit tests run successfully
+- Add a new file under [/cloudsplaining/output/src/components](/cloudsplaining/output/src/components/).
+- Ensure that the component is imported in the [App.vue](/cloudsplaining/output/src/App.vue) file.
+- Ensure that the component is added as a component in the component listing in the [App.vue](/cloudsplaining/output/src/App.vue) file.
+- Ensure that the component is leveraged in the HTML `template` within that [App.vue](/cloudsplaining/output/src/App.vue) file.
+- Ensure that unit tests run successfully
 
 ### Building the report for testing
 
-- [ ] Step 1: Make sure it builds successfully locally first with `npm serve` 
-
+####  Step 1: Make sure it builds successfully locally first with `npm serve` 
 ```bash
 npm serve
 # You can then access the application over http://localhost:8080
 ``` 
 
-- [ ] Step 2: Build new JavaScript bundle files
+####  Step 2: Build new JavaScript bundle files
 
 ```bash
 npm build
@@ -84,9 +83,9 @@ npm build
 
 This generates JavaScript files that are bundled with [webpack](https://cli.vuejs.org/guide/webpack.html). 
 
-The JavaScript file at [/cloudsplaining/output/dist/index.bundle.js](/tmp/index.bundle.js) contains the **bundled application code**. The JavaScript file at [/cloudsplaining/output/dist/js/chunk-vendors.js](/cloudsplaining/output/dist/js/chunk-vendors.js) contains a bundle of  **all required dependencies** that would other wise be under the `/node_modules/` directory.
+The JavaScript file at [/cloudsplaining/output/dist/index.bundle.js](https://github.com/salesforce/cloudsplaining/blob/master/cloudsplaining/output/dist/js/index.js) contains the **bundled application code**. The JavaScript file at [/cloudsplaining/output/dist/js/chunk-vendors.js](https://github.com/salesforce/cloudsplaining/blob/master/cloudsplaining/output/dist/js/chunk-vendors.js) contains a bundle of  **all required dependencies** that would other wise be under the `/node_modules/` directory.
 
-The `npm build` command will also generate a file titled `index.html` at  [/cloudsplaining/output/dist/index.html](/cloudsplaining/output/dist/index.html). However, Cloudsplaining does not actually use that file, since that file assumes that the JavaScript is available at local relative paths. Instead, Cloudsplaining injects the **contents** of the `index.bundle.js` file (the application code) and the `chunk-vendors.js` file (the dependencies) into a nearly identical file - [template.html](/cloudsplaining/output/template.html) - along with the results of the Cloudsplaining scan. The relevant sections of the [template.html](/cloudsplaining/output/template.html) file look like this:
+The `npm build` command will also generate a file titled `index.html` at  [/cloudsplaining/output/dist/index.html](https://github.com/salesforce/cloudsplaining/blob/master/cloudsplaining/output/dist/index.html). However, Cloudsplaining does not actually use that file, since that file assumes that the JavaScript is available at local relative paths. Instead, Cloudsplaining injects the **contents** of the `index.bundle.js` file (the application code) and the `chunk-vendors.js` file (the dependencies) into a nearly identical file - [template.html](https://github.com/salesforce/cloudsplaining/blob/master/cloudsplaining/output/template.html) - along with the results of the Cloudsplaining scan. The relevant sections of the [template.html](https://github.com/salesforce/cloudsplaining/blob/master/cloudsplaining/output/template.html) file look like this:
 
 ```html
 <!-- built files will be auto injected -->
@@ -117,7 +116,7 @@ The `npm build` command will also generate a file titled `index.html` at  [/clou
 </script>
 ``` 
 
-- [ ] Step 3: Create the new sample report
+#### Step 3: Create the new sample report
 
 ```bash
 python3 ./utils/generate_example_report.py
