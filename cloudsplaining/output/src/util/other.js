@@ -128,10 +128,13 @@ function getActionLinks(iam_data, actionList) {
     for(let i = 0; i < actionList.length; i++) {
         let actionName = actionList[i];
         if (actionName in links) {
-            console.log(actionList[i])
+            // console.log(actionList[i]);
+            // console.log(links[actionName]);
+            // s3:GetObject = https://...
+            result[actionName] = links[actionName];
         }
-
     }
+    return result;
 
 }
 
