@@ -8111,7 +8111,7 @@ var sample_iam_data = {
             "is_excluded": false
         }
     },
-    "inline_policies": {
+    "inline_policies":  {
         "ffd2b5250e18691dbd9f0fb8b36640ec574867835837f17d39f859c3193fb3f2": {
             "PolicyName": "InlinePolicyForAdminGroup",
             "PolicyId": "ffd2b5250e18691dbd9f0fb8b36640ec574867835837f17d39f859c3193fb3f2",

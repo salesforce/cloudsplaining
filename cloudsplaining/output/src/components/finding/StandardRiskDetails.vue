@@ -38,6 +38,7 @@
                         <br>
                         <br>
                         <span v-html="getRiskDescription(risk.risk_type)"></span>
+<!-- TODO: Insert the links to each IAM action  here-->
                         <span>Actions/services:</span>
 <pre><code>
 {{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
