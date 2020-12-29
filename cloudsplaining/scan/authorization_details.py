@@ -49,6 +49,7 @@ class AuthorizationDetails:
 
     @property
     def links(self):
+        """Return a dictionary of the action names as keys and their API documentation links as values"""
         results = {}
         unique_action_names = set()
         # unique_action_names will be in the InfrastructureModification block for any given policy.
