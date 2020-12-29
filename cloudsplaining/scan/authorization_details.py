@@ -48,7 +48,7 @@ class AuthorizationDetails:
         return results
 
     @property
-    def action_links(self):
+    def links(self):
         results = {}
         unique_action_names = set()
         # unique_action_names will be in the InfrastructureModification block for any given policy.
@@ -81,6 +81,6 @@ class AuthorizationDetails:
             "customer_managed_policies": self.policies.json_large_customer_managed,
             "inline_policies": self.inline_policies,
             "exclusions": self.exclusions.config,
-            "action_links": self.action_links
+            "links": self.links
         }
         return results
