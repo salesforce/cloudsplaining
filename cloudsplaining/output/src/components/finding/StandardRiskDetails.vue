@@ -39,9 +39,20 @@
                         <br>
                         <span v-html="getRiskDescription(risk.risk_type)"></span>
                         <span>Actions/services:</span>
+<!--If the type is ServiceWildcard, that does not list specific IAM actions, it just lists service names.-->
+                        <span v-if="risk.risk_type === 'ServiceWildcard'">
 <pre><code>
 {{ JSON.parse(JSON.stringify(findings(policyId, risk.risk_type), undefined, '\t')) }}
 </code></pre>
+                        </span>
+<!--If the finding type is not ServiceWildcard or Privilege Escalation, it will list IAM action names-->
+                        <span v-else>
+                            <ul>
+                                <li v-bind:key="someAction" v-for="(someActionLink, someAction) in getActionLinks(policyId, risk.risk_type)">
+                                    <a v-bind:href="`${someActionLink}`">{{ someAction }}</a>
+                                </li>
+                            </ul>
+                        </span>
                     </div>
                 </div>
             </template>
@@ -162,7 +173,11 @@
                 else {
                     return ""
                 }
-            }
+            },
+            getActionLinks: function (policyId, risk_type) {
+                let actionList = this.findings(policyId, risk_type)
+                return otherUtil.getActionLinks(this.iam_data, actionList)
+            },
         },
         watch: {
             toggleData: {

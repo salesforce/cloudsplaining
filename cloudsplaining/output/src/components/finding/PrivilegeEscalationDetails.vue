@@ -9,7 +9,6 @@
         <div class="panel-collapse collapse"
              ref="PrivilegeEscalationDetailsDiv"
              v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'privilege-escalation'">
-            <!--TODO: Format the Privilege Escalation stuff-->
             <div class="card-body">
                 <!--What should I do?-->
                 <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-what-should-i-do`">What should I do?</b-button>

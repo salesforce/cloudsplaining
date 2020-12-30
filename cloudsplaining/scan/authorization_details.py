@@ -6,6 +6,7 @@
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
 from policy_sentry.querying.all import get_all_service_prefixes
+from policy_sentry.querying.actions import get_all_action_links
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.group_details import GroupDetailList
 from cloudsplaining.scan.role_details import RoleDetailList
@@ -47,6 +48,30 @@ class AuthorizationDetails:
         return results
 
     @property
+    def links(self):
+        """Return a dictionary of the action names as keys and their API documentation links as values"""
+        results = {}
+        unique_action_names = set()
+        # unique_action_names will be in the InfrastructureModification block for any given policy.
+        # So if it shows up in ResourceExposure, it will also be in InfrastructureModification
+        # Or if it shows up in DataExfiltration or PrivilegeEscalation, it will also be in InfrastructureModification
+        # Let's create a set of unique_action_names that are in InfrastructureModification
+        # First, let's get them from ManagedPolicyDetails
+        # Then, the inline policies from GroupDetails, RoleDetails, and UserDetails
+        unique_action_names.update(self.group_detail_list.all_infrastructure_modification_actions_by_inline_policies)
+        unique_action_names.update(self.role_detail_list.all_infrastructure_modification_actions_by_inline_policies)
+        unique_action_names.update(self.user_detail_list.all_infrastructure_modification_actions_by_inline_policies)
+        unique_action_names.update(self.policies.all_infrastructure_modification_actions)
+
+        unique_action_names = sorted(unique_action_names)
+        all_action_links = get_all_action_links()
+
+        for action in unique_action_names:
+            if action in all_action_links:
+                results[action] = all_action_links[action]
+        return results
+
+    @property
     def results(self):
         """Get the new JSON format of the Principals data"""
         results = {
@@ -56,6 +81,7 @@ class AuthorizationDetails:
             "aws_managed_policies": self.policies.json_large_aws_managed,
             "customer_managed_policies": self.policies.json_large_customer_managed,
             "inline_policies": self.inline_policies,
-            "exclusions": self.exclusions.config
+            "exclusions": self.exclusions.config,
+            "links": self.links
         }
         return results

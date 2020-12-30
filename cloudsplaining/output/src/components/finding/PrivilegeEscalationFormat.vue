@@ -1,10 +1,10 @@
 <template>
     <ol>
-        <li v-bind:key="someFinding" v-for="someFinding in privilegeEscalationFinding">
+        <li v-bind:key="someFinding.type" v-for="someFinding in privilegeEscalationFinding">
             <a v-bind:href="`https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#${someFinding.type}`" >{{ someFinding.type }}</a>
-        (<span v-bind:key="action" v-for="(action, index) in someFinding.actions">
+        (<span v-bind:key="someAction" v-for="(someAction, index) in someFinding.actions">
             <span v-if="index !== 0">, </span>
-            <span><code>{{action}}</code></span>
+            <span><code>{{someAction}}</code></span>
         </span>)
             <br>
             <br>
@@ -17,7 +17,7 @@
         name: "PrivilegeEscalationFormat",
         props: {
             privilegeEscalationFinding: {
-                type: Object
+                type: Array
             }
         }
     }
