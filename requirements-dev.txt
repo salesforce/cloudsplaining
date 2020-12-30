@@ -37,7 +37,7 @@ packaging==20.8
 pathspec==0.8.1
 pbr==5.5.1
 pluggy==0.13.1
-policy-sentry==0.11.2
+policy-sentry==0.11.3
 py==1.10.0
 pylint==2.6.0
 pyparsing==2.4.7

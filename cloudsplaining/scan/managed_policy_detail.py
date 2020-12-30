@@ -63,6 +63,14 @@ class ManagedPolicyDetails:
         return result
 
     @property
+    def all_infrastructure_modification_actions(self):
+        """Return a list of all infrastructure modification actions allowed by all managed policies in violation."""
+        result = set()
+        for policy in self.policy_details:
+            result.update(policy.policy_document.infrastructure_modification)
+        return sorted(result)
+
+    @property
     def json(self):
         """Get all JSON results"""
         result = {}

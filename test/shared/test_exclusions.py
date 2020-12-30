@@ -140,5 +140,16 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
         authorization_details = AuthorizationDetails(authz_file, exclusions)
         results = authorization_details.results
 
-        expected_results = {"groups": {}, "users": {}, "roles": {}, "aws_managed_policies": {}, "customer_managed_policies": {}, "inline_policies": {}, "exclusions": {"policies": ["aws-service-role*"]}}
+        expected_results = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+            "aws_managed_policies": {},
+            "customer_managed_policies": {},
+            "inline_policies": {},
+            "exclusions": {
+                "policies": ["aws-service-role*"]
+            },
+            "links": {}
+        }
         self.assertDictEqual(results, expected_results)

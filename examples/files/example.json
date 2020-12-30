@@ -250,7 +250,10 @@
         }
       ],
       "Tags": [],
-      "RoleLastUsed": {}
+      "RoleLastUsed": {
+        "LastUsedDate": "2019-03-16 17:27:59+00:00",
+        "Region": "us-east-1"
+      }
     },
     {
       "Path": "/",
@@ -307,7 +310,10 @@
         }
       ],
       "Tags": [],
-      "RoleLastUsed": {}
+      "RoleLastUsed": {
+        "LastUsedDate": "2020-09-16 17:27:59+00:00",
+        "Region": "us-east-1"
+      }
     },
     {
       "Path": "/",

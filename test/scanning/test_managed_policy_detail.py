@@ -51,3 +51,9 @@ class TestManagedPolicyDetail(unittest.TestCase):
             "ANPAJYRXTHIB4FOVS3ZXS"
         ]
         self.assertListEqual(list(results.keys()), expected_keys)
+
+    # def test_infrastructure_modification_actions(self):
+    #     policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
+    #     infra_mod_actions = sorted(policy_details.all_infrastructure_modification_actions)
+    #     self.assertTrue(len(infra_mod_actions) > 3000)
+    #

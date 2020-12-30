@@ -121,6 +121,23 @@ const createFindingId = (resourceId, prefix = "") => {
     return simpleId.toLowerCase()
 }
 
+function getActionLinks(iam_data, actionList) {
+    // eslint-disable-next-line no-unused-vars
+    let result = {};
+    let links = iam_data.links;
+    for(let i = 0; i < actionList.length; i++) {
+        let actionName = actionList[i];
+        if (actionName in links) {
+            // console.log(actionList[i]);
+            // console.log(links[actionName]);
+            // s3:GetObject = https://...
+            result[actionName] = links[actionName];
+        }
+    }
+    return result;
+
+}
+
 exports.policyViolations = policyViolations;
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
 exports.compareValues = compareValues;
@@ -128,4 +145,5 @@ exports.removeDuplicatesFromArray = removeDuplicatesFromArray;
 exports.convertStringToSnakeCase = convertStringToSnakeCase;
 exports.convertStringToKebabCase = convertStringToKebabCase;
 exports.convertStringToSpaceCase = convertStringToSpaceCase;
-exports.createFindingId = createFindingId
+exports.createFindingId = createFindingId;
+exports.getActionLinks = getActionLinks;

@@ -50,6 +50,7 @@ nav:
     - Documentation: 'contributing/documentation.md'
     - JavaScript: 'contributing/javascript.md'
     - Python: 'contributing/python.md'
+    - JSON Schema: 'contributing/results-json-schema.md'
     - Release Drafter: 'contributing/release-drafter.md'
     - Report Generation: 'contributing/report.md'
     - Testing: 'contributing/testing.md'
