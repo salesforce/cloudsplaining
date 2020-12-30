@@ -150,6 +150,6 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
             "exclusions": {
                 "policies": ["aws-service-role*"]
             },
-            "action_links": {}
+            "links": {}
         }
         self.assertDictEqual(results, expected_results)

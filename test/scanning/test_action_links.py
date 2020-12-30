@@ -81,7 +81,7 @@ class TestActionLinks(unittest.TestCase):
 
     def test_authorization_files_action_links(self):
         authorization_details = AuthorizationDetails(auth_details_json)
-        results = authorization_details.action_links
+        results = authorization_details.links
         """
         # It will look like this, but :
         {
