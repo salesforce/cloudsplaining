@@ -6,6 +6,7 @@ Cloudsplaining is an AWS IAM Security Assessment tool that identifies violations
 [![Tests](https://github.com/salesforce/cloudsplaining/workflows/Test/badge.svg)](https://github.com/salesforce/cloudsplaining/actions?query=workflow%3ATest)
 [![Documentation Status](https://readthedocs.org/projects/cloudsplaining/badge/?version=latest)](https://cloudsplaining.readthedocs.io/en/latest/?badge=latest)
 [![Join the chat at https://gitter.im/cloudsplaining](https://badges.gitter.im/cloudsplaining.svg)](https://gitter.im/cloudsplaining?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kmcquade3.svg?style=social&label=Follow%20the%20author)](https://twitter.com/kmcquade3)
 [![Downloads](https://pepy.tech/badge/cloudsplaining)](https://pepy.tech/project/cloudsplaining)
 
 * [Example report](https://opensource.salesforce.com/cloudsplaining/)
