@@ -23,7 +23,7 @@ from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 logger = logging.getLogger(__name__)
 logging.getLogger("policy_sentry").setLevel(logging.WARNING)
 
-all_actions = get_all_actions()
+ALL_ACTIONS = get_all_actions()
 
 
 # pylint: disable=too-many-instance-attributes
@@ -39,6 +39,9 @@ class StatementDetail:
         self.resources = self._resources()
         self.actions = self._actions()
         self.not_action = self._not_action()
+
+        self.has_resource_constraints = _has_resource_constraints(self.resources)
+
         self.not_action_effective_actions = self._not_action_effective_actions()
         self.not_resource = self._not_resource()
 
@@ -87,8 +90,11 @@ class StatementDetail:
         effective_actions = []
         if not self.not_action:
             return None
-        not_actions_expanded = determine_actions_to_expand(self.not_action)
-        not_actions_expanded_lowercase = [x.lower() for x in not_actions_expanded]
+
+        not_actions_expanded_lowercase = [
+            a.lower() 
+            for a in determine_actions_to_expand(self.not_action)
+        ]
 
         # Effect: Allow && Resource != "*"
         if self.has_resource_constraints and self.effect_allow:
@@ -96,52 +102,49 @@ class StatementDetail:
             for arn in self.resources:
                 actions_specific_to_arn = get_actions_matching_arn(arn)
                 if actions_specific_to_arn:
-                    opposite_actions.extend(get_actions_matching_arn(arn))
+                    opposite_actions.extend(actions_specific_to_arn)
 
             for opposite_action in opposite_actions:
                 # If it's in NotActions, then it is not an action we want
-                if opposite_action.lower() in not_actions_expanded_lowercase:
-                    pass
-                # Otherwise add it
-                else:
+                if opposite_action.lower() not in not_actions_expanded_lowercase:
                     effective_actions.append(opposite_action)
             effective_actions.sort()
             return effective_actions
+
         # Effect: Allow, Resource != "*", and Action == prefix:*
-        elif not self.has_resource_constraints and self.effect_allow:
+        if not self.has_resource_constraints and self.effect_allow:
             # Then we calculate the reverse using all_actions
-            for action in all_actions:
-                # If it's in NotActions, then it is not an action we want
-                if action.lower() in not_actions_expanded_lowercase:
-                    pass
-                    # Otherwise add it
-                else:
-                    effective_actions.append(action)
+
+            # If it's in NotActions, then it is not an action we want
+            effective_actions = [
+                action for action in ALL_ACTIONS 
+                if action.lower() not in not_actions_expanded_lowercase
+            ]
+            
             effective_actions.sort()
             return effective_actions
-        elif self.has_resource_constraints and self.effect_deny:
+
+        if self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
-        elif not self.has_resource_constraints and self.effect_deny:
+        
+        if not self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
         # only including this so Pylint doesn't yell at us
-        else:
-            return None  # pragma: no cover
+        return None  # pragma: no cover
 
     @property
     def has_not_resource_with_allow(self):
         """Per the AWS documentation, the NotResource should NEVER be used with the Allow Effect.
         See documentation here. https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notresource.html#notresource-element-combinations"""
-        result = False
-        if self.not_resource:
-            if self.effect_allow:
-                result = True
-                logger.warning(
-                    "Per the AWS documentation, the NotResource should never be used with the "
-                    "Allow Effect. We suggest changing this ASAP"
-                )
-        return result
+        if self.not_resource and self.effect_allow:
+            logger.warning(
+                "Per the AWS documentation, the NotResource should never be used with the "
+                "Allow Effect. We suggest changing this ASAP"
+            )            
+            return True
+        return False
 
     @cached_property
     def expanded_actions(self):
@@ -171,30 +174,11 @@ class StatementDetail:
     @property
     def services_in_use(self):
         """Get a list of the services in use by the statement."""
-        service_prefixes = []
+        service_prefixes = set()
         for action in self.expanded_actions:
             service, action_name = action.split(":")  # pylint: disable=unused-variable
-            if service not in service_prefixes:
-                service_prefixes.append(service)
-        service_prefixes.sort()
-        return service_prefixes
-
-    @property
-    def has_resource_constraints(self):
-        """Determine whether or not the statement allows resource constraints."""
-        answer = True
-        if len(self.resources) == 0:
-            # This is probably a NotResources situation which we do not support.
-            pass
-        if len(self.resources) == 1:
-            if self.resources[0] == "*":
-                answer = False
-        elif len(self.resources) > 1:  # pragma: no cover
-            # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
-            for resource in self.resources:
-                if resource == "*":
-                    answer = False
-        return answer
+            service_prefixes.add(service)
+        return sorted(service_prefixes)
 
     @property
     def permissions_management_actions_without_constraints(self):
@@ -239,13 +223,11 @@ class StatementDetail:
                 "Please use the Exclusions object."
             )
         actions_missing_resource_constraints = []
-        if len(self.resources) == 1:
-            if self.resources[0] == "*":
-                actions_missing_resource_constraints = remove_wildcard_only_actions(
-                    self.expanded_actions
-                )
-        results = exclusions.get_allowed_actions(actions_missing_resource_constraints)
-        return results
+        if len(self.resources) == 1 and self.resources[0] == "*":
+            actions_missing_resource_constraints = remove_wildcard_only_actions(
+                self.expanded_actions
+            )
+        return exclusions.get_allowed_actions(actions_missing_resource_constraints)
 
     def missing_resource_constraints_for_modify_actions(
         self, exclusions=DEFAULT_EXCLUSIONS
@@ -262,18 +244,20 @@ class StatementDetail:
                 "Please use the Exclusions object."
             )
         # This initially includes read-only and modify level actions
-        if exclusions.include_actions is None:
-            always_look_for_actions = []  # pragma: no cover
+        if exclusions.include_actions:
+            always_look_for_actions = [x.lower() for x in exclusions.include_actions]
         else:
-            always_look_for_actions = exclusions.include_actions
+            always_look_for_actions = []
+
         actions_missing_resource_constraints = self.missing_resource_constraints(
             exclusions
         )
 
         always_actions_found = []
         for action in actions_missing_resource_constraints:
-            if action.lower() in [x.lower() for x in always_look_for_actions]:
+            if action.lower() in always_look_for_actions:
                 always_actions_found.append(action)
+
         modify_actions_missing_constraints = remove_read_level_actions(
             actions_missing_resource_constraints
         )
@@ -286,3 +270,16 @@ class StatementDetail:
         )
         modify_actions_missing_constraints.sort()
         return modify_actions_missing_constraints
+
+
+def _has_resource_constraints(resources):
+    """Determine whether or not the statement allows resource constraints."""
+    if len(resources) == 0:
+        # This is probably a NotResources situation which we do not support.
+        pass
+    if len(resources) == 1 and resources[0] == "*":
+            return False
+    elif len(resources) > 1:  # pragma: no cover
+        # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
+        return not any(resource == "*" for resource in resources)
+    return True
