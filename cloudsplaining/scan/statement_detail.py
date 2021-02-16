@@ -1,5 +1,8 @@
 """Abstracts evaluation of IAM Policy statements."""
 import logging
+
+from cached_property import cached_property
+
 from policy_sentry.analysis.analyze import determine_actions_to_expand
 from policy_sentry.querying.actions import (
     remove_actions_not_matching_access_level,
@@ -140,9 +143,10 @@ class StatementDetail:
                 )
         return result
 
-    @property
+    @cached_property
     def expanded_actions(self):
         """Expands the full list of allowed actions from the Policy/"""
+        
         if self.actions:
             expanded = determine_actions_to_expand(self.actions)
             expanded.sort()
