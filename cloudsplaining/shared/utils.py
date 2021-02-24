@@ -105,7 +105,7 @@ def get_non_provider_id(some_string):
     if name is used as an ID. Use SHA256(name) instead.
     """
     name_hash = sha256()  # nosec
-    name_hash.update(some_string.encode('utf-8'))
+    name_hash.update(some_string.encode("utf-8"))
     return name_hash.hexdigest()
 
 

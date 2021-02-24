@@ -92,8 +92,7 @@ class StatementDetail:
             return None
 
         not_actions_expanded_lowercase = [
-            a.lower() 
-            for a in determine_actions_to_expand(self.not_action)
+            a.lower() for a in determine_actions_to_expand(self.not_action)
         ]
 
         # Effect: Allow && Resource != "*"
@@ -117,17 +116,18 @@ class StatementDetail:
 
             # If it's in NotActions, then it is not an action we want
             effective_actions = [
-                action for action in ALL_ACTIONS 
+                action
+                for action in ALL_ACTIONS
                 if action.lower() not in not_actions_expanded_lowercase
             ]
-            
+
             effective_actions.sort()
             return effective_actions
 
         if self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
-        
+
         if not self.has_resource_constraints and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
@@ -142,14 +142,14 @@ class StatementDetail:
             logger.warning(
                 "Per the AWS documentation, the NotResource should never be used with the "
                 "Allow Effect. We suggest changing this ASAP"
-            )            
+            )
             return True
         return False
 
     @cached_property
     def expanded_actions(self):
         """Expands the full list of allowed actions from the Policy/"""
-        
+
         if self.actions:
             expanded = determine_actions_to_expand(self.actions)
             expanded.sort()
@@ -278,7 +278,7 @@ def _has_resource_constraints(resources):
         # This is probably a NotResources situation which we do not support.
         pass
     if len(resources) == 1 and resources[0] == "*":
-            return False
+        return False
     elif len(resources) > 1:  # pragma: no cover
         # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
         return not any(resource == "*" for resource in resources)

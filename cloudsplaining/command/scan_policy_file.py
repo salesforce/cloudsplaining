@@ -16,6 +16,7 @@ from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import Exclusions
 from cloudsplaining.output.policy_finding import PolicyFinding
 from cloudsplaining import change_log_level
+
 logger = logging.getLogger(__name__)
 BOLD = "\033[1m"
 RED = "\033[91m"
@@ -47,11 +48,16 @@ END = "\033[0m"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
 @click.option(
-    '--verbose','-v',
-    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
-    case_sensitive=False))
+    "--verbose",
+    "-v",
+    type=click.Choice(
+        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
+    ),
+)
 # pylint: disable=redefined-builtin
-def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose):  # pragma: no cover
+def scan_policy_file(
+    input_file, exclusions_file, high_priority_only, verbose
+):  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
     if verbose:
         log_level = getattr(logging, verbose.upper())
@@ -85,7 +91,9 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose): 
     if results:
         # Privilege Escalation
         if results.get("PrivilegeEscalation"):
-            print(f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}")
+            print(
+                f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}"
+            )
             results_exist += 1
             for item in results.get("PrivilegeEscalation"):
                 print(f"- Method: {item.get('type')}")
@@ -94,31 +102,33 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose): 
         # Data Exfiltration
         if results.get("DataExfiltration"):
             results_exist += 1
-            print(f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration'))}\n"
+                f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}"
             )
+            print(f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration'))}\n")
 
         # Resource Exposure
         if results.get("ResourceExposure"):
             results_exist += 1
-            print(f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure'))}\n"
+                f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}"
             )
+            print(f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure'))}\n")
 
         # Service Wildcard
         if results.get("ServiceWildcard"):
             results_exist += 1
-            print(f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}")
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard'))}\n"
+                f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}"
             )
+            print(f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard'))}\n")
 
         # Credentials Exposure
         if results.get("CredentialsExposure"):
             results_exist += 1
-            print(f"{RED}Potential Issue found: Policy allows actions that return credentials{END}")
+            print(
+                f"{RED}Potential Issue found: Policy allows actions that return credentials{END}"
+            )
             print(
                 f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure'))}\n"
             )
@@ -127,8 +137,12 @@ def scan_policy_file(input_file, exclusions_file, high_priority_only, verbose): 
 
             # Infrastructure Modification
             results_exist += 1
-            print(f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}")
-            print(f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification'))}")
+            print(
+                f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
+            )
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification'))}"
+            )
 
         if results_exist == 0:
             print("There were no results found.")

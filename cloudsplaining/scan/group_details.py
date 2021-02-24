@@ -1,12 +1,18 @@
 """Processes an entry under GroupDetailList"""
 import json
 from cloudsplaining.scan.inline_policy import InlinePolicy
-from cloudsplaining.shared.utils import is_aws_managed, get_full_policy_path, get_policy_name, get_non_provider_id
+from cloudsplaining.shared.utils import (
+    is_aws_managed,
+    get_full_policy_path,
+    get_policy_name,
+    get_non_provider_id,
+)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class GroupDetailList:
     """Processes all entries under the GroupDetailList"""
+
     def __init__(self, group_details, policy_details, exclusions=DEFAULT_EXCLUSIONS):
         self.groups = []
         if not isinstance(exclusions, Exclusions):
@@ -88,6 +94,7 @@ class GroupDetailList:
 # pylint: disable=too-many-instance-attributes
 class GroupDetail:
     """Processes an entry under GroupDetailList"""
+
     def __init__(self, group_detail, policy_details, exclusions=DEFAULT_EXCLUSIONS):
         """
         Initialize the GroupDetail object.
@@ -136,8 +143,12 @@ class GroupDetail:
                         or exclusions.is_policy_excluded(get_full_policy_path(arn))
                         or exclusions.is_policy_excluded(get_policy_name(arn))
                     ):
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
 
     def _is_excluded(self, exclusions):
         """Determine whether the principal name or principal ID is excluded"""
@@ -237,6 +248,6 @@ class GroupDetail:
             path=self.path,
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return this_group_detail
