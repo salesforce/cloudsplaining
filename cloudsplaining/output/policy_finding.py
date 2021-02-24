@@ -7,12 +7,12 @@
 import logging
 from cloudsplaining.shared.constants import (
     READ_ONLY_DATA_EXFILTRATION_ACTIONS,
-    ACTIONS_THAT_RETURN_CREDENTIALS
+    ACTIONS_THAT_RETURN_CREDENTIALS,
 )
 from cloudsplaining.shared.exclusions import (
     Exclusions,
     DEFAULT_EXCLUSIONS,
-    is_name_excluded
+    is_name_excluded,
 )
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,9 @@ class PolicyFinding:
         self.exclusions = exclusions
         self.always_exclude_actions = exclusions.exclude_actions
 
-        self.missing_resource_constraints_for_modify_actions = self._missing_resource_constraints_for_modify_actions()
+        self.missing_resource_constraints_for_modify_actions = (
+            self._missing_resource_constraints_for_modify_actions()
+        )
 
     def _missing_resource_constraints_for_modify_actions(self):
         """Find modify actions that lack resource ARN constraints"""
@@ -40,7 +42,9 @@ class PolicyFinding:
             logger.debug("Evaluating statement: %s", statement.json)
             if statement.effect == "Allow":
                 actions_missing_resource_constraints.extend(
-                    statement.missing_resource_constraints_for_modify_actions(self.exclusions)
+                    statement.missing_resource_constraints_for_modify_actions(
+                        self.exclusions
+                    )
                 )
         if actions_missing_resource_constraints:
             these_results = list(
@@ -101,7 +105,9 @@ class PolicyFinding:
     def data_exfiltration(self):
         """Returns data exfiltration actions in the policy, if present"""
         result = []
-        for action in self.policy_document.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
+        for action in self.policy_document.allows_specific_actions_without_constraints(
+            READ_ONLY_DATA_EXFILTRATION_ACTIONS
+        ):
             if action.lower() not in self.exclusions.exclude_actions:
                 result.append(action)
         return result
@@ -116,7 +122,9 @@ class PolicyFinding:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
         results = []
-        for action in self.policy_document.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
+        for action in self.policy_document.allows_specific_actions_without_constraints(
+            ACTIONS_THAT_RETURN_CREDENTIALS
+        ):
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
@@ -131,6 +139,6 @@ class PolicyFinding:
             ResourceExposure=self.resource_exposure,
             DataExfiltration=self.data_exfiltration,
             CredentialsExposure=self.credentials_exposure,
-            InfrastructureModification=self.missing_resource_constraints_for_modify_actions
+            InfrastructureModification=self.missing_resource_constraints_for_modify_actions,
         )
         return findings

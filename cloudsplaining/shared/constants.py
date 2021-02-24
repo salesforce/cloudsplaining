@@ -104,8 +104,14 @@ PRIVILEGE_ESCALATION_METHODS = {
         "lambda:createfunction",
         "lambda:createeventsourcemapping",
     ],
-    "PassExistingRoleToNewGlueDevEndpoint": ["iam:passrole", "glue:createdevendpoint",],
-    "PassExistingRoleToCloudFormation": ["iam:passrole", "cloudformation:createstack",],
+    "PassExistingRoleToNewGlueDevEndpoint": [
+        "iam:passrole",
+        "glue:createdevendpoint",
+    ],
+    "PassExistingRoleToCloudFormation": [
+        "iam:passrole",
+        "cloudformation:createstack",
+    ],
     "PassExistingRoleToNewDataPipeline": [
         "iam:passrole",
         "datapipeline:createpipeline",
@@ -145,5 +151,5 @@ ACTIONS_THAT_RETURN_CREDENTIALS = [
     "sts:assumerolewithsaml",
     "sts:assumerolewithwebidentity",
     "sts:getfederationtoken",
-    "sts:getsessiontoken"
+    "sts:getsessiontoken",
 ]

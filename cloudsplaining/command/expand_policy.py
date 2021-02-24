@@ -25,9 +25,12 @@ logger = logging.getLogger(__name__)
     help="Path to the JSON policy file.",
 )
 @click.option(
-    '--verbose','-v',
-    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
-    case_sensitive=False))
+    "--verbose",
+    "-v",
+    type=click.Choice(
+        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
+    ),
+)
 def expand_policy(input_file, verbose):  # pylint: disable=redefined-builtin
     """
     Expand the * Actions in IAM policy files to improve readability

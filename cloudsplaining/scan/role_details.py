@@ -3,8 +3,17 @@ import logging
 import json
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
-from cloudsplaining.shared.utils import is_aws_managed, get_full_policy_path, get_policy_name, get_non_provider_id
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions, is_name_excluded
+from cloudsplaining.shared.utils import (
+    is_aws_managed,
+    get_full_policy_path,
+    get_policy_name,
+    get_non_provider_id,
+)
+from cloudsplaining.shared.exclusions import (
+    DEFAULT_EXCLUSIONS,
+    Exclusions,
+    is_name_excluded,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -16,15 +25,20 @@ class RoleDetailList:
         self.roles = []
 
         if not isinstance(exclusions, Exclusions):
-            raise Exception("For exclusions, please provide an object of the Exclusions type")
+            raise Exception(
+                "For exclusions, please provide an object of the Exclusions type"
+            )
         self.exclusions = exclusions
 
         for role_detail in role_details:
             this_role_name = role_detail.get("RoleName")
             this_role_path = role_detail.get("Path")
             if is_name_excluded(this_role_path, "/aws-service-role*"):
-                logger.debug("%s role is excluded because it is an immutable AWS Service role with a path of %s",
-                             this_role_name, this_role_path)
+                logger.debug(
+                    "%s role is excluded because it is an immutable AWS Service role with a path of %s",
+                    this_role_name,
+                    this_role_path,
+                )
             else:
                 self.roles.append(RoleDetail(role_detail, policy_details, exclusions))
 
@@ -115,7 +129,9 @@ class RoleDetail:
 
         # Metadata in object form
         if role_detail.get("AssumeRolePolicyDocument"):
-            self.assume_role_policy_document = AssumeRolePolicyDocument(role_detail.get("AssumeRolePolicyDocument"))
+            self.assume_role_policy_document = AssumeRolePolicyDocument(
+                role_detail.get("AssumeRolePolicyDocument")
+            )
         else:
             self.assume_role_policy_document = None
 
@@ -150,8 +166,12 @@ class RoleDetail:
                         or exclusions.is_policy_excluded(get_full_policy_path(arn))
                         or exclusions.is_policy_excluded(get_policy_name(arn))
                     ):
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
 
     def _is_excluded(self, exclusions):
         """Determine whether the principal name or principal ID is excluded"""
@@ -271,6 +291,6 @@ class RoleDetail:
             path=self.path,
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return this_role_detail

@@ -11,9 +11,10 @@ from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import (
     READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     PRIVILEGE_ESCALATION_METHODS,
-    ACTIONS_THAT_RETURN_CREDENTIALS
+    ACTIONS_THAT_RETURN_CREDENTIALS,
 )
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
 RESET = "\033[0;0m"
@@ -75,7 +76,9 @@ class PolicyDocument:
         actions_missing_resource_constraints = []
         for statement in self.statements:
             if statement.effect == "Allow":
-                for action in statement.missing_resource_constraints_for_modify_actions(self.exclusions):
+                for action in statement.missing_resource_constraints_for_modify_actions(
+                    self.exclusions
+                ):
                     if action.lower() not in self.exclusions.exclude_actions:
                         actions_missing_resource_constraints.append(action)
         return actions_missing_resource_constraints
@@ -165,7 +168,9 @@ class PolicyDocument:
     def allows_data_exfiltration_actions(self):
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
         results = []
-        for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
+        for action in self.allows_specific_actions_without_constraints(
+            READ_ONLY_DATA_EXFILTRATION_ACTIONS
+        ):
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
@@ -175,7 +180,9 @@ class PolicyDocument:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
         results = []
-        for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
+        for action in self.allows_specific_actions_without_constraints(
+            ACTIONS_THAT_RETURN_CREDENTIALS
+        ):
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
@@ -185,7 +192,7 @@ class PolicyDocument:
         """Determine if the policy gives access to all actions within a service - simple grepping"""
         services = set()
         all_service_prefixes = get_all_service_prefixes()
-        
+
         for statement in self.statements:
             logger.debug("Evaluating statement: %s", statement.json)
             if statement.effect_allow:

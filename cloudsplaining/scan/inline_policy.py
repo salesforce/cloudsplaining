@@ -22,7 +22,9 @@ class InlinePolicy:
                 "Please supply an Exclusions object and try again."
             )
         self.policy_name = policy_detail.get("PolicyName")
-        self.policy_document = PolicyDocument(policy_detail.get("PolicyDocument"), exclusions)
+        self.policy_document = PolicyDocument(
+            policy_detail.get("PolicyDocument"), exclusions
+        )
         # Generating the provider ID based on a string representation of the Policy Document,
         # to avoid collisions where there are inline policies with the same name but different contents
         # self.policy_id = get_non_provider_id(self.policy_name)
@@ -50,7 +52,7 @@ class InlinePolicy:
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
             ServiceWildcard=self.policy_document.service_wildcard,
             CredentialsExposure=self.policy_document.credentials_exposure,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return result
 
@@ -67,6 +69,6 @@ class InlinePolicy:
             ServiceWildcard=self.policy_document.service_wildcard,
             CredentialsExposure=self.policy_document.credentials_exposure,
             InfrastructureModification=self.policy_document.infrastructure_modification,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return result

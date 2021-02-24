@@ -62,15 +62,19 @@ logger = logging.getLogger(__name__)
     required=False,
     default=False,
     is_flag=True,
-    help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet."
+    help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.",
 )
 @click.option(
-    '--verbose','-v',
-    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
-    case_sensitive=False))
+    "--verbose",
+    "-v",
+    type=click.Choice(
+        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
+    ),
+)
 # pylint: disable=redefined-builtin
 def scan(
-    input_file, exclusions_file, output, skip_open_report, minimize, verbose):  # pragma: no cover
+    input_file, exclusions_file, output, skip_open_report, minimize, verbose
+):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -95,8 +99,12 @@ def scan(
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
         rendered_html_report = scan_account_authorization_details(
-            account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
-            minimize=minimize
+            account_authorization_details_cfg,
+            exclusions,
+            account_name,
+            output,
+            write_data_files=True,
+            minimize=minimize,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -128,8 +136,12 @@ def scan(
             account_name = Path(file).stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
-                account_authorization_details_cfg, exclusions, account_name, output, write_data_files=True,
-                minimize=minimize
+                account_authorization_details_cfg,
+                exclusions,
+                account_name,
+                output,
+                write_data_files=True,
+                minimize=minimize,
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
             logger.info("Saving the report to %s", html_output_file)
@@ -149,8 +161,12 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg, exclusions, account_name="default", output_directory=os.getcwd(),
-    write_data_files=False, minimize=False
+    account_authorization_details_cfg,
+    exclusions,
+    account_name="default",
+    output_directory=os.getcwd(),
+    write_data_files=False,
+    minimize=False,
 ):  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -162,7 +178,9 @@ def scan_account_authorization_details(
         "resource constraints..."
     )
     check_authorization_details_schema(account_authorization_details_cfg)
-    authorization_details = AuthorizationDetails(account_authorization_details_cfg, exclusions)
+    authorization_details = AuthorizationDetails(
+        account_authorization_details_cfg, exclusions
+    )
     results = authorization_details.results
 
     # Lazy method to get an account ID
@@ -176,7 +194,7 @@ def scan_account_authorization_details(
         account_id=account_id,
         account_name=account_name,
         results=results,
-        minimize=minimize
+        minimize=minimize,
     )
     rendered_report = html_report.get_html_report()
 
@@ -185,11 +203,17 @@ def scan_account_authorization_details(
         if output_directory is None:
             output_directory = os.getcwd()
 
-        results_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
-        results_data_filepath = write_results_data_file(authorization_details.results, results_data_file)
+        results_data_file = os.path.join(
+            output_directory, f"iam-results-{account_name}.json"
+        )
+        results_data_filepath = write_results_data_file(
+            authorization_details.results, results_data_file
+        )
         print(f"Results data saved: {str(results_data_filepath)}")
 
-        findings_data_file = os.path.join(output_directory, f"iam-findings-{account_name}.json")
+        findings_data_file = os.path.join(
+            output_directory, f"iam-findings-{account_name}.json"
+        )
         findings_data_filepath = write_results_data_file(results, findings_data_file)
         print(f"Findings data file saved: {str(findings_data_filepath)}")
 
