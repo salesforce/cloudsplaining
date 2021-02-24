@@ -27,16 +27,28 @@ class AuthorizationDetails:
         self.auth_json = auth_json
 
         if not isinstance(exclusions, Exclusions):
-            raise Exception("For exclusions, please provide an object of the Exclusions type")
+            raise Exception(
+                "For exclusions, please provide an object of the Exclusions type"
+            )
         self.exclusions = exclusions
 
-        self.policies = ManagedPolicyDetails(auth_json.get("Policies", None), exclusions)
+        self.policies = ManagedPolicyDetails(
+            auth_json.get("Policies", None), exclusions
+        )
 
         # New Authorization file stuff
-        self.group_detail_list = GroupDetailList(auth_json.get("GroupDetailList"), self.policies, exclusions)
-        self.user_detail_list = UserDetailList(auth_json.get("UserDetailList"), self.policies,
-                                                   self.group_detail_list, exclusions)
-        self.role_detail_list = RoleDetailList(auth_json.get("RoleDetailList"), self.policies, exclusions)
+        self.group_detail_list = GroupDetailList(
+            auth_json.get("GroupDetailList"), self.policies, exclusions
+        )
+        self.user_detail_list = UserDetailList(
+            auth_json.get("UserDetailList"),
+            self.policies,
+            self.group_detail_list,
+            exclusions,
+        )
+        self.role_detail_list = RoleDetailList(
+            auth_json.get("RoleDetailList"), self.policies, exclusions
+        )
 
     @property
     def inline_policies(self):
@@ -58,10 +70,18 @@ class AuthorizationDetails:
         # Let's create a set of unique_action_names that are in InfrastructureModification
         # First, let's get them from ManagedPolicyDetails
         # Then, the inline policies from GroupDetails, RoleDetails, and UserDetails
-        unique_action_names.update(self.group_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.role_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.user_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.policies.all_infrastructure_modification_actions)
+        unique_action_names.update(
+            self.group_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.role_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.user_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.policies.all_infrastructure_modification_actions
+        )
 
         unique_action_names = sorted(unique_action_names)
         all_action_links = get_all_action_links()
@@ -82,6 +102,6 @@ class AuthorizationDetails:
             "customer_managed_policies": self.policies.json_large_customer_managed,
             "inline_policies": self.inline_policies,
             "exclusions": self.exclusions.config,
-            "links": self.links
+            "links": self.links,
         }
         return results

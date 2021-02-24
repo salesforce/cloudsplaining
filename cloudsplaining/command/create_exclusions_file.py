@@ -29,9 +29,12 @@ logger = logging.getLogger(__name__)
     help="Relative path to output file where we want to store the exclusions template.",
 )
 @click.option(
-    '--verbose','-v',
-    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
-    case_sensitive=False))
+    "--verbose",
+    "-v",
+    type=click.Choice(
+        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
+    ),
+)
 def create_exclusions_file(output_file, verbose):
     """
     Creates a YML file to be used as a custom exclusions template,
@@ -51,4 +54,6 @@ def create_exclusions_file(output_file, verbose):
     )
     print("\tcloudsplaining download")
     print("You can use this with the scan command as shown below: ")
-    print("\tcloudsplaining scan --exclusions-file exclusions.yml --input-file default.json")
+    print(
+        "\tcloudsplaining scan --exclusions-file exclusions.yml --input-file default.json"
+    )

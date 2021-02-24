@@ -8,7 +8,11 @@ import logging
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.utils import get_full_policy_path
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions, is_name_excluded
+from cloudsplaining.shared.exclusions import (
+    DEFAULT_EXCLUSIONS,
+    Exclusions,
+    is_name_excluded,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -32,13 +36,16 @@ class ManagedPolicyDetails:
             this_policy_id = policy_detail.get("PolicyId")
             this_policy_path = policy_detail.get("Path")
             # Always exclude the AWS service role policies
-            if (
-                is_name_excluded(this_policy_path, "aws-service-role*")
-                or is_name_excluded(this_policy_path, "/aws-service-role*")
-            ):
-                logger.debug("The %s Policy with the policy ID %s is excluded because it is "
-                             "an immutable AWS Service role with a path of %s",
-                             this_policy_name, this_policy_id, this_policy_path)
+            if is_name_excluded(
+                this_policy_path, "aws-service-role*"
+            ) or is_name_excluded(this_policy_path, "/aws-service-role*"):
+                logger.debug(
+                    "The %s Policy with the policy ID %s is excluded because it is "
+                    "an immutable AWS Service role with a path of %s",
+                    this_policy_name,
+                    this_policy_id,
+                    this_policy_path,
+                )
                 continue
             # Exclude the managed policies
             if (
@@ -46,8 +53,12 @@ class ManagedPolicyDetails:
                 or exclusions.is_policy_excluded(this_policy_id)
                 or exclusions.is_policy_excluded(this_policy_path)
             ):
-                logger.debug("The %s Managed Policy with the policy ID %s and %s path is excluded.",
-                             this_policy_name, this_policy_id, this_policy_path)
+                logger.debug(
+                    "The %s Managed Policy with the policy ID %s and %s path is excluded.",
+                    this_policy_name,
+                    this_policy_id,
+                    this_policy_path,
+                )
                 continue
             self.policy_details.append(ManagedPolicy(policy_detail, exclusions))
 
@@ -159,7 +170,9 @@ class ManagedPolicy:
         policy_document = {}
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
-                policy_document = PolicyDocument(policy_version.get("Document"), exclusions=self.exclusions)
+                policy_document = PolicyDocument(
+                    policy_version.get("Document"), exclusions=self.exclusions
+                )
         return policy_document
 
     # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.
@@ -204,7 +217,7 @@ class ManagedPolicy:
             ResourceExposure=self.policy_document.permissions_management_without_constraints,
             ServiceWildcard=self.policy_document.service_wildcard,
             CredentialsExposure=self.policy_document.credentials_exposure,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return result
 

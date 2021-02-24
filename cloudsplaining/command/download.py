@@ -42,9 +42,12 @@ logger = logging.getLogger(__name__)
     " Note that this will dramatically increase the size of the downloaded file.",
 )
 @click.option(
-    '--verbose','-v',
-    type=click.Choice(['critical', 'error', 'warning', 'info', 'debug'],
-    case_sensitive=False))
+    "--verbose",
+    "-v",
+    type=click.Choice(
+        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
+    ),
+)
 def download(profile, output, include_non_default_policy_versions, verbose):
     """
     Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in
@@ -62,7 +65,9 @@ def download(profile, output, include_non_default_policy_versions, verbose):
     else:
         output_filename = "default.json"
 
-    results = get_account_authorization_details(session_data, include_non_default_policy_versions)
+    results = get_account_authorization_details(
+        session_data, include_non_default_policy_versions
+    )
 
     if os.path.exists(output_filename):
         os.remove(output_filename)
@@ -72,7 +77,9 @@ def download(profile, output, include_non_default_policy_versions, verbose):
     return 1
 
 
-def get_account_authorization_details(session_data, include_non_default_policy_versions):
+def get_account_authorization_details(
+    session_data, include_non_default_policy_versions
+):
     """Runs aws-iam-get-account-authorization-details"""
     session = boto3.Session(**session_data)
     config = Config(connect_timeout=5, retries={"max_attempts": 10})

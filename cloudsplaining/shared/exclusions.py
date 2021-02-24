@@ -134,7 +134,7 @@ class Exclusions:
 
     def get_allowed_actions(self, requested_actions):
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a
-        list of actions after filtering for exclusions. """
+        list of actions after filtering for exclusions."""
 
         always_include_actions = []
         # ALWAYS INCLUDE ACTIONS

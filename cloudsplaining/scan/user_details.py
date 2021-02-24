@@ -1,14 +1,25 @@
 """Processes UserDetailList"""
 import json
 from cloudsplaining.scan.inline_policy import InlinePolicy
-from cloudsplaining.shared.utils import is_aws_managed, get_full_policy_path, get_policy_name, get_non_provider_id
+from cloudsplaining.shared.utils import (
+    is_aws_managed,
+    get_full_policy_path,
+    get_policy_name,
+    get_non_provider_id,
+)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 
 class UserDetailList:
     """Processes all entries under the UserDetailList"""
 
-    def __init__(self, user_details, policy_details, all_group_details, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self,
+        user_details,
+        policy_details,
+        all_group_details,
+        exclusions=DEFAULT_EXCLUSIONS,
+    ):
         self.users = []
 
         if not isinstance(exclusions, Exclusions):
@@ -19,7 +30,9 @@ class UserDetailList:
         self.exclusions = exclusions
 
         for user_detail in user_details:
-            self.users.append(UserDetail(user_detail, policy_details, all_group_details, exclusions))
+            self.users.append(
+                UserDetail(user_detail, policy_details, all_group_details, exclusions)
+            )
 
     def get_all_allowed_actions_for_user(self, name):
         """Returns a list of all allowed actions by the user across all its policies"""
@@ -82,7 +95,13 @@ class UserDetailList:
 class UserDetail:
     """Processes an entry under UserDetailList"""
 
-    def __init__(self, user_detail, policy_details, all_group_details, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self,
+        user_detail,
+        policy_details,
+        all_group_details,
+        exclusions=DEFAULT_EXCLUSIONS,
+    ):
         """
         Initialize the UserDetail object.
 
@@ -107,10 +126,7 @@ class UserDetail:
         # Groups
         self.groups = []
         if user_detail.get("GroupList"):
-            self._add_group_details(
-                user_detail.get("GroupList"),
-                all_group_details
-            )
+            self._add_group_details(user_detail.get("GroupList"), all_group_details)
         # self.inline_policies = user_detail.get("UserPolicyList")
         # self.groups = user_detail.get("GroupList")
 
@@ -142,8 +158,12 @@ class UserDetail:
                         or exclusions.is_policy_excluded(get_full_policy_path(arn))
                         or exclusions.is_policy_excluded(get_policy_name(arn))
                     ):
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
 
     def _is_excluded(self, exclusions):
         """Determine whether the principal name or principal ID is excluded"""
@@ -267,6 +287,6 @@ class UserDetail:
             path=self.path,
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded
+            is_excluded=self.is_excluded,
         )
         return this_user_detail

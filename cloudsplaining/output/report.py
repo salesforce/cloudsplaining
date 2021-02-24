@@ -10,6 +10,7 @@ app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.j
 
 class HTMLReport:
     """Inject the JS files and report results into the final HTML report"""
+
     def __init__(self, account_id, account_name, results, minimize=False):
         self.account_name = account_name
         self.account_id = account_id
@@ -23,12 +24,12 @@ class HTMLReport:
         depending on if the user specified the --minimize option"""
         if self.minimize:
             js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/index.js"
-            bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
+            bundle = f'<script type="text/javascript" src="{js_url}"></script>'
             return bundle
         else:
             with open(app_bundle_path, "r") as f:
                 bundle_content = f.read()
-            bundle = f"<script type=\"text/javascript\">\n{bundle_content}\n</script>"
+            bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
 
     @property
@@ -38,13 +39,13 @@ class HTMLReport:
 
         if self.minimize:
             js_url = f"https://cdn.jsdelivr.net/gh/salesforce/cloudsplaining@{__version__}/cloudsplaining/output/dist/js/chunk-vendors.js"
-            bundle = f"<script type=\"text/javascript\" src=\"{js_url}\"></script>"
+            bundle = f'<script type="text/javascript" src="{js_url}"></script>'
             return bundle
         else:
             vendor_bundle_path = get_vendor_bundle_path()
             with open(vendor_bundle_path, "r") as f:
                 bundle_content = f.read()
-            bundle = f"<script type=\"text/javascript\">\n{bundle_content}\n</script>"
+            bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
 
     def get_html_report(self):
@@ -70,7 +71,9 @@ def get_vendor_bundle_path():
     """Finds the vendored javascript bundle even if it has a hash suffix"""
     vendor_bundle_directory = os.path.join(os.path.dirname(__file__), "dist", "js")
     file_list = [
-        f for f in os.listdir(vendor_bundle_directory) if os.path.isfile(os.path.join(vendor_bundle_directory, f))
+        f
+        for f in os.listdir(vendor_bundle_directory)
+        if os.path.isfile(os.path.join(vendor_bundle_directory, f))
     ]
     file_list_with_full_path = []
     for file in file_list:
