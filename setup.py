@@ -54,6 +54,7 @@ setuptools.setup(
         'botocore',
         'markdown',
         'jinja2',
+        'cached-property'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
