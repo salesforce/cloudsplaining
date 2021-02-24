@@ -183,37 +183,32 @@ class PolicyDocument:
     @property
     def service_wildcard(self):
         """Determine if the policy gives access to all actions within a service - simple grepping"""
-        services = []
+        services = set()
+        all_service_prefixes = get_all_service_prefixes()
+        
         for statement in self.statements:
             logger.debug("Evaluating statement: %s", statement.json)
-            if statement.effect == "Allow":
+            if statement.effect_allow:
                 if isinstance(statement.actions, list):
                     for action in statement.actions:
                         # If the action is a straight up *
                         if action == "*":
                             logger.debug("All actions are allowed by this policy")
-                            services.extend(get_all_service_prefixes())
+                            services.update(all_service_prefixes)
                         # Otherwise, it will take the format of service:*
                         else:
                             service, this_action = action.split(":")
                             # service:*
                             if this_action == "*":
-                                services.append(service)
+                                services.add(service)
                 elif isinstance(statement.actions, str):
                     # If the action is a straight up *
                     if statement.actions == "*":
                         logger.debug("All actions are allowed by this policy")
-                        services.append(get_all_service_prefixes())
+                        services.update(all_service_prefixes)
                     else:
                         service, this_action = statement.actions.split(":")
                         # service:*
                         if this_action == "*":
-                            services.append(service)
-        if services:
-            # Remove duplicates and sort
-            services = list(dict.fromkeys(services))
-            these_services = services.copy()
-            these_services.sort()
-            return these_services
-        else:
-            return []
+                            services.add(service)
+        return sorted(services)
