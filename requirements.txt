@@ -9,7 +9,7 @@ contextlib2==0.6.0.post1
 docutils==0.16
 idna==2.10
 importlib-metadata==3.3.0
-jinja2==2.11.2
+jinja2==2.11.3
 jmespath==0.10.0
 markdown==3.3.3
 markupsafe==1.1.1
