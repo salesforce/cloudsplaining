@@ -54,8 +54,9 @@ class PolicyDocument:
         """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = []
         for statement in self.statements:
-            if statement.expanded_actions:
-                allowed_actions.extend(statement.expanded_actions)
+            if statement.effect_allow: # if Effect is "Deny" - it is not an allowed action
+                if statement.expanded_actions:
+                    allowed_actions.extend(statement.expanded_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 
