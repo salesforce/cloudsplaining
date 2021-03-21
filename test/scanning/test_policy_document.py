@@ -108,6 +108,27 @@ class TestPolicyDocument(unittest.TestCase):
         ]
         self.assertListEqual(result, expected_result)
 
+    def test_policy_document_all_allowed_actions_deny(self):
+        """scan.policy_document.all_allowed_actions"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Deny",
+                    "Action": "aws-portal:*",
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        result = policy_document.all_allowed_actions
+        self.assertTrue("aws-portal:ViewBilling" not in result)
+
     def test_allows_privilege_escalation(self):
         """scan.policy_document.allows_privilege_escalation"""
         test_policy = {

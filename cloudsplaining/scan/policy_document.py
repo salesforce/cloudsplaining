@@ -57,6 +57,10 @@ class PolicyDocument:
             if statement.effect_allow: # if Effect is "Deny" - it is not an allowed action
                 if statement.expanded_actions:
                     allowed_actions.extend(statement.expanded_actions)
+        for statement in self.statements:
+            if statement.effect_deny:
+                if statement.expanded_actions:
+                    allowed_actions = filter(lambda x: x not in statement.expanded_actions, allowed_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 
