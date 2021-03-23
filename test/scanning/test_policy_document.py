@@ -302,3 +302,26 @@ class TestPolicyDocument(unittest.TestCase):
         # Should still include one result
         print(policy_document_2.infrastructure_modification)
         self.assertEqual(policy_document_2.infrastructure_modification, ["autoscaling:UpdateAutoScalingGroup"])
+
+    def test_condition_is_a_restricted_action(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Effect": "Allow",
+                "Action": "cloudwatch:PutMetricData",
+                "Resource": "*",
+                "Condition": {"StringEquals": {"cloudwatch:namespace": "Namespace"}}
+            }]
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertListEqual(policy_document.all_allowed_unrestricted_actions, [])
+        test_policy_without_condition = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Effect": "Allow",
+                "Action": "cloudwatch:PutMetricData",
+                "Resource": "*",
+            }]
+        }
+        policy_document_without_condition = PolicyDocument(test_policy_without_condition)
+        self.assertListEqual(policy_document_without_condition.all_allowed_unrestricted_actions, ["cloudwatch:PutMetricData"])
