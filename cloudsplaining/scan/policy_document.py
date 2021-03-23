@@ -68,6 +68,7 @@ class PolicyDocument:
         for statement in self.statements:
             if statement.effect_deny:
                 if statement.expanded_actions:
+                    # pylint: disable=W0640
                     allowed_actions = filter(lambda x: x not in statement.expanded_actions, allowed_actions)
         return allowed_actions
 
