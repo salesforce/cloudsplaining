@@ -57,11 +57,18 @@ class PolicyDocument:
             if statement.effect_allow: # if Effect is "Deny" - it is not an allowed action
                 if statement.expanded_actions:
                     allowed_actions.extend(statement.expanded_actions)
+        allowed_actions = self.filter_deny_statements(allowed_actions)
+        allowed_actions = list(dict.fromkeys(allowed_actions))
+        return allowed_actions
+
+    def filter_deny_statements(self, allowed_actions):
+        """
+            filter all denied statements from actions
+        """
         for statement in self.statements:
             if statement.effect_deny:
                 if statement.expanded_actions:
                     allowed_actions = filter(lambda x: x not in statement.expanded_actions, allowed_actions)
-        allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 
     @property
@@ -69,9 +76,10 @@ class PolicyDocument:
         """Output all IAM actions that do not practice resource constraints"""
         allowed_actions = []
         for statement in self.statements:
-            if not statement.has_resource_constraints and not statement.has_condition:
+            if not statement.has_resource_constraints and not statement.has_condition and statement.effect_allow:
                 if statement.expanded_actions:
                     allowed_actions.extend(statement.expanded_actions)
+        allowed_actions = self.filter_deny_statements(allowed_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
         return allowed_actions
 
