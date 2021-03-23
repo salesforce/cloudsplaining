@@ -192,3 +192,42 @@ class PolicyFileTestCase(unittest.TestCase):
         self.assertTrue(len(results.get("ServiceWildcard")) > 150)
         self.assertTrue(len(results.get("ServicesAffected")) > 150)
 
+    def test_checkov_gh_990_condition_restricted_action(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Sid": "RestrictedWithConditions",
+                "Effect": "Allow",
+                "Action": "s3:GetObject",
+                "Resource": "*",
+                "Condition": {
+                    "IpAddress": {
+                        "aws:SourceIp": "192.0.2.0/24"
+                    },
+                    "NotIpAddress": {
+                        "aws:SourceIp": "192.0.2.188/32"
+                    }
+                }
+            }]
+        }
+        exclusions_cfg_custom = {}
+        results = scan_policy(test_policy, exclusions_cfg_custom)
+        print(json.dumps(results, indent=4))
+        self.assertListEqual(results.get("InfrastructureModification"), [])
+        self.assertListEqual(results.get("DataExfiltration"), [])
+        self.assertListEqual(results.get("ServicesAffected"), [])
+
+        test_policy_without_condition = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Sid": "Unrestricted",
+                "Effect": "Allow",
+                "Action": "s3:GetObject",
+                "Resource": "*",
+            }]
+        }
+        results = scan_policy(test_policy_without_condition, exclusions_cfg_custom)
+        print(json.dumps(results, indent=4))
+        self.assertListEqual(results.get("InfrastructureModification"), [])
+        self.assertListEqual(results.get("DataExfiltration"), ["s3:GetObject"])
+        self.assertListEqual(results.get("ServicesAffected"), ["s3"])
