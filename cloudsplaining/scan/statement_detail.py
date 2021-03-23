@@ -36,6 +36,7 @@ class StatementDetail:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
+        self.condition = statement.get("Condition",None)
         self.resources = self._resources()
         self.actions = self._actions()
         self.not_action = self._not_action()
@@ -44,6 +45,7 @@ class StatementDetail:
 
         self.not_action_effective_actions = self._not_action_effective_actions()
         self.not_resource = self._not_resource()
+        self.has_condition = self._has_condition()
 
     def _actions(self):
         """Holds the actions in a statement"""
@@ -270,6 +272,11 @@ class StatementDetail:
         )
         modify_actions_missing_constraints.sort()
         return modify_actions_missing_constraints
+
+    def _has_condition(self):
+        if self.condition:
+            return True
+        return False
 
 
 def _has_resource_constraints(resources):

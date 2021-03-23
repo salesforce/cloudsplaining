@@ -64,7 +64,7 @@ class PolicyDocument:
         """Output all IAM actions that do not practice resource constraints"""
         allowed_actions = []
         for statement in self.statements:
-            if not statement.has_resource_constraints:
+            if not statement.has_resource_constraints and not statement.has_condition:
                 if statement.expanded_actions:
                     allowed_actions.extend(statement.expanded_actions)
         allowed_actions = list(dict.fromkeys(allowed_actions))
