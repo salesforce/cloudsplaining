@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/04/19/28470f9b730f50cd4eca218d6fa0be4ef34b7017a9ada098a9ed73165c50/cloudsplaining-0.3.0.tar.gz"
-  sha256 "9dd37f1944d4abfbdc23056d0cf7530ffd72abfe2ca70521cc3e031a1ac33798"
+  url "https://files.pythonhosted.org/packages/a3/6d/8bff0f57426396ced6e65e63c7193171806989edd4586bde6d9044a8aab3/cloudsplaining-0.3.2.tar.gz"
+  sha256 "37ef221508ddaf8e2b763c42c011001db4fb65405d8482298a6cd20ea773a1dd"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/5d/9f/54d44a6406d67a07fe2138a00a97e9c89513561863d41ef92342216111bd/boto3-1.17.34.tar.gz"
-    sha256 "8f33cb3d2fc42b0547a5560a6d7397aa93336f50899386762b2450682c0e992b"
+    url "https://files.pythonhosted.org/packages/5a/36/67fcc6f29f827b629d3bcfd3c98fe583326cb989d589abed14889dbe096f/boto3-1.17.35.tar.gz"
+    sha256 "40e84a5f7888924db74a2710dbe48d066b51fe1f5549efaffe90e6efe813f37b"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/fb/27/ecf1fb2a4b6e6f5c09d7d68e24191a4c3cec5ec836bc605b421fe170a273/botocore-1.20.34.tar.gz"
-    sha256 "749bdb151e340329f1b25600bfe9d223e930f8ba26bd74b71478ca5781f2feaf"
+    url "https://files.pythonhosted.org/packages/bb/7c/32e7b6cefa1f65dbd3eef6b8648db0407ff6d93e8ddc6862cefa61222240/botocore-1.20.35.tar.gz"
+    sha256 "9119ffb231145ffadd55391c9356dcdb18e3de65c3a7c82844634e949f0ca5a0"
   end
 
   resource "cached-property" do
@@ -79,8 +79,8 @@ class Cloudsplaining < Formula
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/56/2a/52f10237487ce22309d6048e564450c12c6c1cb6b8b2ce10f23da0bc781e/policy_sentry-0.11.6.tar.gz"
-    sha256 "dcc4fa1467a7bffc9b3132675da4e279cb3c117524e6fa31b2c777b132cd781d"
+    url "https://files.pythonhosted.org/packages/4b/5b/5cec64c9053281649cf5ab6f6c39260d2733e5353418b59d5c7001603116/policy_sentry-0.11.8.tar.gz"
+    sha256 "630200439a58efc4233a097422b4830c6cafa4c85778293baf8443884aadb7ea"
   end
 
   resource "python-dateutil" do
