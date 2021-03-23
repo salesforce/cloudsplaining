@@ -61,3 +61,4 @@ urllib3==1.26.3
 wcwidth==0.2.5
 wrapt==1.12.1
 zipp==3.4.0
+cached_property==1.5.2
