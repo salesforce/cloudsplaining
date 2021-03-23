@@ -108,6 +108,27 @@ class TestPolicyDocument(unittest.TestCase):
         ]
         self.assertListEqual(result, expected_result)
 
+    def test_policy_document_all_allowed_actions_deny(self):
+        """scan.policy_document.all_allowed_actions"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "*",
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Deny",
+                    "Action": "aws-portal:*",
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        result = policy_document.all_allowed_actions
+        self.assertTrue("aws-portal:ViewBilling" not in result)
+
     def test_allows_privilege_escalation(self):
         """scan.policy_document.allows_privilege_escalation"""
         test_policy = {
@@ -302,3 +323,26 @@ class TestPolicyDocument(unittest.TestCase):
         # Should still include one result
         print(policy_document_2.infrastructure_modification)
         self.assertEqual(policy_document_2.infrastructure_modification, ["autoscaling:UpdateAutoScalingGroup"])
+
+    def test_condition_is_a_restricted_action(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Effect": "Allow",
+                "Action": "cloudwatch:PutMetricData",
+                "Resource": "*",
+                "Condition": {"StringEquals": {"cloudwatch:namespace": "Namespace"}}
+            }]
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertListEqual(policy_document.all_allowed_unrestricted_actions, [])
+        test_policy_without_condition = {
+            "Version": "2012-10-17",
+            "Statement": [{
+                "Effect": "Allow",
+                "Action": "cloudwatch:PutMetricData",
+                "Resource": "*",
+            }]
+        }
+        policy_document_without_condition = PolicyDocument(test_policy_without_condition)
+        self.assertListEqual(policy_document_without_condition.all_allowed_unrestricted_actions, ["cloudwatch:PutMetricData"])
