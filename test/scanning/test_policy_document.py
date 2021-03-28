@@ -108,6 +108,22 @@ class TestPolicyDocument(unittest.TestCase):
         ]
         self.assertListEqual(result, expected_result)
 
+    def test_all_allowed_unrestriced_deny(self):
+        """scan.policy_document.all_allowed_unrestricted_actions"""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Deny",
+                    "Action": "*",
+                    "Resource": "*",
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        result = policy_document.all_allowed_unrestricted_actions
+        self.assertEquals([],result)
+
     def test_policy_document_all_allowed_actions_deny(self):
         """scan.policy_document.all_allowed_actions"""
         test_policy = {
