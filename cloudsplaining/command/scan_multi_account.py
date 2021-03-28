@@ -99,6 +99,7 @@ def scan_multi_account(config_file: str, profile: str, role_name: str, exclusion
     # Get the exclusions file
     exclusions = get_exclusions(exclusions_file=exclusions_file)
 
+    # TODO: Speed improvements? Multithreading? idk.
     for target_account_name, target_account_id in multi_account_config.accounts.items():
         results = scan_account(target_account_id=target_account_id, target_role_name=role_name, exclusions=exclusions, profile=profile)
         html_report = HTMLReport(
