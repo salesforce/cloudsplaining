@@ -13,6 +13,7 @@ iam-findings-example.json
 private/*
 current.json
 TODO.md
+/private-multi-account-config.yml
 
 venv
 Pipfile.lock

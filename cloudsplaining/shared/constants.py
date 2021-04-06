@@ -55,6 +55,12 @@ exclude-actions:
   - ""
 """
 
+MULTI_ACCOUNT_CONFIG_TEMPLATE = """accounts:
+  default_account: 123456789012
+  prod: 123456789013
+  test: 123456789014
+"""
+
 # These are some high-priority, read-only IAM actions that could lead to a data leak if
 # used on certain data storage resources.
 # These are not meant to cover every possibility - just high priority ones.

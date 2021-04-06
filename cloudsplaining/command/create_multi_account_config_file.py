@@ -11,10 +11,13 @@ import os
 from pathlib import Path
 import logging
 import click
-from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
+from cloudsplaining.shared.constants import MULTI_ACCOUNT_CONFIG_TEMPLATE
 from cloudsplaining import change_log_level
+from cloudsplaining.shared import utils
 
 logger = logging.getLogger(__name__)
+OK_GREEN = "\033[92m"
+END = "\033[0m"
 
 
 @click.command(
@@ -23,6 +26,8 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--output-file",
+    "-o",
+    "output_file",
     type=click.Path(exists=False),
     default=os.path.join(os.getcwd(), "multi-account-config.yml"),
     required=True,
@@ -42,15 +47,19 @@ def create_multi_account_config_file(output_file, verbose):
     if verbose:
         log_level = getattr(logging, verbose.upper())
         change_log_level(log_level)
-
     filename = Path(output_file).resolve()
+
+    if os.path.exists(filename):
+        logger.debug("%s exists. Removing the file and replacing its contents.", filename)
+        os.remove(filename)
+
     with open(filename, "a") as file_obj:
-        for line in EXCLUSIONS_TEMPLATE:
+        for line in MULTI_ACCOUNT_CONFIG_TEMPLATE:
             file_obj.write(line)
-    print(f"Multi-account config file written to: {filename}")
+    utils.print_green(f"Success! Multi-account config file written to: {os.path.relpath(filename)}")
     print(
-        "Make sure you edit the multi-account-config.yml file and then run the scan-multi-account command, as shown below."
+        f"\nMake sure you edit the {os.path.relpath(filename)} file and then run the scan-multi-account command, as shown below."
     )
     print(
-        "\tcloudsplaining scan-multi-account --exclusions-file exclusions.yml --config-file multi-account-config.yml -o ./"
+        f"\n\tcloudsplaining scan-multi-account --exclusions-file exclusions.yml -c {os.path.relpath(filename)} -o ./"
     )

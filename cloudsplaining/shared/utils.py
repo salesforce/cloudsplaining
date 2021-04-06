@@ -8,6 +8,7 @@ import os
 import json
 import logging
 from hashlib import sha256
+import yaml
 from policy_sentry.querying.actions import (
     get_action_data,
     remove_actions_not_matching_access_level,
@@ -16,6 +17,9 @@ from policy_sentry.querying.all import get_all_service_prefixes
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
+OK_GREEN = "\033[92m"
+GREY = "\33[90m"
+END = "\033[0m"
 
 
 def remove_wildcard_only_actions(actions_list):
@@ -129,3 +133,20 @@ def write_results_data_file(results, raw_data_file):
     with open(raw_data_file, "w") as file:
         json.dump(results, file, indent=4)
     return raw_data_file
+
+
+def read_yaml_file(filename: str) -> dict:
+    """Reads a YAML file, safe loads, and returns the dictionary"""
+    with open(filename, "r") as yaml_file:
+        cfg = yaml.safe_load(yaml_file)
+    return cfg
+
+
+def print_green(string):
+    """Print green text"""
+    print(f"{OK_GREEN}{string}{END}")
+
+
+def print_grey(string):
+    """Print grey text"""
+    print(f"{GREY}{string}{END}")

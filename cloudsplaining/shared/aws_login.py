@@ -6,7 +6,7 @@ from botocore.config import Config
 logger = logging.getLogger(__name__)
 
 
-def get_boto3_client(service: str, profile: str = None, region="us-east-1") -> boto3.Session.client:
+def get_boto3_client(service: str, profile: str = None, region: str = "us-east-1") -> boto3.Session.client:
     """Get a boto3 client for a given service"""
     logging.getLogger('botocore').setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
@@ -18,9 +18,21 @@ def get_boto3_client(service: str, profile: str = None, region="us-east-1") -> b
     if os.environ.get('LOCALSTACK_ENDPOINT_URL'):
         client = session.client(service, config=config, endpoint_url=os.environ.get('LOCALSTACK_ENDPOINT_URL'))
     else:
-        client = session.client(service, config=config, endpoint_url=os.environ.get('LOCALSTACK_ENDPOINT_URL'))
+        client = session.client(service, config=config)
     logger.debug(f"{client.meta.endpoint_url} in {client.meta.region_name}: boto3 client login successful")
     return client
+
+
+def get_boto3_resource(service: str, profile: str = None, region: str = "us-east-1") -> boto3.Session.resource:
+    """Get a boto3 resource for a given service"""
+    logging.getLogger('botocore').setLevel(logging.CRITICAL)
+    session_data = {"region_name": region}
+    if profile:
+        session_data["profile_name"] = profile
+    session = boto3.Session(**session_data)
+
+    resource = session.resource(service)
+    return resource
 
 
 def get_current_account_id(sts_client: boto3.Session.client) -> str:
@@ -59,7 +71,7 @@ def get_target_account_credentials(target_account_role_name: str, target_account
     sts_client = session.client('sts', config=config)
 
     acct_b = sts_client.assume_role(
-        RoleArn=f"arn:aws:iam::{target_account_role_name}:role/{target_account_id}",
+        RoleArn=f"arn:aws:iam::{target_account_id}:role/{target_account_role_name}",
         RoleSessionName=role_session_name
     )
 

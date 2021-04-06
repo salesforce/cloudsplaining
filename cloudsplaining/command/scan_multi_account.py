@@ -4,7 +4,6 @@ import os
 import json
 import yaml
 import click
-import boto3
 from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.command.download import get_account_authorization_details
@@ -16,14 +15,17 @@ from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.output.report import HTMLReport
 
 logger = logging.getLogger(__name__)
+OK_GREEN = "\033[92m"
+END = "\033[0m"
 
 
 @click.command(
     short_help="Scan multiple AWS Accounts using a config file"
 )
 @click.option(
-    "--config-file",
+    "--config",
     "-c",
+    "config_file",
     type=click.Path(exists=True),
     required=True,
     help="Path of the multi-account config file",
@@ -31,6 +33,7 @@ logger = logging.getLogger(__name__)
 @click.option(
     "--profile",
     "-p",
+    "profile",
     type=str,
     required=False,
     help="Specify the AWS IAM profile.",
@@ -39,12 +42,15 @@ logger = logging.getLogger(__name__)
 @click.option(
     "--role-name",
     "-r",
+    "role_name",
     type=str,
     required=True,
     help="The name of the IAM role to assume in target accounts. Must be the same name in all target accounts."
 )
 @click.option(
     "--exclusions-file",
+    "-e",
+    "exclusions_file",
     help="A yaml file containing a list of policy names to exclude from the scan.",
     type=click.Path(exists=True),
     required=False,
@@ -59,18 +65,16 @@ logger = logging.getLogger(__name__)
     "--output-directory",
     "-o",
     "output_directory",
-    required=False,
     type=click.Path(exists=True),
-    # default=os.getcwd(),
     help="Output directory. Supply this or --bucket.",
 )
 @optgroup.option(
-    "--bucket",
+    "--output-bucket",
     "-b",
-    "save_bucket",
+    "output_bucket",
     type=str,
     help="The S3 bucket to save the results. Supply this or --output-directory."
-    # TODO: Validate that this
+    # TODO: Validate that this works
 )
 @optgroup.group(
     "Other Options",
@@ -89,18 +93,21 @@ logger = logging.getLogger(__name__)
     "verbosity",
     count=True,
 )
-def scan_multi_account(config_file: str, profile: str, role_name: str, exclusions_file: str, output_directory: str, save_bucket: str, write_data_file: bool, verbosity: int):
+def scan_multi_account(config_file: str, profile: str, role_name: str, exclusions_file: str, output_directory: str, output_bucket: str, write_data_file: bool, verbosity: int):
     """Scan multiple accounts via AssumeRole"""
     set_log_level(verbosity)
 
     # Read the config file from the user
-    multi_account_config = MultiAccountConfig(config_file=config_file, role_name=role_name)
+    with open(config_file, "r") as yaml_file:
+        config = yaml.safe_load(yaml_file)
+    multi_account_config = MultiAccountConfig(config=config, role_name=role_name)
 
     # Get the exclusions file
     exclusions = get_exclusions(exclusions_file=exclusions_file)
 
     # TODO: Speed improvements? Multithreading? idk.
     for target_account_name, target_account_id in multi_account_config.accounts.items():
+        print(f"{OK_GREEN}Scanning account: {target_account_name} (ID: {target_account_id}){END}")
         results = scan_account(target_account_id=target_account_id, target_role_name=role_name, exclusions=exclusions, profile=profile)
         html_report = HTMLReport(
             account_id=target_account_id,
@@ -109,12 +116,12 @@ def scan_multi_account(config_file: str, profile: str, role_name: str, exclusion
             minimize=True,
         )
         rendered_report = html_report.get_html_report()
-        if save_bucket:
-            logger.info("Saving the report to an S3 bucket!")
-            s3 = boto3.resource('s3')
+        if output_bucket:
+            s3 = aws_login.get_boto3_resource(service="s3", profile=profile)
             # Write the HTML file
             output_file = f"{target_account_name}.html"
-            s3.Object(save_bucket, output_file).put(ACL='bucket-owner-full-control', Body=rendered_report)
+            s3.Object(output_bucket, output_file).put(ACL='bucket-owner-full-control', Body=rendered_report)
+            utils.print_green(f"Saved the HTML report to: s3://{output_bucket}/{output_file}")
             # Write the JSON data file
             if write_data_file:
                 output_file = f"{target_account_name}.json"
@@ -124,21 +131,21 @@ def scan_multi_account(config_file: str, profile: str, role_name: str, exclusion
                     default=str,
                     indent=4
                 )
-                s3.Object(save_bucket, output_file).put(ACL='bucket-owner-full-control', Body=body)
-                logger.info(f"Wrote results to {save_bucket}/{output_file}")
+                s3.Object(output_bucket, output_file).put(ACL='bucket-owner-full-control', Body=body)
+                utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
         else:
-            logger.info("Saving the report to a local folder")
-            # Write the JSON data file
-            if write_data_file:
-                results_data_file = os.path.join(output_directory, f"{target_account_name}.json")
-                results_data_filepath = utils.write_results_data_file(results, results_data_file)
-                logger.info(f"Wrote results to {results_data_filepath}")
             # Write the HTML file
             html_output_file = os.path.join(output_directory, f"{target_account_name}.html")
             if os.path.exists(html_output_file):
                 os.remove(html_output_file)
             with open(html_output_file, "w") as f:
                 f.write(rendered_report)
+            utils.print_green(f"Saved the HTML report to: {os.path.relpath(html_output_file)}")
+            # Write the JSON data file
+            if write_data_file:
+                results_data_file = os.path.join(output_directory, f"{target_account_name}.json")
+                results_data_filepath = utils.write_results_data_file(results, results_data_file)
+                utils.print_green(f"Saved the JSON data to: {os.path.relpath(results_data_filepath)}")
 
 
 def scan_account(target_account_id: str, target_role_name: str, exclusions: Exclusions, profile: str = None):
@@ -171,17 +178,17 @@ def download_account_authorization_details(target_account_id: str, target_role_n
 
 
 class MultiAccountConfig:
-    """Handle the YAML file that parses the Multiaccount config"""
-    def __init__(self, config_file: str, role_name: str):
-        self.config_file = config_file
-        self.config = self._config()
+    """Handle the YAML file that parses the Multi-account config"""
+    def __init__(self, config: dict, role_name: str):
+        # self.config_file = config_file
+        self.config = config
         self.role_name = role_name
         self.accounts = self._accounts()
 
-    def _config(self) -> dict:
-        with open(self.config_file, "r") as yaml_file:
-            config_cfg = yaml.safe_load(yaml_file)
-        return config_cfg
+    # def _config(self) -> dict:
+    #     with open(self.config_file, "r") as yaml_file:
+    #         config_cfg = yaml.safe_load(yaml_file)
+    #     return config_cfg
 
     def _accounts(self) -> dict:
         accounts = self.config.get("accounts", None)
