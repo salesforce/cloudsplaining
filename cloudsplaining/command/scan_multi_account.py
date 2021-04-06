@@ -19,6 +19,22 @@ OK_GREEN = "\033[92m"
 END = "\033[0m"
 
 
+class MultiAccountConfig:
+    """Handle the YAML file that parses the Multi-account config"""
+    def __init__(self, config: dict, role_name: str):
+        # self.config_file = config_file
+        self.config = config
+        self.role_name = role_name
+        self.accounts = self._accounts()
+
+    def _accounts(self) -> dict:
+        accounts = self.config.get("accounts", None)
+        if not accounts:
+            raise Exception("Please supply a list of accounts in the multi-account config file")
+        return accounts
+
+
+
 @click.command(
     short_help="Scan multiple AWS Accounts using a config file"
 )
@@ -100,12 +116,18 @@ def scan_multi_account(config_file: str, profile: str, role_name: str, exclusion
     # Read the config file from the user
     with open(config_file, "r") as yaml_file:
         config = yaml.safe_load(yaml_file)
+
+    # Use the following lines to run this in a library
     multi_account_config = MultiAccountConfig(config=config, role_name=role_name)
-
-    # Get the exclusions file
     exclusions = get_exclusions(exclusions_file=exclusions_file)
+    scan_accounts(multi_account_config=multi_account_config, exclusions=exclusions, profile=profile,
+                  role_name=role_name, output_directory=output_directory, output_bucket=output_bucket,
+                  write_data_file=write_data_file)
 
-    # TODO: Speed improvements? Multithreading? idk.
+
+def scan_accounts(multi_account_config: MultiAccountConfig, exclusions: Exclusions, profile: str, role_name: str, output_directory: str, output_bucket: str, write_data_file: bool):
+    """Use this method as a library to scan multiple accounts"""
+    # TODO: Speed improvements? Multithreading? This currently runs sequentially.
     for target_account_name, target_account_id in multi_account_config.accounts.items():
         print(f"{OK_GREEN}Scanning account: {target_account_name} (ID: {target_account_id}){END}")
         results = scan_account(target_account_id=target_account_id, target_role_name=role_name, exclusions=exclusions, profile=profile)
@@ -175,26 +197,6 @@ def download_account_authorization_details(target_account_id: str, target_role_n
     include_non_default_policy_versions = False
     authorization_details = get_account_authorization_details(session_data, include_non_default_policy_versions)
     return authorization_details
-
-
-class MultiAccountConfig:
-    """Handle the YAML file that parses the Multi-account config"""
-    def __init__(self, config: dict, role_name: str):
-        # self.config_file = config_file
-        self.config = config
-        self.role_name = role_name
-        self.accounts = self._accounts()
-
-    # def _config(self) -> dict:
-    #     with open(self.config_file, "r") as yaml_file:
-    #         config_cfg = yaml.safe_load(yaml_file)
-    #     return config_cfg
-
-    def _accounts(self) -> dict:
-        accounts = self.config.get("accounts", None)
-        if not accounts:
-            raise Exception("Please supply a list of accounts in the multi-account config file")
-        return accounts
 
 
 def get_exclusions(exclusions_file: str = None) -> Exclusions:
