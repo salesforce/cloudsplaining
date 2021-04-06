@@ -4,7 +4,7 @@ import os
 import json
 import yaml
 import click
-from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
+from click_option_group import optgroup
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.command.download import get_account_authorization_details
 from cloudsplaining import set_log_level
