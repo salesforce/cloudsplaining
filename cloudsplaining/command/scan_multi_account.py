@@ -74,7 +74,6 @@ class MultiAccountConfig:
 )
 @optgroup.group(
     "Output Target Options",
-    cls=RequiredMutuallyExclusiveOptionGroup,
     help="",
 )
 @optgroup.option(
@@ -82,15 +81,14 @@ class MultiAccountConfig:
     "-o",
     "output_directory",
     type=click.Path(exists=True),
-    help="Output directory. Supply this or --bucket.",
+    help="Output directory. Supply this and/or --bucket.",
 )
 @optgroup.option(
     "--output-bucket",
     "-b",
     "output_bucket",
     type=str,
-    help="The S3 bucket to save the results. Supply this or --output-directory."
-    # TODO: Validate that this works
+    help="The S3 bucket to save the results. Supply this and/or --output-directory."
 )
 @optgroup.group(
     "Other Options",
@@ -138,6 +136,8 @@ def scan_accounts(multi_account_config: MultiAccountConfig, exclusions: Exclusio
             minimize=True,
         )
         rendered_report = html_report.get_html_report()
+        if not output_directory and not output_bucket:
+            raise Exception("Please supply --output-bucket and/or --output-directory as arguments.")
         if output_bucket:
             s3 = aws_login.get_boto3_resource(service="s3", profile=profile)
             # Write the HTML file
@@ -155,7 +155,7 @@ def scan_accounts(multi_account_config: MultiAccountConfig, exclusions: Exclusio
                 )
                 s3.Object(output_bucket, output_file).put(ACL='bucket-owner-full-control', Body=body)
                 utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
-        else:
+        if output_directory:
             # Write the HTML file
             html_output_file = os.path.join(output_directory, f"{target_account_name}.html")
             if os.path.exists(html_output_file):
