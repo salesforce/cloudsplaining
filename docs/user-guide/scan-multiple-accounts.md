@@ -30,7 +30,8 @@ accounts:
 
 
 For the next step, let's say that:
- * We have a role in the target accounts that is called `CommonSecurityRole`. 
+
+* We have a role in the target accounts that is called `CommonSecurityRole`. 
 * The credentials for your IAM user are under the AWS Credentials profile called `scanning-user`.
 * That user has `sts:AssumeRole` permissions to assume the `CommonSecurityRole` in all your target accounts specified in the YAML file we created previously.
 * You want to save the output to an S3 bucket called `my-results-bucket`
