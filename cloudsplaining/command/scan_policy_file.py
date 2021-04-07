@@ -28,12 +28,14 @@ END = "\033[0m"
 )
 @click.option(
     "--input-file",
+    "-i",
     type=str,
     # required=True,
     help="Path of the IAM policy file to evaluate.",
 )
 @click.option(
     "--exclusions-file",
+    "-e",
     help="A yaml file containing a list of actions to ignore when scanning.",
     type=click.Path(exists=True),
     required=False,

@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--profile",
+    "-p",
     type=str,
     required=False,
     help="Specify 'all' to authenticate to AWS and analyze *all* existing IAM policies. Specify a non-default "
@@ -30,6 +31,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--output",
+    "-o",
     type=click.Path(exists=True),
     default=Path.cwd(),
     help="Path to store the output. Defaults to current directory.",
