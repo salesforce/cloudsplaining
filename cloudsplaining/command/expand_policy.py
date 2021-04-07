@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--input-file",
+    "-i",
     type=click.Path(exists=True),
     required=True,
     help="Path to the JSON policy file.",

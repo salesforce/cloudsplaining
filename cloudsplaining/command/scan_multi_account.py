@@ -34,7 +34,6 @@ class MultiAccountConfig:
         return accounts
 
 
-
 @click.command(
     short_help="Scan multiple AWS Accounts using a config file"
 )
@@ -96,6 +95,7 @@ class MultiAccountConfig:
 )
 @optgroup.option(
     "--write-data-file",
+    "-w",
     is_flag=True,
     required=False,
     default=False,

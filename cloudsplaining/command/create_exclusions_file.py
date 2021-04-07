@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--output-file",
+    "-o",
     type=click.Path(exists=False),
     default=os.path.join(os.getcwd(), "exclusions.yml"),
     required=True,

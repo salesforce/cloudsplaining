@@ -31,12 +31,14 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--input-file",
+    "-i",
     type=click.Path(exists=True),
     required=True,
     help="Path of IAM account authorization details file",
 )
 @click.option(
     "--exclusions-file",
+    "-e",
     help="A yaml file containing a list of policy names to exclude from the scan.",
     type=click.Path(exists=True),
     required=False,
@@ -44,6 +46,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--output",
+    "-o",
     required=False,
     type=click.Path(exists=True),
     default=os.getcwd(),
@@ -51,6 +54,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--skip-open-report",
+    "-s",
     required=False,
     default=False,
     is_flag=True,
@@ -59,6 +63,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--minimize",
+    "-m",
     required=False,
     default=False,
     is_flag=True,
