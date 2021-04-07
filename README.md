@@ -307,8 +307,7 @@ accounts:
   test: 123456789014
 ```
 
-!!! note 
-    Observe how the format of the file above includes `account_name: accountID`. Edit the file contents to match your desired account name and account ID. Include as many account IDs as you like.
+> Note: Observe how the format of the file above includes `account_name: accountID`. Edit the file contents to match your desired account name and account ID. Include as many account IDs as you like.
 
 
 For the next step, let's say that:

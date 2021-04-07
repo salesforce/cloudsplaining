@@ -28,8 +28,9 @@ nav:
     - Installation: 'user-guide/installation.md'
     - Downloading Account IAM Details: 'user-guide/download.md'
     - Creating an Exclusions File: 'user-guide/create-exclusions-file.md'
-    - Scanning Account IAM Details: 'user-guide/scan-account.md'
+    - Scanning a single AWS account: 'user-guide/scan-account.md'
     - Scanning a single policy: 'user-guide/scan-policy-file.md'
+    - Scanning multiple AWS accounts: 'user-guide/scan-multiple-accounts.md'
     - Troubleshooting: 'user-guide/troubleshooting.md'
 
   - "<b>Report Contents</b>":
