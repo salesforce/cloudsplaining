@@ -8,6 +8,9 @@ use_directory_urls: true
 markdown_extensions:
     - codehilite
     - tables
+    - admonition
+    - pymdownx.details
+    - pymdownx.superfences
 plugins:
   - search
   - mkdocstrings:
