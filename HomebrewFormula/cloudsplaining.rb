@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/5a/36/67fcc6f29f827b629d3bcfd3c98fe583326cb989d589abed14889dbe096f/boto3-1.17.35.tar.gz"
-    sha256 "40e84a5f7888924db74a2710dbe48d066b51fe1f5549efaffe90e6efe813f37b"
+    url "https://files.pythonhosted.org/packages/c5/0b/24bb255d19bbe5c645e1bcba6c89ec08b2fcfb4f42341d74b024fee6307d/boto3-1.17.46.tar.gz"
+    sha256 "5dee15bf961ea584d681fae42c50034c839717e7454c3da90cb57a6c52e97532"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/bb/7c/32e7b6cefa1f65dbd3eef6b8648db0407ff6d93e8ddc6862cefa61222240/botocore-1.20.35.tar.gz"
-    sha256 "9119ffb231145ffadd55391c9356dcdb18e3de65c3a7c82844634e949f0ca5a0"
+    url "https://files.pythonhosted.org/packages/34/8d/5e17128c683e734d89f5f353a9eba81f4a4c93db2f131d4c791525064445/botocore-1.20.46.tar.gz"
+    sha256 "50bbc3e9341c7daa8219db98c38f26012a151ca88fa260148e5bf3adcbcb9541"
   end
 
   resource "cached-property" do
@@ -43,6 +43,11 @@ class Cloudsplaining < Formula
     sha256 "d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"
   end
 
+  resource "click-option-group" do
+    url "https://files.pythonhosted.org/packages/e5/cb/c5698a6434db57236cdab8852d0305ad71a033f29d8a769faabf35f96e29/click-option-group-0.5.2.tar.gz"
+    sha256 "743733a0f564438b6b761f49ddf37d845f9a662294ecabe0e832e597208bcf31"
+  end
+
   resource "contextlib2" do
     url "https://files.pythonhosted.org/packages/02/54/669207eb72e3d8ae8b38aa1f0703ee87a0e9f88f30d3c0a47bebdb6de242/contextlib2-0.6.0.post1.tar.gz"
     sha256 "01f490098c18b19d2bd5bb5dc445b2054d2fa97f09a4280ba2c5f3c394c8162e"
@@ -54,8 +59,8 @@ class Cloudsplaining < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/99/23/aac25e607237feabe8d076932d27a590341001a9bf8a1e4149ee1c3c3c40/importlib_metadata-3.7.3.tar.gz"
-    sha256 "742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71"
+    url "https://files.pythonhosted.org/packages/8e/33/d54eacc679af34dc7c03fe9f3383669095b27fa17bd820cd33ec957cb249/importlib_metadata-3.10.0.tar.gz"
+    sha256 "c9db46394197244adf2f0b08ec5bc3cf16757e9590b02af1fca085c16c0d600a"
   end
 
   resource "Jinja2" do
