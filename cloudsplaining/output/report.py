@@ -16,7 +16,7 @@ class HTMLReport:
         self.account_id = account_id
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
         self.minimize = minimize
-        self.results = f"var iam_data = {json.dumps(results)}"
+        self.results = f"var iam_data = {json.dumps(results, default=str)}"
 
     @property
     def app_bundle(self):

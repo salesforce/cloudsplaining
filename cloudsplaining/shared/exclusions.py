@@ -7,6 +7,7 @@
 import logging
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+from cloudsplaining.shared import utils
 
 logger = logging.getLogger(__name__)
 
@@ -178,13 +179,13 @@ def is_name_excluded(name, exclusions_list):
             # print(prefix)
             if name.lower().startswith(prefix.lower()):
                 # logger.debug(f"Excluded prefix: {exclusion}")
-                print(f"\tExcluded prefix: {exclusion}")
+                utils.print_grey(f"\tExcluded prefix: {exclusion}")
                 result = True
                 break
         if exclusion.startswith("*"):
             suffix = exclusion.split("*")[-1]
             if name.lower().endswith(suffix.lower()):
-                print(f"\tExcluded suffix: {exclusion}")
+                utils.print_grey(f"\tExcluded suffix: {exclusion}")
                 result = True
                 break
     return result

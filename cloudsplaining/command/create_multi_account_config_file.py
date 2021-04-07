@@ -11,23 +11,27 @@ import os
 from pathlib import Path
 import logging
 import click
-from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
+from cloudsplaining.shared.constants import MULTI_ACCOUNT_CONFIG_TEMPLATE
 from cloudsplaining import change_log_level
 from cloudsplaining.shared import utils
 
 logger = logging.getLogger(__name__)
+OK_GREEN = "\033[92m"
+END = "\033[0m"
 
 
 @click.command(
     context_settings=dict(max_content_width=160),
-    short_help="Creates a YML file to be used as a custom exclusions template",
+    short_help="Creates a YML file to be used for multi-account scanning",
 )
 @click.option(
     "--output-file",
+    "-o",
+    "output_file",
     type=click.Path(exists=False),
-    default=os.path.join(os.getcwd(), "exclusions.yml"),
+    default=os.path.join(os.getcwd(), "multi-account-config.yml"),
     required=True,
-    help="Relative path to output file where we want to store the exclusions template.",
+    help="Relative path to output file where we want to store the multi account config template.",
 )
 @click.option(
     "--verbose",
@@ -36,25 +40,26 @@ logger = logging.getLogger(__name__)
         ["critical", "error", "warning", "info", "debug"], case_sensitive=False
     ),
 )
-def create_exclusions_file(output_file, verbose):
+def create_multi_account_config_file(output_file, verbose):
     """
-    Creates a YML file to be used as a custom exclusions template,
-    so users can fill out the fields without needing to look up the required format.
+    Creates a YML file to be used as a multi-account config template, so users can scan many different accounts.
     """
     if verbose:
         log_level = getattr(logging, verbose.upper())
         change_log_level(log_level)
-
     filename = Path(output_file).resolve()
+
+    if os.path.exists(filename):
+        logger.debug("%s exists. Removing the file and replacing its contents.", filename)
+        os.remove(filename)
+
     with open(filename, "a") as file_obj:
-        for line in EXCLUSIONS_TEMPLATE:
+        for line in MULTI_ACCOUNT_CONFIG_TEMPLATE:
             file_obj.write(line)
-    utils.print_green(f"Success! Exclusions template file written to: {filename}")
+    utils.print_green(f"Success! Multi-account config file written to: {os.path.relpath(filename)}")
     print(
-        "Make sure you download your account authorization details before running the scan. Set your AWS access keys as environment variables then run: "
+        f"\nMake sure you edit the {os.path.relpath(filename)} file and then run the scan-multi-account command, as shown below."
     )
-    print("\tcloudsplaining download")
-    print("You can use this with the scan command as shown below: ")
     print(
-        "\tcloudsplaining scan --exclusions-file exclusions.yml --input-file default.json"
+        f"\n\tcloudsplaining scan-multi-account --exclusions-file exclusions.yml -c {os.path.relpath(filename)} -o ./"
     )
