@@ -47,14 +47,16 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['test*', 'tmp*']),
     tests_require=TESTS_REQUIRE,
     install_requires=[
-        'policy_sentry>=0.11.3',
-        'click',
-        'schema',
         'boto3',
         'botocore',
-        'markdown',
+        'cached-property',
+        'click',
+        'click_option_group',
         'jinja2',
-        'cached-property'
+        'markdown',
+        'policy_sentry>=0.11.3',
+        'pyyaml',
+        'schema',
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
