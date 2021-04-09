@@ -52,7 +52,7 @@ def get_available_regions(service: str):
 
 
 def get_target_account_credentials(target_account_role_name: str, target_account_id: str,
-                                   role_session_name: str = "HotDogsAreSandwiches", profile: str = None):
+                                   role_session_name: str = "Cloudsplaining", profile: str = None):
     """
     Get a boto3 client for a given AWS service
 

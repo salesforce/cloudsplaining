@@ -1,0 +1,12 @@
+cloudsplaining/output/src/sampleData.js
+cloudsplaining/output/dist/js/*
+cloudsplaining/output/dist/index.bundle.js
+docs/example-report.html
+examples/files/iam-report-example.html
+examples/files/example.json
+private/*
+test/files/*
+tmp/*
+utils/example-iam-data.json
+venv/*
+index.html
