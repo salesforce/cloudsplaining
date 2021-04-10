@@ -273,3 +273,28 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         results = statement.has_resource_constraints
         self.assertFalse(results)
+
+    def test_actions_without_constraints(self):
+        this_statement = {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:UpdateUser",
+                "iam:TagRole",
+                "iam:UntagRole",
+                "s3:PutBucketAcl",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:CreateBucket"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+        statement = StatementDetail(this_statement)
+        results = statement.permissions_management_actions_without_constraints
+        self.assertListEqual(results, ["iam:UpdateUser", "s3:PutBucketAcl"])
+        results = statement.write_actions_without_constraints
+        self.assertListEqual(results, ["s3:CreateBucket", "s3:PutObject"])
+        results = statement.tagging_actions_without_constraints
+        self.assertListEqual(results, ["iam:TagRole", "iam:UntagRole"])
