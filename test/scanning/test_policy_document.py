@@ -362,3 +362,32 @@ class TestPolicyDocument(unittest.TestCase):
         }
         policy_document_without_condition = PolicyDocument(test_policy_without_condition)
         self.assertListEqual(policy_document_without_condition.all_allowed_unrestricted_actions, ["cloudwatch:PutMetricData"])
+
+    def test_actions_without_constraints_deny(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Deny",
+                    "Action": [
+                        "iam:UpdateUser",
+                        "iam:TagRole",
+                        "iam:UntagRole",
+                        "s3:PutBucketAcl",
+                        "s3:GetObject",
+                        "s3:PutObject",
+                        "s3:CreateBucket"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        results = policy_document.permissions_management_without_constraints
+        self.assertListEqual(results, [])
+
+        results = policy_document.write_actions_without_constraints
+        self.assertListEqual(results, [])
+
+        results = policy_document.tagging_actions_without_constraints
+        self.assertListEqual(results, [])

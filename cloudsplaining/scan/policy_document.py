@@ -137,7 +137,7 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.permissions_management_actions_without_constraints:
+            if statement.effect == "Allow" and statement.permissions_management_actions_without_constraints:
                 result.extend(
                     statement.permissions_management_actions_without_constraints
                 )
@@ -149,7 +149,7 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.write_actions_without_constraints:
+            if statement.effect == "Allow" and statement.write_actions_without_constraints:
                 result.extend(statement.write_actions_without_constraints)
         return result
 
@@ -159,7 +159,7 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.tagging_actions_without_constraints:
+            if statement.effect == "Allow" and statement.tagging_actions_without_constraints:
                 result.extend(statement.tagging_actions_without_constraints)
         return result
 
