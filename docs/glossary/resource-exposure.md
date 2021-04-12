@@ -7,8 +7,6 @@ For example:
 * `iam:UpdateAssumeRolePolicy` could allow an attacker to create a backdoor by assuming a privileged role in the victim account from an external account.
 * The ability to modify [AWS Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html), which could allow a malicious actor to share a VPC hosting sensitive or internal services to rogue AWS accounts
 
-Attackers can easily exploit Resource Exposure permissions to expose resources to rogue users or the internet, as shown by [endgame](https://github.com/salesforce/endgame/), an AWS pentesting tool that was also released by Salesforce.
-
 The following actions are considered to be "Resource Exposure" actions:
 
 
