@@ -1,0 +1,27 @@
+name: python-dependency-updater
+
+on:
+  # Run on the first day of the month
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  python-dependency-updater:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7']
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run Pyup.io Dependency updater
+        run: |
+          pip install pyupio
+          pip install -r requirements.txt
+          default_branch=`git remote show origin | grep 'HEAD branch' | cut -d' ' -f5`
+          pyup --provider github --provider_url https://api.github.com --repo=$GITHUB_REPOSITORY --user-token=${{ secrets.PYUP_GITHUB_ACCESS_TOKEN }} --branch $default_branch --initial
