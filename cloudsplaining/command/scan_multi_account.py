@@ -123,7 +123,7 @@ def scan_multi_account(config_file: str, profile: str, role_name: str, exclusion
                   write_data_file=write_data_file)
 
 
-def scan_accounts(multi_account_config: MultiAccountConfig, exclusions: Exclusions, profile: str, role_name: str, output_directory: str, output_bucket: str, write_data_file: bool):
+def scan_accounts(multi_account_config: MultiAccountConfig, exclusions: Exclusions, role_name: str, write_data_file: bool, profile: str = None, output_directory: str = None, output_bucket: str = None):
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
     for target_account_name, target_account_id in multi_account_config.accounts.items():
