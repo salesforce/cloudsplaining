@@ -1,0 +1,43 @@
+name: Update JS Bundle and Example Report
+
+on:
+  schedule:
+  # Run on the first day of the month
+    - cron:  '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Update the JavaScript bundle
+        run: |
+          make build-js
+
+      - name: Generate the updated reports
+        run: |
+          make generate-report
+
+      - name: Run NPM unit tests for sanity checks
+        run: |
+          make test-js
+
+      - name: PR if files were updated
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update JS Bundle and example reports
+          title: 'Updates database'
+          body: This is an automated PR created to update the JS Bundle and the example reports.
