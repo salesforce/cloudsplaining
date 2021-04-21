@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/kmcquade/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/20/8c/1fd958347b1bfca4d15b343aa41792662964fa9122fa93da95c1bb2906d6/cloudsplaining-0.4.0.tar.gz"
-  sha256 "a5ca8d32f7ed1c585e5e9aea5efed334c855e7b2c2577b67bb9137e38bea8081"
+  url "https://files.pythonhosted.org/packages/53/d5/97bd056ff2586a53c2cbd0d3deef35f033d64dc88e81d9c859c2a1d52ab9/cloudsplaining-0.4.2.tar.gz"
+  sha256 "6e80b3280aae08ec8d5ff3adb301daad3a59299286360db82ace9ed80a6cc3e2"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/7a/1e/570e2446e97bac3d348d0bc6cbf8ac28997ddbef3d97c052f1c476ff48bb/boto3-1.17.49.tar.gz"
-    sha256 "a482135c30fa07eaf4370314dd0fb49117222a266d0423b2075aed3835ed1f04"
+    url "https://files.pythonhosted.org/packages/c4/1e/2f37fcc774c156ddaf53ea089918a50f78ba18373100498ec1accc8b9448/boto3-1.17.54.tar.gz"
+    sha256 "1e55df93aa47a84e2a12a639c7f145e16e6e9ef959542d69d5526d50d2e92692"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/49/95/afb61cbea75fb2ba846d5ed4fcc364fbc7b59a998adfe379409a4ee36231/botocore-1.20.49.tar.gz"
-    sha256 "f7f103fa0651c69dd360c7d0ecd874854303de5cc0869e0cbc2818a52baacc69"
+    url "https://files.pythonhosted.org/packages/c1/9d/1f9fed71af2f19d2efc28399e75be48fbe9c8bcb2f2e878acdda66a5f767/botocore-1.20.54.tar.gz"
+    sha256 "37ec76ea2df8609540ba6cb0fe360ae1c589d2e1ee91eb642fd767823f3fcedd"
   end
 
   resource "cached-property" do
@@ -59,8 +59,8 @@ class Cloudsplaining < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/8e/33/d54eacc679af34dc7c03fe9f3383669095b27fa17bd820cd33ec957cb249/importlib_metadata-3.10.0.tar.gz"
-    sha256 "c9db46394197244adf2f0b08ec5bc3cf16757e9590b02af1fca085c16c0d600a"
+    url "https://files.pythonhosted.org/packages/91/b6/4f8d521c15fa22bca780aeff56a5b43665ac522585b2b2090e3626ca585f/importlib_metadata-4.0.1.tar.gz"
+    sha256 "8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581"
   end
 
   resource "Jinja2" do
@@ -104,8 +104,8 @@ class Cloudsplaining < Formula
   end
 
   resource "s3transfer" do
-    url "https://files.pythonhosted.org/packages/0f/c2/266326b601256b5722aea10961504857f324cd50f4adc66a2f573fbea017/s3transfer-0.3.6.tar.gz"
-    sha256 "c5dadf598762899d8cfaecf68eba649cd25b0ce93b6c954b156aaa3eed160547"
+    url "https://files.pythonhosted.org/packages/f8/27/b65041a2e68ce4ad9e51622f630f2be356d7e1ff1bfef687dde07e4a3d26/s3transfer-0.4.0.tar.gz"
+    sha256 "f3dfd791cad2799403e3c8051810a7ca6ee1d2e630e5d2a8f9649d892bdb3db6"
   end
 
   resource "schema" do
