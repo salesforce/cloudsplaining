@@ -27,7 +27,7 @@ class HTMLReport:
             bundle = f'<script type="text/javascript" src="{js_url}"></script>'
             return bundle
         else:
-            with open(app_bundle_path, "r") as f:
+            with open(app_bundle_path, "r", encoding="utf-8") as f:
                 bundle_content = f.read()
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
@@ -43,7 +43,7 @@ class HTMLReport:
             return bundle
         else:
             vendor_bundle_path = get_vendor_bundle_path()
-            with open(vendor_bundle_path, "r") as f:
+            with open(vendor_bundle_path, "r", encoding="utf-8") as f:
                 bundle_content = f.read()
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
