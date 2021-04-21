@@ -1,0 +1,15 @@
+name: Bump Version
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Bump version
+        run: sh ${GITHUB_WORKSPACE}/utils/bump-version.sh
