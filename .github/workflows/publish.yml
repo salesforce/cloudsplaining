@@ -20,18 +20,21 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sleep 4m
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          make setup-dev
 
-      - run: invoke build.install-package
-      - run: invoke test.lint
-      - run: invoke test.security
-      - run: invoke unit.pytest
-      - run: invoke integration.version
-      - run: invoke integration.expand-policy
-      - run: invoke integration.scan
-      - run: invoke build.uninstall-package
+      - name: Install the package to make sure nothing is randomly broken
+        run: |
+          make install
+
+      - name: Pylint
+        run: |
+          make lint
+
+      - name: Run pytest (unit tests) and bandit (security test)
+        run: |
+          make security-test
+          make test
+
 
   publish-package:
     needs: test

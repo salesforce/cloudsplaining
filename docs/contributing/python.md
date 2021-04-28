@@ -3,7 +3,7 @@
 Insert more docs on this here...
 
 ### Dependency management: Virtual environment
-We use Virtualenv for package management instead of Pipenv or Poetry. PyInvoke is used for storing common commands.
+We use Virtualenv for package management instead of Pipenv or Poetry. Makefile is used for storing common commands.
 
 ```bash
 # Set up the virtual environment
@@ -13,42 +13,50 @@ pip3 install -r requirements-dev.txt
 ```
 
 
-### Invoke (Makefile for Python)
+### Makefile
 
-To run and develop Cloudsplaining without having to install from PyPi, you can use Invoke.
+* Python commands:
+  
+```bash
+# Set up your local development environment
+make setup-dev
+
+# Auto format the python code with `black`
+make fmt
+
+# Lint the code 
+make lint
+
+# Run unit tests with pytest
+make test
+
+# Run `bandit` and `safety check` for security tests
+make security-test
 
 ```
-# List available tasks
-invoke -l
 
-# that will show the following options:
-Available tasks:
+* Javascript/UI commands
+  
+```bash
+# Run Javascript unit tests
+make test-js
 
-  build.build-package         Build the cloudsplaining package from the current
-                              directory contents for use with PyPi
-  build.install-package       Install the cloudsplaining package built from the
-                              current directory contents (not PyPi)
-  build.uninstall-package     Uninstall the cloudsplaining package
-  build.upload-prod           Upload the package to the PyPi production server
-                              (requires credentials)
-  build.upload-test           Upload the package to the TestPyPi server
-                              (requires credentials)
-  docs.build-docs             Create the documentation files and open them
-                              locally
-  integration.expand-policy   Integration testing: tests the expand-policy
-                              command
-  test.format                 Auto format code with Python `black`
-  test.lint                   Lint the code
-  test.security               Runs `bandit` and `safety check`
-  unit.nose                   Unit testing: Runs unit tests using `nosetests`
-  unit.pytest                 Unit testing: Runs unit tests using `pytest`
+# Generate the updated Javascript bundle
+make build-js
 
-# To run them, specify `invoke` plus the options:
-  invoke build.build-package
-  invoke docs.build-docs
-  invoke test.lint
-  invoke unit.nose
-  invoke unit.pytest
-  invoke test.security
+# Serve the example Javascript report locally for development
+make serve-js
 
+# Generate the updated report
+make generate-report
+```
+
+* Documentation commands:
+
+```bash
+# Create the documentation files locally and open them
+make build-docs
+
+# Serve the documentation files locally as you edit them
+make serve-docs
 ```

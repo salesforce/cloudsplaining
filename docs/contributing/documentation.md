@@ -21,8 +21,8 @@ pip3 install -r requirements.txt
 pip3 install -r requirements-dev.txt
 
 # Create the HTML files
-invoke docs.build-docs
-invoke docs.serve-docs
+make build-docs
+make serve-docs
 
 # The above will open the built documentation in your browser
 ```
