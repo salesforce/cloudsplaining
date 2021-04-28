@@ -10,7 +10,9 @@ multiple changes are involved, a bulleted list is often useful.)
 ## Completion checklist
 
 - [ ] Additions and changes have unit tests
-- [ ] Python Unit tests, Pylint, security testing, and Integration tests are passing.
-- [ ] Javascript tests are passing (`npm test`)
-- [ ] If the UI contents or JavaScript files have been modified, generate a new example report (`npm build` and `python3 ./utils/generate_example_report.py`)
+- [ ] Python unit tests (`make test`) are passing
+- [ ] Python linter is passing (`make lint`)
+- [ ] Python security tests (`make security-test`) are passing
+- [ ] Javascript tests are passing (`make test-js`)
+- [ ] If the UI contents or JavaScript files have been modified, generate a new example report (`make generate-report`)
 - [ ] The pull request has been appropriately labeled using the provided PR labels

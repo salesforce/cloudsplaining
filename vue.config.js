@@ -40,13 +40,6 @@ module.exports = {
                     title: 'Cloudsplaining report',
                 }
             ));
-        // config
-        //     .plugin('preload-webpack-plugin')
-        //         .use(new PreloadWebpackPlugin({
-        //             rel: 'prefetch',
-        //             as: 'script'
-        //         }
-        //     ));
         config.optimization
             .splitChunks({
                 name: false,

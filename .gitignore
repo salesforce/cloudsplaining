@@ -10,6 +10,7 @@ private/default-iam-results.json
 default-results-summary.csv
 iam-new-principal-policy-mapping-example.json
 iam-findings-example.json
+iam-results-example.json
 private/*
 current.json
 TODO.md
@@ -120,19 +121,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-########## Terraform ##########
-#  Local .terraform directories
-**/.terraform/*
-*.plan
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-# .tfvars files
-*.tfvars
-!terraform.tfvars
 
 ########## Python ##########
 # Byte-compiled / optimized / DLL files

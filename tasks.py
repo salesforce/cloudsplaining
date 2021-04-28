@@ -91,57 +91,6 @@ def upload_to_pypi_prod_server(c):
     c.run("python -m pip install cloudsplaining")
 
 
-@task(pre=[install_package])
-def version_check(c):
-    """Print the version"""
-    try:
-        c.run('./cloudsplaining/bin/cli.py --version', pty=True)
-    except UnexpectedExit as u_e:
-        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
-        sys.exit(1)
-    except Failure as f_e:
-        logger.critical(f"FAIL: Failure: {f_e}")
-        sys.exit(1)
-
-
-@task(pre=[install_package])
-def expand_policy(c):
-    """
-    Integration testing: tests the expand-policy command
-    """
-    try:
-        c.run(
-            "./cloudsplaining/bin/cli.py expand-policy --input-file examples/policies/wildcards.json",
-            pty=True,
-        )
-        c.run(
-            "./cloudsplaining/bin/cli.py expand-policy --input-file examples/policies/explicit-actions.json",
-            pty=True,
-        )
-    except UnexpectedExit as u_e:
-        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
-        sys.exit(1)
-    except Failure as f_e:
-        logger.critical(f"FAIL: Failure: {f_e}")
-        sys.exit(1)
-
-
-@task(pre=[install_package])
-def scan(c):
-    """Integration testing: tests the scan command"""
-    try:
-        c.run(
-            "./cloudsplaining/bin/cli.py scan --input-file examples/files/example.json --exclusions-file examples/example-exclusions.yml --skip-open-report -v debug",
-            pty=True,
-        )
-    except UnexpectedExit as u_e:
-        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
-        sys.exit(1)
-    except Failure as f_e:
-        logger.critical(f"FAIL: Failure: {f_e}")
-        sys.exit(1)
-
-
 # TEST - SECURITY
 @task
 def security_scan(c):
@@ -170,21 +119,6 @@ def fmt(c):
     except Failure as f_e:
         logger.critical(f"FAIL: Failure: {f_e}")
         sys.exit(1)
-
-
-# TEST - LINT
-@task
-def run_linter(c):
-    """Lint the code"""
-    try:
-        c.run('pylint cloudsplaining/', warn=False)
-    except UnexpectedExit as u_e:
-        logger.critical(f"FAIL! UnexpectedExit: {u_e}")
-        sys.exit(1)
-    except Failure as f_e:
-        logger.critical(f"FAIL: Failure: {f_e}")
-        sys.exit(1)
-
 
 # UNIT TESTING
 @task
@@ -249,16 +183,8 @@ def npm_serve(c):
 docs.add_task(build_docs, "build-docs")
 docs.add_task(serve_docs, "serve-docs")
 
-unit.add_task(run_nosetests, "nose")
-unit.add_task(run_pytest, "pytest")
-
-test.add_task(run_linter, 'lint')
 test.add_task(fmt, "format")
 test.add_task(security_scan, "security")
-
-integration.add_task(version_check, "version")
-integration.add_task(expand_policy, "expand-policy")
-integration.add_task(scan, "scan")
 
 build.add_task(build_package, "build-package")
 build.add_task(install_package, "install-package")
