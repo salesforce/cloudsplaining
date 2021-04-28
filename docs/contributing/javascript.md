@@ -70,6 +70,7 @@ npm build
 ### Building the report for testing
 
 ####  Step 1: Make sure it builds successfully locally first with `npm serve` 
+
 ```bash
 npm serve
 # You can then access the application over http://localhost:8080
