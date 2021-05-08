@@ -24,7 +24,7 @@ class ExclusionsNewTestCase(unittest.TestCase):
             "ec2:DescribeInstances"
         ]
         result = exclusions.get_allowed_actions(test_actions_list)
-        self.assertListEqual(result, ['s3:GetObject', 'ssm:GetParameter', 'ec2:DescribeInstances'])
+        self.assertCountEqual(result, ['s3:GetObject', 'ssm:GetParameter', 'ec2:DescribeInstances'])
 
 
 class ExclusionsTestCase(unittest.TestCase):

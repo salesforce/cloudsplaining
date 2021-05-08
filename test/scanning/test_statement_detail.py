@@ -79,7 +79,7 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints()
         # print(result)
-        self.assertListEqual(result, ['secretsmanager:CreateSecret', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ['secretsmanager:CreateSecret', 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions(self):
         this_statement = {
