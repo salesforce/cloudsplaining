@@ -14,6 +14,7 @@ policies:
 roles:
   - "service-role*"
   - "aws-service-role*"
+  - "AWS-QuickSetup-StackSet-Local-AdministrationRole"
 users:
   - ""
 groups:
