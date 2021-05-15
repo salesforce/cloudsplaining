@@ -48,6 +48,8 @@ class StatementDetail:
         self.not_resource = self._not_resource()
         self.has_condition = self._has_condition()
 
+        self.restrictable_actions = remove_wildcard_only_actions(self.expanded_actions)
+
     def _actions(self) -> List[str]:
         """Holds the actions in a statement"""
         actions = self.statement.get("Action")
@@ -191,7 +193,7 @@ class StatementDetail:
         if not self.has_resource_constraints:
             if self.expanded_actions:
                 result = remove_actions_not_matching_access_level(
-                    self.expanded_actions, "Permissions management"
+                    self.restrictable_actions, "Permissions management"
                 )
         return result
 
@@ -202,7 +204,7 @@ class StatementDetail:
         result = []
         if not self.has_resource_constraints:
             result = remove_actions_not_matching_access_level(
-                self.expanded_actions, "Write"
+                self.restrictable_actions, "Write"
             )
         return result
 
@@ -213,7 +215,7 @@ class StatementDetail:
         result = []
         if not self.has_resource_constraints:
             result = remove_actions_not_matching_access_level(
-                self.expanded_actions, "Tagging"
+                self.restrictable_actions, "Tagging"
             )
         return result
 
@@ -229,9 +231,7 @@ class StatementDetail:
             )
         actions_missing_resource_constraints = []
         if len(self.resources) == 1 and self.resources[0] == "*":
-            actions_missing_resource_constraints = remove_wildcard_only_actions(
-                self.expanded_actions
-            )
+            actions_missing_resource_constraints = self.restrictable_actions
         return exclusions.get_allowed_actions(actions_missing_resource_constraints)
 
     def missing_resource_constraints_for_modify_actions(

@@ -293,8 +293,8 @@ class TestStatementDetail(unittest.TestCase):
         }
         statement = StatementDetail(this_statement)
         results = statement.permissions_management_actions_without_constraints
-        self.assertListEqual(results, ["iam:UpdateUser", "s3:PutBucketAcl"])
+        self.assertCountEqual(results, ["iam:UpdateUser", "s3:PutBucketAcl"])
         results = statement.write_actions_without_constraints
-        self.assertListEqual(results, ["s3:CreateBucket", "s3:PutObject"])
+        self.assertCountEqual(results, ["s3:CreateBucket", "s3:PutObject"])
         results = statement.tagging_actions_without_constraints
-        self.assertListEqual(results, ["iam:TagRole", "iam:UntagRole"])
+        self.assertCountEqual(results, ["iam:TagRole", "iam:UntagRole"])

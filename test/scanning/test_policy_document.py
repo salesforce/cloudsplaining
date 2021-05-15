@@ -391,3 +391,21 @@ class TestPolicyDocument(unittest.TestCase):
 
         results = policy_document.tagging_actions_without_constraints
         self.assertListEqual(results, [])
+
+    def test_gh_190_allow_xray_wildcard_permissions(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "xray:PutTraceSegments",
+                        "xray:PutTelemetryRecords"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        results = policy_document.write_actions_without_constraints
+        self.assertListEqual(results, [])
