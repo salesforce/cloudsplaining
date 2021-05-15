@@ -5,7 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import List
+from typing import List, Union
 
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
@@ -107,7 +107,7 @@ class Exclusions:
         else:
             return False  # pragma: no cover
 
-    def is_policy_excluded(self, policy_name):
+    def is_policy_excluded(self, policy_name: str) -> bool:
         """
         Supply a policy name or path, and get a decision about whether or not it is excluded.
 
@@ -155,13 +155,13 @@ class Exclusions:
 
 
 # pylint: disable=inconsistent-return-statements
-def is_name_excluded(name, exclusions_list):
+def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
     """
     :param name: The name of the policy, role, user, or group
     :param exclusions_list: List of exclusions
     :return:
     """
-    result = None
+    result = False
     if isinstance(exclusions_list, str):
         exclusions_list = [exclusions_list]
 

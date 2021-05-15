@@ -27,7 +27,9 @@ class PolicyDocument:
     Holds the actual AWS IAM Policy document
     """
 
-    def __init__(self, policy: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> None:
+    def __init__(
+        self, policy: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
@@ -56,7 +58,9 @@ class PolicyDocument:
         """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
-            if statement.effect_allow:  # if Effect is "Deny" - it is not an allowed action
+            if (
+                statement.effect_allow
+            ):  # if Effect is "Deny" - it is not an allowed action
                 if statement.expanded_actions:
                     allowed_actions.update(statement.expanded_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
@@ -64,12 +68,14 @@ class PolicyDocument:
 
     def filter_deny_statements(self, allowed_actions: Set[str]) -> Set[str]:
         """
-            filter all denied statements from actions
+        filter all denied statements from actions
         """
         for statement in self.statements:
             if statement.effect_deny:
                 if statement.expanded_actions:
-                    allowed_actions = allowed_actions.difference(statement.expanded_actions)
+                    allowed_actions = allowed_actions.difference(
+                        statement.expanded_actions
+                    )
         return allowed_actions
 
     @property
@@ -77,7 +83,11 @@ class PolicyDocument:
         """Output all IAM actions that do not practice resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
-            if not statement.has_resource_constraints and not statement.has_condition and statement.effect_allow:
+            if (
+                not statement.has_resource_constraints
+                and not statement.has_condition
+                and statement.effect_allow
+            ):
                 if statement.expanded_actions:
                     allowed_actions.update(statement.expanded_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
@@ -136,7 +146,10 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.effect == "Allow" and statement.permissions_management_actions_without_constraints:
+            if (
+                statement.effect == "Allow"
+                and statement.permissions_management_actions_without_constraints
+            ):
                 result.extend(
                     statement.permissions_management_actions_without_constraints
                 )
@@ -148,7 +161,10 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.effect == "Allow" and statement.write_actions_without_constraints:
+            if (
+                statement.effect == "Allow"
+                and statement.write_actions_without_constraints
+            ):
                 result.extend(statement.write_actions_without_constraints)
         return result
 
@@ -158,11 +174,16 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if statement.effect == "Allow" and statement.tagging_actions_without_constraints:
+            if (
+                statement.effect == "Allow"
+                and statement.tagging_actions_without_constraints
+            ):
                 result.extend(statement.tagging_actions_without_constraints)
         return result
 
-    def allows_specific_actions_without_constraints(self, specific_actions: List[str]) -> List[str]:
+    def allows_specific_actions_without_constraints(
+        self, specific_actions: List[str]
+    ) -> List[str]:
         """Determine whether or not a list of specific IAM Actions are allowed without resource constraints."""
         allowed = []
         if not isinstance(specific_actions, list):

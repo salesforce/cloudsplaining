@@ -37,7 +37,7 @@ class StatementDetail:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
-        self.condition = statement.get("Condition",None)
+        self.condition = statement.get("Condition", None)
         self.resources = self._resources()
         self.actions = self._actions()
         self.not_action = self._not_action()
@@ -217,7 +217,9 @@ class StatementDetail:
             )
         return result
 
-    def missing_resource_constraints(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> List[str]:
+    def missing_resource_constraints(
+        self, exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> List[str]:
         """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
         resource constraints."""
         if not isinstance(exclusions, Exclusions):
@@ -262,7 +264,9 @@ class StatementDetail:
                 always_actions_found.append(action)
 
         modify_actions_missing_constraints = set()
-        modify_actions_missing_constraints.update(remove_read_level_actions(actions_missing_resource_constraints))
+        modify_actions_missing_constraints.update(
+            remove_read_level_actions(actions_missing_resource_constraints)
+        )
         modify_actions_missing_constraints.update(always_actions_found)
 
         return list(modify_actions_missing_constraints)

@@ -100,10 +100,10 @@ class TestStatementDetail(unittest.TestCase):
         result = statement.missing_resource_constraints()
 
         # print(result)
-        self.assertListEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
         result = statement.missing_resource_constraints_for_modify_actions()
         print(result)
-        self.assertListEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
 
     def test_missing_resource_constraints_for_modify_actions_with_override(self):
         import logging
@@ -134,7 +134,7 @@ class TestStatementDetail(unittest.TestCase):
         statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions(DEFAULT_EXCLUSIONS)
         # print(results)
-        self.assertListEqual(results, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(results, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
 
     def test_statement_details_for_action_as_string_instead_of_list(self):
         # Case: when the "Action" is a string
