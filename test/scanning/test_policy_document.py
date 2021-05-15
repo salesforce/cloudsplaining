@@ -59,7 +59,7 @@ class TestPolicyDocument(unittest.TestCase):
         for statement in policy_document.statements:
             actions_missing_resource_constraints.extend(
                 statement.missing_resource_constraints())
-        self.assertEqual(actions_missing_resource_constraints, ['ssm:GetParameters', 'ecr:PutImage'])
+        self.assertCountEqual(actions_missing_resource_constraints, ['ssm:GetParameters', 'ecr:PutImage'])
 
         # Modify only
         # modify_actions_missing_resource_constraints = []
@@ -73,7 +73,7 @@ class TestPolicyDocument(unittest.TestCase):
         for statement in policy_document.statements:
             modify_actions_missing_resource_constraints.extend(
                 statement.missing_resource_constraints_for_modify_actions())
-        self.assertEqual(modify_actions_missing_resource_constraints, ['ecr:PutImage', 'ssm:GetParameters'])
+        self.assertCountEqual(modify_actions_missing_resource_constraints, ['ecr:PutImage', 'ssm:GetParameters'])
 
     def test_policy_document_all_allowed_actions(self):
         """scan.policy_document.all_allowed_actions"""
@@ -106,7 +106,7 @@ class TestPolicyDocument(unittest.TestCase):
             "ssm:GetParameters",
             "iam:CreateAccessKey"
         ]
-        self.assertListEqual(result, expected_result)
+        self.assertCountEqual(result, expected_result)
 
     def test_all_allowed_unrestriced_deny(self):
         """scan.policy_document.all_allowed_unrestricted_actions"""

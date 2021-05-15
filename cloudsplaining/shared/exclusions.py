@@ -5,6 +5,8 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from typing import List, Union
+
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.shared import utils
@@ -105,7 +107,7 @@ class Exclusions:
         else:
             return False  # pragma: no cover
 
-    def is_policy_excluded(self, policy_name):
+    def is_policy_excluded(self, policy_name: str) -> bool:
         """
         Supply a policy name or path, and get a decision about whether or not it is excluded.
 
@@ -133,35 +135,33 @@ class Exclusions:
                 "Please supply User, Group, or Role as the principal argument."
             )
 
-    def get_allowed_actions(self, requested_actions):
+    def get_allowed_actions(self, requested_actions: List[str]) -> List[str]:
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a
         list of actions after filtering for exclusions."""
 
-        always_include_actions = []
+        always_include_actions = set()
         # ALWAYS INCLUDE ACTIONS
         for action in requested_actions:
             for include_action in self.include_actions:
                 if action.lower() == include_action.lower():
-                    always_include_actions.append(action)
+                    always_include_actions.add(action)
         # RULE OUT EXCLUDED ACTIONS
-        actions_minus_exclusions = []
+        actions_minus_exclusions = set()
         for action in requested_actions:
             if not is_name_excluded(action.lower(), self.exclude_actions):
-                actions_minus_exclusions.append(action)
+                actions_minus_exclusions.add(action)
 
-        results = always_include_actions + actions_minus_exclusions
-        results = list(dict.fromkeys(results))
-        return results
+        return list(always_include_actions | actions_minus_exclusions)
 
 
 # pylint: disable=inconsistent-return-statements
-def is_name_excluded(name, exclusions_list):
+def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
     """
     :param name: The name of the policy, role, user, or group
     :param exclusions_list: List of exclusions
     :return:
     """
-    result = None
+    result = False
     if isinstance(exclusions_list, str):
         exclusions_list = [exclusions_list]
 
