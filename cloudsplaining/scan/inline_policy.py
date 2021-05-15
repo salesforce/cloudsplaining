@@ -1,5 +1,7 @@
 """Represents the Inline Policies (UserPolicyList, GroupPolicyList, RolePolicyList) entries under each principal."""
 import json
+from typing import Dict, Any, cast
+
 from cloudsplaining.shared.utils import get_non_provider_id
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
@@ -10,7 +12,9 @@ class InlinePolicy:
     Contains information about an Inline Policy, including the Policy Document
     """
 
-    def __init__(self, policy_detail, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self, policy_detail: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> None:
         """
         Initialize the InlinePolicy object.
 
@@ -21,9 +25,9 @@ class InlinePolicy:
                 "The exclusions provided is not an Exclusions type object. "
                 "Please supply an Exclusions object and try again."
             )
-        self.policy_name = policy_detail.get("PolicyName")
+        self.policy_name = policy_detail.get("PolicyName", "")
         self.policy_document = PolicyDocument(
-            policy_detail.get("PolicyDocument"), exclusions
+            cast(Dict[str, Any], policy_detail.get("PolicyDocument")), exclusions
         )
         # Generating the provider ID based on a string representation of the Policy Document,
         # to avoid collisions where there are inline policies with the same name but different contents
@@ -33,7 +37,7 @@ class InlinePolicy:
         self.exclusions = exclusions
         self.is_excluded = self._is_excluded(exclusions)
 
-    def _is_excluded(self, exclusions):
+    def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the policy name or policy ID is excluded"""
         return bool(
             exclusions.is_policy_excluded(self.policy_name)
@@ -41,7 +45,7 @@ class InlinePolicy:
         )
 
     @property
-    def json(self):
+    def json(self) -> Dict[str, Any]:
         """Return JSON output for high risk actions"""
         result = dict(
             PolicyName=self.policy_name,
@@ -57,7 +61,7 @@ class InlinePolicy:
         return result
 
     @property
-    def json_large(self):
+    def json_large(self) -> Dict[str, Any]:
         """Return JSON output - including Infra Modification actions, which can be large"""
         result = dict(
             PolicyName=self.policy_name,

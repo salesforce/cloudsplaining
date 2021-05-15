@@ -8,6 +8,8 @@ import os
 import json
 import logging
 from hashlib import sha256
+from typing import List
+
 import yaml
 from policy_sentry.querying.actions import (
     get_action_data,
@@ -22,10 +24,10 @@ GREY = "\33[90m"
 END = "\033[0m"
 
 
-def remove_wildcard_only_actions(actions_list):
+def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
     """Given a list of actions, remove the ones that CANNOT be restricted to ARNs, leaving only the ones that CAN."""
     try:
-        actions_list_unique = list(dict.fromkeys(actions_list))
+        actions_list_unique = set(actions_list)
     except TypeError as t_e:  # pragma: no cover
         print(t_e)
         return []
@@ -49,7 +51,7 @@ def remove_wildcard_only_actions(actions_list):
     return results
 
 
-def remove_read_level_actions(actions_list):
+def remove_read_level_actions(actions_list: List[str]) -> List[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels"""
     write_actions = remove_actions_not_matching_access_level(actions_list, "Write")
@@ -61,7 +63,7 @@ def remove_read_level_actions(actions_list):
     return modify_actions
 
 
-def get_full_policy_path(arn):
+def get_full_policy_path(arn: str) -> str:
     """
     Resource string will output strings like the following examples.
 
@@ -98,12 +100,12 @@ def get_policy_name(arn):
     return policy_name
 
 
-def capitalize_first_character(some_string):
+def capitalize_first_character(some_string: str) -> str:
     """Description: Capitalizes the first character of a string"""
     return " ".join("".join([w[0].upper(), w[1:].lower()]) for w in some_string.split())
 
 
-def get_non_provider_id(some_string):
+def get_non_provider_id(some_string: str) -> str:
     """
     Not all resources have an ID and some services allow the use of "." in names, which breaks our recursion scheme
     if name is used as an ID. Use SHA256(name) instead.
