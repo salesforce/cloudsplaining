@@ -14,6 +14,25 @@ TESTS_REQUIRE = [
     'nose',
     'pytest'
 ]
+REQUIRED_PACKAGES = [
+    'boto3',
+    'botocore',
+    'cached-property',
+    'click',
+    'click_option_group',
+    'jinja2',
+    'markdown',
+    'policy_sentry>=0.11.3',
+    'pyyaml',
+    'schema',
+]
+PROJECT_URLS = {
+    "Documentation": "https://policy-sentry.readthedocs.io/",
+    "Example Report": "https://opensource.salesforce.com/cloudsplaining",
+    "Code": "https://github.com/salesforce/cloudsplaining/",
+    "Twitter": "https://twitter.com/kmcquade3",
+    "Red Team Report": "https://opensource.salesforce.com/policy_sentry"
+}
 
 
 def get_version():
@@ -40,24 +59,14 @@ setuptools.setup(
     version=get_version(),
     author="Kinnaird McQuade",
     author_email="kinnairdm@gmail.com",
-    description="AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.",
+    description="AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report.",
     long_description=get_description(),
     long_description_content_type="text/markdown",
-    url="https://github.com/kmcquade/cloudsplaining",
+    url="https://github.com/salesforce/cloudsplaining",
     packages=setuptools.find_packages(exclude=['test*', 'tmp*']),
     tests_require=TESTS_REQUIRE,
-    install_requires=[
-        'boto3',
-        'botocore',
-        'cached-property',
-        'click',
-        'click_option_group',
-        'jinja2',
-        'markdown',
-        'policy_sentry>=0.11.3',
-        'pyyaml',
-        'schema',
-    ],
+    install_requires=REQUIRED_PACKAGES,
+    project_urls=PROJECT_URLS,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -67,5 +76,4 @@ setuptools.setup(
     zip_safe=True,
     keywords='aws iam roles policy policies privileges security',
     python_requires='>=3.6',
-    # scripts=['cloudsplaining/bin/cloudsplaining'],
 )
