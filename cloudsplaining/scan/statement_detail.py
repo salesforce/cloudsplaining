@@ -42,13 +42,16 @@ class StatementDetail:
         self.actions = self._actions()
         self.not_action = self._not_action()
 
-        self.has_resource_constraints = self._has_resource_constraints()
-
+        self.has_resource_wildcard = self._has_resource_wildcard()
         self.not_action_effective_actions = self._not_action_effective_actions()
         self.not_resource = self._not_resource()
         self.has_condition = self._has_condition()
 
         self.restrictable_actions = remove_wildcard_only_actions(self.expanded_actions)
+        self.unrestrictable_actions = list(
+            set(self.expanded_actions or []) - set(self.restrictable_actions)
+        )
+        self.has_resource_constraints = self._has_resource_constraints()
 
     def _actions(self) -> List[str]:
         """Holds the actions in a statement"""
@@ -101,7 +104,7 @@ class StatementDetail:
         ]
 
         # Effect: Allow && Resource != "*"
-        if self.has_resource_constraints and self.effect_allow:
+        if not self.has_resource_wildcard and self.effect_allow:
             opposite_actions = []
             for arn in self.resources:
                 actions_specific_to_arn = get_actions_matching_arn(arn)
@@ -115,8 +118,8 @@ class StatementDetail:
             effective_actions.sort()
             return effective_actions
 
-        # Effect: Allow, Resource != "*", and Action == prefix:*
-        if not self.has_resource_constraints and self.effect_allow:
+        # Effect: Allow, Resource == "*", and Action == prefix:*
+        if self.has_resource_wildcard and self.effect_allow:
             # Then we calculate the reverse using all_actions
 
             # If it's in NotActions, then it is not an action we want
@@ -129,11 +132,11 @@ class StatementDetail:
             effective_actions.sort()
             return effective_actions
 
-        if self.has_resource_constraints and self.effect_deny:
+        if self.has_resource_wildcard and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
 
-        if not self.has_resource_constraints and self.effect_deny:
+        if not self.has_resource_wildcard and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
             return None
         # only including this so Pylint doesn't yell at us
@@ -191,10 +194,9 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            if self.expanded_actions:
-                result = remove_actions_not_matching_access_level(
-                    self.restrictable_actions, "Permissions management"
-                )
+            result = remove_actions_not_matching_access_level(
+                self.restrictable_actions, "Permissions management"
+            )
         return result
 
     @property
@@ -276,14 +278,20 @@ class StatementDetail:
             return True
         return False
 
-    def _has_resource_constraints(self) -> bool:
-        """Determine whether or not the statement allows resource constraints."""
+    def _has_resource_wildcard(self) -> bool:
+        """Determine whether or not a wildcard is in the resources part."""
         if len(self.resources) == 0:
             # This is probably a NotResources situation which we do not support.
             pass
         if len(self.resources) == 1 and self.resources[0] == "*":
-            return False
+            return True
         elif len(self.resources) > 1:  # pragma: no cover
             # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
-            return not any(resource == "*" for resource in self.resources)
+            return any(resource == "*" for resource in self.resources)
+        return False
+
+    def _has_resource_constraints(self) -> bool:
+        """Determine whether or not the statement has resource constraints."""
+        if self.has_resource_wildcard and self.restrictable_actions:
+            return False
         return True

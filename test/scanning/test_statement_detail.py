@@ -271,8 +271,8 @@ class TestStatementDetail(unittest.TestCase):
             ]
         }
         statement = StatementDetail(this_statement)
-        results = statement.has_resource_constraints
-        self.assertFalse(results)
+        results = statement.has_resource_wildcard
+        self.assertTrue(results)
 
     def test_actions_without_constraints(self):
         this_statement = {
@@ -298,3 +298,17 @@ class TestStatementDetail(unittest.TestCase):
         self.assertCountEqual(results, ["s3:CreateBucket", "s3:PutObject"])
         results = statement.tagging_actions_without_constraints
         self.assertCountEqual(results, ["iam:TagRole", "iam:UntagRole"])
+
+    def test_gh_193_has_resource_constraints(self):
+        this_statement = {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+        statement = StatementDetail(this_statement)
+        self.assertListEqual(statement.unrestrictable_actions, ["ecr:GetAuthorizationToken"])
+        self.assertTrue(statement.has_resource_constraints)
