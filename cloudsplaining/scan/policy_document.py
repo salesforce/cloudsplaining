@@ -58,11 +58,9 @@ class PolicyDocument:
         """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
-            if (
-                statement.effect_allow
-            ):  # if Effect is "Deny" - it is not an allowed action
-                if statement.expanded_actions:
-                    allowed_actions.update(statement.expanded_actions)
+            # if Effect is "Deny" - it is not an allowed action
+            if statement.effect_allow and statement.expanded_actions:
+                allowed_actions.update(statement.expanded_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
         return list(allowed_actions)
 
@@ -84,12 +82,26 @@ class PolicyDocument:
         allowed_actions = set()
         for statement in self.statements:
             if (
-                not statement.has_resource_constraints
+                statement.has_resource_wildcard
                 and not statement.has_condition
                 and statement.effect_allow
+                and statement.restrictable_actions
             ):
-                if statement.expanded_actions:
-                    allowed_actions.update(statement.expanded_actions)
+                allowed_actions.update(statement.restrictable_actions)
+        allowed_actions = self.filter_deny_statements(allowed_actions)
+        return list(allowed_actions)
+
+    @property
+    def all_allowed_unrestrictable_actions(self) -> List[str]:
+        """Output all IAM actions that cannot be restricted by resource constraints"""
+        allowed_actions = set()
+        for statement in self.statements:
+            if (
+                statement.effect_allow
+                and not statement.has_condition
+                and statement.unrestrictable_actions
+            ):
+                allowed_actions.update(statement.unrestrictable_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
         return list(allowed_actions)
 
@@ -127,10 +139,12 @@ class PolicyDocument:
         Rhino Security Labs.
         """
         escalations = []
-        # all_allowed_actions_lowercase = [x.lower() for x in self.all_allowed_actions]
-        all_allowed_unrestricted_actions_lowercase = [
+        all_allowed_unrestricted_actions_lowercase = set(
             x.lower() for x in self.all_allowed_unrestricted_actions
-        ]
+        )
+        all_allowed_unrestricted_actions_lowercase.update(
+            [x.lower() for x in self.all_allowed_unrestrictable_actions]
+        )
         for key in PRIVILEGE_ESCALATION_METHODS:
             if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(
                 all_allowed_unrestricted_actions_lowercase
@@ -185,18 +199,29 @@ class PolicyDocument:
         self, specific_actions: List[str]
     ) -> List[str]:
         """Determine whether or not a list of specific IAM Actions are allowed without resource constraints."""
-        allowed = []
+        allowed: Set[str] = set()
         if not isinstance(specific_actions, list):
             raise Exception("Please supply a list of actions.")
 
-        # Doing this nested for loop so we can get results that use the official CamelCase actions, and
+        # grab the lowercase representation for unrestricted and unrestrictable actions
+        unrestricted_actions_lower = {
+            a.lower(): a for a in self.all_allowed_unrestricted_actions
+        }
+        unrestrictable_actions_lower = {
+            a.lower(): a for a in self.all_allowed_unrestrictable_actions
+        }
+
+        # Doing this for loop so we can get results that use the official CamelCase actions, and
         # the results don't fail if given lowercase input.
         # this is less efficient but more accurate and the results are pretty :)
         for specific_action in specific_actions:
-            for allowed_action in self.all_allowed_unrestricted_actions:
-                if specific_action.lower() == allowed_action.lower():
-                    allowed.append(allowed_action)
-        return allowed
+            specific_action_lower = specific_action.lower()
+            if specific_action_lower in unrestricted_actions_lower:
+                allowed.add(unrestricted_actions_lower[specific_action_lower])
+            elif specific_action_lower in unrestrictable_actions_lower:
+                allowed.add(unrestrictable_actions_lower[specific_action_lower])
+
+        return list(allowed)
 
     @property
     def allows_data_exfiltration_actions(self) -> List[str]:

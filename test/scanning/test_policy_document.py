@@ -224,7 +224,7 @@ class TestPolicyDocument(unittest.TestCase):
             "secretsmanager:GetSecretValue"
         ]
         results = policy_document.allows_specific_actions_without_constraints(high_priority_read_only_actions)
-        self.assertListEqual(results, high_priority_read_only_actions)
+        self.assertCountEqual(results, high_priority_read_only_actions)
 
         results = policy_document.permissions_management_without_constraints
         self.assertListEqual(results, ["iam:PassRole"])
@@ -234,7 +234,7 @@ class TestPolicyDocument(unittest.TestCase):
         self.assertListEqual(results, ["ec2:CreateTags"])
         results = policy_document.allows_data_exfiltration_actions
         expected_results = high_priority_read_only_actions
-        self.assertListEqual(results, expected_results)
+        self.assertCountEqual(results, expected_results)
         with self.assertRaises(Exception):
             results = policy_document.allows_specific_actions_without_constraints("iam:passrole")
 
@@ -351,7 +351,7 @@ class TestPolicyDocument(unittest.TestCase):
             }]
         }
         policy_document = PolicyDocument(test_policy)
-        self.assertListEqual(policy_document.all_allowed_unrestricted_actions, [])
+        self.assertListEqual(policy_document.all_allowed_unrestrictable_actions, [])
         test_policy_without_condition = {
             "Version": "2012-10-17",
             "Statement": [{
@@ -361,7 +361,7 @@ class TestPolicyDocument(unittest.TestCase):
             }]
         }
         policy_document_without_condition = PolicyDocument(test_policy_without_condition)
-        self.assertListEqual(policy_document_without_condition.all_allowed_unrestricted_actions, ["cloudwatch:PutMetricData"])
+        self.assertListEqual(policy_document_without_condition.all_allowed_unrestrictable_actions, ["cloudwatch:PutMetricData"])
 
     def test_actions_without_constraints_deny(self):
         test_policy = {
@@ -409,3 +409,33 @@ class TestPolicyDocument(unittest.TestCase):
         policy_document = PolicyDocument(test_policy)
         results = policy_document.write_actions_without_constraints
         self.assertListEqual(results, [])
+
+    def test_gh_193_AmazonEC2ContainerRegistryReadOnly(self):
+        # https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr_managed_policies.html#AmazonEC2ContainerRegistryReadOnly
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ecr:GetAuthorizationToken",
+                        "ecr:BatchCheckLayerAvailability",
+                        "ecr:GetDownloadUrlForLayer",
+                        "ecr:GetRepositoryPolicy",
+                        "ecr:DescribeRepositories",
+                        "ecr:ListImages",
+                        "ecr:DescribeImages",
+                        "ecr:BatchGetImage",
+                        "ecr:GetLifecyclePolicy",
+                        "ecr:GetLifecyclePolicyPreview",
+                        "ecr:ListTagsForResource",
+                        "ecr:DescribeImageScanFindings"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertTrue("ecr:GetAuthorizationToken" not in policy_document.all_allowed_unrestricted_actions)
+        self.assertListEqual(policy_document.write_actions_without_constraints, [])
+        self.assertListEqual(policy_document.credentials_exposure, ['ecr:GetAuthorizationToken'])
