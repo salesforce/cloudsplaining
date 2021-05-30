@@ -5,6 +5,8 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from typing import Dict, List
+
 from schema import Optional, Schema, SchemaError
 
 logger = logging.getLogger(__name__)
@@ -52,7 +54,7 @@ def check(conf_schema, conf):
         return False
 
 
-def check_exclusions_schema(cfg):
+def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
     """Determine whether or not the exclusions file meets the required format"""
     result = check(EXCLUSIONS_TEMPLATE_SCHEMA, cfg)
     if result:

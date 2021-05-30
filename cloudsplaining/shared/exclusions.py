@@ -5,7 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import List, Union
+from typing import List, Union, Dict
 
 from cloudsplaining.shared.validation import check_exclusions_schema
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
@@ -17,7 +17,9 @@ logger = logging.getLogger(__name__)
 class Exclusions:
     """Contains the exclusions configuration as an object"""
 
-    def __init__(self, exclusions_config=DEFAULT_EXCLUSIONS_CONFIG):
+    def __init__(
+        self, exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG
+    ) -> None:
         check_exclusions_schema(exclusions_config)
         self.config = exclusions_config
         self.include_actions = self._include_actions()
@@ -114,9 +116,9 @@ class Exclusions:
         :param policy_name: Policy name or Policy path
         :return:
         """
-        return bool(is_name_excluded(policy_name, self.policies))
+        return is_name_excluded(policy_name, self.policies)
 
-    def is_principal_excluded(self, principal, principal_type):
+    def is_principal_excluded(self, principal: str, principal_type: str) -> bool:
         """
         Supply a principal name or path, and get a decision about whether or not it is excluded.
 
@@ -161,7 +163,6 @@ def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
     :param exclusions_list: List of exclusions
     :return:
     """
-    result = False
     if isinstance(exclusions_list, str):
         exclusions_list = [exclusions_list]
 
@@ -171,8 +172,7 @@ def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
             continue
         if exclusion.lower() == name.lower():
             logger.debug(f"\tExcluded: {exclusion}")
-            result = True
-            break
+            return True
         # ThePerfectManDoesntExi*
         if exclusion.endswith("*"):
             prefix = exclusion[: exclusion.index("*")]
@@ -180,15 +180,13 @@ def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
             if name.lower().startswith(prefix.lower()):
                 # logger.debug(f"Excluded prefix: {exclusion}")
                 utils.print_grey(f"\tExcluded prefix: {exclusion}")
-                result = True
-                break
+                return True
         if exclusion.startswith("*"):
             suffix = exclusion.split("*")[-1]
             if name.lower().endswith(suffix.lower()):
                 utils.print_grey(f"\tExcluded suffix: {exclusion}")
-                result = True
-                break
-    return result
+                return True
+    return False
 
 
 DEFAULT_EXCLUSIONS = Exclusions(DEFAULT_EXCLUSIONS_CONFIG)
