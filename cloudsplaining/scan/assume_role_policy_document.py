@@ -5,6 +5,8 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from typing import Dict, Any, List
+
 from cloudsplaining.shared.constants import SERVICE_PREFIXES_WITH_COMPUTE_ROLES
 
 logger = logging.getLogger(__name__)
@@ -15,7 +17,7 @@ class AssumeRolePolicyDocument:
     Holds the AssumeRole/Trust Policy document
     """
 
-    def __init__(self, policy):
+    def __init__(self, policy: Dict[str, Any]) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
@@ -27,12 +29,12 @@ class AssumeRolePolicyDocument:
             self.statements.append(AssumeRoleStatement(statement))
 
     @property
-    def json(self):
+    def json(self) -> Dict[str, Any]:
         """Return the AssumeRole Policy in JSON"""
         return self.policy
 
     @property
-    def role_assumable_by_compute_services(self):
+    def role_assumable_by_compute_services(self) -> List[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         assumable_by_compute_services = []
         for statement in self.statements:
@@ -48,7 +50,7 @@ class AssumeRoleStatement:
     Statements in an AssumeRole/Trust Policy document
     """
 
-    def __init__(self, statement):
+    def __init__(self, statement: Dict[str, Any]) -> None:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
@@ -62,19 +64,19 @@ class AssumeRoleStatement:
                 "This should NOT be used. We suggest reviewing it ASAP."
             )
 
-    def _assume_role_actions(self):
+    def _assume_role_actions(self) -> List[str]:
         """Verifies that this is limited to just sts:AssumeRole"""
-        actions = self.statement.get("Action")
+        actions = self.statement.get("Action", [])
         if not actions:
             logger.debug("The AssumeRole Policy has no actions in it.")
             return []
 
-        if not isinstance(actions, list):
-            actions = [actions]
+        if isinstance(actions, list):
+            return actions
 
-        return actions
+        return [actions]
 
-    def _principals(self):
+    def _principals(self) -> List[str]:
         """Extracts all principals from IAM statement.
         Should handle these cases:
         "Principal": "value"
@@ -85,7 +87,7 @@ class AssumeRoleStatement:
         "Principal": { "Service": ["value", "value"] }
         Return: Set of principals
         """
-        principals = []
+        principals: List[str] = []
         principal = self.statement.get("Principal", None)
         if not principal:
             # It is possible not to define a principal, AWS ignores these statements.
@@ -110,7 +112,7 @@ class AssumeRoleStatement:
         return principals
 
     @property
-    def role_assumable_by_compute_services(self):
+    def role_assumable_by_compute_services(self) -> List[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         # sts:AssumeRole must be there
         lowercase_actions = [x.lower() for x in self.actions]
@@ -118,13 +120,9 @@ class AssumeRoleStatement:
             return []
 
         assumable_by_compute_services = []
-        if self.principals:
-            for principal in self.principals:
-                if principal.endswith(".amazonaws.com"):
-                    service_prefix_to_evaluate = principal.split(".")[0]
-                    if (
-                        service_prefix_to_evaluate
-                        in SERVICE_PREFIXES_WITH_COMPUTE_ROLES
-                    ):
-                        assumable_by_compute_services.append(service_prefix_to_evaluate)
+        for principal in self.principals:
+            if principal.endswith(".amazonaws.com"):
+                service_prefix_to_evaluate = principal.split(".")[0]
+                if service_prefix_to_evaluate in SERVICE_PREFIXES_WITH_COMPUTE_ROLES:
+                    assumable_by_compute_services.append(service_prefix_to_evaluate)
         return assumable_by_compute_services

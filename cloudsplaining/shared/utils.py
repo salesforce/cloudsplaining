@@ -84,7 +84,7 @@ def get_full_policy_path(arn: str) -> str:
     return resource_string
 
 
-def get_policy_name(arn):
+def get_policy_name(arn: str) -> str:
     """
     Case 1:
         Input: arn:aws:iam::aws:policy/aws-service-role/AmazonGuardDutyServiceRolePolicy
@@ -115,9 +115,9 @@ def get_non_provider_id(some_string: str) -> str:
     return name_hash.hexdigest()
 
 
-def is_aws_managed(arn):
+def is_aws_managed(arn: str) -> bool:
     """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
-    return bool("arn:aws:iam::aws:" in arn)
+    return arn.startswith("arn:aws:iam::aws:")
 
 
 # pragma: no cover
