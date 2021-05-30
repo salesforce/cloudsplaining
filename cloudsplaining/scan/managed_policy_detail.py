@@ -5,9 +5,11 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from typing import Dict, Any, List
+
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.utils import get_full_policy_path
+from cloudsplaining.shared.utils import get_full_policy_path, is_aws_managed
 from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
     Exclusions,
@@ -22,7 +24,11 @@ class ManagedPolicyDetails:
     Holds ManagedPolicy objects. This is sourced from the 'Policies' section of the Authz file - whether they are AWS managed or customer managed.
     """
 
-    def __init__(self, policy_details, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self,
+        policy_details: List[Dict[str, Any]],
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+    ) -> None:
         self.policy_details = []
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -32,9 +38,9 @@ class ManagedPolicyDetails:
         self.exclusions = exclusions
 
         for policy_detail in policy_details:
-            this_policy_name = policy_detail.get("PolicyName")
-            this_policy_id = policy_detail.get("PolicyId")
-            this_policy_path = policy_detail.get("Path")
+            this_policy_name = policy_detail["PolicyName"]
+            this_policy_id = policy_detail["PolicyId"]
+            this_policy_path = policy_detail["Path"]
             # Always exclude the AWS service role policies
             if is_name_excluded(
                 this_policy_path, "aws-service-role*"
@@ -62,19 +68,15 @@ class ManagedPolicyDetails:
                 continue
             self.policy_details.append(ManagedPolicy(policy_detail, exclusions))
 
-    def get_policy_detail(self, arn):
+    def get_policy_detail(self, arn: str) -> "ManagedPolicy":
         """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
-        result = None
         for policy_detail in self.policy_details:
             if policy_detail.arn == arn:
-                result = policy_detail
-                break
-        if not result:
-            raise Exception("Managed Policy ARN %s not found.", arn)
-        return result
+                return policy_detail
+        raise Exception("Managed Policy ARN %s not found.", arn)
 
     @property
-    def all_infrastructure_modification_actions(self):
+    def all_infrastructure_modification_actions(self) -> List[str]:
         """Return a list of all infrastructure modification actions allowed by all managed policies in violation."""
         result = set()
         for policy in self.policy_details:
@@ -82,37 +84,35 @@ class ManagedPolicyDetails:
         return sorted(result)
 
     @property
-    def json(self):
+    def json(self) -> Dict[str, Dict[str, Any]]:
         """Get all JSON results"""
-        result = {}
-        for policy in self.policy_details:
-            result[policy.policy_id] = policy.json
+        result = {policy.policy_id: policy.json for policy in self.policy_details}
         return result
 
     @property
-    def json_large(self):
+    def json_large(self) -> Dict[str, Dict[str, Any]]:
         """Get all JSON results"""
-        result = {}
-        for policy in self.policy_details:
-            result[policy.policy_id] = policy.json_large
+        result = {policy.policy_id: policy.json_large for policy in self.policy_details}
         return result
 
     @property
-    def json_large_aws_managed(self):
+    def json_large_aws_managed(self) -> Dict[str, Dict[str, Any]]:
         """Get all JSON results"""
-        result = {}
-        for policy in self.policy_details:
-            if policy.managed_by == "AWS":
-                result[policy.policy_id] = policy.json_large
+        result = {
+            policy.policy_id: policy.json_large
+            for policy in self.policy_details
+            if policy.managed_by == "AWS"
+        }
         return result
 
     @property
-    def json_large_customer_managed(self):
+    def json_large_customer_managed(self) -> Dict[str, Dict[str, Any]]:
         """Get all JSON results"""
-        result = {}
-        for policy in self.policy_details:
-            if policy.managed_by == "Customer":
-                result[policy.policy_id] = policy.json_large
+        result = {
+            policy.policy_id: policy.json_large
+            for policy in self.policy_details
+            if policy.managed_by == "Customer"
+        }
         return result
 
 
@@ -124,15 +124,17 @@ class ManagedPolicy:
     https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyDetail.html
     """
 
-    def __init__(self, policy_detail, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self, policy_detail: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> None:
         # Store the Raw JSON data from this for safekeeping
         self.policy_detail = policy_detail
 
         # Store the attributes per Policy item
-        self.policy_name = policy_detail.get("PolicyName")
-        self.policy_id = policy_detail.get("PolicyId")
-        self.arn = policy_detail.get("Arn")
-        self.path = policy_detail.get("Path")
+        self.policy_name = policy_detail["PolicyName"]
+        self.policy_id = policy_detail["PolicyId"]
+        self.arn = policy_detail["Arn"]
+        self.path = policy_detail["Path"]
         self.default_version_id = policy_detail.get("DefaultVersionId")
         self.attachment_count = policy_detail.get("AttachmentCount")
         self.permissions_boundary_usage_count = policy_detail.get(
@@ -152,54 +154,54 @@ class ManagedPolicy:
 
         # Policy Documents are stored here. Multiple indices though. We will evaluate the one
         #   with IsDefaultVersion only.
-        self.policy_version_list = policy_detail.get("PolicyVersionList")
+        self.policy_version_list = policy_detail.get("PolicyVersionList", [])
 
         self.policy_document = self._policy_document()
 
-    def _is_excluded(self, exclusions):
+    def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the policy name or policy ID is excluded"""
-        return bool(
+        return (
             exclusions.is_policy_excluded(self.policy_name)
             or exclusions.is_policy_excluded(self.policy_id)
             or exclusions.is_policy_excluded(self.path)
             or is_name_excluded(self.path, "/aws-service-role*")
         )
 
-    def _policy_document(self):
+    def _policy_document(self) -> PolicyDocument:
         """Return the policy document object"""
-        policy_document = {}
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
-                policy_document = PolicyDocument(
+                return PolicyDocument(
                     policy_version.get("Document"), exclusions=self.exclusions
                 )
-        return policy_document
+        raise Exception(
+            "Managed Policy ARN %s has no default Policy Document version", self.arn
+        )
 
     # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.
     @property
-    def full_policy_path(self):
+    def full_policy_path(self) -> str:
         """Get the full policy path, including /aws-service-role/, if applicable"""
         return get_full_policy_path(self.arn)
 
     @property
-    def managed_by(self):  # pragma: no cover
+    def managed_by(self) -> str:  # pragma: no cover
         """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
-        if "arn:aws:iam::aws:" in self.arn:
+        if is_aws_managed(self.arn):
             return "AWS"
         else:
             return "Customer"
 
     @property
-    def account_id(self):  # pragma: no cover
+    def account_id(self) -> str:  # pragma: no cover
         """Return the account ID"""
-        if "arn:aws:iam::aws:" in self.arn:
+        if is_aws_managed(self.arn):
             return "N/A"
         else:
-            account_id = get_account_from_arn(self.arn)
-            return account_id
+            return get_account_from_arn(self.arn)
 
     @property
-    def json(self):
+    def json(self) -> Dict[str, Any]:
         """Return JSON output for high risk actions"""
         result = dict(
             PolicyName=self.policy_name,
@@ -222,7 +224,7 @@ class ManagedPolicy:
         return result
 
     @property
-    def json_large(self):
+    def json_large(self) -> Dict[str, Any]:
         """Return JSON output - including Infra Modification actions, which can be large"""
         result = dict(
             PolicyName=self.policy_name,
