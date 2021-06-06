@@ -5,6 +5,9 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
+from typing import List, Dict, Any
+
+from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import (
     READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     ACTIONS_THAT_RETURN_CREDENTIALS,
@@ -21,7 +24,11 @@ logger = logging.getLogger(__name__)
 class PolicyFinding:
     """A single policy finding"""
 
-    def __init__(self, policy_document, exclusions=DEFAULT_EXCLUSIONS):
+    def __init__(
+        self,
+        policy_document: PolicyDocument,
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+    ) -> None:
         """
         Supply a PolicyDocument object and Exclusions object to get a single policy finding
         """
@@ -35,102 +42,89 @@ class PolicyFinding:
             self._missing_resource_constraints_for_modify_actions()
         )
 
-    def _missing_resource_constraints_for_modify_actions(self):
+    def _missing_resource_constraints_for_modify_actions(self) -> List[str]:
         """Find modify actions that lack resource ARN constraints"""
-        actions_missing_resource_constraints = []
+        actions_missing_resource_constraints = set()
         for statement in self.policy_document.statements:
             logger.debug("Evaluating statement: %s", statement.json)
             if statement.effect == "Allow":
-                actions_missing_resource_constraints.extend(
+                actions_missing_resource_constraints.update(
                     statement.missing_resource_constraints_for_modify_actions(
                         self.exclusions
                     )
                 )
-        if actions_missing_resource_constraints:
-            these_results = list(
-                dict.fromkeys(actions_missing_resource_constraints)
-            )  # remove duplicates
-            these_results.sort()
-            return these_results
-        else:
-            return []
+        return sorted(actions_missing_resource_constraints)
 
     @property
-    def services_affected(self):
+    def services_affected(self) -> List[str]:
         """Return a list of AWS service prefixes affected by the policy in question."""
-        services_affected = []
+        services_affected = set()
         for action in self.missing_resource_constraints_for_modify_actions:
-            service = action.split(":")[0]
-            if service not in services_affected:
-                services_affected.append(service)
+            service = action.partition(":")[0]
+            services_affected.add(service)
         # Credentials exposure; since some of those are read-only,
         # they are not in the modify actions so we need to include them here
         for action in self.credentials_exposure:
-            service = action.split(":")[0]
-            if service not in services_affected:
-                services_affected.append(service)
+            service = action.partition(":")[0]
+            services_affected.add(service)
         # Data Exfiltration; since some of those are read-only,
         # they are not in the modify actions so we need to include them here
         for action in self.data_exfiltration:
-            service = action.split(":")[0]
-            if service not in services_affected:
-                services_affected.append(service)
-        services_affected = list(dict.fromkeys(services_affected))
-        services_affected.sort()
-        return services_affected
+            service = action.partition(":")[0]
+            services_affected.add(service)
+        return sorted(services_affected)
 
     @property
-    def resource_exposure(self):
+    def resource_exposure(self) -> List[str]:
         """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
         access level, if applicable."""
-        results = []
         if self.always_exclude_actions:
-            for (
+            results = [
                 action
-            ) in self.policy_document.permissions_management_without_constraints:
-                if is_name_excluded(action.lower(), self.always_exclude_actions):
-                    pass  # pragma: no cover
-                else:
-                    results.append(action)
+                for action in self.policy_document.permissions_management_without_constraints
+                if not is_name_excluded(action.lower(), self.always_exclude_actions)
+            ]
             return results
         else:
             return self.policy_document.permissions_management_without_constraints
 
     @property
-    def privilege_escalation(self):
+    def privilege_escalation(self) -> List[Dict[str, Any]]:
         """Returns privilege escalation action combinations in the policy, if present"""
         return self.policy_document.allows_privilege_escalation
 
     @property
-    def data_exfiltration(self):
+    def data_exfiltration(self) -> List[str]:
         """Returns data exfiltration actions in the policy, if present"""
-        result = []
-        for action in self.policy_document.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_EXFILTRATION_ACTIONS
-        ):
-            if action.lower() not in self.exclusions.exclude_actions:
-                result.append(action)
+        result = [
+            action
+            for action in self.policy_document.allows_specific_actions_without_constraints(
+                READ_ONLY_DATA_EXFILTRATION_ACTIONS
+            )
+            if action.lower() not in self.exclusions.exclude_actions
+        ]
         return result
 
     @property
-    def service_wildcard(self):
+    def service_wildcard(self) -> List[str]:
         """Determine if the policy gives access to all actions within a service - simple grepping"""
         return self.policy_document.service_wildcard
 
     @property
-    def credentials_exposure(self):
+    def credentials_exposure(self) -> List[str]:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
-        results = []
-        for action in self.policy_document.allows_specific_actions_without_constraints(
-            ACTIONS_THAT_RETURN_CREDENTIALS
-        ):
-            if action.lower() not in self.exclusions.exclude_actions:
-                results.append(action)
+        results = [
+            action
+            for action in self.policy_document.allows_specific_actions_without_constraints(
+                ACTIONS_THAT_RETURN_CREDENTIALS
+            )
+            if action.lower() not in self.exclusions.exclude_actions
+        ]
         return results
 
     @property
-    def results(self):
+    def results(self) -> Dict[str, Any]:
         """Return the results as JSON"""
         findings = dict(
             ServiceWildcard=self.service_wildcard,
