@@ -33,7 +33,7 @@ AUTHORIZATION_DETAILS_SCHEMA = Schema(
 
 
 # pragma: no cover
-def check(conf_schema, conf):
+def check(conf_schema: Schema, conf: Dict[str, List[str]]) -> bool:
     """
     Validates a user-supplied JSON vs a defined schema.
     :param conf_schema: The Schema object that defines the required structure.
@@ -65,7 +65,7 @@ def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
         )
 
 
-def check_authorization_details_schema(cfg):
+def check_authorization_details_schema(cfg: Dict[str, List[str]]) -> bool:
     """Determine whether or not the file meets the required format of the authorizations file"""
     result = check(AUTHORIZATION_DETAILS_SCHEMA, cfg)
     return result
