@@ -4,11 +4,11 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
-import os
 import json
 import logging
 from hashlib import sha256
-from typing import List
+from pathlib import Path
+from typing import List, Any, Dict
 
 import yaml
 from policy_sentry.querying.actions import (
@@ -54,12 +54,13 @@ def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
 def remove_read_level_actions(actions_list: List[str]) -> List[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels"""
-    write_actions = remove_actions_not_matching_access_level(actions_list, "Write")
-    permissions_management_actions = remove_actions_not_matching_access_level(
-        actions_list, "Permissions management"
+    modify_actions = remove_actions_not_matching_access_level(actions_list, "Write")
+    modify_actions.extend(
+        remove_actions_not_matching_access_level(actions_list, "Permissions management")
     )
-    tagging_actions = remove_actions_not_matching_access_level(actions_list, "Tagging")
-    modify_actions = tagging_actions + write_actions + permissions_management_actions
+    modify_actions.extend(
+        remove_actions_not_matching_access_level(actions_list, "Tagging")
+    )
     return modify_actions
 
 
@@ -77,10 +78,7 @@ def get_full_policy_path(arn: str) -> str:
     :param arn:
     :return:
     """
-    split_arn = arn.split(":")
-    resource_string = ":".join(split_arn[5:])
-    resource_string = resource_string.split("/")[1:]
-    resource_string = "/".join(resource_string)
+    resource_string = arn.partition("/")[2]
     return resource_string
 
 
@@ -94,9 +92,7 @@ def get_policy_name(arn: str) -> str:
         Output: ExampleRole
     :return:
     """
-    split_arn = arn.split(":")
-    resource_string = ":".join(split_arn[5:])
-    policy_name = resource_string.split("/")[-1:][0]
+    policy_name = arn.rpartition("/")[2]
     return policy_name
 
 
@@ -121,7 +117,9 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(results, raw_data_file):
+def write_results_data_file(
+    results: Dict[str, Dict[str, Any]], raw_data_file: str
+) -> str:
     """
     Writes the raw data file containing all the results for an AWS account
 
@@ -130,25 +128,21 @@ def write_results_data_file(results, raw_data_file):
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    if os.path.exists(raw_data_file):
-        os.remove(raw_data_file)
-    with open(raw_data_file, "w") as file:
-        json.dump(results, file, indent=4)
+    Path(raw_data_file).write_text(json.dumps(results, indent=4))
     return raw_data_file
 
 
-def read_yaml_file(filename: str) -> dict:
+def read_yaml_file(filename: str) -> Dict[str, Any]:
     """Reads a YAML file, safe loads, and returns the dictionary"""
-    with open(filename, "r") as yaml_file:
-        cfg = yaml.safe_load(yaml_file)
+    cfg: Dict[str, Any] = yaml.safe_load(Path(filename).read_text())
     return cfg
 
 
-def print_green(string):
+def print_green(string: Any) -> None:
     """Print green text"""
     print(f"{OK_GREEN}{string}{END}")
 
 
-def print_grey(string):
+def print_grey(string: Any) -> None:
     """Print grey text"""
     print(f"{GREY}{string}{END}")

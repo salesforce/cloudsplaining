@@ -29,83 +29,61 @@ class Exclusions:
         self.groups = self._groups()
         self.policies = self._policies()
 
-    def _roles(self):
-        provided_roles = self.config.get("roles", None)
-        roles = []
+    def _roles(self) -> List[str]:
+        provided_roles = self.config.get("roles", [])
         # Normalize for comparisons
-        if provided_roles:
-            for role in provided_roles:
-                roles.append(role.lower())
+        roles = [role.lower() for role in provided_roles]
         return roles
 
-    def _users(self):
-        provided_users = self.config.get("users", None)
-        users = []
-        if provided_users:
-            # Normalize for comparisons
-            for user in provided_users:
-                users.append(user.lower())
+    def _users(self) -> List[str]:
+        provided_users = self.config.get("users", [])
+        # Normalize for comparisons
+        users = [user.lower() for user in provided_users]
         return users
 
-    def _groups(self):
-        provided_groups = self.config.get("groups", None)
-        groups = []
-        if provided_groups:
-            # Normalize for comparisons
-            for group in provided_groups:
-                groups.append(group.lower())
+    def _groups(self) -> List[str]:
+        provided_groups = self.config.get("groups", [])
+        # Normalize for comparisons
+        groups = [group.lower() for group in provided_groups]
         return groups
 
-    def _policies(self):
-        provided_policies = self.config.get("policies", None)
-        policies = []
-        if provided_policies:
-            # Normalize for comparisons
-            for policy in provided_policies:
-                policies.append(policy.lower())
+    def _policies(self) -> List[str]:
+        provided_policies = self.config.get("policies", [])
+        # Normalize for comparisons
+        policies = [policy.lower() for policy in provided_policies]
         return policies
 
-    def _include_actions(self):
-        include_actions = self.config.get("include-actions", None)
+    def _include_actions(self) -> List[str]:
+        include_actions = self.config.get("include-actions", [])
         # Set to lowercase so subsequent evaluations are faster.
-        if include_actions:
-            always_include_actions = [x.lower() for x in include_actions]
-            return always_include_actions
-        else:
-            return []
+        always_include_actions = [x.lower() for x in include_actions]
+        return always_include_actions
 
-    def _exclude_actions(self):
-        exclude_actions = self.config.get("exclude-actions", None)
-        if exclude_actions:
-            always_exclude_actions = [x.lower() for x in exclude_actions]
-            return always_exclude_actions
-        else:
-            return []
+    def _exclude_actions(self) -> List[str]:
+        exclude_actions = self.config.get("exclude-actions", [])
+        # Set to lowercase so subsequent evaluations are faster.
+        always_exclude_actions = [x.lower() for x in exclude_actions]
+        return always_exclude_actions
 
-    def is_action_always_included(self, action_in_question):
+    def is_action_always_included(self, action_in_question: str) -> Union[bool, str]:
         """
         Supply an IAM action, and get a decision about whether or not it is excluded.
 
         :return:
         """
-        if self.include_actions:
-            if action_in_question.lower() in self.include_actions:
-                return action_in_question
-            else:
-                return False
+        if action_in_question.lower() in self.include_actions:
+            return action_in_question
         else:
             return False
 
-    def is_action_always_excluded(self, action_in_question):
+    def is_action_always_excluded(self, action_in_question: str) -> bool:
         """
         Supply an IAM action, and get a decision about whether or not it is always included.
 
         :return:
         """
         if self.exclude_actions:
-            return bool(
-                is_name_excluded(action_in_question.lower(), self.exclude_actions)
-            )
+            return is_name_excluded(action_in_question.lower(), self.exclude_actions)
         else:
             return False  # pragma: no cover
 
@@ -127,11 +105,11 @@ class Exclusions:
         :return: a boolean decision
         """
         if principal_type == "User":
-            return bool(is_name_excluded(principal.lower(), self.users))
+            return is_name_excluded(principal.lower(), self.users)
         elif principal_type == "Group":
-            return bool(is_name_excluded(principal.lower(), self.groups))
+            return is_name_excluded(principal.lower(), self.groups)
         elif principal_type == "Role":
-            return bool(is_name_excluded(principal.lower(), self.roles))
+            return is_name_excluded(principal.lower(), self.roles)
         else:  # pragma: no cover
             raise Exception(
                 "Please supply User, Group, or Role as the principal argument."
@@ -142,14 +120,12 @@ class Exclusions:
         list of actions after filtering for exclusions."""
 
         always_include_actions = set()
-        # ALWAYS INCLUDE ACTIONS
-        for action in requested_actions:
-            for include_action in self.include_actions:
-                if action.lower() == include_action.lower():
-                    always_include_actions.add(action)
-        # RULE OUT EXCLUDED ACTIONS
         actions_minus_exclusions = set()
         for action in requested_actions:
+            # ALWAYS INCLUDE ACTIONS
+            if action.lower() in self.include_actions:
+                always_include_actions.add(action)
+            # RULE OUT EXCLUDED ACTIONS
             if not is_name_excluded(action.lower(), self.exclude_actions):
                 actions_minus_exclusions.add(action)
 
@@ -175,14 +151,14 @@ def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
             return True
         # ThePerfectManDoesntExi*
         if exclusion.endswith("*"):
-            prefix = exclusion[: exclusion.index("*")]
+            prefix = exclusion[:-1]
             # print(prefix)
             if name.lower().startswith(prefix.lower()):
                 # logger.debug(f"Excluded prefix: {exclusion}")
                 utils.print_grey(f"\tExcluded prefix: {exclusion}")
                 return True
         if exclusion.startswith("*"):
-            suffix = exclusion.split("*")[-1]
+            suffix = exclusion[1:]
             if name.lower().endswith(suffix.lower()):
                 utils.print_grey(f"\tExcluded suffix: {exclusion}")
                 return True
