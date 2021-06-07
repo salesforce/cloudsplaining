@@ -49,7 +49,7 @@ toml==0.10.2
 tornado==6.1
 tqdm==4.59.0
 typed-ast==1.4.2
-urllib3==1.26.4
+urllib3==1.26.5
 wcwidth==0.2.5
 wrapt==1.12.1
 zipp==3.4.1
