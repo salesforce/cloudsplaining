@@ -198,7 +198,7 @@ class ManagedPolicy:
         if is_aws_managed(self.arn):
             return "N/A"
         else:
-            return get_account_from_arn(self.arn)
+            return get_account_from_arn(self.arn)  # type: ignore
 
     @property
     def json(self) -> Dict[str, Any]:

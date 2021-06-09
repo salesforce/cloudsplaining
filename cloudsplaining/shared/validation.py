@@ -5,7 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import Dict, List
+from typing import Dict, List, Any
 
 from schema import Optional, Schema, SchemaError
 
@@ -33,7 +33,7 @@ AUTHORIZATION_DETAILS_SCHEMA = Schema(
 
 
 # pragma: no cover
-def check(conf_schema: Schema, conf: Dict[str, List[str]]) -> bool:
+def check(conf_schema: Schema, conf: Dict[str, List[Any]]) -> bool:
     """
     Validates a user-supplied JSON vs a defined schema.
     :param conf_schema: The Schema object that defines the required structure.
@@ -65,7 +65,7 @@ def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
         )
 
 
-def check_authorization_details_schema(cfg: Dict[str, List[str]]) -> bool:
+def check_authorization_details_schema(cfg: Dict[str, List[Any]]) -> bool:
     """Determine whether or not the file meets the required format of the authorizations file"""
     result = check(AUTHORIZATION_DETAILS_SCHEMA, cfg)
     return result

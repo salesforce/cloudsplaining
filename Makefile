@@ -64,6 +64,9 @@ fmt: setup-dev
 lint: setup-dev
 	pylint ${PROJECT_UNDERSCORE}/
 
+type-check: setup-dev
+	mypy
+
 # Publish to PyPi
 publish: build
 	python3 -m pip install --upgrade twine

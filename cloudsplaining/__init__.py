@@ -9,6 +9,8 @@ from logging import NullHandler
 # Uncomment to get the full debug logs.
 # 2020-10-06 10:04:17,200 - root - DEBUG - Leveraging the bundled IAM Definition.
 # Need to figure out how to get click_log to do this for me.
+from typing import Union, Optional
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 handler = logging.StreamHandler(sys.stdout)
@@ -21,12 +23,17 @@ logger.addHandler(handler)
 name = "cloudsplaining"  # pylint: disable=invalid-name
 
 
-def change_log_level(log_level):
+def change_log_level(log_level: Union[int, str]) -> None:
     """"Change log level of module logger"""
     logger.setLevel(log_level)
 
 
-def set_stream_logger(name="cloudsplaining", level=logging.DEBUG, format_string=None):  # pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name
+def set_stream_logger(
+    name: str = "cloudsplaining",
+    level: int = logging.DEBUG,
+    format_string: Optional[str] = None,
+) -> None:
     """
     Add a stream handler for the given name and level to the logging module.
     By default, this logs all cloudsplaining messages to ``stdout``.
@@ -54,7 +61,7 @@ def set_stream_logger(name="cloudsplaining", level=logging.DEBUG, format_string=
     logger.addHandler(handler)
 
 
-def set_log_level(verbose):
+def set_log_level(verbose: int) -> None:
     """
     Set Log Level based on click's count argument.
 

@@ -40,7 +40,7 @@ END = "\033[0m"
         ["critical", "error", "warning", "info", "debug"], case_sensitive=False
     ),
 )
-def create_multi_account_config_file(output_file, verbose):
+def create_multi_account_config_file(output_file: str, verbose: str) -> None:
     """
     Creates a YML file to be used as a multi-account config template, so users can scan many different accounts.
     """
@@ -49,14 +49,18 @@ def create_multi_account_config_file(output_file, verbose):
         change_log_level(log_level)
     filename = Path(output_file).resolve()
 
-    if os.path.exists(filename):
-        logger.debug("%s exists. Removing the file and replacing its contents.", filename)
-        os.remove(filename)
+    if filename.exists():
+        logger.debug(
+            "%s exists. Removing the file and replacing its contents.", filename
+        )
+        filename.unlink()
 
     with open(filename, "a") as file_obj:
         for line in MULTI_ACCOUNT_CONFIG_TEMPLATE:
             file_obj.write(line)
-    utils.print_green(f"Success! Multi-account config file written to: {os.path.relpath(filename)}")
+    utils.print_green(
+        f"Success! Multi-account config file written to: {os.path.relpath(filename)}"
+    )
     print(
         f"\nMake sure you edit the {os.path.relpath(filename)} file and then run the scan-multi-account command, as shown below."
     )

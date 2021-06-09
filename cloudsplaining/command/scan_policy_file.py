@@ -9,6 +9,8 @@ Scan a single policy file to identify missing resource constraints.
 import sys
 import logging
 import json
+from typing import Dict, Any, List
+
 import yaml
 import click
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_CONFIG
@@ -58,8 +60,8 @@ END = "\033[0m"
 )
 # pylint: disable=redefined-builtin
 def scan_policy_file(
-    input_file, exclusions_file, high_priority_only, verbose
-):  # pragma: no cover
+    input_file: str, exclusions_file: str, high_priority_only: bool, verbose: str
+) -> None:  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
     if verbose:
         log_level = getattr(logging, verbose.upper())
@@ -97,7 +99,7 @@ def scan_policy_file(
                 f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}"
             )
             results_exist += 1
-            for item in results.get("PrivilegeEscalation"):
+            for item in results.get("PrivilegeEscalation", []):
                 print(f"- Method: {item.get('type')}")
                 print(f"  Actions: {', '.join(item.get('actions', []))}\n")
 
@@ -107,7 +109,9 @@ def scan_policy_file(
             print(
                 f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}"
             )
-            print(f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration'))}\n")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration', []))}\n"
+            )
 
         # Resource Exposure
         if results.get("ResourceExposure"):
@@ -115,7 +119,9 @@ def scan_policy_file(
             print(
                 f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}"
             )
-            print(f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure'))}\n")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure', []))}\n"
+            )
 
         # Service Wildcard
         if results.get("ServiceWildcard"):
@@ -123,7 +129,9 @@ def scan_policy_file(
             print(
                 f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}"
             )
-            print(f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard'))}\n")
+            print(
+                f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard', []))}\n"
+            )
 
         # Credentials Exposure
         if results.get("CredentialsExposure"):
@@ -132,7 +140,7 @@ def scan_policy_file(
                 f"{RED}Potential Issue found: Policy allows actions that return credentials{END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure'))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure', []))}\n"
             )
 
         if not high_priority_only:
@@ -143,7 +151,7 @@ def scan_policy_file(
                 f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification'))}"
+                f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification', []))}"
             )
 
         if results_exist == 0:
@@ -152,7 +160,10 @@ def scan_policy_file(
         print("There were no results found.")
 
 
-def scan_policy(policy_json, exclusions_config=DEFAULT_EXCLUSIONS_CONFIG):
+def scan_policy(
+    policy_json: Dict[str, Any],
+    exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG,
+) -> Dict[str, Any]:
     """
     Scan a policy document for missing resource constraints.
 

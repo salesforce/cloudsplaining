@@ -11,6 +11,8 @@ import os
 import webbrowser
 import json
 from pathlib import Path
+from typing import Dict, Any, List
+
 import yaml
 import click
 from policy_sentry.util.arns import get_account_from_arn
@@ -76,10 +78,14 @@ logger = logging.getLogger(__name__)
         ["critical", "error", "warning", "info", "debug"], case_sensitive=False
     ),
 )
-# pylint: disable=redefined-builtin
 def scan(
-    input_file, exclusions_file, output, skip_open_report, minimize, verbose
-):  # pragma: no cover
+    input_file: str,
+    exclusions_file: str,
+    output: str,
+    skip_open_report: bool,
+    minimize: bool,
+    verbose: str,
+) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -166,13 +172,13 @@ def scan(
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg,
-    exclusions,
-    account_name="default",
-    output_directory=os.getcwd(),
-    write_data_files=False,
-    minimize=False,
-):  # pragma: no cover
+    account_authorization_details_cfg: Dict[str, Any],
+    exclusions: Exclusions,
+    account_name: str = "default",
+    output_directory: str = os.getcwd(),
+    write_data_files: bool = False,
+    minimize: bool = False,
+) -> str:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -189,8 +195,8 @@ def scan_account_authorization_details(
     results = authorization_details.results
 
     # Lazy method to get an account ID
-    account_id = None
-    for role in results.get("roles"):
+    account_id = ""
+    for role in results.get("roles", []):
         if "arn:aws:iam::aws:" not in results["roles"][role]["arn"]:
             account_id = get_account_from_arn(results["roles"][role]["arn"])
             break
@@ -214,36 +220,32 @@ def scan_account_authorization_details(
         results_data_filepath = write_results_data_file(
             authorization_details.results, results_data_file
         )
-        print(f"Results data saved: {str(results_data_filepath)}")
+        print(f"Results data saved: {results_data_filepath}")
 
         findings_data_file = os.path.join(
             output_directory, f"iam-findings-{account_name}.json"
         )
         findings_data_filepath = write_results_data_file(results, findings_data_file)
-        print(f"Findings data file saved: {str(findings_data_filepath)}")
+        print(f"Findings data file saved: {findings_data_filepath}")
 
     return rendered_report
 
 
-def get_authorization_files_in_directory(directory):  # pragma: no cover
+def get_authorization_files_in_directory(
+    directory: str,
+) -> List[str]:  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
-    file_list = [
-        f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))
+    file_list_with_full_path = [
+        file.absolute() for file in Path(directory).glob("*.json")
     ]
-    file_list_with_full_path = []
-    for file in file_list:
-        if file.endswith(".json"):
-            file_list_with_full_path.append(
-                os.path.abspath(os.path.join(directory, file))
-            )
+
     new_file_list = []
     for file in file_list_with_full_path:
-        with open(file) as f:
-            contents = f.read()
+        contents = file.read_text()
         account_authorization_details_cfg = json.loads(contents)
         valid_schema = check_authorization_details_schema(
             account_authorization_details_cfg
         )
         if valid_schema:
-            new_file_list.append(file)
+            new_file_list.append(str(file))
     return new_file_list

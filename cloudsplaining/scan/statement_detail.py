@@ -159,7 +159,7 @@ class StatementDetail:
         """Expands the full list of allowed actions from the Policy/"""
 
         if self.actions:
-            expanded = determine_actions_to_expand(self.actions)
+            expanded: List[str] = determine_actions_to_expand(self.actions)
             expanded.sort()
             return expanded
         elif self.not_action:
