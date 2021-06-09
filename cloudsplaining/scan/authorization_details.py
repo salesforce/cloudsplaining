@@ -97,7 +97,7 @@ class AuthorizationDetails:
     @property
     def results(self) -> Dict[str, Dict[str, Any]]:
         """Get the new JSON format of the Principals data"""
-        results = {
+        results: Dict[str, Dict[str, Any]] = {
             "groups": self.group_detail_list.json,
             "users": self.user_detail_list.json,
             "roles": self.role_detail_list.json,

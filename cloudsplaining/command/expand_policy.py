@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
         ["critical", "error", "warning", "info", "debug"], case_sensitive=False
     ),
 )
-def expand_policy(input_file, verbose):  # pylint: disable=redefined-builtin
+def expand_policy(input_file: str, verbose: str) -> None:
     """
     Expand the * Actions in IAM policy files to improve readability
     """

@@ -1,3 +1,4 @@
+include cloudsplaining/py.typed
 recursive-include cloudsplaining/shared *.yml
 recursive-include cloudsplaining/output *.html
 recursive-include cloudsplaining/output *.js

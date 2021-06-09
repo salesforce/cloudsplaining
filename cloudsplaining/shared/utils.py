@@ -54,7 +54,9 @@ def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
 def remove_read_level_actions(actions_list: List[str]) -> List[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels"""
-    modify_actions = remove_actions_not_matching_access_level(actions_list, "Write")
+    modify_actions: List[str] = remove_actions_not_matching_access_level(
+        actions_list, "Write"
+    )
     modify_actions.extend(
         remove_actions_not_matching_access_level(actions_list, "Permissions management")
     )

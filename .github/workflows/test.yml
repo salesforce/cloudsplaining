@@ -31,3 +31,7 @@ jobs:
         run: |
           make security-test
           make test
+
+      - name: Run mypy (static type check)
+        run: |
+          make type-check
