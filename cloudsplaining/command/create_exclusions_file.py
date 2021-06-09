@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
         ["critical", "error", "warning", "info", "debug"], case_sensitive=False
     ),
 )
-def create_exclusions_file(output_file, verbose):
+def create_exclusions_file(output_file: str, verbose: str) -> None:
     """
     Creates a YML file to be used as a custom exclusions template,
     so users can fill out the fields without needing to look up the required format.
@@ -52,7 +52,8 @@ def create_exclusions_file(output_file, verbose):
             file_obj.write(line)
     utils.print_green(f"Success! Exclusions template file written to: {filename}")
     print(
-        "Make sure you download your account authorization details before running the scan. Set your AWS access keys as environment variables then run: "
+        "Make sure you download your account authorization details before running the scan."
+        "Set your AWS access keys as environment variables then run: "
     )
     print("\tcloudsplaining download")
     print("You can use this with the scan command as shown below: ")
