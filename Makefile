@@ -83,14 +83,19 @@ count-loc:
 generate-report:
 	python3 ./utils/generate_example_iam_data.py
 	python3 ./utils/generate_example_report.py
+# ---------------------------------------------------------------------------------------------------------------------
+# JavaScript
+# ---------------------------------------------------------------------------------------------------------------------
+clean-js:
+	rm -rf node_modules/
+	npm cache clear --force
 
 # Install javascript packages
 install-js:
 	npm install
 
 # Install javascript packages, but only the ones needed for the final report (not dev ones)
-install-js-production:
-	rm -rf node_modules/
+install-js-production: clean-js
 	npm install --production
 
 # Generate the updated Javascript bundle

@@ -334,7 +334,7 @@ cloudsplaining scan-multi-account \
 ```bash
 # Download authorization details
 cloudsplaining download
-# Download from a specific profile
+# Download from a specific AWS profile
 cloudsplaining download --profile someprofile
 
 # Scan Authorization details
@@ -345,6 +345,11 @@ cloudsplaining scan --input-file default.json --exclusions-file exclusions.yml
 # Scan Policy Files
 cloudsplaining scan-policy-file --input-file examples/policies/wildcards.json
 cloudsplaining scan-policy-file --input-file examples/policies/wildcards.json  --exclusions-file examples/example-exclusions.yml
+
+# Scan Multiple Accounts
+# Generate the multi account config file
+cloudsplaining create-multi-account-config-file -o accounts.yml
+cloudsplaining scan-multi-account -c accounts.yml -r TargetRole --output-directory ./
 ```
 
 ## FAQ
