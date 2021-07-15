@@ -17,7 +17,7 @@ from cloudsplaining.shared.constants import EXCLUSIONS_FILE, DEFAULT_EXCLUSIONS_
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import Exclusions
 from cloudsplaining.output.policy_finding import PolicyFinding
-from cloudsplaining import change_log_level
+from cloudsplaining import set_log_level
 
 logger = logging.getLogger(__name__)
 BOLD = "\033[1m"
@@ -51,21 +51,13 @@ END = "\033[0m"
     help="If issues are found, only print the high priority risks"
     " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
 )
-@click.option(
-    "--verbose",
-    "-v",
-    type=click.Choice(
-        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
-    ),
-)
+@click.option("--verbose", "-v", "verbosity", count=True)
 # pylint: disable=redefined-builtin
 def scan_policy_file(
-    input_file: str, exclusions_file: str, high_priority_only: bool, verbose: str
+    input_file: str, exclusions_file: str, high_priority_only: bool, verbosity: int
 ) -> None:  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
-    if verbose:
-        log_level = getattr(logging, verbose.upper())
-        change_log_level(log_level)
+    set_log_level(verbosity)
     if input_file:
         # Get the Policy
         with open(input_file) as json_file:

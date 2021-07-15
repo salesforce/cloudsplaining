@@ -12,7 +12,7 @@ from pathlib import Path
 import logging
 import click
 from cloudsplaining.shared.constants import MULTI_ACCOUNT_CONFIG_TEMPLATE
-from cloudsplaining import change_log_level
+from cloudsplaining import set_log_level
 from cloudsplaining.shared import utils
 
 logger = logging.getLogger(__name__)
@@ -34,19 +34,14 @@ END = "\033[0m"
     help="Relative path to output file where we want to store the multi account config template.",
 )
 @click.option(
-    "--verbose",
-    "-v",
-    type=click.Choice(
-        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
-    ),
+    "-v", "--verbose", "verbosity", count=True,
 )
-def create_multi_account_config_file(output_file: str, verbose: str) -> None:
+def create_multi_account_config_file(output_file: str, verbosity: int) -> None:
     """
     Creates a YML file to be used as a multi-account config template, so users can scan many different accounts.
     """
-    if verbose:
-        log_level = getattr(logging, verbose.upper())
-        change_log_level(log_level)
+    set_log_level(verbosity)
+
     filename = Path(output_file).resolve()
 
     if filename.exists():
