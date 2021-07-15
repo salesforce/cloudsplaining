@@ -17,7 +17,7 @@ class ScanClickUnitTests(unittest.TestCase):
         command = f"--input-file {input_file} " \
                   f"--exclusions-file {exclusions_file} " \
                   "--skip-open-report " \
-                  "-v debug"
+                  "-v"
         args = shlex.split(command)
         response = self.runner.invoke(cli=scan, args=args)
         # print(response.output)
