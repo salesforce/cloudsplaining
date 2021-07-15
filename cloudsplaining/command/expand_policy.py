@@ -10,7 +10,7 @@ import logging
 import json
 import click
 from policy_sentry.analysis.expand import get_expanded_policy
-from cloudsplaining import change_log_level
+from cloudsplaining import set_log_level
 
 logger = logging.getLogger(__name__)
 
@@ -25,20 +25,13 @@ logger = logging.getLogger(__name__)
     required=True,
     help="Path to the JSON policy file.",
 )
-@click.option(
-    "--verbose",
-    "-v",
-    type=click.Choice(
-        ["critical", "error", "warning", "info", "debug"], case_sensitive=False
-    ),
-)
-def expand_policy(input_file: str, verbose: str) -> None:
+@click.option("--verbose", "-v", "verbosity", count=True)
+def expand_policy(input_file: str, verbosity: int) -> None:
     """
     Expand the * Actions in IAM policy files to improve readability
     """
-    if verbose:
-        log_level = getattr(logging, verbose.upper())
-        change_log_level(log_level)
+    set_log_level(verbosity)
+
     with open(input_file) as json_file:
         logger.debug(f"Opening {input_file}")
         data = json.load(json_file)
