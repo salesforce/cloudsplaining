@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/5b/a9/3fb9677877f805bf9eedc63e76eca90a902291ceb062950b5e81c24309d2/boto3-1.17.78.tar.gz"
-    sha256 "2a5caee63d45fbdcc85e710c7f4146112f5d10b22fd0176643d2f2914cce54df"
+    url "https://files.pythonhosted.org/packages/4e/bc/ff1f87d205e6b25fa41bb5805b1c0fe82d3444f3f1951cc5a19799268bdf/boto3-1.18.0.tar.gz"
+    sha256 "054e347824064b7cd77616f35596420eb4f6aca049ecc131a2aec23bcf4cf6ba"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/3e/2c/68c8ffdbd1f4b1fa34b9dab7b44597bc8e531fbe1646a57316fe08bd068a/botocore-1.20.78.tar.gz"
-    sha256 "e74775f9e64e975787d76390fc5ac5aba875d726bb9ece3b7bd900205b430389"
+    url "https://files.pythonhosted.org/packages/5a/17/153f328b58edef65cf961781a799fed240b8c82e3f408107a290e7ffd725/botocore-1.21.0.tar.gz"
+    sha256 "84ea51660c758416f75ac612374156f6423a1d1ade449d38944de6eb8493cca2"
   end
 
   resource "cached-property" do
@@ -29,13 +29,13 @@ class Cloudsplaining < Formula
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/06/a9/cd1fd8ee13f73a4d4f491ee219deeeae20afefa914dfb4c130cfc9dc397a/certifi-2020.12.5.tar.gz"
-    sha256 "1a4995114262bffbc2413b159f2a1a480c969de6e6eb13ee966d470af86af59c"
+    url "https://files.pythonhosted.org/packages/6d/78/f8db8d57f520a54f0b8a438319c342c61c22759d8f9a1cd2e2180b5e5ea9/certifi-2021.5.30.tar.gz"
+    sha256 "2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"
   end
 
-  resource "chardet" do
-    url "https://files.pythonhosted.org/packages/ee/2d/9cdc2b527e127b4c9db64b86647d567985940ac3698eeabc7ffaccb4ea61/chardet-4.0.0.tar.gz"
-    sha256 "0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa"
+  resource "charset-normalizer" do
+    url "https://files.pythonhosted.org/packages/e1/e6/707ff774274c66f1db739ff4d7eb493252899ed86f0018ac3e9e462fe3de/charset-normalizer-2.0.2.tar.gz"
+    sha256 "951567c2f7433a70ab63f1be67e5ee05d3925d9423306ecb71a3b272757bcc95"
   end
 
   resource "click" do
@@ -49,18 +49,18 @@ class Cloudsplaining < Formula
   end
 
   resource "contextlib2" do
-    url "https://files.pythonhosted.org/packages/02/54/669207eb72e3d8ae8b38aa1f0703ee87a0e9f88f30d3c0a47bebdb6de242/contextlib2-0.6.0.post1.tar.gz"
-    sha256 "01f490098c18b19d2bd5bb5dc445b2054d2fa97f09a4280ba2c5f3c394c8162e"
+    url "https://files.pythonhosted.org/packages/c7/13/37ea7805ae3057992e96ecb1cffa2fa35c2ef4498543b846f90dd2348d8f/contextlib2-21.6.0.tar.gz"
+    sha256 "ab1e2bfe1d01d968e1b7e8d9023bc51ef3509bba217bb730cee3827e1ee82869"
   end
 
   resource "idna" do
-    url "https://files.pythonhosted.org/packages/ea/b7/e0e3c1c467636186c39925827be42f16fee389dc404ac29e930e9136be70/idna-2.10.tar.gz"
-    sha256 "b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6"
+    url "https://files.pythonhosted.org/packages/cb/38/4c4d00ddfa48abe616d7e572e02a04273603db446975ab46bbcd36552005/idna-3.2.tar.gz"
+    sha256 "467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/91/b6/4f8d521c15fa22bca780aeff56a5b43665ac522585b2b2090e3626ca585f/importlib_metadata-4.0.1.tar.gz"
-    sha256 "8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581"
+    url "https://files.pythonhosted.org/packages/a7/08/c5f2e6193c12ceb5b5048d579e8f1f82c9957b57427da808c15b44479dec/importlib_metadata-4.6.1.tar.gz"
+    sha256 "079ada16b7fc30dfbb5d13399a5113110dab1aa7c2bc62f66af75f0b717c8cac"
   end
 
   resource "Jinja2" do
@@ -84,13 +84,13 @@ class Cloudsplaining < Formula
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/2b/40/96773da0a8ecad688bd2b870c21dfa6949cda6cbfffafa9935e7d462cd28/policy_sentry-0.11.10.tar.gz"
-    sha256 "2c3e4405a72f8284f7a3c987fbd666b3ae63fd095101e004e9ee6a1fb1ab76ff"
+    url "https://files.pythonhosted.org/packages/3e/8e/e0503e50b071efa2703e14f2fd70cb43662c11914b1dd3663bbd670f0513/policy_sentry-0.11.16.tar.gz"
+    sha256 "8b88cb58a390ae7e0e06db13b3bbb5ece0d32d7d7c38a92259eb9c4722198fb5"
   end
 
   resource "python-dateutil" do
-    url "https://files.pythonhosted.org/packages/be/ed/5bbc91f03fa4c839c4c7360375da77f9659af5f7086b7a7bdda65771c8e0/python-dateutil-2.8.1.tar.gz"
-    sha256 "73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"
+    url "https://files.pythonhosted.org/packages/4c/c4/13b4776ea2d76c115c1d1b84579f3764ee6d57204f6be27119f13a61d0a9/python-dateutil-2.8.2.tar.gz"
+    sha256 "0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"
   end
 
   resource "PyYAML" do
@@ -99,13 +99,13 @@ class Cloudsplaining < Formula
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/6b/47/c14abc08432ab22dc18b9892252efaf005ab44066de871e72a38d6af464b/requests-2.25.1.tar.gz"
-    sha256 "27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804"
+    url "https://files.pythonhosted.org/packages/e7/01/3569e0b535fb2e4a6c384bdbed00c55b9d78b5084e0fb7f4d0bf523d7670/requests-2.26.0.tar.gz"
+    sha256 "b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"
   end
 
   resource "s3transfer" do
-    url "https://files.pythonhosted.org/packages/27/90/f467e516a845cf378d85f0a51913c642e31e2570eb64b352c4dc4c6cbfc7/s3transfer-0.4.2.tar.gz"
-    sha256 "cb022f4b16551edebbb31a377d3f09600dbada7363d8c5db7976e7f47732e1b2"
+    url "https://files.pythonhosted.org/packages/88/ef/4d1b3f52ae20a7e72151fde5c9f254cd83f8a49047351f34006e517e1655/s3transfer-0.5.0.tar.gz"
+    sha256 "50ed823e1dc5868ad40c8dc92072f757aa0e653a192845c94a3b676f4a62da4c"
   end
 
   resource "schema" do
@@ -129,13 +129,13 @@ class Cloudsplaining < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/cb/cf/871177f1fc795c6c10787bc0e1f27bb6cf7b81dbde399fd35860472cecbc/urllib3-1.26.4.tar.gz"
-    sha256 "e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"
+    url "https://files.pythonhosted.org/packages/4f/5a/597ef5911cb8919efe4d86206aa8b2658616d676a7088f0825ca08bd7cb8/urllib3-1.26.6.tar.gz"
+    sha256 "f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"
   end
 
   resource "zipp" do
-    url "https://files.pythonhosted.org/packages/38/f9/4fa6df2753ded1bcc1ce2fdd8046f78bd240ff7647f5c9bcf547c0df77e3/zipp-3.4.1.tar.gz"
-    sha256 "3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76"
+    url "https://files.pythonhosted.org/packages/3a/9f/1d4b62cbe8d222539a84089eeab603d8e45ee1f897803a0ae0860400d6e7/zipp-3.5.0.tar.gz"
+    sha256 "f5812b1e007e48cff63449a5e9f4e7ebea716b4111f9c4f9a645f91d579bf0c4"
   end
 
   def install
