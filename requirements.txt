@@ -1,17 +1,17 @@
 # AWS
-boto3==1.17.59
-botocore==1.20.59
+boto3==1.18.0
+botocore==1.21.0
 # Speeds up IAM logic
 cached-property==1.5.2
 # Command line
-click==7.1.2
-click_option_group==0.5.2
+click==8.0.1
+click_option_group==0.5.3
 # Templating - required for exclusions YAML files and inserting content to HTML report
-jinja2==2.11.3
+jinja2==3.0.1
 pyyaml==5.4.1
 # We render Markdown glossary files as HTML in the Cloudsplaining report
 markdown==3.3.4
 # AWS IAM Logic
-policy-sentry==0.11.10
+policy-sentry==0.11.12
 # Schema validation
 schema==0.7.4
