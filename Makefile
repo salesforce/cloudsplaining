@@ -31,7 +31,7 @@ install: build
 	${PROJECT} --help
 
 # Uninstall the package
-uninstall:
+uninstall: virtualenv
 	python3 -m pip uninstall ${PROJECT} -y
 	python3 -m pip uninstall -r requirements.txt -y
 	python3 -m pip uninstall -r requirements-dev.txt -y
@@ -112,3 +112,18 @@ test-js: install-js
 .PHONY: serve-js
 serve-js: install-js-production
 	npm run serve
+
+# Update Homebrew file. Does not commit to Git
+update-homebrew-file: uninstall
+	python3 -m pip install homebrew-pypi-poet
+	python3 -m pip install cloudsplaining -U
+	git fetch origin
+	latest_tag := $(git describe --tags `git rev-list --tags --max-count=1`)
+	echo "latest tag: $latest_tag"
+	git pull origin $latest_tag
+	poet -f cloudsplaining > HomebrewFormula/cloudsplaining.rb
+
+update-homebrew: update-homebrew-file
+	git add .
+	git commit -m "update brew formula" cloudsplaining/bin/version.py HomebrewFormula/cloudsplaining.rb || echo "No brew changes to commit"
+	git push -u origin master
