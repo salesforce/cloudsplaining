@@ -2,7 +2,7 @@
     <b-tab>
         <h3>Customer-Managed Policies ({{ getManagedPolicyNameMapping('Customer').length }})</h3>
         <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"/>
-        <Button v-bind:placeholder="'Expland All'" :class="'mr-3 mb-4'" @clicked="expandAll" />
+        <Button v-bind:placeholder="'Expand All'" :class="'mr-3 mb-4'" @clicked="expandAll" />
         <Button v-bind:placeholder="'Collapse All'" :class="'mr-3 mb-4'" @clicked="collapseAll" />
         <ManagedPolicies v-bind:iam_data="iam_data" managedBy="Customer"/>
     </b-tab>
