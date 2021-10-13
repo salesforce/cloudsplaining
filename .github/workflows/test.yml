@@ -23,10 +23,6 @@ jobs:
         run: |
           make install
 
-      - name: Pylint
-        run: |
-          make lint
-
       - name: Run pytest (unit tests) and bandit (security test)
         run: |
           make security-test
