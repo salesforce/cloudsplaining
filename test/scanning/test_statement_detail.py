@@ -184,7 +184,18 @@ class TestStatementDetail(unittest.TestCase):
         results = statement.not_action_effective_actions
         # We excluded everything else besides TagResource on purpose. Not a typical pattern
         # but easier to maintain with unit tests
-        self.assertListEqual(results, ["cloud9:TagResource", "cloud9:UntagResource"])
+        import json
+        print(json.dumps(results, indent=4))
+        # Future proofing this unit test
+        expected_actions = [
+            "cloud9:ActivateEC2Remote",
+            "cloud9:ModifyTemporaryCredentialsOnEnvironmentEC2",
+            "cloud9:TagResource",
+            "cloud9:UntagResource"
+        ]
+        for action in expected_actions:
+            self.assertTrue(action in results)
+        # self.assertListEqual(results, ["cloud9:TagResource", "cloud9:UntagResource"])
 
         # CASE 2:
         # Effect: Allow && Resource == "*"
