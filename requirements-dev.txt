@@ -33,7 +33,7 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 mkdocs==1.1.2
 more-itertools==8.7.0
-nltk==3.5
+nltk==3.6.5
 packaging==20.9
 pathspec==0.8.1
 pbr==5.5.1
