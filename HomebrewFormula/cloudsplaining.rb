@@ -3,24 +3,24 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/8d/fd/01df34dd3d6d23d48862398efcad03164c5275b746eab0d03ef1396c1959/cloudsplaining-0.4.5.tar.gz"
-  sha256 "45c3e825ca1770902d58b79774729a7d11581e7d041272d3ed45d88fb1b69a42"
+  url "https://files.pythonhosted.org/packages/94/67/4c46cadb23ba161ee9db0aece63b58f100fcf2e2ce6912fcd7d85618d833/cloudsplaining-0.4.6.tar.gz"
+  sha256 "d91dc996033edf712c2695c009fe72ba0ce8f4f211613b42ff085e12612e32ac"
 
   depends_on "python3"
 
   resource "beautifulsoup4" do
-    url "https://files.pythonhosted.org/packages/6b/c3/d31704ae558dcca862e4ee8e8388f357af6c9d9acb0cad4ba0fbbd350d9a/beautifulsoup4-4.9.3.tar.gz"
-    sha256 "84729e322ad1d5b4d25f805bfa05b902dd96450f43842c4e99067d5e1369eb25"
+    url "https://files.pythonhosted.org/packages/a1/69/daeee6d8f22c997e522cdbeb59641c4d31ab120aba0f2c799500f7456b7e/beautifulsoup4-4.10.0.tar.gz"
+    sha256 "c23ad23c521d818955a4151a67d81580319d4bf548d3d49f4223ae041ff98891"
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/72/ac/4f109cc03f333e1dc9cc489b54b3261eb1213557b48a42afe69321706517/boto3-1.18.22.tar.gz"
-    sha256 "7405ae77ce4f2151fae1b542183f9c0f7ffb57c288b1f152819cfcb88e9cf297"
+    url "https://files.pythonhosted.org/packages/f1/25/4773ca66ec580636c4e8ab473c9e5375a266746f3dbfe4f85235b9c67211/boto3-1.18.62.tar.gz"
+    sha256 "364a0fd497147ff0e15327f653223b05e60a1afce002995e5b1106084355352e"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/78/cc/0b4e959ca99c24093391d8f5a62761f23528734508623bd6845adf8e1a64/botocore-1.21.22.tar.gz"
-    sha256 "9c133caab58b04b4a9ab3f6523cc61cf815c1a5fde7b5ee279eefa48dc3a01d1"
+    url "https://files.pythonhosted.org/packages/60/dc/d214623d85eb3c8dcb26a60ea15df43ac81747bcb26db5cc957affb4c517/botocore-1.21.62.tar.gz"
+    sha256 "c92fee381c6f2771f7ec2bffaff2938b8a1c2a957560815a01ad77c975268fdd"
   end
 
   resource "cached-property" do
@@ -29,18 +29,18 @@ class Cloudsplaining < Formula
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/6d/78/f8db8d57f520a54f0b8a438319c342c61c22759d8f9a1cd2e2180b5e5ea9/certifi-2021.5.30.tar.gz"
-    sha256 "2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"
+    url "https://files.pythonhosted.org/packages/6c/ae/d26450834f0acc9e3d1f74508da6df1551ceab6c2ce0766a593362d6d57f/certifi-2021.10.8.tar.gz"
+    sha256 "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
   end
 
   resource "charset-normalizer" do
-    url "https://files.pythonhosted.org/packages/e7/4e/2af0238001648ded297fb54ceb425ca26faa15b341b4fac5371d3938666e/charset-normalizer-2.0.4.tar.gz"
-    sha256 "f23667ebe1084be45f6ae0538e4a5a865206544097e4e8bbcacf42cd02a348f3"
+    url "https://files.pythonhosted.org/packages/9f/c5/334c019f92c26e59637bb42bd14a190428874b2b2de75a355da394cf16c1/charset-normalizer-2.0.7.tar.gz"
+    sha256 "e019de665e2bcf9c2b64e2e5aa025fa991da8720daa3c1138cadd2fd1856aed0"
   end
 
   resource "click" do
-    url "https://files.pythonhosted.org/packages/21/83/308a74ca1104fe1e3197d31693a7a2db67c2d4e668f20f43a2fca491f9f7/click-8.0.1.tar.gz"
-    sha256 "8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a"
+    url "https://files.pythonhosted.org/packages/f4/09/ad003f1e3428017d1c3da4ccc9547591703ffea548626f47ec74509c5824/click-8.0.3.tar.gz"
+    sha256 "410e932b050f5eed773c4cda94de75971c89cdb3155a72a0831139a79e5ecb5b"
   end
 
   resource "click-option-group" do
@@ -54,18 +54,18 @@ class Cloudsplaining < Formula
   end
 
   resource "idna" do
-    url "https://files.pythonhosted.org/packages/cb/38/4c4d00ddfa48abe616d7e572e02a04273603db446975ab46bbcd36552005/idna-3.2.tar.gz"
-    sha256 "467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"
+    url "https://files.pythonhosted.org/packages/62/08/e3fc7c8161090f742f504f40b1bccbfc544d4a4e09eb774bf40aafce5436/idna-3.3.tar.gz"
+    sha256 "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/aa/b9/514816064db3028d7370f2ce02e8e8f5d9bc68f6f9a41b04d19176aba70e/importlib_metadata-4.6.4.tar.gz"
-    sha256 "7b30a78db2922d78a6f47fb30683156a14f3c6aa5cc23f77cc8967e9ab2d002f"
+    url "https://files.pythonhosted.org/packages/f0/70/ca3dd67cdd368b957e73a8156f7e1a10339f9813e314cb8b4549526070da/importlib_metadata-4.8.1.tar.gz"
+    sha256 "f284b3e11256ad1e5d03ab86bb2ccd6f5339688ff17a4d797a0fe7df326f23b1"
   end
 
   resource "Jinja2" do
-    url "https://files.pythonhosted.org/packages/39/11/8076571afd97303dfeb6e466f27187ca4970918d4b36d5326725514d3ed3/Jinja2-3.0.1.tar.gz"
-    sha256 "703f484b47a6af502e743c9122595cc812b0271f661722403114f71a79d0f5a4"
+    url "https://files.pythonhosted.org/packages/f8/86/7c0eb6e8b05385d1ce682abc0f994abd1668e148fb52603fa86e15d4c110/Jinja2-3.0.2.tar.gz"
+    sha256 "827a0e32839ab1600d4eb1c4c33ec5a8edfbc5cb42dafa13b81f182f97784b45"
   end
 
   resource "jmespath" do
@@ -84,8 +84,8 @@ class Cloudsplaining < Formula
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/3e/8e/e0503e50b071efa2703e14f2fd70cb43662c11914b1dd3663bbd670f0513/policy_sentry-0.11.16.tar.gz"
-    sha256 "8b88cb58a390ae7e0e06db13b3bbb5ece0d32d7d7c38a92259eb9c4722198fb5"
+    url "https://files.pythonhosted.org/packages/d1/ef/033029dfe81e914525a6e339d8090ff34c7c9fb9be4e5f550bc50617c914/policy_sentry-0.11.18.tar.gz"
+    sha256 "fdeb53644195ee0404b0983ebd0bc1d2ea8c6b29266f8036d880285f4562560e"
   end
 
   resource "python-dateutil" do
@@ -94,8 +94,8 @@ class Cloudsplaining < Formula
   end
 
   resource "PyYAML" do
-    url "https://files.pythonhosted.org/packages/a0/a4/d63f2d7597e1a4b55aa3b4d6c5b029991d3b824b5bd331af8d4ab1ed687d/PyYAML-5.4.1.tar.gz"
-    sha256 "607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e"
+    url "https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+    sha256 "68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"
   end
 
   resource "requests" do
@@ -124,18 +124,18 @@ class Cloudsplaining < Formula
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/aa/55/62e2d4934c282a60b4243a950c9dbfa01ae7cac0e8d6c0b5315b87432c81/typing_extensions-3.10.0.0.tar.gz"
-    sha256 "50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"
+    url "https://files.pythonhosted.org/packages/ed/12/c5079a15cf5c01d7f4252b473b00f7e68ee711be605b9f001528f0298b98/typing_extensions-3.10.0.2.tar.gz"
+    sha256 "49f75d16ff11f1cd258e1b988ccff82a3ca5570217d7ad8c5f48205dd99a677e"
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/4f/5a/597ef5911cb8919efe4d86206aa8b2658616d676a7088f0825ca08bd7cb8/urllib3-1.26.6.tar.gz"
-    sha256 "f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"
+    url "https://files.pythonhosted.org/packages/80/be/3ee43b6c5757cabea19e75b8f46eaf05a2f5144107d7db48c7cf3a864f73/urllib3-1.26.7.tar.gz"
+    sha256 "4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"
   end
 
   resource "zipp" do
-    url "https://files.pythonhosted.org/packages/3a/9f/1d4b62cbe8d222539a84089eeab603d8e45ee1f897803a0ae0860400d6e7/zipp-3.5.0.tar.gz"
-    sha256 "f5812b1e007e48cff63449a5e9f4e7ebea716b4111f9c4f9a645f91d579bf0c4"
+    url "https://files.pythonhosted.org/packages/02/bf/0d03dbdedb83afec081fefe86cae3a2447250ef1a81ac601a9a56e785401/zipp-3.6.0.tar.gz"
+    sha256 "71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832"
   end
 
   def install
