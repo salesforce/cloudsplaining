@@ -134,11 +134,11 @@ class StatementDetail:
 
         if self.has_resource_wildcard and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
-            return None
+            return effective_actions
 
         if not self.has_resource_wildcard and self.effect_deny:
             logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
-            return None
+            return effective_actions
         # only including this so Pylint doesn't yell at us
         return None  # pragma: no cover
 
