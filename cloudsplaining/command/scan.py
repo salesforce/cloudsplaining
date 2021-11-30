@@ -235,7 +235,7 @@ def get_authorization_files_in_directory(
     new_file_list = []
     for file in file_list_with_full_path:
         contents = file.read_text()
-        account_authorization_details_cfg = json.loads(contents)
+        account_authorization_details_cfg = json.loads(contents, default=str)
         valid_schema = check_authorization_details_schema(
             account_authorization_details_cfg
         )
