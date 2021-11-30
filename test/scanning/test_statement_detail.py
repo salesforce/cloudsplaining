@@ -1,4 +1,5 @@
 import unittest
+import json
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions, DEFAULT_EXCLUSIONS
 
@@ -184,7 +185,6 @@ class TestStatementDetail(unittest.TestCase):
         results = statement.not_action_effective_actions
         # We excluded everything else besides TagResource on purpose. Not a typical pattern
         # but easier to maintain with unit tests
-        import json
         print(json.dumps(results, indent=4))
         # Future proofing this unit test
         expected_actions = [
@@ -227,7 +227,7 @@ class TestStatementDetail(unittest.TestCase):
         this_statement = {
             "Sid": "VisualEditor0",
             "Effect": "Deny",
-            "NotAction": [
+            "Action": [
                 "iam:*",
             ],
             "Resource": [
@@ -243,7 +243,7 @@ class TestStatementDetail(unittest.TestCase):
         this_statement = {
             "Sid": "VisualEditor0",
             "Effect": "Deny",
-            "NotAction": [
+            "Action": [
                 "iam:*",
             ],
             "Resource": [
