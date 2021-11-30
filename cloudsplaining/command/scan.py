@@ -115,7 +115,7 @@ def scan(
         if os.path.exists(html_output_file):
             os.remove(html_output_file)
 
-        with open(html_output_file, "w") as f:
+        with open(html_output_file, "w", encoding="utf-8") as f:
             f.write(rendered_html_report)
 
         print(f"Wrote HTML results to: {html_output_file}")

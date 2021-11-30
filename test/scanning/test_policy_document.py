@@ -122,7 +122,7 @@ class TestPolicyDocument(unittest.TestCase):
         }
         policy_document = PolicyDocument(test_policy)
         result = policy_document.all_allowed_unrestricted_actions
-        self.assertEquals([],result)
+        self.assertEqual([],result)
 
     def test_policy_document_all_allowed_actions_deny(self):
         """scan.policy_document.all_allowed_actions"""
