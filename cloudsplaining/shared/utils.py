@@ -130,7 +130,7 @@ def write_results_data_file(
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    Path(raw_data_file).write_text(json.dumps(results, indent=4))
+    Path(raw_data_file).write_text(json.dumps(results, indent=4, default=str))
     return raw_data_file
 
 
