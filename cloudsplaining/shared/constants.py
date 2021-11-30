@@ -151,6 +151,7 @@ ACTIONS_THAT_RETURN_CREDENTIALS = [
     "iam:updateaccesskey",
     "lightsail:getinstanceaccessdetails",
     "lightsail:downloaddefaultkeypair",
+    "lightsail:createbucketaccesskey",
     "lightsail:getrelationaldatabasemasteruserpassword",
     "mediapackage:rotatechannelcredentials",
     "mediapackage:rotateingestendpointcredentials",
