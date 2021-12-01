@@ -2,7 +2,7 @@
 atomicwrites==1.4.0
 distlib==0.3.2
 filelock==3.0.12
-mkdocs==1.2.2
+mkdocs==1.2.3
 mkdocs-material==7.2.6
 mkdocs-material-extensions==1.0.3
 mkdocstrings==0.15.2
