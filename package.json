@@ -1,7 +1,7 @@
 {
   "name": "cloudsplaining",
   "main": "cloudsplaining/output",
-  "version": "0.4.4",
+  "version": "0.4.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development --open",
