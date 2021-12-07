@@ -6,7 +6,7 @@ _notes
 results.*
 default.json
 default-iam-report.csv
-private/default-iam-results.json
+private/default-iam-results.json0
 default-results-summary.csv
 iam-new-principal-policy-mapping-example.json
 iam-findings-example.json

@@ -24,54 +24,17 @@ from cloudsplaining.shared.utils import write_results_data_file
 from cloudsplaining.output.report import HTMLReport
 from cloudsplaining import set_log_level
 
-logger = logging.getLogger(__name__)
-
 
 @click.command(
     short_help="Scan a single file containing AWS IAM account authorization details and generate report on "
     "IAM security posture. "
 )
-@click.option(
-    "--input-file",
-    "-i",
-    type=click.Path(exists=True),
-    required=True,
-    help="Path of IAM account authorization details file",
-)
-@click.option(
-    "--exclusions-file",
-    "-e",
-    help="A yaml file containing a list of policy names to exclude from the scan.",
-    type=click.Path(exists=True),
-    required=False,
-    default=EXCLUSIONS_FILE,
-)
-@click.option(
-    "--output",
-    "-o",
-    required=False,
-    type=click.Path(exists=True),
-    default=os.getcwd(),
-    help="Output directory.",
-)
-@click.option(
-    "--skip-open-report",
-    "-s",
-    required=False,
-    default=False,
-    is_flag=True,
-    help="Don't open the HTML report in the web browser after creating. "
-    "This helps when running the report in automation.",
-)
-@click.option(
-    "--minimize",
-    "-m",
-    required=False,
-    default=False,
-    is_flag=True,
-    help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.",
-)
-@click.option("--verbose", "-v", "verbosity", count=True)
+@click.option("-i", "--input-file", type=click.Path(exists=True), required=True, help="Path of IAM account authorization details file")
+@click.option("-e", "--exclusions-file", help="A yaml file containing a list of policy names to exclude from the scan.", type=click.Path(exists=True), required=False, default=EXCLUSIONS_FILE)
+@click.option("-o", "--output", required=False, type=click.Path(exists=True), default=os.getcwd(), help="Output directory.")
+@click.option("-s", "--skip-open-report", required=False, default=False, is_flag=True, help="Don't open the HTML report in the web browser after creating. This helps when running the report in automation.")
+@click.option("-m", "--minimize", required=False, default=False, is_flag=True, help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.")
+@click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def scan(
     input_file: str,
     exclusions_file: str,
@@ -98,7 +61,7 @@ def scan(
         exclusions = DEFAULT_EXCLUSIONS
 
     if os.path.isfile(input_file):
-        account_name = Path(input_file).stem
+        account_name = os.path.basename(input_file).split(".")[0]
         with open(input_file) as f:
             contents = f.read()
             account_authorization_details_cfg = json.loads(contents)
@@ -137,7 +100,7 @@ def scan(
                 contents = f.read()
                 account_authorization_details_cfg = json.loads(contents)
 
-            account_name = Path(file).stem
+            account_name = os.path.basename(input_file).split(".")[0]
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
                 account_authorization_details_cfg,
@@ -162,6 +125,9 @@ def scan(
                 print("Opening the HTML report")
                 url = "file://%s" % os.path.abspath(html_output_file)
                 webbrowser.open(url, new=2)
+
+
+logger = logging.getLogger(__name__)
 
 
 def scan_account_authorization_details(
