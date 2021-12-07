@@ -4,6 +4,7 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+import os
 import json
 import logging
 from hashlib import sha256
@@ -130,7 +131,8 @@ def write_results_data_file(
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    Path(raw_data_file).write_text(json.dumps(results, indent=4, default=str))
+    with open(raw_data_file, "w") as f:
+        f.write(json.dumps(results, indent=4, default=str))
     return raw_data_file
 
 
@@ -148,3 +150,21 @@ def print_green(string: Any) -> None:
 def print_grey(string: Any) -> None:
     """Print grey text"""
     print(f"{GREY}{string}{END}")
+
+
+def write_file(file: str, content: str) -> None:
+    if os.path.exists(file):
+        logger.debug("%s exists. Removing the file and replacing its contents." % file)
+        os.remove(file)
+    with open(file, "w") as f:
+        f.write(content)
+
+
+def write_json_to_file(file: str, content: str) -> None:
+    if os.path.exists(file):
+        logger.debug("%s exists. Removing the file and replacing its contents." % file)
+        os.remove(file)
+
+    with open(file, "w") as f:
+        json.dump(content, f, indent=4, default=str)
+
