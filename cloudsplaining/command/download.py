@@ -7,7 +7,7 @@ account-alias.json """
 # or https://opensource.org/licenses/BSD-3-Clause
 import json
 import logging
-from pathlib import Path
+import os
 from typing import Dict, List, Any
 
 import boto3
@@ -22,29 +22,10 @@ logger = logging.getLogger(__name__)
     short_help="Runs aws iam get-authorization-details on all accounts specified in the aws credentials "
     "file, and stores them in account-alias.json"
 )
-@click.option(
-    "--profile",
-    "-p",
-    type=str,
-    required=False,
-    help="Specify 'all' to authenticate to AWS and analyze *all* existing IAM policies. Specify a non-default "
-    "profile here. Defaults to the 'default' profile.",
-)
-@click.option(
-    "--output",
-    "-o",
-    type=click.Path(exists=True),
-    default=Path.cwd(),
-    help="Path to store the output. Defaults to current directory.",
-)
-@click.option(
-    "--include-non-default-policy-versions",
-    is_flag=True,
-    default=False,
-    help="When downloading AWS managed policy documents, also include the non-default policy versions."
-    " Note that this will dramatically increase the size of the downloaded file.",
-)
-@click.option("--verbose", "-v", "verbosity", count=True)
+@click.option("-p", "--profile", type=str, required=False, envvar="AWS_DEFAULT_PROFILE", help="Specify 'all' to authenticate to AWS and scan from *all* AWS credentials profiles. Specify a non-default profile here. Defaults to the 'default' profile.")
+@click.option("-o", "--output", type=click.Path(exists=True), default=os.getcwd(), help="Path to store the output. Defaults to current directory.")
+@click.option("--include-non-default-policy-versions", is_flag=True, default=False, help="When downloading AWS managed policy documents, also include the non-default policy versions. Note that this will dramatically increase the size of the downloaded file.")
+@click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def download(
     profile: str, output: str, include_non_default_policy_versions: bool, verbosity: int
 ) -> int:
@@ -59,15 +40,16 @@ def download(
 
     if profile:
         session_data["profile_name"] = profile
-        output_filename = Path(output) / f"{profile}.json"
+        output_filename = os.path.join(output, f"{profile}.json")
     else:
-        output_filename = Path("default.json")
+        output_filename = os.path.join(output, f"default.json")
 
     results = get_account_authorization_details(
         session_data, include_non_default_policy_versions
     )
-
-    output_filename.write_text(json.dumps(results, indent=4, default=str))
+    with open(output_filename, "w") as f:
+        json.dump(results, f, indent=4, default=str)
+    # output_filename.write_text(json.dumps(results, indent=4, default=str))
     print(f"Saved results to {output_filename}")
     return 1
 

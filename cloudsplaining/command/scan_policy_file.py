@@ -28,29 +28,9 @@ END = "\033[0m"
 @click.command(
     short_help="Scan a single policy file to identify identify missing resource constraints."
 )
-@click.option(
-    "--input-file",
-    "-i",
-    type=str,
-    # required=True,
-    help="Path of the IAM policy file to evaluate.",
-)
-@click.option(
-    "--exclusions-file",
-    "-e",
-    help="A yaml file containing a list of actions to ignore when scanning.",
-    type=click.Path(exists=True),
-    required=False,
-    default=EXCLUSIONS_FILE,
-)
-@click.option(
-    "--high-priority-only",
-    required=False,
-    default=False,
-    is_flag=True,
-    help="If issues are found, only print the high priority risks"
-    " (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.",
-)
+@click.option("-i", "--input-file", type=str, help="Path of the IAM policy file to evaluate.")
+@click.option("-e", "--exclusions-file", help="A yaml file containing a list of actions to ignore when scanning.", type=click.Path(exists=True), required=False, default=EXCLUSIONS_FILE)
+@click.option("--high-priority-only", required=False, default=False, is_flag=True, help="If issues are found, only print the high priority risks (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.")
 @click.option("--verbose", "-v", "verbosity", count=True)
 # pylint: disable=redefined-builtin
 def scan_policy_file(

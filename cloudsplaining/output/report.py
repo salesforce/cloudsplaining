@@ -1,13 +1,14 @@
 """Creates the HTML Reports"""
 import json
 import datetime
+import os.path
 from pathlib import Path
 from typing import Dict, Any
 
 from jinja2 import Environment, FileSystemLoader
 from cloudsplaining.bin.version import __version__
 
-app_bundle_path = Path(__file__).parent / "dist" / "js" / "index.js"
+app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.js")
 
 
 class HTMLReport:
@@ -35,7 +36,9 @@ class HTMLReport:
             bundle = f'<script type="text/javascript" src="{js_url}"></script>'
             return bundle
         else:
-            bundle_content = app_bundle_path.read_text(encoding="utf-8")
+            with open(app_bundle_path, "r", encoding="utf-8") as f:
+                bundle_content = f.read()
+            # bundle_content = app_bundle_path.read_text(encoding="utf-8")
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
 
@@ -50,7 +53,9 @@ class HTMLReport:
             return bundle
         else:
             vendor_bundle_path = get_vendor_bundle_path()
-            bundle_content = vendor_bundle_path.read_text(encoding="utf-8")
+            with open(vendor_bundle_path, "r", encoding="utf-8") as f:
+                bundle_content = f.read()
+            # bundle_content = vendor_bundle_path.read_text(encoding="utf-8")
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
 
@@ -67,18 +72,20 @@ class HTMLReport:
             report_generated_time=str(self.report_generated_time),
             cloudsplaining_version=__version__,
         )
-        template_path = Path(__file__).parent
+        template_path = os.path.dirname(__file__)
         env = Environment(loader=FileSystemLoader(template_path))  # nosec
         template = env.get_template("template.html")
         return template.render(t=template_contents)
 
 
-def get_vendor_bundle_path() -> Path:
+def get_vendor_bundle_path() -> str:
     """Finds the vendored javascript bundle even if it has a hash suffix"""
-    vendor_bundle_directory = Path(__file__).parent / "dist" / "js"
-    file_list_with_full_path = [
-        file.absolute()
-        for file in vendor_bundle_directory.glob("*.js")
-        if file.name.startswith("chunk-vendors.")
-    ]
+    vendor_bundle_directory = os.path.join(os.path.dirname(__file__), "dist", "js")
+    file_list_with_full_path = []
+    for f in os.listdir(vendor_bundle_directory):
+        file_path = os.path.join(vendor_bundle_directory, f)
+        if os.path.isfile(file_path):
+            if os.path.splitext(file_path)[-1].endswith("js"):
+                if os.path.splitext(f)[0].startswith("chunk-vendors"):
+                    file_list_with_full_path.append(os.path.abspath(file_path))
     return file_list_with_full_path[0]
