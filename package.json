@@ -23,7 +23,7 @@
     "popper": "^1.0.1",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
-    "vue-router": "^3.4.6"
+    "vue-router": "^3.5.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.13",
