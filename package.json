@@ -17,7 +17,7 @@
     "bootstrap-icons-vue": "^0.1.2",
     "bootstrap-vue": "^2.17.0",
     "chart.js": "^2.9.3",
-    "core-js": "^3.6.5",
+    "core-js": "^3.19.2",
     "immutable": "^4.0.0-rc.12",
     "jquery": "^3.5.1",
     "popper": "^1.0.1",
