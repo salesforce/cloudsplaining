@@ -137,7 +137,8 @@ def scan_account_authorization_details(
     output_directory: str = os.getcwd(),
     write_data_files: bool = False,
     minimize: bool = False,
-) -> str:  # pragma: no cover
+    return_json_results: bool = False
+) -> any:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
@@ -187,7 +188,14 @@ def scan_account_authorization_details(
         findings_data_filepath = write_results_data_file(results, findings_data_file)
         print(f"Findings data file saved: {findings_data_filepath}")
 
-    return rendered_report
+    if return_json_results:
+        return {
+            "iam_results" : authorization_details.results,
+            "iam_findings" : results,
+            "rendered_report" : rendered_report
+        }
+    else:
+        return rendered_report
 
 
 def get_authorization_files_in_directory(
