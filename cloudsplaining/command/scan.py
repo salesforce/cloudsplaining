@@ -138,7 +138,7 @@ def scan_account_authorization_details(
     write_data_files: bool = False,
     minimize: bool = False,
     return_json_results: bool = False
-) -> any:  # pragma: no cover
+) -> Any:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
     managed policies in the account to identify actions that do not leverage resource constraints.
