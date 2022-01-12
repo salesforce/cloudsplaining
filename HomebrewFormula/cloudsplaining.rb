@@ -3,8 +3,8 @@ class Cloudsplaining < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/cloudsplaining"
-  url "https://files.pythonhosted.org/packages/a9/51/93e2e0dd768bcf2df760942e4154b859c1512ed92dc5a6904c3b87a86a64/cloudsplaining-0.4.9.tar.gz"
-  sha256 "42bbbf939490c17eb8fb2a98d199bd8ae3e07f10723affcdfcf557f57a9c64eb"
+  url "https://files.pythonhosted.org/packages/62/5e/a6de0d334f9bcf5f1fe90a63035c43fe35f6486ded0df5f0f03a91e6d94c/cloudsplaining-0.4.10.tar.gz"
+  sha256 "fc8a8c02e89e9d43411ce629a6cb603f82f4fa7d5518f6e731ace9caed249461"
 
   depends_on "python3"
 
@@ -14,13 +14,13 @@ class Cloudsplaining < Formula
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/95/a7/413caa923eff54277fa48f312c2202441ed8ce57c5bf135af9b700e0994d/boto3-1.20.21.tar.gz"
-    sha256 "2fb05cbe81b9ce11d9394fc6c4ffa5fd1cceb114dc1d2887dc61081707e44522"
+    url "https://files.pythonhosted.org/packages/2c/60/85e831241999345497d9c02e7b1ee4458345410e71d0cec649c5946e108f/boto3-1.20.33.tar.gz"
+    sha256 "1e72294b042651ab27a3b6a9eea2810fc8faab5be52b0876f9f5b55f5fd9e101"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/7b/e6/b3aaa252218b0d4c6699de08d1daf94f90f320e3389e46b1286e18410c37/botocore-1.23.21.tar.gz"
-    sha256 "d7f8e82cba38aa1e66015cab0a5ca3204503e90afc4695e97228e28329a14c04"
+    url "https://files.pythonhosted.org/packages/37/3b/ec1e0701273480b6b2ad6cbe0bc21e000cce18d051ccebedccfc3e62d1d8/botocore-1.23.33.tar.gz"
+    sha256 "8faeda0da14a3cb5df8005052527cc0263181adad6bdbfedbe20079c72973c2c"
   end
 
   resource "cached-property" do
@@ -34,8 +34,8 @@ class Cloudsplaining < Formula
   end
 
   resource "charset-normalizer" do
-    url "https://files.pythonhosted.org/packages/68/e4/e014e7360fc6d1ccc507fe0b563b4646d00e0d4f9beec4975026dd15850b/charset-normalizer-2.0.9.tar.gz"
-    sha256 "b0b883e8e874edfdece9c28f314e3dd5badf067342e42fb162203335ae61aa2c"
+    url "https://files.pythonhosted.org/packages/48/44/76b179e0d1afe6e6a91fd5661c284f60238987f3b42b676d141d01cd5b97/charset-normalizer-2.0.10.tar.gz"
+    sha256 "876d180e9d7432c5d1dfd4c5d26b72f099d503e8fcc0feb7532c9289be60fcbd"
   end
 
   resource "click" do
@@ -59,8 +59,8 @@ class Cloudsplaining < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/2e/6d/4508b1922b1610f6646fd95681fa1b0c092df35ec14018218f4638b7342a/importlib_metadata-4.8.2.tar.gz"
-    sha256 "75bdec14c397f528724c1bfd9709d660b33a4d2e77387a3358f20b848bb5e5fb"
+    url "https://files.pythonhosted.org/packages/50/05/fef7fbb7e781e0632ebba4e6e37bcc88b9615e76338850dc31435091ddc0/importlib_metadata-4.10.0.tar.gz"
+    sha256 "92a8b58ce734b2a4494878e0ecf7d79ccd7a128b5fc6014c401e0b61f006f0f6"
   end
 
   resource "Jinja2" do
@@ -99,8 +99,8 @@ class Cloudsplaining < Formula
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/e7/01/3569e0b535fb2e4a6c384bdbed00c55b9d78b5084e0fb7f4d0bf523d7670/requests-2.26.0.tar.gz"
-    sha256 "b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"
+    url "https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz"
+    sha256 "68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"
   end
 
   resource "s3transfer" do
@@ -129,13 +129,13 @@ class Cloudsplaining < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/80/be/3ee43b6c5757cabea19e75b8f46eaf05a2f5144107d7db48c7cf3a864f73/urllib3-1.26.7.tar.gz"
-    sha256 "4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"
+    url "https://files.pythonhosted.org/packages/b0/b1/7bbf5181f8e3258efae31702f5eab87d8a74a72a0aa78bc8c08c1466e243/urllib3-1.26.8.tar.gz"
+    sha256 "0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"
   end
 
   resource "zipp" do
-    url "https://files.pythonhosted.org/packages/02/bf/0d03dbdedb83afec081fefe86cae3a2447250ef1a81ac601a9a56e785401/zipp-3.6.0.tar.gz"
-    sha256 "71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832"
+    url "https://files.pythonhosted.org/packages/94/64/3115548d41cb001378099cb4fc6a6889c64ef43ac1b0e68c9e80b55884fa/zipp-3.7.0.tar.gz"
+    sha256 "9f50f446828eb9d45b267433fd3e9da8d801f614129124863f9c51ebceafb87d"
   end
 
   def install
