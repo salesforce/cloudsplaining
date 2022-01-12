@@ -38,7 +38,7 @@
     "html-webpack-plugin": "^4.4.1",
     "inline-chunk-html-plugin": "^1.0.4",
     "markdown-anchor": "^0.2.0",
-    "markdown-it": "^11.0.1",
+    "markdown-it": "^12.3.2",
     "markdown-loader": "^5.1.0",
     "markup-it": "^12.1.1",
     "mocha": "^8.1.3",
