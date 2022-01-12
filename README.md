@@ -381,3 +381,4 @@ Try upgrading to the latest version of Cloudsplaining. This error was fixed in v
 * [AWS Privilege Escalation Methods](https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation) by [Spencer Gietzen](https://twitter.com/SpenGietz) at Rhino Security Labs
 * [Understanding Access Level Summaries within Policy Summaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand-policy-summary-access-level-summaries.html)
 * [Leveraging next-generation blockchain-based AI across multiple service meshes to transparently automate multi-cloud IAM wizardry :mage_man:](http://kmcquade.com/rick.html)
+
