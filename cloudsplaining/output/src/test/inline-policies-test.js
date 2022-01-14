@@ -56,8 +56,8 @@ it("inlinePolicies.getInlinePolicyFindings: should return Inline policy findings
     var result = inlinePolicies.getInlinePolicyFindings(iam_data, "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca", "ResourceExposure");
     var expectedResult = [
         "iam:AddRoleToInstanceProfile",
+        "iam:PassRole",
         "iam:CreateInstanceProfile",
-        "iam:PassRole"
     ]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
