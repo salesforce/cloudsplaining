@@ -205,6 +205,7 @@ class StatementDetail:
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Permissions management"
             )
+        result.sort()
         return result
 
     @property
@@ -220,6 +221,7 @@ class StatementDetail:
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Write"
             )
+        result.sort()
         return result
 
     @property
@@ -251,7 +253,9 @@ class StatementDetail:
             actions_missing_resource_constraints = self.restrictable_actions
         else:
             pass
-        return exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        result = exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        result.sort()
+        return result
 
     def missing_resource_constraints_for_modify_actions(
         self, exclusions: Exclusions = DEFAULT_EXCLUSIONS

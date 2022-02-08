@@ -130,6 +130,7 @@ class PolicyDocument:
                 ):
                     if action.lower() not in self.exclusions.exclude_actions:
                         actions_missing_resource_constraints.append(action)
+        actions_missing_resource_constraints.sort()
         return actions_missing_resource_constraints
 
     @property
@@ -234,8 +235,9 @@ class PolicyDocument:
                 allowed.add(unrestricted_actions_lower[specific_action_lower])
             elif specific_action_lower in unrestrictable_actions_lower:
                 allowed.add(unrestrictable_actions_lower[specific_action_lower])
-
-        return list(allowed)
+        results = list(allowed)
+        results.sort()
+        return results
 
     @property
     def allows_data_exfiltration_actions(self) -> List[str]:

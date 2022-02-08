@@ -22,6 +22,8 @@ class GroupDetailList:
         group_details: List[Dict[str, Any]],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -29,9 +31,11 @@ class GroupDetailList:
                 "Please supply an Exclusions object and try again."
             )
         self.exclusions = exclusions
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.groups = [
-            GroupDetail(group_detail, policy_details, exclusions)
+            GroupDetail(group_detail, policy_details, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
             for group_detail in group_details
         ]
 
@@ -98,6 +102,8 @@ class GroupDetail:
         group_detail: Dict[str, Any],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ):
         """
         Initialize the GroupDetail object.
@@ -110,6 +116,10 @@ class GroupDetail:
         self.path = group_detail["Path"]
         self.group_id = group_detail["GroupId"]
         self.group_name = group_detail["GroupName"]
+
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -130,7 +140,10 @@ class GroupDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail)
+                    # NOTE: The Exclusions were not here before the #254 fix (which was an unfiled bug I just discovered) so the presence of this might break some older unit tests. Might need to fix that.
+                    inline_policy = InlinePolicy(
+                        policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements)
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
