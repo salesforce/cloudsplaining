@@ -517,7 +517,7 @@ class TestPolicyDocument(unittest.TestCase):
             ]
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ['iam:UpdateAccessKey'])
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ['s3:GetObject'])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.allows_data_exfiltration_actions, [])
 
