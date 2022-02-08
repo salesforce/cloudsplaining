@@ -28,11 +28,15 @@ class PolicyDocument:
     """
 
     def __init__(
-        self, policy: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS
+        self, policy: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.statements = []
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -46,7 +50,7 @@ class PolicyDocument:
             statement_structure = [statement_structure]  # pragma: no cover
 
         for statement in statement_structure:
-            self.statements.append(StatementDetail(statement))
+            self.statements.append(StatementDetail(statement, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements))
 
     @property
     def json(self) -> Dict[str, Any]:
@@ -88,6 +92,9 @@ class PolicyDocument:
                 and statement.restrictable_actions
             ):
                 allowed_actions.update(statement.restrictable_actions)
+            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+            if self.flag_resource_arn_statements and statement.effect_allow:
+                allowed_actions.update(statement.restrictable_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
         return list(allowed_actions)
 
@@ -100,6 +107,13 @@ class PolicyDocument:
                 statement.effect_allow
                 and not statement.has_condition
                 and statement.unrestrictable_actions
+            ):
+                allowed_actions.update(statement.unrestrictable_actions)
+            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+            if (
+                statement.effect_allow
+                and not statement.has_condition
+                and self.flag_resource_arn_statements
             ):
                 allowed_actions.update(statement.unrestrictable_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)

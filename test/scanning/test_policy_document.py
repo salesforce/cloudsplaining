@@ -439,3 +439,103 @@ class TestPolicyDocument(unittest.TestCase):
         self.assertTrue("ecr:GetAuthorizationToken" not in policy_document.all_allowed_unrestricted_actions)
         self.assertListEqual(policy_document.write_actions_without_constraints, [])
         self.assertListEqual(policy_document.credentials_exposure, ['ecr:GetAuthorizationToken'])
+
+    def test_gh_254_flag_risky_actions_with_resource_constraints_privilege_escalation(self):
+        # Privilege Escalation: https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#updating-an-assumerole-policy
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:UpdateAssumeRolePolicy",
+                        "sts:AssumeRole"
+                    ],
+                    "Resource": "arn:aws:iam::111122223333:role/MyRole"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
+        expected_result = [{
+            'type': 'UpdateRolePolicyToAssumeIt',
+            'actions': ['iam:updateassumerolepolicy', 'sts:assumerole']
+        }]
+        self.assertDictEqual(policy_document.allows_privilege_escalation[0], expected_result[0])
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
+        self.assertListEqual(policy_document.allows_privilege_escalation, [])
+
+    def test_gh_254_flag_risky_actions_with_resource_constraints_resource_exposure(self):
+        # Resource Exposure: https://cloudsplaining.readthedocs.io/en/latest/glossary/resource-exposure/
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutBucketAcl",
+                    ],
+                    "Resource": "arn:aws:s3:::mybucket"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
+        self.assertListEqual(policy_document.permissions_management_without_constraints, ["s3:PutBucketAcl"])
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
+        self.assertListEqual(policy_document.permissions_management_without_constraints, [])
+
+    def test_gh_254_flag_risky_actions_with_resource_constraints_credentials_exposure(self):
+        # Credentials Exposure: https://cloudsplaining.readthedocs.io/en/latest/glossary/credentials-exposure/
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:UpdateAccessKey",
+                    ],
+                    "Resource": "arn:aws:iam::111122223333:user/MyUser"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
+        self.assertListEqual(policy_document.credentials_exposure, ['iam:UpdateAccessKey'])
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
+        self.assertListEqual(policy_document.credentials_exposure, [])
+
+    def test_gh_254_flag_risky_actions_with_resource_constraints_data_exfiltration(self):
+        # Data Exfiltration: https://cloudsplaining.readthedocs.io/en/latest/glossary/data-exfiltration/
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject",
+                    ],
+                    "Resource": "arn:aws:s3:::mybucket/*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ['iam:UpdateAccessKey'])
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, [])
+
+    def test_gh_254_flag_risky_actions_with_resource_constraints_infrastructure_modification(self):
+        # Infrastructure Modification: https://cloudsplaining.readthedocs.io/en/latest/glossary/infrastructure-modification/
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ec2:AuthorizeSecurityGroupIngress",
+                    ],
+                    "Resource": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-12345678"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
+        self.assertListEqual(policy_document.infrastructure_modification, ['ec2:AuthorizeSecurityGroupIngress'])
+        policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
+        self.assertListEqual(policy_document.infrastructure_modification, [])
