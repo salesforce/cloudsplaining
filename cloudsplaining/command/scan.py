@@ -25,6 +25,7 @@ from cloudsplaining.output.report import HTMLReport
 from cloudsplaining import set_log_level
 
 
+# fmt: off
 @click.command(
     short_help="Scan a single file containing AWS IAM account authorization details and generate report on "
     "IAM security posture. "
@@ -34,13 +35,16 @@ from cloudsplaining import set_log_level
 @click.option("-o", "--output", required=False, type=click.Path(exists=True), default=os.getcwd(), help="Output directory.")
 @click.option("-s", "--skip-open-report", required=False, default=False, is_flag=True, help="Don't open the HTML report in the web browser after creating. This helps when running the report in automation.")
 @click.option("-m", "--minimize", required=False, default=False, is_flag=True, help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.")
+@click.option("-aR", "--flag-all-risky-actions", is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
+# fmt: on
 def scan(
     input_file: str,
     exclusions_file: str,
     output: str,
     skip_open_report: bool,
     minimize: bool,
+    flag_all_risky_actions: bool,
     verbosity: int,
 ) -> None:  # pragma: no cover
     """
@@ -60,6 +64,13 @@ def scan(
     else:
         exclusions = DEFAULT_EXCLUSIONS
 
+    if flag_all_risky_actions:
+        flag_conditional_statements = True
+        flag_resource_arn_statements = True
+    else:
+        flag_conditional_statements = False
+        flag_resource_arn_statements = False
+
     if os.path.isfile(input_file):
         account_name = os.path.basename(input_file).split(".")[0]
         with open(input_file) as f:
@@ -72,6 +83,8 @@ def scan(
             output,
             write_data_files=True,
             minimize=minimize,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -137,7 +150,9 @@ def scan_account_authorization_details(
     output_directory: str = os.getcwd(),
     write_data_files: bool = False,
     minimize: bool = False,
-    return_json_results: bool = False
+    return_json_results: bool = False,
+    flag_conditional_statements: bool = False,
+    flag_resource_arn_statements: bool = False,
 ) -> Any:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -150,7 +165,9 @@ def scan_account_authorization_details(
     )
     check_authorization_details_schema(account_authorization_details_cfg)
     authorization_details = AuthorizationDetails(
-        account_authorization_details_cfg, exclusions
+        account_authorization_details_cfg, exclusions=exclusions,
+        flag_conditional_statements=flag_conditional_statements,
+        flag_resource_arn_statements=flag_resource_arn_statements
     )
     results = authorization_details.results
 
