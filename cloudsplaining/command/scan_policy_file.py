@@ -59,8 +59,15 @@ def scan_policy_file(
         except yaml.YAMLError as exc:
             logger.critical(exc)
 
+    if flag_all_risky_actions:
+        flag_conditional_statements = True
+        flag_resource_arn_statements = True
+    else:
+        flag_conditional_statements = False
+        flag_resource_arn_statements = False
+
     # Run the scan and get the raw data.
-    results = scan_policy(policy, exclusions_cfg)
+    results = scan_policy(policy, exclusions_cfg, flag_resource_arn_statements=flag_resource_arn_statements, flag_conditional_statements=flag_conditional_statements)
 
     # There will only be one finding in the results but it is in a list.
     results_exist = 0
