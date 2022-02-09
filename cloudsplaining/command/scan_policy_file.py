@@ -123,15 +123,15 @@ def scan_policy_file(
             )
 
         if not high_priority_only:
-
-            # Infrastructure Modification
-            results_exist += 1
-            print(
-                f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
-            )
-            print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification', []))}"
-            )
+            if results.get("InfrastructureModification"):
+                # Infrastructure Modification
+                results_exist += 1
+                print(
+                    f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
+                )
+                print(
+                    f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification', []))}"
+                )
 
         if results_exist == 0:
             print("There were no results found.")
