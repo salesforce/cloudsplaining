@@ -33,7 +33,7 @@ class StatementDetail:
     Analyzes individual statements within a policy
     """
 
-    def __init__(self, statement: Dict[str, Any]) -> None:
+    def __init__(self, statement: Dict[str, Any], flag_conditional_statements: bool = False, flag_resource_arn_statements: bool = False) -> None:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
@@ -41,6 +41,10 @@ class StatementDetail:
         self.resources = self._resources()
         self.actions = self._actions()
         self.not_action = self._not_action()
+
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.has_resource_wildcard = self._has_resource_wildcard()
         self.not_action_effective_actions = self._not_action_effective_actions()
@@ -193,10 +197,15 @@ class StatementDetail:
         """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
         do not have resource constraints"""
         result = []
-        if not self.has_resource_constraints:
+        if (
+            not self.has_resource_constraints
+            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+            or self.flag_resource_arn_statements
+        ):
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Permissions management"
             )
+        result.sort()
         return result
 
     @property
@@ -204,10 +213,15 @@ class StatementDetail:
         """Where applicable, returns a list of 'Write' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
-        if not self.has_resource_constraints:
+        if (
+            not self.has_resource_constraints
+            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+            or self.flag_resource_arn_statements
+        ):
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Write"
             )
+        result.sort()
         return result
 
     @property
@@ -234,7 +248,14 @@ class StatementDetail:
         actions_missing_resource_constraints = []
         if len(self.resources) == 1 and self.resources[0] == "*":
             actions_missing_resource_constraints = self.restrictable_actions
-        return exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        # Fix #390 - if flag_resource_arn_statements is True, then let's treat this as missing resource constraints so we can flag the action anyway.
+        elif self.flag_resource_arn_statements:
+            actions_missing_resource_constraints = self.restrictable_actions
+        else:
+            pass
+        result = exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        result.sort()
+        return result
 
     def missing_resource_constraints_for_modify_actions(
         self, exclusions: Exclusions = DEFAULT_EXCLUSIONS
@@ -274,6 +295,14 @@ class StatementDetail:
         return list(modify_actions_missing_constraints)
 
     def _has_condition(self) -> bool:
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        # This is kind of silly, but the easiest way to implement a fix. If we say "flag conditional statements",
+        # then let's just mark it as there is no condition, so we don't skip it in the evaluation.
+        # Due to how we have backwards compatibility set up, this will only flag if someone has
+        # "flag_conditional_statements" set to True, so none of the packages dependent on Cloudsplaining will break
+        # due to this change. Apologies for any confusion due to the hackyness.
+        if self.flag_conditional_statements:
+            return False
         if self.condition:
             return True
         return False

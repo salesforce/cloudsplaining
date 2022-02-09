@@ -30,6 +30,8 @@ class RoleDetailList:
         role_details: List[Dict[str, Any]],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         self.roles = []
 
@@ -38,6 +40,9 @@ class RoleDetailList:
                 "For exclusions, please provide an object of the Exclusions type"
             )
         self.exclusions = exclusions
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         for role_detail in role_details:
             this_role_name = role_detail.get("RoleName")
@@ -49,7 +54,7 @@ class RoleDetailList:
                     this_role_path,
                 )
             else:
-                self.roles.append(RoleDetail(role_detail, policy_details, exclusions))
+                self.roles.append(RoleDetail(role_detail, policy_details, exclusions=exclusions, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements))
 
     def get_all_allowed_actions_for_role(self, name: str) -> Optional[List[str]]:
         """Returns a list of all allowed actions by the role across all its policies"""
@@ -107,6 +112,8 @@ class RoleDetail:
         role_detail: Dict[str, Any],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         """
         Initialize the RoleDetail object.
@@ -130,6 +137,9 @@ class RoleDetail:
                 "Please supply an Exclusions object and try again."
             )
         self.is_excluded = self._is_excluded(exclusions)
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         # Metadata in object form
         self.assume_role_policy_document = None
@@ -154,7 +164,7 @@ class RoleDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail)
+                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
