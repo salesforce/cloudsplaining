@@ -231,3 +231,93 @@ class PolicyFileTestCase(unittest.TestCase):
         self.assertListEqual(results.get("InfrastructureModification"), [])
         self.assertListEqual(results.get("DataExfiltration"), ["s3:GetObject"])
         self.assertListEqual(results.get("ServicesAffected"), ["s3"])
+
+    def test_gh_254_all_risky_actions_scan_policy(self):
+        policy_with_resource_constraints = {
+            "Version": "2012-10-17",
+            "Statement": [
+                # Privilege Escalation
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:UpdateAssumeRolePolicy",
+                        "sts:AssumeRole"
+                    ],
+                    "Resource": "arn:aws:iam::111122223333:role/MyRole"
+                },
+                # Data Exfiltration
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:GetObject",
+                    ],
+                    "Resource": "arn:aws:s3:::mybucket/*"
+                },
+                # Resource Expsoure
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "s3:PutBucketAcl",
+                    ],
+                    "Resource": "arn:aws:s3:::mybucket"
+                },
+                # Credentials Exposure
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "iam:UpdateAccessKey",
+                    ],
+                    "Resource": "arn:aws:iam::111122223333:user/MyUser"
+                },
+                # Infrastructure Modification
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ec2:AuthorizeSecurityGroupIngress",
+                    ],
+                    "Resource": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-12345678"
+                }
+            ]
+        }
+        results = scan_policy(policy_with_resource_constraints, flag_resource_arn_statements=True, flag_conditional_statements=True)
+        expected_results = {
+            "ServiceWildcard": [],
+            "ServicesAffected": [
+                "ec2",
+                "iam",
+                "s3",
+                "sts"
+            ],
+            "PrivilegeEscalation": [
+                {
+                    "type": "UpdateRolePolicyToAssumeIt",
+                    "actions": [
+                        "iam:updateassumerolepolicy",
+                        "sts:assumerole"
+                    ]
+                }
+            ],
+            "ResourceExposure": [
+                "iam:UpdateAssumeRolePolicy",
+                "s3:PutBucketAcl",
+                "iam:UpdateAccessKey"
+            ],
+            "DataExfiltration": [
+                "s3:GetObject"
+            ],
+            "CredentialsExposure": [
+                "iam:UpdateAccessKey",
+                "sts:AssumeRole"
+            ],
+            "InfrastructureModification": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "iam:UpdateAccessKey",
+                "iam:UpdateAssumeRolePolicy",
+                "s3:GetObject",
+                "s3:PutBucketAcl",
+                "sts:AssumeRole"
+            ]
+        }
+
+        # print(json.dumps(results, indent=4))
+        self.assertDictEqual(results, expected_results)

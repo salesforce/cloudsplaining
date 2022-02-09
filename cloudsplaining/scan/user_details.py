@@ -24,6 +24,8 @@ class UserDetailList:
         policy_details: ManagedPolicyDetails,
         all_group_details: GroupDetailList,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         if not isinstance(exclusions, Exclusions):
             raise Exception(
@@ -31,6 +33,10 @@ class UserDetailList:
                 "Please supply an Exclusions object and try again."
             )
         self.exclusions = exclusions
+
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.users = [
             UserDetail(user_detail, policy_details, all_group_details, exclusions)
@@ -94,6 +100,8 @@ class UserDetail:
         policy_details: ManagedPolicyDetails,
         all_group_details: GroupDetailList,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
     ) -> None:
         """
         Initialize the UserDetail object.
@@ -116,6 +124,10 @@ class UserDetail:
             )
         self.is_excluded = self._is_excluded(exclusions)
 
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
+
         # Groups
         self.groups: List[GroupDetail] = []
         group_list = user_detail.get("GroupList")
@@ -136,7 +148,7 @@ class UserDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail)
+                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
