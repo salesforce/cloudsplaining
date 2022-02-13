@@ -33,7 +33,10 @@ We've already preconfigured several `npm` commands to be run inside the package.
 * Spin up a local version of the report, using sample data.
   
 ```bash
-npm serve
+# Option 1: npm, as defined in package.json
+npm run serve
+# Option 2: Makefile
+make serve-js
 ```
 
 You can then access the application over [http://localhost:8080](http://localhost:8080).
@@ -41,13 +44,19 @@ You can then access the application over [http://localhost:8080](http://localhos
 * Run unit tests
 
 ```bash
-npm test
+# Option 1: npm, as defined in package.json
+npm run test
+# Option 2: Makefile
+make test-js
 ```
 
 * Build the most updated Javascript bundle
 
 ```bash
+# Option 1: npm, as defined in package.json
 npm build
+# Option 2: Makefile
+make build-js
 ```
 
 ### Adding new JavaScript utility functions: Checklist
