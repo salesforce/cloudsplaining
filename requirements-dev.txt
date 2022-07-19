@@ -10,3 +10,4 @@ bandit==1.7.4
 black==22.3.0
 # type check
 mypy==0.942
+types-PyYAML==6.0.10
