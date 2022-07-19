@@ -12,6 +12,6 @@ pyyaml==6.0
 # We render Markdown glossary files as HTML in the Cloudsplaining report
 markdown==3.3.6
 # AWS IAM Logic
-policy-sentry==0.12.2
+policy-sentry==0.12.4
 # Schema validation
 schema==0.7.5
