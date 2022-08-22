@@ -3,7 +3,7 @@
 After you've rewritten your IAM policy, we suggest two options for validating that it will pass Cloudsplaining and alleviate any remaining concerns:
 
 * Run Cloudsplaining's `scan-policy-file` command, which scans a single JSON policy file instead of the entire AWS Account's Authorization details.
-* Leveraging [Parliament by Duo-Labs](https://github.com/duo-labs/parliament/"), courtesy of [Scott Piper](https://twitter.com/0xdabbad00)
+* Leveraging [Parliament by Duo-Labs](https://github.com/duo-labs/parliament/), courtesy of [Scott Piper](https://twitter.com/0xdabbad00)
 
 
 ##### Using Cloudsplaining to Validate your Remediated Policies
