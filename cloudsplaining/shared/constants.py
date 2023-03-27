@@ -67,12 +67,23 @@ MULTI_ACCOUNT_CONFIG_TEMPLATE = """accounts:
 # For now, we have included s3, SSM Parameter Store, and Secrets Manager.
 # Feel free to open up a GitHub issue if you have suggestions.
 READ_ONLY_DATA_EXFILTRATION_ACTIONS = [
-    "s3:GetObject",
-    "ssm:GetParameter",
-    "ssm:GetParameters",
-    "ssm:GetParametersByPath",
-    "secretsmanager:GetSecretValue",
-]
+      "s3:GetObject",
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+      "secretsmanager:GetSecretValue",
+    ]
+
+ISSUE_SEVERITY = {
+    "PrivilegeEscalation":"high",
+    "DataExfiltration":"medium",
+    "ResourceExposure":"high",
+    "ServiceWildcard":"medium",
+    "CredentialsExposure":"high",
+    "InfrastructureModification":"low",
+    "AssumableByComputeService":"low",
+    
+}
 
 PRIVILEGE_ESCALATION_METHODS = {
     # 1. IAM Permissions on Other Users
@@ -124,7 +135,7 @@ PRIVILEGE_ESCALATION_METHODS = {
     ],
     # 5. Privilege Escalation Using AWS Services
     "UpdateExistingGlueDevEndpoint": ["glue:updatedevendpoint"],
-    "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"],
+    "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"]
 }
 
 SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
@@ -165,4 +176,4 @@ ACTIONS_THAT_RETURN_CREDENTIALS = [
     "sts:assumerolewithwebidentity",
     "sts:getfederationtoken",
     "sts:getsessiontoken",
-]
+  ]

@@ -4,6 +4,8 @@ const resourceExposureDefinition = '<p>Resource Exposure actions allow modificat
 const assumableByComputeServiceDefinition = '<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>'
 const credentialsExposureDefinition = '<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>'
 const serviceWildcardDefinition = '<p>"Service Wildcard" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>'
+// const { spawn } = require('child_process');
+// const constants = spawn('python', ['../../shared/constants.py']);
 
 let riskDefinitions = {
     PrivilegeEscalation: privilegeEscalationDefinition,
@@ -19,8 +21,18 @@ let riskAlertIndicatorColors = {
     DataExfiltration: 'warning',
     ResourceExposure: 'danger',
     AssumableByComputeService: 'info',
-    CredentialsExposure: 'secondary',
-    ServiceWildcard: 'primary',
+    CredentialsExposure: 'danger',
+    ServiceWildcard: 'warning',
+}
+
+let ISSUE_SEVERITY = {
+    PrivilegeEscalation:"High",
+    DataExfiltration:"Medium",
+    ResourceExposure:"High",
+    ServiceWildcard:"Medium",
+    CredentialsExposure:"High",
+    InfrastructureModification:"Low",
+    AssumableByComputeService:"Low",
 }
 
 let riskDetailsToDisplay = [
@@ -65,3 +77,4 @@ function getRiskDetailsToDisplay() {
 exports.getRiskDefinition = getRiskDefinition;
 exports.getRiskAlertIndicatorColor = getRiskAlertIndicatorColor;
 exports.getRiskDetailsToDisplay = getRiskDetailsToDisplay;
+exports.ISSUE_SEVERITY = ISSUE_SEVERITY;

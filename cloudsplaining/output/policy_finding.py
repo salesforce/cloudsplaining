@@ -11,6 +11,7 @@ from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import (
     READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     ACTIONS_THAT_RETURN_CREDENTIALS,
+    ISSUE_SEVERITY
 )
 from cloudsplaining.shared.exclusions import (
     Exclusions,
@@ -127,12 +128,36 @@ class PolicyFinding:
     def results(self) -> Dict[str, Any]:
         """Return the results as JSON"""
         findings = dict(
-            ServiceWildcard=self.service_wildcard,
+            ServiceWildcard=
+                {
+                'severity': ISSUE_SEVERITY["ServiceWildcard"],
+                'findings': self.service_wildcard
+                },
             ServicesAffected=self.services_affected,
-            PrivilegeEscalation=self.privilege_escalation,
-            ResourceExposure=self.resource_exposure,
-            DataExfiltration=self.data_exfiltration,
-            CredentialsExposure=self.credentials_exposure,
-            InfrastructureModification=self.missing_resource_constraints_for_modify_actions,
+            PrivilegeEscalation=
+                {
+                'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
+                'findings': self.privilege_escalation
+                },
+            DataExfiltration=
+                {
+                'severity': ISSUE_SEVERITY["DataExfiltration"],
+                'findings': self.data_exfiltration
+                },
+            ResourceExposure=
+                {
+                'severity': ISSUE_SEVERITY["ServiceWildcard"],
+                'findings': self.resource_exposure
+                },
+            CredentialsExposure=
+                {
+                'severity': ISSUE_SEVERITY["CredentialsExposure"],
+                'findings': self.credentials_exposure
+                },
+            InfrastructureModification=
+                {
+                'severity': ISSUE_SEVERITY["InfrastructureModification"],
+                'findings': self.missing_resource_constraints_for_modify_actions
+                },
         )
         return findings

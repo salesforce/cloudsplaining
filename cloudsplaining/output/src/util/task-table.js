@@ -15,10 +15,10 @@ function getTaskTableManagedPolicyItems(iam_data, managedBy, managedPolicyIds) {
         let policyName = managedPolicyUtils.getManagedPolicyName(iam_data, managedBy, policyId);
         let attachedToPrincipals = managedPolicyUtils.getAllPrincipalsLeveragingManagedPolicy(iam_data, managedBy, policyId);
         let services = managedPolicyUtils.getServicesAffectedByManagedPolicy(iam_data, managedBy, policyId)
-        let infrastructureModification = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "InfrastructureModification");
-        let privilegeEscalation = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "PrivilegeEscalation");
-        let resourceExposure = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "ResourceExposure");
-        let dataExfiltration = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "DataExfiltration");
+        let infrastructureModification = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "InfrastructureModification")["findings"];
+        let privilegeEscalation = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "PrivilegeEscalation")["findings"];
+        let resourceExposure = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "ResourceExposure")["findings"];
+        let dataExfiltration = managedPolicyUtils.getManagedPolicyFindings(iam_data, managedBy, policyId, "DataExfiltration")["findings"];
         let rolesLeveragingPolicy = [];
         let computeRole = [];
         // if ( managedPolicyUtils.getPrincipalTypeLeveragingManagedPolicy(policyId, 'Role').length > 0 ) {

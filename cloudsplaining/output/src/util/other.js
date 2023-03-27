@@ -4,19 +4,19 @@ const policyViolations = (policies) => {
     let [privEsc, dataExfil, resExposure, infraMod, credExposure] = Array(5).fill(0);
 
     Object.keys(policies).forEach((policyId) => {
-        if (policies[policyId]["PrivilegeEscalation"].length > 0){
+        if (policies[policyId]["PrivilegeEscalation"]["findings"].length > 0){
             privEsc += 1
         }
-        if (policies[policyId]["DataExfiltration"].length > 0){
+        if (policies[policyId]["DataExfiltration"]["findings"].length > 0){
             dataExfil += 1
         }
-        if (policies[policyId]["ResourceExposure"].length > 0){
+        if (policies[policyId]["ResourceExposure"]["findings"].length > 0){
             resExposure += 1
         }
-        if (policies[policyId]["InfrastructureModification"].length > 0){
+        if (policies[policyId]["InfrastructureModification"]["findings"].length > 0){
             infraMod += 1
         }
-        if (policies[policyId]["CredentialsExposure"].length > 0){
+        if (policies[policyId]["CredentialsExposure"]["findings"].length > 0){
             credExposure += 1
         }
     })

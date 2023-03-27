@@ -2,6 +2,8 @@
 let roleUtils = require("./roles");
 var otherUtils = require("./other")
 
+const risks = ["PrivilegeEscalation","DataExfiltration","ResourceExposure","ServiceWildcard","CredentialsExposure","InfrastructureModification"]
+
 function getInlinePolicyIds(iam_data) {
     return Object.keys(iam_data["inline_policies"]);
 }
@@ -35,7 +37,7 @@ function getInlinePolicyFindings(iam_data, policyId, riskType) {
     if (exclusionStatus === true) {
         return [];
     } else {
-        return Array.from(iam_data["inline_policies"][policyId][riskType]);
+        return Array.from(iam_data["inline_policies"][policyId][riskType]["findings"]);
     }
 }
 
@@ -44,7 +46,11 @@ function getInlinePolicyIdsInUse(iam_data) {
     let policyIds = [];
     policyIds = Array.from(Object.keys(iam_data["inline_policies"]));
     for(let i = 0; i < policyIds.length; i++){
-        if (getInlinePolicyFindings(iam_data, policyIds[i], "InfrastructureModification").length === 0) {
+        var findings = 0
+        for(let j = 0; j < risks.length; j++){
+            findings += getInlinePolicyFindings(iam_data, policyIds[i], risks[j]).length
+        }
+        if (findings === 0) {
             // console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
         } else {
             result.push(policyIds[i].slice())
@@ -64,7 +70,7 @@ function getInlinePolicyExclusionStatus(iam_data, policyId) {
 
 function getServicesAffectedByInlinePolicy(iam_data, policyId) {
     let servicesAffected = [];
-    let actions = Array.from(iam_data["inline_policies"][policyId]["InfrastructureModification"]);
+    let actions = Array.from(iam_data["inline_policies"][policyId]["InfrastructureModification"]["findings"]);
     if (actions.length > 0) {
         let action;
         for (action of actions) {

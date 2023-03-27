@@ -49,27 +49,27 @@
             <b-tr>
               <b-th>Privilege Escalation</b-th>
               <b-td>{{ policyRisks.PrivilegeEscalation }}</b-td>
-              <b-td>high</b-td>
+              <b-td>{{ severity.PrivilegeEscalation }}</b-td>
             </b-tr>
             <b-tr>
               <b-th>Data Exfiltration</b-th>
               <b-td>{{ policyRisks.DataExfiltration }}</b-td>
-              <b-td>med</b-td>
+              <b-td>{{ severity.DataExfiltration }}</b-td>
             </b-tr>
             <b-tr>
               <b-th>Resource Exposure</b-th>
               <b-td>{{ policyRisks.ResourceExposure }}</b-td>
-              <b-td>med</b-td>
+              <b-td>{{ severity.ResourceExposure }}</b-td>
             </b-tr>
             <b-tr>
               <b-th>Credentials Exposure</b-th>
               <b-td>{{ policyRisks.CredentialsExposure }}</b-td>
-              <b-td>med</b-td>
+              <b-td>{{ severity.CredentialsExposure }}</b-td>
             </b-tr>
             <b-tr>
               <b-th>Infrastructure Modification</b-th>
               <b-td>{{ policyRisks.InfrastructureModification }}</b-td>
-              <b-td>low</b-td>
+              <b-td>{{ severity.InfrastructureModification }}</b-td>
             </b-tr>
 
           </b-tbody>
@@ -93,6 +93,8 @@ import SummaryFindings from "./charts/SummaryFindings";
 
 import {policyViolations} from "../util/other"
 
+import {ISSUE_SEVERITY} from "../util/glossary"
+
 export default {
   name: "Summary",
   props: {
@@ -106,6 +108,7 @@ export default {
     // summary() {
     //     return summary;
     // },
+    severity() { return ISSUE_SEVERITY },
     inlinePolicyRisks() {
       return policyViolations(Object.assign(this.iam_data["inline_policies"]))
     },
