@@ -25,6 +25,9 @@ REQUIRED_PACKAGES = [
     'policy_sentry>=0.11.3',
     'pyyaml',
     'schema',
+    'javascript==1!1.0.1',
+    'markdownify==0.11.6',
+    'case-insensitive-dictionary==0.2.1'
 ]
 PROJECT_URLS = {
     "Documentation": "https://policy-sentry.readthedocs.io/",
