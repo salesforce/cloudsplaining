@@ -51,6 +51,8 @@ class MultiAccountConfig:
 @optgroup.group("Other Options", help="")
 @optgroup.option("-w", "--write-data-file", is_flag=True, required=False, default=False, help="Save the cloudsplaining JSON-formatted data results.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
+@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
+
 def scan_multi_account(
     config_file: str,
     profile: str,
@@ -60,6 +62,7 @@ def scan_multi_account(
     output_bucket: str,
     write_data_file: bool,
     verbosity: int,
+    severity
 ) -> None:
     """Scan multiple accounts via AssumeRole"""
     set_log_level(verbosity)
@@ -79,6 +82,7 @@ def scan_multi_account(
         output_directory=output_directory,
         output_bucket=output_bucket,
         write_data_file=write_data_file,
+        severity=severity
     )
 
 
@@ -90,6 +94,7 @@ def scan_accounts(
     profile: Optional[str] = None,
     output_directory: Optional[str] = None,
     output_bucket: Optional[str] = None,
+    severity = []
 ) -> None:
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
@@ -102,12 +107,14 @@ def scan_accounts(
             target_role_name=role_name,
             exclusions=exclusions,
             profile=profile,
+            severity=severity
         )
         html_report = HTMLReport(
             account_id=target_account_id,
             account_name=target_account_name,
             results=results,
-            minimize=True,
+            ## minimize has to be false because changes were made on javascript code so it cannot be pulled over the internet, unless these changes are updated on the internet code
+            minimize=False,
         )
         rendered_report = html_report.get_html_report()
         if not output_directory and not output_bucket:
@@ -159,6 +166,7 @@ def scan_account(
     target_role_name: str,
     exclusions: Exclusions,
     profile: Optional[str] = None,
+    severity = []
 ) -> Dict[str, Dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(
@@ -167,7 +175,7 @@ def scan_account(
         profile=profile,
     )
     check_authorization_details_schema(account_authorization_details)
-    authorization_details = AuthorizationDetails(account_authorization_details, exclusions)
+    authorization_details = AuthorizationDetails(account_authorization_details, exclusions=exclusions,severity=severity)
     results = authorization_details.results
     return results
 
@@ -211,3 +219,9 @@ def get_exclusions(exclusions_file: Optional[str] = None) -> Exclusions:
     else:
         exclusions = DEFAULT_EXCLUSIONS
     return exclusions
+
+
+@click.pass_context
+def getSeverity(context):
+    print(context.params["severity"])
+    return context.params["severity"]

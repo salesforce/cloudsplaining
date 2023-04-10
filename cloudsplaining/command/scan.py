@@ -37,7 +37,7 @@ from cloudsplaining import set_log_level
 @click.option("-m", "--minimize", required=False, default=False, is_flag=True, help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.")
 @click.option("-aR", "--flag-all-risky-actions", is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
-@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['HIGH', 'MEDIUM','LOW'], case_sensitive=False))
+@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
 
 # fmt: on
 def scan(

@@ -33,9 +33,11 @@ END = "\033[0m"
 @click.option("--high-priority-only", required=False, default=False, is_flag=True, help="If issues are found, only print the high priority risks (Resource Exposure, Privilege Escalation, Data Exfiltration). This can help with prioritization.")
 @click.option("-aR", "--flag-all-risky-actions", is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("--verbose", "-v", "verbosity", count=True)
+@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
+
 # pylint: disable=redefined-builtin
 def scan_policy_file(
-    input_file: str, exclusions_file: str, high_priority_only: bool, flag_all_risky_actions: bool, verbosity: int
+    input_file: str, exclusions_file: str, high_priority_only: bool, flag_all_risky_actions: bool, verbosity: int, severity
 ) -> None:  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
     set_log_level(verbosity)
@@ -67,70 +69,70 @@ def scan_policy_file(
         flag_resource_arn_statements = False
 
     # Run the scan and get the raw data.
-    results = scan_policy(policy, exclusions_cfg, flag_resource_arn_statements=flag_resource_arn_statements, flag_conditional_statements=flag_conditional_statements)
+    results = scan_policy(policy, exclusions_cfg, flag_resource_arn_statements=flag_resource_arn_statements, flag_conditional_statements=flag_conditional_statements,severity=severity)
 
     # There will only be one finding in the results but it is in a list.
     results_exist = 0
     if results:
         # Privilege Escalation
-        if results.get("PrivilegeEscalation"):
+        if results.get("PrivilegeEscalation")['findings']:
             print(
                 f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}"
             )
             results_exist += 1
-            for item in results.get("PrivilegeEscalation", []):
+            for item in results.get("PrivilegeEscalation")['findings']:
                 print(f"- Method: {item.get('type')}")
                 print(f"  Actions: {', '.join(item.get('actions', []))}\n")
 
         # Data Exfiltration
-        if results.get("DataExfiltration"):
+        if results.get("DataExfiltration")['findings']:
             results_exist += 1
             print(
                 f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration', []))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('DataExfiltration')['findings'])}\n"
             )
 
         # Resource Exposure
-        if results.get("ResourceExposure"):
+        if results.get("ResourceExposure")['findings']:
             results_exist += 1
             print(
                 f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure', []))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('ResourceExposure')['findings'])}\n"
             )
 
         # Service Wildcard
-        if results.get("ServiceWildcard"):
+        if results.get("ServiceWildcard")['findings']:
             results_exist += 1
             print(
                 f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard', []))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('ServiceWildcard')['findings'])}\n"
             )
 
         # Credentials Exposure
-        if results.get("CredentialsExposure"):
+        if results.get("CredentialsExposure")['findings']:
             results_exist += 1
             print(
                 f"{RED}Potential Issue found: Policy allows actions that return credentials{END}"
             )
             print(
-                f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure', []))}\n"
+                f"{BOLD}Actions{END}: {', '.join(results.get('CredentialsExposure')['findings'])}\n"
             )
 
         if not high_priority_only:
-            if results.get("InfrastructureModification"):
+            if results.get("InfrastructureModification")["findings"]:
                 # Infrastructure Modification
                 results_exist += 1
                 print(
                     f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
                 )
                 print(
-                    f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification', []))}"
+                    f"{BOLD}Actions{END}: {', '.join(results.get('InfrastructureModification')['findings'])}"
                 )
 
         if results_exist == 0:
@@ -144,6 +146,7 @@ def scan_policy(
     exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
+    severity = []
 ) -> Dict[str, Any]:
     """
     Scan a policy document for missing resource constraints.
@@ -156,5 +159,11 @@ def scan_policy(
     """
     exclusions = Exclusions(exclusions_config)
     policy_document = PolicyDocument(policy_json, exclusions=exclusions, flag_resource_arn_statements=flag_resource_arn_statements, flag_conditional_statements=flag_conditional_statements)
-    policy_finding = PolicyFinding(policy_document, exclusions)
+    policy_finding = PolicyFinding(policy_document, exclusions,severity)
     return policy_finding.results
+
+
+@click.pass_context
+def getSeverity(context):
+    print(context.params["severity"])
+    return context.params["severity"]

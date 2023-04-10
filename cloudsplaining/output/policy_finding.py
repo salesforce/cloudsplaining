@@ -19,6 +19,10 @@ from cloudsplaining.shared.exclusions import (
     is_name_excluded,
 )
 
+from javascript import require
+
+glossary = require("../output/src/util/glossary.js")
+
 logger = logging.getLogger(__name__)
 
 
@@ -29,6 +33,7 @@ class PolicyFinding:
         self,
         policy_document: PolicyDocument,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        severity = []
     ) -> None:
         """
         Supply a PolicyDocument object and Exclusions object to get a single policy finding
@@ -42,6 +47,7 @@ class PolicyFinding:
         self.missing_resource_constraints_for_modify_actions = (
             self._missing_resource_constraints_for_modify_actions()
         )
+        self.severity = severity
 
     def _missing_resource_constraints_for_modify_actions(self) -> List[str]:
         """Find modify actions that lack resource ARN constraints"""
@@ -131,33 +137,39 @@ class PolicyFinding:
             ServiceWildcard=
                 {
                 'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'findings': self.service_wildcard
+                'description': glossary.getRiskDefinition("ServiceWildcard"),
+                'findings': self.service_wildcard if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             ServicesAffected=self.services_affected,
             PrivilegeEscalation=
                 {
                 'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
-                'findings': self.privilege_escalation
+                'description': glossary.getRiskDefinition("PrivilegeEscalation"),
+                'findings': self.privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             DataExfiltration=
                 {
                 'severity': ISSUE_SEVERITY["DataExfiltration"],
-                'findings': self.data_exfiltration
+                'description': glossary.getRiskDefinition("DataExfiltration"),
+                'findings': self.data_exfiltration if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             ResourceExposure=
                 {
-                'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'findings': self.resource_exposure
+                'severity': ISSUE_SEVERITY["ResourceExposure"],
+                'description': glossary.getRiskDefinition("ResourceExposure"),
+                'findings': self.resource_exposure if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             CredentialsExposure=
                 {
                 'severity': ISSUE_SEVERITY["CredentialsExposure"],
-                'findings': self.credentials_exposure
+                'description': glossary.getRiskDefinition("CredentialsExposure"),
+                'findings': self.credentials_exposure if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             InfrastructureModification=
                 {
                 'severity': ISSUE_SEVERITY["InfrastructureModification"],
-                'findings': self.missing_resource_constraints_for_modify_actions
+                'description': glossary.getRiskDefinition("InfrastructureModification"),
+                'findings': self.missing_resource_constraints_for_modify_actions if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
         )
         return findings
