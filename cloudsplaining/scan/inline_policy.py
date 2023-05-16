@@ -5,10 +5,8 @@ from typing import Dict, Any, cast
 from cloudsplaining.shared.utils import get_non_provider_id
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
-from cloudsplaining.shared.constants import ISSUE_SEVERITY
-from javascript import require
+from cloudsplaining.shared.constants import ISSUE_SEVERITY,RISK_DEFINITION
 
-glossary = require("../output/src/util/glossary.js")
 
 class InlinePolicy:
     """
@@ -95,37 +93,32 @@ class InlinePolicy:
             PrivilegeEscalation=
                 {
                 'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
-                'description': glossary.getRiskDefinition("PrivilegeEscalation"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("PrivilegeEscalation"), heading_style="ATX"),
+                'description': RISK_DEFINITION["PrivilegeEscalation"],
                 'findings': self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [],
                 'links': self.getFindingLinks(self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [])
                 },
             DataExfiltration=
                 {
                 'severity': ISSUE_SEVERITY["DataExfiltration"],
-                'description': glossary.getRiskDefinition("DataExfiltration"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("DataExfiltration"), heading_style="ATX"),
+                'description': RISK_DEFINITION["DataExfiltration"],
                 'findings': self.policy_document.allows_data_exfiltration_actions if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity else []
                 } ,
             ResourceExposure=
                 {
                 'severity': ISSUE_SEVERITY["ResourceExposure"],
-                'description': glossary.getRiskDefinition("ResourceExposure"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("ResourceExposure"), heading_style="ATX"),
+                'description': RISK_DEFINITION["ResourceExposure"],
                 'findings': self.policy_document.permissions_management_without_constraints if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             ServiceWildcard=
                 {
                 'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'description': glossary.getRiskDefinition("ServiceWildcard"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("ServiceWildcard"), heading_style="ATX"),
+                'description': RISK_DEFINITION["ServiceWildcard"],
                 'findings': self.policy_document.service_wildcard if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             CredentialsExposure=
                 {
                 'severity': ISSUE_SEVERITY["CredentialsExposure"],
-                'description': glossary.getRiskDefinition("CredentialsExposure"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("CredentialsExposure"), heading_style="ATX"),
+                'description': RISK_DEFINITION["CredentialsExposure"],
                 'findings': self.policy_document.credentials_exposure if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             is_excluded=self.is_excluded,
@@ -143,44 +136,38 @@ class InlinePolicy:
             PrivilegeEscalation=
                 {
                 'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
-                'description': glossary.getRiskDefinition("PrivilegeEscalation"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("PrivilegeEscalation"), heading_style="ATX"),
+                'description': RISK_DEFINITION["PrivilegeEscalation"],
                 'findings': self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [],
                 'links': self.getFindingLinks(self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [])
                 },
             DataExfiltration=
                 {
                 'severity': ISSUE_SEVERITY["DataExfiltration"],
-                'description': glossary.getRiskDefinition("DataExfiltration"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("DataExfiltration"), heading_style="ATX"),
+                'description': RISK_DEFINITION["DataExfiltration"],
                 'findings': self.policy_document.allows_data_exfiltration_actions if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity else []
                 } ,
             ResourceExposure=
                 {
                 'severity': ISSUE_SEVERITY["ResourceExposure"],
-                'description': glossary.getRiskDefinition("ResourceExposure"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("ResourceExposure"), heading_style="ATX"),
+                'description': RISK_DEFINITION["ResourceExposure"],
                 'findings': self.policy_document.permissions_management_without_constraints if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             ServiceWildcard=
                 {
                 'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'description': glossary.getRiskDefinition("ServiceWildcard"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("ServiceWildcard"), heading_style="ATX"),
+                'description': RISK_DEFINITION["ServiceWildcard"],
                 'findings': self.policy_document.service_wildcard if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             CredentialsExposure=
                 {
                 'severity': ISSUE_SEVERITY["CredentialsExposure"],
-                'description': glossary.getRiskDefinition("CredentialsExposure"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("CredentialsExposure"), heading_style="ATX"),
+                'description': RISK_DEFINITION["CredentialsExposure"],
                 'findings': self.policy_document.credentials_exposure if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             InfrastructureModification=
                 {
                 'severity': ISSUE_SEVERITY["InfrastructureModification"],
-                'description': glossary.getRiskDefinition("InfrastructureModification"),
-                #'description': markdownify.markdownify(glossary.getRiskDefinition("InfrastructureModification"), heading_style="ATX"),
+                'description': RISK_DEFINITION["InfrastructureModification"],
                 'findings': self.policy_document.infrastructure_modification if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity] or not self.severity else []
                 },
             is_excluded=self.is_excluded,
