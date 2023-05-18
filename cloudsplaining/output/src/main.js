@@ -1,16 +1,17 @@
-import Vue from 'vue';
+import {createApp} from 'vue';
 import App from './App.vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import router from './routes/routes';
 
+const app = createApp(App)
 // Install BootstrapVue
-Vue.use(BootstrapVue)
+app.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+app.use(IconsPlugin)
 
-Vue.config.productionTip = false
+app.config.productionTip = false
 
-new Vue({
+new app({
   render: h => h(App),
   router,
-}).$mount('#app')
+}).mount('#app')
