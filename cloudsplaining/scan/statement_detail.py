@@ -33,7 +33,12 @@ class StatementDetail:
     Analyzes individual statements within a policy
     """
 
-    def __init__(self, statement: Dict[str, Any], flag_conditional_statements: bool = False, flag_resource_arn_statements: bool = False) -> None:
+    def __init__(
+        self,
+        statement: Dict[str, Any],
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
+    ) -> None:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
@@ -98,7 +103,7 @@ class StatementDetail:
 
     # @property
     def _not_action_effective_actions(self) -> Optional[List[str]]:
-        """If NotAction is used, calculate the allowed actions - i.e., what it would be """
+        """If NotAction is used, calculate the allowed actions - i.e., what it would be"""
         effective_actions = []
         if not self.not_action:
             return None

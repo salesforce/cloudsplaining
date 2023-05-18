@@ -35,7 +35,13 @@ class GroupDetailList:
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.groups = [
-            GroupDetail(group_detail, policy_details, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
+            GroupDetail(
+                group_detail,
+                policy_details,
+                exclusions=exclusions,
+                flag_conditional_statements=flag_conditional_statements,
+                flag_resource_arn_statements=flag_resource_arn_statements,
+            )
             for group_detail in group_details
         ]
 
@@ -142,8 +148,11 @@ class GroupDetail:
                 ):
                     # NOTE: The Exclusions were not here before the #254 fix (which was an unfiled bug I just discovered) so the presence of this might break some older unit tests. Might need to fix that.
                     inline_policy = InlinePolicy(
-                        policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements,
-                        flag_resource_arn_statements=flag_resource_arn_statements)
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)

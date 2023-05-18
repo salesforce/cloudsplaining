@@ -13,7 +13,9 @@ class InlinePolicy:
     """
 
     def __init__(
-        self, policy_detail: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        self,
+        policy_detail: Dict[str, Any],
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
     ) -> None:
@@ -33,9 +35,10 @@ class InlinePolicy:
 
         self.policy_name = policy_detail.get("PolicyName", "")
         self.policy_document = PolicyDocument(
-            cast(Dict[str, Any], policy_detail.get("PolicyDocument")), exclusions=exclusions,
+            cast(Dict[str, Any], policy_detail.get("PolicyDocument")),
+            exclusions=exclusions,
             flag_conditional_statements=flag_conditional_statements,
-            flag_resource_arn_statements=flag_resource_arn_statements
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
         # Generating the provider ID based on a string representation of the Policy Document,
         # to avoid collisions where there are inline policies with the same name but different contents

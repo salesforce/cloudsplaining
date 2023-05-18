@@ -70,7 +70,14 @@ class ManagedPolicyDetails:
                     this_policy_path,
                 )
                 continue
-            self.policy_details.append(ManagedPolicy(policy_detail, exclusions=exclusions, flag_resource_arn_statements=self.flag_resource_arn_statements, flag_conditional_statements=self.flag_conditional_statements))
+            self.policy_details.append(
+                ManagedPolicy(
+                    policy_detail,
+                    exclusions=exclusions,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    flag_conditional_statements=self.flag_conditional_statements,
+                )
+            )
 
     def get_policy_detail(self, arn: str) -> "ManagedPolicy":
         """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
@@ -129,7 +136,9 @@ class ManagedPolicy:
     """
 
     def __init__(
-        self, policy_detail: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        self,
+        policy_detail: Dict[str, Any],
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
     ) -> None:
@@ -181,7 +190,10 @@ class ManagedPolicy:
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
                 return PolicyDocument(
-                    policy_version.get("Document"), exclusions=self.exclusions, flag_resource_arn_statements=self.flag_resource_arn_statements, flag_conditional_statements=self.flag_conditional_statements
+                    policy_version.get("Document"),
+                    exclusions=self.exclusions,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    flag_conditional_statements=self.flag_conditional_statements,
                 )
         raise Exception(
             "Managed Policy ARN %s has no default Policy Document version", self.arn

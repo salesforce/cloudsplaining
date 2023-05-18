@@ -165,9 +165,10 @@ def scan_account_authorization_details(
     )
     check_authorization_details_schema(account_authorization_details_cfg)
     authorization_details = AuthorizationDetails(
-        account_authorization_details_cfg, exclusions=exclusions,
+        account_authorization_details_cfg,
+        exclusions=exclusions,
         flag_conditional_statements=flag_conditional_statements,
-        flag_resource_arn_statements=flag_resource_arn_statements
+        flag_resource_arn_statements=flag_resource_arn_statements,
     )
     results = authorization_details.results
 
@@ -207,9 +208,9 @@ def scan_account_authorization_details(
 
     if return_json_results:
         return {
-            "iam_results" : authorization_details.results,
-            "iam_findings" : results,
-            "rendered_report" : rendered_report
+            "iam_results": authorization_details.results,
+            "iam_findings": results,
+            "rendered_report": rendered_report,
         }
     else:
         return rendered_report

@@ -167,4 +167,3 @@ def write_json_to_file(file: str, content: str) -> None:
 
     with open(file, "w") as f:
         json.dump(content, f, indent=4, default=str)
-

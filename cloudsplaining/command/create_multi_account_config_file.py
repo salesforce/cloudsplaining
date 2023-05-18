@@ -23,7 +23,15 @@ END = "\033[0m"
     context_settings=dict(max_content_width=160),
     short_help="Creates a YML file to be used for multi-account scanning",
 )
-@click.option("-o", "--output-file", "output_file", type=click.Path(exists=False), default=os.path.join(os.getcwd(), "multi-account-config.yml"), required=True, help="Relative path to output file where we want to store the multi account config template.")
+@click.option(
+    "-o",
+    "--output-file",
+    "output_file",
+    type=click.Path(exists=False),
+    default=os.path.join(os.getcwd(), "multi-account-config.yml"),
+    required=True,
+    help="Relative path to output file where we want to store the multi account config template.",
+)
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def create_multi_account_config_file(output_file: str, verbosity: int) -> None:
     """

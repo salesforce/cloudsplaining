@@ -54,7 +54,15 @@ class RoleDetailList:
                     this_role_path,
                 )
             else:
-                self.roles.append(RoleDetail(role_detail, policy_details, exclusions=exclusions, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements))
+                self.roles.append(
+                    RoleDetail(
+                        role_detail,
+                        policy_details,
+                        exclusions=exclusions,
+                        flag_conditional_statements=self.flag_conditional_statements,
+                        flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    )
+                )
 
     def get_all_allowed_actions_for_role(self, name: str) -> Optional[List[str]]:
         """Returns a list of all allowed actions by the role across all its policies"""
@@ -164,7 +172,12 @@ class RoleDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
+                    inline_policy = InlinePolicy(
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)

@@ -24,7 +24,7 @@ name = "cloudsplaining"  # pylint: disable=invalid-name
 
 
 def change_log_level(log_level: Union[int, str]) -> None:
-    """"Change log level of module logger"""
+    """ "Change log level of module logger"""
     logger.setLevel(log_level)
 
 

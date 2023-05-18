@@ -28,7 +28,9 @@ class PolicyDocument:
     """
 
     def __init__(
-        self, policy: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        self,
+        policy: Dict[str, Any],
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
     ) -> None:
@@ -50,7 +52,13 @@ class PolicyDocument:
             statement_structure = [statement_structure]  # pragma: no cover
 
         for statement in statement_structure:
-            self.statements.append(StatementDetail(statement, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements))
+            self.statements.append(
+                StatementDetail(
+                    statement,
+                    flag_conditional_statements=self.flag_conditional_statements,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                )
+            )
 
     @property
     def json(self) -> Dict[str, Any]:

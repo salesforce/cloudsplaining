@@ -50,11 +50,20 @@ class AuthorizationDetails:
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
-        self.policies = ManagedPolicyDetails(auth_json.get("Policies", []), exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
+        self.policies = ManagedPolicyDetails(
+            auth_json.get("Policies", []),
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
+        )
 
         # New Authorization file stuff
         self.group_detail_list = GroupDetailList(
-            auth_json.get("GroupDetailList", []), self.policies, exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements
+            auth_json.get("GroupDetailList", []),
+            self.policies,
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
         self.user_detail_list = UserDetailList(
             auth_json.get("UserDetailList", []),
@@ -62,10 +71,14 @@ class AuthorizationDetails:
             self.group_detail_list,
             exclusions,
             flag_conditional_statements=flag_conditional_statements,
-            flag_resource_arn_statements=flag_resource_arn_statements
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
         self.role_detail_list = RoleDetailList(
-            auth_json.get("RoleDetailList", []), self.policies, exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements
+            auth_json.get("RoleDetailList", []),
+            self.policies,
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
 
     @property
