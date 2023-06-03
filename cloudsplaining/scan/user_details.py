@@ -44,6 +44,12 @@ class UserDetailList:
             UserDetail(user_detail, policy_details, all_group_details, exclusions,severity=severity)
             for user_detail in user_details
         ]
+        
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
     
     def set_iam_data(self,iam_data):
         self.iam_data=iam_data
@@ -125,6 +131,12 @@ class UserDetail:
         self.path = user_detail["Path"]
         self.user_id = user_detail["UserId"]
         self.user_name = user_detail["UserName"]
+        
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         if not isinstance(exclusions, Exclusions):
             raise Exception(

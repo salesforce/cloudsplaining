@@ -47,6 +47,11 @@ class InlinePolicy:
         self.exclusions = exclusions
         self.is_excluded = self._is_excluded(exclusions)
         self.severity=severity
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
     def set_iam_data(self,iam_data):
         self.iam_data=iam_data

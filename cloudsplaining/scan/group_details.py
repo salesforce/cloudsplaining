@@ -40,6 +40,11 @@ class GroupDetailList:
             GroupDetail(group_detail, policy_details, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements,severity=self.severity)
             for group_detail in group_details
         ]
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
     def set_iam_data(self,iam_data):
         self.iam_data=iam_data
@@ -172,6 +177,12 @@ class GroupDetail:
                     self.attached_managed_policies.append(
                         attached_managed_policy_details
                     )
+        
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
     
     def set_iam_data(self,iam_data):
         self.iam_data=iam_data

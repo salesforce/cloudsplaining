@@ -43,6 +43,11 @@ class ManagedPolicyDetails:
         self.exclusions = exclusions
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         for policy_detail in policy_details:
             this_policy_name = policy_detail["PolicyName"]
@@ -163,6 +168,11 @@ class ManagedPolicy:
         self.is_attachable = policy_detail.get("IsAttachable")
         self.create_date = policy_detail.get("CreateDate")
         self.update_date = policy_detail.get("UpdateDate")
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         if not isinstance(exclusions, Exclusions):
             raise Exception(

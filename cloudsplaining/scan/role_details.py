@@ -45,6 +45,11 @@ class RoleDetailList:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         for role_detail in role_details:
             this_role_name = role_detail.get("RoleName")
@@ -148,6 +153,12 @@ class RoleDetail:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        
+        self.iam_data = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         # Metadata in object form
         self.assume_role_policy_document = None
