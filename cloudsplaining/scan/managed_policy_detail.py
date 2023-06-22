@@ -32,7 +32,7 @@ class ManagedPolicyDetails:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[Any] = [],
     ) -> None:
         self.policy_details = []
         if not isinstance(exclusions, Exclusions):
@@ -43,7 +43,7 @@ class ManagedPolicyDetails:
         self.exclusions = exclusions
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
-        self.iam_data = {
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -78,8 +78,15 @@ class ManagedPolicyDetails:
                     this_policy_path,
                 )
                 continue
-            self.policy_details.append(ManagedPolicy(policy_detail, exclusions=exclusions,
-                                       flag_resource_arn_statements=self.flag_resource_arn_statements, flag_conditional_statements=self.flag_conditional_statements, severity=severity))
+            self.policy_details.append(
+                ManagedPolicy(
+                    policy_detail,
+                    exclusions=exclusions,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    flag_conditional_statements=self.flag_conditional_statements,
+                    severity=severity,
+                )
+            )
 
     def get_policy_detail(self, arn: str) -> "ManagedPolicy":
         """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
@@ -105,8 +112,7 @@ class ManagedPolicyDetails:
     @property
     def json_large(self) -> Dict[str, Dict[str, Any]]:
         """Get all JSON results"""
-        result = {
-            policy.policy_id: policy.json_large for policy in self.policy_details}
+        result = {policy.policy_id: policy.json_large for policy in self.policy_details}
         return result
 
     @property
@@ -129,8 +135,8 @@ class ManagedPolicyDetails:
         }
         return result
 
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for policy_detail in self.policy_details:
             policy_detail.set_iam_data(iam_data)
 
@@ -144,10 +150,12 @@ class ManagedPolicy:
     """
 
     def __init__(
-        self, policy_detail: Dict[str, Any], exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+        self,
+        policy_detail: Dict[str, Any],
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
         # Store the Raw JSON data from this for safekeeping
         self.policy_detail = policy_detail
@@ -168,7 +176,7 @@ class ManagedPolicy:
         self.is_attachable = policy_detail.get("IsAttachable")
         self.create_date = policy_detail.get("CreateDate")
         self.update_date = policy_detail.get("UpdateDate")
-        self.iam_data = {
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -188,10 +196,10 @@ class ManagedPolicy:
 
         self.policy_document = self._policy_document()
 
-        self.severity=severity
-    
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+        self.severity = severity
+
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the policy name or policy ID is excluded"""
@@ -207,7 +215,10 @@ class ManagedPolicy:
         for policy_version in self.policy_version_list:
             if policy_version.get("IsDefaultVersion") is True:
                 return PolicyDocument(
-                    policy_version.get("Document"), exclusions=self.exclusions, flag_resource_arn_statements=self.flag_resource_arn_statements, flag_conditional_statements=self.flag_conditional_statements
+                    policy_version.get("Document"),
+                    exclusions=self.exclusions,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    flag_conditional_statements=self.flag_conditional_statements,
                 )
         raise Exception(
             "Managed Policy ARN %s has no default Policy Document version", self.arn
@@ -235,33 +246,40 @@ class ManagedPolicy:
         else:
             return get_account_from_arn(self.arn)  # type: ignore
 
-    def getFindingLinks(self,findings):
+    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[Any, str]:
         links = {}
         for finding in findings:
-            links[finding["type"]] = (f'https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding["type"]}')
+            links[
+                finding["type"]
+            ] = f'https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding["type"]}'
         return links
-    
+
     @property
-    def getAttached(self):
-        attached = {
-            'roles': [],
-            'groups': [],
-            'users': []
-        }
-        for principalType in ["roles","groups","users"]:
-            principals = (self.iam_data[principalType]).keys();
+    def getAttached(self) -> Dict[str, Any]:
+        attached: Dict[str, Any] = {"roles": [], "groups": [], "users": []}
+        for principalType in ["roles", "groups", "users"]:
+            principals = (self.iam_data[principalType]).keys()
             for principalID in principals:
                 managedPolicies = {}
                 if self.is_excluded:
-                    return []
+                    return {}
                 if self.managed_by == "AWS":
-                    managedPolicies.update(self.iam_data[principalType][principalID]["aws_managed_policies"]);
+                    managedPolicies.update(
+                        self.iam_data[principalType][principalID][
+                            "aws_managed_policies"
+                        ]
+                    )
                 elif self.managed_by == "Customer":
-                    managedPolicies.update(self.iam_data[principalType][principalID]["customer_managed_policies"]);
+                    managedPolicies.update(
+                        self.iam_data[principalType][principalID][
+                            "customer_managed_policies"
+                        ]
+                    )
                 if self.policy_id in managedPolicies:
-                    attached[principalType].append(self.iam_data[principalType][principalID]["name"])
+                    attached[principalType].append(
+                        self.iam_data[principalType][principalID]["name"]
+                    )
         return attached
-            
 
     @property
     def json(self) -> Dict[str, Any]:
@@ -278,37 +296,58 @@ class ManagedPolicy:
             CreateDate=self.create_date,
             UpdateDate=self.update_date,
             PolicyVersionList=self.policy_version_list,
-            PrivilegeEscalation=
-                {
-                'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
-                'description': RISK_DEFINITION["PrivilegeEscalation"],
-                'findings': self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [],
-                'links': self.getFindingLinks(self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [])
-                },
-            DataExfiltration=
-                {
-                'severity': ISSUE_SEVERITY["DataExfiltration"],
-                'description': RISK_DEFINITION["DataExfiltration"],
-                'findings': self.policy_document.allows_data_exfiltration_actions if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity else []
-                } ,
-            ResourceExposure=
-                {
-                'severity': ISSUE_SEVERITY["ResourceExposure"],
-                'description': RISK_DEFINITION["ResourceExposure"],
-                'findings': self.policy_document.permissions_management_without_constraints if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
-            ServiceWildcard=
-                {
-                'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'description': RISK_DEFINITION["ServiceWildcard"],
-                'findings': self.policy_document.service_wildcard if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
-            CredentialsExposure=
-                {
-                'severity': ISSUE_SEVERITY["CredentialsExposure"],
-                'description': RISK_DEFINITION["CredentialsExposure"],
-                'findings': self.policy_document.credentials_exposure if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
+            PrivilegeEscalation={
+                "severity": ISSUE_SEVERITY["PrivilegeEscalation"],
+                "description": RISK_DEFINITION["PrivilegeEscalation"],
+                "findings": self.policy_document.allows_privilege_escalation
+                if ISSUE_SEVERITY["PrivilegeEscalation"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+                "links": self.getFindingLinks(
+                    self.policy_document.allows_privilege_escalation
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
+                    else []
+                ),
+            },
+            DataExfiltration={
+                "severity": ISSUE_SEVERITY["DataExfiltration"],
+                "description": RISK_DEFINITION["DataExfiltration"],
+                "findings": self.policy_document.allows_data_exfiltration_actions
+                if ISSUE_SEVERITY["DataExfiltration"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            ResourceExposure={
+                "severity": ISSUE_SEVERITY["ResourceExposure"],
+                "description": RISK_DEFINITION["ResourceExposure"],
+                "findings": self.policy_document.permissions_management_without_constraints
+                if ISSUE_SEVERITY["ResourceExposure"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            ServiceWildcard={
+                "severity": ISSUE_SEVERITY["ServiceWildcard"],
+                "description": RISK_DEFINITION["ServiceWildcard"],
+                "findings": self.policy_document.service_wildcard
+                if ISSUE_SEVERITY["ServiceWildcard"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            CredentialsExposure={
+                "severity": ISSUE_SEVERITY["CredentialsExposure"],
+                "description": RISK_DEFINITION["CredentialsExposure"],
+                "findings": self.policy_document.credentials_exposure
+                if ISSUE_SEVERITY["CredentialsExposure"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
             is_excluded=self.is_excluded,
         )
         return result
@@ -328,43 +367,67 @@ class ManagedPolicy:
             CreateDate=self.create_date,
             UpdateDate=self.update_date,
             PolicyVersionList=self.policy_version_list,
-            PrivilegeEscalation=
-                {
-                'severity': ISSUE_SEVERITY["PrivilegeEscalation"],
-                'description': RISK_DEFINITION["PrivilegeEscalation"],
-                'findings': self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [],
-                'links': self.getFindingLinks(self.policy_document.allows_privilege_escalation if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity else [])
-                },
-            DataExfiltration=
-                {
-                'severity': ISSUE_SEVERITY["DataExfiltration"],
-                'description': RISK_DEFINITION["DataExfiltration"],
-                'findings': self.policy_document.allows_data_exfiltration_actions if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity else []
-                } ,
-            ResourceExposure=
-                {
-                'severity': ISSUE_SEVERITY["ResourceExposure"],
-                'description': RISK_DEFINITION["ResourceExposure"],
-                'findings': self.policy_document.permissions_management_without_constraints if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
-            ServiceWildcard=
-                {
-                'severity': ISSUE_SEVERITY["ServiceWildcard"],
-                'description': RISK_DEFINITION["ServiceWildcard"],
-                'findings': self.policy_document.service_wildcard if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
-            CredentialsExposure=
-                {
-                'severity': ISSUE_SEVERITY["CredentialsExposure"],
-                'description': RISK_DEFINITION["CredentialsExposure"],
-                'findings': self.policy_document.credentials_exposure if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
-            InfrastructureModification=
-                {
-                'severity': ISSUE_SEVERITY["InfrastructureModification"],
-                'description': RISK_DEFINITION["InfrastructureModification"],
-                'findings': self.policy_document.infrastructure_modification if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity] or not self.severity else []
-                },
+            PrivilegeEscalation={
+                "severity": ISSUE_SEVERITY["PrivilegeEscalation"],
+                "description": RISK_DEFINITION["PrivilegeEscalation"],
+                "findings": self.policy_document.allows_privilege_escalation
+                if ISSUE_SEVERITY["PrivilegeEscalation"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+                "links": self.getFindingLinks(
+                    self.policy_document.allows_privilege_escalation
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
+                    else []
+                ),
+            },
+            DataExfiltration={
+                "severity": ISSUE_SEVERITY["DataExfiltration"],
+                "description": RISK_DEFINITION["DataExfiltration"],
+                "findings": self.policy_document.allows_data_exfiltration_actions
+                if ISSUE_SEVERITY["DataExfiltration"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            ResourceExposure={
+                "severity": ISSUE_SEVERITY["ResourceExposure"],
+                "description": RISK_DEFINITION["ResourceExposure"],
+                "findings": self.policy_document.permissions_management_without_constraints
+                if ISSUE_SEVERITY["ResourceExposure"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            ServiceWildcard={
+                "severity": ISSUE_SEVERITY["ServiceWildcard"],
+                "description": RISK_DEFINITION["ServiceWildcard"],
+                "findings": self.policy_document.service_wildcard
+                if ISSUE_SEVERITY["ServiceWildcard"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            CredentialsExposure={
+                "severity": ISSUE_SEVERITY["CredentialsExposure"],
+                "description": RISK_DEFINITION["CredentialsExposure"],
+                "findings": self.policy_document.credentials_exposure
+                if ISSUE_SEVERITY["CredentialsExposure"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
+            InfrastructureModification={
+                "severity": ISSUE_SEVERITY["InfrastructureModification"],
+                "description": RISK_DEFINITION["InfrastructureModification"],
+                "findings": self.policy_document.infrastructure_modification
+                if ISSUE_SEVERITY["InfrastructureModification"]
+                in [x.lower() for x in self.severity]
+                or not self.severity
+                else [],
+            },
             is_excluded=self.is_excluded,
-            )
+        )
         return result

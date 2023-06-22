@@ -24,9 +24,9 @@ class GroupDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
-        self.severity=severity
+        self.severity = severity
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The exclusions provided is not an Exclusions type object. "
@@ -37,17 +37,24 @@ class GroupDetailList:
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.groups = [
-            GroupDetail(group_detail, policy_details, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements,severity=self.severity)
+            GroupDetail(
+                group_detail,
+                policy_details,
+                exclusions=exclusions,
+                flag_conditional_statements=flag_conditional_statements,
+                flag_resource_arn_statements=flag_resource_arn_statements,
+                severity=self.severity,
+            )
             for group_detail in group_details
         ]
-        self.iam_data = {
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
         }
 
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for group in self.groups:
             group.set_iam_data(iam_data)
 
@@ -116,7 +123,7 @@ class GroupDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ):
         """
         Initialize the GroupDetail object.
@@ -124,7 +131,7 @@ class GroupDetail:
         :param group_detail: Details about a particular group
         :param policy_details: The ManagedPolicyDetails object - i.e., details about all managed policies in the account so the group can inherit those attributes
         """
-        self.severity=severity
+        self.severity = severity
         self.create_date = group_detail.get("CreateDate")
         self.arn = group_detail.get("Arn")
         self.path = group_detail["Path"]
@@ -156,8 +163,12 @@ class GroupDetail:
                 ):
                     # NOTE: The Exclusions were not here before the #254 fix (which was an unfiled bug I just discovered) so the presence of this might break some older unit tests. Might need to fix that.
                     inline_policy = InlinePolicy(
-                        policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements,
-                        flag_resource_arn_statements=flag_resource_arn_statements,severity=self.severity)
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                        severity=self.severity,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
@@ -177,15 +188,15 @@ class GroupDetail:
                     self.attached_managed_policies.append(
                         attached_managed_policy_details
                     )
-        
-        self.iam_data = {
+
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
         }
-    
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for inlinePolicy in self.inline_policies:
             inlinePolicy.set_iam_data(iam_data)
 

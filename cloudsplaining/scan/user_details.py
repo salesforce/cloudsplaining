@@ -26,9 +26,9 @@ class UserDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
-        self.severity=severity
+        self.severity = severity
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The exclusions provided is not an Exclusions type object. "
@@ -41,18 +41,24 @@ class UserDetailList:
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
         self.users = [
-            UserDetail(user_detail, policy_details, all_group_details, exclusions,severity=severity)
+            UserDetail(
+                user_detail,
+                policy_details,
+                all_group_details,
+                exclusions,
+                severity=severity,
+            )
             for user_detail in user_details
         ]
-        
-        self.iam_data = {
+
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
         }
-    
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for user in self.users:
             user.set_iam_data(iam_data)
 
@@ -115,7 +121,7 @@ class UserDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
         """
         Initialize the UserDetail object.
@@ -125,14 +131,14 @@ class UserDetail:
         so the user can inherit those attributes
         :param all_group_details:
         """
-        self.severity=severity
+        self.severity = severity
         self.create_date = user_detail.get("CreateDate")
         self.arn = user_detail.get("Arn")
         self.path = user_detail["Path"]
         self.user_id = user_detail["UserId"]
         self.user_name = user_detail["UserName"]
-        
-        self.iam_data = {
+
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -169,7 +175,13 @@ class UserDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements,severity=self.severity)
+                    inline_policy = InlinePolicy(
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                        severity=self.severity,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
@@ -190,8 +202,8 @@ class UserDetail:
                         attached_managed_policy_details
                     )
 
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for inlinePolicy in self.inline_policies:
             inlinePolicy.set_iam_data(iam_data)
 

@@ -62,7 +62,7 @@ def scan_multi_account(
     output_bucket: str,
     write_data_file: bool,
     verbosity: int,
-    severity
+    severity: List[str],
 ) -> None:
     """Scan multiple accounts via AssumeRole"""
     set_log_level(verbosity)
@@ -82,7 +82,7 @@ def scan_multi_account(
         output_directory=output_directory,
         output_bucket=output_bucket,
         write_data_file=write_data_file,
-        severity=severity
+        severity=severity,
     )
 
 
@@ -94,7 +94,7 @@ def scan_accounts(
     profile: Optional[str] = None,
     output_directory: Optional[str] = None,
     output_bucket: Optional[str] = None,
-    severity = []
+    severity: List[str] = [],
 ) -> None:
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
@@ -107,7 +107,7 @@ def scan_accounts(
             target_role_name=role_name,
             exclusions=exclusions,
             profile=profile,
-            severity=severity
+            severity=severity,
         )
         html_report = HTMLReport(
             account_id=target_account_id,
@@ -166,7 +166,7 @@ def scan_account(
     target_role_name: str,
     exclusions: Exclusions,
     profile: Optional[str] = None,
-    severity = []
+    severity: List[str] = [],
 ) -> Dict[str, Dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(
@@ -222,6 +222,5 @@ def get_exclusions(exclusions_file: Optional[str] = None) -> Exclusions:
 
 
 @click.pass_context
-def getSeverity(context):
-    print(context.params["severity"])
+def getSeverity(context: Any) -> Any:
     return context.params["severity"]

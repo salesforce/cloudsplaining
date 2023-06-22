@@ -32,9 +32,9 @@ class RoleDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
-        self.severity=severity
+        self.severity = severity
         self.roles = []
 
         if not isinstance(exclusions, Exclusions):
@@ -45,7 +45,7 @@ class RoleDetailList:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
-        self.iam_data = {
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -61,10 +61,19 @@ class RoleDetailList:
                     this_role_path,
                 )
             else:
-                self.roles.append(RoleDetail(role_detail, policy_details, exclusions=exclusions, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements,severity=self.severity))
+                self.roles.append(
+                    RoleDetail(
+                        role_detail,
+                        policy_details,
+                        exclusions=exclusions,
+                        flag_conditional_statements=self.flag_conditional_statements,
+                        flag_resource_arn_statements=self.flag_resource_arn_statements,
+                        severity=self.severity,
+                    )
+                )
 
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for role in self.roles:
             role.set_iam_data(iam_data)
 
@@ -126,7 +135,7 @@ class RoleDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity=[]
+        severity: List[str] = [],
     ) -> None:
         """
         Initialize the RoleDetail object.
@@ -153,8 +162,8 @@ class RoleDetail:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
-        
-        self.iam_data = {
+
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -183,7 +192,13 @@ class RoleDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements,severity=severity)
+                    inline_policy = InlinePolicy(
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                        severity=severity,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
@@ -204,8 +219,8 @@ class RoleDetail:
                         attached_managed_policy_details
                     )
 
-    def set_iam_data(self,iam_data):
-        self.iam_data=iam_data
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
         for inlinePolicy in self.inline_policies:
             inlinePolicy.set_iam_data(iam_data)
 
