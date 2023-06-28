@@ -19,7 +19,7 @@ class InlinePolicy:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: list[str] = [],
+        severity: List[str] = [],
     ) -> None:
         """
         Initialize the InlinePolicy object.
