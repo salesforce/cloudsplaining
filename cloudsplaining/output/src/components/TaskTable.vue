@@ -134,6 +134,7 @@
 <script>
     const managedPoliciesUtil = require('../util/managed-policies');
     const otherUtil = require('../util/other');
+    const glossary = require('../util/glossary');
 
     export default {
         name: "TaskTable",
@@ -147,7 +148,7 @@
         },
         data() {
             return {
-                sortBy: 'services',
+                sortBy: 'policy_name',
                 sortDesc: false,
                 fields: [
                     {key: 'policy_name', sortable: true},
@@ -200,18 +201,7 @@
                 return otherUtil.convertStringToSnakeCase(s)
             },
             getRiskLevel: function (riskType) {
-                if (riskType === "DataExfiltration") {
-                    return "warning"
-                }
-                if (riskType === "PrivilegeEscalation") {
-                    return "danger"
-                }
-                if (riskType === "ResourceExposure") {
-                    return "warning"
-                }
-                if (riskType === "InfrastructureModification") {
-                    return "info"
-                }
+                return glossary.ISSUE_SEVERITY[riskType]
             }
         },
 

@@ -2,6 +2,8 @@
 var roleUtils = require("./roles")
 var otherUtils = require("./other")
 
+const risks = ["PrivilegeEscalation","DataExfiltration","ResourceExposure","ServiceWildcard","CredentialsExposure","InfrastructureModification"]
+
 function getManagedPolicyIds(iam_data, managedBy) {
     let result = [];
     if (managedBy === "AWS") {
@@ -24,7 +26,11 @@ function getManagedPolicyIdsInUse(iam_data, managedBy) {
     for(let i = 0; i < policyIds.length; i++){
         let leveraged = isManagedPolicyLeveraged(iam_data, managedBy, policyIds[i])
         if (leveraged > 0) {
-            if (getManagedPolicyFindings(iam_data, managedBy, policyIds[i], "InfrastructureModification").length === 0) {
+            var findings = 0
+            for(let j = 0; j < risks.length; j++){
+                findings += getManagedPolicyFindings(iam_data, managedBy, policyIds[i], risks[j]).length
+            }
+            if (findings === 0) {
                 // console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
             } else {
                 result.push(policyIds[i].slice())
@@ -86,10 +92,10 @@ function getManagedPolicyFindings(iam_data, managedBy, policyId, riskType) {
         return [];
     } else {
         if (managedBy === "AWS") {
-            result = Array.from(iam_data["aws_managed_policies"][policyId][riskType]);
+            result = Array.from(iam_data["aws_managed_policies"][policyId][riskType]["findings"]);
         }
         else if (managedBy === "Customer") {
-            result = Array.from(iam_data["customer_managed_policies"][policyId][riskType]);
+            result = Array.from(iam_data["customer_managed_policies"][policyId][riskType]["findings"]);
         }
         result.sort();
         return result;
@@ -109,10 +115,10 @@ function getServicesAffectedByManagedPolicy(iam_data, managedBy, policyId) {
     let servicesAffected = [];
     let actions = [];
     if (managedBy === "AWS") {
-        actions = Array.from(iam_data["aws_managed_policies"][policyId]["InfrastructureModification"]);
+        actions = Array.from(iam_data["aws_managed_policies"][policyId]["InfrastructureModification"]["findings"]);
     }
     else if (managedBy === "Customer") {
-        actions = Array.from(iam_data["customer_managed_policies"][policyId]["InfrastructureModification"]);
+        actions = Array.from(iam_data["customer_managed_policies"][policyId]["InfrastructureModification"]["findings"]);
     }
     let action;
     for (action of actions) {

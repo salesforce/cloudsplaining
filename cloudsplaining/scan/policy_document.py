@@ -17,6 +17,7 @@ from cloudsplaining.shared.constants import (
 )
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
+
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
 RESET = "\033[0;0m"
@@ -153,6 +154,7 @@ class PolicyDocument:
         Determines whether or not the policy allows privilege escalation action combinations published by
         Rhino Security Labs.
         """
+        #if severity
         escalations = []
         all_allowed_unrestricted_actions_lowercase = set(
             x.lower() for x in self.all_allowed_unrestricted_actions

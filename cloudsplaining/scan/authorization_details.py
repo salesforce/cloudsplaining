@@ -31,6 +31,7 @@ class AuthorizationDetails:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        severity: List[str] = [],
     ) -> None:
         """
         Object to hold and analyze Account Authorization details.
@@ -40,6 +41,7 @@ class AuthorizationDetails:
         :param flag_conditional_statements: Flag IAM statements with conditions, not just wildcards
         :param flag_resource_arn_statements: Flag IAM statements with resource ARN restrictions, not just wildcards
         """
+        self.severity = severity
         self.auth_json = auth_json
 
         if not isinstance(exclusions, Exclusions):
@@ -50,11 +52,22 @@ class AuthorizationDetails:
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
-        self.policies = ManagedPolicyDetails(auth_json.get("Policies", []), exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
+        self.policies = ManagedPolicyDetails(
+            auth_json.get("Policies", []),
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
+            severity=severity,
+        )
 
         # New Authorization file stuff
         self.group_detail_list = GroupDetailList(
-            auth_json.get("GroupDetailList", []), self.policies, exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements
+            auth_json.get("GroupDetailList", []),
+            self.policies,
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
+            severity=severity,
         )
         self.user_detail_list = UserDetailList(
             auth_json.get("UserDetailList", []),
@@ -62,11 +75,28 @@ class AuthorizationDetails:
             self.group_detail_list,
             exclusions,
             flag_conditional_statements=flag_conditional_statements,
-            flag_resource_arn_statements=flag_resource_arn_statements
+            flag_resource_arn_statements=flag_resource_arn_statements,
+            severity=severity,
         )
         self.role_detail_list = RoleDetailList(
-            auth_json.get("RoleDetailList", []), self.policies, exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements
+            auth_json.get("RoleDetailList", []),
+            self.policies,
+            exclusions,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements,
+            severity=severity,
         )
+
+        iam_data = {
+            "groups": self.group_detail_list.json,
+            "users": self.user_detail_list.json,
+            "roles": self.role_detail_list.json,
+        }
+
+        self.policies.set_iam_data(iam_data)
+        self.group_detail_list.set_iam_data(iam_data)
+        self.user_detail_list.set_iam_data(iam_data)
+        self.role_detail_list.set_iam_data(iam_data)
 
     @property
     def inline_policies(self) -> Dict[str, Dict[str, Any]]:

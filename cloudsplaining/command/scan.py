@@ -37,6 +37,8 @@ from cloudsplaining import set_log_level
 @click.option("-m", "--minimize", required=False, default=False, is_flag=True, help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.")
 @click.option("-aR", "--flag-all-risky-actions", is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
+@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
+
 # fmt: on
 def scan(
     input_file: str,
@@ -46,6 +48,7 @@ def scan(
     minimize: bool,
     flag_all_risky_actions: bool,
     verbosity: int,
+    severity: List[str],
 ) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -85,6 +88,7 @@ def scan(
             minimize=minimize,
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
+            severity=severity,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -122,6 +126,7 @@ def scan(
                 output,
                 write_data_files=True,
                 minimize=minimize,
+                severity=severity,
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
             logger.info("Saving the report to %s", html_output_file)
@@ -153,6 +158,7 @@ def scan_account_authorization_details(
     return_json_results: bool = False,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
+    severity: List[str] = [],
 ) -> Any:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -165,9 +171,11 @@ def scan_account_authorization_details(
     )
     check_authorization_details_schema(account_authorization_details_cfg)
     authorization_details = AuthorizationDetails(
-        account_authorization_details_cfg, exclusions=exclusions,
+        account_authorization_details_cfg,
+        exclusions=exclusions,
         flag_conditional_statements=flag_conditional_statements,
-        flag_resource_arn_statements=flag_resource_arn_statements
+        flag_resource_arn_statements=flag_resource_arn_statements,
+        severity=severity,
     )
     results = authorization_details.results
 
@@ -207,9 +215,9 @@ def scan_account_authorization_details(
 
     if return_json_results:
         return {
-            "iam_results" : authorization_details.results,
-            "iam_findings" : results,
-            "rendered_report" : rendered_report
+            "iam_results": authorization_details.results,
+            "iam_findings": results,
+            "rendered_report": rendered_report,
         }
     else:
         return rendered_report
@@ -233,3 +241,8 @@ def get_authorization_files_in_directory(
         if valid_schema:
             new_file_list.append(str(file))
     return new_file_list
+
+
+@click.pass_context
+def getSeverity(context: Any) -> Any:
+    return context.params["severity"]
