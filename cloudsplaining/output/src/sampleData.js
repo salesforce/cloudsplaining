@@ -599,12 +599,36 @@ var sample_iam_data = {
                     "VersionId": "v10"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "codecommit:MergePullRequestByThreeWay",
                 "codecommit:UpdatePullRequestDescription",
                 "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -653,7 +677,8 @@ var sample_iam_data = {
                 "events:RemoveTargets",
                 "events:DeleteRule",
                 "events:PutTargets"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI3R4QMOG6Q5A4VWVG": {
@@ -726,20 +751,44 @@ var sample_iam_data = {
                     "CreateDate": "2018-04-09 17:42:48+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "rds:AuthorizeDBSecurityGroupIngress",
                 "rds:ModifyDBClusterSnapshotAttribute",
                 "rds:ModifyDBSnapshotAttribute",
                 "iam:CreateServiceLinkedRole"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "pi",
                 "rds"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "sns:Publish",
                 "rds:ModifyDBProxyTargetGroup",
                 "rds:CreateDBProxyEndpoint",
@@ -830,7 +879,8 @@ var sample_iam_data = {
                 "rds:CreateDBCluster",
                 "rds:ModifyDBProxyEndpoint",
                 "iam:CreateServiceLinkedRole"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI3VAJF5ZCRZ7MCQE6": {
@@ -892,25 +942,49 @@ var sample_iam_data = {
                     "CreateDate": "2018-11-27 02:16:56+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "ec2:ModifySnapshotAttribute",
                 "ec2:CreateNetworkInterfacePermission",
                 "ec2:ResetSnapshotAttribute",
                 "ec2:ModifyVpcEndpointServicePermissions",
                 "iam:CreateServiceLinkedRole"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "autoscaling",
                 "cloudwatch",
                 "ec2",
                 "elasticloadbalancing"
-            ],
-            "CredentialsExposure": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": [
                 "ec2:GetPasswordData"
-            ],
-            "InfrastructureModification": [
+            ]
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "ec2:DeleteVpcEndpointConnectionNotifications",
                 "ec2:ModifyNetworkInterfaceAttribute",
                 "ec2:ModifyVpnTunnelCertificate",
@@ -1267,7 +1341,8 @@ var sample_iam_data = {
                 "autoscaling:DeleteScheduledAction",
                 "autoscaling:DeleteWarmPool",
                 "iam:CreateServiceLinkedRole"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI4VCZ3XPIZLQ5NZV2": {
@@ -1469,14 +1544,38 @@ var sample_iam_data = {
                     "CreateDate": "2020-03-26 16:23:20+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "codecommit"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "codecommit:MergePullRequestByThreeWay",
                 "codecommit:UpdatePullRequestDescription",
                 "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories",
@@ -1530,7 +1629,8 @@ var sample_iam_data = {
                 "events:RemoveTargets",
                 "events:DeleteRule",
                 "events:PutTargets"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI65L554VRJ33ECQS6": {
@@ -1562,19 +1662,43 @@ var sample_iam_data = {
                     "CreateDate": "2015-02-06 18:41:07+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "sqs:RemovePermission",
                 "sqs:SetQueueAttributes",
                 "sqs:CreateQueue",
                 "sqs:AddPermission"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "sqs"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "sqs:RemovePermission",
                 "sqs:SetQueueAttributes",
                 "sqs:DeleteMessage",
@@ -1586,7 +1710,8 @@ var sample_iam_data = {
                 "sqs:UntagQueue",
                 "sqs:ChangeMessageVisibility",
                 "sqs:SendMessage"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI6E2CYYMI4XI7AA5K": {
@@ -1669,7 +1794,10 @@ var sample_iam_data = {
                     "CreateDate": "2017-11-27 23:22:38+00:00"
                 }
             ],
-            "PrivilegeEscalation": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [
                 {
                     "type": "PassExistingRoleToNewLambdaThenInvoke",
                     "actions": [
@@ -1703,10 +1831,19 @@ var sample_iam_data = {
                     ]
                 }
             ],
-            "DataExfiltration": [
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "lambda:AddPermission",
                 "lambda:DisableReplication",
                 "s3:PutBucketPublicAccessBlock",
@@ -1728,17 +1865,29 @@ var sample_iam_data = {
                 "s3:PutAccessPointPolicyForObjectLambda",
                 "lambda:EnableReplication",
                 "s3:PutMultiRegionAccessPointPolicy"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "cloudwatch",
                 "dynamodb",
                 "events",
                 "lambda",
                 "logs",
                 "s3"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "events:DeleteConnection",
                 "sns:Publish",
                 "s3:DeleteBucketWebsite",
@@ -1938,7 +2087,8 @@ var sample_iam_data = {
                 "lambda:UpdateFunctionCode",
                 "dynamodb:EnableKinesisStreamingDestination",
                 "dynamodb:UpdateContinuousBackups"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAI7XKCFMBPM3QQRRVQ": {
@@ -1980,7 +2130,10 @@ var sample_iam_data = {
                     "CreateDate": "2019-06-21 19:40:00+00:00"
                 }
             ],
-            "PrivilegeEscalation": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [
                 {
                     "type": "CreateAccessKey",
                     "actions": [
@@ -2042,8 +2195,17 @@ var sample_iam_data = {
                     ]
                 }
             ],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "iam:CreateVirtualMFADevice",
                 "iam:CreateOpenIDConnectProvider",
                 "iam:DeleteOpenIDConnectProvider",
@@ -2118,18 +2280,30 @@ var sample_iam_data = {
                 "iam:UpdateGroup",
                 "iam:AttachRolePolicy",
                 "iam:DeleteRolePolicy"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "iam"
-            ],
-            "CredentialsExposure": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": [
                 "iam:CreateServiceSpecificCredential",
                 "iam:CreateLoginProfile",
                 "iam:UpdateAccessKey",
                 "iam:ResetServiceSpecificCredential",
                 "iam:CreateAccessKey"
-            ],
-            "InfrastructureModification": [
+            ]
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "iam:CreateVirtualMFADevice",
                 "iam:CreateOpenIDConnectProvider",
                 "iam:DeleteOpenIDConnectProvider",
@@ -2220,7 +2394,8 @@ var sample_iam_data = {
                 "iam:UntagOpenIDConnectProvider",
                 "iam:AttachRolePolicy",
                 "iam:DeleteRolePolicy"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIFIR6V6BVTRAHWINE": {
@@ -2250,11 +2425,23 @@ var sample_iam_data = {
                     "CreateDate": "2015-02-06 18:40:58+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "s3:BypassGovernanceRetention",
                 "s3:DeleteBucketPolicy",
                 "s3:PutObjectAcl",
@@ -2268,12 +2455,24 @@ var sample_iam_data = {
                 "s3:PutBucketAcl",
                 "s3:PutBucketPolicy",
                 "s3:PutObjectVersionAcl"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "s3"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:DeleteBucketWebsite",
                 "s3:PutObjectAcl",
                 "s3:DeleteObjectTagging",
@@ -2337,7 +2536,8 @@ var sample_iam_data = {
                 "s3:ReplicateObject",
                 "s3:DeleteObjectVersion",
                 "s3:PutEncryptionConfiguration"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIICZJNOJN36GTG6CM": {
@@ -2402,12 +2602,37 @@ var sample_iam_data = {
                     "CreateDate": "2018-03-07 18:34:42+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [],
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": []
+},
             "is_excluded": false
         },
         "ANPAIKEABORKUXN6DEAZU": {
@@ -2455,21 +2680,45 @@ var sample_iam_data = {
                     "CreateDate": "2018-08-09 19:10:43+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "sns:AddPermission",
                 "sns:CreateTopic",
                 "sns:SetTopicAttributes",
                 "sns:RemovePermission"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "cloudwatch",
                 "logs",
                 "sns"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "sns:Publish",
                 "cloudwatch:DisableInsightRules",
                 "sns:ConfirmSubscription",
@@ -2514,7 +2763,8 @@ var sample_iam_data = {
                 "cloudwatch:EnableAlarmActions",
                 "cloudwatch:DisableAlarmActions",
                 "logs:DeleteRetentionPolicy"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAINAW5ANUWTH3R4ANI": {
@@ -2607,18 +2857,42 @@ var sample_iam_data = {
                     "CreateDate": "2019-02-05 20:29:43+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "ds:CreateConditionalForwarder",
                 "ds:CreateTrust",
                 "ds:ShareDirectory"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "ds"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "ds:CreateLogSubscription",
                 "ds:EnableLDAPS",
                 "ds:RegisterEventTopic",
@@ -2670,7 +2944,8 @@ var sample_iam_data = {
                 "ds:AddRegion",
                 "ds:DeleteTrust",
                 "ec2:AuthorizeSecurityGroupEgress"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIONKN3TJZUKXCHXWC": {
@@ -2754,14 +3029,38 @@ var sample_iam_data = {
                     "CreateDate": "2020-04-02 16:14:47+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "codedeploy"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "codedeploy:DeleteApplication",
                 "codedeploy:DeleteDeploymentGroup",
                 "codedeploy:AddTagsToOnPremisesInstances",
@@ -2783,7 +3082,8 @@ var sample_iam_data = {
                 "codestar-notifications:UpdateNotificationRule",
                 "codestar-notifications:Subscribe",
                 "codestar-notifications:DeleteNotificationRule"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIQNUJTQYDRJPC3BNK": {
@@ -2882,22 +3182,46 @@ var sample_iam_data = {
                     "CreateDate": "2019-09-12 23:08:46+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "sns:AddPermission",
                 "sns:CreateTopic",
                 "sns:SetTopicAttributes",
                 "s3:PutBucketPolicy",
                 "iam:PassRole"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "cloudtrail"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "sns:CreateTopic",
                 "sns:DeleteTopic",
                 "sns:SetTopicAttributes",
@@ -2917,7 +3241,8 @@ var sample_iam_data = {
                 "cloudtrail:StopLogging",
                 "logs:CreateLogGroup",
                 "iam:PassRole"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIX2T3QCXHR2OGGCTO": {
@@ -3229,19 +3554,44 @@ var sample_iam_data = {
                     "CreateDate": "2020-02-25 16:08:50+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "quicksight:DescribeDataSetPermissions",
                 "quicksight:DescribeDataSourcePermissions"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "quicksight:DescribeDataSourcePermissions",
                 "chime:ListChannelMessages",
                 "quicksight:DescribeDataSetPermissions"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAIZTJ4DXE7G6AGAE6M": {
@@ -3274,16 +3624,41 @@ var sample_iam_data = {
                     "CreateDate": "2015-02-06 18:40:59+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:GetObject"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAJ2P4NXCHAT7NDPNR4": {
@@ -3315,18 +3690,42 @@ var sample_iam_data = {
                     "CreateDate": "2015-02-06 18:41:02+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "ses:CreateEmailIdentityPolicy",
                 "ses:DeleteEmailIdentityPolicy",
                 "ses:UpdateEmailIdentityPolicy"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "ses"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "ses:PutEmailIdentityDkimSigningAttributes",
                 "ses:UpdateContactList",
                 "ses:TestRenderEmailTemplate",
@@ -3369,7 +3768,8 @@ var sample_iam_data = {
                 "ses:PutEmailIdentityMailFromAttributes",
                 "ses:DeleteContact",
                 "ses:CreateDedicatedIpPool"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAJBWPGNOVKZD3JI2P2": {
@@ -3541,15 +3941,39 @@ var sample_iam_data = {
                     "CreateDate": "2018-03-15 18:30:25+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "ec2:ModifyVpcEndpointServicePermissions",
                 "ec2:CreateNetworkInterfacePermission"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "ec2:DeleteVpcEndpointConnectionNotifications",
                 "ec2:ModifyNetworkInterfaceAttribute",
                 "ec2:RejectVpcEndpointConnections",
@@ -3647,7 +4071,8 @@ var sample_iam_data = {
                 "ec2:EnableVpcClassicLink",
                 "ec2:AssignIpv6Addresses",
                 "ec2:ReplaceNetworkAclAssociation"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAJKSO7NDY4T57MWDSQ": {
@@ -3684,12 +4109,37 @@ var sample_iam_data = {
                     "CreateDate": "2018-01-25 19:11:27+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [],
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": []
+},
             "is_excluded": false
         },
         "ANPAJLIB4VSBVO47ZSBB6": {
@@ -3721,12 +4171,37 @@ var sample_iam_data = {
                     "CreateDate": "2015-02-06 18:41:19+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [],
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": []
+},
             "is_excluded": false
         },
         "ANPAJNPP7PPPPMJRV2SA4": {
@@ -3769,17 +4244,42 @@ var sample_iam_data = {
                     "CreateDate": "2017-03-07 00:55:11+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "kms:UntagResource",
                 "kms:DeleteAlias",
                 "kms:TagResource",
                 "kms:CreateAlias"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAJWVDLG5RPST6PHQ3A": {
@@ -3830,15 +4330,39 @@ var sample_iam_data = {
                     "CreateDate": "2018-12-20 21:42:00+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "route53",
                 "route53domains"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "route53:DeleteHealthCheck",
                 "route53:UpdateTrafficPolicyInstance",
                 "route53:CreateTrafficPolicyVersion",
@@ -3865,7 +4389,8 @@ var sample_iam_data = {
                 "route53:DeleteVPCAssociationAuthorization",
                 "route53:EnableHostedZoneDNSSEC",
                 "route53:ChangeResourceRecordSets"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ANPAJYRXTHIB4FOVS3ZXS": {
@@ -3910,7 +4435,10 @@ var sample_iam_data = {
                     "CreateDate": "2019-03-20 22:19:03+00:00"
                 }
             ],
-            "PrivilegeEscalation": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [
                 {
                     "type": "UpdateExistingGlueDevEndpoint",
                     "actions": [
@@ -3924,14 +4452,23 @@ var sample_iam_data = {
                     ]
                 }
             ],
-            "DataExfiltration": [
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "ssm:GetParameters",
                 "secretsmanager:GetSecretValue",
                 "ssm:GetParameter",
                 "s3:GetObject",
                 "ssm:GetParametersByPath"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "rds:AuthorizeDBSecurityGroupIngress",
                 "backup:DeleteBackupVaultAccessPolicy",
                 "iot:DetachPolicy",
@@ -4119,9 +4656,17 @@ var sample_iam_data = {
                 "ram:AcceptResourceShareInvitation",
                 "iam:DeleteServiceLinkedRole",
                 "iam:CreateServiceLinkedRole"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": [
                 "mediapackage:RotateChannelCredentials",
                 "codepipeline:PollForJobs",
                 "connect:GetFederationTokens",
@@ -4147,8 +4692,12 @@ var sample_iam_data = {
                 "lightsail:CreateBucketAccessKey",
                 "chime:CreateApiKey",
                 "lightsail:GetInstanceAccessDetails"
-            ],
-            "InfrastructureModification": [
+            ]
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "lightsail:DeleteContactMethod",
                 "servicecatalog:CreatePortfolioShare",
                 "secretsmanager:PutResourcePolicy",
@@ -8656,7 +9205,8 @@ var sample_iam_data = {
                 "appmesh:CreateVirtualGateway",
                 "iam:DeleteServiceLinkedRole",
                 "iam:CreateServiceLinkedRole"
-            ],
+            ]
+},
             "is_excluded": false
         }
     },
@@ -8695,12 +9245,37 @@ var sample_iam_data = {
                     "CreateDate": "2020-01-29 23:23:12+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [],
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": []
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": []
+},
             "is_excluded": false
         },
         "InsecurePolicy": {
@@ -8736,17 +9311,42 @@ var sample_iam_data = {
                     "CreateDate": "2020-01-29 23:23:12+00:00"
                 }
             ],
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "s3:PutObjectAcl"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:PutObjectAcl",
                 "s3:PutObject"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "ExcessivePermissions": {
@@ -8783,7 +9383,10 @@ var sample_iam_data = {
                     "CreateDate": "2020-01-29 23:23:12+00:00"
                 }
             ],
-            "PrivilegeEscalation": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [
                 {
                     "type": "EditExistingLambdaFunctionWithRole",
                     "actions": [
@@ -8791,11 +9394,20 @@ var sample_iam_data = {
                     ]
                 }
             ],
-            "DataExfiltration": [
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject",
                 "secretsmanager:GetSecretValue"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "secretsmanager:PutResourcePolicy",
                 "lambda:RemoveLayerVersionPermission",
                 "lambda:AddPermission",
@@ -8818,14 +9430,26 @@ var sample_iam_data = {
                 "s3:PutBucketAcl",
                 "s3:PutBucketPolicy",
                 "s3:PutObjectVersionAcl"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "lambda",
                 "s3",
                 "secretsmanager"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "secretsmanager:PutResourcePolicy",
                 "s3:DeleteBucketWebsite",
                 "s3:DeleteObjectTagging",
@@ -8941,7 +9565,8 @@ var sample_iam_data = {
                 "lambda:PublishVersion",
                 "lambda:UpdateFunctionCode",
                 "secretsmanager:UpdateSecret"
-            ],
+            ]
+},
             "is_excluded": false
         }
     },
@@ -8962,11 +9587,23 @@ var sample_iam_data = {
                     }
                 ]
             },
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "s3:BypassGovernanceRetention",
                 "s3:DeleteBucketPolicy",
                 "s3:PutObjectAcl",
@@ -8980,12 +9617,24 @@ var sample_iam_data = {
                 "s3:PutBucketAcl",
                 "s3:PutBucketPolicy",
                 "s3:PutObjectVersionAcl"
-            ],
-            "ServiceWildcard": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": [
                 "s3"
-            ],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:DeleteBucketWebsite",
                 "s3:PutObjectAcl",
                 "s3:DeleteObjectTagging",
@@ -9049,7 +9698,8 @@ var sample_iam_data = {
                 "s3:ReplicateObject",
                 "s3:DeleteObjectVersion",
                 "s3:PutEncryptionConfiguration"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "e8bca32ff7d1f7990d71c64d95a04b7caa5aad5791f06f69db59653228c6853d": {
@@ -9069,19 +9719,44 @@ var sample_iam_data = {
                     }
                 ]
             },
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "s3:PutObjectAcl"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:GetObject",
                 "s3:PutObjectAcl"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca": {
@@ -9107,22 +9782,47 @@ var sample_iam_data = {
                     }
                 ]
             },
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [],
-            "ResourceExposure": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": []
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "iam:AddRoleToInstanceProfile",
                 "iam:PassRole",
                 "iam:CreateInstanceProfile"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "iam:AddRoleToInstanceProfile",
                 "ec2:AssociateIamInstanceProfile",
                 "iam:PassRole",
                 "iam:CreateInstanceProfile",
                 "ec2:DisassociateIamInstanceProfile"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "d09fe3603cd65058b6e2d9817cf37093e83e98318a56ce1e29c8491ac989e57e": {
@@ -9143,7 +9843,10 @@ var sample_iam_data = {
                     }
                 ]
             },
-            "PrivilegeEscalation": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [
                 {
                     "type": "CreateAccessKey",
                     "actions": [
@@ -9151,22 +9854,44 @@ var sample_iam_data = {
                     ]
                 }
             ],
-            "DataExfiltration": [
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject",
                 "secretsmanager:GetSecretValue"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "iam:CreateAccessKey"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": [
                 "iam:CreateAccessKey"
-            ],
-            "InfrastructureModification": [
+            ]
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:GetObject",
                 "iam:CreateAccessKey",
                 "secretsmanager:GetSecretValue"
-            ],
+            ]
+},
             "is_excluded": false
         },
         "354d81e1788639707f707738fb4c630cb7c5d23614cc467ff9a469a670049e3f": {
@@ -9189,20 +9914,45 @@ var sample_iam_data = {
                     }
                 ]
             },
-            "PrivilegeEscalation": [],
-            "DataExfiltration": [
+            "PrivilegeEscalation": {
+"severity": "high",
+"description":  "<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href=\"https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/\">here</a>.</p>",
+"findings": [],
+"links":[]
+},
+            "DataExfiltration": {
+"severity": "medium",
+"description":  "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
+"findings": [
                 "s3:GetObject"
-            ],
-            "ResourceExposure": [
+            ]
+},
+            "ResourceExposure": {
+"severity": "high",
+"description":  "<p>Resource Exposure actions allow modification of Permissions to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html\">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href=\"https://docs.aws.amazon.com/ram/latest/userguide/what-is.html\">AWS Resource Access Manager</a>.</p>",
+"findings": [
                 "s3:PutObjectAcl"
-            ],
-            "ServiceWildcard": [],
-            "CredentialsExposure": [],
-            "InfrastructureModification": [
+            ]
+},
+            "ServiceWildcard": {
+"severity": "medium",
+"description":  "<p>\"Service Wildcard\" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>",
+"findings": []
+},
+            "CredentialsExposure": {
+"severity": "high",
+"description":  "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+"findings": []
+},
+            "InfrastructureModification": {
+"severity": "low",
+"description":  "",
+"findings": [
                 "s3:GetObject",
                 "s3:PutObjectAcl",
                 "s3:PutObject"
-            ],
+            ]
+},
             "is_excluded": false
         }
     },
@@ -13842,4 +14592,3 @@ var sample_iam_data = {
 
 
 exports.sample_iam_data = sample_iam_data;
-

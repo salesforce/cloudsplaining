@@ -25,7 +25,7 @@
         <b-container class="mt-3 pb-3 report">
             <b-tabs nav-class="d-none">
                 <router-view />
-<!--                <b-tab key="task-table">-->
+               <!-- <b-tab key="task-table">-->
 <!--                    <br>-->
 <!--                    <h3>Tasks (demo WIP)</h3>-->
 <!--                    <br>-->
@@ -38,7 +38,7 @@
 <!--                    &lt;!&ndash;TODO: Task table for Inline Policies&ndash;&gt;-->
 <!--&lt;!&ndash;                    <h3>Inline Policies</h3>&ndash;&gt;-->
 <!--&lt;!&ndash;                    <TaskTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>&ndash;&gt;-->
-<!--                </b-tab>-->
+<!--                </b-tab> -->
             </b-tabs>
         </b-container>
         <b-container>

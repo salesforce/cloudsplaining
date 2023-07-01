@@ -32,7 +32,9 @@ class RoleDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        severity: List[str] = [],
     ) -> None:
+        self.severity = severity
         self.roles = []
 
         if not isinstance(exclusions, Exclusions):
@@ -43,6 +45,11 @@ class RoleDetailList:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
 
         for role_detail in role_details:
             this_role_name = role_detail.get("RoleName")
@@ -54,7 +61,21 @@ class RoleDetailList:
                     this_role_path,
                 )
             else:
-                self.roles.append(RoleDetail(role_detail, policy_details, exclusions=exclusions, flag_conditional_statements=self.flag_conditional_statements, flag_resource_arn_statements=self.flag_resource_arn_statements))
+                self.roles.append(
+                    RoleDetail(
+                        role_detail,
+                        policy_details,
+                        exclusions=exclusions,
+                        flag_conditional_statements=self.flag_conditional_statements,
+                        flag_resource_arn_statements=self.flag_resource_arn_statements,
+                        severity=self.severity,
+                    )
+                )
+
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
+        for role in self.roles:
+            role.set_iam_data(iam_data)
 
     def get_all_allowed_actions_for_role(self, name: str) -> Optional[List[str]]:
         """Returns a list of all allowed actions by the role across all its policies"""
@@ -114,6 +135,7 @@ class RoleDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        severity: List[str] = [],
     ) -> None:
         """
         Initialize the RoleDetail object.
@@ -141,6 +163,12 @@ class RoleDetail:
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
+        self.iam_data: Dict[str, Dict[Any, Any]] = {
+            "groups": {},
+            "users": {},
+            "roles": {},
+        }
+
         # Metadata in object form
         self.assume_role_policy_document = None
         assume_role_policy = role_detail.get("AssumeRolePolicyDocument")
@@ -164,7 +192,13 @@ class RoleDetail:
                     exclusions.is_policy_excluded(policy_name)
                     or exclusions.is_policy_excluded(policy_id)
                 ):
-                    inline_policy = InlinePolicy(policy_detail, exclusions=exclusions, flag_conditional_statements=flag_conditional_statements, flag_resource_arn_statements=flag_resource_arn_statements)
+                    inline_policy = InlinePolicy(
+                        policy_detail,
+                        exclusions=exclusions,
+                        flag_conditional_statements=flag_conditional_statements,
+                        flag_resource_arn_statements=flag_resource_arn_statements,
+                        severity=severity,
+                    )
                     self.inline_policies.append(inline_policy)
 
         # Managed Policies (either AWS-managed or Customer managed)
@@ -184,6 +218,11 @@ class RoleDetail:
                     self.attached_managed_policies.append(
                         attached_managed_policy_details
                     )
+
+    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+        self.iam_data = iam_data
+        for inlinePolicy in self.inline_policies:
+            inlinePolicy.set_iam_data(iam_data)
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the principal name or principal ID is excluded"""
