@@ -198,9 +198,8 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if (
-            not self.has_resource_constraints
-            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
-            or self.flag_resource_arn_statements
+            (not self.has_resource_constraints or self.flag_resource_arn_statements) and
+             not self.has_condition
         ):
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Permissions management"
@@ -214,9 +213,8 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if (
-            not self.has_resource_constraints
-            # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
-            or self.flag_resource_arn_statements
+            (not self.has_resource_constraints or self.flag_resource_arn_statements) and
+             not self.has_condition
         ):
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Write"

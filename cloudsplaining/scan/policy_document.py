@@ -125,7 +125,7 @@ class PolicyDocument:
         """Return a list of modify only missing resource constraints"""
         actions_missing_resource_constraints = []
         for statement in self.statements:
-            if statement.effect == "Allow":
+            if statement.effect == "Allow" and not statement.has_condition:
                 for action in statement.missing_resource_constraints_for_modify_actions(
                     self.exclusions
                 ):
@@ -272,7 +272,7 @@ class PolicyDocument:
 
         for statement in self.statements:
             logger.debug("Evaluating statement: %s", statement.json)
-            if statement.effect_allow:
+            if statement.effect_allow and not statement.has_condition:
                 if isinstance(statement.actions, list):
                     for action in statement.actions:
                         # If the action is a straight up *

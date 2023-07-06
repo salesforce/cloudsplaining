@@ -35,7 +35,7 @@ from cloudsplaining import set_log_level
 @click.option("-o", "--output", required=False, type=click.Path(exists=True), default=os.getcwd(), help="Output directory.")
 @click.option("-s", "--skip-open-report", required=False, default=False, is_flag=True, help="Don't open the HTML report in the web browser after creating. This helps when running the report in automation.")
 @click.option("-m", "--minimize", required=False, default=False, is_flag=True, help="Reduce the size of the HTML Report by pulling the Cloudsplaining Javascript code over the internet.")
-@click.option("-aR", "--flag-all-risky-actions", is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
+@click.option("-aR", "--flag-all-risky-actions", required=False, default=False, is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 @click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
 

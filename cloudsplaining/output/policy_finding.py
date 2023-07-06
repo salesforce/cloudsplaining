@@ -52,7 +52,7 @@ class PolicyFinding:
         actions_missing_resource_constraints = set()
         for statement in self.policy_document.statements:
             logger.debug("Evaluating statement: %s", statement.json)
-            if statement.effect == "Allow":
+            if statement.effect == "Allow" and not statement.has_condition:
                 actions_missing_resource_constraints.update(
                     statement.missing_resource_constraints_for_modify_actions(
                         self.exclusions
