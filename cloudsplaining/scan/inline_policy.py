@@ -67,7 +67,7 @@ class InlinePolicy:
         )
 
     def getFindingLinks(self, findings: Any) -> List[Any]:
-        links: List[Any] = []
+        links = {}
         for finding in findings:
             links[
                 finding["type"]
