@@ -22,9 +22,27 @@ logger = logging.getLogger(__name__)
     short_help="Runs aws iam get-authorization-details on all accounts specified in the aws credentials "
     "file, and stores them in account-alias.json"
 )
-@click.option("-p", "--profile", type=str, required=False, envvar="AWS_DEFAULT_PROFILE", help="Specify 'all' to authenticate to AWS and scan from *all* AWS credentials profiles. Specify a non-default profile here. Defaults to the 'default' profile.")
-@click.option("-o", "--output", type=click.Path(exists=True), default=os.getcwd(), help="Path to store the output. Defaults to current directory.")
-@click.option("--include-non-default-policy-versions", is_flag=True, default=False, help="When downloading AWS managed policy documents, also include the non-default policy versions. Note that this will dramatically increase the size of the downloaded file.")
+@click.option(
+    "-p",
+    "--profile",
+    type=str,
+    required=False,
+    envvar="AWS_DEFAULT_PROFILE",
+    help="Specify 'all' to authenticate to AWS and scan from *all* AWS credentials profiles. Specify a non-default profile here. Defaults to the 'default' profile.",
+)
+@click.option(
+    "-o",
+    "--output",
+    type=click.Path(exists=True),
+    default=os.getcwd(),
+    help="Path to store the output. Defaults to current directory.",
+)
+@click.option(
+    "--include-non-default-policy-versions",
+    is_flag=True,
+    default=False,
+    help="When downloading AWS managed policy documents, also include the non-default policy versions. Note that this will dramatically increase the size of the downloaded file.",
+)
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def download(
     profile: str, output: str, include_non_default_policy_versions: bool, verbosity: int

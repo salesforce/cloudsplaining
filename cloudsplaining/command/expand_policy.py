@@ -18,7 +18,13 @@ logger = logging.getLogger(__name__)
 @click.command(
     short_help="Expand the * Actions in IAM policy files to improve readability"
 )
-@click.option("-i", "--input-file", type=click.Path(exists=True), required=True, help="Path to the JSON policy file.")
+@click.option(
+    "-i",
+    "--input-file",
+    type=click.Path(exists=True),
+    required=True,
+    help="Path to the JSON policy file.",
+)
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def expand_policy(input_file: str, verbosity: int) -> None:
     """
