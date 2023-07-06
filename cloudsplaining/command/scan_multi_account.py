@@ -50,6 +50,7 @@ class MultiAccountConfig:
 @optgroup.option("-b", "--output-bucket", "output_bucket", type=str, help="The S3 bucket to save the results. Supply this and/or --output-directory.")
 @optgroup.group("Other Options", help="")
 @optgroup.option("-w", "--write-data-file", is_flag=True, required=False, default=False, help="Save the cloudsplaining JSON-formatted data results.")
+@click.option("-aR", "--flag-all-risky-actions", required=False, default=False, is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 @click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
 
@@ -61,6 +62,7 @@ def scan_multi_account(
     output_directory: str,
     output_bucket: str,
     write_data_file: bool,
+    flag_all_risky_actions: bool,
     verbosity: int,
     severity: List[str],
 ) -> None:
@@ -70,6 +72,13 @@ def scan_multi_account(
     # Read the config file from the user
     with open(config_file, "r") as yaml_file:
         config = yaml.safe_load(yaml_file)
+
+    if flag_all_risky_actions:
+        flag_conditional_statements = True
+        flag_resource_arn_statements = True
+    else:
+        flag_conditional_statements = False
+        flag_resource_arn_statements = False
 
     # Use the following lines to run this in a library
     multi_account_config = MultiAccountConfig(config=config, role_name=role_name)
@@ -83,6 +92,8 @@ def scan_multi_account(
         output_bucket=output_bucket,
         write_data_file=write_data_file,
         severity=severity,
+        flag_conditional_statements=flag_conditional_statements,
+        flag_resource_arn_statements=flag_resource_arn_statements
     )
 
 
@@ -95,6 +106,8 @@ def scan_accounts(
     output_directory: Optional[str] = None,
     output_bucket: Optional[str] = None,
     severity: List[str] = [],
+    flag_conditional_statements: bool = False,
+    flag_resource_arn_statements: bool = False
 ) -> None:
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
@@ -108,6 +121,8 @@ def scan_accounts(
             exclusions=exclusions,
             profile=profile,
             severity=severity,
+            flag_conditional_statements=flag_conditional_statements,
+            flag_resource_arn_statements=flag_resource_arn_statements
         )
         html_report = HTMLReport(
             account_id=target_account_id,
@@ -167,6 +182,8 @@ def scan_account(
     exclusions: Exclusions,
     profile: Optional[str] = None,
     severity: List[str] = [],
+    flag_conditional_statements: bool = False,
+    flag_resource_arn_statements: bool = False
 ) -> Dict[str, Dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(
@@ -175,7 +192,13 @@ def scan_account(
         profile=profile,
     )
     check_authorization_details_schema(account_authorization_details)
-    authorization_details = AuthorizationDetails(account_authorization_details, exclusions=exclusions,severity=severity)
+    authorization_details = AuthorizationDetails(
+        auth_json = account_authorization_details,
+        exclusions = exclusions,
+        severity = severity,
+        flag_conditional_statements = flag_conditional_statements,
+        flag_resource_arn_statements = flag_resource_arn_statements
+    )
     results = authorization_details.results
     return results
 
