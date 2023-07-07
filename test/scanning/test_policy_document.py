@@ -539,3 +539,101 @@ class TestPolicyDocument(unittest.TestCase):
         self.assertListEqual(policy_document.infrastructure_modification, ['ec2:AuthorizeSecurityGroupIngress'])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.infrastructure_modification, [])
+    
+    def test_gh_278_all_issue_types_respect_conditions_on_policy(self):
+        test_policy_all_issues_no_conditions = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        # Credentials Exposure
+                        "ec2:GetPasswordData",
+                        # Data Exfiltration
+                        "s3:GetObject",
+                        # Infrastructure Modification
+                        "ec2:AuthorizeSecurityGroupIngress",
+                        # Privilege Escalation
+                        "ec2:RunInstances",
+                        "iam:PassRole",
+                        # Resource Exposure
+                        "ec2:CreateNetworkInterfacePermission"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document = PolicyDocument(test_policy_all_issues_no_conditions)
+        self.assertListEqual(policy_document.credentials_exposure, ["ec2:GetPasswordData"])
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ["s3:GetObject"])
+        self.assertListEqual(policy_document.infrastructure_modification, [
+            "ec2:AuthorizeSecurityGroupIngress", 
+            "ec2:CreateNetworkInterfacePermission", 
+            "ec2:RunInstances",
+            "iam:PassRole",
+            "s3:GetObject"
+        ])
+        self.assertListEqual(policy_document.allows_privilege_escalation, [{
+            "actions": [
+                "iam:passrole",
+                "ec2:runinstances"
+            ],
+            "type": "CreateEC2WithExistingIP"
+        }])
+        self.assertListEqual(policy_document.permissions_management_without_constraints, [
+            "ec2:CreateNetworkInterfacePermission",
+            "iam:PassRole"
+        ])
+
+        test_policy_service_wildcard = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        # Service Wildcard
+                        "kinesis:*"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+        policy_document_service_wildcard = PolicyDocument(test_policy_service_wildcard)
+        self.assertListEqual(policy_document_service_wildcard.service_wildcard, ["kinesis"])
+
+        test_policy_all_issues_conditions = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        # Credentials Exposure
+                        "ec2:GetPasswordData",
+                        # Data Exfiltration
+                        "s3:GetObject",
+                        # Infrastructure Modification
+                        "ec2:AuthorizeSecurityGroupIngress",
+                        # Privilege Escalation
+                        "ec2:RunInstances",
+                        "iam:PassRole",
+                        # Resource Exposure
+                        "ec2:CreateNetworkInterfacePermission",
+                        # Service Wildcard
+                        "kinesis:*"
+                    ],
+                    "Resource": "*",
+                    "Condition": {
+                        "StringEquals": {
+                            "aws:PrincipalAccount": "123456789012"
+                        }
+                    }
+                }
+            ]
+        }
+        policy_document_condition = PolicyDocument(test_policy_all_issues_conditions)
+        self.assertListEqual(policy_document_condition.credentials_exposure, [])
+        self.assertListEqual(policy_document_condition.allows_data_exfiltration_actions, [])
+        self.assertListEqual(policy_document_condition.infrastructure_modification, [])
+        self.assertListEqual(policy_document_condition.allows_privilege_escalation, [])
+        self.assertListEqual(policy_document_condition.permissions_management_without_constraints, [])
+        self.assertListEqual(policy_document.service_wildcard, [])
