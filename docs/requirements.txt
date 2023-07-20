@@ -8,7 +8,7 @@ mkdocs-material-extensions==1.0.3
 mkdocstrings==0.18.1
 mkdocstrings-python>=0.5.2
 mkdocstrings-python-legacy==0.2.2
-Pygments==2.11.2
+Pygments==2.15.0
 pymdown-extensions==9.3
 pytkdocs==0.16.1
 docutils==0.18.1
