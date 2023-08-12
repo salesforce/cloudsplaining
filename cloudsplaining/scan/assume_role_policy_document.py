@@ -83,6 +83,8 @@ class AssumeRoleStatement:
         "Principal": ["value"]
         "Principal": { "AWS": "value" }
         "Principal": { "AWS": ["value", "value"] }
+        "Principal": { "Federated": "value" }
+        "Principal": { "Federated": ["value", "value"] }
         "Principal": { "Service": "value" }
         "Principal": { "Service": ["value", "value"] }
         Return: Set of principals
@@ -100,6 +102,12 @@ class AssumeRoleStatement:
                     principals.extend(principal["AWS"])
                 else:
                     principals.append(principal["AWS"])
+
+            if "Federated" in principal:
+                if isinstance(principal["Federated"], list):
+                    principals.extend(principal["Federated"])
+                else:
+                    principals.append(principal["Federated"])
 
             if "Service" in principal:
                 if isinstance(principal["Service"], list):

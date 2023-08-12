@@ -1,7 +1,5 @@
-from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement, AssumeRolePolicyDocument
-import os
+from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement
 import unittest
-import json
 
 
 class TestAssumeRole(unittest.TestCase):
@@ -10,6 +8,8 @@ class TestAssumeRole(unittest.TestCase):
     "Principal": ["value"]
     "Principal": { "AWS": "value" }
     "Principal": { "AWS": ["value", "value"] }
+    "Principal": { "Federated": "value" }
+    "Principal": { "Federated": ["value", "value"] }
     "Principal": { "Service": "value" }
     "Principal": { "Service": ["value", "value"] }
     """
@@ -40,8 +40,24 @@ class TestAssumeRole(unittest.TestCase):
             Resource="*",
         )
 
-        # "Principal": { "Service": "value", "AWS": "value" }
+        # "Principal": { "Federated": "value" }
         statement05 = dict(
+            Effect="Allow",
+            Principal={"Federated": "accounts.google.com"},
+            Action=["rds:*"],
+            Resource="*",
+        )
+
+        # "Principal": { "Federated": ["value", "value"] }
+        statement06 = dict(
+            Effect="Allow",
+            Principal={"Federated": ["cognito-identity.amazonaws.com", "www.amazon.com"]},
+            Action=["rds:*"],
+            Resource="*",
+        )
+
+        # "Principal": { "Service": "value", "AWS": "value" }
+        statement07 = dict(
             Effect="Allow",
             Principal={
                 "Service": "lambda.amazonaws.com",
@@ -52,7 +68,7 @@ class TestAssumeRole(unittest.TestCase):
         )
 
         # "Principal": { "Service": ["value", "value"] }
-        statement06 = dict(
+        statement08 = dict(
             Effect="Allow",
             Principal={"Service": ["lambda.amazonaws.com"]},
             Action=["rds:*"],
@@ -63,16 +79,22 @@ class TestAssumeRole(unittest.TestCase):
         assume_role_statement_04 = AssumeRoleStatement(statement04)
         assume_role_statement_05 = AssumeRoleStatement(statement05)
         assume_role_statement_06 = AssumeRoleStatement(statement06)
+        assume_role_statement_07 = AssumeRoleStatement(statement07)
+        assume_role_statement_08 = AssumeRoleStatement(statement08)
 
         self.assertListEqual(assume_role_statement_02.principals, ['arn:aws:iam::012345678910:root'])
         self.assertListEqual(assume_role_statement_03.principals, ['arn:aws:iam::012345678910:root'])
         self.assertListEqual(assume_role_statement_04.principals, ['arn:aws:iam::012345678910:root'])
-        self.assertListEqual(assume_role_statement_05.principals, ['arn:aws:iam::012345678910:root', 'lambda.amazonaws.com'])
-        self.assertListEqual(assume_role_statement_06.principals, ['lambda.amazonaws.com'])
+        self.assertListEqual(assume_role_statement_05.principals, ['accounts.google.com'])
+        self.assertListEqual(assume_role_statement_06.principals, ['cognito-identity.amazonaws.com', 'www.amazon.com'])
+        self.assertListEqual(assume_role_statement_07.principals, ['arn:aws:iam::012345678910:root', 'lambda.amazonaws.com'])
+        self.assertListEqual(assume_role_statement_08.principals, ['lambda.amazonaws.com'])
 
         self.assertListEqual(assume_role_statement_02.role_assumable_by_compute_services, [])
         self.assertListEqual(assume_role_statement_03.role_assumable_by_compute_services, [])
         self.assertListEqual(assume_role_statement_04.role_assumable_by_compute_services, [])
+        self.assertListEqual(assume_role_statement_05.role_assumable_by_compute_services, [])
+        self.assertListEqual(assume_role_statement_06.role_assumable_by_compute_services, [])
         # self.assertListEqual(assume_role_statement_05.role_assumable_by_compute_services, ["lambda"])
         # self.assertListEqual(assume_role_statement_06.role_assumable_by_compute_services, ["lambda"])
 
