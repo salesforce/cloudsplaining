@@ -8,7 +8,7 @@ click==8.1.2
 click_option_group==0.5.3
 # Templating - required for exclusions YAML files and inserting content to HTML report
 jinja2==3.1.1
-pyyaml==6.0
+pyyaml==6.0.1
 # We render Markdown glossary files as HTML in the Cloudsplaining report
 markdown==3.3.6
 # AWS IAM Logic
