@@ -49,6 +49,8 @@ END = "\033[0m"
 @click.option(
     "-aR",
     "--flag-all-risky-actions",
+    required=False,
+    default=False,
     is_flag=True,
     help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.",
 )
