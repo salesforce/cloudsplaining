@@ -66,7 +66,7 @@ class InlinePolicy:
             or exclusions.is_policy_excluded(self.policy_id)
         )
 
-    def getFindingLinks(self, findings: Any) -> List[Any]:
+    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[str, str]:
         links = {}
         for finding in findings:
             links[
