@@ -5,15 +5,21 @@ account-alias.json """
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import json
 import logging
 import os
-from typing import Dict, List, Any
+from typing import Dict, List, Any, TYPE_CHECKING
 
 import boto3
 import click
 from botocore.config import Config
+
 from cloudsplaining import set_log_level
+
+if TYPE_CHECKING:
+    from mypy_boto3_iam import IAMClient
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +48,7 @@ def download(
         session_data["profile_name"] = profile
         output_filename = os.path.join(output, f"{profile}.json")
     else:
-        output_filename = os.path.join(output, f"default.json")
+        output_filename = os.path.join(output, "default.json")
 
     results = get_account_authorization_details(
         session_data, include_non_default_policy_versions
@@ -58,9 +64,9 @@ def get_account_authorization_details(
     session_data: Dict[str, str], include_non_default_policy_versions: bool
 ) -> Dict[str, List[Any]]:
     """Runs aws-iam-get-account-authorization-details"""
-    session = boto3.Session(**session_data)
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
-    iam_client = session.client("iam", config=config)
+    iam_client: IAMClient = session.client("iam", config=config)
 
     results: Dict[str, List[Any]] = {
         "UserDetailList": [],
@@ -93,7 +99,7 @@ def get_account_authorization_details(
                     results["Policies"].append(policy)
                 else:
                     policy_version_list = []
-                    for policy_version in policy.get("PolicyVersionList"):
+                    for policy_version in policy.get("PolicyVersionList") or []:
                         if policy_version.get("VersionId") == policy.get(
                             "DefaultVersionId"
                         ):

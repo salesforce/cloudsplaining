@@ -153,18 +153,19 @@ def print_grey(string: Any) -> None:
 
 
 def write_file(file: str, content: str) -> None:
+    """Write content to file"""
     if os.path.exists(file):
-        logger.debug("%s exists. Removing the file and replacing its contents." % file)
+        logger.debug("%s exists. Removing the file and replacing its contents.", file)
         os.remove(file)
     with open(file, "w") as f:
         f.write(content)
 
 
 def write_json_to_file(file: str, content: str) -> None:
+    """Write JSON content to file"""
     if os.path.exists(file):
-        logger.debug("%s exists. Removing the file and replacing its contents." % file)
+        logger.debug("%s exists. Removing the file and replacing its contents.", file)
         os.remove(file)
 
     with open(file, "w") as f:
         json.dump(content, f, indent=4, default=str)
-

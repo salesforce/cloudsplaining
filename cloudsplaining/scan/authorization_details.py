@@ -4,6 +4,8 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
 from typing import Dict, List, Any
 
@@ -31,7 +33,7 @@ class AuthorizationDetails:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         """
         Object to hold and analyze Account Authorization details.
@@ -41,7 +43,7 @@ class AuthorizationDetails:
         :param flag_conditional_statements: Flag IAM statements with conditions, not just wildcards
         :param flag_resource_arn_statements: Flag IAM statements with resource ARN restrictions, not just wildcards
         """
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         self.auth_json = auth_json
 
         if not isinstance(exclusions, Exclusions):

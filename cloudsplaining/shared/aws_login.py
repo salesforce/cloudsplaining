@@ -1,27 +1,34 @@
 """AWS Login utilities"""
+from __future__ import annotations
+
 import os
 import logging
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, TYPE_CHECKING
 
 import boto3
 from botocore.config import Config
+
+if TYPE_CHECKING:
+    from boto3.resources.base import ServiceResource
+    from botocore.client import BaseClient
+    from mypy_boto3_sts import STSClient
 
 logger = logging.getLogger(__name__)
 
 
 def get_boto3_client(
     service: str, profile: Optional[str] = None, region: str = "us-east-1"
-) -> boto3.Session.client:
+) -> BaseClient:
     """Get a boto3 client for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     if os.environ.get("LOCALSTACK_ENDPOINT_URL"):
-        client = session.client(
+        client: BaseClient = session.client(
             service,
             config=config,
             endpoint_url=os.environ.get("LOCALSTACK_ENDPOINT_URL"),
@@ -36,20 +43,20 @@ def get_boto3_client(
 
 def get_boto3_resource(
     service: str, profile: Optional[str] = None, region: str = "us-east-1"
-) -> boto3.Session.resource:
+) -> ServiceResource:
     """Get a boto3 resource for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
-    resource = session.resource(service, config=config)
+    resource: ServiceResource = session.resource(service, config=config)
     return resource
 
 
-def get_current_account_id(sts_client: boto3.Session.client) -> str:
+def get_current_account_id(sts_client: STSClient) -> str:
     """Get the current account ID"""
     response = sts_client.get_caller_identity()
     current_account_id: str = response.get("Account", "")
@@ -86,9 +93,9 @@ def get_target_account_credentials(
     session_data = {"region_name": default_region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
-    sts_client = session.client("sts", config=config)
+    sts_client: STSClient = session.client("sts", config=config)
 
     acct_b = sts_client.assume_role(
         RoleArn=f"arn:aws:iam::{target_account_id}:role/{target_account_role_name}",

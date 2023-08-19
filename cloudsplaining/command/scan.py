@@ -6,6 +6,8 @@ Scan a single account authorization file
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
 import os
 import webbrowser
@@ -103,7 +105,7 @@ def scan(
         # Open the report by default
         if not skip_open_report:
             print("Opening the HTML report")
-            url = "file://%s" % os.path.abspath(html_output_file)
+            url = f"file://{os.path.abspath(html_output_file)}"
             webbrowser.open(url, new=2)
 
     if os.path.isdir(input_file):
@@ -141,7 +143,7 @@ def scan(
             # Open the report by default
             if not skip_open_report:
                 print("Opening the HTML report")
-                url = "file://%s" % os.path.abspath(html_output_file)
+                url = f"file://{os.path.abspath(html_output_file)}"
                 webbrowser.open(url, new=2)
 
 
@@ -158,7 +160,7 @@ def scan_account_authorization_details(
     return_json_results: bool = False,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
-    severity: List[str] = [],
+    severity: List[str] | None = None,
 ) -> Any:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
