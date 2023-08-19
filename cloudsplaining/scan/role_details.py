@@ -1,4 +1,6 @@
 """Processes RoleDetailList"""
+from __future__ import annotations
+
 import logging
 import json
 from typing import List, Dict, Any, Optional
@@ -32,9 +34,9 @@ class RoleDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         self.roles = []
 
         if not isinstance(exclusions, Exclusions):
@@ -135,7 +137,7 @@ class RoleDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         """
         Initialize the RoleDetail object.

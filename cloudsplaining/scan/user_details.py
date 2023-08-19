@@ -1,4 +1,6 @@
 """Processes UserDetailList"""
+from __future__ import annotations
+
 import json
 from typing import List, Dict, Any, Optional
 
@@ -26,9 +28,9 @@ class UserDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The exclusions provided is not an Exclusions type object. "
@@ -121,7 +123,7 @@ class UserDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         """
         Initialize the UserDetail object.
@@ -131,7 +133,7 @@ class UserDetail:
         so the user can inherit those attributes
         :param all_group_details:
         """
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         self.create_date = user_detail.get("CreateDate")
         self.arn = user_detail.get("Arn")
         self.path = user_detail["Path"]

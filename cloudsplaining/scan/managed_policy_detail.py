@@ -4,6 +4,8 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
 from typing import Dict, Any, List
 
@@ -32,7 +34,7 @@ class ManagedPolicyDetails:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[Any] = [],
+        severity: List[Any] | None = None,
     ) -> None:
         self.policy_details = []
         if not isinstance(exclusions, Exclusions):
@@ -155,7 +157,7 @@ class ManagedPolicy:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         # Store the Raw JSON data from this for safekeeping
         self.policy_detail = policy_detail
@@ -196,7 +198,7 @@ class ManagedPolicy:
 
         self.policy_document = self._policy_document()
 
-        self.severity = severity
+        self.severity = [] if severity is None else severity
 
     def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
         self.iam_data = iam_data
