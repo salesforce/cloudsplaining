@@ -162,12 +162,10 @@ class PolicyDocument:
         all_allowed_unrestricted_actions_lowercase.update(
             [x.lower() for x in self.all_allowed_unrestrictable_actions]
         )
-        for key in PRIVILEGE_ESCALATION_METHODS:
-            if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(
-                all_allowed_unrestricted_actions_lowercase
-            ):
+        for escalation_type, actions in PRIVILEGE_ESCALATION_METHODS.items():
+            if set(actions).issubset(all_allowed_unrestricted_actions_lowercase):
                 # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
-                escalation = {"type": key, "actions": PRIVILEGE_ESCALATION_METHODS[key]}
+                escalation = {"type": escalation_type, "actions": actions}
                 escalations.append(escalation)
         return escalations
 

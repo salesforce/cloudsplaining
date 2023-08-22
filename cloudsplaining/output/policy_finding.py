@@ -4,6 +4,8 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
 from typing import List, Dict, Any
 
@@ -31,7 +33,7 @@ class PolicyFinding:
         self,
         policy_document: PolicyDocument,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         """
         Supply a PolicyDocument object and Exclusions object to get a single policy finding
@@ -45,7 +47,7 @@ class PolicyFinding:
         self.missing_resource_constraints_for_modify_actions = (
             self._missing_resource_constraints_for_modify_actions()
         )
-        self.severity = severity
+        self.severity = [] if severity is None else severity
 
     def _missing_resource_constraints_for_modify_actions(self) -> List[str]:
         """Find modify actions that lack resource ARN constraints"""

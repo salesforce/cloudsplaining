@@ -51,6 +51,7 @@ clean:
 # Run unit tests
 test: setup-dev
 	python3 -m coverage run -m pytest -v
+	python3 -m coverage report -m
 
 # Run python security tests
 security-test: setup-dev

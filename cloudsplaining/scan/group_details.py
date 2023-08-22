@@ -1,4 +1,6 @@
 """Processes an entry under GroupDetailList"""
+from __future__ import annotations
+
 import json
 from typing import Optional, Dict, Any, List
 
@@ -24,9 +26,9 @@ class GroupDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         if not isinstance(exclusions, Exclusions):
             raise Exception(
                 "The exclusions provided is not an Exclusions type object. "
@@ -123,7 +125,7 @@ class GroupDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ):
         """
         Initialize the GroupDetail object.
@@ -131,7 +133,7 @@ class GroupDetail:
         :param group_detail: Details about a particular group
         :param policy_details: The ManagedPolicyDetails object - i.e., details about all managed policies in the account so the group can inherit those attributes
         """
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         self.create_date = group_detail.get("CreateDate")
         self.arn = group_detail.get("Arn")
         self.path = group_detail["Path"]

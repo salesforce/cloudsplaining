@@ -1,13 +1,13 @@
 # Linter
-pylint==2.13.5
-# Unit testing - nose and pytest
-nose==1.3.7
-pytest==7.1.1
-coverage==6.3.2
+pylint==2.17.5
+# Unit testing
+pytest==7.4.0
+coverage==7.2.7
 # Security testing
-bandit==1.7.4
+bandit==1.7.5
 # Formatter
-black==22.3.0
+black==23.3.0
 # type check
-mypy==0.942
-types-PyYAML==6.0.10
+mypy==1.4.1
+boto3-stubs-lite[iam,s3,sts]
+types-PyYAML==6.0.12.11

@@ -1,13 +1,15 @@
 """Scan multiple AWS accounts via AssumeRole"""
+from __future__ import annotations
+
 import logging
 import os
 import json
-from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, cast, TYPE_CHECKING
 
 import yaml
 import click
 from click_option_group import optgroup
+
 from cloudsplaining.shared.constants import EXCLUSIONS_FILE
 from cloudsplaining.command.download import get_account_authorization_details
 from cloudsplaining import set_log_level
@@ -16,6 +18,9 @@ from cloudsplaining.shared import utils, aws_login
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 from cloudsplaining.output.report import HTMLReport
+
+if TYPE_CHECKING:
+    from mypy_boto3_s3 import S3ServiceResource
 
 logger = logging.getLogger(__name__)
 OK_GREEN = "\033[92m"
@@ -105,7 +110,7 @@ def scan_accounts(
     profile: Optional[str] = None,
     output_directory: Optional[str] = None,
     output_bucket: Optional[str] = None,
-    severity: List[str] = [],
+    severity: List[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False
 ) -> None:
@@ -137,7 +142,7 @@ def scan_accounts(
                 "Please supply --output-bucket and/or --output-directory as arguments."
             )
         if output_bucket:
-            s3 = aws_login.get_boto3_resource(service="s3", profile=profile)
+            s3 = cast("S3ServiceResource", aws_login.get_boto3_resource(service="s3", profile=profile))
             # Write the HTML file
             output_file = f"{target_account_name}.html"
             s3.Object(output_bucket, output_file).put(
@@ -181,7 +186,7 @@ def scan_account(
     target_role_name: str,
     exclusions: Exclusions,
     profile: Optional[str] = None,
-    severity: List[str] = [],
+    severity: List[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False
 ) -> Dict[str, Dict[str, Any]]:
@@ -193,11 +198,11 @@ def scan_account(
     )
     check_authorization_details_schema(account_authorization_details)
     authorization_details = AuthorizationDetails(
-        auth_json = account_authorization_details,
-        exclusions = exclusions,
-        severity = severity,
-        flag_conditional_statements = flag_conditional_statements,
-        flag_resource_arn_statements = flag_resource_arn_statements
+        auth_json=account_authorization_details,
+        exclusions=exclusions,
+        severity=severity,
+        flag_conditional_statements=flag_conditional_statements,
+        flag_resource_arn_statements=flag_resource_arn_statements,
     )
     results = authorization_details.results
     return results
@@ -216,12 +221,12 @@ def download_account_authorization_details(
         target_account_role_name=target_role_name,
         profile=profile,
     )
-    session_data = dict(
-        region_name="us-east-1",
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        aws_session_token=aws_session_token,
-    )
+    session_data = {
+        "region_name": "us-east-1",
+        "aws_access_key_id": aws_access_key_id,
+        "aws_secret_access_key": aws_secret_access_key,
+        "aws_session_token": aws_session_token,
+    }
     include_non_default_policy_versions = False
     authorization_details = get_account_authorization_details(
         session_data, include_non_default_policy_versions

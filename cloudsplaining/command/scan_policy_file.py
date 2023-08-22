@@ -6,6 +6,8 @@ Scan a single policy file to identify missing resource constraints.
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import sys
 import logging
 import json
@@ -126,8 +128,6 @@ def scan_policy_file(
                 for item in results["PrivilegeEscalation"]["findings"]:
                     print(f"- Method: {item.get('type')}")
                     print(f"  Actions: {', '.join(item.get('actions', []))}\n")
-        else:
-            None
 
         # Data Exfiltration
         if results["DataExfiltration"]:
@@ -139,8 +139,6 @@ def scan_policy_file(
                 print(
                     f"{BOLD}Actions{END}: {', '.join(results['DataExfiltration']['findings'])}\n"
                 )
-        else:
-            None
 
         # Resource Exposure
         if results["ResourceExposure"]:
@@ -152,8 +150,6 @@ def scan_policy_file(
                 print(
                     f"{BOLD}Actions{END}: {', '.join(results['ResourceExposure']['findings'])}\n"
                 )
-        else:
-            None
 
         # Service Wildcard
         if results["ServiceWildcard"]:
@@ -165,8 +161,6 @@ def scan_policy_file(
                 print(
                     f"{BOLD}Actions{END}: {', '.join(results['ServiceWildcard']['findings'])}\n"
                 )
-        else:
-            None
 
         # Credentials Exposure
         if results["CredentialsExposure"]:
@@ -178,8 +172,6 @@ def scan_policy_file(
                 print(
                     f"{BOLD}Actions{END}: {', '.join(results['CredentialsExposure']['findings'])}\n"
                 )
-        else:
-            None
 
         if not high_priority_only:
             if results["InfrastructureModification"]:
@@ -192,8 +184,6 @@ def scan_policy_file(
                     print(
                         f"{BOLD}Actions{END}: {', '.join(results['InfrastructureModification']['findings'])}"
                     )
-            else:
-                None
 
         if results_exist == 0:
             print("There were no results found.")
@@ -206,7 +196,7 @@ def scan_policy(
     exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
-    severity: List[str] = [],
+    severity: List[str] | None = None,
 ) -> Dict[str, Dict[str, Any]]:
     """
     Scan a policy document for missing resource constraints.
