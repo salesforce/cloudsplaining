@@ -1,4 +1,6 @@
 """Represents the Inline Policies (UserPolicyList, GroupPolicyList, RolePolicyList) entries under each principal."""
+from __future__ import annotations
+
 import json
 from typing import Dict, Any, List, cast
 
@@ -19,7 +21,7 @@ class InlinePolicy:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] = [],
+        severity: List[str] | None = None,
     ) -> None:
         """
         Initialize the InlinePolicy object.
@@ -49,7 +51,7 @@ class InlinePolicy:
 
         self.exclusions = exclusions
         self.is_excluded = self._is_excluded(exclusions)
-        self.severity = severity
+        self.severity = [] if severity is None else severity
         self.iam_data: Dict[str, Dict[Any, Any]] = {
             "groups": {},
             "users": {},
