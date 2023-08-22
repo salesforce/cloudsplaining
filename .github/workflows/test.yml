@@ -2,18 +2,23 @@
 
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - name: Setup Python 3.7
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
         with:
-          python-version: 3.7
+          python-version: '3.7'
 
       - name: Install dependencies
         run: |
@@ -31,3 +36,30 @@ jobs:
       - name: Run mypy (static type check)
         run: |
           make type-check
+
+  python-version:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: true
+      matrix:
+        python: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        with:
+          python-version: ${{ matrix.python }}
+          allow-prereleases: true
+
+      - name: Install dependencies
+        run: |
+          make setup-dev
+
+      - name: Install the package to make sure nothing is randomly broken
+        run: |
+          make install
+
+      - name: Run pytest (unit tests) and bandit (security test)
+        run: |
+          make test
