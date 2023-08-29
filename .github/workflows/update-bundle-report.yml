@@ -10,11 +10,10 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
         with:
           python-version: '3.7'
 
@@ -36,8 +35,8 @@ jobs:
           make test-js
 
       - name: PR if files were updated
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           commit-message: Update JS Bundle and example reports
-          title: 'Updates database'
+          title: 'Updates JS Bundle and example reports'
           body: This is an automated PR created to update the JS Bundle and the example reports.
