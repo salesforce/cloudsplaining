@@ -67,31 +67,31 @@ MULTI_ACCOUNT_CONFIG_TEMPLATE = """accounts:
 # For now, we have included s3, SSM Parameter Store, and Secrets Manager.
 # Feel free to open up a GitHub issue if you have suggestions.
 READ_ONLY_DATA_EXFILTRATION_ACTIONS = [
-      "s3:GetObject",
-      "ssm:GetParameter",
-      "ssm:GetParameters",
-      "ssm:GetParametersByPath",
-      "secretsmanager:GetSecretValue",
-    ]
+    "s3:GetObject",
+    "ssm:GetParameter",
+    "ssm:GetParameters",
+    "ssm:GetParametersByPath",
+    "secretsmanager:GetSecretValue",
+]
 
 ISSUE_SEVERITY = {
-    "PrivilegeEscalation":"high",
-    "DataExfiltration":"medium",
-    "ResourceExposure":"high",
-    "ServiceWildcard":"medium",
-    "CredentialsExposure":"high",
-    "InfrastructureModification":"low",
-    "AssumableByComputeService":"low",
+    "PrivilegeEscalation": "high",
+    "DataExfiltration": "medium",
+    "ResourceExposure": "high",
+    "ServiceWildcard": "medium",
+    "CredentialsExposure": "high",
+    "InfrastructureModification": "low",
+    "AssumableByComputeService": "low",
 }
 
 RISK_DEFINITION = {
-  "PrivilegeEscalation":'<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>',
-  "DataExfiltration":'<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
-  "ResourceExposure":'<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>',
-  "ServiceWildcard":'<p>"Service Wildcard" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>',
-  "CredentialsExposure":'<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>',
-  "InfrastructureModification":'',
-  "AssumableByComputeService":'<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>',
+    "PrivilegeEscalation": '<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>',
+    "DataExfiltration": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
+    "ResourceExposure": '<p>Resource Exposure actions allow modification of Permissions to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">resource-based policies</a> or otherwise can expose AWS resources to the public via similar actions that can lead to resource exposure - for example, the ability to modify <a href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS Resource Access Manager</a>.</p>',
+    "ServiceWildcard": '<p>"Service Wildcard" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>',
+    "CredentialsExposure": "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
+    "InfrastructureModification": "",
+    "AssumableByComputeService": "<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>",
 }
 
 PRIVILEGE_ESCALATION_METHODS = {
@@ -144,7 +144,7 @@ PRIVILEGE_ESCALATION_METHODS = {
     ],
     # 5. Privilege Escalation Using AWS Services
     "UpdateExistingGlueDevEndpoint": ["glue:updatedevendpoint"],
-    "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"]
+    "EditExistingLambdaFunctionWithRole": ["lambda:updatefunctioncode"],
 }
 
 SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
@@ -152,7 +152,13 @@ SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
 # AWS API calls that return credentials
 # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
 ACTIONS_THAT_RETURN_CREDENTIALS = [
+    "airflow:createclitoken",
+    "airflow:createweblogintoken",
+    "appsync:createapikey",
     "chime:createapikey",
+    "cloud9:createenvironmenttoken",
+    # https://github.com/salesforce/cloudsplaining/issues/272
+    "codeartifact:getauthorizationtoken",
     "codepipeline:pollforjobs",
     "cognito-identity:getopenidtoken",
     "cognito-identity:getopenidtokenfordeveloperidentity",
@@ -162,15 +168,20 @@ ACTIONS_THAT_RETURN_CREDENTIALS = [
     "connect:getfederationtokens",
     "ec2:getpassworddata",
     "ecr:getauthorizationtoken",
+    "ecr-public:getauthorizationtoken",
+    "emr-containers:getmanagedendpointsessioncredentials",
+    "finspace-api:getprogrammaticaccesscredentials",
     "gamelift:requestuploadcredentials",
     "gamelift:getinstanceaccess",
     "gamelist:getcomputeaccess",
     "gamelist:getcomputeauthtoken",
+    "grafana:createworkspaceapikey",
     "iam:createaccesskey",
     "iam:createloginprofile",
     "iam:createservicespecificcredential",
     "iam:resetservicespecificcredential",
     "iam:updateaccesskey",
+    "license-manager:getaccesstoken",
     "lightsail:getinstanceaccessdetails",
     "lightsail:downloaddefaultkeypair",
     "lightsail:createbucketaccesskey",
@@ -179,10 +190,12 @@ ACTIONS_THAT_RETURN_CREDENTIALS = [
     "mediapackage:rotateingestendpointcredentials",
     "rds-db:connect",
     "redshift:getclustercredentials",
+    "redshift:getclustercredentialswithiam",
+    "redshift-serverless:getcredentials",
     "sso:getrolecredentials",
     "sts:assumerole",
     "sts:assumerolewithsaml",
     "sts:assumerolewithwebidentity",
     "sts:getfederationtoken",
     "sts:getsessiontoken",
-  ]
+]
