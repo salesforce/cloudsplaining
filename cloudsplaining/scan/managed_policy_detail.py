@@ -11,6 +11,7 @@ from typing import Dict, Any, List
 
 from policy_sentry.util.arns import get_account_from_arn
 from cloudsplaining.scan.policy_document import PolicyDocument
+from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.utils import get_full_policy_path, is_aws_managed
 from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
 from cloudsplaining.shared.exclusions import (
@@ -95,7 +96,7 @@ class ManagedPolicyDetails:
         for policy_detail in self.policy_details:
             if policy_detail.arn == arn:
                 return policy_detail
-        raise Exception("Managed Policy ARN %s not found.", arn)
+        raise NotFoundException(f"Managed Policy ARN {arn} not found.")
 
     @property
     def all_infrastructure_modification_actions(self) -> List[str]:
