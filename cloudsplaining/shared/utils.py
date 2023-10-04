@@ -21,6 +21,7 @@ from policy_sentry.querying.all import get_all_service_prefixes
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
 OK_GREEN = "\033[92m"
+ERROR_RED = "\033[91m"
 GREY = "\33[90m"
 END = "\033[0m"
 
@@ -54,7 +55,8 @@ def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
 
 def remove_read_level_actions(actions_list: List[str]) -> List[str]:
     """Given a set of actions, return that list of actions,
-    but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels"""
+    but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels
+    """
     modify_actions: List[str] = remove_actions_not_matching_access_level(
         actions_list, "Write"
     )
@@ -145,6 +147,11 @@ def read_yaml_file(filename: str) -> Dict[str, Any]:
 def print_green(string: Any) -> None:
     """Print green text"""
     print(f"{OK_GREEN}{string}{END}")
+
+
+def print_red(string: Any) -> None:
+    """Print green text"""
+    print(f"{ERROR_RED}{string}{END}")
 
 
 def print_grey(string: Any) -> None:

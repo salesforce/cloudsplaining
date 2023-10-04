@@ -9,6 +9,8 @@ from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocu
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.statement_detail import StatementDetail
+from cloudsplaining.shared import utils
+from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.utils import (
     is_aws_managed,
     get_full_policy_path,
@@ -214,12 +216,15 @@ class RoleDetail:
                     or exclusions.is_policy_excluded(get_full_policy_path(arn))
                     or exclusions.is_policy_excluded(get_policy_name(arn))
                 ):
-                    attached_managed_policy_details = policy_details.get_policy_detail(
-                        arn
-                    )
-                    self.attached_managed_policies.append(
-                        attached_managed_policy_details
-                    )
+                    try:
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
+                    except NotFoundException as e:
+                        utils.print_red(f"\tError in role {self.role_name}: {e}")
 
     def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
         self.iam_data = iam_data
