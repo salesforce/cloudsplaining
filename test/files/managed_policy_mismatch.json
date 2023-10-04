@@ -1,0 +1,138 @@
+{
+    "UserDetailList": [],
+    "GroupDetailList": [
+        {
+            "Path": "/",
+            "GroupName": "anton-test",
+            "GroupId": "AGPAWVW3SJZQQ54WVKWYW",
+            "Arn": "arn:aws:iam::123456789012:group/anton-test",
+            "CreateDate": "2023-10-04T20:08:56+00:00",
+            "GroupPolicyList": [],
+            "AttachedManagedPolicies": [
+                {
+                    "PolicyName": "AWSLambdaReadOnlyAccess",
+                    "PolicyArn": "arn:aws:iam::aws:policy/AWSLambdaReadOnlyAccess"
+                }
+            ]
+        }
+    ],
+    "Policies": [
+        {
+            "PolicyName": "AWSLambda_ReadOnlyAccess",
+            "PolicyId": "ANPAZKAPJZG4IERNVMNPE",
+            "Arn": "arn:aws:iam::aws:policy/AWSLambda_ReadOnlyAccess",
+            "Path": "/",
+            "DefaultVersionId": "v2",
+            "AttachmentCount": 1,
+            "PermissionsBoundaryUsageCount": 0,
+            "IsAttachable": true,
+            "CreateDate": "2020-11-17T21:10:32+00:00",
+            "UpdateDate": "2023-07-27T17:32:05+00:00",
+            "PolicyVersionList": [
+                {
+                    "Document": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                            {
+                                "Effect": "Allow",
+                                "Action": [
+                                    "cloudformation:DescribeStacks",
+                                    "cloudformation:ListStacks",
+                                    "cloudformation:ListStackResources",
+                                    "cloudwatch:GetMetricData",
+                                    "cloudwatch:ListMetrics",
+                                    "ec2:DescribeSecurityGroups",
+                                    "ec2:DescribeSubnets",
+                                    "ec2:DescribeVpcs",
+                                    "kms:ListAliases",
+                                    "iam:GetPolicy",
+                                    "iam:GetPolicyVersion",
+                                    "iam:GetRole",
+                                    "iam:GetRolePolicy",
+                                    "iam:ListAttachedRolePolicies",
+                                    "iam:ListRolePolicies",
+                                    "iam:ListRoles",
+                                    "logs:DescribeLogGroups",
+                                    "lambda:Get*",
+                                    "lambda:List*",
+                                    "states:DescribeStateMachine",
+                                    "states:ListStateMachines",
+                                    "tag:GetResources",
+                                    "xray:GetTraceSummaries",
+                                    "xray:BatchGetTraces"
+                                ],
+                                "Resource": "*"
+                            },
+                            {
+                                "Effect": "Allow",
+                                "Action": [
+                                    "logs:DescribeLogStreams",
+                                    "logs:GetLogEvents",
+                                    "logs:FilterLogEvents",
+                                    "logs:StartQuery",
+                                    "logs:StopQuery",
+                                    "logs:DescribeQueries",
+                                    "logs:GetLogGroupFields",
+                                    "logs:GetLogRecord",
+                                    "logs:GetQueryResults"
+                                ],
+                                "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+                            }
+                        ]
+                    },
+                    "VersionId": "v2",
+                    "IsDefaultVersion": true,
+                    "CreateDate": "2023-07-27T17:32:05+00:00"
+                },
+                {
+                    "Document": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                            {
+                                "Effect": "Allow",
+                                "Action": [
+                                    "cloudformation:DescribeStacks",
+                                    "cloudformation:ListStackResources",
+                                    "cloudwatch:GetMetricData",
+                                    "cloudwatch:ListMetrics",
+                                    "ec2:DescribeSecurityGroups",
+                                    "ec2:DescribeSubnets",
+                                    "ec2:DescribeVpcs",
+                                    "kms:ListAliases",
+                                    "iam:GetPolicy",
+                                    "iam:GetPolicyVersion",
+                                    "iam:GetRole",
+                                    "iam:GetRolePolicy",
+                                    "iam:ListAttachedRolePolicies",
+                                    "iam:ListRolePolicies",
+                                    "iam:ListRoles",
+                                    "logs:DescribeLogGroups",
+                                    "lambda:Get*",
+                                    "lambda:List*",
+                                    "states:DescribeStateMachine",
+                                    "states:ListStateMachines",
+                                    "tag:GetResources",
+                                    "xray:GetTraceSummaries",
+                                    "xray:BatchGetTraces"
+                                ],
+                                "Resource": "*"
+                            },
+                            {
+                                "Effect": "Allow",
+                                "Action": [
+                                    "logs:DescribeLogStreams",
+                                    "logs:GetLogEvents",
+                                    "logs:FilterLogEvents"
+                                ],
+                                "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+                            }
+                        ]
+                    },
+                    "VersionId": "v1",
+                    "IsDefaultVersion": false,
+                    "CreateDate": "2020-11-17T21:10:32+00:00"
+                }
+            ]
+        }
+    ]
+}

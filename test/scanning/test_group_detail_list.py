@@ -1,6 +1,8 @@
 import os
 import unittest
 import json
+from pathlib import Path
+
 from cloudsplaining.scan.group_details import GroupDetail, GroupDetailList
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 
@@ -55,3 +57,16 @@ class TestGroupDetail(unittest.TestCase):
         actions = group_detail_list.get_all_allowed_actions_for_group('biden')
         self.assertTrue("s3:GetObject" in actions)
         # privileges = group_detail_list.get_all_iam_statements_for_group('biden')
+
+    def test_group_detail_list_fails_silently(self):
+        # given
+        authz_details_path = Path(__file__).parents[1] / "files/managed_policy_mismatch.json"
+        authz_details = json.loads(authz_details_path.read_text())
+        group_detail_input = authz_details["GroupDetailList"][0]
+        policy_details = ManagedPolicyDetails(authz_details.get("Policies"))
+
+        # when
+        group_detail = GroupDetail(group_detail_input, policy_details)
+
+        # then
+        self.assertTrue(len(group_detail.attached_managed_policies) == 0)
