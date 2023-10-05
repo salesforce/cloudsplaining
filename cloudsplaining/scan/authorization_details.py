@@ -110,7 +110,7 @@ class AuthorizationDetails:
         return results
 
     @property
-    def links(self) -> Dict[str, str]:
+    def links(self) -> Dict[str, str | None]:
         """Return a dictionary of the action names as keys and their API documentation links as values"""
         results = {}
         unique_action_names = set()
