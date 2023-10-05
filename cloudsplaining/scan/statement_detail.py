@@ -4,7 +4,7 @@ from typing import Dict, Any, List, Optional
 
 from cached_property import cached_property
 
-from policy_sentry.analysis.analyze import determine_actions_to_expand
+from policy_sentry.analysis.expand import determine_actions_to_expand
 from policy_sentry.querying.actions import (
     remove_actions_not_matching_access_level,
     get_actions_matching_arn,
@@ -33,7 +33,12 @@ class StatementDetail:
     Analyzes individual statements within a policy
     """
 
-    def __init__(self, statement: Dict[str, Any], flag_conditional_statements: bool = False, flag_resource_arn_statements: bool = False) -> None:
+    def __init__(
+        self,
+        statement: Dict[str, Any],
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
+    ) -> None:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
@@ -78,7 +83,8 @@ class StatementDetail:
 
     def _not_action(self) -> List[str]:
         """Holds the NotAction details.
-        We won't do anything with it - but we will flag it as something for the assessor to triage."""
+        We won't do anything with it - but we will flag it as something for the assessor to triage.
+        """
         not_action = self.statement.get("NotAction")
         if not not_action:
             return []
@@ -88,7 +94,8 @@ class StatementDetail:
 
     def _not_resource(self) -> List[str]:
         """Holds the NotResource details.
-        We won't do anything with it - but we will flag it as something for the assessor to triage."""
+        We won't do anything with it - but we will flag it as something for the assessor to triage.
+        """
         not_resource = self.statement.get("NotResource")
         if not not_resource:
             return []
@@ -98,7 +105,7 @@ class StatementDetail:
 
     # @property
     def _not_action_effective_actions(self) -> Optional[List[str]]:
-        """If NotAction is used, calculate the allowed actions - i.e., what it would be """
+        """If NotAction is used, calculate the allowed actions - i.e., what it would be"""
         effective_actions = []
         if not self.not_action:
             return None
@@ -149,7 +156,8 @@ class StatementDetail:
     @property
     def has_not_resource_with_allow(self) -> bool:
         """Per the AWS documentation, the NotResource should NEVER be used with the Allow Effect.
-        See documentation here. https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notresource.html#notresource-element-combinations"""
+        See documentation here. https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notresource.html#notresource-element-combinations
+        """
         if self.not_resource and self.effect_allow:
             logger.warning(
                 "Per the AWS documentation, the NotResource should never be used with the "
@@ -198,9 +206,8 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if (
-            (not self.has_resource_constraints or self.flag_resource_arn_statements) and
-             not self.has_condition
-        ):
+            not self.has_resource_constraints or self.flag_resource_arn_statements
+        ) and not self.has_condition:
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Permissions management"
             )
@@ -213,9 +220,8 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if (
-            (not self.has_resource_constraints or self.flag_resource_arn_statements) and
-             not self.has_condition
-        ):
+            not self.has_resource_constraints or self.flag_resource_arn_statements
+        ) and not self.has_condition:
             result = remove_actions_not_matching_access_level(
                 self.restrictable_actions, "Write"
             )

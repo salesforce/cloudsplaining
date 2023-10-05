@@ -247,7 +247,7 @@ class ManagedPolicy:
         if is_aws_managed(self.arn):
             return "N/A"
         else:
-            return get_account_from_arn(self.arn)  # type: ignore
+            return get_account_from_arn(self.arn)
 
     def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[Any, str]:
         links = {}
