@@ -40,9 +40,10 @@ def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
             continue  # pragma: no cover
         action_data = get_action_data(service_prefix, action_name)
         if action_data:
-            if len(action_data.get(service_prefix)) == 0:
+            service_data_len = len(action_data.get(service_prefix, []))
+            if service_data_len == 0:
                 pass  # pragma: no cover
-            elif len(action_data.get(service_prefix)) == 1:
+            elif service_data_len == 1:
                 if action_data[service_prefix][0]["resource_arn_format"] == "*":
                     pass
                 else:
