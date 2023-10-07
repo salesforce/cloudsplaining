@@ -4,34 +4,37 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
 from typing import Dict, Any, List
 
+from cloudsplaining.scan.resource_policy_document import (
+    ResourcePolicyDocument,
+    ResourceStatement,
+)
 from cloudsplaining.shared.constants import SERVICE_PREFIXES_WITH_COMPUTE_ROLES
 
 logger = logging.getLogger(__name__)
 
 
-class AssumeRolePolicyDocument:
-    """
-    Holds the AssumeRole/Trust Policy document
+class AssumeRolePolicyDocument(ResourcePolicyDocument):
+    """Holds the AssumeRole/Trust Policy document
+
+    It is a specialized version of a Resource-based policy
     """
 
-    def __init__(self, policy: Dict[str, Any]) -> None:
+    def __init__(self, policy: dict[str, Any]) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
-        self.statements = []
+        # We would actually need to define a proper base class with a generic type for statements
+        self.statements: list[AssumeRoleStatement] = []  # type:ignore[assignment]
         # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
         if not isinstance(statement_structure, list):  # pragma: no cover
             statement_structure = [statement_structure]
 
         for statement in statement_structure:
             self.statements.append(AssumeRoleStatement(statement))
-
-    @property
-    def json(self) -> Dict[str, Any]:
-        """Return the AssumeRole Policy in JSON"""
-        return self.policy
 
     @property
     def role_assumable_by_compute_services(self) -> List[str]:
@@ -45,17 +48,13 @@ class AssumeRolePolicyDocument:
         return assumable_by_compute_services
 
 
-class AssumeRoleStatement:
+class AssumeRoleStatement(ResourceStatement):
     """
     Statements in an AssumeRole/Trust Policy document
     """
 
     def __init__(self, statement: Dict[str, Any]) -> None:
-        self.json = statement
-        self.statement = statement
-        self.effect = statement["Effect"]
-        self.actions = self._assume_role_actions()
-        self.principals = self._principals()
+        super().__init__(statement=statement)
 
         # self.not_principal = statement.get("NotPrincipal")
         if statement.get("NotPrincipal"):
@@ -75,49 +74,6 @@ class AssumeRoleStatement:
             return actions
 
         return [actions]
-
-    def _principals(self) -> List[str]:
-        """Extracts all principals from IAM statement.
-        Should handle these cases:
-        "Principal": "value"
-        "Principal": ["value"]
-        "Principal": { "AWS": "value" }
-        "Principal": { "AWS": ["value", "value"] }
-        "Principal": { "Federated": "value" }
-        "Principal": { "Federated": ["value", "value"] }
-        "Principal": { "Service": "value" }
-        "Principal": { "Service": ["value", "value"] }
-        Return: Set of principals
-        """
-        principals: List[str] = []
-        principal = self.statement.get("Principal", None)
-        if not principal:
-            # It is possible not to define a principal, AWS ignores these statements.
-            return principals  # pragma: no cover
-
-        if isinstance(principal, dict):
-
-            if "AWS" in principal:
-                if isinstance(principal["AWS"], list):
-                    principals.extend(principal["AWS"])
-                else:
-                    principals.append(principal["AWS"])
-
-            if "Federated" in principal:
-                if isinstance(principal["Federated"], list):
-                    principals.extend(principal["Federated"])
-                else:
-                    principals.append(principal["Federated"])
-
-            if "Service" in principal:
-                if isinstance(principal["Service"], list):
-                    principals.extend(principal["Service"])
-                else:
-                    principals.append(principal["Service"])
-        else:
-            principals.append(principal)
-        # principals = list(principals).sort()
-        return principals
 
     @property
     def role_assumable_by_compute_services(self) -> List[str]:
