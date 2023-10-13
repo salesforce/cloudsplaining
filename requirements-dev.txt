@@ -1,13 +1,13 @@
 # Linter
-pylint==2.17.5
+pylint==2.17.7  # 3.0+ requires Python 3.8
 # Unit testing
-pytest==7.4.1
-coverage==7.2.7
+pytest==7.4.2
+coverage==7.2.7  # 7.3+ requires Python 3.8
 # Security testing
 bandit==1.7.5
 # Formatter
-black==23.3.0
+black==23.3.0  # 23.7+ requires Python 3.8
 # type check
-mypy==1.4.1
-boto3-stubs-lite[iam,s3,sts]==1.28.41
-types-PyYAML==6.0.12.11
+mypy==1.4.1  # 1.5+ requires Python 3.8
+boto3-stubs-lite[iam,s3,sts]==1.28.62
+types-PyYAML==6.0.12.12
