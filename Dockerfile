@@ -5,11 +5,11 @@ COPY . ./app
 WORKDIR /app
 ### install prerequesites
 
-RUN apk add --update --no-cache python3==3.10.11-r0 && ln -sf python3 /usr/bin/python
+RUN apk add --update --no-cache python3>=3.10.11-r0 && ln -sf python3 /usr/bin/python
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools==67.6.0
-RUN apk add nodejs==18.16.0-r0
-RUN apk add npm==9.1.2-r0
+RUN apk add nodejs>=18.16.0-r0
+RUN apk add npm>=9.1.2-r0
 RUN apk add make==4.3-r1
 ###### install requirements.txt
 RUN python3 -m pip install -r requirements.txt
