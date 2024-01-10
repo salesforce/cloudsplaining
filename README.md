@@ -1,3 +1,5 @@
+## NOTE: This repo/project has been archived by Salesforce. We encourage the collaborators to fork this code to a new home.
+
 Cloudsplaining
 --------------
 
