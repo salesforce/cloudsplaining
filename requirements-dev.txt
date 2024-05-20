@@ -6,7 +6,7 @@ coverage==7.2.7
 # Security testing
 bandit==1.7.5
 # Formatter
-black==23.3.0
+black==24.3.0
 # type check
 mypy==1.4.1
 boto3-stubs-lite[iam,s3,sts]==1.28.41
