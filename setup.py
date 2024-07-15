@@ -22,7 +22,7 @@ REQUIRED_PACKAGES = [
     'click_option_group',
     'jinja2',
     'markdown',
-    'policy_sentry>=0.11.3',
+    'policy_sentry>=0.11.3,<0.13',
     'pyyaml',
     'schema',
 ]
