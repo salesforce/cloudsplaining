@@ -1,7 +1,7 @@
 # Linter
 pylint==2.17.5
 # Unit testing
-pytest==7.4.1
+pytest==7.4.4
 coverage==7.2.7
 # Security testing
 bandit==1.7.5
@@ -10,4 +10,4 @@ black==23.3.0
 # type check
 mypy==1.4.1
 boto3-stubs-lite[iam,s3,sts]==1.28.41
-types-PyYAML==6.0.12.11
+types-PyYAML==6.0.12.20240311
