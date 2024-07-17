@@ -9,5 +9,5 @@ bandit==1.7.5
 black==23.3.0
 # type check
 mypy==1.4.1
-boto3-stubs-lite[iam,s3,sts]==1.28.41
-types-PyYAML==6.0.12.20240311
+boto3-stubs-lite[iam,s3,sts]==1.33.13
+types-PyYAML==6.0.12.12
