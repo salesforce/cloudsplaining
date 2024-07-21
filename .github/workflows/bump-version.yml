@@ -7,7 +7,7 @@ jobs:
   bump-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
         with:
           ref: master
 
@@ -20,11 +20,11 @@ jobs:
           git config --local user.name "GitHub Action"
           git fetch --tags
           git pull origin master
-          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
           echo "latest tag: $latest_tag"
-          new_tag=$(echo $latest_tag | awk -F. -v a="$1" -v b="$2" -v c="$3" '{printf("%d.%d.%d", $1+a, $2+b , $3+1)}')
+          new_tag=$(echo "$latest_tag" | awk -F. -v a="$1" -v b="$2" -v c="$3" '{printf("%d.%d.%d", $1+a, $2+b , $3+1)}')
           echo "new tag: $new_tag"
 
-          printf "# pylint: disable=missing-module-docstring\n__version__ = '$new_tag'\n""" > $version_file
+          printf "# pylint: disable=missing-module-docstring\n__version__ = \"%s\"\n""" "$new_tag" > $version_file
           git commit -m "Bump to ${new_tag}"  $version_file || echo "No changes to commit"
           git push origin

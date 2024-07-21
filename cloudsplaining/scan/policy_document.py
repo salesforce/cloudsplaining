@@ -85,9 +85,7 @@ class PolicyDocument:
         for statement in self.statements:
             if statement.effect_deny:
                 if statement.expanded_actions:
-                    allowed_actions = allowed_actions.difference(
-                        statement.expanded_actions
-                    )
+                    allowed_actions = allowed_actions.difference(statement.expanded_actions)
         return allowed_actions
 
     @property
@@ -113,18 +111,10 @@ class PolicyDocument:
         """Output all IAM actions that cannot be restricted by resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
-            if (
-                statement.effect_allow
-                and not statement.has_condition
-                and statement.unrestrictable_actions
-            ):
+            if statement.effect_allow and not statement.has_condition and statement.unrestrictable_actions:
                 allowed_actions.update(statement.unrestrictable_actions)
             # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
-            if (
-                statement.effect_allow
-                and not statement.has_condition
-                and self.flag_resource_arn_statements
-            ):
+            if statement.effect_allow and not statement.has_condition and self.flag_resource_arn_statements:
                 allowed_actions.update(statement.unrestrictable_actions)
         allowed_actions = self.filter_deny_statements(allowed_actions)
         return list(allowed_actions)
@@ -135,9 +125,7 @@ class PolicyDocument:
         actions_missing_resource_constraints = []
         for statement in self.statements:
             if statement.effect == "Allow" and not statement.has_condition:
-                for action in statement.missing_resource_constraints_for_modify_actions(
-                    self.exclusions
-                ):
+                for action in statement.missing_resource_constraints_for_modify_actions(self.exclusions):
                     if action.lower() not in self.exclusions.exclude_actions:
                         actions_missing_resource_constraints.append(action)
         actions_missing_resource_constraints.sort()
@@ -165,12 +153,8 @@ class PolicyDocument:
         """
         # if severity
         escalations = []
-        all_allowed_unrestricted_actions_lowercase = set(
-            x.lower() for x in self.all_allowed_unrestricted_actions
-        )
-        all_allowed_unrestricted_actions_lowercase.update(
-            [x.lower() for x in self.all_allowed_unrestrictable_actions]
-        )
+        all_allowed_unrestricted_actions_lowercase = set(x.lower() for x in self.all_allowed_unrestricted_actions)
+        all_allowed_unrestricted_actions_lowercase.update([x.lower() for x in self.all_allowed_unrestrictable_actions])
         for escalation_type, actions in PRIVILEGE_ESCALATION_METHODS.items():
             if set(actions).issubset(all_allowed_unrestricted_actions_lowercase):
                 # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):
@@ -184,13 +168,8 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if (
-                statement.effect == "Allow"
-                and statement.permissions_management_actions_without_constraints
-            ):
-                result.extend(
-                    statement.permissions_management_actions_without_constraints
-                )
+            if statement.effect == "Allow" and statement.permissions_management_actions_without_constraints:
+                result.extend(statement.permissions_management_actions_without_constraints)
         return result
 
     @property
@@ -199,10 +178,7 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if (
-                statement.effect == "Allow"
-                and statement.write_actions_without_constraints
-            ):
+            if statement.effect == "Allow" and statement.write_actions_without_constraints:
                 result.extend(statement.write_actions_without_constraints)
         return result
 
@@ -212,28 +188,19 @@ class PolicyDocument:
         do not have resource constraints"""
         result = []
         for statement in self.statements:
-            if (
-                statement.effect == "Allow"
-                and statement.tagging_actions_without_constraints
-            ):
+            if statement.effect == "Allow" and statement.tagging_actions_without_constraints:
                 result.extend(statement.tagging_actions_without_constraints)
         return result
 
-    def allows_specific_actions_without_constraints(
-        self, specific_actions: List[str]
-    ) -> List[str]:
+    def allows_specific_actions_without_constraints(self, specific_actions: List[str]) -> List[str]:
         """Determine whether or not a list of specific IAM Actions are allowed without resource constraints."""
         allowed: Set[str] = set()
         if not isinstance(specific_actions, list):
             raise Exception("Please supply a list of actions.")
 
         # grab the lowercase representation for unrestricted and unrestrictable actions
-        unrestricted_actions_lower = {
-            a.lower(): a for a in self.all_allowed_unrestricted_actions
-        }
-        unrestrictable_actions_lower = {
-            a.lower(): a for a in self.all_allowed_unrestrictable_actions
-        }
+        unrestricted_actions_lower = {a.lower(): a for a in self.all_allowed_unrestricted_actions}
+        unrestrictable_actions_lower = {a.lower(): a for a in self.all_allowed_unrestrictable_actions}
 
         # Doing this for loop so we can get results that use the official CamelCase actions, and
         # the results don't fail if given lowercase input.
@@ -252,9 +219,7 @@ class PolicyDocument:
     def allows_data_exfiltration_actions(self) -> List[str]:
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
         results = []
-        for action in self.allows_specific_actions_without_constraints(
-            READ_ONLY_DATA_EXFILTRATION_ACTIONS
-        ):
+        for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results
@@ -264,9 +229,7 @@ class PolicyDocument:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
         results = []
-        for action in self.allows_specific_actions_without_constraints(
-            ACTIONS_THAT_RETURN_CREDENTIALS
-        ):
+        for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
             if action.lower() not in self.exclusions.exclude_actions:
                 results.append(action)
         return results

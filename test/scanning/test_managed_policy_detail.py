@@ -48,7 +48,7 @@ class TestManagedPolicyDetail(unittest.TestCase):
             "ANPAJLIB4VSBVO47ZSBB6",
             "ANPAJNPP7PPPPMJRV2SA4",
             "ANPAJWVDLG5RPST6PHQ3A",
-            "ANPAJYRXTHIB4FOVS3ZXS"
+            "ANPAJYRXTHIB4FOVS3ZXS",
         ]
         self.assertListEqual(list(results.keys()), expected_keys)
 

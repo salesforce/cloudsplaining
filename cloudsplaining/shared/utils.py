@@ -59,15 +59,9 @@ def remove_read_level_actions(actions_list: List[str]) -> List[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels
     """
-    modify_actions: List[str] = remove_actions_not_matching_access_level(
-        actions_list, "Write"
-    )
-    modify_actions.extend(
-        remove_actions_not_matching_access_level(actions_list, "Permissions management")
-    )
-    modify_actions.extend(
-        remove_actions_not_matching_access_level(actions_list, "Tagging")
-    )
+    modify_actions: List[str] = remove_actions_not_matching_access_level(actions_list, "Write")
+    modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Permissions management"))
+    modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Tagging"))
     return modify_actions
 
 
@@ -124,9 +118,7 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(
-    results: Dict[str, Dict[str, Any]], raw_data_file: str
-) -> str:
+def write_results_data_file(results: Dict[str, Dict[str, Any]], raw_data_file: str) -> str:
     """
     Writes the raw data file containing all the results for an AWS account
 

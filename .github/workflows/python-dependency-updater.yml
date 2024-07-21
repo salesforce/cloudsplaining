@@ -10,10 +10,10 @@ jobs:
   python-dependency-updater:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
 
       - name: Setup Python
-        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f  # v5.1.1
         with:
           python-version: '3.8'
 
@@ -21,5 +21,5 @@ jobs:
         run: |
           pip install pyupio
           pip install -r requirements.txt
-          default_branch=`git remote show origin | grep 'HEAD branch' | cut -d' ' -f5`
-          pyup --provider github --provider_url https://api.github.com --repo=$GITHUB_REPOSITORY --user-token=${{ secrets.PYUP_GITHUB_ACCESS_TOKEN }} --branch $default_branch --initial
+          default_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+          pyup --provider github --provider_url https://api.github.com --repo="$GITHUB_REPOSITORY" --user-token=${{ secrets.PYUP_GITHUB_ACCESS_TOKEN }} --branch "$default_branch" --initial

@@ -16,11 +16,7 @@ class TestUtils(unittest.TestCase):
         self.assertListEqual(results, ["secretsmanager:PutSecretValue"])
 
     def test_remove_read_level_actions(self):
-        actions = [
-            "ssm:GetParameters",
-            "ecr:PutImage"
-        ]
+        actions = ["ssm:GetParameters", "ecr:PutImage"]
         result = remove_read_level_actions(actions)
-        expected_result = ['ecr:PutImage']
+        expected_result = ["ecr:PutImage"]
         self.assertListEqual(result, expected_result)
-

@@ -8,56 +8,42 @@ from cloudsplaining.scan.authorization_details import AuthorizationDetails
 class ExclusionsNewTestCase(unittest.TestCase):
     def test_new_exclusions_approach(self):
         exclusions_cfg = {
-            "policies": [
-                "aws-service-role*"
-            ],
+            "policies": ["aws-service-role*"],
             "roles": ["aws-service-role*"],
             "users": [""],
             "include-actions": ["s3:GetObject"],
-            "exclude-actions": ["kms:Decrypt"]
+            "exclude-actions": ["kms:Decrypt"],
         }
         exclusions = Exclusions(exclusions_cfg)
-        test_actions_list = [
-            "s3:GetObject",
-            "kms:decrypt",
-            "ssm:GetParameter",
-            "ec2:DescribeInstances"
-        ]
+        test_actions_list = ["s3:GetObject", "kms:decrypt", "ssm:GetParameter", "ec2:DescribeInstances"]
         result = exclusions.get_allowed_actions(test_actions_list)
-        self.assertCountEqual(result, ['s3:GetObject', 'ssm:GetParameter', 'ec2:DescribeInstances'])
+        self.assertCountEqual(result, ["s3:GetObject", "ssm:GetParameter", "ec2:DescribeInstances"])
 
 
 class ExclusionsTestCase(unittest.TestCase):
     def test_exclusions_exact_match(self):
         """test_exclusions_exact_match: If there is an exact match in the exclusions list"""
-        exclusions_list = [
-            "Beyonce"
-        ]
+        exclusions_list = ["Beyonce"]
         policy_name = "Beyonce"
         result = is_name_excluded(policy_name, exclusions_list)
         self.assertTrue(result)
 
     def test_exclusions_prefix_match(self):
         """test_exclusions_prefix_match: Test exclusions function with prefix wildcard logic."""
-        exclusions_list = [
-            "ThePerfectManDoesntExi*"
-        ]
+        exclusions_list = ["ThePerfectManDoesntExi*"]
         policy_name = "ThePerfectManDoesntExist"
         result = is_name_excluded(policy_name, exclusions_list)
         self.assertTrue(result)
 
     def test_exclusions_suffix_match(self):
         """test_exclusions_suffix_match: Test exclusions function with suffix wildcard logic."""
-        exclusions_list = [
-            "*ish"
-        ]
+        exclusions_list = ["*ish"]
         policy_name = "Secure-ish"
         result = is_name_excluded(policy_name, exclusions_list)
         self.assertTrue(result)
 
 
 class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
-
     def test_exclusions_for_service_roles(self):
         """test_exclusions_for_service_roles: Ensuring that exclusions config of service roles are specifically
         skipped, as designed"""
@@ -76,21 +62,19 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
                         "Statement": [
                             {
                                 "Effect": "Allow",
-                                "Principal": {
-                                    "Service": "cloudwatch-crossaccount.amazonaws.com"
-                                },
-                                "Action": "sts:AssumeRole"
+                                "Principal": {"Service": "cloudwatch-crossaccount.amazonaws.com"},
+                                "Action": "sts:AssumeRole",
                             }
-                        ]
+                        ],
                     },
                     "InstanceProfileList": [],
                     "RolePolicyList": [],
                     "AttachedManagedPolicies": [
                         {
                             "PolicyName": "CloudWatch-CrossAccountAccess",
-                            "PolicyArn": "arn:aws:iam::aws:policy/aws-service-role/CloudWatch-CrossAccountAccess"
+                            "PolicyArn": "arn:aws:iam::aws:policy/aws-service-role/CloudWatch-CrossAccountAccess",
                         }
-                    ]
+                    ],
                 },
             ],
             "Policies": [
@@ -111,31 +95,17 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
                             "Document": {
                                 "Version": "2012-10-17",
                                 # This is fake, I'm just trying to trigger a response
-                                "Statement": [
-                                    {
-                                        "Action": [
-                                            "iam:*"
-                                        ],
-                                        "Resource": [
-                                            "*"
-                                        ],
-                                        "Effect": "Allow"
-                                    }
-                                ]
+                                "Statement": [{"Action": ["iam:*"], "Resource": ["*"], "Effect": "Allow"}],
                             },
                             "VersionId": "v1",
                             "IsDefaultVersion": True,
-                            "CreateDate": "2019-07-23 09:59:27+00:00"
+                            "CreateDate": "2019-07-23 09:59:27+00:00",
                         }
-                    ]
+                    ],
                 }
-            ]
+            ],
         }
-        exclusions_cfg = {
-            "policies": [
-                "aws-service-role*"
-            ]
-        }
+        exclusions_cfg = {"policies": ["aws-service-role*"]}
         exclusions = Exclusions(exclusions_cfg)
         authorization_details = AuthorizationDetails(authz_file, exclusions)
         results = authorization_details.results
@@ -147,9 +117,7 @@ class AuthorizationsFileComponentsExclusionsTestCase(unittest.TestCase):
             "aws_managed_policies": {},
             "customer_managed_policies": {},
             "inline_policies": {},
-            "exclusions": {
-                "policies": ["aws-service-role*"]
-            },
-            "links": {}
+            "exclusions": {"policies": ["aws-service-role*"]},
+            "links": {},
         }
         self.assertDictEqual(results, expected_results)
