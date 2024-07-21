@@ -1,21 +1,21 @@
 """Abstracts evaluation of IAM Policy statements."""
 
 import logging
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from cached_property import cached_property
-
 from policy_sentry.analysis.expand import determine_actions_to_expand
 from policy_sentry.querying.actions import (
-    remove_actions_not_matching_access_level,
     get_actions_matching_arn,
+    remove_actions_not_matching_access_level,
 )
 from policy_sentry.querying.all import get_all_actions
+
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 from cloudsplaining.shared.utils import (
     remove_read_level_actions,
     remove_wildcard_only_actions,
 )
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
@@ -43,7 +43,7 @@ class StatementDetail:
         self.json = statement
         self.statement = statement
         self.effect = statement["Effect"]
-        self.condition = statement.get("Condition", None)
+        self.condition = statement.get("Condition")
         self.resources = self._resources()
         self.actions = self._actions()
         self.not_action = self._not_action()
@@ -119,10 +119,12 @@ class StatementDetail:
                 if actions_specific_to_arn:
                     opposite_actions.extend(actions_specific_to_arn)
 
-            for opposite_action in opposite_actions:
+            effective_actions = [
+                opposite_action
+                for opposite_action in opposite_actions
                 # If it's in NotActions, then it is not an action we want
-                if opposite_action.lower() not in not_actions_expanded_lowercase:
-                    effective_actions.append(opposite_action)
+                if opposite_action.lower() not in not_actions_expanded_lowercase
+            ]
             effective_actions.sort()
             return effective_actions
 
@@ -191,7 +193,7 @@ class StatementDetail:
         """Get a list of the services in use by the statement."""
         service_prefixes = set()
         for action in self.expanded_actions:
-            service, action_name = action.split(":")  # pylint: disable=unused-variable
+            service, _ = action.split(":")  # pylint: disable=unused-variable
             service_prefixes.add(service)
         return sorted(service_prefixes)
 
@@ -229,10 +231,10 @@ class StatementDetail:
         resource constraints."""
         if not isinstance(exclusions, Exclusions):
             raise Exception(  # pragma: no cover
-                "The provided exclusions is not the Exclusions object type. " "Please use the Exclusions object."
+                "The provided exclusions is not the Exclusions object type. Please use the Exclusions object."
             )
         actions_missing_resource_constraints = []
-        if len(self.resources) == 1 and self.resources[0] == "*":
+        if len(self.resources) == 1 and self.resources[0] == "*":  # noqa: SIM114
             actions_missing_resource_constraints = self.restrictable_actions
         # Fix #390 - if flag_resource_arn_statements is True, then let's treat this as missing resource constraints so we can flag the action anyway.
         elif self.flag_resource_arn_statements:
@@ -252,20 +254,16 @@ class StatementDetail:
         """
         if not isinstance(exclusions, Exclusions):
             raise Exception(  # pragma: no cover
-                "The provided exclusions is not the Exclusions object type. " "Please use the Exclusions object."
+                "The provided exclusions is not the Exclusions object type. Please use the Exclusions object."
             )
         # This initially includes read-only and modify level actions
-        if exclusions.include_actions:
-            always_look_for_actions = [x.lower() for x in exclusions.include_actions]
-        else:
-            always_look_for_actions = []
+        always_look_for_actions = [x.lower() for x in exclusions.include_actions] if exclusions.include_actions else []
 
         actions_missing_resource_constraints = self.missing_resource_constraints(exclusions)
 
-        always_actions_found = []
-        for action in actions_missing_resource_constraints:
-            if action.lower() in always_look_for_actions:
-                always_actions_found.append(action)
+        always_actions_found = [
+            action for action in actions_missing_resource_constraints if action.lower() in always_look_for_actions
+        ]
 
         modify_actions_missing_constraints = set()
         modify_actions_missing_constraints.update(remove_read_level_actions(actions_missing_resource_constraints))
@@ -282,9 +280,7 @@ class StatementDetail:
         # due to this change. Apologies for any confusion due to the hackyness.
         if self.flag_conditional_statements:
             return False
-        if self.condition:
-            return True
-        return False
+        return bool(self.condition)
 
     def _has_resource_wildcard(self) -> bool:
         """Determine whether or not a wildcard is in the resources part."""
@@ -300,6 +296,4 @@ class StatementDetail:
 
     def _has_resource_constraints(self) -> bool:
         """Determine whether or not the statement has resource constraints."""
-        if self.has_resource_wildcard and self.restrictable_actions:
-            return False
-        return True
+        return not (self.has_resource_wildcard and self.restrictable_actions)

@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import json
-from typing import Dict, Any, List, cast
+from typing import Any, Dict, List, cast
 
-from cloudsplaining.shared.utils import get_non_provider_id
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.utils import get_non_provider_id
 
 
 class InlinePolicy:
@@ -66,7 +66,7 @@ class InlinePolicy:
         """Determine whether the policy name or policy ID is excluded"""
         return bool(exclusions.is_policy_excluded(self.policy_name) or exclusions.is_policy_excluded(self.policy_id))
 
-    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[str, str]:
+    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[str, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -75,17 +75,17 @@ class InlinePolicy:
         return links
 
     @property
-    def getAttached(self) -> Dict[str, List[Any]]:
+    def getAttached(self) -> Dict[str, List[Any]]:  # noqa: N802
         attached: Dict[str, List[Any]] = {"roles": [], "groups": [], "users": []}
-        for principalType in ["roles", "groups", "users"]:
-            principals = (self.iam_data[principalType]).keys()
-            for principalID in principals:
-                inlinePolicies = {}
+        for principal_type in ["roles", "groups", "users"]:
+            principals = (self.iam_data[principal_type]).keys()
+            for principal_id in principals:
+                inline_policies = {}
                 if self.is_excluded:
                     return {}
-                inlinePolicies.update(self.iam_data[principalType][principalID]["inline_policies"])
-                if self.policy_id in inlinePolicies:
-                    attached[principalType].append(self.iam_data[principalType][principalID]["name"])
+                inline_policies.update(self.iam_data[principal_type][principal_id]["inline_policies"])
+                if self.policy_id in inline_policies:
+                    attached[principal_type].append(self.iam_data[principal_type][principal_id]["name"])
         return attached
 
     @property

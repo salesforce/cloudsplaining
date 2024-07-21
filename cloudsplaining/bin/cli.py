@@ -9,6 +9,7 @@ Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least
 """
 
 import click
+
 from cloudsplaining import command
 from cloudsplaining.bin.version import __version__
 

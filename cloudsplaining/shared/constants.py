@@ -5,9 +5,11 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
-import os
 import logging
+import os
+
 import yaml
+
 from cloudsplaining.shared.validation import check_exclusions_schema
 
 logger = logging.getLogger(__name__)
@@ -17,7 +19,7 @@ PACKAGE_DIR = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pat
 EXCLUSIONS_FILE = str(os.path.join(PACKAGE_DIR, "shared", "default-exclusions.yml"))
 
 if EXCLUSIONS_FILE:
-    with open(EXCLUSIONS_FILE, "r") as yaml_file:
+    with open(EXCLUSIONS_FILE, encoding="utf-8") as yaml_file:
         try:
             DEFAULT_EXCLUSIONS_CONFIG = yaml.safe_load(yaml_file)
         except yaml.YAMLError as exc:
