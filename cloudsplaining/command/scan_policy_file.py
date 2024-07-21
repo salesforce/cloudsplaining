@@ -1,6 +1,7 @@
 """
 Scan a single policy file to identify missing resource constraints.
 """
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.

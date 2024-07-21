@@ -22,7 +22,7 @@ REQUIRED_PACKAGES = [
     'click_option_group',
     'jinja2',
     'markdown',
-    'policy_sentry>=0.11.3,<0.13',
+    'policy_sentry>=0.13.0,<0.14',
     'pyyaml',
     'schema',
 ]
@@ -69,7 +69,6 @@ setuptools.setup(
     project_urls=PROJECT_URLS,
     classifiers=[
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
@@ -81,5 +80,5 @@ setuptools.setup(
     entry_points={"console_scripts": "cloudsplaining=cloudsplaining.bin.cli:main"},
     zip_safe=True,
     keywords='aws iam roles policy policies privileges security',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
 )

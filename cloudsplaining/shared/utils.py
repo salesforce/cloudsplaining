@@ -1,4 +1,5 @@
 """Just some utility functions that don't fit neatly into other categories"""
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.
