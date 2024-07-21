@@ -3,21 +3,20 @@
 from __future__ import annotations
 
 import json
-import logging
-from typing import Optional, Dict, Any, List
+from typing import Any, Dict, List, Optional
 
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.exceptions import NotFoundException
-from cloudsplaining.shared.utils import (
-    is_aws_managed,
-    get_full_policy_path,
-    get_policy_name,
-    get_non_provider_id,
-)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.utils import (
+    get_full_policy_path,
+    get_non_provider_id,
+    get_policy_name,
+    is_aws_managed,
+)
 
 
 class GroupDetailList:
@@ -128,7 +127,7 @@ class GroupDetail:
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
         severity: List[str] | None = None,
-    ):
+    ) -> None:
         """
         Initialize the GroupDetail object.
 
@@ -197,8 +196,8 @@ class GroupDetail:
 
     def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
         self.iam_data = iam_data
-        for inlinePolicy in self.inline_policies:
-            inlinePolicy.set_iam_data(iam_data)
+        for inline_policy in self.inline_policies:
+            inline_policy.set_iam_data(iam_data)
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the principal name or principal ID is excluded"""

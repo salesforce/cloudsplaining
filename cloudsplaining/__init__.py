@@ -3,13 +3,12 @@ import logging
 import sys
 
 # Set default logging handler to avoid "No handler found" warnings.
-from logging import NullHandler
-
+# from logging import NullHandler
 # logging.getLogger(__name__).addHandler(NullHandler())
 # Uncomment to get the full debug logs.
 # 2020-10-06 10:04:17,200 - root - DEBUG - Leveraging the bundled IAM Definition.
 # Need to figure out how to get click_log to do this for me.
-from typing import Union, Optional
+from typing import Optional, Union
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
@@ -71,10 +70,10 @@ def set_log_level(verbose: int) -> None:
     :return:
     """
     if verbose == 1:
-        set_stream_logger(level=getattr(logging, "WARNING"))
+        set_stream_logger(level=logging.WARNING)
     elif verbose == 2:
-        set_stream_logger(level=getattr(logging, "INFO"))
+        set_stream_logger(level=logging.INFO)
     elif verbose >= 3:
-        set_stream_logger(level=getattr(logging, "DEBUG"))
+        set_stream_logger(level=logging.DEBUG)
     else:
-        set_stream_logger(level=getattr(logging, "CRITICAL"))
+        set_stream_logger(level=logging.CRITICAL)

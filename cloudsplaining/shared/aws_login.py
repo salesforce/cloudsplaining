@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import os
 import logging
-from typing import Optional, List, Tuple, TYPE_CHECKING
+import os
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import boto3
 from botocore.config import Config

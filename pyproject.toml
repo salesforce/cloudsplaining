@@ -1,3 +1,78 @@
+[tool.mypy]
+files = "cloudsplaining"
+local_partial_types = true # will become the new default from version 2
+strict = true
+pretty = true
+disallow_untyped_decorators = false
+
+[[tool.mypy.overrides]]
+module = [
+    "schema",
+    "cached_property",
+]
+ignore_missing_imports = true
+
 [tool.ruff]
 line-length = 120
 target-version = "py38"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "A",
+    "ANN",
+    "ARG",
+    "B",
+    "E",
+    "F",
+    "FURB",
+    "I",
+    "ISC",
+    "N",
+    "PERF",
+    "PIE",
+    "PLE",
+    "PLW",
+    "RUF",
+    "S",
+    "SIM",
+    "T10",
+#    "UP",
+    "W",
+    "YTT",
+]
+ignore = ["E501"] # ruff fromat takes care of it
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test",
+    "test/command",
+    "test/output",
+    "test/scanning",
+    "test/shared",
+]
+norecursedirs = [
+    "_build",
+    "tmp*",
+    "__pycache__",
+]
+
+[tool.coverage.report]
+omit = [
+    # omit anything in a .local directory anywhere
+    "*/.local/*",
+    "*/virtualenv/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/docs/*",
+    "*/examples/*",
+    "utils/*",
+    # Where we want to skip
+    "cloudsplaining/command/download.py",
+    "cloudsplaining/shared/constants.py",
+    "cloudsplaining/command/expand_policy.py",
+    "cloudsplaining/command/create_exclusions_file.py",
+    "cloudsplaining/output/data_file.py",
+    "cloudsplaining/output/html_report.py",
+    "cloudsplaining/output/triage_worksheet.py",
+]

@@ -53,14 +53,6 @@ test: setup-dev
 	python3 -m coverage run -m pytest -v
 	python3 -m coverage report -m
 
-# Run python security tests
-security-test: setup-dev
-	bandit -r ./${PROJECT_UNDERSCORE}/
-
-# Run Pylint to lint your code
-lint: setup-dev
-	pylint ${PROJECT_UNDERSCORE}/
-
 type-check: setup-dev
 	mypy
 

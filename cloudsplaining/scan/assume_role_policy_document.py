@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from cloudsplaining.scan.resource_policy_document import (
     ResourcePolicyDocument,

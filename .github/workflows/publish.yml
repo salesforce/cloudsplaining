@@ -26,14 +26,8 @@ jobs:
         run: |
           make install
 
-# TODO: fix all pylint issues first
-#      - name: Pylint
-#        run: |
-#          make lint
-
-      - name: Run pytest (unit tests) and bandit (security test)
+      - name: Run pytest (unit tests)
         run: |
-          make security-test
           make test
 
 

@@ -1,11 +1,13 @@
 """Creates the HTML Reports"""
 
-import json
 import datetime
+import json
 import os.path
-from typing import Dict, Any
+from pathlib import Path
+from typing import Any, Dict
 
 from jinja2 import Environment, FileSystemLoader
+
 from cloudsplaining.bin.version import __version__
 
 app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.js")
@@ -36,8 +38,7 @@ class HTMLReport:
             bundle = f'<script type="text/javascript" src="{js_url}"></script>'
             return bundle
         else:
-            with open(app_bundle_path, "r", encoding="utf-8") as f:
-                bundle_content = f.read()
+            bundle_content = Path(app_bundle_path).read_text(encoding="utf-8")
             # bundle_content = app_bundle_path.read_text(encoding="utf-8")
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
@@ -53,8 +54,7 @@ class HTMLReport:
             return bundle
         else:
             vendor_bundle_path = get_vendor_bundle_path()
-            with open(vendor_bundle_path, "r", encoding="utf-8") as f:
-                bundle_content = f.read()
+            bundle_content = Path(vendor_bundle_path).read_text(encoding="utf-8")
             # bundle_content = vendor_bundle_path.read_text(encoding="utf-8")
             bundle = f'<script type="text/javascript">\n{bundle_content}\n</script>'
             return bundle
@@ -73,7 +73,7 @@ class HTMLReport:
             cloudsplaining_version=__version__,
         )
         template_path = os.path.dirname(__file__)
-        env = Environment(loader=FileSystemLoader(template_path))  # nosec
+        env = Environment(loader=FileSystemLoader(template_path))  # noqa: S701
         template = env.get_template("template.html")
         return template.render(t=template_contents)
 
@@ -84,8 +84,10 @@ def get_vendor_bundle_path() -> str:
     file_list_with_full_path = []
     for f in os.listdir(vendor_bundle_directory):
         file_path = os.path.join(vendor_bundle_directory, f)
-        if os.path.isfile(file_path):
-            if os.path.splitext(file_path)[-1].endswith("js"):
-                if os.path.splitext(f)[0].startswith("chunk-vendors"):
-                    file_list_with_full_path.append(os.path.abspath(file_path))
+        if (
+            os.path.isfile(file_path)
+            and os.path.splitext(file_path)[-1].endswith("js")
+            and os.path.splitext(f)[0].startswith("chunk-vendors")
+        ):
+            file_list_with_full_path.append(os.path.abspath(file_path))
     return file_list_with_full_path[0]

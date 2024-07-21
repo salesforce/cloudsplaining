@@ -8,7 +8,6 @@ from typing import Any
 
 from policy_sentry.util.arns import ARN
 
-
 CONDITION_KEY_CATEGORIES = {
     "aws:sourcearn": "arn",
     "aws:principalarn": "arn",
@@ -214,7 +213,7 @@ class ResourceStatement:
         return "*" in condition_value
 
     def _arn_internet_accessible(self, arn: str) -> bool:
-        if "*" == arn:
+        if arn == "*":
             return True
 
         if not arn.startswith("arn:"):
@@ -235,23 +234,16 @@ class ResourceStatement:
             logger.info(f"ARN {arn} is not valid")
             return True
 
-        if parsed_arn.account == "*":
-            return True
-
-        return False
+        return parsed_arn.account == "*"
 
     def _cidr_internet_accessible(self, cidr: str) -> bool:
         return cidr.endswith("/0")
 
     def _organization_internet_accessible(self, org: str) -> bool:
-        if "o-*" in org:
-            return True
-        return False
+        return "o-*" in org
 
     def _userid_internet_accessible(self, userid: str) -> bool:
         # Trailing wildcards are okay for user IDs:
         # AROAIIIIIIIIIIIIIIIII:*
-        if userid.find("*") == len(userid) - 1:
-            # note: this will also return False for a zero-length userid
-            return False
-        return True
+        # note: this will also return False for a zero-length userid
+        return userid.find("*") != len(userid) - 1

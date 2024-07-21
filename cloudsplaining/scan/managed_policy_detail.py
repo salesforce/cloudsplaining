@@ -8,19 +8,19 @@
 from __future__ import annotations
 
 import logging
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from policy_sentry.util.arns import get_account_from_arn
+
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.exceptions import NotFoundException
-from cloudsplaining.shared.utils import get_full_policy_path, is_aws_managed
 from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
+from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
     Exclusions,
     is_name_excluded,
 )
-
+from cloudsplaining.shared.utils import get_full_policy_path, is_aws_managed
 
 logger = logging.getLogger(__name__)
 
@@ -240,7 +240,7 @@ class ManagedPolicy:
         else:
             return get_account_from_arn(self.arn)
 
-    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[Any, str]:
+    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[Any, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -249,20 +249,20 @@ class ManagedPolicy:
         return links
 
     @property
-    def getAttached(self) -> Dict[str, Any]:
+    def getAttached(self) -> Dict[str, Any]:  # noqa: N802
         attached: Dict[str, Any] = {"roles": [], "groups": [], "users": []}
-        for principalType in ["roles", "groups", "users"]:
-            principals = (self.iam_data[principalType]).keys()
-            for principalID in principals:
-                managedPolicies = {}
+        for principal_type in ("roles", "groups", "users"):
+            principals = self.iam_data[principal_type].keys()
+            for principal_id in principals:
+                managed_policies = {}
                 if self.is_excluded:
                     return {}
                 if self.managed_by == "AWS":
-                    managedPolicies.update(self.iam_data[principalType][principalID]["aws_managed_policies"])
+                    managed_policies.update(self.iam_data[principal_type][principal_id]["aws_managed_policies"])
                 elif self.managed_by == "Customer":
-                    managedPolicies.update(self.iam_data[principalType][principalID]["customer_managed_policies"])
-                if self.policy_id in managedPolicies:
-                    attached[principalType].append(self.iam_data[principalType][principalID]["name"])
+                    managed_policies.update(self.iam_data[principal_type][principal_id]["customer_managed_policies"])
+                if self.policy_id in managed_policies:
+                    attached[principal_type].append(self.iam_data[principal_type][principal_id]["name"])
         return attached
 
     @property

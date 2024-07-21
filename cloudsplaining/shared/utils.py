@@ -5,12 +5,12 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
-import os
 import json
 import logging
+import os
 from hashlib import sha256
 from pathlib import Path
-from typing import List, Any, Dict
+from typing import Any, Dict, List
 
 import yaml
 from policy_sentry.querying.actions import (
@@ -127,28 +127,27 @@ def write_results_data_file(results: Dict[str, Dict[str, Any]], raw_data_file: s
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    with open(raw_data_file, "w") as f:
-        f.write(json.dumps(results, indent=4, default=str))
+    Path(raw_data_file).write_text(json.dumps(results, indent=4, default=str), encoding="utf-8")
     return raw_data_file
 
 
 def read_yaml_file(filename: str) -> Dict[str, Any]:
     """Reads a YAML file, safe loads, and returns the dictionary"""
-    cfg: Dict[str, Any] = yaml.safe_load(Path(filename).read_text())
+    cfg: Dict[str, Any] = yaml.safe_load(Path(filename).read_text(encoding="utf-8"))
     return cfg
 
 
-def print_green(string: Any) -> None:
+def print_green(string: str) -> None:
     """Print green text"""
     print(f"{OK_GREEN}{string}{END}")
 
 
-def print_red(string: Any) -> None:
+def print_red(string: str) -> None:
     """Print green text"""
     print(f"{ERROR_RED}{string}{END}")
 
 
-def print_grey(string: Any) -> None:
+def print_grey(string: str) -> None:
     """Print grey text"""
     print(f"{GREY}{string}{END}")
 
@@ -158,8 +157,7 @@ def write_file(file: str, content: str) -> None:
     if os.path.exists(file):
         logger.debug("%s exists. Removing the file and replacing its contents.", file)
         os.remove(file)
-    with open(file, "w") as f:
-        f.write(content)
+    Path(file).write_text(content, encoding="utf-8")
 
 
 def write_json_to_file(file: str, content: str) -> None:
@@ -168,5 +166,4 @@ def write_json_to_file(file: str, content: str) -> None:
         logger.debug("%s exists. Removing the file and replacing its contents.", file)
         os.remove(file)
 
-    with open(file, "w") as f:
-        json.dump(content, f, indent=4, default=str)
+    Path(file).write_text(json.dumps(content, indent=4, default=str), encoding="utf-8")
