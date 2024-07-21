@@ -3,11 +3,12 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
-import setuptools
-import os
 import re
+from pathlib import Path
 
-HERE = os.path.abspath(os.path.dirname(__file__))
+import setuptools
+
+HERE = Path(__file__).parent
 VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 TESTS_REQUIRE = ["coverage", "nose", "pytest"]
 REQUIRED_PACKAGES = [
@@ -31,13 +32,13 @@ PROJECT_URLS = {
 }
 
 
-def get_version():
-    init = open(os.path.join(HERE, "cloudsplaining", "bin", "version.py")).read()
+def get_version() -> str:
+    init = (HERE / "cloudsplaining/bin/version.py").read_text()
     return VERSION_RE.search(init).group(1)
 
 
-def get_description():
-    return open(os.path.join(os.path.abspath(HERE), "README.md"), encoding="utf-8").read()
+def get_description() -> str:
+    return (HERE / "README.md").read_text()
 
 
 setuptools.setup(

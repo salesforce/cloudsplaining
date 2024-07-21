@@ -8,15 +8,16 @@
 from __future__ import annotations
 
 import logging
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
-from policy_sentry.querying.all import get_all_service_prefixes
 from policy_sentry.querying.actions import get_all_action_links
-from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
+from policy_sentry.querying.all import get_all_service_prefixes
+
 from cloudsplaining.scan.group_details import GroupDetailList
+from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.role_details import RoleDetailList
 from cloudsplaining.scan.user_details import UserDetailList
-from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)

@@ -3,21 +3,21 @@
 from __future__ import annotations
 
 import json
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
-from cloudsplaining.scan.group_details import GroupDetailList, GroupDetail
+from cloudsplaining.scan.group_details import GroupDetail, GroupDetailList
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.exceptions import NotFoundException
-from cloudsplaining.shared.utils import (
-    is_aws_managed,
-    get_full_policy_path,
-    get_policy_name,
-    get_non_provider_id,
-)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.utils import (
+    get_full_policy_path,
+    get_non_provider_id,
+    get_policy_name,
+    is_aws_managed,
+)
 
 
 class UserDetailList:
@@ -203,8 +203,8 @@ class UserDetail:
 
     def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
         self.iam_data = iam_data
-        for inlinePolicy in self.inline_policies:
-            inlinePolicy.set_iam_data(iam_data)
+        for inline_policy in self.inline_policies:
+            inline_policy.set_iam_data(iam_data)
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the principal name or principal ID is excluded"""

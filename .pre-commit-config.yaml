@@ -6,4 +6,6 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.5.3
     hooks:
+      - id: ruff
+        files: ^(cloudsplaining/|setup.py)
       - id: ruff-format

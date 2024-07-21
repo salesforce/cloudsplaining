@@ -6,7 +6,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 from schema import Optional, Schema, SchemaError
 
@@ -50,7 +50,7 @@ def check(conf_schema: Schema, conf: Dict[str, List[Any]]) -> bool:
             detailed_error_message = schema_error.autos[2]
             print(detailed_error_message.split(" in {'")[0])  # pragma: no cover
             # for error in schema_error.autos:
-        except:  # pylint: disable=bare-except
+        except Exception:
             logger.critical(schema_error)
         return False
 

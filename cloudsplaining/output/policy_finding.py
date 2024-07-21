@@ -8,21 +8,20 @@
 from __future__ import annotations
 
 import logging
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import (
-    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     ACTIONS_THAT_RETURN_CREDENTIALS,
     ISSUE_SEVERITY,
+    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     RISK_DEFINITION,
 )
 from cloudsplaining.shared.exclusions import (
-    Exclusions,
     DEFAULT_EXCLUSIONS,
+    Exclusions,
     is_name_excluded,
 )
-
 
 logger = logging.getLogger(__name__)
 

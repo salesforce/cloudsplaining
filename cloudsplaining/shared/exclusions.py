@@ -6,11 +6,11 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import List, Union, Dict
+from typing import Dict, List, Union
 
-from cloudsplaining.shared.validation import check_exclusions_schema
-from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.shared import utils
+from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
+from cloudsplaining.shared.validation import check_exclusions_schema
 
 logger = logging.getLogger(__name__)
 

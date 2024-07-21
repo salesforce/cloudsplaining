@@ -7,17 +7,17 @@ aws iam get-account-authorization-details command."""
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-from typing import Dict, Any, List, Set
+from typing import Any, Dict, List, Set
 
 from policy_sentry.querying.all import get_all_service_prefixes
+
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import (
-    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
-    PRIVILEGE_ESCALATION_METHODS,
     ACTIONS_THAT_RETURN_CREDENTIALS,
+    PRIVILEGE_ESCALATION_METHODS,
+    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
 )
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
-
 
 logger = logging.getLogger(__name__)
 RED = "\033[1;31m"
@@ -83,9 +83,8 @@ class PolicyDocument:
         filter all denied statements from actions
         """
         for statement in self.statements:
-            if statement.effect_deny:
-                if statement.expanded_actions:
-                    allowed_actions = allowed_actions.difference(statement.expanded_actions)
+            if statement.effect_deny and statement.expanded_actions:
+                allowed_actions = allowed_actions.difference(statement.expanded_actions)
         return allowed_actions
 
     @property
@@ -127,7 +126,7 @@ class PolicyDocument:
             if statement.effect == "Allow" and not statement.has_condition:
                 for action in statement.missing_resource_constraints_for_modify_actions(self.exclusions):
                     if action.lower() not in self.exclusions.exclude_actions:
-                        actions_missing_resource_constraints.append(action)
+                        actions_missing_resource_constraints.append(action)  # noqa: PERF401
         actions_missing_resource_constraints.sort()
         return actions_missing_resource_constraints
 
@@ -218,21 +217,21 @@ class PolicyDocument:
     @property
     def allows_data_exfiltration_actions(self) -> List[str]:
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
-        results = []
-        for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS):
-            if action.lower() not in self.exclusions.exclude_actions:
-                results.append(action)
-        return results
+        return [
+            action
+            for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS)
+            if action.lower() not in self.exclusions.exclude_actions
+        ]
 
     @property
     def credentials_exposure(self) -> List[str]:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
-        results = []
-        for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS):
-            if action.lower() not in self.exclusions.exclude_actions:
-                results.append(action)
-        return results
+        return [
+            action
+            for action in self.allows_specific_actions_without_constraints(ACTIONS_THAT_RETURN_CREDENTIALS)
+            if action.lower() not in self.exclusions.exclude_actions
+        ]
 
     @property
     def service_wildcard(self) -> List[str]:

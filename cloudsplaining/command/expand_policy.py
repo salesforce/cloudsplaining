@@ -7,10 +7,12 @@ Expands the wildcards (*) on an IAM policy file so it is easier for a human to u
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo rootgit pus
 # or https://opensource.org/licenses/BSD-3-Clause
-import logging
 import json
+import logging
+
 import click
 from policy_sentry.analysis.expand import get_expanded_policy
+
 from cloudsplaining import set_log_level
 
 logger = logging.getLogger(__name__)
@@ -31,7 +33,7 @@ def expand_policy(input_file: str, verbosity: int) -> None:
     """
     set_log_level(verbosity)
 
-    with open(input_file) as json_file:
+    with open(input_file, encoding="utf-8") as json_file:
         logger.debug(f"Opening {input_file}")
         data = json.load(json_file)
         policy = get_expanded_policy(data)

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import logging
 import json
-from typing import List, Dict, Any, Optional
+import logging
+from typing import Any, Dict, List, Optional
 
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
@@ -12,16 +12,16 @@ from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.exceptions import NotFoundException
-from cloudsplaining.shared.utils import (
-    is_aws_managed,
-    get_full_policy_path,
-    get_policy_name,
-    get_non_provider_id,
-)
 from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
     Exclusions,
     is_name_excluded,
+)
+from cloudsplaining.shared.utils import (
+    get_full_policy_path,
+    get_non_provider_id,
+    get_policy_name,
+    is_aws_managed,
 )
 
 logger = logging.getLogger(__name__)
@@ -216,8 +216,8 @@ class RoleDetail:
 
     def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
         self.iam_data = iam_data
-        for inlinePolicy in self.inline_policies:
-            inlinePolicy.set_iam_data(iam_data)
+        for inline_policy in self.inline_policies:
+            inline_policy.set_iam_data(iam_data)
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the principal name or principal ID is excluded"""
@@ -255,7 +255,7 @@ class RoleDetail:
         for policy in self.attached_managed_policies:
             try:
                 policies[policy.policy_id] = policy.json_large
-            except AttributeError as a_e:
+            except AttributeError as a_e:  # noqa: PERF203
                 print(a_e)
         return policies
 
@@ -266,7 +266,7 @@ class RoleDetail:
         for policy in self.attached_managed_policies:
             try:
                 policies[policy.policy_id] = policy.policy_name
-            except AttributeError as a_e:
+            except AttributeError as a_e:  # noqa: PERF203
                 print(a_e)
         return policies
 
@@ -313,10 +313,7 @@ class RoleDetail:
     @property
     def json(self) -> Dict[str, Any]:
         """Return the JSON representation of the Role Detail"""
-        if self.assume_role_policy_document:
-            assume_role_json = self.assume_role_policy_document.json
-        else:
-            assume_role_json = {}
+        assume_role_json = self.assume_role_policy_document.json if self.assume_role_policy_document else {}
         this_role_detail = dict(
             arn=self.arn,
             assume_role_policy=dict(PolicyDocument=assume_role_json),

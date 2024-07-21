@@ -8,12 +8,14 @@ This way, users don't have to remember exactly how to phrase the yaml files, sin
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
-import os
 import logging
+import os
+
 import click
-from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
+
 from cloudsplaining import set_log_level
 from cloudsplaining.shared import utils
+from cloudsplaining.shared.constants import EXCLUSIONS_TEMPLATE
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +40,7 @@ def create_exclusions_file(output_file: str, verbosity: int) -> None:
     """
     set_log_level(verbosity)
 
-    with open(output_file, "a") as file_obj:
+    with open(output_file, "a", encoding="utf-8") as file_obj:
         for line in EXCLUSIONS_TEMPLATE:
             file_obj.write(line)
     utils.print_green(f"Success! Exclusions template file written to: {output_file}")

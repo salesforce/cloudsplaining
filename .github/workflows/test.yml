@@ -38,9 +38,8 @@ jobs:
         run: |
           make install
 
-      - name: Run pytest (unit tests) and bandit (security test)
+      - name: Run pytest (unit tests)
         run: |
-          make security-test
           make test
 
       - name: Run mypy (static type check)
@@ -71,6 +70,6 @@ jobs:
         run: |
           make install
 
-      - name: Run pytest (unit tests) and bandit (security test)
+      - name: Run pytest (unit tests)
         run: |
           make test

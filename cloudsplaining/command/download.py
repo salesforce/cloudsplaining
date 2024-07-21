@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from typing import Dict, List, Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict, List
 
 import boto3
 import click
@@ -68,7 +68,7 @@ def download(profile: str, output: str, include_non_default_policy_versions: boo
         output_filename = os.path.join(output, "default.json")
 
     results = get_account_authorization_details(session_data, include_non_default_policy_versions)
-    with open(output_filename, "w") as f:
+    with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=4, default=str)
     # output_filename.write_text(json.dumps(results, indent=4, default=str))
     print(f"Saved results to {output_filename}")

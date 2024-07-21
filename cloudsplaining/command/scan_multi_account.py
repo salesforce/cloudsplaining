@@ -2,23 +2,24 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
-import json
-from typing import Dict, Any, Optional, List, cast, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
 
-import yaml
 import click
+import yaml
+from click import Context
 from click_option_group import optgroup
 
-from cloudsplaining.shared.constants import EXCLUSIONS_FILE
-from cloudsplaining.command.download import get_account_authorization_details
 from cloudsplaining import set_log_level
-from cloudsplaining.shared.exclusions import Exclusions, DEFAULT_EXCLUSIONS
-from cloudsplaining.shared import utils, aws_login
-from cloudsplaining.shared.validation import check_authorization_details_schema
-from cloudsplaining.scan.authorization_details import AuthorizationDetails
+from cloudsplaining.command.download import get_account_authorization_details
 from cloudsplaining.output.report import HTMLReport
+from cloudsplaining.scan.authorization_details import AuthorizationDetails
+from cloudsplaining.shared import aws_login, utils
+from cloudsplaining.shared.constants import EXCLUSIONS_FILE
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.validation import check_authorization_details_schema
 
 if TYPE_CHECKING:
     from mypy_boto3_s3 import S3ServiceResource
@@ -135,7 +136,7 @@ def scan_multi_account(
     set_log_level(verbosity)
 
     # Read the config file from the user
-    with open(config_file, "r") as yaml_file:
+    with open(config_file, encoding="utf-8") as yaml_file:
         config = yaml.safe_load(yaml_file)
 
     if flag_all_risky_actions:
@@ -191,7 +192,7 @@ def scan_accounts(
             account_id=target_account_id,
             account_name=target_account_name,
             results=results,
-            ## minimize has to be false because changes were made on javascript code so it cannot be pulled over the internet, unless these changes are updated on the internet code
+            # minimize has to be false because changes were made on javascript code so it cannot be pulled over the internet, unless these changes are updated on the internet code
             minimize=False,
         )
         rendered_report = html_report.get_html_report()
@@ -279,7 +280,7 @@ def get_exclusions(exclusions_file: Optional[str] = None) -> Exclusions:
     """Get the exclusions configuration from a file"""
     # Get the exclusions configuration
     if exclusions_file:
-        with open(exclusions_file, "r") as yaml_file:
+        with open(exclusions_file, encoding="utf-8") as yaml_file:
             try:
                 exclusions_cfg = yaml.safe_load(yaml_file)
             except yaml.YAMLError as exc:
@@ -291,5 +292,5 @@ def get_exclusions(exclusions_file: Optional[str] = None) -> Exclusions:
 
 
 @click.pass_context
-def getSeverity(context: Any) -> Any:
-    return context.params["severity"]
+def getSeverity(context: Context) -> str:  # noqa: N802
+    return cast("str", context.params["severity"])
