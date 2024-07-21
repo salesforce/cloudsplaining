@@ -1,5 +1,5 @@
 # CI
-pre-commit==3.5.0 # 3.6+ requires Python 3.9
+pre-commit==3.7.1 # 3.6+ requires Python 3.9
 # Unit testing
 pytest==8.2.2
 coverage==7.6.0
