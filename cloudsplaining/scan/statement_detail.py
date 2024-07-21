@@ -1,4 +1,5 @@
 """Abstracts evaluation of IAM Policy statements."""
+
 import logging
 from typing import Dict, Any, List, Optional
 

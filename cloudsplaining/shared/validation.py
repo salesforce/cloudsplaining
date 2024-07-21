@@ -1,4 +1,5 @@
 """Validate JSON/YAML formatted templates/data, such as the exclusions template and the Authorization details file."""
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.

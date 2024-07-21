@@ -1,4 +1,5 @@
 """Processes an entry under GroupDetailList"""
+
 from __future__ import annotations
 
 import json

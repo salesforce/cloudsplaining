@@ -21,7 +21,9 @@ def cloudsplaining() -> None:
 
 
 cloudsplaining.add_command(command.create_exclusions_file.create_exclusions_file)
-cloudsplaining.add_command(command.create_multi_account_config_file.create_multi_account_config_file)
+cloudsplaining.add_command(
+    command.create_multi_account_config_file.create_multi_account_config_file
+)
 cloudsplaining.add_command(command.expand_policy.expand_policy)
 cloudsplaining.add_command(command.scan.scan)
 cloudsplaining.add_command(command.scan_multi_account.scan_multi_account)
