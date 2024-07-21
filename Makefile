@@ -57,10 +57,6 @@ test: setup-dev
 security-test: setup-dev
 	bandit -r ./${PROJECT_UNDERSCORE}/
 
-# Auto format your python files
-fmt: setup-dev
-	black ${PROJECT_UNDERSCORE}/
-
 # Run Pylint to lint your code
 lint: setup-dev
 	pylint ${PROJECT_UNDERSCORE}/

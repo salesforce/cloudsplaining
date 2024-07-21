@@ -24,9 +24,7 @@ class FindExcessiveWildcardsTestCase(unittest.TestCase):
     def test_exclusions_error(self):
         """shared.validation.check_exclusions_schema: Make sure an exception is raised if the format is incorrect"""
         exclusions_cfg = {
-            "fake": [
-                "MyRole"
-            ],
+            "fake": ["MyRole"],
         }
         with self.assertRaises(Exception):
             check_exclusions_schema(exclusions_cfg)

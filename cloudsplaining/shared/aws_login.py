@@ -17,9 +17,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-def get_boto3_client(
-    service: str, profile: Optional[str] = None, region: str = "us-east-1"
-) -> BaseClient:
+def get_boto3_client(service: str, profile: Optional[str] = None, region: str = "us-east-1") -> BaseClient:
     """Get a boto3 client for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
@@ -36,15 +34,11 @@ def get_boto3_client(
         )
     else:
         client = session.client(service, config=config)
-    logger.debug(
-        f"{client.meta.endpoint_url} in {client.meta.region_name}: boto3 client login successful"
-    )
+    logger.debug(f"{client.meta.endpoint_url} in {client.meta.region_name}: boto3 client login successful")
     return client
 
 
-def get_boto3_resource(
-    service: str, profile: Optional[str] = None, region: str = "us-east-1"
-) -> ServiceResource:
+def get_boto3_resource(service: str, profile: Optional[str] = None, region: str = "us-east-1") -> ServiceResource:
     """Get a boto3 resource for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
@@ -67,9 +61,7 @@ def get_current_account_id(sts_client: STSClient) -> str:
 def get_available_regions(service: str) -> List[str]:
     """AWS exposes their list of regions as an API. Gather the list."""
     regions: List[str] = boto3.session.Session().get_available_regions(service)
-    logger.debug(
-        "The service %s does not have available regions. Returning us-east-1 as default"
-    )
+    logger.debug("The service %s does not have available regions. Returning us-east-1 as default")
     if not regions:
         regions = ["us-east-1"]
     return regions

@@ -28,12 +28,8 @@ RED = "\033[91m"
 END = "\033[0m"
 
 
-@click.command(
-    short_help="Scan a single policy file to identify identify missing resource constraints."
-)
-@click.option(
-    "-i", "--input-file", type=str, help="Path of the IAM policy file to evaluate."
-)
+@click.command(short_help="Scan a single policy file to identify identify missing resource constraints.")
+@click.option("-i", "--input-file", type=str, help="Path of the IAM policy file to evaluate.")
 @click.option(
     "-e",
     "--exclusions-file",
@@ -64,9 +60,7 @@ END = "\033[0m"
     "severity",
     help="Filter the severity of findings to be reported.",
     multiple=True,
-    type=click.Choice(
-        ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False
-    ),
+    type=click.Choice(["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False),
 )
 
 # pylint: disable=redefined-builtin
@@ -122,9 +116,7 @@ def scan_policy_file(
         # Privilege Escalation
         if results["PrivilegeEscalation"]:
             if results["PrivilegeEscalation"]["findings"]:
-                print(
-                    f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}"
-                )
+                print(f"{RED}Potential Issue found: Policy is capable of Privilege Escalation{END}")
                 results_exist += 1
                 for item in results["PrivilegeEscalation"]["findings"]:
                     print(f"- Method: {item.get('type')}")
@@ -134,45 +126,29 @@ def scan_policy_file(
         if results["DataExfiltration"]:
             if results["DataExfiltration"]["findings"]:
                 results_exist += 1
-                print(
-                    f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}"
-                )
-                print(
-                    f"{BOLD}Actions{END}: {', '.join(results['DataExfiltration']['findings'])}\n"
-                )
+                print(f"{RED}Potential Issue found: Policy is capable of Data Exfiltration{END}")
+                print(f"{BOLD}Actions{END}: {', '.join(results['DataExfiltration']['findings'])}\n")
 
         # Resource Exposure
         if results["ResourceExposure"]:
             if results["ResourceExposure"]["findings"]:
                 results_exist += 1
-                print(
-                    f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}"
-                )
-                print(
-                    f"{BOLD}Actions{END}: {', '.join(results['ResourceExposure']['findings'])}\n"
-                )
+                print(f"{RED}Potential Issue found: Policy is capable of Resource Exposure{END}")
+                print(f"{BOLD}Actions{END}: {', '.join(results['ResourceExposure']['findings'])}\n")
 
         # Service Wildcard
         if results["ServiceWildcard"]:
             if results["ServiceWildcard"]["findings"]:
                 results_exist += 1
-                print(
-                    f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}"
-                )
-                print(
-                    f"{BOLD}Actions{END}: {', '.join(results['ServiceWildcard']['findings'])}\n"
-                )
+                print(f"{RED}Potential Issue found: Policy allows ALL Actions from a service (like service:*){END}")
+                print(f"{BOLD}Actions{END}: {', '.join(results['ServiceWildcard']['findings'])}\n")
 
         # Credentials Exposure
         if results["CredentialsExposure"]:
             if results["CredentialsExposure"]["findings"]:
                 results_exist += 1
-                print(
-                    f"{RED}Potential Issue found: Policy allows actions that return credentials{END}"
-                )
-                print(
-                    f"{BOLD}Actions{END}: {', '.join(results['CredentialsExposure']['findings'])}\n"
-                )
+                print(f"{RED}Potential Issue found: Policy allows actions that return credentials{END}")
+                print(f"{BOLD}Actions{END}: {', '.join(results['CredentialsExposure']['findings'])}\n")
 
         if not high_priority_only:
             if results["InfrastructureModification"]:
@@ -182,9 +158,7 @@ def scan_policy_file(
                     print(
                         f"{RED}Potential Issue found: Policy is capable of Unrestricted Infrastructure Modification{END}"
                     )
-                    print(
-                        f"{BOLD}Actions{END}: {', '.join(results['InfrastructureModification']['findings'])}"
-                    )
+                    print(f"{BOLD}Actions{END}: {', '.join(results['InfrastructureModification']['findings'])}")
 
         if results_exist == 0:
             print("There were no results found.")

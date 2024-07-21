@@ -1,5 +1,5 @@
 """Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in
-account-alias.json """
+account-alias.json"""
 
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
@@ -51,9 +51,7 @@ logger = logging.getLogger(__name__)
     help="When downloading AWS managed policy documents, also include the non-default policy versions. Note that this will dramatically increase the size of the downloaded file.",
 )
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
-def download(
-    profile: str, output: str, include_non_default_policy_versions: bool, verbosity: int
-) -> int:
+def download(profile: str, output: str, include_non_default_policy_versions: bool, verbosity: int) -> int:
     """
     Runs aws iam get-authorization-details on all accounts specified in the aws credentials file, and stores them in
     account-alias.json
@@ -69,9 +67,7 @@ def download(
     else:
         output_filename = os.path.join(output, "default.json")
 
-    results = get_account_authorization_details(
-        session_data, include_non_default_policy_versions
-    )
+    results = get_account_authorization_details(session_data, include_non_default_policy_versions)
     with open(output_filename, "w") as f:
         json.dump(results, f, indent=4, default=str)
     # output_filename.write_text(json.dumps(results, indent=4, default=str))
@@ -119,9 +115,7 @@ def get_account_authorization_details(
                 else:
                     policy_version_list = []
                     for policy_version in policy.get("PolicyVersionList") or []:
-                        if policy_version.get("VersionId") == policy.get(
-                            "DefaultVersionId"
-                        ):
+                        if policy_version.get("VersionId") == policy.get("DefaultVersionId"):
                             policy_version_list.append(policy_version)
                             break
                     entry = {
@@ -131,9 +125,7 @@ def get_account_authorization_details(
                         "Path": policy.get("Path"),
                         "DefaultVersionId": policy.get("DefaultVersionId"),
                         "AttachmentCount": policy.get("AttachmentCount"),
-                        "PermissionsBoundaryUsageCount": policy.get(
-                            "PermissionsBoundaryUsageCount"
-                        ),
+                        "PermissionsBoundaryUsageCount": policy.get("PermissionsBoundaryUsageCount"),
                         "IsAttachable": policy.get("IsAttachable"),
                         "CreateDate": policy.get("CreateDate"),
                         "UpdateDate": policy.get("UpdateDate"),

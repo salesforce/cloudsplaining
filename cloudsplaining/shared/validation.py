@@ -61,9 +61,7 @@ def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
     if result:
         return result
     else:
-        raise Exception(
-            "The required format of the exclusions template is incorrect. Please try again."
-        )
+        raise Exception("The required format of the exclusions template is incorrect. Please try again.")
 
 
 def check_authorization_details_schema(cfg: Dict[str, List[Any]]) -> bool:

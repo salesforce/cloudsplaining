@@ -11,7 +11,7 @@ jobs:
   detect-secrets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
       - name: detect secrets
         uses: edplato/trufflehog-actions-scan@c36ff9abf0af8290ef23b1b45a36e75c742dd1d8 # v0.9l-beta
         with:

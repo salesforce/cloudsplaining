@@ -3,13 +3,15 @@
 import sys
 import os
 from pathlib import Path
+
 sys.path.append(str(Path(os.path.dirname(__file__)).parent))
 import json
 from cloudsplaining.shared.validation import check_authorization_details_schema
 from cloudsplaining.scan.authorization_details import AuthorizationDetails
 
 
-account_authorization_details_file = os.path.abspath(os.path.join(
+account_authorization_details_file = os.path.abspath(
+    os.path.join(
         os.path.dirname(__file__),
         os.path.pardir,
         "examples",
@@ -21,7 +23,8 @@ account_authorization_details_file = os.path.abspath(os.path.join(
 with open(account_authorization_details_file) as json_file:
     account_authorization_details_cfg = json.load(json_file)
 
-results_file = os.path.abspath(os.path.join(
+results_file = os.path.abspath(
+    os.path.join(
         os.path.dirname(__file__),
         "example-iam-data.json",
     )
@@ -44,11 +47,9 @@ def generate_example_iam_data():
 
 
 def replace_sample_data_js(results):
-    sample_data_js_file = os.path.abspath(os.path.join(
-        os.path.dirname(__file__),
-        os.path.pardir,
-        "cloudsplaining", "output", "src", "sampleData.js"
-    ))
+    sample_data_js_file = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), os.path.pardir, "cloudsplaining", "output", "src", "sampleData.js")
+    )
     content = f"""var sample_iam_data = {json.dumps(results, indent=4)}
 
 
@@ -63,7 +64,7 @@ exports.sample_iam_data = sample_iam_data;
         f.write(content)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     results = generate_example_iam_data()
     print("Replacing sampleData.js content with the most recent content")
     replace_sample_data_js(results)

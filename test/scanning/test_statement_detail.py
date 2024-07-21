@@ -10,16 +10,16 @@ class TestStatementDetail(unittest.TestCase):
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-              "iam:CreateInstanceProfile",
-              "iam:ListInstanceProfilesForRole",
-              "iam:PassRole",
-              "ec2:DescribeIamInstanceProfileAssociations",
-              "iam:GetInstanceProfile",
-              "ec2:DisassociateIamInstanceProfile",
-              "ec2:AssociateIamInstanceProfile",
-              "iam:AddRoleToInstanceProfile"
+                "iam:CreateInstanceProfile",
+                "iam:ListInstanceProfilesForRole",
+                "iam:PassRole",
+                "ec2:DescribeIamInstanceProfileAssociations",
+                "iam:GetInstanceProfile",
+                "ec2:DisassociateIamInstanceProfile",
+                "ec2:AssociateIamInstanceProfile",
+                "iam:AddRoleToInstanceProfile",
             ],
-            "Resource": "*"
+            "Resource": "*",
         }
         statement = StatementDetail(this_statement)
         # print(statement.actions)
@@ -32,17 +32,10 @@ class TestStatementDetail(unittest.TestCase):
             "iam:GetInstanceProfile",
             "ec2:DisassociateIamInstanceProfile",
             "ec2:AssociateIamInstanceProfile",
-            "iam:AddRoleToInstanceProfile"
+            "iam:AddRoleToInstanceProfile",
         ]
         self.assertListEqual(statement.actions, expected_result)
-        this_statement = {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-              "ecr:*"
-            ],
-            "Resource": "*"
-        }
+        this_statement = {"Sid": "VisualEditor0", "Effect": "Allow", "Action": ["ecr:*"], "Resource": "*"}
         statement = StatementDetail(this_statement)
         # print(statement.expanded_actions)
 
@@ -55,11 +48,11 @@ class TestStatementDetail(unittest.TestCase):
                 "iam:AddRoleToInstanceProfile",
                 "ec2:DescribeIamInstanceProfileAssociations",
             ],
-            "Resource": "*"
+            "Resource": "*",
         }
         statement = StatementDetail(this_statement)
         result = statement.services_in_use
-        expected_result = ['ec2', 'iam']
+        expected_result = ["ec2", "iam"]
         # print(result)
         self.assertListEqual(result, expected_result)
 
@@ -75,12 +68,12 @@ class TestStatementDetail(unittest.TestCase):
                 # This one is wildcard OR "secret"
                 "secretsmanager:putsecretvalue",
             ],
-            "Resource": "*"
+            "Resource": "*",
         }
         statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints()
         # print(result)
-        self.assertCountEqual(result, ['secretsmanager:CreateSecret', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ["secretsmanager:CreateSecret", "secretsmanager:PutSecretValue"])
 
     def test_missing_resource_constraints_for_modify_actions(self):
         this_statement = {
@@ -93,28 +86,29 @@ class TestStatementDetail(unittest.TestCase):
                 # This one is wildcard OR "secret"
                 "secretsmanager:putsecretvalue",
                 # This one is wildcard OR object
-                "s3:GetObject"
+                "s3:GetObject",
             ],
-            "Resource": "*"
+            "Resource": "*",
         }
         statement = StatementDetail(this_statement)
         result = statement.missing_resource_constraints()
 
         # print(result)
-        self.assertCountEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ["s3:GetObject", "secretsmanager:PutSecretValue"])
         result = statement.missing_resource_constraints_for_modify_actions()
         print(result)
-        self.assertCountEqual(result, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(result, ["s3:GetObject", "secretsmanager:PutSecretValue"])
 
     def test_missing_resource_constraints_for_modify_actions_with_override(self):
         import logging
         import sys
+
         logger = logging.getLogger(__name__)
         root = logging.getLogger()
         root.setLevel(logging.DEBUG)
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
         root.addHandler(handler)
         this_statement = {
@@ -127,37 +121,27 @@ class TestStatementDetail(unittest.TestCase):
                 # This one is wildcard OR "secret"
                 "secretsmanager:putsecretvalue",
                 # This one is wildcard OR object
-                "s3:GetObject"
+                "s3:GetObject",
             ],
-            "Resource": "*"
+            "Resource": "*",
         }
 
         statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions(DEFAULT_EXCLUSIONS)
         # print(results)
-        self.assertCountEqual(results, ['s3:GetObject', 'secretsmanager:PutSecretValue'])
+        self.assertCountEqual(results, ["s3:GetObject", "secretsmanager:PutSecretValue"])
 
     def test_statement_details_for_action_as_string_instead_of_list(self):
         # Case: when the "Action" is a string
-        this_statement = {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "Resource": "*"
-        }
+        this_statement = {"Sid": "VisualEditor0", "Effect": "Allow", "Action": "s3:GetObject", "Resource": "*"}
         # always_look_for_actions = ["s3:GetObject"]
         statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions(DEFAULT_EXCLUSIONS)
-        self.assertListEqual(results, ['s3:GetObject'])
+        self.assertListEqual(results, ["s3:GetObject"])
 
     def test_statement_details_for_not_resource(self):
         # Case: when "NotResource" is not included with "Action" as a string
-        this_statement = {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "NotResource": "*"
-        }
+        this_statement = {"Sid": "VisualEditor0", "Effect": "Allow", "Action": "s3:GetObject", "NotResource": "*"}
         statement = StatementDetail(this_statement)
         results = statement.missing_resource_constraints_for_modify_actions()
         self.assertListEqual(results, [])
@@ -177,9 +161,7 @@ class TestStatementDetail(unittest.TestCase):
                 "cloud9:List*",
                 "cloud9:Update*",
             ],
-            "Resource": [
-                "arn:aws:cloud9:us-east-1:123456789012:environment:some-resource-id"
-            ]
+            "Resource": ["arn:aws:cloud9:us-east-1:123456789012:environment:some-resource-id"],
         }
         statement = StatementDetail(this_statement)
         results = statement.not_action_effective_actions
@@ -191,7 +173,7 @@ class TestStatementDetail(unittest.TestCase):
             "cloud9:ActivateEC2Remote",
             "cloud9:ModifyTemporaryCredentialsOnEnvironmentEC2",
             "cloud9:TagResource",
-            "cloud9:UntagResource"
+            "cloud9:UntagResource",
         ]
         for action in expected_actions:
             self.assertTrue(action in results)
@@ -205,9 +187,7 @@ class TestStatementDetail(unittest.TestCase):
             "NotAction": [
                 "iam:*",
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": ["*"],
         }
         statement = StatementDetail(this_statement)
         results = statement.not_action_effective_actions
@@ -230,9 +210,7 @@ class TestStatementDetail(unittest.TestCase):
             "Action": [
                 "iam:*",
             ],
-            "Resource": [
-                "arn:aws:cloud9:us-east-1:123456789012:environment:some-resource-id"
-            ]
+            "Resource": ["arn:aws:cloud9:us-east-1:123456789012:environment:some-resource-id"],
         }
         statement = StatementDetail(this_statement)
         results = statement.not_action_effective_actions
@@ -246,9 +224,7 @@ class TestStatementDetail(unittest.TestCase):
             "Action": [
                 "iam:*",
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": ["*"],
         }
         statement = StatementDetail(this_statement)
         results = statement.not_action_effective_actions
@@ -261,9 +237,7 @@ class TestStatementDetail(unittest.TestCase):
             "Action": [
                 "*",
             ],
-            "NotResource": [
-                "arn:aws:s3:::HRBucket"
-            ]
+            "NotResource": ["arn:aws:s3:::HRBucket"],
         }
         statement = StatementDetail(this_statement)
         results = statement.has_not_resource_with_allow
@@ -276,10 +250,7 @@ class TestStatementDetail(unittest.TestCase):
             "Action": [
                 "*",
             ],
-            "Resource": [
-                "arn:aws:s3:::HRBucket",
-                "*"
-            ]
+            "Resource": ["arn:aws:s3:::HRBucket", "*"],
         }
         statement = StatementDetail(this_statement)
         results = statement.has_resource_wildcard
@@ -296,11 +267,9 @@ class TestStatementDetail(unittest.TestCase):
                 "s3:PutBucketAcl",
                 "s3:GetObject",
                 "s3:PutObject",
-                "s3:CreateBucket"
+                "s3:CreateBucket",
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": ["*"],
         }
         statement = StatementDetail(this_statement)
         results = statement.permissions_management_actions_without_constraints
@@ -316,9 +285,7 @@ class TestStatementDetail(unittest.TestCase):
             "Action": [
                 "ecr:GetAuthorizationToken",
             ],
-            "Resource": [
-                "*"
-            ]
+            "Resource": ["*"],
         }
         statement = StatementDetail(this_statement)
         self.assertListEqual(statement.unrestrictable_actions, ["ecr:GetAuthorizationToken"])
