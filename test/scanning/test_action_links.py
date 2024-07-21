@@ -21,7 +21,6 @@ with open(example_authz_details_file) as f:
 
 
 class TestActionLinks(unittest.TestCase):
-
     def test_infrastructure_modification_actions(self):
         policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
         infra_mod_actions = sorted(policy_details.all_infrastructure_modification_actions)
@@ -33,10 +32,7 @@ class TestActionLinks(unittest.TestCase):
         group_detail_list = GroupDetailList(group_details_json_input, policy_details)
         results = group_detail_list.all_infrastructure_modification_actions_by_inline_policies
         print(json.dumps(results, indent=4))
-        expected_results = [
-            "s3:GetObject",
-            "s3:PutObjectAcl"
-        ]
+        expected_results = ["s3:GetObject", "s3:PutObjectAcl"]
         self.assertListEqual(results, expected_results)
         self.assertTrue(len(results) >= 2)
 
@@ -53,7 +49,7 @@ class TestActionLinks(unittest.TestCase):
             "iam:CreateInstanceProfile",
             "iam:PassRole",
             "s3:GetObject",
-            "secretsmanager:GetSecretValue"
+            "secretsmanager:GetSecretValue",
         ]
         print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
@@ -66,16 +62,10 @@ class TestActionLinks(unittest.TestCase):
         group_detail_list = GroupDetailList(group_details_json_input, policy_details)
 
         user_detail_list = UserDetailList(
-            user_details=user_details_json_input,
-            policy_details=policy_details,
-            all_group_details=group_detail_list
+            user_details=user_details_json_input, policy_details=policy_details, all_group_details=group_detail_list
         )
         results = user_detail_list.all_infrastructure_modification_actions_by_inline_policies
-        expected_results = [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:PutObjectAcl"
-        ]
+        expected_results = ["s3:GetObject", "s3:PutObject", "s3:PutObjectAcl"]
         print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
 

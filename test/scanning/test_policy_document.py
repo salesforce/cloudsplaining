@@ -9,22 +9,14 @@ class TestPolicyDocument(unittest.TestCase):
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
+                {"Effect": "Allow", "Action": ["ecr:PutImage"], "Resource": "*"},
                 {
-                    "Effect": "Allow",
-                    "Action": [
-                        "ecr:PutImage"
-                    ],
-                    "Resource": "*"
-                },
-              {
                     "Sid": "AllowManageOwnAccessKeys",
                     "Effect": "Allow",
-                    "Action": [
-                        "iam:CreateAccessKey"
-                    ],
-                    "Resource": "arn:aws:iam::*:user/${aws:username}"
-                }
-            ]
+                    "Action": ["iam:CreateAccessKey"],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}",
+                },
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         result = policy_document.json
@@ -35,31 +27,21 @@ class TestPolicyDocument(unittest.TestCase):
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
+                {"Effect": "Allow", "Action": ["ssm:GetParameters", "ecr:PutImage"], "Resource": "*"},
                 {
-                    "Effect": "Allow",
-                    "Action": [
-                        "ssm:GetParameters",
-                        "ecr:PutImage"
-                    ],
-                    "Resource": "*"
-                },
-              {
                     "Sid": "AllowManageOwnAccessKeys",
                     "Effect": "Allow",
-                    "Action": [
-                        "iam:CreateAccessKey"
-                    ],
-                    "Resource": "arn:aws:iam::*:user/${aws:username}"
-                }
-            ]
+                    "Action": ["iam:CreateAccessKey"],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}",
+                },
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         actions_missing_resource_constraints = []
         # Read only
         for statement in policy_document.statements:
-            actions_missing_resource_constraints.extend(
-                statement.missing_resource_constraints())
-        self.assertCountEqual(actions_missing_resource_constraints, ['ssm:GetParameters', 'ecr:PutImage'])
+            actions_missing_resource_constraints.extend(statement.missing_resource_constraints())
+        self.assertCountEqual(actions_missing_resource_constraints, ["ssm:GetParameters", "ecr:PutImage"])
 
         # Modify only
         # modify_actions_missing_resource_constraints = []
@@ -72,40 +54,28 @@ class TestPolicyDocument(unittest.TestCase):
         modify_actions_missing_resource_constraints = []
         for statement in policy_document.statements:
             modify_actions_missing_resource_constraints.extend(
-                statement.missing_resource_constraints_for_modify_actions())
-        self.assertCountEqual(modify_actions_missing_resource_constraints, ['ecr:PutImage', 'ssm:GetParameters'])
+                statement.missing_resource_constraints_for_modify_actions()
+            )
+        self.assertCountEqual(modify_actions_missing_resource_constraints, ["ecr:PutImage", "ssm:GetParameters"])
 
     def test_policy_document_all_allowed_actions(self):
         """scan.policy_document.all_allowed_actions"""
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "ssm:GetParameters",
-                        "ecr:PutImage"
-                    ],
-                    "Resource": "*"
-                },
+                {"Effect": "Allow", "Action": ["ssm:GetParameters", "ecr:PutImage"], "Resource": "*"},
                 {
                     "Sid": "AllowManageOwnAccessKeys",
                     "Effect": "Allow",
-                    "Action": [
-                        "iam:CreateAccessKey"
-                    ],
-                    "Resource": "arn:aws:iam::*:user/${aws:username}"
-                }
-            ]
+                    "Action": ["iam:CreateAccessKey"],
+                    "Resource": "arn:aws:iam::*:user/${aws:username}",
+                },
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         result = policy_document.all_allowed_actions
 
-        expected_result = [
-            "ecr:PutImage",
-            "ssm:GetParameters",
-            "iam:CreateAccessKey"
-        ]
+        expected_result = ["ecr:PutImage", "ssm:GetParameters", "iam:CreateAccessKey"]
         self.assertCountEqual(result, expected_result)
 
     def test_all_allowed_unrestriced_deny(self):
@@ -118,28 +88,20 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": "*",
                     "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         result = policy_document.all_allowed_unrestricted_actions
-        self.assertEqual([],result)
+        self.assertEqual([], result)
 
     def test_policy_document_all_allowed_actions_deny(self):
         """scan.policy_document.all_allowed_actions"""
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": "*",
-                    "Resource": "*"
-                },
-                {
-                    "Effect": "Deny",
-                    "Action": "aws-portal:*",
-                    "Resource": "*"
-                }
-            ]
+                {"Effect": "Allow", "Action": "*", "Resource": "*"},
+                {"Effect": "Deny", "Action": "aws-portal:*", "Resource": "*"},
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         result = policy_document.all_allowed_actions
@@ -159,9 +121,9 @@ class TestPolicyDocument(unittest.TestCase):
                         "dynamodb:CreateTable",
                         "dynamodb:PutItem",
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         results = policy_document.allows_privilege_escalation
@@ -173,17 +135,13 @@ class TestPolicyDocument(unittest.TestCase):
                     "lambda:createfunction",
                     "lambda:createeventsourcemapping",
                     "dynamodb:createtable",
-                    "dynamodb:putitem"
-                ]
+                    "dynamodb:putitem",
+                ],
             },
             {
                 "type": "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo",
-                "actions": [
-                    "iam:passrole",
-                    "lambda:createfunction",
-                    "lambda:createeventsourcemapping"
-                ]
-            }
+                "actions": ["iam:passrole", "lambda:createfunction", "lambda:createeventsourcemapping"],
+            },
         ]
         self.assertListEqual(results, expected_result)
 
@@ -202,11 +160,11 @@ class TestPolicyDocument(unittest.TestCase):
                         "ssm:GetParametersByPath",
                         "secretsmanager:GetSecretValue",
                         "s3:PutObject",
-                        "ec2:CreateTags"
+                        "ec2:CreateTags",
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         results = policy_document.allows_specific_actions_without_constraints(["iam:PassRole"])
@@ -221,7 +179,7 @@ class TestPolicyDocument(unittest.TestCase):
             "ssm:GetParameter",
             "ssm:GetParameters",
             "ssm:GetParametersByPath",
-            "secretsmanager:GetSecretValue"
+            "secretsmanager:GetSecretValue",
         ]
         results = policy_document.allows_specific_actions_without_constraints(high_priority_read_only_actions)
         self.assertCountEqual(results, high_priority_read_only_actions)
@@ -238,17 +196,18 @@ class TestPolicyDocument(unittest.TestCase):
         with self.assertRaises(Exception):
             results = policy_document.allows_specific_actions_without_constraints("iam:passrole")
 
-
     def test_policy_document_not_action_deny_gh_23(self):
         test_policy = {
             "Version": "2012-10-17",
-            "Statement": [{
-                "Sid": "DenyAllUsersNotUsingMFA",
-                "Effect": "Deny",
-                "NotAction": "iam:*",
-                "Resource": "*",
-                "Condition": {"BoolIfExists": {"aws:MultiFactorAuthPresent": "false"}}
-            }]
+            "Statement": [
+                {
+                    "Sid": "DenyAllUsersNotUsingMFA",
+                    "Effect": "Deny",
+                    "NotAction": "iam:*",
+                    "Resource": "*",
+                    "Condition": {"BoolIfExists": {"aws:MultiFactorAuthPresent": "false"}},
+                }
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         allowed_actions = []
@@ -271,19 +230,12 @@ class TestPolicyDocument(unittest.TestCase):
                     "NotAction": "iam:*",
                     "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
 
         results = policy_document.contains_statement_using_not_action
-        expected_results = [
-            {
-                "Sid": "Something",
-                "Effect": "Allow",
-                "NotAction": "iam:*",
-                "Resource": "*"
-            }
-        ]
+        expected_results = [{"Sid": "Something", "Effect": "Allow", "NotAction": "iam:*", "Resource": "*"}]
         # print(json.dumps(results, indent=4))
         self.assertListEqual(results, expected_results)
 
@@ -298,24 +250,22 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": [
                         "autoscaling:SetDesiredCapacity",
                         "autoscaling:TerminateInstanceInAutoScalingGroup",
-                        "autoscaling:UpdateAutoScalingGroup"
+                        "autoscaling:UpdateAutoScalingGroup",
                     ],
                     "Resource": "*",
                 }
-            ]
+            ],
         }
         exclusions_cfg = {
-            "policies": [
-                "aws-service-role*"
-            ],
+            "policies": ["aws-service-role*"],
             "roles": ["aws-service-role*"],
             "users": [""],
             "include-actions": ["s3:GetObject"],
             "exclude-actions": [
                 "autoscaling:SetDesiredCapacity",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
-                "autoscaling:UpdateAutoScalingGroup"
-            ]
+                "autoscaling:UpdateAutoScalingGroup",
+            ],
         }
         exclusions = Exclusions(exclusions_cfg)
         policy_document = PolicyDocument(test_policy, exclusions)
@@ -323,16 +273,14 @@ class TestPolicyDocument(unittest.TestCase):
         self.assertEqual(policy_document.infrastructure_modification, [])
 
         exclusions_cfg_2 = {
-            "policies": [
-                "aws-service-role*"
-            ],
+            "policies": ["aws-service-role*"],
             "roles": ["aws-service-role*"],
             "users": [""],
             "include-actions": ["s3:GetObject"],
             "exclude-actions": [
                 "autoscaling:SetDesiredCapacity",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
-            ]
+            ],
         }
         exclusions_2 = Exclusions(exclusions_cfg_2)
         policy_document_2 = PolicyDocument(test_policy, exclusions_2)
@@ -343,25 +291,31 @@ class TestPolicyDocument(unittest.TestCase):
     def test_condition_is_a_restricted_action(self):
         test_policy = {
             "Version": "2012-10-17",
-            "Statement": [{
-                "Effect": "Allow",
-                "Action": "cloudwatch:PutMetricData",
-                "Resource": "*",
-                "Condition": {"StringEquals": {"cloudwatch:namespace": "Namespace"}}
-            }]
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "cloudwatch:PutMetricData",
+                    "Resource": "*",
+                    "Condition": {"StringEquals": {"cloudwatch:namespace": "Namespace"}},
+                }
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         self.assertListEqual(policy_document.all_allowed_unrestrictable_actions, [])
         test_policy_without_condition = {
             "Version": "2012-10-17",
-            "Statement": [{
-                "Effect": "Allow",
-                "Action": "cloudwatch:PutMetricData",
-                "Resource": "*",
-            }]
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": "cloudwatch:PutMetricData",
+                    "Resource": "*",
+                }
+            ],
         }
         policy_document_without_condition = PolicyDocument(test_policy_without_condition)
-        self.assertListEqual(policy_document_without_condition.all_allowed_unrestrictable_actions, ["cloudwatch:PutMetricData"])
+        self.assertListEqual(
+            policy_document_without_condition.all_allowed_unrestrictable_actions, ["cloudwatch:PutMetricData"]
+        )
 
     def test_actions_without_constraints_deny(self):
         test_policy = {
@@ -376,11 +330,11 @@ class TestPolicyDocument(unittest.TestCase):
                         "s3:PutBucketAcl",
                         "s3:GetObject",
                         "s3:PutObject",
-                        "s3:CreateBucket"
+                        "s3:CreateBucket",
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         results = policy_document.permissions_management_without_constraints
@@ -396,15 +350,8 @@ class TestPolicyDocument(unittest.TestCase):
         test_policy = {
             "Version": "2012-10-17",
             "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "xray:PutTraceSegments",
-                        "xray:PutTelemetryRecords"
-                    ],
-                    "Resource": "*"
-                }
-            ]
+                {"Effect": "Allow", "Action": ["xray:PutTraceSegments", "xray:PutTelemetryRecords"], "Resource": "*"}
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         results = policy_document.write_actions_without_constraints
@@ -429,16 +376,16 @@ class TestPolicyDocument(unittest.TestCase):
                         "ecr:GetLifecyclePolicy",
                         "ecr:GetLifecyclePolicyPreview",
                         "ecr:ListTagsForResource",
-                        "ecr:DescribeImageScanFindings"
+                        "ecr:DescribeImageScanFindings",
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy)
         self.assertTrue("ecr:GetAuthorizationToken" not in policy_document.all_allowed_unrestricted_actions)
         self.assertListEqual(policy_document.write_actions_without_constraints, [])
-        self.assertListEqual(policy_document.credentials_exposure, ['ecr:GetAuthorizationToken'])
+        self.assertListEqual(policy_document.credentials_exposure, ["ecr:GetAuthorizationToken"])
 
     def test_gh_254_flag_risky_actions_with_resource_constraints_privilege_escalation(self):
         # Privilege Escalation: https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#updating-an-assumerole-policy
@@ -447,19 +394,15 @@ class TestPolicyDocument(unittest.TestCase):
             "Statement": [
                 {
                     "Effect": "Allow",
-                    "Action": [
-                        "iam:UpdateAssumeRolePolicy",
-                        "sts:AssumeRole"
-                    ],
-                    "Resource": "arn:aws:iam::111122223333:role/MyRole"
+                    "Action": ["iam:UpdateAssumeRolePolicy", "sts:AssumeRole"],
+                    "Resource": "arn:aws:iam::111122223333:role/MyRole",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        expected_result = [{
-            'type': 'UpdateRolePolicyToAssumeIt',
-            'actions': ['iam:updateassumerolepolicy', 'sts:assumerole']
-        }]
+        expected_result = [
+            {"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy", "sts:assumerole"]}
+        ]
         self.assertDictEqual(policy_document.allows_privilege_escalation[0], expected_result[0])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.allows_privilege_escalation, [])
@@ -474,9 +417,9 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": [
                         "s3:PutBucketAcl",
                     ],
-                    "Resource": "arn:aws:s3:::mybucket"
+                    "Resource": "arn:aws:s3:::mybucket",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
         self.assertListEqual(policy_document.permissions_management_without_constraints, ["s3:PutBucketAcl"])
@@ -493,12 +436,12 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": [
                         "iam:UpdateAccessKey",
                     ],
-                    "Resource": "arn:aws:iam::111122223333:user/MyUser"
+                    "Resource": "arn:aws:iam::111122223333:user/MyUser",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        self.assertListEqual(policy_document.credentials_exposure, ['iam:UpdateAccessKey'])
+        self.assertListEqual(policy_document.credentials_exposure, ["iam:UpdateAccessKey"])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.credentials_exposure, [])
 
@@ -512,12 +455,12 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": [
                         "s3:GetObject",
                     ],
-                    "Resource": "arn:aws:s3:::mybucket/*"
+                    "Resource": "arn:aws:s3:::mybucket/*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ['s3:GetObject'])
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, ["s3:GetObject"])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.allows_data_exfiltration_actions, [])
 
@@ -531,15 +474,15 @@ class TestPolicyDocument(unittest.TestCase):
                     "Action": [
                         "ec2:AuthorizeSecurityGroupIngress",
                     ],
-                    "Resource": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-12345678"
+                    "Resource": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-12345678",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        self.assertListEqual(policy_document.infrastructure_modification, ['ec2:AuthorizeSecurityGroupIngress'])
+        self.assertListEqual(policy_document.infrastructure_modification, ["ec2:AuthorizeSecurityGroupIngress"])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.infrastructure_modification, [])
-    
+
     def test_gh_278_all_issue_types_respect_conditions_on_policy(self):
         test_policy_all_issues_no_conditions = {
             "Version": "2012-10-17",
@@ -557,33 +500,33 @@ class TestPolicyDocument(unittest.TestCase):
                         "ec2:RunInstances",
                         "iam:PassRole",
                         # Resource Exposure
-                        "ec2:CreateNetworkInterfacePermission"
+                        "ec2:CreateNetworkInterfacePermission",
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document = PolicyDocument(test_policy_all_issues_no_conditions)
         self.assertListEqual(policy_document.credentials_exposure, ["ec2:GetPasswordData"])
         self.assertListEqual(policy_document.allows_data_exfiltration_actions, ["s3:GetObject"])
-        self.assertListEqual(policy_document.infrastructure_modification, [
-            "ec2:AuthorizeSecurityGroupIngress", 
-            "ec2:CreateNetworkInterfacePermission", 
-            "ec2:RunInstances",
-            "iam:PassRole",
-            "s3:GetObject"
-        ])
-        self.assertListEqual(policy_document.allows_privilege_escalation, [{
-            "actions": [
-                "iam:passrole",
-                "ec2:runinstances"
+        self.assertListEqual(
+            policy_document.infrastructure_modification,
+            [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CreateNetworkInterfacePermission",
+                "ec2:RunInstances",
+                "iam:PassRole",
+                "s3:GetObject",
             ],
-            "type": "CreateEC2WithExistingIP"
-        }])
-        self.assertListEqual(policy_document.permissions_management_without_constraints, [
-            "ec2:CreateNetworkInterfacePermission",
-            "iam:PassRole"
-        ])
+        )
+        self.assertListEqual(
+            policy_document.allows_privilege_escalation,
+            [{"actions": ["iam:passrole", "ec2:runinstances"], "type": "CreateEC2WithExistingIP"}],
+        )
+        self.assertListEqual(
+            policy_document.permissions_management_without_constraints,
+            ["ec2:CreateNetworkInterfacePermission", "iam:PassRole"],
+        )
 
         test_policy_service_wildcard = {
             "Version": "2012-10-17",
@@ -594,9 +537,9 @@ class TestPolicyDocument(unittest.TestCase):
                         # Service Wildcard
                         "kinesis:*"
                     ],
-                    "Resource": "*"
+                    "Resource": "*",
                 }
-            ]
+            ],
         }
         policy_document_service_wildcard = PolicyDocument(test_policy_service_wildcard)
         self.assertListEqual(policy_document_service_wildcard.service_wildcard, ["kinesis"])
@@ -619,16 +562,12 @@ class TestPolicyDocument(unittest.TestCase):
                         # Resource Exposure
                         "ec2:CreateNetworkInterfacePermission",
                         # Service Wildcard
-                        "kinesis:*"
+                        "kinesis:*",
                     ],
                     "Resource": "*",
-                    "Condition": {
-                        "StringEquals": {
-                            "aws:PrincipalAccount": "123456789012"
-                        }
-                    }
+                    "Condition": {"StringEquals": {"aws:PrincipalAccount": "123456789012"}},
                 }
-            ]
+            ],
         }
         policy_document_condition = PolicyDocument(test_policy_all_issues_conditions)
         self.assertListEqual(policy_document_condition.credentials_exposure, [])

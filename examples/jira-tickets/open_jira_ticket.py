@@ -18,55 +18,30 @@ Based on the corresponding details in the HTML report, provide either:
 """
 
 
-@click.command(
-    short_help='Open a JIRA ticket with your Cloudsplaining report findings.'
-)
+@click.command(short_help="Open a JIRA ticket with your Cloudsplaining report findings.")
 # By default, the client will connect to a JIRA instance started from the Atlassian Plugin SDK
 # (see https://developer.atlassian.com/display/DOCS/Installing+the+Atlassian+Plugin+SDK for details).
+@click.option("--project", required=True, help="The 3-4 character JIRA Project key.")
 @click.option(
-    '--project',
-    required=True,
-    help="The 3-4 character JIRA Project key."
-)
-@click.option(
-    '--auth-file',
+    "--auth-file",
     required=True,
     type=click.Path(exists=True),
-    help='Path to the account authorization details JSON file.'
+    help="Path to the account authorization details JSON file.",
 )
+@click.option("--report-file", required=True, type=click.Path(exists=True), help="Path to the HTML Report file.")
+@click.option("--triage-file", required=True, help="Path to the Cloudsplaining Triage worksheet.")
+@click.option("--data-file", required=True, type=click.Path(exists=True), help="Path to the JSON Data file.")
 @click.option(
-    '--report-file',
-    required=True,
-    type=click.Path(exists=True),
-    help='Path to the HTML Report file.'
-)
-@click.option(
-    '--triage-file',
-    required=True,
-    help='Path to the Cloudsplaining Triage worksheet.'
-)
-@click.option(
-    '--data-file',
-    required=True,
-    type=click.Path(exists=True),
-    help='Path to the JSON Data file.'
-)
-@click.option(
-    '--server',
+    "--server",
     # default="https://jira.atlassian.com",
     required=True,
     type=str,
-    help='The JIRA server.'
+    help="The JIRA server.",
 )
 def open_jira_ticket(project, auth_file, report_file, triage_file, data_file, server):
     jira = jira_login(server)
     issue = jira.create_issue(
-        project=project,
-        summary=ISSUE_SUMMARY,
-        description=ISSUE_DESCRIPTION,
-        issuetype={
-            'name': 'Bug'
-        }
+        project=project, summary=ISSUE_SUMMARY, description=ISSUE_DESCRIPTION, issuetype={"name": "Bug"}
     )
     for file in [auth_file, report_file, triage_file, data_file]:
         add_attachment(jira, issue, file)
@@ -80,20 +55,14 @@ def open_jira_ticket(project, auth_file, report_file, triage_file, data_file, se
 
 def jira_login(server):
     username = input("Enter your JIRA username")
-    password = getpass.getpass(prompt='Enter your JIRA password.')
+    password = getpass.getpass(prompt="Enter your JIRA password.")
     options = {
         "server": server,
     }
     # Supporting HTTP BASIC Auth right now.
     # You can extend this script to support Cookie-based, OAuth or Kerberos."""
     # Docs: https://jira.readthedocs.io/en/master/examples.html#authentication
-    auth_jira = JIRA(
-        options=options,
-        basic_auth=(
-            username,
-            password
-        )
-    )
+    auth_jira = JIRA(options=options, basic_auth=(username, password))
     return auth_jira
 
 
@@ -110,18 +79,17 @@ def add_attachment(jira, issue, attachment_path):
     jira.add_attachment(issue=issue, attachment=attachment_path)
 
     # read and upload a file (note binary mode for opening, it's important):
-    with open(attachment_path, 'rb') as f:
+    with open(attachment_path, "rb") as f:
         jira.add_attachment(issue=issue, attachment=f)
     print(f"Uploaded: {attachment_path}")
 
 
 def list_attachments(issue):
     for attachment in issue.fields.attachment:
-        print("Name: '{filename}', size: {size}".format(
-            filename=attachment.filename, size=attachment.size))
+        print("Name: '{filename}', size: {size}".format(filename=attachment.filename, size=attachment.size))
         # to read content use `get` method:
         print("Content: '{}'".format(attachment.get()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     open_jira_ticket()

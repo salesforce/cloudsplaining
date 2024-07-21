@@ -82,13 +82,15 @@ class TestAssumeRole(unittest.TestCase):
         assume_role_statement_07 = AssumeRoleStatement(statement07)
         assume_role_statement_08 = AssumeRoleStatement(statement08)
 
-        self.assertListEqual(assume_role_statement_02.principals, ['arn:aws:iam::012345678910:root'])
-        self.assertListEqual(assume_role_statement_03.principals, ['arn:aws:iam::012345678910:root'])
-        self.assertListEqual(assume_role_statement_04.principals, ['arn:aws:iam::012345678910:root'])
-        self.assertListEqual(assume_role_statement_05.principals, ['accounts.google.com'])
-        self.assertListEqual(assume_role_statement_06.principals, ['cognito-identity.amazonaws.com', 'www.amazon.com'])
-        self.assertListEqual(assume_role_statement_07.principals, ['arn:aws:iam::012345678910:root', 'lambda.amazonaws.com'])
-        self.assertListEqual(assume_role_statement_08.principals, ['lambda.amazonaws.com'])
+        self.assertListEqual(assume_role_statement_02.principals, ["arn:aws:iam::012345678910:root"])
+        self.assertListEqual(assume_role_statement_03.principals, ["arn:aws:iam::012345678910:root"])
+        self.assertListEqual(assume_role_statement_04.principals, ["arn:aws:iam::012345678910:root"])
+        self.assertListEqual(assume_role_statement_05.principals, ["accounts.google.com"])
+        self.assertListEqual(assume_role_statement_06.principals, ["cognito-identity.amazonaws.com", "www.amazon.com"])
+        self.assertListEqual(
+            assume_role_statement_07.principals, ["arn:aws:iam::012345678910:root", "lambda.amazonaws.com"]
+        )
+        self.assertListEqual(assume_role_statement_08.principals, ["lambda.amazonaws.com"])
 
         self.assertListEqual(assume_role_statement_02.role_assumable_by_compute_services, [])
         self.assertListEqual(assume_role_statement_03.role_assumable_by_compute_services, [])

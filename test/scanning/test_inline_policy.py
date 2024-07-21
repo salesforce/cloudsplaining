@@ -19,21 +19,18 @@ with open(example_authz_details_file) as f:
 class TestInlinePolicyDetail(unittest.TestCase):
     def test_inline_policies(self):
         inline_policy_detail = {
-          "PolicyName": "InlinePolicyForBidenGroup",
-          "PolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Sid": "VisualEditor0",
-                "Effect": "Allow",
-                "Action": [
-                  "s3:GetObject",
-                  "s3:PutObjectAcl"
+            "PolicyName": "InlinePolicyForBidenGroup",
+            "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Sid": "VisualEditor0",
+                        "Effect": "Allow",
+                        "Action": ["s3:GetObject", "s3:PutObjectAcl"],
+                        "Resource": "*",
+                    }
                 ],
-                "Resource": "*"
-              }
-            ]
-          }
+            },
         }
         inline_policy = InlinePolicy(inline_policy_detail)
         results = inline_policy.json

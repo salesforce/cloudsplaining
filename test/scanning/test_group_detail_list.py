@@ -54,7 +54,7 @@ class TestGroupDetail(unittest.TestCase):
         policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
         group_detail_list = GroupDetailList(group_details_json_input, policy_details)
         # print(group_detail_list.group_names)
-        actions = group_detail_list.get_all_allowed_actions_for_group('biden')
+        actions = group_detail_list.get_all_allowed_actions_for_group("biden")
         self.assertTrue("s3:GetObject" in actions)
         # privileges = group_detail_list.get_all_iam_statements_for_group('biden')
 

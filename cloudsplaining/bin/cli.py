@@ -5,8 +5,9 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 """
-    Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
+Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
 """
+
 import click
 from cloudsplaining import command
 from cloudsplaining.bin.version import __version__
@@ -21,9 +22,7 @@ def cloudsplaining() -> None:
 
 
 cloudsplaining.add_command(command.create_exclusions_file.create_exclusions_file)
-cloudsplaining.add_command(
-    command.create_multi_account_config_file.create_multi_account_config_file
-)
+cloudsplaining.add_command(command.create_multi_account_config_file.create_multi_account_config_file)
 cloudsplaining.add_command(command.expand_policy.expand_policy)
 cloudsplaining.add_command(command.scan.scan)
 cloudsplaining.add_command(command.scan_multi_account.scan_multi_account)
