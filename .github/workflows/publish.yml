@@ -54,7 +54,7 @@ jobs:
           pip install setuptools wheel twine
           python -m setup sdist bdist_wheel
       - name: Publish package
-        uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e # v1.8.10
+        uses: pypa/gh-action-pypi-publish@ec4db0b4ddc65acdf4bff5fa45ac92d78b56bdf0 # v1.9.0
         with:
           password: ${{ secrets.PYPI_PASSWORD }}
 
