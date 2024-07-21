@@ -1,6 +1,7 @@
 """
 Scan a single account authorization file
 """
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.
@@ -40,6 +41,7 @@ from cloudsplaining import set_log_level
 @click.option("-aR", "--flag-all-risky-actions", required=False, default=False, is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 @click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
+
 
 # fmt: on
 def scan(

@@ -1,4 +1,5 @@
 """AWS Login utilities"""
+
 from __future__ import annotations
 
 import os
@@ -24,7 +25,7 @@ def get_boto3_client(
     session_data = {"region_name": region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     if os.environ.get("LOCALSTACK_ENDPOINT_URL"):
@@ -49,7 +50,7 @@ def get_boto3_resource(
     session_data = {"region_name": region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     resource: ServiceResource = session.resource(service, config=config)
@@ -93,7 +94,7 @@ def get_target_account_credentials(
     session_data = {"region_name": default_region}
     if profile:
         session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]  # dynamically constructed
+    session = boto3.Session(**session_data)  # type:ignore[arg-type]
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     sts_client: STSClient = session.client("sts", config=config)
 

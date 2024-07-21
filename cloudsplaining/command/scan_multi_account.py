@@ -1,4 +1,5 @@
 """Scan multiple AWS accounts via AssumeRole"""
+
 from __future__ import annotations
 
 import logging
@@ -46,19 +47,82 @@ class MultiAccountConfig:
 
 
 @click.command(short_help="Scan multiple AWS Accounts using a config file")
-@click.option("--config", "-c", "config_file", type=click.Path(exists=True), required=True, help="Path of the multi-account config file")
-@click.option("-p", "--profile", type=str, required=False, envvar="AWS_DEFAULT_PROFILE", help="Specify the AWS IAM profile")
-@click.option("-r", "--role-name", "role_name", type=str, required=True, help="The name of the IAM role to assume in target accounts. Must be the same name in all target accounts.")
-@click.option("-e", "--exclusions-file", "exclusions_file", help="A yaml file containing a list of policy names to exclude from the scan.", type=click.Path(exists=True), required=False, default=EXCLUSIONS_FILE)
+@click.option(
+    "--config",
+    "-c",
+    "config_file",
+    type=click.Path(exists=True),
+    required=True,
+    help="Path of the multi-account config file",
+)
+@click.option(
+    "-p",
+    "--profile",
+    type=str,
+    required=False,
+    envvar="AWS_DEFAULT_PROFILE",
+    help="Specify the AWS IAM profile",
+)
+@click.option(
+    "-r",
+    "--role-name",
+    "role_name",
+    type=str,
+    required=True,
+    help="The name of the IAM role to assume in target accounts. Must be the same name in all target accounts.",
+)
+@click.option(
+    "-e",
+    "--exclusions-file",
+    "exclusions_file",
+    help="A yaml file containing a list of policy names to exclude from the scan.",
+    type=click.Path(exists=True),
+    required=False,
+    default=EXCLUSIONS_FILE,
+)
 @optgroup.group("Output Target Options", help="")
-@optgroup.option("-o", "--output-directory", "output_directory", type=click.Path(exists=True), help="Output directory. Supply this and/or --bucket.")
-@optgroup.option("-b", "--output-bucket", "output_bucket", type=str, help="The S3 bucket to save the results. Supply this and/or --output-directory.")
+@optgroup.option(
+    "-o",
+    "--output-directory",
+    "output_directory",
+    type=click.Path(exists=True),
+    help="Output directory. Supply this and/or --bucket.",
+)
+@optgroup.option(
+    "-b",
+    "--output-bucket",
+    "output_bucket",
+    type=str,
+    help="The S3 bucket to save the results. Supply this and/or --output-directory.",
+)
 @optgroup.group("Other Options", help="")
-@optgroup.option("-w", "--write-data-file", is_flag=True, required=False, default=False, help="Save the cloudsplaining JSON-formatted data results.")
-@click.option("-aR", "--flag-all-risky-actions", required=False, default=False, is_flag=True, help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.")
+@optgroup.option(
+    "-w",
+    "--write-data-file",
+    is_flag=True,
+    required=False,
+    default=False,
+    help="Save the cloudsplaining JSON-formatted data results.",
+)
+@click.option(
+    "-aR",
+    "--flag-all-risky-actions",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Flag all risky actions, regardless of whether resource ARN constraints or conditions are used.",
+)
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
-@click.option("-f", "--filter-severity", "severity", help="Filter the severity of findings to be reported.", multiple=True,type=click.Choice(['CRITICAL','HIGH', 'MEDIUM','LOW','NONE'], case_sensitive=False))
-
+@click.option(
+    "-f",
+    "--filter-severity",
+    "severity",
+    help="Filter the severity of findings to be reported.",
+    multiple=True,
+    type=click.Choice(
+        ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False
+    ),
+)
 def scan_multi_account(
     config_file: str,
     profile: str,
@@ -98,7 +162,7 @@ def scan_multi_account(
         write_data_file=write_data_file,
         severity=severity,
         flag_conditional_statements=flag_conditional_statements,
-        flag_resource_arn_statements=flag_resource_arn_statements
+        flag_resource_arn_statements=flag_resource_arn_statements,
     )
 
 
@@ -112,7 +176,7 @@ def scan_accounts(
     output_bucket: Optional[str] = None,
     severity: List[str] | None = None,
     flag_conditional_statements: bool = False,
-    flag_resource_arn_statements: bool = False
+    flag_resource_arn_statements: bool = False,
 ) -> None:
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
@@ -127,7 +191,7 @@ def scan_accounts(
             profile=profile,
             severity=severity,
             flag_conditional_statements=flag_conditional_statements,
-            flag_resource_arn_statements=flag_resource_arn_statements
+            flag_resource_arn_statements=flag_resource_arn_statements,
         )
         html_report = HTMLReport(
             account_id=target_account_id,
@@ -142,7 +206,10 @@ def scan_accounts(
                 "Please supply --output-bucket and/or --output-directory as arguments."
             )
         if output_bucket:
-            s3 = cast("S3ServiceResource", aws_login.get_boto3_resource(service="s3", profile=profile))
+            s3 = cast(
+                "S3ServiceResource",
+                aws_login.get_boto3_resource(service="s3", profile=profile),
+            )
             # Write the HTML file
             output_file = f"{target_account_name}.html"
             s3.Object(output_bucket, output_file).put(
@@ -163,7 +230,9 @@ def scan_accounts(
                 )
         if output_directory:
             # Write the HTML file
-            html_output_file = os.path.join(output_directory, f"{target_account_name}.html")
+            html_output_file = os.path.join(
+                output_directory, f"{target_account_name}.html"
+            )
             utils.write_file(html_output_file, rendered_report)
             utils.print_green(
                 f"Saved the HTML report to: {os.path.relpath(html_output_file)}"
@@ -188,7 +257,7 @@ def scan_account(
     profile: Optional[str] = None,
     severity: List[str] | None = None,
     flag_conditional_statements: bool = False,
-    flag_resource_arn_statements: bool = False
+    flag_resource_arn_statements: bool = False,
 ) -> Dict[str, Dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(

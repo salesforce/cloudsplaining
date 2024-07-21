@@ -1,6 +1,7 @@
 """
 Expands the wildcards (*) on an IAM policy file so it is easier for a human to understand. Example: s3:g* vs s3:GetObject, s3:GetObjectAcl, etc.
 """
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.
@@ -18,7 +19,13 @@ logger = logging.getLogger(__name__)
 @click.command(
     short_help="Expand the * Actions in IAM policy files to improve readability"
 )
-@click.option("-i", "--input-file", type=click.Path(exists=True), required=True, help="Path to the JSON policy file.")
+@click.option(
+    "-i",
+    "--input-file",
+    type=click.Path(exists=True),
+    required=True,
+    help="Path to the JSON policy file.",
+)
 @click.option("-v", "--verbose", "verbosity", help="Log verbosity level.", count=True)
 def expand_policy(input_file: str, verbosity: int) -> None:
     """

@@ -1,4 +1,5 @@
 """Represents the AssumeRole Trust Policy. This is mainly used for identifying whether roles are assumable via AWS compute services."""
+
 # Copyright (c) 2020, salesforce.com, inc.
 # All rights reserved.
 # Licensed under the BSD 3-Clause license.

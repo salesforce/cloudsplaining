@@ -1,4 +1,5 @@
 """Creates the HTML Reports"""
+
 import json
 import datetime
 import os.path
