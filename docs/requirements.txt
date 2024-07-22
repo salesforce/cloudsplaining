@@ -1,5 +1,5 @@
 # unique to ReadTheDocs
-atomicwrites==1.4.0
+atomicwrites==1.4.1
 distlib==0.3.4
 filelock==3.6.0
 mkdocs==1.3.0
