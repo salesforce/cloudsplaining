@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from policy_sentry.util.arns import get_account_from_arn
 
@@ -32,11 +32,11 @@ class ManagedPolicyDetails:
 
     def __init__(
         self,
-        policy_details: List[Dict[str, Any]],
+        policy_details: list[dict[str, Any]],
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[Any] | None = None,
+        severity: list[Any] | None = None,
     ) -> None:
         self.policy_details = []
         if not isinstance(exclusions, Exclusions):
@@ -47,7 +47,7 @@ class ManagedPolicyDetails:
         self.exclusions = exclusions
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -92,7 +92,7 @@ class ManagedPolicyDetails:
                 )
             )
 
-    def get_policy_detail(self, arn: str) -> "ManagedPolicy":
+    def get_policy_detail(self, arn: str) -> ManagedPolicy:
         """Get a ManagedPolicy object by providing the ARN. This is useful to PrincipalDetail objects"""
         for policy_detail in self.policy_details:
             if policy_detail.arn == arn:
@@ -100,7 +100,7 @@ class ManagedPolicyDetails:
         raise NotFoundException(f"Managed Policy ARN {arn} not found.")
 
     @property
-    def all_infrastructure_modification_actions(self) -> List[str]:
+    def all_infrastructure_modification_actions(self) -> list[str]:
         """Return a list of all infrastructure modification actions allowed by all managed policies in violation."""
         result = set()
         for policy in self.policy_details:
@@ -108,32 +108,32 @@ class ManagedPolicyDetails:
         return sorted(result)
 
     @property
-    def json(self) -> Dict[str, Dict[str, Any]]:
+    def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {policy.policy_id: policy.json for policy in self.policy_details}
         return result
 
     @property
-    def json_large(self) -> Dict[str, Dict[str, Any]]:
+    def json_large(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {policy.policy_id: policy.json_large for policy in self.policy_details}
         return result
 
     @property
-    def json_large_aws_managed(self) -> Dict[str, Dict[str, Any]]:
+    def json_large_aws_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "AWS"}
         return result
 
     @property
-    def json_large_customer_managed(self) -> Dict[str, Dict[str, Any]]:
+    def json_large_customer_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {
             policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "Customer"
         }
         return result
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
         for policy_detail in self.policy_details:
             policy_detail.set_iam_data(iam_data)
@@ -149,11 +149,11 @@ class ManagedPolicy:
 
     def __init__(
         self,
-        policy_detail: Dict[str, Any],
+        policy_detail: dict[str, Any],
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         # Store the Raw JSON data from this for safekeeping
         self.policy_detail = policy_detail
@@ -172,7 +172,7 @@ class ManagedPolicy:
         self.is_attachable = policy_detail.get("IsAttachable")
         self.create_date = policy_detail.get("CreateDate")
         self.update_date = policy_detail.get("UpdateDate")
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -194,7 +194,7 @@ class ManagedPolicy:
 
         self.severity = [] if severity is None else severity
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
@@ -240,7 +240,7 @@ class ManagedPolicy:
         else:
             return get_account_from_arn(self.arn)
 
-    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[Any, str]:  # noqa: N802
+    def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[Any, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -249,8 +249,8 @@ class ManagedPolicy:
         return links
 
     @property
-    def getAttached(self) -> Dict[str, Any]:  # noqa: N802
-        attached: Dict[str, Any] = {"roles": [], "groups": [], "users": []}
+    def getAttached(self) -> dict[str, Any]:  # noqa: N802
+        attached: dict[str, Any] = {"roles": [], "groups": [], "users": []}
         for principal_type in ("roles", "groups", "users"):
             principals = self.iam_data[principal_type].keys()
             for principal_id in principals:
@@ -266,7 +266,7 @@ class ManagedPolicy:
         return attached
 
     @property
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         """Return JSON output for high risk actions"""
         result = dict(
             PolicyName=self.policy_name,
@@ -335,7 +335,7 @@ class ManagedPolicy:
         return result
 
     @property
-    def json_large(self) -> Dict[str, Any]:
+    def json_large(self) -> dict[str, Any]:
         """Return JSON output - including Infra Modification actions, which can be large"""
         result = dict(
             PolicyName=self.policy_name,

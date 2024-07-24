@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import boto3
 from botocore.config import Config
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-def get_boto3_client(service: str, profile: Optional[str] = None, region: str = "us-east-1") -> BaseClient:
+def get_boto3_client(service: str, profile: str | None = None, region: str = "us-east-1") -> BaseClient:
     """Get a boto3 client for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
@@ -38,7 +38,7 @@ def get_boto3_client(service: str, profile: Optional[str] = None, region: str = 
     return client
 
 
-def get_boto3_resource(service: str, profile: Optional[str] = None, region: str = "us-east-1") -> ServiceResource:
+def get_boto3_resource(service: str, profile: str | None = None, region: str = "us-east-1") -> ServiceResource:
     """Get a boto3 resource for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
     session_data = {"region_name": region}
@@ -58,9 +58,9 @@ def get_current_account_id(sts_client: STSClient) -> str:
     return current_account_id
 
 
-def get_available_regions(service: str) -> List[str]:
+def get_available_regions(service: str) -> list[str]:
     """AWS exposes their list of regions as an API. Gather the list."""
-    regions: List[str] = boto3.session.Session().get_available_regions(service)
+    regions = boto3.session.Session().get_available_regions(service)
     logger.debug("The service %s does not have available regions. Returning us-east-1 as default")
     if not regions:
         regions = ["us-east-1"]
@@ -71,8 +71,8 @@ def get_target_account_credentials(
     target_account_role_name: str,
     target_account_id: str,
     role_session_name: str = "Cloudsplaining",
-    profile: Optional[str] = None,
-) -> Tuple[str, str, str]:
+    profile: str | None = None,
+) -> tuple[str, str, str]:
     """
     Get a boto3 client for a given AWS service
 

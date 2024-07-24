@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import sys
-from typing import Any, Dict, List, cast
+from typing import Any, cast
 
 import click
 import yaml
@@ -70,7 +70,7 @@ def scan_policy_file(
     high_priority_only: bool,
     flag_all_risky_actions: bool,
     verbosity: int,
-    severity: List[str],
+    severity: list[str],
 ) -> None:  # pragma: no cover
     """Scan a single policy file to identify missing resource constraints."""
     set_log_level(verbosity)
@@ -162,12 +162,12 @@ def scan_policy_file(
 
 
 def scan_policy(
-    policy_json: Dict[str, Any],
-    exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG,
+    policy_json: dict[str, Any],
+    exclusions_config: dict[str, list[str]] = DEFAULT_EXCLUSIONS_CONFIG,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
-    severity: List[str] | None = None,
-) -> Dict[str, Dict[str, Any]]:
+    severity: list[str] | None = None,
+) -> dict[str, dict[str, Any]]:
     """
     Scan a policy document for missing resource constraints.
 

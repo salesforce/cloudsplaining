@@ -5,12 +5,14 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import json
 import logging
 import os
 from hashlib import sha256
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 from policy_sentry.querying.actions import (
@@ -27,7 +29,7 @@ GREY = "\33[90m"
 END = "\033[0m"
 
 
-def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
+def remove_wildcard_only_actions(actions_list: list[str]) -> list[str]:
     """Given a list of actions, remove the ones that CANNOT be restricted to ARNs, leaving only the ones that CAN."""
     try:
         actions_list_unique = set(actions_list)
@@ -55,11 +57,11 @@ def remove_wildcard_only_actions(actions_list: List[str]) -> List[str]:
     return results
 
 
-def remove_read_level_actions(actions_list: List[str]) -> List[str]:
+def remove_read_level_actions(actions_list: list[str]) -> list[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels
     """
-    modify_actions: List[str] = remove_actions_not_matching_access_level(actions_list, "Write")
+    modify_actions: list[str] = remove_actions_not_matching_access_level(actions_list, "Write")
     modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Permissions management"))
     modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Tagging"))
     return modify_actions
@@ -118,7 +120,7 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(results: Dict[str, Dict[str, Any]], raw_data_file: str) -> str:
+def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: str) -> str:
     """
     Writes the raw data file containing all the results for an AWS account
 
@@ -131,9 +133,9 @@ def write_results_data_file(results: Dict[str, Dict[str, Any]], raw_data_file: s
     return raw_data_file
 
 
-def read_yaml_file(filename: str) -> Dict[str, Any]:
+def read_yaml_file(filename: str) -> dict[str, Any]:
     """Reads a YAML file, safe loads, and returns the dictionary"""
-    cfg: Dict[str, Any] = yaml.safe_load(Path(filename).read_text(encoding="utf-8"))
+    cfg: dict[str, Any] = yaml.safe_load(Path(filename).read_text(encoding="utf-8"))
     return cfg
 
 

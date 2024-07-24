@@ -6,8 +6,10 @@ aws iam get-account-authorization-details command."""
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
-from typing import Any, Dict, List, Set
+from typing import Any
 
 from policy_sentry.querying.all import get_all_service_prefixes
 
@@ -31,7 +33,7 @@ class PolicyDocument:
 
     def __init__(
         self,
-        policy: Dict[str, Any],
+        policy: dict[str, Any],
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
@@ -63,12 +65,12 @@ class PolicyDocument:
             )
 
     @property
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         """Return the Policy in JSON"""
         return self.policy
 
     @property
-    def all_allowed_actions(self) -> List[str]:
+    def all_allowed_actions(self) -> list[str]:
         """Output all allowed IAM Actions, regardless of resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
@@ -78,7 +80,7 @@ class PolicyDocument:
         allowed_actions = self.filter_deny_statements(allowed_actions)
         return list(allowed_actions)
 
-    def filter_deny_statements(self, allowed_actions: Set[str]) -> Set[str]:
+    def filter_deny_statements(self, allowed_actions: set[str]) -> set[str]:
         """
         filter all denied statements from actions
         """
@@ -88,7 +90,7 @@ class PolicyDocument:
         return allowed_actions
 
     @property
-    def all_allowed_unrestricted_actions(self) -> List[str]:
+    def all_allowed_unrestricted_actions(self) -> list[str]:
         """Output all IAM actions that do not practice resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
@@ -106,7 +108,7 @@ class PolicyDocument:
         return list(allowed_actions)
 
     @property
-    def all_allowed_unrestrictable_actions(self) -> List[str]:
+    def all_allowed_unrestrictable_actions(self) -> list[str]:
         """Output all IAM actions that cannot be restricted by resource constraints"""
         allowed_actions = set()
         for statement in self.statements:
@@ -119,7 +121,7 @@ class PolicyDocument:
         return list(allowed_actions)
 
     @property
-    def infrastructure_modification(self) -> List[str]:
+    def infrastructure_modification(self) -> list[str]:
         """Return a list of modify only missing resource constraints"""
         actions_missing_resource_constraints = []
         for statement in self.statements:
@@ -131,7 +133,7 @@ class PolicyDocument:
         return actions_missing_resource_constraints
 
     @property
-    def contains_statement_using_not_action(self) -> List[Dict[str, Any]]:
+    def contains_statement_using_not_action(self) -> list[dict[str, Any]]:
         """If NotAction is used, flag it so the assessor can triage manually"""
         not_action_statements = []
         for statement in self.statements:
@@ -145,7 +147,7 @@ class PolicyDocument:
         return not_action_statements
 
     @property
-    def allows_privilege_escalation(self) -> List[Dict[str, Any]]:
+    def allows_privilege_escalation(self) -> list[dict[str, Any]]:
         """
         Determines whether or not the policy allows privilege escalation action combinations published by
         Rhino Security Labs.
@@ -162,7 +164,7 @@ class PolicyDocument:
         return escalations
 
     @property
-    def permissions_management_without_constraints(self) -> List[str]:
+    def permissions_management_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -172,7 +174,7 @@ class PolicyDocument:
         return result
 
     @property
-    def write_actions_without_constraints(self) -> List[str]:
+    def write_actions_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Write' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -182,7 +184,7 @@ class PolicyDocument:
         return result
 
     @property
-    def tagging_actions_without_constraints(self) -> List[str]:
+    def tagging_actions_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Tagging' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -191,9 +193,9 @@ class PolicyDocument:
                 result.extend(statement.tagging_actions_without_constraints)
         return result
 
-    def allows_specific_actions_without_constraints(self, specific_actions: List[str]) -> List[str]:
+    def allows_specific_actions_without_constraints(self, specific_actions: list[str]) -> list[str]:
         """Determine whether or not a list of specific IAM Actions are allowed without resource constraints."""
-        allowed: Set[str] = set()
+        allowed: set[str] = set()
         if not isinstance(specific_actions, list):
             raise Exception("Please supply a list of actions.")
 
@@ -215,7 +217,7 @@ class PolicyDocument:
         return results
 
     @property
-    def allows_data_exfiltration_actions(self) -> List[str]:
+    def allows_data_exfiltration_actions(self) -> list[str]:
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
         return [
             action
@@ -224,7 +226,7 @@ class PolicyDocument:
         ]
 
     @property
-    def credentials_exposure(self) -> List[str]:
+    def credentials_exposure(self) -> list[str]:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
         return [
@@ -234,7 +236,7 @@ class PolicyDocument:
         ]
 
     @property
-    def service_wildcard(self) -> List[str]:
+    def service_wildcard(self) -> list[str]:
         """Determine if the policy gives access to all actions within a service - simple grepping"""
         services = set()
         all_service_prefixes = get_all_service_prefixes()

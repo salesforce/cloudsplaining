@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import click
 import yaml
@@ -32,14 +32,14 @@ END = "\033[0m"
 class MultiAccountConfig:
     """Handle the YAML file that parses the Multi-account config"""
 
-    def __init__(self, config: Dict[str, Any], role_name: str) -> None:
+    def __init__(self, config: dict[str, Any], role_name: str) -> None:
         # self.config_file = config_file
         self.config = config
         self.role_name = role_name
         self.accounts = self._accounts()
 
-    def _accounts(self) -> Dict[str, str]:
-        accounts: Dict[str, str] = self.config.get("accounts", None)
+    def _accounts(self) -> dict[str, str]:
+        accounts: dict[str, str] | None = self.config.get("accounts")
         if not accounts:
             raise Exception("Please supply a list of accounts in the multi-account config file")
         return accounts
@@ -130,7 +130,7 @@ def scan_multi_account(
     write_data_file: bool,
     flag_all_risky_actions: bool,
     verbosity: int,
-    severity: List[str],
+    severity: list[str],
 ) -> None:
     """Scan multiple accounts via AssumeRole"""
     set_log_level(verbosity)
@@ -168,10 +168,10 @@ def scan_accounts(
     exclusions: Exclusions,
     role_name: str,
     write_data_file: bool,
-    profile: Optional[str] = None,
-    output_directory: Optional[str] = None,
-    output_bucket: Optional[str] = None,
-    severity: List[str] | None = None,
+    profile: str | None = None,
+    output_directory: str | None = None,
+    output_bucket: str | None = None,
+    severity: list[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
 ) -> None:
@@ -229,11 +229,11 @@ def scan_account(
     target_account_id: str,
     target_role_name: str,
     exclusions: Exclusions,
-    profile: Optional[str] = None,
-    severity: List[str] | None = None,
+    profile: str | None = None,
+    severity: list[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
-) -> Dict[str, Dict[str, Any]]:
+) -> dict[str, dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(
         target_account_id=target_account_id,
@@ -253,8 +253,8 @@ def scan_account(
 
 
 def download_account_authorization_details(
-    target_account_id: str, target_role_name: str, profile: Optional[str] = None
-) -> Dict[str, List[Dict[str, Any]]]:
+    target_account_id: str, target_role_name: str, profile: str | None = None
+) -> dict[str, list[dict[str, Any]]]:
     """Download the account authorization details from a target account"""
     (
         aws_access_key_id,
@@ -276,7 +276,7 @@ def download_account_authorization_details(
     return authorization_details
 
 
-def get_exclusions(exclusions_file: Optional[str] = None) -> Exclusions:
+def get_exclusions(exclusions_file: str | None = None) -> Exclusions:
     """Get the exclusions configuration from a file"""
     # Get the exclusions configuration
     if exclusions_file:
