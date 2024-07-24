@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
@@ -32,12 +32,12 @@ class RoleDetailList:
 
     def __init__(
         self,
-        role_details: List[Dict[str, Any]],
+        role_details: list[dict[str, Any]],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         self.severity = [] if severity is None else severity
         self.roles = []
@@ -48,7 +48,7 @@ class RoleDetailList:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -75,19 +75,19 @@ class RoleDetailList:
                     )
                 )
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
         for role in self.roles:
             role.set_iam_data(iam_data)
 
-    def get_all_allowed_actions_for_role(self, name: str) -> Optional[List[str]]:
+    def get_all_allowed_actions_for_role(self, name: str) -> list[str] | None:
         """Returns a list of all allowed actions by the role across all its policies"""
         for role_detail in self.roles:
             if role_detail.role_name == name:
                 return role_detail.all_allowed_actions
         return None
 
-    def get_all_iam_statements_for_role(self, name: str) -> Optional[List[StatementDetail]]:
+    def get_all_iam_statements_for_role(self, name: str) -> list[StatementDetail] | None:
         """Returns a list of all StatementDetail objects across all the policies assigned to the role"""
         for role_detail in self.roles:
             if role_detail.role_name == name:
@@ -95,14 +95,14 @@ class RoleDetailList:
         return None
 
     @property
-    def role_names(self) -> List[str]:
+    def role_names(self) -> list[str]:
         """Get a list of all role names in the account"""
         results = [role_detail.role_name for role_detail in self.roles]
         results.sort()
         return results
 
     @property
-    def all_infrastructure_modification_actions_by_inline_policies(self) -> List[str]:
+    def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
         """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
         result = set()
         for role in self.roles:
@@ -111,7 +111,7 @@ class RoleDetailList:
         return sorted(result)
 
     @property
-    def inline_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
         results = {}
         for role_detail in self.roles:
@@ -119,7 +119,7 @@ class RoleDetailList:
         return results
 
     @property
-    def json(self) -> Dict[str, Dict[str, Any]]:
+    def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {role.role_id: role.json for role in self.roles}
         return result
@@ -131,12 +131,12 @@ class RoleDetail:
 
     def __init__(
         self,
-        role_detail: Dict[str, Any],
+        role_detail: dict[str, Any],
         policy_details: ManagedPolicyDetails,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         """
         Initialize the RoleDetail object.
@@ -164,7 +164,7 @@ class RoleDetail:
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -214,7 +214,7 @@ class RoleDetail:
                     except NotFoundException as e:
                         utils.print_red(f"\tError in role {self.role_name}: {e}")
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
         for inline_policy in self.inline_policies:
             inline_policy.set_iam_data(iam_data)
@@ -229,7 +229,7 @@ class RoleDetail:
         )
 
     @property
-    def all_allowed_actions(self) -> List[str]:
+    def all_allowed_actions(self) -> list[str]:
         """Return a list of which actions are allowed by the principal"""
         actions = set()
         for managed_policy in self.attached_managed_policies:
@@ -239,7 +239,7 @@ class RoleDetail:
         return sorted(actions)
 
     @property
-    def all_iam_statements(self) -> List[StatementDetail]:
+    def all_iam_statements(self) -> list[StatementDetail]:
         """Return a list of which actions are allowed by the principal"""
         statements = set()
         for managed_policy in self.attached_managed_policies:
@@ -249,7 +249,7 @@ class RoleDetail:
         return list(statements)
 
     @property
-    def attached_managed_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
         policies = {}
         for policy in self.attached_managed_policies:
@@ -260,7 +260,7 @@ class RoleDetail:
         return policies
 
     @property
-    def attached_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return JSON representation of attached managed policies - but just with pointers to the Policy ID"""
         policies = {}
         for policy in self.attached_managed_policies:
@@ -271,7 +271,7 @@ class RoleDetail:
         return policies
 
     @property
-    def attached_customer_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_customer_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
         policies = {
             policy.policy_id: policy.policy_name
@@ -281,7 +281,7 @@ class RoleDetail:
         return policies
 
     @property
-    def attached_aws_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_aws_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
         policies = {
             policy.policy_id: policy.policy_name
@@ -291,7 +291,7 @@ class RoleDetail:
         return policies
 
     @property
-    def all_infrastructure_modification_actions_by_inline_policies(self) -> List[str]:
+    def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
         """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
         result = set()
         for policy in self.inline_policies:
@@ -299,19 +299,19 @@ class RoleDetail:
         return sorted(result)
 
     @property
-    def inline_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
         policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
         return policies
 
     @property
-    def inline_policies_pointer_json(self) -> Dict[str, str]:
+    def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
         policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
         return policies
 
     @property
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         """Return the JSON representation of the Role Detail"""
         assume_role_json = self.assume_role_policy_document.json if self.assume_role_policy_document else {}
         this_role_detail = dict(

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from cloudsplaining.scan.group_details import GroupDetail, GroupDetailList
 from cloudsplaining.scan.inline_policy import InlinePolicy
@@ -25,13 +25,13 @@ class UserDetailList:
 
     def __init__(
         self,
-        user_details: List[Dict[str, Any]],
+        user_details: list[dict[str, Any]],
         policy_details: ManagedPolicyDetails,
         all_group_details: GroupDetailList,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         self.severity = [] if severity is None else severity
         if not isinstance(exclusions, Exclusions):
@@ -56,25 +56,25 @@ class UserDetailList:
             for user_detail in user_details
         ]
 
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
         }
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
         for user in self.users:
             user.set_iam_data(iam_data)
 
-    def get_all_allowed_actions_for_user(self, name: str) -> Optional[List[str]]:
+    def get_all_allowed_actions_for_user(self, name: str) -> list[str] | None:
         """Returns a list of all allowed actions by the user across all its policies"""
         for user_detail in self.users:
             if user_detail.user_name == name:
                 return user_detail.all_allowed_actions
         return None
 
-    def get_all_iam_statements_for_user(self, name: str) -> Optional[List[StatementDetail]]:
+    def get_all_iam_statements_for_user(self, name: str) -> list[StatementDetail] | None:
         """Returns a list of all StatementDetail objects across all the policies assigned to the user"""
         for user_detail in self.users:
             if user_detail.user_name == name:
@@ -82,14 +82,14 @@ class UserDetailList:
         return None
 
     @property
-    def user_names(self) -> List[str]:
+    def user_names(self) -> list[str]:
         """Get a list of all user names in the account"""
         results = [user_detail.user_name for user_detail in self.users]
         results.sort()
         return results
 
     @property
-    def all_infrastructure_modification_actions_by_inline_policies(self) -> List[str]:
+    def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
         """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
         result = set()
         for user in self.users:
@@ -98,7 +98,7 @@ class UserDetailList:
         return sorted(result)
 
     @property
-    def inline_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
         results = {}
         for user_detail in self.users:
@@ -106,7 +106,7 @@ class UserDetailList:
         return results
 
     @property
-    def json(self) -> Dict[str, Dict[str, Any]]:
+    def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {user.user_id: user.json for user in self.users}
         return result
@@ -118,13 +118,13 @@ class UserDetail:
 
     def __init__(
         self,
-        user_detail: Dict[str, Any],
+        user_detail: dict[str, Any],
         policy_details: ManagedPolicyDetails,
         all_group_details: GroupDetailList,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         """
         Initialize the UserDetail object.
@@ -141,7 +141,7 @@ class UserDetail:
         self.user_id = user_detail["UserId"]
         self.user_name = user_detail["UserName"]
 
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
@@ -159,7 +159,7 @@ class UserDetail:
         self.flag_resource_arn_statements = flag_resource_arn_statements
 
         # Groups
-        self.groups: List[GroupDetail] = []
+        self.groups: list[GroupDetail] = []
         group_list = user_detail.get("GroupList")
         if group_list:
             self._add_group_details(group_list, all_group_details)
@@ -201,7 +201,7 @@ class UserDetail:
                     except NotFoundException as e:
                         utils.print_red(f"\tError in user {self.user_name}: {e}")
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
         for inline_policy in self.inline_policies:
             inline_policy.set_iam_data(iam_data)
@@ -214,14 +214,14 @@ class UserDetail:
             or exclusions.is_principal_excluded(self.path, "User")
         )
 
-    def _add_group_details(self, group_list: List[str], all_group_details: GroupDetailList) -> None:
+    def _add_group_details(self, group_list: list[str], all_group_details: GroupDetailList) -> None:
         for group in group_list:
             this_group_detail = all_group_details.get_group_detail(group)
             if this_group_detail:
                 self.groups.append(this_group_detail)
 
     @property
-    def all_allowed_actions(self) -> List[str]:
+    def all_allowed_actions(self) -> list[str]:
         """Return a list of which actions are allowed by the principal"""
         actions = set()
         for managed_policy in self.attached_managed_policies:
@@ -233,7 +233,7 @@ class UserDetail:
         return sorted(actions)
 
     @property
-    def all_iam_statements(self) -> List[StatementDetail]:
+    def all_iam_statements(self) -> list[StatementDetail]:
         """Return a list of which actions are allowed by the principal"""
         statements = set()
         for managed_policy in self.attached_managed_policies:
@@ -245,19 +245,19 @@ class UserDetail:
         return list(statements)
 
     @property
-    def attached_managed_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
         policies = {policy.policy_id: policy.json for policy in self.attached_managed_policies}
         return policies
 
     @property
-    def attached_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return JSON representation of attached managed policies - but just with pointers to the Policy ID"""
         policies = {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
         return policies
 
     @property
-    def attached_customer_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_customer_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
         policies = {
             policy.policy_id: policy.policy_name
@@ -267,7 +267,7 @@ class UserDetail:
         return policies
 
     @property
-    def attached_aws_managed_policies_pointer_json(self) -> Dict[str, str]:
+    def attached_aws_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
         policies = {
             policy.policy_id: policy.policy_name
@@ -277,7 +277,7 @@ class UserDetail:
         return policies
 
     @property
-    def all_infrastructure_modification_actions_by_inline_policies(self) -> List[str]:
+    def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
         """Return a list of all infrastructure modification actions allowed by all inline policies in violation."""
         result = set()
         for policy in self.inline_policies:
@@ -285,19 +285,19 @@ class UserDetail:
         return sorted(result)
 
     @property
-    def inline_policies_json(self) -> Dict[str, Dict[str, Any]]:
+    def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
         policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
         return policies
 
     @property
-    def inline_policies_pointer_json(self) -> Dict[str, str]:
+    def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
         policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
         return policies
 
     @property
-    def groups_json(self) -> Dict[str, Dict[str, Any]]:
+    def groups_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of group object"""
         these_groups = {
             group.group_name: group.json  # TODO: Change this to a group pointer?
@@ -306,7 +306,7 @@ class UserDetail:
         return these_groups
 
     @property
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         """Return the JSON representation of the User Detail"""
 
         this_user_detail = dict(

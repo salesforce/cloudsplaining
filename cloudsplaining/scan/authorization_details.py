@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from policy_sentry.querying.actions import get_all_action_links
 from policy_sentry.querying.all import get_all_service_prefixes
@@ -31,11 +31,11 @@ class AuthorizationDetails:
 
     def __init__(
         self,
-        auth_json: Dict[str, List[Dict[str, Any]]],
+        auth_json: dict[str, list[dict[str, Any]]],
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         """
         Object to hold and analyze Account Authorization details.
@@ -101,7 +101,7 @@ class AuthorizationDetails:
         self.role_detail_list.set_iam_data(iam_data)
 
     @property
-    def inline_policies(self) -> Dict[str, Dict[str, Any]]:
+    def inline_policies(self) -> dict[str, dict[str, Any]]:
         """Return inline policy details"""
         results = {}
         results.update(self.group_detail_list.inline_policies_json)
@@ -110,7 +110,7 @@ class AuthorizationDetails:
         return results
 
     @property
-    def links(self) -> Dict[str, str | None]:
+    def links(self) -> dict[str, str | None]:
         """Return a dictionary of the action names as keys and their API documentation links as values"""
         results = {}
         unique_action_names = set()
@@ -133,9 +133,9 @@ class AuthorizationDetails:
         return results
 
     @property
-    def results(self) -> Dict[str, Dict[str, Any]]:
+    def results(self) -> dict[str, dict[str, Any]]:
         """Get the new JSON format of the Principals data"""
-        results: Dict[str, Dict[str, Any]] = {
+        results: dict[str, dict[str, Any]] = {
             "groups": self.group_detail_list.json,
             "users": self.user_detail_list.json,
             "roles": self.role_detail_list.json,

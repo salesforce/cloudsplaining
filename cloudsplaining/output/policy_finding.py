@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import (
@@ -33,7 +33,7 @@ class PolicyFinding:
         self,
         policy_document: PolicyDocument,
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         """
         Supply a PolicyDocument object and Exclusions object to get a single policy finding
@@ -47,7 +47,7 @@ class PolicyFinding:
         self.missing_resource_constraints_for_modify_actions = self._missing_resource_constraints_for_modify_actions()
         self.severity = [] if severity is None else severity
 
-    def _missing_resource_constraints_for_modify_actions(self) -> List[str]:
+    def _missing_resource_constraints_for_modify_actions(self) -> list[str]:
         """Find modify actions that lack resource ARN constraints"""
         actions_missing_resource_constraints = set()
         for statement in self.policy_document.statements:
@@ -59,7 +59,7 @@ class PolicyFinding:
         return sorted(actions_missing_resource_constraints)
 
     @property
-    def services_affected(self) -> List[str]:
+    def services_affected(self) -> list[str]:
         """Return a list of AWS service prefixes affected by the policy in question."""
         services_affected = set()
         for action in self.missing_resource_constraints_for_modify_actions:
@@ -78,7 +78,7 @@ class PolicyFinding:
         return sorted(services_affected)
 
     @property
-    def resource_exposure(self) -> List[str]:
+    def resource_exposure(self) -> list[str]:
         """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
         access level, if applicable."""
         if self.always_exclude_actions:
@@ -92,12 +92,12 @@ class PolicyFinding:
             return self.policy_document.permissions_management_without_constraints
 
     @property
-    def privilege_escalation(self) -> List[Dict[str, Any]]:
+    def privilege_escalation(self) -> list[dict[str, Any]]:
         """Returns privilege escalation action combinations in the policy, if present"""
         return self.policy_document.allows_privilege_escalation
 
     @property
-    def data_exfiltration(self) -> List[str]:
+    def data_exfiltration(self) -> list[str]:
         """Returns data exfiltration actions in the policy, if present"""
         result = [
             action
@@ -109,12 +109,12 @@ class PolicyFinding:
         return result
 
     @property
-    def service_wildcard(self) -> List[str]:
+    def service_wildcard(self) -> list[str]:
         """Determine if the policy gives access to all actions within a service - simple grepping"""
         return self.policy_document.service_wildcard
 
     @property
-    def credentials_exposure(self) -> List[str]:
+    def credentials_exposure(self) -> list[str]:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
         results = [
@@ -127,7 +127,7 @@ class PolicyFinding:
         return results
 
     @property
-    def results(self) -> Dict[str, Any]:
+    def results(self) -> dict[str, Any]:
         """Return the results as JSON"""
         findings = dict(
             ServiceWildcard={
