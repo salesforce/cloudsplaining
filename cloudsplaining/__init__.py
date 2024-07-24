@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring
+from __future__ import annotations
+
 import logging
 import sys
 
@@ -8,8 +10,6 @@ import sys
 # Uncomment to get the full debug logs.
 # 2020-10-06 10:04:17,200 - root - DEBUG - Leveraging the bundled IAM Definition.
 # Need to figure out how to get click_log to do this for me.
-from typing import Optional, Union
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 handler = logging.StreamHandler(sys.stdout)
@@ -22,7 +22,7 @@ logger.addHandler(handler)
 name = "cloudsplaining"  # pylint: disable=invalid-name
 
 
-def change_log_level(log_level: Union[int, str]) -> None:
+def change_log_level(log_level: int | str) -> None:
     """ "Change log level of module logger"""
     logger.setLevel(log_level)
 
@@ -31,7 +31,7 @@ def change_log_level(log_level: Union[int, str]) -> None:
 def set_stream_logger(
     name: str = "cloudsplaining",
     level: int = logging.DEBUG,
-    format_string: Optional[str] = None,
+    format_string: str | None = None,
 ) -> None:
     """
     Add a stream handler for the given name and level to the logging module.

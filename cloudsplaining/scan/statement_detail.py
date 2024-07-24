@@ -1,7 +1,9 @@
 """Abstracts evaluation of IAM Policy statements."""
 
+from __future__ import annotations
+
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from cached_property import cached_property
 from policy_sentry.analysis.expand import determine_actions_to_expand
@@ -36,7 +38,7 @@ class StatementDetail:
 
     def __init__(
         self,
-        statement: Dict[str, Any],
+        statement: dict[str, Any],
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
     ) -> None:
@@ -61,7 +63,7 @@ class StatementDetail:
         self.unrestrictable_actions = list(set(self.expanded_actions or []) - set(self.restrictable_actions))
         self.has_resource_constraints = self._has_resource_constraints()
 
-    def _actions(self) -> List[str]:
+    def _actions(self) -> list[str]:
         """Holds the actions in a statement"""
         actions = self.statement.get("Action")
         if not actions:
@@ -70,7 +72,7 @@ class StatementDetail:
             return [actions]
         return actions
 
-    def _resources(self) -> List[str]:
+    def _resources(self) -> list[str]:
         """Holds the resource ARNs in a statement"""
         resources = self.statement.get("Resource")
         if not resources:
@@ -80,7 +82,7 @@ class StatementDetail:
             return [resources]
         return resources
 
-    def _not_action(self) -> List[str]:
+    def _not_action(self) -> list[str]:
         """Holds the NotAction details.
         We won't do anything with it - but we will flag it as something for the assessor to triage.
         """
@@ -91,7 +93,7 @@ class StatementDetail:
             return [not_action]
         return not_action
 
-    def _not_resource(self) -> List[str]:
+    def _not_resource(self) -> list[str]:
         """Holds the NotResource details.
         We won't do anything with it - but we will flag it as something for the assessor to triage.
         """
@@ -103,7 +105,7 @@ class StatementDetail:
         return not_resource
 
     # @property
-    def _not_action_effective_actions(self) -> Optional[List[str]]:
+    def _not_action_effective_actions(self) -> list[str] | None:
         """If NotAction is used, calculate the allowed actions - i.e., what it would be"""
         effective_actions = []
         if not self.not_action:
@@ -164,11 +166,11 @@ class StatementDetail:
         return False
 
     @cached_property
-    def expanded_actions(self) -> Optional[List[str]]:
+    def expanded_actions(self) -> list[str] | None:
         """Expands the full list of allowed actions from the Policy/"""
 
         if self.actions:
-            expanded: List[str] = determine_actions_to_expand(self.actions)
+            expanded: list[str] = determine_actions_to_expand(self.actions)
             expanded.sort()
             return expanded
         elif self.not_action:
@@ -189,7 +191,7 @@ class StatementDetail:
         return bool(self.effect == "Allow")
 
     @property
-    def services_in_use(self) -> List[str]:
+    def services_in_use(self) -> list[str]:
         """Get a list of the services in use by the statement."""
         service_prefixes = set()
         for action in self.expanded_actions:
@@ -198,7 +200,7 @@ class StatementDetail:
         return sorted(service_prefixes)
 
     @property
-    def permissions_management_actions_without_constraints(self) -> List[str]:
+    def permissions_management_actions_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -208,7 +210,7 @@ class StatementDetail:
         return result
 
     @property
-    def write_actions_without_constraints(self) -> List[str]:
+    def write_actions_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Write' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -218,7 +220,7 @@ class StatementDetail:
         return result
 
     @property
-    def tagging_actions_without_constraints(self) -> List[str]:
+    def tagging_actions_without_constraints(self) -> list[str]:
         """Where applicable, returns a list of 'Tagging' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
@@ -226,7 +228,7 @@ class StatementDetail:
             result = remove_actions_not_matching_access_level(self.restrictable_actions, "Tagging")
         return result
 
-    def missing_resource_constraints(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> List[str]:
+    def missing_resource_constraints(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
         """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
         resource constraints."""
         if not isinstance(exclusions, Exclusions):
@@ -245,7 +247,7 @@ class StatementDetail:
         result.sort()
         return result
 
-    def missing_resource_constraints_for_modify_actions(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> List[str]:
+    def missing_resource_constraints_for_modify_actions(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
         """
         Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
         are allowed by the statement without resource constraints.

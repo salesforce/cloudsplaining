@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from typing import TYPE_CHECKING, Any, Dict, List
+from typing import TYPE_CHECKING, Any
 
 import boto3
 import click
@@ -76,14 +76,14 @@ def download(profile: str, output: str, include_non_default_policy_versions: boo
 
 
 def get_account_authorization_details(
-    session_data: Dict[str, str], include_non_default_policy_versions: bool
-) -> Dict[str, List[Any]]:
+    session_data: dict[str, str], include_non_default_policy_versions: bool
+) -> dict[str, list[Any]]:
     """Runs aws-iam-get-account-authorization-details"""
     session = boto3.Session(**session_data)  # type:ignore[arg-type]
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     iam_client: IAMClient = session.client("iam", config=config)
 
-    results: Dict[str, List[Any]] = {
+    results: dict[str, list[Any]] = {
         "UserDetailList": [],
         "GroupDetailList": [],
         "RoleDetailList": [],

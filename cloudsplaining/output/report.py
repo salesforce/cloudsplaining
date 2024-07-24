@@ -1,10 +1,12 @@
 """Creates the HTML Reports"""
 
+from __future__ import annotations
+
 import datetime
 import json
 import os.path
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -20,7 +22,7 @@ class HTMLReport:
         self,
         account_id: str,
         account_name: str,
-        results: Dict[str, Dict[str, Any]],
+        results: dict[str, dict[str, Any]],
         minimize: bool = False,
     ) -> None:
         self.account_name = account_name

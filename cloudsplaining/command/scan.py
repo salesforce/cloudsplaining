@@ -14,7 +14,7 @@ import logging
 import os
 import webbrowser
 from pathlib import Path
-from typing import Any, Dict, List, Literal, cast, overload
+from typing import Any, Literal, cast, overload
 
 import click
 import yaml
@@ -104,7 +104,7 @@ def scan(
     minimize: bool,
     flag_all_risky_actions: bool,
     verbosity: int,
-    severity: List[str],
+    severity: list[str],
 ) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -198,7 +198,7 @@ logger = logging.getLogger(__name__)
 
 @overload
 def scan_account_authorization_details(
-    account_authorization_details_cfg: Dict[str, Any],
+    account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str,
     output_directory: str,
@@ -207,13 +207,13 @@ def scan_account_authorization_details(
     return_json_results: Literal[True],
     flag_conditional_statements: bool = ...,
     flag_resource_arn_statements: bool = ...,
-    severity: List[str] | None = ...,
+    severity: list[str] | None = ...,
 ) -> dict[str, Any]: ...
 
 
 @overload
 def scan_account_authorization_details(
-    account_authorization_details_cfg: Dict[str, Any],
+    account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str = ...,
     output_directory: str = ...,
@@ -222,12 +222,12 @@ def scan_account_authorization_details(
     return_json_results: Literal[False] = ...,
     flag_conditional_statements: bool = ...,
     flag_resource_arn_statements: bool = ...,
-    severity: List[str] | None = ...,
+    severity: list[str] | None = ...,
 ) -> str: ...
 
 
 def scan_account_authorization_details(
-    account_authorization_details_cfg: Dict[str, Any],
+    account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str = "default",
     output_directory: str = os.getcwd(),
@@ -236,7 +236,7 @@ def scan_account_authorization_details(
     return_json_results: bool = False,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
-    severity: List[str] | None = None,
+    severity: list[str] | None = None,
 ) -> str | dict[str, Any]:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -294,7 +294,7 @@ def scan_account_authorization_details(
 
 def get_authorization_files_in_directory(
     directory: str,
-) -> List[str]:  # pragma: no cover
+) -> list[str]:  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
     file_list_with_full_path = [file.absolute() for file in Path(directory).glob("*.json")]
 

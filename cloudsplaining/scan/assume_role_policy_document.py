@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from cloudsplaining.scan.resource_policy_document import (
     ResourcePolicyDocument,
@@ -38,7 +38,7 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
             self.statements.append(AssumeRoleStatement(statement))
 
     @property
-    def role_assumable_by_compute_services(self) -> List[str]:
+    def role_assumable_by_compute_services(self) -> list[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         assumable_by_compute_services = []
         for statement in self.statements:
@@ -52,7 +52,7 @@ class AssumeRoleStatement(ResourceStatement):
     Statements in an AssumeRole/Trust Policy document
     """
 
-    def __init__(self, statement: Dict[str, Any]) -> None:
+    def __init__(self, statement: dict[str, Any]) -> None:
         super().__init__(statement=statement)
 
         # self.not_principal = statement.get("NotPrincipal")
@@ -62,7 +62,7 @@ class AssumeRoleStatement(ResourceStatement):
                 "This should NOT be used. We suggest reviewing it ASAP."
             )
 
-    def _assume_role_actions(self) -> List[str]:
+    def _assume_role_actions(self) -> list[str]:
         """Verifies that this is limited to just sts:AssumeRole"""
         actions = self.statement.get("Action", [])
         if not actions:
@@ -75,7 +75,7 @@ class AssumeRoleStatement(ResourceStatement):
         return [actions]
 
     @property
-    def role_assumable_by_compute_services(self) -> List[str]:
+    def role_assumable_by_compute_services(self) -> list[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
         # sts:AssumeRole must be there
         lowercase_actions = [x.lower() for x in self.actions]

@@ -5,8 +5,9 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
-from typing import Dict, List, Union
 
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 class Exclusions:
     """Contains the exclusions configuration as an object"""
 
-    def __init__(self, exclusions_config: Dict[str, List[str]] = DEFAULT_EXCLUSIONS_CONFIG) -> None:
+    def __init__(self, exclusions_config: dict[str, list[str]] = DEFAULT_EXCLUSIONS_CONFIG) -> None:
         check_exclusions_schema(exclusions_config)
         self.config = exclusions_config
         self.include_actions = self._include_actions()
@@ -28,43 +29,43 @@ class Exclusions:
         self.groups = self._groups()
         self.policies = self._policies()
 
-    def _roles(self) -> List[str]:
+    def _roles(self) -> list[str]:
         provided_roles = self.config.get("roles", [])
         # Normalize for comparisons
         roles = [role.lower() for role in provided_roles]
         return roles
 
-    def _users(self) -> List[str]:
+    def _users(self) -> list[str]:
         provided_users = self.config.get("users", [])
         # Normalize for comparisons
         users = [user.lower() for user in provided_users]
         return users
 
-    def _groups(self) -> List[str]:
+    def _groups(self) -> list[str]:
         provided_groups = self.config.get("groups", [])
         # Normalize for comparisons
         groups = [group.lower() for group in provided_groups]
         return groups
 
-    def _policies(self) -> List[str]:
+    def _policies(self) -> list[str]:
         provided_policies = self.config.get("policies", [])
         # Normalize for comparisons
         policies = [policy.lower() for policy in provided_policies]
         return policies
 
-    def _include_actions(self) -> List[str]:
+    def _include_actions(self) -> list[str]:
         include_actions = self.config.get("include-actions", [])
         # Set to lowercase so subsequent evaluations are faster.
         always_include_actions = [x.lower() for x in include_actions]
         return always_include_actions
 
-    def _exclude_actions(self) -> List[str]:
+    def _exclude_actions(self) -> list[str]:
         exclude_actions = self.config.get("exclude-actions", [])
         # Set to lowercase so subsequent evaluations are faster.
         always_exclude_actions = [x.lower() for x in exclude_actions]
         return always_exclude_actions
 
-    def is_action_always_included(self, action_in_question: str) -> Union[bool, str]:
+    def is_action_always_included(self, action_in_question: str) -> bool | str:
         """
         Supply an IAM action, and get a decision about whether or not it is excluded.
 
@@ -112,7 +113,7 @@ class Exclusions:
         else:  # pragma: no cover
             raise Exception("Please supply User, Group, or Role as the principal argument.")
 
-    def get_allowed_actions(self, requested_actions: List[str]) -> List[str]:
+    def get_allowed_actions(self, requested_actions: list[str]) -> list[str]:
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a
         list of actions after filtering for exclusions."""
 
@@ -130,7 +131,7 @@ class Exclusions:
 
 
 # pylint: disable=inconsistent-return-statements
-def is_name_excluded(name: str, exclusions_list: Union[str, List[str]]) -> bool:
+def is_name_excluded(name: str, exclusions_list: str | list[str]) -> bool:
     """
     :param name: The name of the policy, role, user, or group
     :param exclusions_list: List of exclusions

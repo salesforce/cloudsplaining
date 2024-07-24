@@ -5,8 +5,10 @@
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+from __future__ import annotations
+
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from schema import Optional, Schema, SchemaError
 
@@ -34,7 +36,7 @@ AUTHORIZATION_DETAILS_SCHEMA = Schema(
 
 
 # pragma: no cover
-def check(conf_schema: Schema, conf: Dict[str, List[Any]]) -> bool:
+def check(conf_schema: Schema, conf: dict[str, list[Any]]) -> bool:
     """
     Validates a user-supplied JSON vs a defined schema.
     :param conf_schema: The Schema object that defines the required structure.
@@ -55,7 +57,7 @@ def check(conf_schema: Schema, conf: Dict[str, List[Any]]) -> bool:
         return False
 
 
-def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
+def check_exclusions_schema(cfg: dict[str, list[str]]) -> bool:
     """Determine whether or not the exclusions file meets the required format"""
     result = check(EXCLUSIONS_TEMPLATE_SCHEMA, cfg)
     if result:
@@ -64,7 +66,7 @@ def check_exclusions_schema(cfg: Dict[str, List[str]]) -> bool:
         raise Exception("The required format of the exclusions template is incorrect. Please try again.")
 
 
-def check_authorization_details_schema(cfg: Dict[str, List[Any]]) -> bool:
+def check_authorization_details_schema(cfg: dict[str, list[Any]]) -> bool:
     """Determine whether or not the file meets the required format of the authorizations file"""
     result = check(AUTHORIZATION_DETAILS_SCHEMA, cfg)
     return result

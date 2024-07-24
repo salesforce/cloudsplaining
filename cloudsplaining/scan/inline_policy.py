@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List, cast
+from typing import Any, cast
 
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
@@ -18,11 +18,11 @@ class InlinePolicy:
 
     def __init__(
         self,
-        policy_detail: Dict[str, Any],
+        policy_detail: dict[str, Any],
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
-        severity: List[str] | None = None,
+        severity: list[str] | None = None,
     ) -> None:
         """
         Initialize the InlinePolicy object.
@@ -40,7 +40,7 @@ class InlinePolicy:
 
         self.policy_name = policy_detail.get("PolicyName", "")
         self.policy_document = PolicyDocument(
-            cast(Dict[str, Any], policy_detail.get("PolicyDocument")),
+            cast("dict[str, Any]", policy_detail.get("PolicyDocument")),
             exclusions=exclusions,
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
@@ -53,20 +53,20 @@ class InlinePolicy:
         self.exclusions = exclusions
         self.is_excluded = self._is_excluded(exclusions)
         self.severity = [] if severity is None else severity
-        self.iam_data: Dict[str, Dict[Any, Any]] = {
+        self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
             "roles": {},
         }
 
-    def set_iam_data(self, iam_data: Dict[str, Dict[Any, Any]]) -> None:
+    def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the policy name or policy ID is excluded"""
         return bool(exclusions.is_policy_excluded(self.policy_name) or exclusions.is_policy_excluded(self.policy_id))
 
-    def getFindingLinks(self, findings: List[Dict[str, Any]]) -> Dict[str, str]:  # noqa: N802
+    def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[str, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -75,8 +75,8 @@ class InlinePolicy:
         return links
 
     @property
-    def getAttached(self) -> Dict[str, List[Any]]:  # noqa: N802
-        attached: Dict[str, List[Any]] = {"roles": [], "groups": [], "users": []}
+    def getAttached(self) -> dict[str, list[Any]]:  # noqa: N802
+        attached: dict[str, list[Any]] = {"roles": [], "groups": [], "users": []}
         for principal_type in ["roles", "groups", "users"]:
             principals = (self.iam_data[principal_type]).keys()
             for principal_id in principals:
@@ -89,7 +89,7 @@ class InlinePolicy:
         return attached
 
     @property
-    def json(self) -> Dict[str, Any]:
+    def json(self) -> dict[str, Any]:
         """Return JSON output for high risk actions"""
         result = dict(
             PolicyName=self.policy_name,
@@ -151,7 +151,7 @@ class InlinePolicy:
         return result
 
     @property
-    def json_large(self) -> Dict[str, Any]:
+    def json_large(self) -> dict[str, Any]:
         """Return JSON output - including Infra Modification actions, which can be large"""
         result = dict(
             PolicyName=self.policy_name,
