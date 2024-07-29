@@ -1,6 +1,6 @@
 # AWS
-boto3==1.34.146
-botocore==1.34.146
+boto3==1.34.149
+botocore==1.34.149
 # Speeds up IAM logic
 cached-property==1.5.2
 # Command line
@@ -12,6 +12,6 @@ pyyaml==6.0.1
 # We render Markdown glossary files as HTML in the Cloudsplaining report
 markdown==3.6
 # AWS IAM Logic
-policy-sentry==0.13.0
+policy-sentry==0.13.1
 # Schema validation
 schema==0.7.7
