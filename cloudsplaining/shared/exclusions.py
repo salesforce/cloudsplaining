@@ -116,18 +116,21 @@ class Exclusions:
     def get_allowed_actions(self, requested_actions: list[str]) -> list[str]:
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a
         list of actions after filtering for exclusions."""
+        if not self.exclude_actions:
+            # no exclusion -> all allowed
+            return list(set(requested_actions))
 
-        always_include_actions = set()
-        actions_minus_exclusions = set()
+        allowed_actions = set()
         for action in requested_actions:
+            action_lower = action.lower()
             # ALWAYS INCLUDE ACTIONS
-            if action.lower() in self.include_actions:
-                always_include_actions.add(action)
+            if action_lower in self.include_actions:
+                allowed_actions.add(action)
             # RULE OUT EXCLUDED ACTIONS
-            if not is_name_excluded(action.lower(), self.exclude_actions):
-                actions_minus_exclusions.add(action)
+            if not is_name_excluded(action_lower, self.exclude_actions):
+                allowed_actions.add(action)
 
-        return list(always_include_actions | actions_minus_exclusions)
+        return list(allowed_actions)
 
 
 # pylint: disable=inconsistent-return-statements
