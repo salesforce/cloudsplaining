@@ -263,9 +263,11 @@ class StatementDetail:
 
         actions_missing_resource_constraints = self.missing_resource_constraints(exclusions)
 
-        always_actions_found = [
-            action for action in actions_missing_resource_constraints if action.lower() in always_look_for_actions
-        ]
+        always_actions_found = (
+            [action for action in actions_missing_resource_constraints if action.lower() in always_look_for_actions]
+            if always_look_for_actions
+            else []
+        )
 
         modify_actions_missing_constraints = set()
         modify_actions_missing_constraints.update(remove_read_level_actions(actions_missing_resource_constraints))
