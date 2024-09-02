@@ -1,6 +1,6 @@
 # AWS
-boto3==1.35.5
-botocore==1.35.5
+boto3==1.35.10
+botocore==1.35.10
 # Speeds up IAM logic
 cached-property==1.5.2
 # Command line
