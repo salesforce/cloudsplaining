@@ -13,7 +13,7 @@
     "test": "src/test/"
   },
   "dependencies": {
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "bootstrap-vue": "^2.23.1",
     "chart.js": "^3.9.1",
     "core-js": "^3.33.0",
