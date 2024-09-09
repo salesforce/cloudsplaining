@@ -5,5 +5,5 @@ pytest==8.3.2
 coverage==7.6.1
 # type check
 mypy==1.11.2
-boto3-stubs-lite[iam,s3,sts]==1.35.5
+boto3-stubs-lite[iam,s3,sts]==1.35.14
 types-PyYAML==6.0.12.20240808
