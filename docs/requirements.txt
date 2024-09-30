@@ -3,12 +3,12 @@ atomicwrites==1.4.1
 distlib==0.3.8
 filelock==3.16.1
 mkdocs==1.6.1
-mkdocs-material==9.5.36
+mkdocs-material==9.5.39
 mkdocs-material-extensions==1.3.1
 mkdocstrings==0.26.1
 mkdocstrings-python==1.11.1
 mkdocstrings-python-legacy==0.2.4
 Pygments==2.18.0
-pymdown-extensions==10.10.1
+pymdown-extensions==10.11.1
 pytkdocs==0.16.2
 docutils==0.20.1
