@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
       - name: detect secrets
-        uses: edplato/trufflehog-actions-scan@c36ff9abf0af8290ef23b1b45a36e75c742dd1d8 # v0.9l-beta
+        uses: trufflesecurity/trufflehog@0328a19a9d3877c9f04d0dbee5717aabff5b575d # v3.82.6
         with:
-          scanArguments: "--regex --entropy=False --exclude_paths .github/exclude-patterns.txt --max_depth=1"
+          extra_args: "--exclude_paths .github/exclude-patterns.txt --max_depth=1"
