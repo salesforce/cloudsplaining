@@ -12,7 +12,7 @@ RUN apk add nodejs==18.16.0-r0
 RUN apk add npm==9.1.2-r0
 RUN apk add make==4.3-r1
 ###### install requirements.txt
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 ### remove unnecassary
 RUN rm -rf dist/
 RUN	rm -rf build/
@@ -23,9 +23,9 @@ RUN	find . -name '*.egg-link' -delete
 RUN	find . -name '*.pyc' -exec rm --force {} +
 RUN	find . -name '*.pyo' -exec rm --force {} +
 #### seorate requirements
-RUN python3 -m pip install --upgrade setuptools==67.6.0 wheel==0.40.0
+RUN python3 -m pip install --no-cache-dir --upgrade setuptools==67.6.0 wheel==0.40.0
 RUN	python3 -m setup -q sdist bdist_wheel
-RUN python3 -m pip install -q ./dist/cloudsplaining*.tar.gz
+RUN python3 -m pip install --no-cache-dir -q ./dist/cloudsplaining*.tar.gz
 ######## NPM installation
 RUN npm install
 
