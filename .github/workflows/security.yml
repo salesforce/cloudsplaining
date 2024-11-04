@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938  # v4.2.0
       - name: detect secrets
-        uses: trufflesecurity/trufflehog@5280c3877c038b601658903fb98da62192f436d8 # v3.82.8
+        uses: trufflesecurity/trufflehog@bd5e28742553ef0649d7af310dc4e3755f070b36 # v3.83.2
         with:
           extra_args: "--exclude_paths .github/exclude-patterns.txt --max_depth=1"
