@@ -104,13 +104,13 @@ pip3 install --user cloudsplaining
 To enable Bash completion, put this in your `.bashrc`:
 
 ```bash
-eval "$(_CLOUDSPLAINING_COMPLETE=source cloudsplaining)"
+eval "$(_CLOUDSPLAINING_COMPLETE=bash_source cloudsplaining)"
 ```
 
 To enable ZSH completion, put this in your .zshrc:
 
 ```bash
-eval "$(_CLOUDSPLAINING_COMPLETE=source_zsh cloudsplaining)"
+eval "$(_CLOUDSPLAINING_COMPLETE=zsh_source cloudsplaining)"
 ```
 
 ### Scanning a single IAM policy
