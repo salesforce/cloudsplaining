@@ -27,7 +27,7 @@ CONDITION_KEY_CATEGORIES = {
     "saml:aud": "saml-endpoint",
 }
 RELEVANT_CONDITION_OPERATORS_PATTERN = re.compile(
-    "((ForAllValues|ForAnyValue):)?(ARN(Equals|Like)|String(Equals|Like)(IgnoreCase)?|IpAddress)(IfExists)?",
+    r"((ForAllValues|ForAnyValue):)?(ARN(Equals|Like)|String(Equals|Like)(IgnoreCase)?|IpAddress)(IfExists)?",
     re.IGNORECASE,
 )
 

@@ -19,7 +19,7 @@ REQUIRED_PACKAGES = [
     "click_option_group",
     "jinja2",
     "markdown",
-    "policy_sentry>=0.13.0,<0.14",
+    "policy_sentry>=0.14.0,<0.15",
     "pyyaml",
     "schema",
 ]
@@ -57,7 +57,6 @@ setuptools.setup(
     project_urls=PROJECT_URLS,
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
