@@ -1,10 +1,10 @@
 repos:
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.1
+    rev: v1.7.6
     hooks:
       - id: actionlint-docker
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.2
+    rev: v0.8.6
     hooks:
       - id: ruff
         files: ^(cloudsplaining/|setup.py)

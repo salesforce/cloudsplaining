@@ -8,9 +8,8 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.constants import (
     ACTIONS_THAT_RETURN_CREDENTIALS,
     ISSUE_SEVERITY,
@@ -22,6 +21,9 @@ from cloudsplaining.shared.exclusions import (
     Exclusions,
     is_name_excluded,
 )
+
+if TYPE_CHECKING:
+    from cloudsplaining.scan.policy_document import PolicyDocument
 
 logger = logging.getLogger(__name__)
 

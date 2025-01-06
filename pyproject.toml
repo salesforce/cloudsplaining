@@ -14,7 +14,7 @@ ignore_missing_imports = true
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.lint]
 preview = true
@@ -38,11 +38,14 @@ select = [
     "S",
     "SIM",
     "T10",
+    "TC",
     "UP",
     "W",
     "YTT",
 ]
 ignore = ["E501"] # ruff fromat takes care of it
+
+fixable = ["I001"]
 
 [tool.pytest.ini_options]
 testpaths = [
