@@ -7,6 +7,12 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+env:
+  MIN_PYTHON_VERSION: "3.9"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,7 +22,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
-          python-version: '3.8'
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -39,7 +45,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
-          python-version: '3.8'
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -61,12 +67,14 @@ jobs:
   update-brew:
     needs: publish-package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
-          python-version: '3.8'
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
       - name: publish brew
         run: |
           sleep 5m
@@ -87,6 +95,8 @@ jobs:
   bump-version:
     runs-on: ubuntu-latest
     needs: update-brew
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:

@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 import json
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from cloudsplaining.scan.inline_policy import InlinePolicy
-from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
-from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
@@ -17,6 +15,10 @@ from cloudsplaining.shared.utils import (
     get_policy_name,
     is_aws_managed,
 )
+
+if TYPE_CHECKING:
+    from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
+    from cloudsplaining.scan.statement_detail import StatementDetail
 
 
 class GroupDetailList:
