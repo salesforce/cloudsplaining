@@ -241,8 +241,7 @@ class StatementDetail:
         # Fix #390 - if flag_resource_arn_statements is True, then let's treat this as missing resource constraints so we can flag the action anyway.
         elif self.flag_resource_arn_statements:
             actions_missing_resource_constraints = self.restrictable_actions
-        else:
-            pass
+
         result = exclusions.get_allowed_actions(actions_missing_resource_constraints)
         result.sort()
         return result

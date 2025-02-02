@@ -70,7 +70,7 @@ class InlinePolicy:
         links = {}
         for finding in findings:
             links[finding["type"]] = (
-                f'https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding["type"]}'
+                f"https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding['type']}"
             )
         return links
 

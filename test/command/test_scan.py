@@ -16,7 +16,7 @@ class ScanClickUnitTests(unittest.TestCase):
         )
         input_file = os.path.join(examples_directory, "files", "example.json")
         exclusions_file = os.path.join(examples_directory, "example-exclusions.yml")
-        command = f"--input-file {input_file} " f"--exclusions-file {exclusions_file} " "--skip-open-report " "-v"
+        command = f"--input-file {input_file} --exclusions-file {exclusions_file} --skip-open-report -v"
         args = shlex.split(command)
         response = self.runner.invoke(cli=scan, args=args)
         # print(response.output)
