@@ -41,8 +41,8 @@ def create_exclusions_file(output_file: str, verbosity: int) -> None:
     set_log_level(verbosity)
 
     with open(output_file, "a", encoding="utf-8") as file_obj:
-        for line in EXCLUSIONS_TEMPLATE:
-            file_obj.write(line)
+        file_obj.write(EXCLUSIONS_TEMPLATE)
+
     utils.print_green(f"Success! Exclusions template file written to: {output_file}")
     print(
         "Make sure you download your account authorization details before running the scan."
