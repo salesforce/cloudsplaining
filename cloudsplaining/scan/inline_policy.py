@@ -64,9 +64,14 @@ class InlinePolicy:
 
     def _is_excluded(self, exclusions: Exclusions) -> bool:
         """Determine whether the policy name or policy ID is excluded"""
-        return bool(exclusions.is_policy_excluded(self.policy_name) or exclusions.is_policy_excluded(self.policy_id))
+        return bool(
+            exclusions.is_policy_excluded(self.policy_name)
+            or exclusions.is_policy_excluded(self.policy_id)
+        )
 
-    def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[str, str]:  # noqa: N802
+    def getFindingLinks(
+        self, findings: list[dict[str, Any]]
+    ) -> dict[str, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -83,9 +88,13 @@ class InlinePolicy:
                 inline_policies = {}
                 if self.is_excluded:
                     return {}
-                inline_policies.update(self.iam_data[principal_type][principal_id]["inline_policies"])
+                inline_policies.update(
+                    self.iam_data[principal_type][principal_id]["inline_policies"]
+                )
                 if self.policy_id in inline_policies:
-                    attached[principal_type].append(self.iam_data[principal_type][principal_id]["name"])
+                    attached[principal_type].append(
+                        self.iam_data[principal_type][principal_id]["name"]
+                    )
         return attached
 
     @property
@@ -101,12 +110,16 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
                 "links": self.getFindingLinks(
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -115,7 +128,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
                     self.policy_document.allows_data_exfiltration_actions
-                    if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["DataExfiltration"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -124,7 +139,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
                     self.policy_document.permissions_management_without_constraints
-                    if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ResourceExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -133,7 +150,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
                     self.policy_document.service_wildcard
-                    if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ServiceWildcard"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -142,7 +161,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
                     self.policy_document.credentials_exposure
-                    if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["CredentialsExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -163,12 +184,16 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
                 "links": self.getFindingLinks(
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -177,7 +202,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
                     self.policy_document.allows_data_exfiltration_actions
-                    if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["DataExfiltration"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -186,7 +213,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
                     self.policy_document.permissions_management_without_constraints
-                    if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ResourceExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -195,7 +224,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
                     self.policy_document.service_wildcard
-                    if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ServiceWildcard"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -204,7 +235,9 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
                     self.policy_document.credentials_exposure
-                    if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["CredentialsExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -213,7 +246,8 @@ class InlinePolicy:
                 "description": RISK_DEFINITION["InfrastructureModification"],
                 "findings": (
                     self.policy_document.infrastructure_modification
-                    if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity]
+                    if ISSUE_SEVERITY["InfrastructureModification"]
+                    in [x.lower() for x in self.severity]
                     or not self.severity
                     else []
                 ),

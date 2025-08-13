@@ -61,9 +61,15 @@ def remove_read_level_actions(actions_list: list[str]) -> list[str]:
     """Given a set of actions, return that list of actions,
     but only with actions at the 'Write', 'Tagging', or 'Permissions management' levels
     """
-    modify_actions: list[str] = remove_actions_not_matching_access_level(actions_list, "Write")
-    modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Permissions management"))
-    modify_actions.extend(remove_actions_not_matching_access_level(actions_list, "Tagging"))
+    modify_actions: list[str] = remove_actions_not_matching_access_level(
+        actions_list, "Write"
+    )
+    modify_actions.extend(
+        remove_actions_not_matching_access_level(actions_list, "Permissions management")
+    )
+    modify_actions.extend(
+        remove_actions_not_matching_access_level(actions_list, "Tagging")
+    )
     return modify_actions
 
 
@@ -120,7 +126,9 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: str) -> str:
+def write_results_data_file(
+    results: dict[str, dict[str, Any]], raw_data_file: str
+) -> str:
     """
     Writes the raw data file containing all the results for an AWS account
 
@@ -129,7 +137,9 @@ def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: s
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    Path(raw_data_file).write_text(json.dumps(results, indent=4, default=str), encoding="utf-8")
+    Path(raw_data_file).write_text(
+        json.dumps(results, indent=4, default=str), encoding="utf-8"
+    )
     return raw_data_file
 
 

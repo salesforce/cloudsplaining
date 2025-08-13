@@ -46,7 +46,9 @@ class PolicyFinding:
         self.exclusions = exclusions
         self.always_exclude_actions = exclusions.exclude_actions
 
-        self.missing_resource_constraints_for_modify_actions = self._missing_resource_constraints_for_modify_actions()
+        self.missing_resource_constraints_for_modify_actions = (
+            self._missing_resource_constraints_for_modify_actions()
+        )
         self.severity = [] if severity is None else severity
 
     def _missing_resource_constraints_for_modify_actions(self) -> list[str]:
@@ -56,7 +58,9 @@ class PolicyFinding:
             logger.debug("Evaluating statement: %s", statement.json)
             if statement.effect == "Allow" and not statement.has_condition:
                 actions_missing_resource_constraints.update(
-                    statement.missing_resource_constraints_for_modify_actions(self.exclusions)
+                    statement.missing_resource_constraints_for_modify_actions(
+                        self.exclusions
+                    )
                 )
         return sorted(actions_missing_resource_constraints)
 
@@ -137,7 +141,9 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
                     self.service_wildcard
-                    if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ServiceWildcard"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -147,7 +153,9 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
                     self.privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -156,7 +164,9 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
                     self.data_exfiltration
-                    if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["DataExfiltration"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -165,7 +175,9 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
                     self.resource_exposure
-                    if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["ResourceExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -174,7 +186,9 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
                     self.credentials_exposure
-                    if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity
+                    if ISSUE_SEVERITY["CredentialsExposure"]
+                    in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
@@ -183,7 +197,8 @@ class PolicyFinding:
                 "description": RISK_DEFINITION["InfrastructureModification"],
                 "findings": (
                     self.missing_resource_constraints_for_modify_actions
-                    if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity]
+                    if ISSUE_SEVERITY["InfrastructureModification"]
+                    in [x.lower() for x in self.severity]
                     or not self.severity
                     else []
                 ),

@@ -33,7 +33,6 @@ class HTMLReport:
         self.results = f"var iam_data = {json.dumps(results, default=str)}"
         self.template_config = TemplateConfig()
 
-
     @property
     def app_bundle(self) -> str:
         """The Cloudsplaining Javascript application code should be loaded either from the CDN or locally,

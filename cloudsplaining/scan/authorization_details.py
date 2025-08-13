@@ -49,7 +49,9 @@ class AuthorizationDetails:
         self.auth_json = auth_json
 
         if not isinstance(exclusions, Exclusions):
-            raise Exception("For exclusions, please provide an object of the Exclusions type")
+            raise Exception(
+                "For exclusions, please provide an object of the Exclusions type"
+            )
         self.exclusions = exclusions
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
@@ -120,10 +122,18 @@ class AuthorizationDetails:
         # Let's create a set of unique_action_names that are in InfrastructureModification
         # First, let's get them from ManagedPolicyDetails
         # Then, the inline policies from GroupDetails, RoleDetails, and UserDetails
-        unique_action_names.update(self.group_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.role_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.user_detail_list.all_infrastructure_modification_actions_by_inline_policies)
-        unique_action_names.update(self.policies.all_infrastructure_modification_actions)
+        unique_action_names.update(
+            self.group_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.role_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.user_detail_list.all_infrastructure_modification_actions_by_inline_policies
+        )
+        unique_action_names.update(
+            self.policies.all_infrastructure_modification_actions
+        )
 
         all_action_links = get_all_action_links()
 

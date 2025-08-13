@@ -1,4 +1,5 @@
 """Template configuration for custom guidance and appendices"""
+
 import os
 from pathlib import Path
 
@@ -18,7 +19,12 @@ class TemplateConfig:
         if os.path.exists(custom_file):
             content = Path(custom_file).read_text(encoding="utf-8")
             if content.strip():
-                return content.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '')
+                return (
+                    content.replace("\\", "\\\\")
+                    .replace('"', '\\"')
+                    .replace("\n", "\\n")
+                    .replace("\r", "")
+                )
             return ""
         return "default"
 
@@ -28,6 +34,11 @@ class TemplateConfig:
         if os.path.exists(custom_file):
             content = Path(custom_file).read_text(encoding="utf-8")
             if content.strip():
-                return content.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '')
+                return (
+                    content.replace("\\", "\\\\")
+                    .replace('"', '\\"')
+                    .replace("\n", "\\n")
+                    .replace("\r", "")
+                )
             return ""
         return "default"

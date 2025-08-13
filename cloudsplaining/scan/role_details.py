@@ -45,7 +45,9 @@ class RoleDetailList:
         self.roles = []
 
         if not isinstance(exclusions, Exclusions):
-            raise Exception("For exclusions, please provide an object of the Exclusions type")
+            raise Exception(
+                "For exclusions, please provide an object of the Exclusions type"
+            )
         self.exclusions = exclusions
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
@@ -89,7 +91,9 @@ class RoleDetailList:
                 return role_detail.all_allowed_actions
         return None
 
-    def get_all_iam_statements_for_role(self, name: str) -> list[StatementDetail] | None:
+    def get_all_iam_statements_for_role(
+        self, name: str
+    ) -> list[StatementDetail] | None:
         """Returns a list of all StatementDetail objects across all the policies assigned to the role"""
         for role_detail in self.roles:
             if role_detail.role_name == name:
@@ -176,7 +180,9 @@ class RoleDetail:
         self.assume_role_policy_document = None
         assume_role_policy = role_detail.get("AssumeRolePolicyDocument")
         if assume_role_policy:
-            self.assume_role_policy_document = AssumeRolePolicyDocument(assume_role_policy)
+            self.assume_role_policy_document = AssumeRolePolicyDocument(
+                assume_role_policy
+            )
 
         # TODO: Create a class for InstanceProfileList
         self.instance_profile_list = role_detail.get("InstanceProfileList", [])
@@ -189,7 +195,10 @@ class RoleDetail:
                 policy_name = policy_detail.get("PolicyName")
                 policy_document = policy_detail.get("PolicyDocument")
                 policy_id = get_non_provider_id(json.dumps(policy_document))
-                if not (exclusions.is_policy_excluded(policy_name) or exclusions.is_policy_excluded(policy_id)):
+                if not (
+                    exclusions.is_policy_excluded(policy_name)
+                    or exclusions.is_policy_excluded(policy_id)
+                ):
                     inline_policy = InlinePolicy(
                         policy_detail,
                         exclusions=exclusions,
@@ -211,8 +220,12 @@ class RoleDetail:
                     or exclusions.is_policy_excluded(get_policy_name(arn))
                 ):
                     try:
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
                     except NotFoundException as e:
                         utils.print_red(f"\tError in role {self.role_name}: {e}")
 
@@ -303,19 +316,27 @@ class RoleDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.json_large for policy in self.inline_policies
+        }
         return policies
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.policy_name for policy in self.inline_policies
+        }
         return policies
 
     @property
     def json(self) -> dict[str, Any]:
         """Return the JSON representation of the Role Detail"""
-        assume_role_json = self.assume_role_policy_document.json if self.assume_role_policy_document else {}
+        assume_role_json = (
+            self.assume_role_policy_document.json
+            if self.assume_role_policy_document
+            else {}
+        )
         this_role_detail = dict(
             arn=self.arn,
             assume_role_policy=dict(PolicyDocument=assume_role_json),

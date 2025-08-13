@@ -76,7 +76,9 @@ class UserDetailList:
                 return user_detail.all_allowed_actions
         return None
 
-    def get_all_iam_statements_for_user(self, name: str) -> list[StatementDetail] | None:
+    def get_all_iam_statements_for_user(
+        self, name: str
+    ) -> list[StatementDetail] | None:
         """Returns a list of all StatementDetail objects across all the policies assigned to the user"""
         for user_detail in self.users:
             if user_detail.user_name == name:
@@ -176,7 +178,10 @@ class UserDetail:
                 policy_name = policy_detail.get("PolicyName")
                 policy_document = policy_detail.get("PolicyDocument")
                 policy_id = get_non_provider_id(json.dumps(policy_document))
-                if not (exclusions.is_policy_excluded(policy_name) or exclusions.is_policy_excluded(policy_id)):
+                if not (
+                    exclusions.is_policy_excluded(policy_name)
+                    or exclusions.is_policy_excluded(policy_id)
+                ):
                     inline_policy = InlinePolicy(
                         policy_detail,
                         exclusions=exclusions,
@@ -198,8 +203,12 @@ class UserDetail:
                     or exclusions.is_policy_excluded(get_policy_name(arn))
                 ):
                     try:
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
                     except NotFoundException as e:
                         utils.print_red(f"\tError in user {self.user_name}: {e}")
 
@@ -216,7 +225,9 @@ class UserDetail:
             or exclusions.is_principal_excluded(self.path, "User")
         )
 
-    def _add_group_details(self, group_list: list[str], all_group_details: GroupDetailList) -> None:
+    def _add_group_details(
+        self, group_list: list[str], all_group_details: GroupDetailList
+    ) -> None:
         for group in group_list:
             this_group_detail = all_group_details.get_group_detail(group)
             if this_group_detail:
@@ -249,13 +260,18 @@ class UserDetail:
     @property
     def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
-        policies = {policy.policy_id: policy.json for policy in self.attached_managed_policies}
+        policies = {
+            policy.policy_id: policy.json for policy in self.attached_managed_policies
+        }
         return policies
 
     @property
     def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return JSON representation of attached managed policies - but just with pointers to the Policy ID"""
-        policies = {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
+        policies = {
+            policy.policy_id: policy.policy_name
+            for policy in self.attached_managed_policies
+        }
         return policies
 
     @property
@@ -289,13 +305,17 @@ class UserDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.json_large for policy in self.inline_policies
+        }
         return policies
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.policy_name for policy in self.inline_policies
+        }
         return policies
 
     @property

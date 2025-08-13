@@ -165,9 +165,13 @@ class ResourceStatement:
                     key_lower = key.lower()
                     if key_lower in CONDITION_KEY_CATEGORIES:
                         if isinstance(value, list):
-                            conditions.extend((CONDITION_KEY_CATEGORIES[key_lower], v) for v in value)
+                            conditions.extend(
+                                (CONDITION_KEY_CATEGORIES[key_lower], v) for v in value
+                            )
                         else:
-                            conditions.append((CONDITION_KEY_CATEGORIES[key_lower], value))
+                            conditions.append(
+                                (CONDITION_KEY_CATEGORIES[key_lower], value)
+                            )
 
         return conditions
 

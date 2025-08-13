@@ -79,7 +79,9 @@ class GroupDetailList:
                 return group_detail.all_allowed_actions
         return None
 
-    def get_all_iam_statements_for_group(self, name: str) -> list[StatementDetail] | None:
+    def get_all_iam_statements_for_group(
+        self, name: str
+    ) -> list[StatementDetail] | None:
         """Returns a list of all StatementDetail objects across all the policies assigned to the group"""
         for group_detail in self.groups:
             if group_detail.group_name == name:
@@ -162,7 +164,10 @@ class GroupDetail:
                 policy_name = policy_detail.get("PolicyName")
                 policy_document = policy_detail.get("PolicyDocument")
                 policy_id = get_non_provider_id(json.dumps(policy_document))
-                if not (exclusions.is_policy_excluded(policy_name) or exclusions.is_policy_excluded(policy_id)):
+                if not (
+                    exclusions.is_policy_excluded(policy_name)
+                    or exclusions.is_policy_excluded(policy_id)
+                ):
                     # NOTE: The Exclusions were not here before the #254 fix (which was an unfiled bug I just discovered) so the presence of this might break some older unit tests. Might need to fix that.
                     inline_policy = InlinePolicy(
                         policy_detail,
@@ -185,8 +190,12 @@ class GroupDetail:
                     or exclusions.is_policy_excluded(get_policy_name(arn))
                 ):
                     try:
-                        attached_managed_policy_details = policy_details.get_policy_detail(arn)
-                        self.attached_managed_policies.append(attached_managed_policy_details)
+                        attached_managed_policy_details = (
+                            policy_details.get_policy_detail(arn)
+                        )
+                        self.attached_managed_policies.append(
+                            attached_managed_policy_details
+                        )
                     except NotFoundException as e:
                         utils.print_red(f"\tError in group {self.group_name}: {e}")
 
@@ -232,13 +241,19 @@ class GroupDetail:
     @property
     def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.attached_managed_policies}
+        policies = {
+            policy.policy_id: policy.json_large
+            for policy in self.attached_managed_policies
+        }
         return policies
 
     @property
     def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
+        policies = {
+            policy.policy_id: policy.policy_name
+            for policy in self.attached_managed_policies
+        }
         return policies
 
     @property
@@ -272,13 +287,17 @@ class GroupDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.json_large for policy in self.inline_policies
+        }
         return policies
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
+        policies = {
+            policy.policy_id: policy.policy_name for policy in self.inline_policies
+        }
         return policies
 
     @property

@@ -60,7 +60,9 @@ class StatementDetail:
         self.has_condition = self._has_condition()
 
         self.restrictable_actions = remove_wildcard_only_actions(self.expanded_actions)
-        self.unrestrictable_actions = list(set(self.expanded_actions or []) - set(self.restrictable_actions))
+        self.unrestrictable_actions = list(
+            set(self.expanded_actions or []) - set(self.restrictable_actions)
+        )
         self.has_resource_constraints = self._has_resource_constraints()
 
     def _actions(self) -> list[str]:
@@ -111,7 +113,9 @@ class StatementDetail:
         if not self.not_action:
             return None
 
-        not_actions_expanded_lowercase = [a.lower() for a in determine_actions_to_expand(self.not_action)]
+        not_actions_expanded_lowercase = [
+            a.lower() for a in determine_actions_to_expand(self.not_action)
+        ]
 
         # Effect: Allow && Resource != "*"
         if not self.has_resource_wildcard and self.effect_allow:
@@ -136,7 +140,9 @@ class StatementDetail:
 
             # If it's in NotActions, then it is not an action we want
             effective_actions = [
-                action for action in ALL_ACTIONS if action.lower() not in not_actions_expanded_lowercase
+                action
+                for action in ALL_ACTIONS
+                if action.lower() not in not_actions_expanded_lowercase
             ]
 
             effective_actions.sort()
@@ -204,8 +210,12 @@ class StatementDetail:
         """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
         do not have resource constraints"""
         result = []
-        if (not self.has_resource_constraints or self.flag_resource_arn_statements) and not self.has_condition:
-            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Permissions management")
+        if (
+            not self.has_resource_constraints or self.flag_resource_arn_statements
+        ) and not self.has_condition:
+            result = remove_actions_not_matching_access_level(
+                self.restrictable_actions, "Permissions management"
+            )
         result.sort()
         return result
 
@@ -214,8 +224,12 @@ class StatementDetail:
         """Where applicable, returns a list of 'Write' level IAM actions in the statement that
         do not have resource constraints"""
         result = []
-        if (not self.has_resource_constraints or self.flag_resource_arn_statements) and not self.has_condition:
-            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Write")
+        if (
+            not self.has_resource_constraints or self.flag_resource_arn_statements
+        ) and not self.has_condition:
+            result = remove_actions_not_matching_access_level(
+                self.restrictable_actions, "Write"
+            )
         result.sort()
         return result
 
@@ -225,10 +239,14 @@ class StatementDetail:
         do not have resource constraints"""
         result = []
         if not self.has_resource_constraints:
-            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Tagging")
+            result = remove_actions_not_matching_access_level(
+                self.restrictable_actions, "Tagging"
+            )
         return result
 
-    def missing_resource_constraints(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
+    def missing_resource_constraints(
+        self, exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> list[str]:
         """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
         resource constraints."""
         if not isinstance(exclusions, Exclusions):
@@ -246,7 +264,9 @@ class StatementDetail:
         result.sort()
         return result
 
-    def missing_resource_constraints_for_modify_actions(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
+    def missing_resource_constraints_for_modify_actions(
+        self, exclusions: Exclusions = DEFAULT_EXCLUSIONS
+    ) -> list[str]:
         """
         Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
         are allowed by the statement without resource constraints.
@@ -258,18 +278,30 @@ class StatementDetail:
                 "The provided exclusions is not the Exclusions object type. Please use the Exclusions object."
             )
         # This initially includes read-only and modify level actions
-        always_look_for_actions = [x.lower() for x in exclusions.include_actions] if exclusions.include_actions else []
+        always_look_for_actions = (
+            [x.lower() for x in exclusions.include_actions]
+            if exclusions.include_actions
+            else []
+        )
 
-        actions_missing_resource_constraints = self.missing_resource_constraints(exclusions)
+        actions_missing_resource_constraints = self.missing_resource_constraints(
+            exclusions
+        )
 
         always_actions_found = (
-            [action for action in actions_missing_resource_constraints if action.lower() in always_look_for_actions]
+            [
+                action
+                for action in actions_missing_resource_constraints
+                if action.lower() in always_look_for_actions
+            ]
             if always_look_for_actions
             else []
         )
 
         modify_actions_missing_constraints = set()
-        modify_actions_missing_constraints.update(remove_read_level_actions(actions_missing_resource_constraints))
+        modify_actions_missing_constraints.update(
+            remove_read_level_actions(actions_missing_resource_constraints)
+        )
         modify_actions_missing_constraints.update(always_actions_found)
 
         return list(modify_actions_missing_constraints)

@@ -18,7 +18,9 @@ from cloudsplaining import set_log_level
 logger = logging.getLogger(__name__)
 
 
-@click.command(short_help="Expand the * Actions in IAM policy files to improve readability")
+@click.command(
+    short_help="Expand the * Actions in IAM policy files to improve readability"
+)
 @click.option(
     "-i",
     "--input-file",

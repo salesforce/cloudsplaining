@@ -43,13 +43,17 @@ def create_multi_account_config_file(output_file: str, verbosity: int) -> None:
     set_log_level(verbosity)
 
     if os.path.exists(output_file):
-        logger.debug("%s exists. Removing the file and replacing its contents.", output_file)
+        logger.debug(
+            "%s exists. Removing the file and replacing its contents.", output_file
+        )
         os.remove(output_file)
 
     with open(output_file, "a", encoding="utf-8") as file_obj:
         file_obj.write(MULTI_ACCOUNT_CONFIG_TEMPLATE)
 
-    utils.print_green(f"Success! Multi-account config file written to: {os.path.relpath(output_file)}")
+    utils.print_green(
+        f"Success! Multi-account config file written to: {os.path.relpath(output_file)}"
+    )
     print(
         f"\nMake sure you edit the {os.path.relpath(output_file)} file and then run the scan-multi-account command, as shown below."
     )
