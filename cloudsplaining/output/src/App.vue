@@ -151,9 +151,9 @@ export default {
             // eslint-disable-next-line no-undef
             cloudsplaining_version: cloudsplaining_version,
             // eslint-disable-next-line no-undef
-            show_guidance_nav: show_guidance_nav,
+            show_guidance_nav: show_guidance_nav === "True",
             // eslint-disable-next-line no-undef
-            show_appendices_nav: show_appendices_nav,
+            show_appendices_nav: show_appendices_nav === "True",
         };
     },
     computed: {
