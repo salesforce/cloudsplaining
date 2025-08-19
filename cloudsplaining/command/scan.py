@@ -94,9 +94,7 @@ from cloudsplaining.shared.validation import check_authorization_details_schema
     "severity",
     help="Filter the severity of findings to be reported.",
     multiple=True,
-    type=click.Choice(
-        ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False
-    ),
+    type=click.Choice(["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False),
 )
 def scan(
     input_file: str,
@@ -134,9 +132,7 @@ def scan(
 
     if os.path.isfile(input_file):
         account_name = os.path.basename(input_file).split(".")[0]
-        account_authorization_details_cfg = json.loads(
-            Path(input_file).read_text(encoding="utf-8")
-        )
+        account_authorization_details_cfg = json.loads(Path(input_file).read_text(encoding="utf-8"))
         rendered_html_report = scan_account_authorization_details(
             account_authorization_details_cfg,
             exclusions,
@@ -164,15 +160,11 @@ def scan(
             webbrowser.open(url, new=2)
 
     if os.path.isdir(input_file):
-        logger.info(
-            "The path given is a directory. Scanning for account authorization files and generating report."
-        )
+        logger.info("The path given is a directory. Scanning for account authorization files and generating report.")
         input_files = get_authorization_files_in_directory(input_file)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
-            account_authorization_details_cfg = json.loads(
-                Path(file).read_text(encoding="utf-8")
-            )
+            account_authorization_details_cfg = json.loads(Path(file).read_text(encoding="utf-8"))
 
             account_name = os.path.basename(input_file).split(".")[0]
             # Scan the Account Authorization Details config
@@ -251,9 +243,7 @@ def scan_account_authorization_details(
     managed policies in the account to identify actions that do not leverage resource constraints.
     """
 
-    logger.debug(
-        "Identifying modify-only actions that are not leveraging resource constraints..."
-    )
+    logger.debug("Identifying modify-only actions that are not leveraging resource constraints...")
     check_authorization_details_schema(account_authorization_details_cfg)
     authorization_details = AuthorizationDetails(
         account_authorization_details_cfg,
@@ -284,17 +274,11 @@ def scan_account_authorization_details(
         if output_directory is None:
             output_directory = os.getcwd()
 
-        results_data_file = os.path.join(
-            output_directory, f"iam-results-{account_name}.json"
-        )
-        results_data_filepath = write_results_data_file(
-            authorization_details.results, results_data_file
-        )
+        results_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
+        results_data_filepath = write_results_data_file(authorization_details.results, results_data_file)
         print(f"Results data saved: {results_data_filepath}")
 
-        findings_data_file = os.path.join(
-            output_directory, f"iam-findings-{account_name}.json"
-        )
+        findings_data_file = os.path.join(output_directory, f"iam-findings-{account_name}.json")
         findings_data_filepath = write_results_data_file(results, findings_data_file)
         print(f"Findings data file saved: {findings_data_filepath}")
 
@@ -312,17 +296,13 @@ def get_authorization_files_in_directory(
     directory: str,
 ) -> list[str]:  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
-    file_list_with_full_path = [
-        file.absolute() for file in Path(directory).glob("*.json")
-    ]
+    file_list_with_full_path = [file.absolute() for file in Path(directory).glob("*.json")]
 
     new_file_list = []
     for file in file_list_with_full_path:
         contents = file.read_text()
         account_authorization_details_cfg = json.loads(contents, default=str)
-        valid_schema = check_authorization_details_schema(
-            account_authorization_details_cfg
-        )
+        valid_schema = check_authorization_details_schema(account_authorization_details_cfg)
         if valid_schema:
             new_file_list.append(str(file))
     return new_file_list

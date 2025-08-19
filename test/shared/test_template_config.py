@@ -54,8 +54,8 @@ class TemplateConfigTestCase(unittest.TestCase):
         config = TemplateConfig()
 
         self.assertIn('\\"', config.guidance_content)
-        self.assertIn('\\n', config.guidance_content)
-        self.assertNotIn('\n', config.guidance_content)
+        self.assertIn("\\n", config.guidance_content)
+        self.assertNotIn("\n", config.guidance_content)
 
     def test_mixed_scenario_one_custom_one_default(self):
         """test_template_config: Should handle mixed scenario with one custom file and one default"""

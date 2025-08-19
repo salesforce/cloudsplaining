@@ -5,8 +5,6 @@ import CustomerPolicies from '../views/CustomerPolicies';
 import InlinePolicies from '../views/InlinePolicies';
 import AwsPolicies from '../views/AwsPolicies';
 import IamPrincipals from '../views/IamPrincipals';
-import Guidance from '../views/Guidance';
-import Appendices from '../views/Appendices';
 
 Vue.use(Router)
 
@@ -34,19 +32,30 @@ const scrollStrategy = function (to, from, savedPosition) {
     return position;
 }
 
+const routes = [
+    {path: '/summary', component: Summary},
+    {path: '/customer-policies', component: CustomerPolicies},
+    {path: '/inline-policies', component: InlinePolicies},
+    {path: '/aws-policies', component: AwsPolicies},
+    {path: '/iam-principals', component: IamPrincipals},
+];
+
+if (window.show_guidance_nav === "True") {
+    routes.push({path: '/guidance', component: () => import('../views/Guidance')});
+}
+
+if (window.show_appendices_nav === "True") {
+    routes.push({path: '/appendices', component: () => import('../views/Appendices')});
+}
+
+routes.push(
+    {path: '/', redirect: '/summary'},
+    {path: '**', redirect: '/summary'}
+);
+
 
 export default new Router({
     mode: 'hash',
     scrollStrategy,
-    routes: [
-        {path: '/summary', component: Summary},
-        {path: '/customer-policies', component: CustomerPolicies},
-        {path: '/inline-policies', component: InlinePolicies},
-        {path: '/aws-policies', component: AwsPolicies},
-        {path: '/iam-principals', component: IamPrincipals},
-        {path: '/guidance', component: Guidance},
-        {path: '/appendices', component: Appendices},
-        {path: '/', redirect: '/summary'},
-        {path: '**', redirect: '/summary'}
-    ]
+    routes
 })

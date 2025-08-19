@@ -43,9 +43,7 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
         assumable_by_compute_services = []
         for statement in self.statements:
             if statement.role_assumable_by_compute_services:
-                assumable_by_compute_services.extend(
-                    statement.role_assumable_by_compute_services
-                )
+                assumable_by_compute_services.extend(statement.role_assumable_by_compute_services)
         return assumable_by_compute_services
 
 

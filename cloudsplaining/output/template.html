@@ -40,10 +40,11 @@
     account_name = "{{ t.account_name }}";
     report_generated_time = "{{ t.report_generated_time }}";
     cloudsplaining_version = "{{ t.cloudsplaining_version }}";
-    guidance_content = "{{ t.guidance_content|safe }}";
-    appendices_content = "{{ t.appendices_content|safe }}";
     show_guidance_nav = "{{ t.show_guidance_nav }}";
     show_appendices_nav = "{{ t.show_appendices_nav }}";
+
+    guidance_content = "{{ t.guidance_content|safe if t.show_guidance_nav else '' }}";
+    appendices_content = "{{ t.appendices_content|safe if t.show_appendices_nav else '' }}";
 
     {{ t.results }}
 

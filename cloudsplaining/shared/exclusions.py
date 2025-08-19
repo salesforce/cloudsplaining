@@ -19,9 +19,7 @@ logger = logging.getLogger(__name__)
 class Exclusions:
     """Contains the exclusions configuration as an object"""
 
-    def __init__(
-        self, exclusions_config: dict[str, list[str]] = DEFAULT_EXCLUSIONS_CONFIG
-    ) -> None:
+    def __init__(self, exclusions_config: dict[str, list[str]] = DEFAULT_EXCLUSIONS_CONFIG) -> None:
         check_exclusions_schema(exclusions_config)
         self.config = exclusions_config
         self.include_actions = self._include_actions()
@@ -113,9 +111,7 @@ class Exclusions:
         elif principal_type == "Role":
             return is_name_excluded(principal.lower(), self.roles)
         else:  # pragma: no cover
-            raise Exception(
-                "Please supply User, Group, or Role as the principal argument."
-            )
+            raise Exception("Please supply User, Group, or Role as the principal argument.")
 
     def get_allowed_actions(self, requested_actions: list[str]) -> list[str]:
         """Given a list of actions, it will evaluate those actions against the exclusions configuration and return a

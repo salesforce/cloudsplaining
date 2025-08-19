@@ -58,9 +58,9 @@ class ManagedPolicyDetails:
             this_policy_id = policy_detail["PolicyId"]
             this_policy_path = policy_detail["Path"]
             # Always exclude the AWS service role policies
-            if is_name_excluded(
-                this_policy_path, "aws-service-role*"
-            ) or is_name_excluded(this_policy_path, "/aws-service-role*"):
+            if is_name_excluded(this_policy_path, "aws-service-role*") or is_name_excluded(
+                this_policy_path, "/aws-service-role*"
+            ):
                 logger.debug(
                     "The %s Policy with the policy ID %s is excluded because it is "
                     "an immutable AWS Service role with a path of %s",
@@ -122,20 +122,14 @@ class ManagedPolicyDetails:
     @property
     def json_large_aws_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {
-            policy.policy_id: policy.json_large
-            for policy in self.policy_details
-            if policy.managed_by == "AWS"
-        }
+        result = {policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "AWS"}
         return result
 
     @property
     def json_large_customer_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
         result = {
-            policy.policy_id: policy.json_large
-            for policy in self.policy_details
-            if policy.managed_by == "Customer"
+            policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "Customer"
         }
         return result
 
@@ -174,9 +168,7 @@ class ManagedPolicy:
         self.path = policy_detail["Path"]
         self.default_version_id = policy_detail.get("DefaultVersionId")
         self.attachment_count = policy_detail.get("AttachmentCount")
-        self.permissions_boundary_usage_count = policy_detail.get(
-            "PermissionsBoundaryUsageCount"
-        )
+        self.permissions_boundary_usage_count = policy_detail.get("PermissionsBoundaryUsageCount")
         self.is_attachable = policy_detail.get("IsAttachable")
         self.create_date = policy_detail.get("CreateDate")
         self.update_date = policy_detail.get("UpdateDate")
@@ -224,9 +216,7 @@ class ManagedPolicy:
                     flag_resource_arn_statements=self.flag_resource_arn_statements,
                     flag_conditional_statements=self.flag_conditional_statements,
                 )
-        raise Exception(
-            "Managed Policy ARN %s has no default Policy Document version", self.arn
-        )
+        raise Exception("Managed Policy ARN %s has no default Policy Document version", self.arn)
 
     # This will help with the Exclusions mechanism. Get the full path of the policy, including the name.
     @property
@@ -250,9 +240,7 @@ class ManagedPolicy:
         else:
             return get_account_from_arn(self.arn)
 
-    def getFindingLinks(
-        self, findings: list[dict[str, Any]]
-    ) -> dict[Any, str]:  # noqa: N802
+    def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[Any, str]:  # noqa: N802
         links = {}
         for finding in findings:
             links[finding["type"]] = (
@@ -270,21 +258,11 @@ class ManagedPolicy:
                 if self.is_excluded:
                     return {}
                 if self.managed_by == "AWS":
-                    managed_policies.update(
-                        self.iam_data[principal_type][principal_id][
-                            "aws_managed_policies"
-                        ]
-                    )
+                    managed_policies.update(self.iam_data[principal_type][principal_id]["aws_managed_policies"])
                 elif self.managed_by == "Customer":
-                    managed_policies.update(
-                        self.iam_data[principal_type][principal_id][
-                            "customer_managed_policies"
-                        ]
-                    )
+                    managed_policies.update(self.iam_data[principal_type][principal_id]["customer_managed_policies"])
                 if self.policy_id in managed_policies:
-                    attached[principal_type].append(
-                        self.iam_data[principal_type][principal_id]["name"]
-                    )
+                    attached[principal_type].append(self.iam_data[principal_type][principal_id]["name"])
         return attached
 
     @property
@@ -307,16 +285,12 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
                 "links": self.getFindingLinks(
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -325,9 +299,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
                     self.policy_document.allows_data_exfiltration_actions
-                    if ISSUE_SEVERITY["DataExfiltration"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -336,9 +308,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
                     self.policy_document.permissions_management_without_constraints
-                    if ISSUE_SEVERITY["ResourceExposure"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -347,9 +317,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
                     self.policy_document.service_wildcard
-                    if ISSUE_SEVERITY["ServiceWildcard"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -358,9 +326,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
                     self.policy_document.credentials_exposure
-                    if ISSUE_SEVERITY["CredentialsExposure"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -388,16 +354,12 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
                 "links": self.getFindingLinks(
                     self.policy_document.allows_privilege_escalation
-                    if ISSUE_SEVERITY["PrivilegeEscalation"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["PrivilegeEscalation"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -406,9 +368,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
                     self.policy_document.allows_data_exfiltration_actions
-                    if ISSUE_SEVERITY["DataExfiltration"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -417,9 +377,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
                     self.policy_document.permissions_management_without_constraints
-                    if ISSUE_SEVERITY["ResourceExposure"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["ResourceExposure"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -428,9 +386,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
                     self.policy_document.service_wildcard
-                    if ISSUE_SEVERITY["ServiceWildcard"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["ServiceWildcard"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -439,9 +395,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
                     self.policy_document.credentials_exposure
-                    if ISSUE_SEVERITY["CredentialsExposure"]
-                    in [x.lower() for x in self.severity]
-                    or not self.severity
+                    if ISSUE_SEVERITY["CredentialsExposure"] in [x.lower() for x in self.severity] or not self.severity
                     else []
                 ),
             },
@@ -450,8 +404,7 @@ class ManagedPolicy:
                 "description": RISK_DEFINITION["InfrastructureModification"],
                 "findings": (
                     self.policy_document.infrastructure_modification
-                    if ISSUE_SEVERITY["InfrastructureModification"]
-                    in [x.lower() for x in self.severity]
+                    if ISSUE_SEVERITY["InfrastructureModification"] in [x.lower() for x in self.severity]
                     or not self.severity
                     else []
                 ),

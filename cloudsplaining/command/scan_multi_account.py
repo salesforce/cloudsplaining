@@ -41,9 +41,7 @@ class MultiAccountConfig:
     def _accounts(self) -> dict[str, str]:
         accounts: dict[str, str] | None = self.config.get("accounts")
         if not accounts:
-            raise Exception(
-                "Please supply a list of accounts in the multi-account config file"
-            )
+            raise Exception("Please supply a list of accounts in the multi-account config file")
         return accounts
 
 
@@ -120,9 +118,7 @@ class MultiAccountConfig:
     "severity",
     help="Filter the severity of findings to be reported.",
     multiple=True,
-    type=click.Choice(
-        ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False
-    ),
+    type=click.Choice(["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False),
 )
 def scan_multi_account(
     config_file: str,
@@ -182,9 +178,7 @@ def scan_accounts(
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
     for target_account_name, target_account_id in multi_account_config.accounts.items():
-        print(
-            f"{OK_GREEN}Scanning account: {target_account_name} (ID: {target_account_id}){END}"
-        )
+        print(f"{OK_GREEN}Scanning account: {target_account_name} (ID: {target_account_id}){END}")
         results = scan_account(
             target_account_id=target_account_id,
             target_role_name=role_name,
@@ -203,9 +197,7 @@ def scan_accounts(
         )
         rendered_report = html_report.get_html_report()
         if not output_directory and not output_bucket:
-            raise Exception(
-                "Please supply --output-bucket and/or --output-directory as arguments."
-            )
+            raise Exception("Please supply --output-bucket and/or --output-directory as arguments.")
         if output_bucket:
             s3 = cast(
                 "S3ServiceResource",
@@ -213,42 +205,24 @@ def scan_accounts(
             )
             # Write the HTML file
             output_file = f"{target_account_name}.html"
-            s3.Object(output_bucket, output_file).put(
-                ACL="bucket-owner-full-control", Body=rendered_report
-            )
-            utils.print_green(
-                f"Saved the HTML report to: s3://{output_bucket}/{output_file}"
-            )
+            s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=rendered_report)
+            utils.print_green(f"Saved the HTML report to: s3://{output_bucket}/{output_file}")
             # Write the JSON data file
             if write_data_file:
                 output_file = f"{target_account_name}.json"
                 body = json.dumps(results, sort_keys=True, default=str, indent=4)
-                s3.Object(output_bucket, output_file).put(
-                    ACL="bucket-owner-full-control", Body=body
-                )
-                utils.print_green(
-                    f"Saved the JSON data to: s3://{output_bucket}/{output_file}"
-                )
+                s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=body)
+                utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
         if output_directory:
             # Write the HTML file
-            html_output_file = os.path.join(
-                output_directory, f"{target_account_name}.html"
-            )
+            html_output_file = os.path.join(output_directory, f"{target_account_name}.html")
             utils.write_file(html_output_file, rendered_report)
-            utils.print_green(
-                f"Saved the HTML report to: {os.path.relpath(html_output_file)}"
-            )
+            utils.print_green(f"Saved the HTML report to: {os.path.relpath(html_output_file)}")
             # Write the JSON data file
             if write_data_file:
-                results_data_file = os.path.join(
-                    output_directory, f"{target_account_name}.json"
-                )
-                results_data_filepath = utils.write_results_data_file(
-                    results, results_data_file
-                )
-                utils.print_green(
-                    f"Saved the JSON data to: {os.path.relpath(results_data_filepath)}"
-                )
+                results_data_file = os.path.join(output_directory, f"{target_account_name}.json")
+                results_data_filepath = utils.write_results_data_file(results, results_data_file)
+                utils.print_green(f"Saved the JSON data to: {os.path.relpath(results_data_filepath)}")
 
 
 def scan_account(
@@ -298,9 +272,7 @@ def download_account_authorization_details(
         "aws_session_token": aws_session_token,
     }
     include_non_default_policy_versions = False
-    authorization_details = get_account_authorization_details(
-        session_data, include_non_default_policy_versions
-    )
+    authorization_details = get_account_authorization_details(session_data, include_non_default_policy_versions)
     return authorization_details
 
 
