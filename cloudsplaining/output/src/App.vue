@@ -153,7 +153,9 @@ export default {
             // eslint-disable-next-line no-undef
             show_guidance_nav: show_guidance_nav === "True",
             // eslint-disable-next-line no-undef
-            show_appendices_nav: show_appendices_nav === "True",
+            show_guidance_nav: strToBool(show_guidance_nav),
+            // eslint-disable-next-line no-undef
+            show_appendices_nav: strToBool(show_appendices_nav),
         };
     },
     computed: {
