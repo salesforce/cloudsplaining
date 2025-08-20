@@ -46,7 +46,11 @@ if (typeof window !== 'undefined' && window.show_guidance_nav === "True") {
     routes.push({path: '/guidance', component: Guidance});
 }
 
-if (typeof window !== 'undefined' && window.show_appendices_nav === "True") {
+if (typeof window !== 'undefined' && String(window.show_guidance_nav).toLowerCase() === "true") {
+    routes.push({path: '/guidance', component: Guidance});
+}
+
+if (typeof window !== 'undefined' && String(window.show_appendices_nav).toLowerCase() === "true") {
     routes.push({path: '/appendices', component: Appendices});
 }
 
