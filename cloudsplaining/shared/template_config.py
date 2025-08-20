@@ -36,4 +36,4 @@ class TemplateConfig:
 
     def _escape_html_content(self, content: str) -> str:
         """Escape HTML content for JavaScript injection"""
-        return content.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\r", "")
+        return html.escape(content)
