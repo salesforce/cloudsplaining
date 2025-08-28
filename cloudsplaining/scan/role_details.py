@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
 from cloudsplaining.shared import utils
+from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
 from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
@@ -147,6 +148,7 @@ class RoleDetail:
         :param policy_details: The ManagedPolicyDetails object - i.e., details about all managed policies in the account
         so the role can inherit those attributes
         """
+        self.severity = [] if severity is None else severity
         # Metadata
         self.path = role_detail["Path"]
         self.role_name = role_detail["RoleName"]
@@ -330,5 +332,18 @@ class RoleDetail:
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
             is_excluded=self.is_excluded,
+            AssumableByComputeServices={
+                "severity": ISSUE_SEVERITY["AssumableByComputeService"],
+                "description": RISK_DEFINITION["AssumableByComputeService"],
+                "findings": (
+                    self.assume_role_policy_document.role_assumable_by_compute_services
+                    if self.assume_role_policy_document
+                    and (
+                        ISSUE_SEVERITY["AssumableByComputeService"] in [x.lower() for x in self.severity]
+                        or not self.severity
+                    )
+                    else []
+                ),
+            },
         )
         return this_role_detail
