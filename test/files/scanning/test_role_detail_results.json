@@ -16,7 +16,7 @@
   },
   "aws_managed_policies": {},
   "create_date": "2018-08-20 18:48:00+00:00",
-  "customer_managed_policies": {"InsecurePolicy": "InsecurePolicy"},
+  "customer_managed_policies": { "InsecurePolicy": "InsecurePolicy" },
   "id": "OverprivilegedEC2",
   "inline_policies": {
     "d09fe3603cd65058b6e2d9817cf37093e83e98318a56ce1e29c8491ac989e57e": "SupYo"
@@ -55,5 +55,10 @@
   "is_excluded": false,
   "name": "OverprivilegedEC2",
   "path": "/",
-  "role_last_used": "2019-01-20 18:48:00+00:00"
+  "role_last_used": "2019-01-20 18:48:00+00:00",
+  "AssumableByComputeServices": {
+    "description": "<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>",
+    "findings": ["ec2"],
+    "severity": "low"
+  }
 }

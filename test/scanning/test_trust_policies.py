@@ -1,5 +1,6 @@
-from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement
 import unittest
+
+from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement
 
 
 class TestAssumeRole(unittest.TestCase):
@@ -131,3 +132,12 @@ class TestAssumeRole(unittest.TestCase):
         )
         assume_role_empty_actions_statement = AssumeRoleStatement(empty_actions_statement)
         self.assertListEqual(assume_role_empty_actions_statement.actions, [])
+
+        # Case: Deny statement, for a  compute service
+        deny_statement = dict(
+            Effect="Deny",
+            Principal={"Service": ["lambda.amazonaws.com"]},
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_deny_statement = AssumeRoleStatement(deny_statement)
+        self.assertListEqual(assume_role_deny_statement.role_assumable_by_compute_services, [])

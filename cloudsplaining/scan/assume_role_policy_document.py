@@ -82,6 +82,10 @@ class AssumeRoleStatement(ResourceStatement):
         if "sts:AssumeRole".lower() not in lowercase_actions:
             return []
 
+        # Effect must be Allow
+        if self.effect.lower() != "allow":
+            return []
+
         assumable_by_compute_services = []
         for principal in self.principals:
             if principal.endswith(".amazonaws.com"):
