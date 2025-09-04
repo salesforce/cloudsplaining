@@ -120,6 +120,14 @@ class MultiAccountConfig:
     multiple=True,
     type=click.Choice(["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False),
 )
+@click.option(
+    "-t",
+    "--flag-trust-policies",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Flag risky trust policies in roles.",
+)
 def scan_multi_account(
     config_file: str,
     profile: str,
@@ -131,6 +139,7 @@ def scan_multi_account(
     flag_all_risky_actions: bool,
     verbosity: int,
     severity: list[str],
+    flag_trust_policies: bool,
 ) -> None:
     """Scan multiple accounts via AssumeRole"""
     set_log_level(verbosity)
@@ -160,6 +169,7 @@ def scan_multi_account(
         severity=severity,
         flag_conditional_statements=flag_conditional_statements,
         flag_resource_arn_statements=flag_resource_arn_statements,
+        flag_trust_policies=flag_trust_policies,
     )
 
 
@@ -174,6 +184,7 @@ def scan_accounts(
     severity: list[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
+    flag_trust_policies: bool = False,
 ) -> None:
     """Use this method as a library to scan multiple accounts"""
     # TODO: Speed improvements? Multithreading? This currently runs sequentially.
@@ -187,6 +198,7 @@ def scan_accounts(
             severity=severity,
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
+            flag_trust_policies=flag_trust_policies,
         )
         html_report = HTMLReport(
             account_id=target_account_id,
@@ -233,6 +245,7 @@ def scan_account(
     severity: list[str] | None = None,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
+    flag_trust_policies: bool = False,
 ) -> dict[str, dict[str, Any]]:
     """Scan a target account in one shot"""
     account_authorization_details = download_account_authorization_details(
@@ -247,6 +260,7 @@ def scan_account(
         severity=severity,
         flag_conditional_statements=flag_conditional_statements,
         flag_resource_arn_statements=flag_resource_arn_statements,
+        flag_trust_policies=flag_trust_policies,
     )
     results = authorization_details.results
     return results
