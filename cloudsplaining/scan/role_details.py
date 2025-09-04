@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 from typing import TYPE_CHECKING, Any
+
+from policy_sentry.util.arns import get_account_from_arn
 
 from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 from cloudsplaining.scan.inline_policy import InlinePolicy
@@ -178,7 +181,14 @@ class RoleDetail:
         self.assume_role_policy_document = None
         assume_role_policy = role_detail.get("AssumeRolePolicyDocument")
         if assume_role_policy:
-            self.assume_role_policy_document = AssumeRolePolicyDocument(assume_role_policy)
+            # Extract current account ID from role ARN
+            current_account_id = None
+            if self.arn:
+                with contextlib.suppress(Exception):
+                    # If we can't parse the account ID, continue without it
+                    current_account_id = get_account_from_arn(self.arn)
+
+            self.assume_role_policy_document = AssumeRolePolicyDocument(assume_role_policy, current_account_id)
 
         # TODO: Create a class for InstanceProfileList
         self.instance_profile_list = role_detail.get("InstanceProfileList", [])
@@ -340,6 +350,19 @@ class RoleDetail:
                     if self.assume_role_policy_document
                     and (
                         ISSUE_SEVERITY["AssumableByComputeService"] in [x.lower() for x in self.severity]
+                        or not self.severity
+                    )
+                    else []
+                ),
+            },
+            AssumableByCrossAccountPrincipal={
+                "severity": ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"],
+                "description": RISK_DEFINITION["AssumableByCrossAccountPrincipal"],
+                "findings": (
+                    self.assume_role_policy_document.role_assumable_by_cross_account_principals
+                    if self.assume_role_policy_document
+                    and (
+                        ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"] in [x.lower() for x in self.severity]
                         or not self.severity
                     )
                     else []

@@ -83,6 +83,7 @@ ISSUE_SEVERITY = {
     "CredentialsExposure": "high",
     "InfrastructureModification": "low",
     "AssumableByComputeService": "low",
+    "AssumableByCrossAccountPrincipal": "low",
 }
 
 RISK_DEFINITION = {
@@ -93,6 +94,7 @@ RISK_DEFINITION = {
     "CredentialsExposure": "<p>Credentials Exposure actions return credentials as part of the API response , such as ecr:GetAuthorizationToken, iam:UpdateAccessKey, and others. The full list is maintained here: https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a</p>",
     "InfrastructureModification": "",
     "AssumableByComputeService": "<p>IAM Roles can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda) can present greater risk than user-defined roles, especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios.<br>For example, if an attacker obtains privileges to execute <code>ssm:SendCommand</code> and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances.</p>",
+    "AssumableByCrossAccountPrincipal": "<p>Roles that can be assumed from other AWS accounts can present a greater risk than roles that can only be assumed within the same AWS account. This is especially true if the trusting account is not owned by your organization.</p>",
 }
 
 PRIVILEGE_ESCALATION_METHODS = {

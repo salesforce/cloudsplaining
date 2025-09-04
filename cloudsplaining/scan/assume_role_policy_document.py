@@ -7,8 +7,11 @@
 # or https://opensource.org/licenses/BSD-3-Clause
 from __future__ import annotations
 
+import contextlib
 import logging
 from typing import Any
+
+from policy_sentry.util.arns import get_account_from_arn
 
 from cloudsplaining.scan.resource_policy_document import (
     ResourcePolicyDocument,
@@ -25,9 +28,10 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
     It is a specialized version of a Resource-based policy
     """
 
-    def __init__(self, policy: dict[str, Any]) -> None:
+    def __init__(self, policy: dict[str, Any], current_account_id: str | None = None) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
+        self.current_account_id = current_account_id
         # We would actually need to define a proper base class with a generic type for statements
         self.statements: list[AssumeRoleStatement] = []  # type:ignore[assignment]
         # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
@@ -35,7 +39,7 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
             statement_structure = [statement_structure]
 
         for statement in statement_structure:
-            self.statements.append(AssumeRoleStatement(statement))
+            self.statements.append(AssumeRoleStatement(statement, current_account_id))
 
     @property
     def role_assumable_by_compute_services(self) -> list[str]:
@@ -46,14 +50,24 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
                 assumable_by_compute_services.extend(statement.role_assumable_by_compute_services)
         return assumable_by_compute_services
 
+    @property
+    def role_assumable_by_cross_account_principals(self) -> list[str]:
+        """Determines whether or not the role can be assumed from principals in other accounts, and if so which ones."""
+        assumable_from_other_accounts = []
+        for statement in self.statements:
+            if statement.role_assumable_by_cross_account_principals:
+                assumable_from_other_accounts.extend(statement.role_assumable_by_cross_account_principals)
+        return assumable_from_other_accounts
+
 
 class AssumeRoleStatement(ResourceStatement):
     """
     Statements in an AssumeRole/Trust Policy document
     """
 
-    def __init__(self, statement: dict[str, Any]) -> None:
+    def __init__(self, statement: dict[str, Any], current_account_id: str | None = None) -> None:
         super().__init__(statement=statement)
+        self.current_account_id = current_account_id
 
         # self.not_principal = statement.get("NotPrincipal")
         if statement.get("NotPrincipal"):
@@ -93,3 +107,26 @@ class AssumeRoleStatement(ResourceStatement):
                 if service_prefix_to_evaluate in SERVICE_PREFIXES_WITH_COMPUTE_ROLES:
                     assumable_by_compute_services.append(service_prefix_to_evaluate)
         return assumable_by_compute_services
+
+    @property
+    def role_assumable_by_cross_account_principals(self) -> list[str]:
+        """Determines whether or not the role can be assumed from principals in other accounts, and if so which ones."""
+        # sts:AssumeRole must be there
+        lowercase_actions = [x.lower() for x in self.actions]
+        if "sts:AssumeRole".lower() not in lowercase_actions:
+            return []
+
+        # Effect must be Allow
+        if self.effect.lower() != "allow":
+            return []
+
+        other_account_principals = []
+        for principal in self.principals:
+            # Check if this is an AWS IAM principal from another account
+            if principal.startswith("arn:aws:iam::"):
+                with contextlib.suppress(Exception):
+                    principal_account_id = get_account_from_arn(principal)
+                    # Only include if it's from a different account (or if we don't know our current account)
+                    if self.current_account_id is None or principal_account_id != self.current_account_id:
+                        other_account_principals.append(principal)
+        return other_account_principals
