@@ -141,3 +141,71 @@ class TestAssumeRole(unittest.TestCase):
         )
         assume_role_deny_statement = AssumeRoleStatement(deny_statement)
         self.assertListEqual(assume_role_deny_statement.role_assumable_by_compute_services, [])
+
+    def test_assume_role_assumable_by_cross_account_principals(self):
+        """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_cross_account_principals"""
+        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
+
+        # Test basic cross-account detection with different principal types
+        statement_cross_account = dict(
+            Effect="Allow",
+            Principal={
+                "AWS": [
+                    "arn:aws:iam::123456789012:root",
+                    "arn:aws:iam::123456789012:user/testuser",
+                    "arn:aws:iam::098765432109:role/testrole",
+                ]
+            },
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_cross_account = AssumeRoleStatement(statement_cross_account)
+        expected = [
+            "arn:aws:iam::123456789012:root",
+            "arn:aws:iam::123456789012:user/testuser",
+            "arn:aws:iam::098765432109:role/testrole",
+        ]
+        self.assertListEqual(assume_role_cross_account.role_assumable_by_cross_account_principals, expected)
+
+        # Test current account filtering
+        assume_role_with_filtering = AssumeRoleStatement(statement_cross_account, current_account_id="123456789012")
+        self.assertListEqual(
+            assume_role_with_filtering.role_assumable_by_cross_account_principals,
+            ["arn:aws:iam::098765432109:role/testrole"],
+        )
+
+        # Test conditions that should return empty results
+        # No sts:AssumeRole action
+        statement_no_assume_role = dict(
+            Effect="Allow", Principal={"AWS": "arn:aws:iam::123456789012:root"}, Action=["s3:GetObject"]
+        )
+        self.assertListEqual(
+            AssumeRoleStatement(statement_no_assume_role).role_assumable_by_cross_account_principals, []
+        )
+
+        # Deny effect
+        statement_deny = dict(
+            Effect="Deny", Principal={"AWS": "arn:aws:iam::123456789012:root"}, Action=["sts:AssumeRole"]
+        )
+        self.assertListEqual(AssumeRoleStatement(statement_deny).role_assumable_by_cross_account_principals, [])
+
+        # Service principals only
+        statement_service = dict(
+            Effect="Allow", Principal={"Service": "lambda.amazonaws.com"}, Action=["sts:AssumeRole"]
+        )
+        self.assertListEqual(AssumeRoleStatement(statement_service).role_assumable_by_cross_account_principals, [])
+
+        # Test AssumeRolePolicyDocument aggregation
+        policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {"Effect": "Allow", "Principal": {"AWS": "arn:aws:iam::123456789012:root"}, "Action": "sts:AssumeRole"},
+                {
+                    "Effect": "Allow",
+                    "Principal": {"AWS": "arn:aws:iam::098765432109:user/testuser"},
+                    "Action": "sts:AssumeRole",
+                },
+            ],
+        }
+        policy_doc = AssumeRolePolicyDocument(policy)
+        expected_policy = ["arn:aws:iam::123456789012:root", "arn:aws:iam::098765432109:user/testuser"]
+        self.assertListEqual(policy_doc.role_assumable_by_cross_account_principals, expected_policy)
