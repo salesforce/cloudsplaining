@@ -1,8 +1,9 @@
+import json
 import os
 import unittest
-import json
-from cloudsplaining.scan.role_details import RoleDetail
+
 from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
+from cloudsplaining.scan.role_details import RoleDetail
 
 example_authz_details_file = os.path.abspath(
     os.path.join(
@@ -22,7 +23,7 @@ class TestRoleDetail(unittest.TestCase):
         role_detail_json_input = auth_details_json["RoleDetailList"][2]
         policy_details = ManagedPolicyDetails(auth_details_json.get("Policies"))
 
-        role_detail = RoleDetail(role_detail_json_input, policy_details)
+        role_detail = RoleDetail(role_detail_json_input, policy_details, flag_trust_policies=True)
         expected_detail_policy_results_file = os.path.abspath(
             os.path.join(
                 os.path.dirname(__file__),

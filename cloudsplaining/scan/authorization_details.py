@@ -35,6 +35,7 @@ class AuthorizationDetails:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        flag_trust_policies: bool = False,
         severity: list[str] | None = None,
     ) -> None:
         """
@@ -53,6 +54,7 @@ class AuthorizationDetails:
         self.exclusions = exclusions
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.flag_trust_policies = flag_trust_policies
 
         self.policies = ManagedPolicyDetails(
             auth_json.get("Policies", []),
@@ -86,6 +88,7 @@ class AuthorizationDetails:
             exclusions,
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
+            flag_trust_policies=flag_trust_policies,
             severity=severity,
         )
 

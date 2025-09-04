@@ -43,6 +43,7 @@ class RoleDetailList:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        flag_trust_policies: bool = False,
         severity: list[str] | None = None,
     ) -> None:
         self.severity = [] if severity is None else severity
@@ -54,6 +55,7 @@ class RoleDetailList:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.flag_trust_policies = flag_trust_policies
         self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
             "users": {},
@@ -77,6 +79,7 @@ class RoleDetailList:
                         exclusions=exclusions,
                         flag_conditional_statements=self.flag_conditional_statements,
                         flag_resource_arn_statements=self.flag_resource_arn_statements,
+                        flag_trust_policies=flag_trust_policies,
                         severity=self.severity,
                     )
                 )
@@ -142,6 +145,7 @@ class RoleDetail:
         exclusions: Exclusions = DEFAULT_EXCLUSIONS,
         flag_conditional_statements: bool = False,
         flag_resource_arn_statements: bool = False,
+        flag_trust_policies: bool = False,
         severity: list[str] | None = None,
     ) -> None:
         """
@@ -170,6 +174,7 @@ class RoleDetail:
         # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
         self.flag_conditional_statements = flag_conditional_statements
         self.flag_resource_arn_statements = flag_resource_arn_statements
+        self.flag_trust_policies = flag_trust_policies
 
         self.iam_data: dict[str, dict[Any, Any]] = {
             "groups": {},
@@ -342,31 +347,37 @@ class RoleDetail:
             customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
             aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
             is_excluded=self.is_excluded,
-            AssumableByComputeServices={
-                "severity": ISSUE_SEVERITY["AssumableByComputeService"],
-                "description": RISK_DEFINITION["AssumableByComputeService"],
-                "findings": (
-                    self.assume_role_policy_document.role_assumable_by_compute_services
-                    if self.assume_role_policy_document
-                    and (
-                        ISSUE_SEVERITY["AssumableByComputeService"] in [x.lower() for x in self.severity]
-                        or not self.severity
-                    )
-                    else []
-                ),
-            },
-            AssumableByCrossAccountPrincipal={
-                "severity": ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"],
-                "description": RISK_DEFINITION["AssumableByCrossAccountPrincipal"],
-                "findings": (
-                    self.assume_role_policy_document.role_assumable_by_cross_account_principals
-                    if self.assume_role_policy_document
-                    and (
-                        ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"] in [x.lower() for x in self.severity]
-                        or not self.severity
-                    )
-                    else []
-                ),
-            },
         )
+
+        if self.flag_trust_policies:
+            this_role_detail.update(
+                {
+                    "AssumableByComputeServices": {
+                        "severity": ISSUE_SEVERITY["AssumableByComputeService"],
+                        "description": RISK_DEFINITION["AssumableByComputeService"],
+                        "findings": (
+                            self.assume_role_policy_document.role_assumable_by_compute_services
+                            if self.assume_role_policy_document
+                            and (
+                                ISSUE_SEVERITY["AssumableByComputeService"] in [x.lower() for x in self.severity]
+                                or not self.severity
+                            )
+                            else []
+                        ),
+                    },
+                    "AssumableByCrossAccountPrincipal": {
+                        "severity": ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"],
+                        "description": RISK_DEFINITION["AssumableByCrossAccountPrincipal"],
+                        "findings": (
+                            self.assume_role_policy_document.role_assumable_by_cross_account_principals
+                            if self.assume_role_policy_document
+                            and (
+                                ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"] in [x.lower() for x in self.severity]
+                                or not self.severity
+                            )
+                            else []
+                        ),
+                    },
+                }
+            )
         return this_role_detail
