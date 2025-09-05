@@ -256,6 +256,15 @@ class TestAssumeRole(unittest.TestCase):
         )
         self.assertListEqual(AssumeRoleStatement(statement_specific).role_assumable_by_any_principal, [])
 
+        # Wildcard principal with conditions (should return empty)
+        statement_with_conditions = dict(
+            Effect="Allow",
+            Principal="*",
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+        )
+        self.assertListEqual(AssumeRoleStatement(statement_with_conditions).role_assumable_by_any_principal, [])
+
         # Test AssumeRolePolicyDocument aggregation
         policy = {
             "Version": "2012-10-17",
@@ -271,3 +280,105 @@ class TestAssumeRole(unittest.TestCase):
         policy_doc = AssumeRolePolicyDocument(policy)
         expected_policy = ["*", "arn:aws:iam::*:root"]
         self.assertListEqual(policy_doc.role_assumable_by_any_principal, expected_policy)
+
+    def test_assume_role_assumable_by_any_principal_with_conditions(self):
+        """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_any_principal_with_conditions"""
+        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
+
+        # Test wildcard principal "*" with conditions
+        statement_wildcard_with_conditions = dict(
+            Effect="Allow",
+            Principal="*",
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+        )
+        assume_role_wildcard_conditions = AssumeRoleStatement(statement_wildcard_with_conditions)
+        self.assertListEqual(assume_role_wildcard_conditions.role_assumable_by_any_principal_with_conditions, ["*"])
+
+        # Test "arn:aws:iam::*:root" principal with conditions
+        statement_any_root_with_conditions = dict(
+            Effect="Allow",
+            Principal="arn:aws:iam::*:root",
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"sts:ExternalId": "unique-id"}},
+        )
+        assume_role_any_root_conditions = AssumeRoleStatement(statement_any_root_with_conditions)
+        self.assertListEqual(
+            assume_role_any_root_conditions.role_assumable_by_any_principal_with_conditions, ["arn:aws:iam::*:root"]
+        )
+
+        # Test both wildcard and any root with conditions
+        statement_both_with_conditions = dict(
+            Effect="Allow",
+            Principal={"AWS": ["*", "arn:aws:iam::*:root"]},
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"aws:RequestedRegion": "us-east-1"}},
+        )
+        assume_role_both_conditions = AssumeRoleStatement(statement_both_with_conditions)
+        self.assertListEqual(
+            assume_role_both_conditions.role_assumable_by_any_principal_with_conditions, ["*", "arn:aws:iam::*:root"]
+        )
+
+        # Test conditions that should return empty results
+        # No sts:AssumeRole action
+        statement_no_assume_role = dict(
+            Effect="Allow",
+            Principal="*",
+            Action=["s3:GetObject"],
+            Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+        )
+        self.assertListEqual(
+            AssumeRoleStatement(statement_no_assume_role).role_assumable_by_any_principal_with_conditions, []
+        )
+
+        # Deny effect
+        statement_deny = dict(
+            Effect="Deny",
+            Principal="*",
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+        )
+        self.assertListEqual(AssumeRoleStatement(statement_deny).role_assumable_by_any_principal_with_conditions, [])
+
+        # Wildcard principal without conditions (should return empty)
+        statement_no_conditions = dict(
+            Effect="Allow",
+            Principal="*",
+            Action=["sts:AssumeRole"],
+        )
+        self.assertListEqual(
+            AssumeRoleStatement(statement_no_conditions).role_assumable_by_any_principal_with_conditions, []
+        )
+
+        # Specific principals only (not wildcard) with conditions
+        statement_specific_with_conditions = dict(
+            Effect="Allow",
+            Principal={"AWS": "arn:aws:iam::123456789012:root"},
+            Action=["sts:AssumeRole"],
+            Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+        )
+        self.assertListEqual(
+            AssumeRoleStatement(statement_specific_with_conditions).role_assumable_by_any_principal_with_conditions, []
+        )
+
+        # Test AssumeRolePolicyDocument aggregation
+        policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": "sts:AssumeRole",
+                    "Condition": {"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+                },
+                {
+                    "Effect": "Allow",
+                    "Principal": {"AWS": "arn:aws:iam::*:root"},
+                    "Action": "sts:AssumeRole",
+                    "Condition": {"StringEquals": {"sts:ExternalId": "unique-id"}},
+                },
+            ],
+        }
+        policy_doc = AssumeRolePolicyDocument(policy)
+        expected_policy = ["*", "arn:aws:iam::*:root"]
+        self.assertListEqual(policy_doc.role_assumable_by_any_principal_with_conditions, expected_policy)

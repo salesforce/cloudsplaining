@@ -391,6 +391,20 @@ class RoleDetail:
                             else []
                         ),
                     },
+                    "AssumableByAnyPrincipalWithConditions": {
+                        "severity": ISSUE_SEVERITY["AssumableByAnyPrincipalWithConditions"],
+                        "description": RISK_DEFINITION["AssumableByAnyPrincipalWithConditions"],
+                        "findings": (
+                            self.assume_role_policy_document.role_assumable_by_any_principal_with_conditions
+                            if self.assume_role_policy_document
+                            and (
+                                ISSUE_SEVERITY["AssumableByAnyPrincipalWithConditions"]
+                                in [x.lower() for x in self.severity]
+                                or not self.severity
+                            )
+                            else []
+                        ),
+                    },
                 }
             )
         return this_role_detail

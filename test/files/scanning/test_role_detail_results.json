@@ -70,5 +70,10 @@
     "description": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') present a very high risk and should be remediated immediately.</p>",
     "findings": [],
     "severity": "high"
+  },
+  "AssumableByAnyPrincipalWithConditions": {
+    "description": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') but have conditions present can lead to unexpected outcomes. The conditions should be carefully reviewed to ensure they are not overly permissive.</p>",
+    "findings": [],
+    "severity": "medium"
   }
 }
