@@ -193,7 +193,9 @@ class RoleDetail:
                     # If we can't parse the account ID, continue without it
                     current_account_id = get_account_from_arn(self.arn)
 
-            self.assume_role_policy_document = AssumeRolePolicyDocument(assume_role_policy, current_account_id)
+            self.assume_role_policy_document = AssumeRolePolicyDocument(
+                assume_role_policy, current_account_id, exclusions
+            )
 
         # TODO: Create a class for InstanceProfileList
         self.instance_profile_list = role_detail.get("InstanceProfileList", [])
