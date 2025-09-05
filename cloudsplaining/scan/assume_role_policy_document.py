@@ -68,6 +68,15 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
                 any_principals.extend(statement.role_assumable_by_any_principal)
         return any_principals
 
+    @property
+    def role_assumable_by_any_principal_with_conditions(self) -> list[str]:
+        """Determines whether or not the role can be assumed by any principal (*) or any AWS account root with conditions."""
+        any_principals_with_conditions = []
+        for statement in self.statements:
+            if statement.role_assumable_by_any_principal_with_conditions:
+                any_principals_with_conditions.extend(statement.role_assumable_by_any_principal_with_conditions)
+        return any_principals_with_conditions
+
 
 class AssumeRoleStatement(ResourceStatement):
     """
@@ -150,6 +159,32 @@ class AssumeRoleStatement(ResourceStatement):
 
         # Effect must be Allow
         if self.effect.lower() != "allow":
+            return []
+
+        # Must have no conditions
+        if self.statement.get("Condition"):
+            return []
+
+        # Check if any principal is "*" or "arn:aws:iam::*:root"
+        any_principals = [
+            principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"
+        ]
+        return any_principals
+
+    @property
+    def role_assumable_by_any_principal_with_conditions(self) -> list[str]:
+        """Determines whether or not the role can be assumed by any principal (*) or any AWS account root with conditions."""
+        # sts:AssumeRole must be there
+        lowercase_actions = [x.lower() for x in self.actions]
+        if "sts:AssumeRole".lower() not in lowercase_actions:
+            return []
+
+        # Effect must be Allow
+        if self.effect.lower() != "allow":
+            return []
+
+        # Must have conditions (opposite of role_assumable_by_any_principal)
+        if not self.statement.get("Condition"):
             return []
 
         # Check if any principal is "*" or "arn:aws:iam::*:root"
