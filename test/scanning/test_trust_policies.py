@@ -1,6 +1,7 @@
 import unittest
 
-from cloudsplaining.scan.assume_role_policy_document import AssumeRoleStatement
+from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument, AssumeRoleStatement
+from cloudsplaining.shared.exclusions import Exclusions
 
 
 class TestAssumeRole(unittest.TestCase):
@@ -144,7 +145,6 @@ class TestAssumeRole(unittest.TestCase):
 
     def test_assume_role_assumable_by_cross_account_principals(self):
         """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_cross_account_principals"""
-        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 
         # Test basic cross-account detection with different principal types
         statement_cross_account = dict(
@@ -170,6 +170,34 @@ class TestAssumeRole(unittest.TestCase):
         assume_role_with_filtering = AssumeRoleStatement(statement_cross_account, current_account_id="123456789012")
         self.assertListEqual(
             assume_role_with_filtering.role_assumable_by_cross_account_principals,
+            ["arn:aws:iam::098765432109:role/testrole"],
+        )
+
+        # Test known accounts exclusions
+        exclusions_config = {"known-accounts": ["123456789012", "098765432109"]}
+        exclusions = Exclusions(exclusions_config)
+        assume_role_with_exclusions = AssumeRoleStatement(statement_cross_account, exclusions=exclusions)
+        # All accounts should be excluded since they're in the known-accounts list
+        self.assertListEqual(assume_role_with_exclusions.role_assumable_by_cross_account_principals, [])
+
+        # Test partial exclusions - only exclude one account
+        partial_exclusions_config = {"known-accounts": ["123456789012"]}
+        partial_exclusions = Exclusions(partial_exclusions_config)
+        assume_role_partial_exclusions = AssumeRoleStatement(statement_cross_account, exclusions=partial_exclusions)
+        # Only the principals from non-excluded accounts should remain
+        self.assertListEqual(
+            assume_role_partial_exclusions.role_assumable_by_cross_account_principals,
+            ["arn:aws:iam::098765432109:role/testrole"],
+        )
+
+        # Test exclusions with current account filtering combined
+        assume_role_combined_filtering = AssumeRoleStatement(
+            statement_cross_account, current_account_id="123456789012", exclusions=partial_exclusions
+        )
+        # Current account filtering should happen first, then exclusions applied
+        # Since 123456789012 is the current account AND in exclusions, 098765432109 should remain
+        self.assertListEqual(
+            assume_role_combined_filtering.role_assumable_by_cross_account_principals,
             ["arn:aws:iam::098765432109:role/testrole"],
         )
 
@@ -210,9 +238,17 @@ class TestAssumeRole(unittest.TestCase):
         expected_policy = ["arn:aws:iam::123456789012:root", "arn:aws:iam::098765432109:user/testuser"]
         self.assertListEqual(policy_doc.role_assumable_by_cross_account_principals, expected_policy)
 
+        # Test AssumeRolePolicyDocument with exclusions
+        partial_exclusions_config_doc = {"known-accounts": ["123456789012"]}
+        partial_exclusions_doc = Exclusions(partial_exclusions_config_doc)
+        policy_doc_with_exclusions = AssumeRolePolicyDocument(policy, exclusions=partial_exclusions_doc)
+        expected_policy_with_exclusions = ["arn:aws:iam::098765432109:user/testuser"]
+        self.assertListEqual(
+            policy_doc_with_exclusions.role_assumable_by_cross_account_principals, expected_policy_with_exclusions
+        )
+
     def test_assume_role_assumable_by_any_principal(self):
         """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_any_principal"""
-        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 
         # Test wildcard principal "*"
         statement_wildcard = dict(
@@ -283,7 +319,6 @@ class TestAssumeRole(unittest.TestCase):
 
     def test_assume_role_assumable_by_any_principal_with_conditions(self):
         """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_any_principal_with_conditions"""
-        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
 
         # Test wildcard principal "*" with conditions
         statement_wildcard_with_conditions = dict(

@@ -22,6 +22,7 @@ EXCLUSIONS_TEMPLATE_SCHEMA = Schema(
         Optional("groups"): [str],
         Optional("exclude-actions"): [str],
         Optional("include-actions"): [str],
+        Optional("known-accounts"): [str],
     }
 )
 

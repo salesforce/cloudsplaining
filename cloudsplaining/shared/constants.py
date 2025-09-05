@@ -54,6 +54,12 @@ include-actions:
 # Write actions to include from the results, such as kms:Decrypt
 exclude-actions:
   - ""
+# Known AWS Account IDs to exclude from assume role analysis.
+# Add your organization's account IDs and any thrid party vendor's
+# account IDs here to avoid false positives.
+# https://github.com/fwdcloudsec/known_aws_accounts/blob/main/accounts.yaml
+known-accounts:
+  - ""
 """
 
 MULTI_ACCOUNT_CONFIG_TEMPLATE = """accounts:
@@ -83,7 +89,7 @@ ISSUE_SEVERITY = {
     "CredentialsExposure": "high",
     "InfrastructureModification": "low",
     "AssumableByComputeService": "low",
-    "AssumableByCrossAccountPrincipal": "low",
+    "AssumableByCrossAccountPrincipal": "medium",
     "AssumableByAnyPrincipal": "high",
     "AssumableByAnyPrincipalWithConditions": "medium",
 }

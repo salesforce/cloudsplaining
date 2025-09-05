@@ -18,6 +18,10 @@ from cloudsplaining.scan.resource_policy_document import (
     ResourceStatement,
 )
 from cloudsplaining.shared.constants import SERVICE_PREFIXES_WITH_COMPUTE_ROLES
+from cloudsplaining.shared.exclusions import (
+    DEFAULT_EXCLUSIONS,
+    Exclusions,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -28,18 +32,24 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
     It is a specialized version of a Resource-based policy
     """
 
-    def __init__(self, policy: dict[str, Any], current_account_id: str | None = None) -> None:
+    def __init__(
+        self,
+        policy: dict[str, Any],
+        current_account_id: str | None = None,
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+    ) -> None:
         statement_structure = policy.get("Statement", [])
         self.policy = policy
         self.current_account_id = current_account_id
         # We would actually need to define a proper base class with a generic type for statements
         self.statements: list[AssumeRoleStatement] = []  # type:ignore[assignment]
+        self.exclusions = exclusions
         # leaving here but excluding from tests because IAM Policy grammar dictates that it must be a list
         if not isinstance(statement_structure, list):  # pragma: no cover
             statement_structure = [statement_structure]
 
         for statement in statement_structure:
-            self.statements.append(AssumeRoleStatement(statement, current_account_id))
+            self.statements.append(AssumeRoleStatement(statement, current_account_id, exclusions))
 
     @property
     def role_assumable_by_compute_services(self) -> list[str]:
@@ -83,9 +93,15 @@ class AssumeRoleStatement(ResourceStatement):
     Statements in an AssumeRole/Trust Policy document
     """
 
-    def __init__(self, statement: dict[str, Any], current_account_id: str | None = None) -> None:
+    def __init__(
+        self,
+        statement: dict[str, Any],
+        current_account_id: str | None = None,
+        exclusions: Exclusions = DEFAULT_EXCLUSIONS,
+    ) -> None:
         super().__init__(statement=statement)
         self.current_account_id = current_account_id
+        self.exclusions = exclusions
 
         # self.not_principal = statement.get("NotPrincipal")
         if statement.get("NotPrincipal"):
@@ -145,7 +161,10 @@ class AssumeRoleStatement(ResourceStatement):
                 with contextlib.suppress(Exception):
                     principal_account_id = get_account_from_arn(principal)
                     # Only include if it's from a different account (or if we don't know our current account)
-                    if self.current_account_id is None or principal_account_id != self.current_account_id:
+                    # and the account is not in the known-accounts exclusion list
+                    if (
+                        self.current_account_id is None or principal_account_id != self.current_account_id
+                    ) and principal_account_id not in self.exclusions.known_accounts:
                         other_account_principals.append(principal)
         return other_account_principals
 
