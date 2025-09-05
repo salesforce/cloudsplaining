@@ -62,8 +62,13 @@
     "severity": "low"
   },
   "AssumableByCrossAccountPrincipal": {
-    "description": "<p>Roles that can be assumed from other AWS accounts can present a greater risk than roles that can only be assumed within the same AWS account. This is especially true if the trusting account is not owned by your organization.</p>",
+    "description": "<p>IAM Roles that can be assumed from other AWS accounts can present a greater risk than roles that can only be assumed within the same AWS account. This is especially true if the trusting account is not owned by your organization.</p>",
     "findings": [],
     "severity": "low"
+  },
+  "AssumableByAnyPrincipal": {
+    "description": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') present a very high risk and should be remediated immediately.</p>",
+    "findings": [],
+    "severity": "high"
   }
 }

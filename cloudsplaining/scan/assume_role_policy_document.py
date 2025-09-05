@@ -59,6 +59,15 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
                 assumable_from_other_accounts.extend(statement.role_assumable_by_cross_account_principals)
         return assumable_from_other_accounts
 
+    @property
+    def role_assumable_by_any_principal(self) -> list[str]:
+        """Determines whether or not the role can be assumed by any principal (*) or any AWS account root."""
+        any_principals = []
+        for statement in self.statements:
+            if statement.role_assumable_by_any_principal:
+                any_principals.extend(statement.role_assumable_by_any_principal)
+        return any_principals
+
 
 class AssumeRoleStatement(ResourceStatement):
     """
@@ -130,3 +139,21 @@ class AssumeRoleStatement(ResourceStatement):
                     if self.current_account_id is None or principal_account_id != self.current_account_id:
                         other_account_principals.append(principal)
         return other_account_principals
+
+    @property
+    def role_assumable_by_any_principal(self) -> list[str]:
+        """Determines whether or not the role can be assumed by any principal (*) or any AWS account root."""
+        # sts:AssumeRole must be there
+        lowercase_actions = [x.lower() for x in self.actions]
+        if "sts:AssumeRole".lower() not in lowercase_actions:
+            return []
+
+        # Effect must be Allow
+        if self.effect.lower() != "allow":
+            return []
+
+        # Check if any principal is "*" or "arn:aws:iam::*:root"
+        any_principals = [
+            principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"
+        ]
+        return any_principals
