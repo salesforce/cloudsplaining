@@ -209,3 +209,65 @@ class TestAssumeRole(unittest.TestCase):
         policy_doc = AssumeRolePolicyDocument(policy)
         expected_policy = ["arn:aws:iam::123456789012:root", "arn:aws:iam::098765432109:user/testuser"]
         self.assertListEqual(policy_doc.role_assumable_by_cross_account_principals, expected_policy)
+
+    def test_assume_role_assumable_by_any_principal(self):
+        """scan.assume_role_policy_document.AssumeRoleStatement.role_assumable_by_any_principal"""
+        from cloudsplaining.scan.assume_role_policy_document import AssumeRolePolicyDocument
+
+        # Test wildcard principal "*"
+        statement_wildcard = dict(
+            Effect="Allow",
+            Principal="*",
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_wildcard = AssumeRoleStatement(statement_wildcard)
+        self.assertListEqual(assume_role_wildcard.role_assumable_by_any_principal, ["*"])
+
+        # Test "arn:aws:iam::*:root" principal
+        statement_any_root = dict(
+            Effect="Allow",
+            Principal="arn:aws:iam::*:root",
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_any_root = AssumeRoleStatement(statement_any_root)
+        self.assertListEqual(assume_role_any_root.role_assumable_by_any_principal, ["arn:aws:iam::*:root"])
+
+        # Test both wildcard and any root in the same statement
+        statement_both = dict(
+            Effect="Allow",
+            Principal={"AWS": ["*", "arn:aws:iam::*:root"]},
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_both = AssumeRoleStatement(statement_both)
+        self.assertListEqual(assume_role_both.role_assumable_by_any_principal, ["*", "arn:aws:iam::*:root"])
+
+        # Test conditions that should return empty results
+        # No sts:AssumeRole action
+        statement_no_assume_role = dict(Effect="Allow", Principal="*", Action=["s3:GetObject"])
+        self.assertListEqual(AssumeRoleStatement(statement_no_assume_role).role_assumable_by_any_principal, [])
+
+        # Deny effect
+        statement_deny = dict(Effect="Deny", Principal="*", Action=["sts:AssumeRole"])
+        self.assertListEqual(AssumeRoleStatement(statement_deny).role_assumable_by_any_principal, [])
+
+        # Specific principals only (not wildcard)
+        statement_specific = dict(
+            Effect="Allow", Principal={"AWS": "arn:aws:iam::123456789012:root"}, Action=["sts:AssumeRole"]
+        )
+        self.assertListEqual(AssumeRoleStatement(statement_specific).role_assumable_by_any_principal, [])
+
+        # Test AssumeRolePolicyDocument aggregation
+        policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {"Effect": "Allow", "Principal": "*", "Action": "sts:AssumeRole"},
+                {
+                    "Effect": "Allow",
+                    "Principal": {"AWS": "arn:aws:iam::*:root"},
+                    "Action": "sts:AssumeRole",
+                },
+            ],
+        }
+        policy_doc = AssumeRolePolicyDocument(policy)
+        expected_policy = ["*", "arn:aws:iam::*:root"]
+        self.assertListEqual(policy_doc.role_assumable_by_any_principal, expected_policy)
