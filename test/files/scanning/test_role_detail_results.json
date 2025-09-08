@@ -64,12 +64,12 @@
   "AssumableByCrossAccountPrincipal": {
     "description": "<p>IAM Roles that can be assumed from other AWS accounts can present a greater risk than roles that can only be assumed within the same AWS account. This is especially true if the trusting account is not owned by your organization.</p>",
     "findings": [],
-    "severity": "low"
+    "severity": "medium"
   },
   "AssumableByAnyPrincipal": {
     "description": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') present a very high risk and should be remediated immediately.</p>",
     "findings": [],
-    "severity": "high"
+    "severity": "critical"
   },
   "AssumableByAnyPrincipalWithConditions": {
     "description": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') but have conditions present can lead to unexpected outcomes. The conditions should be carefully reviewed to ensure they are not overly permissive.</p>",
