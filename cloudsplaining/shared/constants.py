@@ -90,7 +90,7 @@ ISSUE_SEVERITY = {
     "InfrastructureModification": "low",
     "AssumableByComputeService": "low",
     "AssumableByCrossAccountPrincipal": "medium",
-    "AssumableByAnyPrincipal": "high",
+    "AssumableByAnyPrincipal": "critical",
     "AssumableByAnyPrincipalWithConditions": "medium",
 }
 

@@ -6,11 +6,11 @@ repo_url: https://github.com/salesforce/cloudsplaining
 theme: material
 use_directory_urls: true
 markdown_extensions:
-    - codehilite
-    - tables
-    - admonition
-    - pymdownx.details
-    - pymdownx.superfences
+  - codehilite
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 plugins:
   - search
   - mkdocstrings:
@@ -22,45 +22,48 @@ plugins:
       watch:
         - cloudsplaining/
 nav:
-  - "<b>Home</b>": 'index.md'
+  - "<b>Home</b>": "index.md"
   - "<b>User Guide</b>":
-    - Introduction: 'user-guide/overview.md'
-    - Installation: 'user-guide/installation.md'
-    - Downloading Account IAM Details: 'user-guide/download.md'
-    - Creating an Exclusions File: 'user-guide/create-exclusions-file.md'
-    - Scanning a single AWS account: 'user-guide/scan-account.md'
-    - Scanning a single policy: 'user-guide/scan-policy-file.md'
-    - Scanning multiple AWS accounts: 'user-guide/scan-multiple-accounts.md'
-    - Troubleshooting: 'user-guide/troubleshooting.md'
+      - Introduction: "user-guide/overview.md"
+      - Installation: "user-guide/installation.md"
+      - Downloading Account IAM Details: "user-guide/download.md"
+      - Creating an Exclusions File: "user-guide/create-exclusions-file.md"
+      - Scanning a single AWS account: "user-guide/scan-account.md"
+      - Scanning a single policy: "user-guide/scan-policy-file.md"
+      - Scanning multiple AWS accounts: "user-guide/scan-multiple-accounts.md"
+      - Troubleshooting: "user-guide/troubleshooting.md"
 
   - "<b>Report Contents</b>":
-    - Overview: 'report/overview.md'
-    - Triage: 'report/triage.md'
-    - Remediation: 'report/remediation.md'
-    - Validation: 'report/validation.md'
+      - Overview: "report/overview.md"
+      - Triage: "report/triage.md"
+      - Remediation: "report/remediation.md"
+      - Validation: "report/validation.md"
 
   - "<b>Glossary</b>":
-    - Privilege Escalation: 'glossary/privilege-escalation.md'
-    - Resource Exposure: 'glossary/resource-exposure.md'
-    - Data Exfiltration: 'glossary/data-exfiltration.md'
-    - Credentials Exposure: 'glossary/credentials-exposure.md'
-    - Infrastructure Modification: 'glossary/infrastructure-modification.md'
-    - Service Wildcard: 'glossary/service-wildcard.md'
-    - Roles Assumable by Compute Service: 'glossary/roles-assumable-by-compute-service.md'
-    - Trust Policy: 'glossary/trust-policy.md'
+      - Privilege Escalation: "glossary/privilege-escalation.md"
+      - Resource Exposure: "glossary/resource-exposure.md"
+      - Data Exfiltration: "glossary/data-exfiltration.md"
+      - Credentials Exposure: "glossary/credentials-exposure.md"
+      - Infrastructure Modification: "glossary/infrastructure-modification.md"
+      - Service Wildcard: "glossary/service-wildcard.md"
+      - Roles Assumable by Any Principal: "glossary/roles-assumable-by-any-principal.md"
+      - Roles Assumable by Any Principal with Condition: "glossary/roles-assumable-by-any-principal-with-conditions.md"
+      - Roles Assumable by Compute Service: "glossary/roles-assumable-by-compute-service.md"
+      - Roles Assumable by Cross Account Principal: "glossary/roles-assumable-by-cross-account-principal.md"
+      - Trust Policy: "glossary/trust-policy.md"
 
   - "<b>Contributing</b>":
-    - Contributing: 'contributing/contributing.md'
-    - Documentation: 'contributing/documentation.md'
-    - JavaScript: 'contributing/javascript.md'
-    - Python: 'contributing/python.md'
-    - JSON Schema: 'contributing/results-json-schema.md'
-    - Release Drafter: 'contributing/release-drafter.md'
-    - Report Generation: 'contributing/report.md'
-    - Testing: 'contributing/testing.md'
-    - Versioning: 'contributing/versioning.md'
+      - Contributing: "contributing/contributing.md"
+      - Documentation: "contributing/documentation.md"
+      - JavaScript: "contributing/javascript.md"
+      - Python: "contributing/python.md"
+      - JSON Schema: "contributing/results-json-schema.md"
+      - Release Drafter: "contributing/release-drafter.md"
+      - Report Generation: "contributing/report.md"
+      - Testing: "contributing/testing.md"
+      - Versioning: "contributing/versioning.md"
 
   - "<b>Appendices</b>":
-    - FAQ: 'appendices/faq.md'
-    - Comparison to other tools: 'appendices/comparison-to-other-tools.md'
-    - Jira Ticket Automation: 'appendices/jira-ticket-automation.md'
+      - FAQ: "appendices/faq.md"
+      - Comparison to other tools: "appendices/comparison-to-other-tools.md"
+      - Jira Ticket Automation: "appendices/jira-ticket-automation.md"
