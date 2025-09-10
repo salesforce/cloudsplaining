@@ -28,6 +28,7 @@ class Exclusions:
         self.users = self._users()
         self.groups = self._groups()
         self.policies = self._policies()
+        self.known_accounts = self._known_accounts()
 
     def _roles(self) -> list[str]:
         provided_roles = self.config.get("roles", [])
@@ -64,6 +65,12 @@ class Exclusions:
         # Set to lowercase so subsequent evaluations are faster.
         always_exclude_actions = [x.lower() for x in exclude_actions]
         return always_exclude_actions
+
+    def _known_accounts(self) -> list[str]:
+        provided_known_accounts = self.config.get("known-accounts", [])
+        # Normalize for comparisons - remove empty strings
+        known_accounts = [account for account in provided_known_accounts if account.strip()]
+        return known_accounts
 
     def is_action_always_included(self, action_in_question: str) -> bool | str:
         """

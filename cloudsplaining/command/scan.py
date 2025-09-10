@@ -96,6 +96,14 @@ from cloudsplaining.shared.validation import check_authorization_details_schema
     multiple=True,
     type=click.Choice(["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"], case_sensitive=False),
 )
+@click.option(
+    "-t",
+    "--flag-trust-policies",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Flag risky trust policies in roles.",
+)
 def scan(
     input_file: str,
     exclusions_file: str,
@@ -105,6 +113,7 @@ def scan(
     flag_all_risky_actions: bool,
     verbosity: int,
     severity: list[str],
+    flag_trust_policies: bool,
 ) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -142,6 +151,7 @@ def scan(
             minimize=minimize,
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
+            flag_trust_policies=flag_trust_policies,
             severity=severity,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
@@ -207,6 +217,7 @@ def scan_account_authorization_details(
     return_json_results: Literal[True],
     flag_conditional_statements: bool = ...,
     flag_resource_arn_statements: bool = ...,
+    flag_trust_policies: bool = ...,
     severity: list[str] | None = ...,
 ) -> dict[str, Any]: ...
 
@@ -222,6 +233,7 @@ def scan_account_authorization_details(
     return_json_results: Literal[False] = ...,
     flag_conditional_statements: bool = ...,
     flag_resource_arn_statements: bool = ...,
+    flag_trust_policies: bool = ...,
     severity: list[str] | None = ...,
 ) -> str: ...
 
@@ -236,6 +248,7 @@ def scan_account_authorization_details(
     return_json_results: bool = False,
     flag_conditional_statements: bool = False,
     flag_resource_arn_statements: bool = False,
+    flag_trust_policies: bool = False,
     severity: list[str] | None = None,
 ) -> str | dict[str, Any]:  # pragma: no cover
     """
@@ -250,6 +263,7 @@ def scan_account_authorization_details(
         exclusions=exclusions,
         flag_conditional_statements=flag_conditional_statements,
         flag_resource_arn_statements=flag_resource_arn_statements,
+        flag_trust_policies=flag_trust_policies,
         severity=severity,
     )
     results = authorization_details.results
