@@ -32,10 +32,18 @@
     var account_name;
     var report_generated_time;
     var cloudsplaining_version;
+    var guidance_content;
+    var appendices_content;
+    var show_guidance_nav;
+    var show_appendices_nav;
     account_id = "{{ t.account_id }}";
     account_name = "{{ t.account_name }}";
     report_generated_time = "{{ t.report_generated_time }}";
     cloudsplaining_version = "{{ t.cloudsplaining_version }}";
+    show_guidance_nav = "{{ t.show_guidance_nav }}";
+    show_appendices_nav = "{{ t.show_appendices_nav }}";
+    guidance_content = "{{ t.guidance_content|safe if t.show_guidance_nav else '' }}";
+    appendices_content = "{{ t.appendices_content|safe if t.show_appendices_nav else '' }}";
 
     {{ t.results }}
 
