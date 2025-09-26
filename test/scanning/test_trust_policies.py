@@ -201,6 +201,36 @@ class TestAssumeRole(unittest.TestCase):
             ["arn:aws:iam::098765432109:role/testrole"],
         )
 
+        # Test bare account ID principals
+        statement_account_ids = dict(
+            Effect="Allow",
+            Principal={"AWS": ["123456789012", "210987654321"]},
+            Action=["sts:AssumeRole"],
+        )
+        assume_role_account_ids = AssumeRoleStatement(statement_account_ids)
+        self.assertListEqual(
+            assume_role_account_ids.role_assumable_by_cross_account_principals,
+            ["123456789012", "210987654321"],
+        )
+
+        # Test bare account ID filtering by current account
+        assume_role_account_ids_filtered = AssumeRoleStatement(statement_account_ids, current_account_id="123456789012")
+        self.assertListEqual(
+            assume_role_account_ids_filtered.role_assumable_by_cross_account_principals,
+            ["210987654321"],
+        )
+
+        # Test bare account ID filtering with exclusions
+        exclusions_account_ids_config = {"known-accounts": ["210987654321"]}
+        exclusions_account_ids = Exclusions(exclusions_account_ids_config)
+        assume_role_account_ids_exclusions = AssumeRoleStatement(
+            statement_account_ids, exclusions=exclusions_account_ids
+        )
+        self.assertListEqual(
+            assume_role_account_ids_exclusions.role_assumable_by_cross_account_principals,
+            ["123456789012"],
+        )
+
         # Test conditions that should return empty results
         # No sts:AssumeRole action
         statement_no_assume_role = dict(
@@ -232,14 +262,23 @@ class TestAssumeRole(unittest.TestCase):
                     "Principal": {"AWS": "arn:aws:iam::098765432109:user/testuser"},
                     "Action": "sts:AssumeRole",
                 },
+                {
+                    "Effect": "Allow",
+                    "Principal": {"AWS": "210987654321"},
+                    "Action": "sts:AssumeRole",
+                },
             ],
         }
         policy_doc = AssumeRolePolicyDocument(policy)
-        expected_policy = ["arn:aws:iam::123456789012:root", "arn:aws:iam::098765432109:user/testuser"]
+        expected_policy = [
+            "arn:aws:iam::123456789012:root",
+            "arn:aws:iam::098765432109:user/testuser",
+            "210987654321",
+        ]
         self.assertListEqual(policy_doc.role_assumable_by_cross_account_principals, expected_policy)
 
         # Test AssumeRolePolicyDocument with exclusions
-        partial_exclusions_config_doc = {"known-accounts": ["123456789012"]}
+        partial_exclusions_config_doc = {"known-accounts": ["123456789012", "210987654321"]}
         partial_exclusions_doc = Exclusions(partial_exclusions_config_doc)
         policy_doc_with_exclusions = AssumeRolePolicyDocument(policy, exclusions=partial_exclusions_doc)
         expected_policy_with_exclusions = ["arn:aws:iam::098765432109:user/testuser"]

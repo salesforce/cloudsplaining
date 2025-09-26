@@ -66,10 +66,10 @@ class Exclusions:
         always_exclude_actions = [x.lower() for x in exclude_actions]
         return always_exclude_actions
 
-    def _known_accounts(self) -> list[str]:
+    def _known_accounts(self) -> set[str]:
         provided_known_accounts = self.config.get("known-accounts", [])
         # Normalize for comparisons - remove empty strings
-        known_accounts = [account for account in provided_known_accounts if account.strip()]
+        known_accounts = {account for account in provided_known_accounts if account.strip()}
         return known_accounts
 
     def is_action_always_included(self, action_in_question: str) -> bool | str:
