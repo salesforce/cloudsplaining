@@ -1,5 +1,9 @@
 import unittest
-from cloudsplaining.shared.utils import remove_wildcard_only_actions, remove_read_level_actions
+from cloudsplaining.shared.utils import (
+    get_account_id_from_principal,
+    remove_read_level_actions,
+    remove_wildcard_only_actions,
+)
 
 
 class TestUtils(unittest.TestCase):
@@ -20,3 +24,11 @@ class TestUtils(unittest.TestCase):
         result = remove_read_level_actions(actions)
         expected_result = ["ecr:PutImage"]
         self.assertListEqual(result, expected_result)
+
+    def test_get_account_id_from_principal(self):
+        self.assertEqual(
+            get_account_id_from_principal("arn:aws:iam::123456789012:role/test"),
+            "123456789012",
+        )
+        self.assertEqual(get_account_id_from_principal(" 210987654321"), "210987654321")
+        self.assertIsNone(get_account_id_from_principal("invalid"))

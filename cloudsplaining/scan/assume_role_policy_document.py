@@ -7,11 +7,8 @@
 # or https://opensource.org/licenses/BSD-3-Clause
 from __future__ import annotations
 
-import contextlib
 import logging
 from typing import Any
-
-from policy_sentry.util.arns import get_account_from_arn
 
 from cloudsplaining.scan.resource_policy_document import (
     ResourcePolicyDocument,
@@ -22,6 +19,7 @@ from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
     Exclusions,
 )
+from cloudsplaining.shared.utils import get_account_id_from_principal
 
 logger = logging.getLogger(__name__)
 
@@ -158,19 +156,13 @@ class AssumeRoleStatement(ResourceStatement):
         if self.effect.lower() != "allow":
             return []
 
-        other_account_principals = []
-        for principal in self.principals:
-            # Check if this is an AWS IAM principal from another account
-            if principal.startswith("arn:aws:iam::"):
-                with contextlib.suppress(Exception):
-                    principal_account_id = get_account_from_arn(principal)
-                    # Only include if it's from a different account (or if we don't know our current account)
-                    # and the account is not in the known-accounts exclusion list
-                    if (
-                        self.current_account_id is None or principal_account_id != self.current_account_id
-                    ) and principal_account_id not in self.exclusions.known_accounts:
-                        other_account_principals.append(principal)
-        return other_account_principals
+        return [
+            principal
+            for principal in self.principals
+            if (principal_account_id := get_account_id_from_principal(principal))
+            and (self.current_account_id is None or principal_account_id != self.current_account_id)
+            and principal_account_id not in self.exclusions.known_accounts
+        ]
 
     @property
     def role_assumable_by_any_principal(self) -> list[str]:

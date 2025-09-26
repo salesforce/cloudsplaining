@@ -7,6 +7,7 @@
 # or https://opensource.org/licenses/BSD-3-Clause
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import os
@@ -20,6 +21,7 @@ from policy_sentry.querying.actions import (
     remove_actions_not_matching_access_level,
 )
 from policy_sentry.querying.all import get_all_service_prefixes
+from policy_sentry.util.arns import get_account_from_arn
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
@@ -169,3 +171,15 @@ def write_json_to_file(file: str, content: str) -> None:
         os.remove(file)
 
     Path(file).write_text(json.dumps(content, indent=4, default=str), encoding="utf-8")
+
+
+def get_account_id_from_principal(principal: str) -> str | None:
+    """Return the AWS account ID for a principal ARN or bare 12-digit account identifier."""
+    principal_stripped = principal.strip()
+    if principal_stripped.startswith("arn:aws:iam::"):
+        with contextlib.suppress(Exception):
+            return get_account_from_arn(principal_stripped)
+        return None
+    if principal_stripped.isdigit() and len(principal_stripped) == 12:
+        return principal_stripped
+    return None
