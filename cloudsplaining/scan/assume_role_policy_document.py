@@ -54,38 +54,42 @@ class AssumeRolePolicyDocument(ResourcePolicyDocument):
     @property
     def role_assumable_by_compute_services(self) -> list[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
-        assumable_by_compute_services = []
-        for statement in self.statements:
-            if statement.role_assumable_by_compute_services:
-                assumable_by_compute_services.extend(statement.role_assumable_by_compute_services)
-        return assumable_by_compute_services
+        return [
+            principal
+            for statement in self.statements
+            if statement.role_assumable_by_compute_services
+            for principal in statement.role_assumable_by_compute_services
+        ]
 
     @property
     def role_assumable_by_cross_account_principals(self) -> list[str]:
         """Determines whether or not the role can be assumed from principals in other accounts, and if so which ones."""
-        assumable_from_other_accounts = []
-        for statement in self.statements:
-            if statement.role_assumable_by_cross_account_principals:
-                assumable_from_other_accounts.extend(statement.role_assumable_by_cross_account_principals)
-        return assumable_from_other_accounts
+        return [
+            principal
+            for statement in self.statements
+            if statement.role_assumable_by_cross_account_principals
+            for principal in statement.role_assumable_by_cross_account_principals
+        ]
 
     @property
     def role_assumable_by_any_principal(self) -> list[str]:
         """Determines whether or not the role can be assumed by any principal (*) or any AWS account root."""
-        any_principals = []
-        for statement in self.statements:
-            if statement.role_assumable_by_any_principal:
-                any_principals.extend(statement.role_assumable_by_any_principal)
-        return any_principals
+        return [
+            principal
+            for statement in self.statements
+            if statement.role_assumable_by_any_principal
+            for principal in statement.role_assumable_by_any_principal
+        ]
 
     @property
     def role_assumable_by_any_principal_with_conditions(self) -> list[str]:
         """Determines whether or not the role can be assumed by any principal (*) or any AWS account root with conditions."""
-        any_principals_with_conditions = []
-        for statement in self.statements:
-            if statement.role_assumable_by_any_principal_with_conditions:
-                any_principals_with_conditions.extend(statement.role_assumable_by_any_principal_with_conditions)
-        return any_principals_with_conditions
+        return [
+            principal
+            for statement in self.statements
+            if statement.role_assumable_by_any_principal_with_conditions
+            for principal in statement.role_assumable_by_any_principal_with_conditions
+        ]
 
 
 class AssumeRoleStatement(ResourceStatement):

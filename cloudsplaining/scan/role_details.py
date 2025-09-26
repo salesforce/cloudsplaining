@@ -352,6 +352,7 @@ class RoleDetail:
         )
 
         if self.flag_trust_policies:
+            severities = {x.lower() for x in self.severity}
             this_role_detail.update(
                 {
                     "AssumableByComputeServices": {
@@ -360,10 +361,7 @@ class RoleDetail:
                         "findings": (
                             self.assume_role_policy_document.role_assumable_by_compute_services
                             if self.assume_role_policy_document
-                            and (
-                                ISSUE_SEVERITY["AssumableByComputeService"] in [x.lower() for x in self.severity]
-                                or not self.severity
-                            )
+                            and (ISSUE_SEVERITY["AssumableByComputeService"] in severities or not self.severity)
                             else []
                         ),
                     },
@@ -373,10 +371,7 @@ class RoleDetail:
                         "findings": (
                             self.assume_role_policy_document.role_assumable_by_cross_account_principals
                             if self.assume_role_policy_document
-                            and (
-                                ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"] in [x.lower() for x in self.severity]
-                                or not self.severity
-                            )
+                            and (ISSUE_SEVERITY["AssumableByCrossAccountPrincipal"] in severities or not self.severity)
                             else []
                         ),
                     },
@@ -386,10 +381,7 @@ class RoleDetail:
                         "findings": (
                             self.assume_role_policy_document.role_assumable_by_any_principal
                             if self.assume_role_policy_document
-                            and (
-                                ISSUE_SEVERITY["AssumableByAnyPrincipal"] in [x.lower() for x in self.severity]
-                                or not self.severity
-                            )
+                            and (ISSUE_SEVERITY["AssumableByAnyPrincipal"] in severities or not self.severity)
                             else []
                         ),
                     },
@@ -400,8 +392,7 @@ class RoleDetail:
                             self.assume_role_policy_document.role_assumable_by_any_principal_with_conditions
                             if self.assume_role_policy_document
                             and (
-                                ISSUE_SEVERITY["AssumableByAnyPrincipalWithConditions"]
-                                in [x.lower() for x in self.severity]
+                                ISSUE_SEVERITY["AssumableByAnyPrincipalWithConditions"] in severities
                                 or not self.severity
                             )
                             else []
