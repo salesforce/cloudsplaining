@@ -11,6 +11,7 @@ from typing import Any
 from jinja2 import Environment, FileSystemLoader
 
 from cloudsplaining.bin.version import __version__
+from cloudsplaining.shared.template_config import TemplateConfig
 
 app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "index.js")
 
@@ -30,6 +31,7 @@ class HTMLReport:
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
         self.minimize = minimize
         self.results = f"var iam_data = {json.dumps(results, default=str)}"
+        self.template_config = TemplateConfig()
 
     @property
     def app_bundle(self) -> str:
@@ -73,6 +75,10 @@ class HTMLReport:
             account_name=self.account_name,
             report_generated_time=str(self.report_generated_time),
             cloudsplaining_version=__version__,
+            guidance_content=self.template_config.guidance_content,
+            appendices_content=self.template_config.appendices_content,
+            show_guidance_nav=self.template_config.show_guidance_nav,
+            show_appendices_nav=self.template_config.show_appendices_nav,
         )
         template_path = os.path.dirname(__file__)
         env = Environment(loader=FileSystemLoader(template_path))  # noqa: S701
