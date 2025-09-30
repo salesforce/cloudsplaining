@@ -24,7 +24,7 @@ class TemplateConfig:
 
     def _get_custom_content(self, filename: str) -> str:
         """Get custom content from file or return default/empty"""
-        if not filename or '/' in filename or '\\' in filename or '..' in filename:
+        if not filename or "/" in filename or "\\" in filename or ".." in filename:
             return "default"
 
         if not os.path.exists(filename):
