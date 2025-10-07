@@ -34,19 +34,29 @@ const scrollStrategy = function (to, from, savedPosition) {
     return position;
 }
 
+const routes = [
+    {path: '/summary', component: Summary},
+    {path: '/customer-policies', component: CustomerPolicies},
+    {path: '/inline-policies', component: InlinePolicies},
+    {path: '/aws-policies', component: AwsPolicies},
+    {path: '/iam-principals', component: IamPrincipals},
+];
+
+if (typeof window !== 'undefined' && window.show_guidance_nav === "True") {
+    routes.push({path: '/guidance', component: Guidance});
+}
+
+if (typeof window !== 'undefined' && window.show_appendices_nav === "True") {
+    routes.push({path: '/appendices', component: Appendices});
+}
+
+routes.push(
+    {path: '/', redirect: '/summary'},
+    {path: '**', redirect: '/summary'}
+);
 
 export default new Router({
     mode: 'hash',
     scrollStrategy,
-    routes: [
-        {path: '/summary', component: Summary},
-        {path: '/customer-policies', component: CustomerPolicies},
-        {path: '/inline-policies', component: InlinePolicies},
-        {path: '/aws-policies', component: AwsPolicies},
-        {path: '/iam-principals', component: IamPrincipals},
-        {path: '/guidance', component: Guidance},
-        {path: '/appendices', component: Appendices},
-        {path: '/', redirect: '/summary'},
-        {path: '**', redirect: '/summary'}
-    ]
+    routes
 })

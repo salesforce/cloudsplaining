@@ -332,6 +332,47 @@ cloudsplaining scan-multi-account \
 
 > Note that if you run the above without the `--profile` flag, it will execute in the standard [AWS Credentials order of precedence](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html#credentials-default) (i.e., Environment variables, credentials profiles, ECS container credentials, then finally EC2 Instance Profile credentials). 
 
+## Custom Guidance and Appendices
+
+Cloudsplaining supports customizing the Guidance and Appendices sections of the HTML report to include organization-specific security recommendations and documentation.
+
+### How It Works
+
+Place HTML files in your project root directory:
+
+- `custom-guidance.html` - Custom security guidance content
+- `custom-appendices.html` - Custom appendices content
+
+### Behavior
+
+- **Files don't exist**: Shows default AWS security advice
+- **Files exist with content**: Shows your custom HTML content
+- **Files exist but are empty**: Hides the tabs entirely
+- **Mixed configuration**: Each tab works independently
+
+### Example Usage
+
+```bash
+# Create custom guidance
+echo '<h1>Company Security Guidelines</h1>
+<p>Follow these organization-specific steps:</p>
+<ul>
+  <li>Review with security team</li>
+  <li>Document in JIRA ticket</li>
+  <li>Get approval before remediation</li>
+</ul>' > custom-guidance.html
+
+# Create custom appendices  
+echo '<h1>Internal Resources</h1>
+<p>Additional company resources:</p>
+<ul>
+  <li><a href="https://internal.company.com/security">Security Portal</a></li>
+  <li><a href="https://wiki.company.com/iam">IAM Best Practices</a></li>
+</ul>' > custom-appendices.html
+```
+
+# Generate report with custom content
+cloudsplaining scan --input-file account-data.json --output reports/
 
 ## Cheatsheet
 
