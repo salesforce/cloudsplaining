@@ -28,7 +28,7 @@ PROJECT_URLS = {
     "Example Report": "https://opensource.salesforce.com/cloudsplaining",
     "Code": "https://github.com/salesforce/cloudsplaining/",
     "Twitter": "https://twitter.com/kmcquade3",
-    "Red Team Report": "https://opensource.salesforce.com/policy_sentry",
+    "Red Team Report": "https://github.com/salesforce/cloudsplaining/security/policy",
 }
 
 
