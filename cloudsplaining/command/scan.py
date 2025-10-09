@@ -104,6 +104,14 @@ from cloudsplaining.shared.validation import check_authorization_details_schema
     is_flag=True,
     help="Flag risky trust policies in roles.",
 )
+@click.option(
+    "-dRT",
+    "--disable-report-tabs",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Disable the Guidance and Appendices tabs in the report to reduce file size.",
+)
 def scan(
     input_file: str,
     exclusions_file: str,
@@ -114,6 +122,7 @@ def scan(
     verbosity: int,
     severity: list[str],
     flag_trust_policies: bool,
+    disable_report_tabs: bool,
 ) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -153,6 +162,7 @@ def scan(
             flag_resource_arn_statements=flag_resource_arn_statements,
             flag_trust_policies=flag_trust_policies,
             severity=severity,
+            disable_report_tabs=disable_report_tabs,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
         logger.info("Saving the report to %s", html_output_file)
@@ -186,6 +196,7 @@ def scan(
                 write_data_files=True,
                 minimize=minimize,
                 severity=severity,
+                disable_report_tabs=disable_report_tabs,
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
             logger.info("Saving the report to %s", html_output_file)
@@ -219,6 +230,7 @@ def scan_account_authorization_details(
     flag_resource_arn_statements: bool = ...,
     flag_trust_policies: bool = ...,
     severity: list[str] | None = ...,
+    disable_report_tabs: bool = ...,
 ) -> dict[str, Any]: ...
 
 
@@ -235,6 +247,7 @@ def scan_account_authorization_details(
     flag_resource_arn_statements: bool = ...,
     flag_trust_policies: bool = ...,
     severity: list[str] | None = ...,
+    disable_report_tabs: bool = ...,
 ) -> str: ...
 
 
@@ -250,6 +263,7 @@ def scan_account_authorization_details(
     flag_resource_arn_statements: bool = False,
     flag_trust_policies: bool = False,
     severity: list[str] | None = None,
+    disable_report_tabs: bool = False,
 ) -> str | dict[str, Any]:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -280,6 +294,7 @@ def scan_account_authorization_details(
         account_name=account_name,
         results=results,
         minimize=minimize,
+        disable_report_tabs=disable_report_tabs, # Passed to HTMLReport
     )
     rendered_report = html_report.get_html_report()
 

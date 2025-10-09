@@ -25,6 +25,7 @@ class HTMLReport:
         account_name: str,
         results: dict[str, dict[str, Any]],
         minimize: bool = False,
+        disable_report_tabs: bool = False,
     ) -> None:
         self.account_name = account_name
         self.account_id = account_id
@@ -32,6 +33,7 @@ class HTMLReport:
         self.minimize = minimize
         self.results = f"var iam_data = {json.dumps(results, default=str)}"
         self.template_config = TemplateConfig()
+        self.disable_report_tabs = disable_report_tabs
 
     @property
     def app_bundle(self) -> str:
@@ -65,6 +67,17 @@ class HTMLReport:
 
     def get_html_report(self) -> str:
         """Returns the rendered HTML report"""
+        if self.disable_report_tabs:
+            guidance_content = ""
+            appendices_content = ""
+            show_guidance_nav = False
+            show_appendices_nav = False
+        else:
+            guidance_content = self.template_config.guidance_content
+            appendices_content = self.template_config.appendices_content
+            show_guidance_nav = self.template_config.show_guidance_nav
+            show_appendices_nav = self.template_config.show_appendices_nav
+
         template_contents = dict(
             vendor_bundle_js=self.vendor_bundle,
             app_bundle_js=self.app_bundle,
@@ -75,10 +88,11 @@ class HTMLReport:
             account_name=self.account_name,
             report_generated_time=str(self.report_generated_time),
             cloudsplaining_version=__version__,
-            guidance_content=self.template_config.guidance_content,
-            appendices_content=self.template_config.appendices_content,
-            show_guidance_nav=self.template_config.show_guidance_nav,
-            show_appendices_nav=self.template_config.show_appendices_nav,
+            # USE THE NEW CONDITIONAL VARIABLES:
+            guidance_content=guidance_content,
+            appendices_content=appendices_content,
+            show_guidance_nav=show_guidance_nav,
+            show_appendices_nav=show_appendices_nav,
         )
         template_path = os.path.dirname(__file__)
         env = Environment(loader=FileSystemLoader(template_path))  # noqa: S701
