@@ -23,11 +23,16 @@
                     <!-- <b-nav-item to="/task-table">Task Table Demo</b-nav-item> -->
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
-                    <b-nav-text
-                        ><strong>Account ID:</strong> {{ account_id }} |
-                        <strong>Account Name:</strong>
-                        {{ account_name }}</b-nav-text
-                    >
+                    <!-- START NEW ADDITION: CSV Export Button -->
+                    <b-nav-item @click="exportToCSV" class="mr-2">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                </b-nav-item>
+                <!-- END NEW ADDITION -->
+                <b-nav-text
+                    ><strong>Account ID:</strong> {{ account_id }} |
+                    <strong>Account Name:</strong>
+                    {{ account_name }}</b-nav-text
+                >
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -171,6 +176,108 @@ export default {
         scrollFix: function (hashbang) {
             location.hash = hashbang;
         },
+        csvEscape(field) {
+            if (field == null) {
+                return '""';
+            }
+            // Convert to string and replace double quotes with two double quotes
+            let str = String(field);
+            str = str.replace(/"/g, '""'); 
+            // Always wrap in double quotes to handle commas, semicolons, and escaped double quotes
+            return `"${str}"`;
+        },
+        exportToCSV() {
+            // Headers requested in issue #186 for Privilege Escalation findings
+            const headers = [
+                "Account", 
+                "Principal Name", 
+                "Principal Type", 
+                "Policy Name(s)", 
+                "Policy Type", 
+                "Privesc Methods Identified"
+            ];
+            
+            // This array will hold the flattened data rows, starting with headers
+            let csvRows = [headers.map(h => this.csvEscape(h)).join(',')];
+            const accountId = this.account_id;
+            const data = this.iam_data;
+            
+            // Principal types to iterate through
+            const principalTypes = ["Roles", "Users", "Groups"];
+
+            principalTypes.forEach(principalType => {
+                // Determine singular type name for the CSV column (e.g., "Role" from "Roles")
+                const singularPrincipalType = principalType.slice(0, -1); 
+                const principals = data[principalType] || {};
+
+                for (const principalName in principals) {
+                    const principal = principals[principalName];
+                    
+                    // Check if this principal has any privilege escalation findings
+                    if (principal.findings.privilege_escalation && 
+                        principal.findings.privilege_escalation.methods_identified &&
+                        principal.findings.privilege_escalation.methods_identified.length > 0) {
+                        
+                        // Join methods with a semicolon to avoid conflicts with CSV commas
+                        const privescMethods = principal.findings.privilege_escalation.methods_identified.join('; ');
+                        const policies = principal.policies || {};
+                        
+                        let policyNames = [];
+                        let policyTypes = [];
+                        
+                        // Collect policy names and types
+                        for (const policyName in policies) {
+                            const policy = policies[policyName];
+                            policyNames.push(policyName);
+                            // Determine policy type (Inline vs Managed)
+                            if (policy.is_inline) {
+                                policyTypes.push("Inline");
+                            } else {
+                                policyTypes.push("Managed");
+                            }
+                        }
+                        
+                        // Deduplicate and join policy types
+                        const uniquePolicyTypes = [...new Set(policyTypes)].join('; ');
+
+                        // Build the row array
+                        const row = [
+                            accountId,
+                            principalName,
+                            singularPrincipalType, 
+                            policyNames.join('; '),
+                            uniquePolicyTypes,
+                            privescMethods
+                        ];
+                        
+                        // Join and escape all fields for the CSV row
+                        csvRows.push(row.map(field => this.csvEscape(field)).join(','));
+                    }
+                }
+            });
+
+            // Trigger the download of the CSV file
+            const csvContent = csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            
+            if (link.download !== undefined) { 
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                // Set the filename
+                link.setAttribute("download", `cloudsplaining-privesc-export-${Date.now()}.csv`);
+                
+                // Programmatically click the link to start the download
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                console.error("Browser does not support direct CSV download.");
+                alert("Your browser does not support downloading CSV files directly.");
+            }
+        },
+        // END NEW ADDITION
     },
     provide() {
         return {
