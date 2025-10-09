@@ -1,9 +1,9 @@
 # CI
-pre-commit==4.2.0
+pre-commit==4.3.0
 # Unit testing
-pytest==8.4.1
-coverage==7.10.1
+pytest==8.4.2
+coverage==7.10.7
 # type check
-mypy[faster-cache]==1.17.1
-boto3-stubs-lite[iam,s3,sts]==1.40.1
-types-PyYAML==6.0.12.20250516
+mypy[faster-cache]==1.18.2
+boto3-stubs-lite[iam,s3,sts]==1.40.49
+types-PyYAML==6.0.12.20250915
