@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: policy_sentry
+Version: 0.14.0
+Summary: Generate locked-down AWS IAM Policies
+Home-page: https://github.com/salesforce/policy_sentry
+Author: Kinnaird McQuade
+Author-email: kinnairdm@gmail.com
+Project-URL: Documentation, https://policy-sentry.readthedocs.io/
+Project-URL: Code, https://github.com/salesforce/policy_sentry/
+Project-URL: Twitter, https://twitter.com/kmcquade3
+Project-URL: Red Team Report, https://opensource.salesforce.com/policy_sentry
+Keywords: aws iam roles policy policies privileges security
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beautifulsoup4
+Requires-Dist: click
+Requires-Dist: requests
+Requires-Dist: schema
+Requires-Dist: PyYAML
+Requires-Dist: orjson

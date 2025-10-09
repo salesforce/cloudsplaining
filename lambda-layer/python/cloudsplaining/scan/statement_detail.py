@@ -1,0 +1,302 @@
+"""Abstracts evaluation of IAM Policy statements."""
+
+from __future__ import annotations
+
+import logging
+from typing import Any
+
+from cached_property import cached_property
+from policy_sentry.analysis.expand import determine_actions_to_expand
+from policy_sentry.querying.actions import (
+    get_actions_matching_arn,
+    remove_actions_not_matching_access_level,
+)
+from policy_sentry.querying.all import get_all_actions
+
+from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+from cloudsplaining.shared.utils import (
+    remove_read_level_actions,
+    remove_wildcard_only_actions,
+)
+
+# Copyright (c) 2020, salesforce.com, inc.
+# All rights reserved.
+# Licensed under the BSD 3-Clause license.
+# For full license text, see the LICENSE file in the repo root
+# or https://opensource.org/licenses/BSD-3-Clause
+logger = logging.getLogger(__name__)
+logging.getLogger("policy_sentry").setLevel(logging.WARNING)
+
+ALL_ACTIONS = get_all_actions()
+
+
+# pylint: disable=too-many-instance-attributes
+class StatementDetail:
+    """
+    Analyzes individual statements within a policy
+    """
+
+    def __init__(
+        self,
+        statement: dict[str, Any],
+        flag_conditional_statements: bool = False,
+        flag_resource_arn_statements: bool = False,
+    ) -> None:
+        self.json = statement
+        self.statement = statement
+        self.effect = statement["Effect"]
+        self.condition = statement.get("Condition")
+        self.resources = self._resources()
+        self.actions = self._actions()
+        self.not_action = self._not_action()
+
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        self.flag_conditional_statements = flag_conditional_statements
+        self.flag_resource_arn_statements = flag_resource_arn_statements
+
+        self.has_resource_wildcard = self._has_resource_wildcard()
+        self.not_action_effective_actions = self._not_action_effective_actions()
+        self.not_resource = self._not_resource()
+        self.has_condition = self._has_condition()
+
+        self.restrictable_actions = remove_wildcard_only_actions(self.expanded_actions)
+        self.unrestrictable_actions = list(set(self.expanded_actions or []) - set(self.restrictable_actions))
+        self.has_resource_constraints = self._has_resource_constraints()
+
+    def _actions(self) -> list[str]:
+        """Holds the actions in a statement"""
+        actions = self.statement.get("Action")
+        if not actions:
+            return []
+        if not isinstance(actions, list):
+            return [actions]
+        return actions
+
+    def _resources(self) -> list[str]:
+        """Holds the resource ARNs in a statement"""
+        resources = self.statement.get("Resource")
+        if not resources:
+            return []
+        # If it's a string, turn it into a list
+        if not isinstance(resources, list):
+            return [resources]
+        return resources
+
+    def _not_action(self) -> list[str]:
+        """Holds the NotAction details.
+        We won't do anything with it - but we will flag it as something for the assessor to triage.
+        """
+        not_action = self.statement.get("NotAction")
+        if not not_action:
+            return []
+        if not isinstance(not_action, list):
+            return [not_action]
+        return not_action
+
+    def _not_resource(self) -> list[str]:
+        """Holds the NotResource details.
+        We won't do anything with it - but we will flag it as something for the assessor to triage.
+        """
+        not_resource = self.statement.get("NotResource")
+        if not not_resource:
+            return []
+        if not isinstance(not_resource, list):
+            return [not_resource]
+        return not_resource
+
+    # @property
+    def _not_action_effective_actions(self) -> list[str] | None:
+        """If NotAction is used, calculate the allowed actions - i.e., what it would be"""
+        effective_actions = []
+        if not self.not_action:
+            return None
+
+        not_actions_expanded_lowercase = [a.lower() for a in determine_actions_to_expand(self.not_action)]
+
+        # Effect: Allow && Resource != "*"
+        if not self.has_resource_wildcard and self.effect_allow:
+            opposite_actions = []
+            for arn in self.resources:
+                actions_specific_to_arn = get_actions_matching_arn(arn)
+                if actions_specific_to_arn:
+                    opposite_actions.extend(actions_specific_to_arn)
+
+            effective_actions = [
+                opposite_action
+                for opposite_action in opposite_actions
+                # If it's in NotActions, then it is not an action we want
+                if opposite_action.lower() not in not_actions_expanded_lowercase
+            ]
+            effective_actions.sort()
+            return effective_actions
+
+        # Effect: Allow, Resource == "*", and Action == prefix:*
+        if self.has_resource_wildcard and self.effect_allow:
+            # Then we calculate the reverse using all_actions
+
+            # If it's in NotActions, then it is not an action we want
+            effective_actions = [
+                action for action in ALL_ACTIONS if action.lower() not in not_actions_expanded_lowercase
+            ]
+
+            effective_actions.sort()
+            return effective_actions
+
+        if self.has_resource_wildcard and self.effect_deny:
+            logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
+            return effective_actions
+
+        if not self.has_resource_wildcard and self.effect_deny:
+            logger.debug("NOTE: Haven't decided if we support Effect Deny here?")
+            return effective_actions
+        # only including this so Pylint doesn't yell at us
+        return None  # pragma: no cover
+
+    @property
+    def has_not_resource_with_allow(self) -> bool:
+        """Per the AWS documentation, the NotResource should NEVER be used with the Allow Effect.
+        See documentation here. https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_notresource.html#notresource-element-combinations
+        """
+        if self.not_resource and self.effect_allow:
+            logger.warning(
+                "Per the AWS documentation, the NotResource should never be used with the "
+                "Allow Effect. We suggest changing this ASAP"
+            )
+            return True
+        return False
+
+    @cached_property
+    def expanded_actions(self) -> list[str] | None:
+        """Expands the full list of allowed actions from the Policy/"""
+
+        if self.actions:
+            expanded: list[str] = determine_actions_to_expand(self.actions)
+            expanded.sort()
+            return expanded
+        elif self.not_action:
+            return self.not_action_effective_actions
+        else:
+            raise Exception(  # pragma: no cover
+                "The Policy should include either NotAction or Action in the statement."
+            )
+
+    @property
+    def effect_deny(self) -> bool:
+        """Check if the Effect of the Policy is 'Deny'"""
+        return bool(self.effect == "Deny")
+
+    @property
+    def effect_allow(self) -> bool:
+        """Check if the Effect of the Policy is 'Allow'"""
+        return bool(self.effect == "Allow")
+
+    @property
+    def services_in_use(self) -> list[str]:
+        """Get a list of the services in use by the statement."""
+        service_prefixes = set()
+        for action in self.expanded_actions:
+            service, _ = action.split(":")  # pylint: disable=unused-variable
+            service_prefixes.add(service)
+        return sorted(service_prefixes)
+
+    @property
+    def permissions_management_actions_without_constraints(self) -> list[str]:
+        """Where applicable, returns a list of 'Permissions management' IAM actions in the statement that
+        do not have resource constraints"""
+        result = []
+        if (not self.has_resource_constraints or self.flag_resource_arn_statements) and not self.has_condition:
+            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Permissions management")
+        result.sort()
+        return result
+
+    @property
+    def write_actions_without_constraints(self) -> list[str]:
+        """Where applicable, returns a list of 'Write' level IAM actions in the statement that
+        do not have resource constraints"""
+        result = []
+        if (not self.has_resource_constraints or self.flag_resource_arn_statements) and not self.has_condition:
+            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Write")
+        result.sort()
+        return result
+
+    @property
+    def tagging_actions_without_constraints(self) -> list[str]:
+        """Where applicable, returns a list of 'Tagging' level IAM actions in the statement that
+        do not have resource constraints"""
+        result = []
+        if not self.has_resource_constraints:
+            result = remove_actions_not_matching_access_level(self.restrictable_actions, "Tagging")
+        return result
+
+    def missing_resource_constraints(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
+        """Return a list of any actions - regardless of access level - allowed by the statement that do not leverage
+        resource constraints."""
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(  # pragma: no cover
+                "The provided exclusions is not the Exclusions object type. Please use the Exclusions object."
+            )
+        actions_missing_resource_constraints = []
+        if len(self.resources) == 1 and self.resources[0] == "*":  # noqa: SIM114
+            actions_missing_resource_constraints = self.restrictable_actions
+        # Fix #390 - if flag_resource_arn_statements is True, then let's treat this as missing resource constraints so we can flag the action anyway.
+        elif self.flag_resource_arn_statements:
+            actions_missing_resource_constraints = self.restrictable_actions
+
+        result = exclusions.get_allowed_actions(actions_missing_resource_constraints)
+        result.sort()
+        return result
+
+    def missing_resource_constraints_for_modify_actions(self, exclusions: Exclusions = DEFAULT_EXCLUSIONS) -> list[str]:
+        """
+        Determine whether or not any actions at the 'Write', 'Permissions management', or 'Tagging' access levels
+        are allowed by the statement without resource constraints.
+
+        :param exclusions: Exclusions object
+        """
+        if not isinstance(exclusions, Exclusions):
+            raise Exception(  # pragma: no cover
+                "The provided exclusions is not the Exclusions object type. Please use the Exclusions object."
+            )
+        # This initially includes read-only and modify level actions
+        always_look_for_actions = [x.lower() for x in exclusions.include_actions] if exclusions.include_actions else []
+
+        actions_missing_resource_constraints = self.missing_resource_constraints(exclusions)
+
+        always_actions_found = (
+            [action for action in actions_missing_resource_constraints if action.lower() in always_look_for_actions]
+            if always_look_for_actions
+            else []
+        )
+
+        modify_actions_missing_constraints = set()
+        modify_actions_missing_constraints.update(remove_read_level_actions(actions_missing_resource_constraints))
+        modify_actions_missing_constraints.update(always_actions_found)
+
+        return list(modify_actions_missing_constraints)
+
+    def _has_condition(self) -> bool:
+        # Fix Issue #254 - Allow flagging risky actions even when there are resource constraints
+        # This is kind of silly, but the easiest way to implement a fix. If we say "flag conditional statements",
+        # then let's just mark it as there is no condition, so we don't skip it in the evaluation.
+        # Due to how we have backwards compatibility set up, this will only flag if someone has
+        # "flag_conditional_statements" set to True, so none of the packages dependent on Cloudsplaining will break
+        # due to this change. Apologies for any confusion due to the hackyness.
+        if self.flag_conditional_statements:
+            return False
+        return bool(self.condition)
+
+    def _has_resource_wildcard(self) -> bool:
+        """Determine whether or not a wildcard is in the resources part."""
+        if len(self.resources) == 0:
+            # This is probably a NotResources situation which we do not support.
+            pass
+        if len(self.resources) == 1 and self.resources[0] == "*":
+            return True
+        elif len(self.resources) > 1:  # pragma: no cover
+            # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
+            return any(resource == "*" for resource in self.resources)
+        return False
+
+    def _has_resource_constraints(self) -> bool:
+        """Determine whether or not the statement has resource constraints."""
+        return not (self.has_resource_wildcard and self.restrictable_actions)

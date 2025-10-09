@@ -1,0 +1,513 @@
+# Many AWS IAM Actions from the Actions, Resources, and Condition Keys page are incorrect.
+# There is a systemic problem among some service teams where they will list some "Write" actions as "Tagging"
+autoscaling:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createautoscalinggroup
+acm-pca:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createcertificateauthority
+appmesh:
+    # AWS documentation lists this as "Write"
+    Tagging:
+        - tagresource
+        - untagresource
+apigateway:
+    # AWS documentation lists this as Write
+    Permissions management:
+        - updaterestapipolicy
+appsync:
+    # AWS documentation lists this as Tagging
+    Write:
+        - creategraphqlapi
+athena:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createworkgroup
+backup:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - deletebackupvaultaccesspolicy
+        - putbackupvaultaccesspolicy
+cloud9:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+cloudfront:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createdistributionwithtags
+        - createstreamingdistributionwithtags
+codecommit:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+chime:
+    Permissions management:
+        - deletevoiceconnectorterminationcredentials
+        - putvoiceconnectorterminationcredentials
+codebuild:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - deleteresourcepolicy
+        - putresourcepolicy
+        # GitHub credentials management
+        - deletesourcecredentials
+        - importsourcecredentials
+codepipeline:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createcustomactiontype
+        - createpipeline
+        - putwebhook
+cognito-identity:
+    Permissions management:
+        - setidentitypoolroles
+        - createidentitypool
+        - deleteidentities
+        - deleteidentitypool
+        - getid
+        - mergedeveloperidentities
+        - unlinkdeveloperidentity
+        - unlinkidentity
+        - updateidentitypool
+#connect:
+    # AWS documentation has these as "Read"
+#    Permissions management:
+#        - getfederationtoken # Allows federation into an instance when using SAML-based authentication for identity management.
+#        - getfederationtokens # Grants permissions to federate in to an Amazon Connect instance (Log in as administrator functionality in the AWS console).
+datasync:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+devicefarm:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - createproject
+ds:
+    Write:
+        - connectdirectory
+    # These were all previously "Tagging"
+    Permissions management:
+        - createdirectory
+        - createconditionalforwarder
+        - createidentitypooldirectory
+        - createmicrosoftad
+        - createtrust
+        - sharedirectory
+ec2:
+    Permissions management:
+        - resetsnapshotattribute
+        - createnetworkinterfacepermission
+        - deletenetworkinterfacepermission
+        - modifyvpcendpointservicepermissions
+ecr:
+    # AWS documentation lists this as Write
+    Permissions management:
+        - deleterepositorypolicy
+        - putregistrypolicy
+        - deleteregistrypolicy
+es:
+    Permissions management:
+        - createelasticsearchdomain
+        - updateelasticsearchdomainconfig
+
+elasticfilesystem:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - createfilesystem
+    # AWS docs list these as "Write"
+    Permissions management:
+        - putfilesystempolicy
+        - deletefilesystempolicy
+
+elasticmapreduce:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createeditor
+        - runjobflow
+events:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - putrule
+health:
+    # AWS documentation lists this as "Permissions management"
+    Read:
+        - describehealthservicestatusfororganization
+fsx:
+    Write:
+        - createbackup
+        - createfilesystem
+        - createfilesystemfrombackup
+firehose:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagdeliverystream
+        - tagdeliverystream
+glue:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresourcepolicy
+        - deleteresourcepolicy
+guardduty:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+# We treat IAM, RAM, and DS as Permissions Management
+iam:
+    Permissions management:
+        - addclientidtoopenidconnectprovider
+        - addroletoinstanceprofile
+        - addusertogroup
+        - changepassword
+        - createaccesskey
+        - createaccountalias
+        - creategroup
+        - createinstanceprofile
+        - createloginprofile
+        - createopenidconnectprovider
+        - createrole
+        - createsamlprovider
+        - createservicelinkedrole
+        - createservicespecificcredential
+        - createuser
+        - createvirtualmfadevice
+        - deactivatemfadevice
+        - deleteaccesskey
+        - deleteaccountalias
+        - deletegroup
+        - deleteinstanceprofile
+        - deleteloginprofile
+        - deleteopenidconnectprovider
+        - deleterole
+        - deletesamlprovider
+        - deletesshpublickey
+        - deleteservercertificate
+        - deleteservicelinkedrole
+        - deleteservicespecificcredential
+        - deletesigningcertificate
+        - deleteuser
+        - deletevirtualmfadevice
+        - enablemfadevice
+        - passrole
+        - removeclientidfromopenidconnectprovider
+        - removerolefrominstanceprofile
+        - removeuserfromgroup
+        - resetservicespecificcredential
+        - resyncmfadevice
+        - setsecuritytokenservicepreferences
+        - updateaccesskey
+        - updateaccountpasswordpolicy
+        - updategroup
+        - updateloginprofile
+        - updateopenidconnectproviderthumbprint
+        - updaterole
+        - updateroledescription
+        - updatesamlprovider
+        - updatesshpublickey
+        - updateservercertificate
+        - updateservicespecificcredential
+        - updatesigningcertificate
+        - updateuser
+        - uploadsshpublickey
+        - uploadservercertificate
+        - uploadsigningcertificate
+imagebuilder:
+    # AWS documentation lists this as "Permissions management"
+    Read:
+        - getimagepolicy
+        - getimagerecipepolicy
+        - getcomponentpolicy
+iot:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createbillinggroup
+        - createdynamicthinggroup
+        - createscheduledaudit
+        - createsecurityprofile
+        - createthinggroup
+        - createthingtype
+        - deletethinggroup
+        - deletethingtype
+iotthingsgraph:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createsysteminstance
+iot1click:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+iotsitewise:
+    # AWS documentation lists this as "Permissions management"
+    Read:
+        - describeaccesspolicy
+    # AWS documentation lists this as "Permissions management"
+    List:
+        - listaccesspolicies
+kms:
+    Write:
+        - createkey
+#    Permissions management:
+#        - createkey
+lambda:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+license-manager:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - createlicenseconfiguration
+lightsail:
+    Permissions management:
+#        - getinstanceaccessdetails # Returns temporary keys you can use to authenticate and connect to an instance.
+        - getrelationaldatabasemasteruserpassword # Returns the master user password of a relational database.
+    Write:
+        - createcloudformationstack
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+logs:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - tagloggroup
+        - untagloggroup
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresourcepolicy
+        - deleteresourcepolicy
+medialive:
+    # AWS Documentation lists these as "Tagging"
+    Write:
+        - createchannel
+        - createinput
+        - createinputsecuritygroup
+        - purchaseoffering
+mediapackage:
+    Permissions management:
+        - rotateingestendpointcredentials
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+mobiletargeting:
+    # AWS Documentation lists these as "Tagging"
+    Write:
+        - puteventstream
+        - putevents
+mq:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - createtags
+        - deletetags
+opsworks:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+quicksight:
+    Permissions management:
+        - createadmin
+        - creategroupmembership
+        - creategroup
+        - createiampolicyassignment
+        - createuser
+        - deleteiampolicyassignment
+        - deletegroupmembership
+        - deletegroup
+        - deleteuser
+        - deleteuserbyprincipalid
+        - registeruser
+        - updateuser
+        - updategroup
+        - updateiampolicyassignment
+        - updatedashboardpermissions
+        - updatetemplatepermissions
+        - updatedashboardpermissions
+ram:
+    # AWS documentation lists these as "Write"
+    Permissions management:
+        - acceptresourceshareinvitation
+        - associateresourceshare
+        - createresourceshare
+        - deleteresourceshare
+        - disassociateresourceshare
+        - enablesharingwithawsorganization
+        - rejectresourceshareinvitation
+        - updateresourceshare
+    Tagging:
+        - tagresource
+        - untagresource
+rds:
+    # these were all previously "Tagging"
+    Write:
+        - createdbcluster
+        - createdbclusterparametergroup
+        - createdbclustersnapshot
+        - createdbinstance
+        - createdbinstancereadreplica
+        - createdbparametergroup
+        - createdbsecuritygroup
+        - createdbsnapshot
+        - createdbsubnetgroup
+        - createeventsubscription
+        - createoptiongroup
+    Permissions management:
+        - modifydbsnapshotattribute
+        - modifydbclustersnapshotattribute
+redshift:
+    # AWS documentation lists this as "Permissions management"
+    Write:
+        - rotateencryptionkey
+        - authorizeclustersecuritygroupingress
+        - revokeclustersecuritygroupingress
+resource-groups:
+    Write:
+        - creategroup
+route53resolver:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresolverrulepolicy
+s3:
+    List:
+      - listmultipartuploadparts
+secretsmanager:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createsecret
+securityhub:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - untagresource
+        - tagresource
+ses:
+    Permissions management:
+        - putidentitypolicy
+        - deleteidentitypolicy
+sns:
+    Permissions management:
+        - settopicattributes
+        - createtopic
+sqs:
+    Permissions management:
+        - createqueue
+        - setqueueattributes
+        - addpermission
+ssm:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - putparameter
+        - putconfigurepackageresult
+        - createdocument
+        - createmaintenancewindow
+        - createpatchbaseline
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - modifydocumentpermission
+    List:
+        - listtagsforresource
+sso:
+    # These were listed as "Write", but should be "Permissions management due to the nature of this service
+    Permissions management:
+        - addmembertogroup
+        - associatedirectory
+        - associateprofile
+        - createalias
+        - createapplicationinstance
+        - createapplicationinstancecertificate
+        - creategroup
+        - createpermissionset
+        - createprofile
+        - createtrust
+        - createuser
+        - deleteapplicationinstance
+        - deleteapplicationinstancecertificate
+        - deletegroup
+        - deletepermissionset
+        - deletepermissionspolicy
+        - deleteprofile
+        - deleteuser
+        - disableuser
+        - disassociatedirectory
+        - disassociateprofile
+        - enableuser
+        - importapplicationinstanceserviceprovidermetadata
+        - putpermissionspolicy
+        - removememberfromgroup
+        - settemporarypassword
+        - startsso
+        - updateapplicationinstanceactivecertificate
+        - updateapplicationinstancedisplaydata
+        - updateapplicationinstanceresponseconfiguration
+        - updateapplicationinstanceresponseschemaconfiguration
+        - updateapplicationinstancesecurityconfiguration
+        - updateapplicationinstanceserviceproviderconfiguration
+        - updateapplicationinstancestatus
+        - updatedirectoryassociation
+        - updategroup
+        - updatepermissionset
+        - updateprofile
+        - updatessoconfiguration
+        - updatetrust
+        - updateuser
+sso-directory:
+    Permissions management:
+        - addmembertogroup
+        - createalias
+        - creategroup
+        - createuser
+        - deletegroup
+        - deleteuser
+        - disableuser
+        - enableuser
+        - removememberfromgroup
+        - updategroup
+        - updatepassword
+        - updateuser
+        - verifyemail
+states:
+    Write:
+        - createstatemachine
+        - createactivity
+storagegateway:
+    Permissions management:
+        - updatechapcredentials
+        - deletechapcredentials
+        - setlocalconsolepassword
+        - setsmbguestpassword
+waf:
+    # AWS documentation lists this one as "Permissions management"
+    Write:
+        - createwebacl
+        - deletewebacl
+        - updatewebacl
+waf-regional:
+    # AWS documentation lists this one as "Permissions management"
+    Write:
+        - createwebacl
+        - deletewebacl
+        - updatewebacl
+xray:
+    Read:
+        - getencryptionconfig
+worklink:
+    Permissions management:
+        - updatedevicepolicyconfiguration
+        - putmailboxpermissions
+        - deletemailboxpermissions
+
+workmail:
+    Permissions management:
+        - resetpassword
+        - resetuserpassword
+workspaces:
+    # AWS documentation lists these as "Write"
+    Tagging:
+        - deletetags

@@ -1,0 +1,286 @@
+# this is an overrides file, essentially the same as the other one.
+# the only difference is that we don't override some Permissions management actions like IAM or RAM
+# The only "Permissions management" actions should be those that can modify resource based policies.
+
+
+autoscaling:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createautoscalinggroup
+acm-pca:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createcertificateauthority
+apigateway:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - updaterestapipolicy
+appmesh:
+    # AWS documentation lists this as "Write"
+    Tagging:
+        - tagresource
+        - untagresource
+appsync:
+    # AWS documentation lists this as Tagging
+    Write:
+        - creategraphqlapi
+athena:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createworkgroup
+backup:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - deletebackupvaultaccesspolicy
+        - putbackupvaultaccesspolicy
+cloudfront:
+    # AWS documentation lists this as Tagging
+    Write:
+        - createdistributionwithtags
+        - createstreamingdistributionwithtags
+codebuild:
+    # AWS documentation lists this as "Write"
+    Write:
+        - deleteresourcepolicy
+        - putresourcepolicy
+codepipeline:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createcustomactiontype
+        - createpipeline
+        - putwebhook
+devicefarm:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - createproject
+ec2:
+    Permissions management:
+        - resetsnapshotattribute
+        - createnetworkinterfacepermission
+        - deletenetworkinterfacepermission
+        - modifyvpcendpointservicepermissions
+ecr:
+    # AWS documentation lists this as Write
+    Permissions management:
+        - deleterepositorypolicy
+elasticfilesystem:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - createfilesystem
+    # AWS docs list these as "Write"
+    Permissions management:
+        - putfilesystempolicy
+        - deletefilesystempolicy
+elasticmapreduce:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createeditor
+        - runjobflow
+es:
+    Permissions management:
+        - createelasticsearchdomain
+        - updateelasticsearchdomainconfig
+events:
+    # AWS documentation lists this as "Tagging"
+    Write:
+        - putrule
+glacier:
+    # AWS documentation lists this as "Permissions management".
+    # Although that is conceptually correct, this overrides file is singling out actions that correspond with resource based policies only.
+    Write:
+        - abortvaultlock
+        - completevaultlock
+        - initiatevaultlock
+glue:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresourcepolicy
+        - deleteresourcepolicy
+fsx:
+    Write:
+        - createbackup
+        - createfilesystem
+        - createfilesystemfrombackup
+iam:
+    # AWS Documentation lists the following actions as Permissions management.
+    # While this is correct and they **should not** change it to Write, this overrides file
+    # filters out IAM actions that do not deal with resource based policies specifically.
+    Write:
+        - attachuserpolicy
+        - createpolicy
+        - createpolicyversion
+        - deleteaccountpasswordpolicy
+        - deletegrouppolicy
+        - deletepolicy
+        - deletepolicyversion
+        - deleterolepermissionsboundary
+        - deleterolepolicy
+        - deleteuserpermissionsboundary
+        - deleteuserpolicy
+        - detachgrouppolicy
+        - detachrolepolicy
+        - detachuserpolicy
+        - putgrouppolicy
+        - putrolepermissionsboundary
+        - putrolepolicy
+        - putuserpermissionsboundary
+        - putuserpolicy
+        - setdefaultpolicyversion
+imagebuilder:
+    # AWS documentation lists this as "Permissions management"
+    Read:
+        - getimagepolicy
+        - getimagerecipepolicy
+# kms: We will keep kms grants here, as that is kind of a special case, where it could cause things to be exposed to the public, as it is an alternative to a resource policy.
+iot:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createbillinggroup
+        - createdynamicthinggroup
+        - createscheduledaudit
+        - createsecurityprofile
+        - createthinggroup
+        - createthingtype
+        - deletethinggroup
+        - deletethingtype
+iotsitewise:
+    # AWS documentation lists this as "Permissions management"
+    Read:
+        - describeaccesspolicy
+iotthingsgraph:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createsysteminstance
+license-manager:
+    Write:
+        # AWS documentation lists this as "Tagging"
+        - createlicenseconfiguration
+        # AWS documentation lists this as "Permissions management"
+        - updateservicesettings
+lightsail:
+    Write:
+        - createcloudformationstack
+logs:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresourcepolicy
+        - deleteresourcepolicy
+kms:
+    Permissions management:
+        - createkey
+medialive:
+    # AWS Documentation lists these as "Tagging"
+    Write:
+        - createchannel
+        - createinput
+        - createinputsecuritygroup
+        - purchaseoffering
+mobiletargeting:
+    # AWS Documentation lists these as "Tagging"
+    Write:
+        - puteventstream
+        - putevents
+quicksight:
+    Permissions management:
+        - createadmin
+        - creategroupmembership
+        - creategroup
+        - createiampolicyassignment
+        - createuser
+        - deleteiampolicyassignment
+        - deletegroupmembership
+        - deletegroup
+        - deleteuser
+        - deleteuserbyprincipalid
+        - registeruser
+        - updateuser
+        - updategroup
+        - updateiampolicyassignment
+        - updatedashboardpermissions
+        - updatetemplatepermissions
+        - updatedashboardpermissions
+
+ram:
+    Tagging:
+        - tagresource
+        - untagresource
+rds:
+    Write:
+        # these were all previously "Tagging"
+        - createdbcluster
+        - createdbclusterparametergroup
+        - createdbclustersnapshot
+        - createdbinstance
+        - createdbinstancereadreplica
+        - createdbparametergroup
+        - createdbsecuritygroup
+        - createdbsnapshot
+        - createdbsubnetgroup
+        - createeventsubscription
+        - createoptiongroup
+        # This one was listed as "Permissions management"
+        - authorizedbsecuritygroupingress
+rds-db:
+    # This one was listed as "Permissions management". While this is conceptually correct,
+    # and AWS **should not** change it, this overrides file is here specifically to call out resource-based policies
+    Write:
+    - connect
+resource-groups:
+    Write:
+        - creategroup
+route53resolver:
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - putresolverrulepolicy
+secretsmanager:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - createsecret
+ses:
+    Permissions management:
+        - putidentitypolicy
+        - deleteidentitypolicy
+sns:
+    Permissions management:
+        - settopicattributes
+        - createtopic
+sqs:
+    Permissions management:
+        - createqueue
+        - setqueueattributes
+        - addpermission
+ssm:
+    # AWS documentation lists these as "Tagging"
+    Write:
+        - putparameter
+        - putconfigurepackageresult
+        - createdocument
+        - createmaintenancewindow
+        - createpatchbaseline
+    # AWS documentation lists this as "Write"
+    Permissions management:
+        - modifydocumentpermission
+states:
+    Write:
+        - createstatemachine
+        - createactivity
+xray:
+    Read:
+        - getencryptionconfig
+waf:
+    # AWS documentation lists this one as "Permissions management"
+    Write:
+        - createwebacl
+        - deletewebacl
+        - updatewebacl
+waf-regional:
+    # AWS documentation lists this one as "Permissions management"
+    Write:
+        - createwebacl
+        - deletewebacl
+        - updatewebacl
+worklink:
+    Permissions management:
+        - updatedevicepolicyconfiguration
+        - putmailboxpermissions
+        - deletemailboxpermissions

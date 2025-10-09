@@ -1,0 +1,3 @@
+[console_scripts]
+cloudsplaining=cloudsplaining.bin.cli:main
+
