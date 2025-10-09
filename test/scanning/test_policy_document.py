@@ -1,7 +1,8 @@
 import unittest
 import json
-from cloudsplaining.scan.policy_document import PolicyDocument
+from cloudsplaining.scan.policy_document import PolicyDocument, merge_policy_documents
 from cloudsplaining.shared.exclusions import is_name_excluded, Exclusions
+
 
 
 class TestPolicyDocument(unittest.TestCase):
@@ -22,6 +23,12 @@ class TestPolicyDocument(unittest.TestCase):
         result = policy_document.json
         # That function returns the Policy as JSON
         self.assertEqual(result, test_policy)
+    def test_merge_policy_documents_combines_allow_and_deny(self):
+        p1 = PolicyDocument({"Statement": [{"Effect": "Allow", "Action": "iam:PassRole"}]})
+        p2 = PolicyDocument({"Statement": [{"Effect": "Allow", "Action": "ec2:RunInstances"}]})
+        merged = merge_policy_documents([p1, p2])
+        self.assertEqual(len(merged.document["Statement"]), 2)
+
 
     def test_policy_document_return_statement_results(self):
         test_policy = {

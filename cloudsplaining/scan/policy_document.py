@@ -6,6 +6,8 @@ aws iam get-account-authorization-details command."""
 # Licensed under the BSD 3-Clause license.
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
+# cloudsplaining/scan/policy_document.py
+from copy import deepcopy
 from __future__ import annotations
 
 import logging
@@ -63,6 +65,27 @@ class PolicyDocument:
                     flag_resource_arn_statements=self.flag_resource_arn_statements,
                 )
             )
+    
+
+def merge_policy_documents(policy_documents):
+    """
+    Merge multiple PolicyDocument objects into a single composite PolicyDocument.
+    Consolidates all 'Allow' and 'Deny' statements.
+    """
+    if not policy_documents:
+        return None
+
+    merged_data = {"Version": "2012-10-17", "Statement": []}
+
+    for policy in policy_documents:
+        doc = policy.document  # already parsed JSON dict
+        statements = doc.get("Statement", [])
+        if isinstance(statements, dict):
+            statements = [statements]
+        merged_data["Statement"].extend(deepcopy(statements))
+
+    return PolicyDocument(merged_data)
+
 
     @property
     def json(self) -> dict[str, Any]:
