@@ -25,11 +25,15 @@ class HTMLReport:
         account_name: str,
         results: dict[str, dict[str, Any]],
         minimize: bool = False,
+        # New argument to disable appendices in the HTML report:
+        disable_appendices: bool = False,
     ) -> None:
         self.account_name = account_name
         self.account_id = account_id
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
         self.minimize = minimize
+        # dependency injection of new argument to disable appendices in the HTML report:
+        self.disable_appendices = disable_appendices
         self.results = f"var iam_data = {json.dumps(results, default=str)}"
         self.template_config = TemplateConfig()
 
@@ -79,6 +83,8 @@ class HTMLReport:
             appendices_content=self.template_config.appendices_content,
             show_guidance_nav=self.template_config.show_guidance_nav,
             show_appendices_nav=self.template_config.show_appendices_nav,
+            # dependency injection of new argument to disable appendices in the HTML report:
+            disable_appendices=self.disable_appendices, 
         )
         template_path = os.path.dirname(__file__)
         env = Environment(loader=FileSystemLoader(template_path))  # noqa: S701
