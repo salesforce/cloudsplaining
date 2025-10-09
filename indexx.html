@@ -1,0 +1,46 @@
+<!-- Add this inside the nav tabs list -->
+<li class="nav-item">
+  <a class="nav-link" id="exclusions-tab" data-toggle="tab" href="#exclusions" role="tab">Exclusions</a>
+</li>
+
+<!-- Add this inside .tab-content -->
+<div class="tab-pane fade" id="exclusions" role="tabpanel" aria-labelledby="exclusions-tab">
+  <h2>Exclusions Configuration</h2>
+  <div id="exclusions-content">
+    <template v-if="data.exclusions">
+      <div v-if="data.exclusions.policies && data.exclusions.policies.length">
+        <h3>Policies</h3>
+        <ul>
+          <li v-for="p in data.exclusions.policies" :key="p">{{ p }}</li>
+        </ul>
+      </div>
+      <div v-if="data.exclusions.roles && data.exclusions.roles.length">
+        <h3>Roles</h3>
+        <ul>
+          <li v-for="r in data.exclusions.roles" :key="r">{{ r }}</li>
+        </ul>
+      </div>
+      <div v-if="data.exclusions.users && data.exclusions.users.length">
+        <h3>Users</h3>
+        <ul>
+          <li v-for="u in data.exclusions.users" :key="u">{{ u }}</li>
+        </ul>
+      </div>
+      <div v-if="data.exclusions['exclude-actions'] && data.exclusions['exclude-actions'].length">
+        <h3>Exclude Actions</h3>
+        <ul>
+          <li v-for="a in data.exclusions['exclude-actions']" :key="a">{{ a }}</li>
+        </ul>
+      </div>
+      <div v-if="data.exclusions['include-actions'] && data.exclusions['include-actions'].length">
+        <h3>Include Actions</h3>
+        <ul>
+          <li v-for="a in data.exclusions['include-actions']" :key="a">{{ a }}</li>
+        </ul>
+      </div>
+    </template>
+    <template v-else>
+      <p>No exclusions configured.</p>
+    </template>
+  </div>
+</div>
