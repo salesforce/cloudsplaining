@@ -6,6 +6,7 @@ import contextlib
 import json
 import logging
 from typing import TYPE_CHECKING, Any
+from cloudsplaining.scan.policy_document import PolicyDocument
 
 from policy_sentry.util.arns import get_account_from_arn
 
@@ -72,17 +73,33 @@ class RoleDetailList:
                     this_role_path,
                 )
             else:
-                self.roles.append(
-                    RoleDetail(
-                        role_detail,
-                        policy_details,
-                        exclusions=exclusions,
-                        flag_conditional_statements=self.flag_conditional_statements,
-                        flag_resource_arn_statements=self.flag_resource_arn_statements,
-                        flag_trust_policies=flag_trust_policies,
-                        severity=self.severity,
-                    )
+                # ✅ Define role_obj first
+                role_obj = RoleDetail(
+                    role_detail,
+                    policy_details,
+                    exclusions=exclusions,
+                    flag_conditional_statements=self.flag_conditional_statements,
+                    flag_resource_arn_statements=self.flag_resource_arn_statements,
+                    flag_trust_policies=flag_trust_policies,
+                    severity=self.severity,
                 )
+
+                # Append the role to the list
+                self.roles.append(role_obj)
+
+                # -----------------------------
+                # Composite Privilege Escalation Logic
+                # -----------------------------
+                policy_documents = [
+                    p.policy_document
+                    for p in getattr(role_obj, "attached_policies", []) + getattr(role_obj, "inline_policies", [])
+                ]
+
+                merged_doc = PolicyDocument.merge(policy_documents)
+                if merged_doc:
+                    composite_escalations = merged_doc.allows_privilege_escalation()
+                    role_obj.add_composite_escalations(composite_escalations)
+
 
     def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data

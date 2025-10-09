@@ -10,6 +10,9 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from cloudsplaining.shared.aws_principal import AWSPrincipal
+from cloudsplaining.scan.policy_document import PolicyDocument
+
 from policy_sentry.querying.actions import get_all_action_links
 from policy_sentry.querying.all import get_all_service_prefixes
 
@@ -18,6 +21,8 @@ from cloudsplaining.scan.managed_policy_detail import ManagedPolicyDetails
 from cloudsplaining.scan.role_details import RoleDetailList
 from cloudsplaining.scan.user_details import UserDetailList
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
+
+
 
 all_service_prefixes = get_all_service_prefixes()
 logger = logging.getLogger(__name__)
@@ -98,10 +103,26 @@ class AuthorizationDetails:
             "roles": self.role_detail_list.json,
         }
 
+
         self.policies.set_iam_data(iam_data)
         self.group_detail_list.set_iam_data(iam_data)
         self.user_detail_list.set_iam_data(iam_data)
         self.role_detail_list.set_iam_data(iam_data)
+        from cloudsplaining.scan.policy_document import PolicyDocument
+
+        for role_detail in self.role_details:
+            # Collect all policies (attached + inline)
+            policy_docs = [p.policy_document for p in role_detail.policies]
+            
+            # Merge them
+            merged_doc = PolicyDocument.merge(policy_docs)
+            
+            if merged_doc:
+                composite_escalations = merged_doc.allows_privilege_escalation()
+                role_detail.composite_privilege_escalation_paths = composite_escalations
+
+
+
 
     @property
     def inline_policies(self) -> dict[str, dict[str, Any]]:
