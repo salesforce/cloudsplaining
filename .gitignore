@@ -226,7 +226,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Temporary output folders for local testing
-test-simple/
-test-full/
