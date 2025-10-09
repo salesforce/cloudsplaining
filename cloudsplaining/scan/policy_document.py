@@ -66,25 +66,25 @@ class PolicyDocument:
                 )
             )
     
+    @staticmethod
+    def merge_policy_documents(policy_documents):
+        """
+        Merge multiple PolicyDocument objects into a single composite PolicyDocument.
+        Consolidates all 'Allow' and 'Deny' statements.
+        """
+        if not policy_documents:
+            return None
 
-def merge_policy_documents(policy_documents):
-    """
-    Merge multiple PolicyDocument objects into a single composite PolicyDocument.
-    Consolidates all 'Allow' and 'Deny' statements.
-    """
-    if not policy_documents:
-        return None
+        merged_data = {"Version": "2012-10-17", "Statement": []}
 
-    merged_data = {"Version": "2012-10-17", "Statement": []}
+        for policy in policy_documents:
+            doc = policy.document  # already parsed JSON dict
+            statements = doc.get("Statement", [])
+            if isinstance(statements, dict):
+                statements = [statements]
+            merged_data["Statement"].extend(deepcopy(statements))
 
-    for policy in policy_documents:
-        doc = policy.document  # already parsed JSON dict
-        statements = doc.get("Statement", [])
-        if isinstance(statements, dict):
-            statements = [statements]
-        merged_data["Statement"].extend(deepcopy(statements))
-
-    return PolicyDocument(merged_data)
+        return PolicyDocument(merged_data)
 
 
     @property
