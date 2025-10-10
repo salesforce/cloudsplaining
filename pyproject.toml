@@ -1,6 +1,8 @@
 [tool.mypy]
 files = "cloudsplaining"
 local_partial_types = true # will become the new default from version 2
+allow_redefinition_new = true # will become the new default from version 2
+fixed_format_cache = true # new caching mechanism
 strict = true
 pretty = true
 disallow_untyped_decorators = false
@@ -34,6 +36,7 @@ select = [
     "PIE",
     "PLE",
     "PLW",
+    "PYI",
     "RUF",
     "S",
     "SIM",
