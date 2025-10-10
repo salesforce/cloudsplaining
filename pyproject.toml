@@ -1,5 +1,7 @@
 [tool.mypy]
 files = "cloudsplaining"
+
+python_version = "3.9" # should be identical to the minimum supported version
 local_partial_types = true # will become the new default from version 2
 allow_redefinition_new = true # will become the new default from version 2
 fixed_format_cache = true # new caching mechanism
