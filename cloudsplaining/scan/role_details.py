@@ -106,9 +106,7 @@ class RoleDetailList:
     @property
     def role_names(self) -> list[str]:
         """Get a list of all role names in the account"""
-        results = [role_detail.role_name for role_detail in self.roles]
-        results.sort()
-        return results
+        return sorted(role_detail.role_name for role_detail in self.roles)
 
     @property
     def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
