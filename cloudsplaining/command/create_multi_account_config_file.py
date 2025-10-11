@@ -42,14 +42,16 @@ def create_multi_account_config_file(output_file: str, verbosity: int) -> None:
     """
     set_log_level(verbosity)
 
-    output_file = Path(output_file)
-    if output_file.exists():
-        logger.debug("%s exists. Removing the file and replacing its contents.", output_file)
-        output_file.unlink()
+    output_file_path = Path(output_file)
+    if output_file_path.exists():
+        logger.debug("%s exists. Removing the file and replacing its contents.", output_file_path)
+        output_file_path.unlink()
 
-    with output_file.open("a", encoding="utf-8") as file_obj:
+    with output_file_path.open("a", encoding="utf-8") as file_obj:
         file_obj.write(MULTI_ACCOUNT_CONFIG_TEMPLATE)
 
-    utils.print_green(f"Success! Multi-account config file written to: {output_file}")
-    print(f"\nMake sure you edit the {output_file} file and then run the scan-multi-account command, as shown below.")
-    print(f"\n\tcloudsplaining scan-multi-account --exclusions-file exclusions.yml -c {output_file} -o ./")
+    utils.print_green(f"Success! Multi-account config file written to: {output_file_path}")
+    print(
+        f"\nMake sure you edit the {output_file_path} file and then run the scan-multi-account command, as shown below."
+    )
+    print(f"\n\tcloudsplaining scan-multi-account --exclusions-file exclusions.yml -c {output_file_path} -o ./")

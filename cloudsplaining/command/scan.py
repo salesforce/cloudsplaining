@@ -139,16 +139,16 @@ def scan(
         flag_conditional_statements = False
         flag_resource_arn_statements = False
 
-    output = Path(output)
-    input_file = Path(input_file)
-    if input_file.is_file():
-        account_name = input_file.stem
-        account_authorization_details_cfg = json.loads(input_file.read_text(encoding="utf-8"))
+    output_path = Path(output)
+    input_file_path = Path(input_file)
+    if input_file_path.is_file():
+        account_name = input_file_path.stem
+        account_authorization_details_cfg = json.loads(input_file_path.read_text(encoding="utf-8"))
         rendered_html_report = scan_account_authorization_details(
             account_authorization_details_cfg,
             exclusions,
             account_name,
-            output,
+            output_path,
             write_data_files=True,
             minimize=minimize,
             flag_conditional_statements=flag_conditional_statements,
@@ -156,7 +156,7 @@ def scan(
             flag_trust_policies=flag_trust_policies,
             severity=severity,
         )
-        html_output_file = output / f"iam-report-{account_name}.html"
+        html_output_file = output_path / f"iam-report-{account_name}.html"
         logger.info("Saving the report to %s", html_output_file)
         if html_output_file.exists():
             html_output_file.unlink()
@@ -171,25 +171,25 @@ def scan(
             url = f"file://{html_output_file.absolute()}"
             webbrowser.open(url, new=2)
 
-    if input_file.is_dir():
+    if input_file_path.is_dir():
         logger.info("The path given is a directory. Scanning for account authorization files and generating report.")
-        input_files = get_authorization_files_in_directory(input_file)
+        input_files = get_authorization_files_in_directory(input_file_path)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
             account_authorization_details_cfg = json.loads(Path(file).read_text(encoding="utf-8"))
 
-            account_name = input_file.parent.stem
+            account_name = input_file_path.parent.stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
                 account_authorization_details_cfg,
                 exclusions,
                 account_name,
-                output,
+                output_path,
                 write_data_files=True,
                 minimize=minimize,
                 severity=severity,
             )
-            html_output_file = output / f"iam-report-{account_name}.html"
+            html_output_file = output_path / f"iam-report-{account_name}.html"
             logger.info("Saving the report to %s", html_output_file)
             if html_output_file.exists():
                 html_output_file.unlink()
