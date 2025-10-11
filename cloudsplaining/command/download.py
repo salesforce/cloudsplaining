@@ -62,12 +62,12 @@ def download(profile: str, output: str, include_non_default_policy_versions: boo
     default_region = "us-east-1"
     session_data = {"region_name": default_region}
 
-    output = Path(output)
+    output_path = Path(output)
     if profile:
         session_data["profile_name"] = profile
-        output_filename = output / f"{profile}.json"
+        output_filename = output_path / f"{profile}.json"
     else:
-        output_filename = output / "default.json"
+        output_filename = output_path / "default.json"
 
     results = get_account_authorization_details(session_data, include_non_default_policy_versions)
     with output_filename.open("w", encoding="utf-8") as f:

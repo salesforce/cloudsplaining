@@ -227,13 +227,13 @@ def scan_accounts(
                 utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
         if output_directory:
             # Write the HTML file
-            output_directory = Path(output_directory)
-            html_output_file = output_directory / f"{target_account_name}.html"
+            output_dir_path = Path(output_directory)
+            html_output_file = output_dir_path / f"{target_account_name}.html"
             utils.write_file(html_output_file, rendered_report)
             utils.print_green(f"Saved the HTML report to: {html_output_file}")
             # Write the JSON data file
             if write_data_file:
-                results_data_file = output_directory / f"{target_account_name}.json"
+                results_data_file = output_dir_path / f"{target_account_name}.json"
                 results_data_filepath = utils.write_results_data_file(results, results_data_file)
                 utils.print_green(f"Saved the JSON data to: {results_data_filepath}")
 

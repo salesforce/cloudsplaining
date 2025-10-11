@@ -119,7 +119,7 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: Path) -> str:
+def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: Path) -> Path:
     """
     Writes the raw data file containing all the results for an AWS account
 

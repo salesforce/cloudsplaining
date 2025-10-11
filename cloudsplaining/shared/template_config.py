@@ -26,12 +26,12 @@ class TemplateConfig:
         if not filename or "/" in filename or "\\" in filename or ".." in filename:
             return "default"
 
-        filename = Path(filename)
-        if not filename.exists():
+        file_path = Path(filename)
+        if not file_path.exists():
             return "default"
 
         try:
-            content = filename.read_text(encoding="utf-8").strip()
+            content = file_path.read_text(encoding="utf-8").strip()
             if content:
                 json_str = json.dumps(content)
                 return json_str[1:-1]
