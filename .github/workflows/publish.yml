@@ -64,8 +64,53 @@ jobs:
         with:
           password: ${{ secrets.PYPI_PASSWORD }}
 
+# New job to build and push the Docker image to Docker Hub
+  publish-docker:
+    needs: test # Ensure the package tests pass first
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Get all tags for versioning
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: salesforce/cloudsplaining
+          # Create tags like 'v0.9.1' and 'latest' for the primary version
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable=true
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          # Use the secrets that maintainers must create
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true # Push the image to Docker Hub
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64 # Publish multi-arch images (recommended)
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
   update-brew:
-    needs: publish-package
+    needs: 
+      - publish-package
+      - publish-docker
     runs-on: ubuntu-latest
     permissions:
       contents: write

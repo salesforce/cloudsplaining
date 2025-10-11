@@ -104,6 +104,14 @@ from cloudsplaining.shared.validation import check_authorization_details_schema
     is_flag=True,
     help="Flag risky trust policies in roles.",
 )
+@click.option(
+    "-dA",
+    "--disable-appendices",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Disable the Guidance and Appendices tabs in the HTML report.",
+)
 def scan(
     input_file: str,
     exclusions_file: str,
@@ -114,6 +122,8 @@ def scan(
     verbosity: int,
     severity: list[str],
     flag_trust_policies: bool,
+    # New argument to disable appendices in the HTML report:
+    disable_appendices: bool,
 ) -> None:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -152,6 +162,8 @@ def scan(
             flag_conditional_statements=flag_conditional_statements,
             flag_resource_arn_statements=flag_resource_arn_statements,
             flag_trust_policies=flag_trust_policies,
+            # Dependency injection of new argument to disable appendices in the HTML report:
+            disable_appendices=disable_appendices,
             severity=severity,
         )
         html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
@@ -185,6 +197,8 @@ def scan(
                 output,
                 write_data_files=True,
                 minimize=minimize,
+                # dependency injection of new argument to disable appendices in the HTML report:
+                disable_appendices=disable_appendices,
                 severity=severity,
             )
             html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
@@ -235,6 +249,8 @@ def scan_account_authorization_details(
     flag_resource_arn_statements: bool = ...,
     flag_trust_policies: bool = ...,
     severity: list[str] | None = ...,
+    # New argument to disable appendices in the HTML report:
+    disable_appendices: bool = ...,
 ) -> str: ...
 
 
@@ -250,6 +266,8 @@ def scan_account_authorization_details(
     flag_resource_arn_statements: bool = False,
     flag_trust_policies: bool = False,
     severity: list[str] | None = None,
+    # New argument to disable appendices in the HTML report:
+    disable_appendices: bool = False,
 ) -> str | dict[str, Any]:  # pragma: no cover
     """
     Given the path to account authorization details files and the exclusions config file, scan all inline and
@@ -280,6 +298,8 @@ def scan_account_authorization_details(
         account_name=account_name,
         results=results,
         minimize=minimize,
+        # dependency injection of new argument to disable appendices in the HTML report:
+        disable_appendices=disable_appendices,
     )
     rendered_report = html_report.get_html_report()
 
