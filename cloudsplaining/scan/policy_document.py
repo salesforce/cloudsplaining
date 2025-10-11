@@ -154,8 +154,11 @@ class PolicyDocument:
         """
         # if severity
         escalations = []
-        all_allowed_unrestricted_actions_lowercase = set(x.lower() for x in self.all_allowed_unrestricted_actions)
-        all_allowed_unrestricted_actions_lowercase.update([x.lower() for x in self.all_allowed_unrestrictable_actions])
+        all_allowed_unrestricted_actions_lowercase = [
+            x.lower()
+            for actions in (self.all_allowed_unrestricted_actions, self.all_allowed_unrestrictable_actions)
+            for x in actions
+        ]
         for escalation_type, actions in PRIVILEGE_ESCALATION_METHODS.items():
             if set(actions).issubset(all_allowed_unrestricted_actions_lowercase):
                 # if set(PRIVILEGE_ESCALATION_METHODS[key]).issubset(all_allowed_actions_lowercase):

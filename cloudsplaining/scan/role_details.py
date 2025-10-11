@@ -128,8 +128,7 @@ class RoleDetailList:
     @property
     def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {role.role_id: role.json for role in self.roles}
-        return result
+        return {role.role_id: role.json for role in self.roles}
 
 
 # pylint: disable=too-many-instance-attributes
@@ -292,22 +291,20 @@ class RoleDetail:
     @property
     def attached_customer_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if not is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def attached_aws_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
@@ -320,34 +317,32 @@ class RoleDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.json_large for policy in self.inline_policies}
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.policy_name for policy in self.inline_policies}
 
     @property
     def json(self) -> dict[str, Any]:
         """Return the JSON representation of the Role Detail"""
         assume_role_json = self.assume_role_policy_document.json if self.assume_role_policy_document else {}
-        this_role_detail = dict(
-            arn=self.arn,
-            assume_role_policy=dict(PolicyDocument=assume_role_json),
-            create_date=self.create_date,
-            role_last_used=self.role_last_used,
-            id=self.role_id,
-            name=self.role_name,
-            inline_policies=self.inline_policies_pointer_json,
-            instance_profiles=self.instance_profile_list,
-            instances_count=len(self.instance_profile_list),
-            path=self.path,
-            customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
-            aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded,
-        )
+        this_role_detail = {
+            "arn": self.arn,
+            "assume_role_policy": {"PolicyDocument": assume_role_json},
+            "create_date": self.create_date,
+            "role_last_used": self.role_last_used,
+            "id": self.role_id,
+            "name": self.role_name,
+            "inline_policies": self.inline_policies_pointer_json,
+            "instance_profiles": self.instance_profile_list,
+            "instances_count": len(self.instance_profile_list),
+            "path": self.path,
+            "customer_managed_policies": self.attached_customer_managed_policies_pointer_json,
+            "aws_managed_policies": self.attached_aws_managed_policies_pointer_json,
+            "is_excluded": self.is_excluded,
+        }
 
         if self.flag_trust_policies:
             severities = {x.lower() for x in self.severity}

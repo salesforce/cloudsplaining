@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
-import os
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
 import click
@@ -77,7 +77,7 @@ class MultiAccountConfig:
     help="A yaml file containing a list of policy names to exclude from the scan.",
     type=click.Path(exists=True),
     required=False,
-    default=EXCLUSIONS_FILE,
+    default=str(EXCLUSIONS_FILE),
 )
 @optgroup.group("Output Target Options", help="")
 @optgroup.option(
@@ -145,7 +145,7 @@ def scan_multi_account(
     set_log_level(verbosity)
 
     # Read the config file from the user
-    with open(config_file, encoding="utf-8") as yaml_file:
+    with Path(config_file).open(encoding="utf-8") as yaml_file:
         config = yaml.safe_load(yaml_file)
 
     if flag_all_risky_actions:
@@ -227,14 +227,15 @@ def scan_accounts(
                 utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
         if output_directory:
             # Write the HTML file
-            html_output_file = os.path.join(output_directory, f"{target_account_name}.html")
+            output_directory = Path(output_directory)
+            html_output_file = output_directory / f"{target_account_name}.html"
             utils.write_file(html_output_file, rendered_report)
-            utils.print_green(f"Saved the HTML report to: {os.path.relpath(html_output_file)}")
+            utils.print_green(f"Saved the HTML report to: {html_output_file}")
             # Write the JSON data file
             if write_data_file:
-                results_data_file = os.path.join(output_directory, f"{target_account_name}.json")
+                results_data_file = output_directory / f"{target_account_name}.json"
                 results_data_filepath = utils.write_results_data_file(results, results_data_file)
-                utils.print_green(f"Saved the JSON data to: {os.path.relpath(results_data_filepath)}")
+                utils.print_green(f"Saved the JSON data to: {results_data_filepath}")
 
 
 def scan_account(
@@ -262,8 +263,7 @@ def scan_account(
         flag_resource_arn_statements=flag_resource_arn_statements,
         flag_trust_policies=flag_trust_policies,
     )
-    results = authorization_details.results
-    return results
+    return authorization_details.results
 
 
 def download_account_authorization_details(
@@ -286,15 +286,14 @@ def download_account_authorization_details(
         "aws_session_token": aws_session_token,
     }
     include_non_default_policy_versions = False
-    authorization_details = get_account_authorization_details(session_data, include_non_default_policy_versions)
-    return authorization_details
+    return get_account_authorization_details(session_data, include_non_default_policy_versions)
 
 
 def get_exclusions(exclusions_file: str | None = None) -> Exclusions:
     """Get the exclusions configuration from a file"""
     # Get the exclusions configuration
     if exclusions_file:
-        with open(exclusions_file, encoding="utf-8") as yaml_file:
+        with Path(exclusions_file).open(encoding="utf-8") as yaml_file:
             try:
                 exclusions_cfg = yaml.safe_load(yaml_file)
             except yaml.YAMLError as exc:

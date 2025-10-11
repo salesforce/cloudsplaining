@@ -110,28 +110,24 @@ class ManagedPolicyDetails:
     @property
     def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {policy.policy_id: policy.json for policy in self.policy_details}
-        return result
+        return {policy.policy_id: policy.json for policy in self.policy_details}
 
     @property
     def json_large(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {policy.policy_id: policy.json_large for policy in self.policy_details}
-        return result
+        return {policy.policy_id: policy.json_large for policy in self.policy_details}
 
     @property
     def json_large_aws_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "AWS"}
-        return result
+        return {policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "AWS"}
 
     @property
     def json_large_customer_managed(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {
+        return {
             policy.policy_id: policy.json_large for policy in self.policy_details if policy.managed_by == "Customer"
         }
-        return result
 
     def set_iam_data(self, iam_data: dict[str, dict[Any, Any]]) -> None:
         self.iam_data = iam_data
@@ -229,16 +225,16 @@ class ManagedPolicy:
         """Determine whether the policy is AWS-Managed or Customer-managed based on a Policy ARN pattern."""
         if is_aws_managed(self.arn):
             return "AWS"
-        else:
-            return "Customer"
+
+        return "Customer"
 
     @property
     def account_id(self) -> str:  # pragma: no cover
         """Return the account ID"""
         if is_aws_managed(self.arn):
             return "N/A"
-        else:
-            return get_account_from_arn(self.arn)
+
+        return get_account_from_arn(self.arn)
 
     def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[Any, str]:  # noqa: N802
         links = {}
@@ -268,19 +264,19 @@ class ManagedPolicy:
     @property
     def json(self) -> dict[str, Any]:
         """Return JSON output for high risk actions"""
-        result = dict(
-            PolicyName=self.policy_name,
-            PolicyId=self.policy_id,
-            Arn=self.arn,
-            Path=self.path,
-            DefaultVersionId=self.default_version_id,
-            AttachmentCount=self.attachment_count,
-            AttachedTo=self.getAttached,
-            IsAttachable=self.is_attachable,
-            CreateDate=self.create_date,
-            UpdateDate=self.update_date,
-            PolicyVersionList=self.policy_version_list,
-            PrivilegeEscalation={
+        return {
+            "PolicyName": self.policy_name,
+            "PolicyId": self.policy_id,
+            "Arn": self.arn,
+            "Path": self.path,
+            "DefaultVersionId": self.default_version_id,
+            "AttachmentCount": self.attachment_count,
+            "AttachedTo": self.getAttached,
+            "IsAttachable": self.is_attachable,
+            "CreateDate": self.create_date,
+            "UpdateDate": self.update_date,
+            "PolicyVersionList": self.policy_version_list,
+            "PrivilegeEscalation": {
                 "severity": ISSUE_SEVERITY["PrivilegeEscalation"],
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
@@ -294,7 +290,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            DataExfiltration={
+            "DataExfiltration": {
                 "severity": ISSUE_SEVERITY["DataExfiltration"],
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
@@ -303,7 +299,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            ResourceExposure={
+            "ResourceExposure": {
                 "severity": ISSUE_SEVERITY["ResourceExposure"],
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
@@ -312,7 +308,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            ServiceWildcard={
+            "ServiceWildcard": {
                 "severity": ISSUE_SEVERITY["ServiceWildcard"],
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
@@ -321,7 +317,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            CredentialsExposure={
+            "CredentialsExposure": {
                 "severity": ISSUE_SEVERITY["CredentialsExposure"],
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
@@ -330,26 +326,25 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            is_excluded=self.is_excluded,
-        )
-        return result
+            "is_excluded": self.is_excluded,
+        }
 
     @property
     def json_large(self) -> dict[str, Any]:
         """Return JSON output - including Infra Modification actions, which can be large"""
-        result = dict(
-            PolicyName=self.policy_name,
-            PolicyId=self.policy_id,
-            Arn=self.arn,
-            Path=self.path,
-            DefaultVersionId=self.default_version_id,
-            AttachmentCount=self.attachment_count,
-            AttachedTo=self.getAttached,
-            IsAttachable=self.is_attachable,
-            CreateDate=self.create_date,
-            UpdateDate=self.update_date,
-            PolicyVersionList=self.policy_version_list,
-            PrivilegeEscalation={
+        return {
+            "PolicyName": self.policy_name,
+            "PolicyId": self.policy_id,
+            "Arn": self.arn,
+            "Path": self.path,
+            "DefaultVersionId": self.default_version_id,
+            "AttachmentCount": self.attachment_count,
+            "AttachedTo": self.getAttached,
+            "IsAttachable": self.is_attachable,
+            "CreateDate": self.create_date,
+            "UpdateDate": self.update_date,
+            "PolicyVersionList": self.policy_version_list,
+            "PrivilegeEscalation": {
                 "severity": ISSUE_SEVERITY["PrivilegeEscalation"],
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
@@ -363,7 +358,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            DataExfiltration={
+            "DataExfiltration": {
                 "severity": ISSUE_SEVERITY["DataExfiltration"],
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
@@ -372,7 +367,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            ResourceExposure={
+            "ResourceExposure": {
                 "severity": ISSUE_SEVERITY["ResourceExposure"],
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
@@ -381,7 +376,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            ServiceWildcard={
+            "ServiceWildcard": {
                 "severity": ISSUE_SEVERITY["ServiceWildcard"],
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
@@ -390,7 +385,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            CredentialsExposure={
+            "CredentialsExposure": {
                 "severity": ISSUE_SEVERITY["CredentialsExposure"],
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
@@ -399,7 +394,7 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            InfrastructureModification={
+            "InfrastructureModification": {
                 "severity": ISSUE_SEVERITY["InfrastructureModification"],
                 "description": RISK_DEFINITION["InfrastructureModification"],
                 "findings": (
@@ -409,6 +404,5 @@ class ManagedPolicy:
                     else []
                 ),
             },
-            is_excluded=self.is_excluded,
-        )
-        return result
+            "is_excluded": self.is_excluded,
+        }

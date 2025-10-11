@@ -1,7 +1,6 @@
 """Template configuration for custom guidance and appendices"""
 
 import json
-import os
 from pathlib import Path
 
 
@@ -27,15 +26,15 @@ class TemplateConfig:
         if not filename or "/" in filename or "\\" in filename or ".." in filename:
             return "default"
 
-        if not os.path.exists(filename):
+        filename = Path(filename)
+        if not filename.exists():
             return "default"
 
         try:
-            content = Path(filename).read_text(encoding="utf-8").strip()
+            content = filename.read_text(encoding="utf-8").strip()
             if content:
                 json_str = json.dumps(content)
-                result = json_str[1:-1]
-                return result
+                return json_str[1:-1]
             return ""
         except (OSError, UnicodeDecodeError):
             return ""

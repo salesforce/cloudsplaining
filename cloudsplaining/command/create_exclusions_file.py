@@ -9,7 +9,7 @@ This way, users don't have to remember exactly how to phrase the yaml files, sin
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 import logging
-import os
+from pathlib import Path
 
 import click
 
@@ -21,14 +21,14 @@ logger = logging.getLogger(__name__)
 
 
 @click.command(
-    context_settings=dict(max_content_width=160),
+    context_settings={"max_content_width": 160},
     short_help="Creates a YML file to be used as a custom exclusions template",
 )
 @click.option(
     "-o",
     "--output-file",
     type=click.Path(exists=False),
-    default=os.path.join(os.getcwd(), "exclusions.yml"),
+    default=str(Path.cwd() / "exclusions.yml"),
     required=True,
     help="Relative path to output file where we want to store the exclusions template.",
 )
@@ -40,7 +40,7 @@ def create_exclusions_file(output_file: str, verbosity: int) -> None:
     """
     set_log_level(verbosity)
 
-    with open(output_file, "a", encoding="utf-8") as file_obj:
+    with Path(output_file).open("a", encoding="utf-8") as file_obj:
         file_obj.write(EXCLUSIONS_TEMPLATE)
 
     utils.print_green(f"Success! Exclusions template file written to: {output_file}")

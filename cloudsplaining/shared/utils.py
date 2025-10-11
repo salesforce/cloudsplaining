@@ -10,7 +10,6 @@ from __future__ import annotations
 import contextlib
 import json
 import logging
-import os
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
@@ -83,8 +82,7 @@ def get_full_policy_path(arn: str) -> str:
     :param arn:
     :return:
     """
-    resource_string = arn.partition("/")[2]
-    return resource_string
+    return arn.partition("/")[2]
 
 
 def get_policy_name(arn: str) -> str:
@@ -97,8 +95,7 @@ def get_policy_name(arn: str) -> str:
         Output: ExampleRole
     :return:
     """
-    policy_name = arn.rpartition("/")[2]
-    return policy_name
+    return arn.rpartition("/")[2]
 
 
 def capitalize_first_character(some_string: str) -> str:
@@ -122,7 +119,7 @@ def is_aws_managed(arn: str) -> bool:
 
 
 # pragma: no cover
-def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: str) -> str:
+def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: Path) -> str:
     """
     Writes the raw data file containing all the results for an AWS account
 
@@ -131,7 +128,7 @@ def write_results_data_file(results: dict[str, dict[str, Any]], raw_data_file: s
     :return:
     """
     # Write the output to a results file if that was specified. Otherwise, just print to stdout
-    Path(raw_data_file).write_text(json.dumps(results, indent=4, default=str), encoding="utf-8")
+    raw_data_file.write_text(json.dumps(results, indent=4, default=str), encoding="utf-8")
     return raw_data_file
 
 
@@ -156,21 +153,22 @@ def print_grey(string: str) -> None:
     print(f"{GREY}{string}{END}")
 
 
-def write_file(file: str, content: str) -> None:
+def write_file(file: Path, content: str) -> None:
     """Write content to file"""
-    if os.path.exists(file):
+    if file.exists():
         logger.debug("%s exists. Removing the file and replacing its contents.", file)
-        os.remove(file)
-    Path(file).write_text(content, encoding="utf-8")
+        file.unlink()
+
+    file.write_text(content, encoding="utf-8")
 
 
-def write_json_to_file(file: str, content: str) -> None:
+def write_json_to_file(file: Path, content: str) -> None:
     """Write JSON content to file"""
-    if os.path.exists(file):
+    if file.exists():
         logger.debug("%s exists. Removing the file and replacing its contents.", file)
-        os.remove(file)
+        file.unlink()
 
-    Path(file).write_text(json.dumps(content, indent=4, default=str), encoding="utf-8")
+    file.write_text(json.dumps(content, indent=4, default=str), encoding="utf-8")
 
 
 def get_account_id_from_principal(principal: str) -> str | None:

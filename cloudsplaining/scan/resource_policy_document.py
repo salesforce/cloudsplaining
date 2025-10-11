@@ -203,11 +203,11 @@ class ResourceStatement:
 
         if category == "arn":
             return self._arn_internet_accessible(arn=condition_value)
-        elif category == "cidr":
+        if category == "cidr":
             return self._cidr_internet_accessible(cidr=condition_value)
-        elif category == "organization":
+        if category == "organization":
             return self._organization_internet_accessible(org=condition_value)
-        elif category == "userid":
+        if category == "userid":
             return self._userid_internet_accessible(userid=condition_value)
 
         return "*" in condition_value

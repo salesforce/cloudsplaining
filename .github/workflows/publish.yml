@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  MIN_PYTHON_VERSION: "3.9"
+  MIN_PYTHON_VERSION: "3.10"
 
 jobs:
   test:

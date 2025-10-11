@@ -110,8 +110,7 @@ class UserDetailList:
     @property
     def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {user.user_id: user.json for user in self.users}
-        return result
+        return {user.user_id: user.json for user in self.users}
 
 
 # pylint: disable=too-many-instance-attributes,unused-argument
@@ -249,34 +248,30 @@ class UserDetail:
     @property
     def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
-        policies = {policy.policy_id: policy.json for policy in self.attached_managed_policies}
-        return policies
+        return {policy.policy_id: policy.json for policy in self.attached_managed_policies}
 
     @property
     def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return JSON representation of attached managed policies - but just with pointers to the Policy ID"""
-        policies = {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
-        return policies
+        return {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
 
     @property
     def attached_customer_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if not is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def attached_aws_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
@@ -289,38 +284,34 @@ class UserDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.json_large for policy in self.inline_policies}
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.policy_name for policy in self.inline_policies}
 
     @property
     def groups_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of group object"""
-        these_groups = {
+        return {
             group.group_name: group.json  # TODO: Change this to a group pointer?
             for group in self.groups
         }
-        return these_groups
 
     @property
     def json(self) -> dict[str, Any]:
         """Return the JSON representation of the User Detail"""
 
-        this_user_detail = dict(
-            arn=self.arn,
-            create_date=self.create_date,
-            id=self.user_id,
-            name=self.user_name,
-            inline_policies=self.inline_policies_pointer_json,
-            groups=self.groups_json,
-            path=self.path,
-            customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
-            aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded,
-        )
-        return this_user_detail
+        return {
+            "arn": self.arn,
+            "create_date": self.create_date,
+            "id": self.user_id,
+            "name": self.user_name,
+            "inline_policies": self.inline_policies_pointer_json,
+            "groups": self.groups_json,
+            "path": self.path,
+            "customer_managed_policies": self.attached_customer_managed_policies_pointer_json,
+            "aws_managed_policies": self.attached_aws_managed_policies_pointer_json,
+            "is_excluded": self.is_excluded,
+        }

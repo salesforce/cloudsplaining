@@ -173,12 +173,12 @@ class StatementDetail:
             expanded: list[str] = determine_actions_to_expand(self.actions)
             expanded.sort()
             return expanded
-        elif self.not_action:
+        if self.not_action:
             return self.not_action_effective_actions
-        else:
-            raise Exception(  # pragma: no cover
-                "The Policy should include either NotAction or Action in the statement."
-            )
+
+        raise Exception(  # pragma: no cover
+            "The Policy should include either NotAction or Action in the statement."
+        )
 
     @property
     def effect_deny(self) -> bool:
@@ -292,7 +292,7 @@ class StatementDetail:
             pass
         if len(self.resources) == 1 and self.resources[0] == "*":
             return True
-        elif len(self.resources) > 1:  # pragma: no cover
+        if len(self.resources) > 1:  # pragma: no cover
             # It's possible that someone writes a bad policy that includes both a resource ARN as well as a wildcard.
             return any(resource == "*" for resource in self.resources)
         return False

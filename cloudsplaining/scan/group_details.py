@@ -89,9 +89,7 @@ class GroupDetailList:
     @property
     def group_names(self) -> list[str]:
         """Get a list of all group names in the account"""
-        results = [group_detail.group_name for group_detail in self.groups]
-        results.sort()
-        return results
+        return sorted(group_detail.group_name for group_detail in self.groups)
 
     @property
     def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
@@ -113,8 +111,7 @@ class GroupDetailList:
     @property
     def json(self) -> dict[str, dict[str, Any]]:
         """Get all JSON results"""
-        result = {group.group_id: group.json for group in self.groups}
-        return result
+        return {group.group_id: group.json for group in self.groups}
 
 
 # pylint: disable=too-many-instance-attributes
@@ -232,34 +229,30 @@ class GroupDetail:
     @property
     def attached_managed_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached managed policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.attached_managed_policies}
-        return policies
+        return {policy.policy_id: policy.json_large for policy in self.attached_managed_policies}
 
     @property
     def attached_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
-        return policies
+        return {policy.policy_id: policy.policy_name for policy in self.attached_managed_policies}
 
     @property
     def attached_customer_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if not is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def attached_aws_managed_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached managed policies so you can look it up in the policies section later."""
-        policies = {
+        return {
             policy.policy_id: policy.policy_name
             for policy in self.attached_managed_policies
             if is_aws_managed(policy.arn)
         }
-        return policies
 
     @property
     def all_infrastructure_modification_actions_by_inline_policies(self) -> list[str]:
@@ -272,27 +265,24 @@ class GroupDetail:
     @property
     def inline_policies_json(self) -> dict[str, dict[str, Any]]:
         """Return JSON representation of attached inline policies"""
-        policies = {policy.policy_id: policy.json_large for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.json_large for policy in self.inline_policies}
 
     @property
     def inline_policies_pointer_json(self) -> dict[str, str]:
         """Return metadata on attached inline policies so you can look it up in the policies section later."""
-        policies = {policy.policy_id: policy.policy_name for policy in self.inline_policies}
-        return policies
+        return {policy.policy_id: policy.policy_name for policy in self.inline_policies}
 
     @property
     def json(self) -> dict[str, Any]:
         """Return the JSON representation of the Group Detail"""
-        this_group_detail = dict(
-            arn=self.arn,
-            name=self.group_name,
-            create_date=self.create_date,
-            id=self.group_id,
-            inline_policies=self.inline_policies_pointer_json,
-            path=self.path,
-            customer_managed_policies=self.attached_customer_managed_policies_pointer_json,
-            aws_managed_policies=self.attached_aws_managed_policies_pointer_json,
-            is_excluded=self.is_excluded,
-        )
-        return this_group_detail
+        return {
+            "arn": self.arn,
+            "name": self.group_name,
+            "create_date": self.create_date,
+            "id": self.group_id,
+            "inline_policies": self.inline_policies_pointer_json,
+            "path": self.path,
+            "customer_managed_policies": self.attached_customer_managed_policies_pointer_json,
+            "aws_managed_policies": self.attached_aws_managed_policies_pointer_json,
+            "is_excluded": self.is_excluded,
+        }
