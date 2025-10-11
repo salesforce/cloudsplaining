@@ -84,14 +84,13 @@ class PolicyFinding:
         """Return a list of actions that could cause resource exposure via actions at the 'Permissions management'
         access level, if applicable."""
         if self.always_exclude_actions:
-            results = [
+            return [
                 action
                 for action in self.policy_document.permissions_management_without_constraints
                 if not is_name_excluded(action.lower(), self.always_exclude_actions)
             ]
-            return results
-        else:
-            return self.policy_document.permissions_management_without_constraints
+
+        return self.policy_document.permissions_management_without_constraints
 
     @property
     def privilege_escalation(self) -> list[dict[str, Any]]:
@@ -101,14 +100,13 @@ class PolicyFinding:
     @property
     def data_exfiltration(self) -> list[str]:
         """Returns data exfiltration actions in the policy, if present"""
-        result = [
+        return [
             action
             for action in self.policy_document.allows_specific_actions_without_constraints(
                 READ_ONLY_DATA_EXFILTRATION_ACTIONS
             )
             if action.lower() not in self.exclusions.exclude_actions
         ]
-        return result
 
     @property
     def service_wildcard(self) -> list[str]:
@@ -119,20 +117,19 @@ class PolicyFinding:
     def credentials_exposure(self) -> list[str]:
         """Determine if the action returns credentials"""
         # https://gist.github.com/kmcquade/33860a617e651104d243c324ddf7992a
-        results = [
+        return [
             action
             for action in self.policy_document.allows_specific_actions_without_constraints(
                 ACTIONS_THAT_RETURN_CREDENTIALS
             )
             if action.lower() not in self.exclusions.exclude_actions
         ]
-        return results
 
     @property
     def results(self) -> dict[str, Any]:
         """Return the results as JSON"""
-        findings = dict(
-            ServiceWildcard={
+        return {
+            "ServiceWildcard": {
                 "severity": ISSUE_SEVERITY["ServiceWildcard"],
                 "description": RISK_DEFINITION["ServiceWildcard"],
                 "findings": (
@@ -141,8 +138,8 @@ class PolicyFinding:
                     else []
                 ),
             },
-            ServicesAffected=self.services_affected,
-            PrivilegeEscalation={
+            "ServicesAffected": self.services_affected,
+            "PrivilegeEscalation": {
                 "severity": ISSUE_SEVERITY["PrivilegeEscalation"],
                 "description": RISK_DEFINITION["PrivilegeEscalation"],
                 "findings": (
@@ -151,7 +148,7 @@ class PolicyFinding:
                     else []
                 ),
             },
-            DataExfiltration={
+            "DataExfiltration": {
                 "severity": ISSUE_SEVERITY["DataExfiltration"],
                 "description": RISK_DEFINITION["DataExfiltration"],
                 "findings": (
@@ -160,7 +157,7 @@ class PolicyFinding:
                     else []
                 ),
             },
-            ResourceExposure={
+            "ResourceExposure": {
                 "severity": ISSUE_SEVERITY["ResourceExposure"],
                 "description": RISK_DEFINITION["ResourceExposure"],
                 "findings": (
@@ -169,7 +166,7 @@ class PolicyFinding:
                     else []
                 ),
             },
-            CredentialsExposure={
+            "CredentialsExposure": {
                 "severity": ISSUE_SEVERITY["CredentialsExposure"],
                 "description": RISK_DEFINITION["CredentialsExposure"],
                 "findings": (
@@ -178,7 +175,7 @@ class PolicyFinding:
                     else []
                 ),
             },
-            InfrastructureModification={
+            "InfrastructureModification": {
                 "severity": ISSUE_SEVERITY["InfrastructureModification"],
                 "description": RISK_DEFINITION["InfrastructureModification"],
                 "findings": (
@@ -188,5 +185,4 @@ class PolicyFinding:
                     else []
                 ),
             },
-        )
-        return findings
+        }

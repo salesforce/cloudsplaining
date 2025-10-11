@@ -4,7 +4,7 @@ botocore==1.40.50
 # Speeds up IAM logic
 cached-property==2.0.1
 # Command line
-click==8.1.8 # 8.2+ needs Python 3.10+
+click==8.3.0
 click_option_group==0.5.9
 # Templating - required for exclusions YAML files and inserting content to HTML report
 jinja2==3.1.6

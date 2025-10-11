@@ -9,6 +9,7 @@ Expands the wildcards (*) on an IAM policy file so it is easier for a human to u
 # or https://opensource.org/licenses/BSD-3-Clause
 import json
 import logging
+from pathlib import Path
 
 import click
 from policy_sentry.analysis.expand import get_expanded_policy
@@ -33,7 +34,7 @@ def expand_policy(input_file: str, verbosity: int) -> None:
     """
     set_log_level(verbosity)
 
-    with open(input_file, encoding="utf-8") as json_file:
+    with Path(input_file).open(encoding="utf-8") as json_file:
         logger.debug(f"Opening {input_file}")
         data = json.load(json_file)
         policy = get_expanded_policy(data)

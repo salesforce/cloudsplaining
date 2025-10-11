@@ -47,14 +47,14 @@ from cloudsplaining.shared.validation import check_authorization_details_schema
     help="A yaml file containing a list of policy names to exclude from the scan.",
     type=click.Path(exists=True),
     required=False,
-    default=EXCLUSIONS_FILE,
+    default=str(EXCLUSIONS_FILE),
 )
 @click.option(
     "-o",
     "--output",
     required=False,
     type=click.Path(exists=True),
-    default=os.getcwd(),
+    default=os.getcwd(),  # noqa: PTH109
     help="Output directory.",
 )
 @click.option(
@@ -123,7 +123,7 @@ def scan(
 
     if exclusions_file:
         # Get the exclusions configuration
-        with open(exclusions_file, encoding="utf-8") as yaml_file:
+        with Path(exclusions_file).open(encoding="utf-8") as yaml_file:
             try:
                 exclusions_cfg = yaml.safe_load(yaml_file)
             except yaml.YAMLError as exc:
@@ -139,9 +139,11 @@ def scan(
         flag_conditional_statements = False
         flag_resource_arn_statements = False
 
-    if os.path.isfile(input_file):
-        account_name = os.path.basename(input_file).split(".")[0]
-        account_authorization_details_cfg = json.loads(Path(input_file).read_text(encoding="utf-8"))
+    output = Path(output)
+    input_file = Path(input_file)
+    if input_file.is_file():
+        account_name = input_file.stem
+        account_authorization_details_cfg = json.loads(input_file.read_text(encoding="utf-8"))
         rendered_html_report = scan_account_authorization_details(
             account_authorization_details_cfg,
             exclusions,
@@ -154,29 +156,29 @@ def scan(
             flag_trust_policies=flag_trust_policies,
             severity=severity,
         )
-        html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
+        html_output_file = output / f"iam-report-{account_name}.html"
         logger.info("Saving the report to %s", html_output_file)
-        if os.path.exists(html_output_file):
-            os.remove(html_output_file)
+        if html_output_file.exists():
+            html_output_file.unlink()
 
-        Path(html_output_file).write_text(rendered_html_report, encoding="utf-8")
+        html_output_file.write_text(rendered_html_report, encoding="utf-8")
 
         print(f"Wrote HTML results to: {html_output_file}")
 
         # Open the report by default
         if not skip_open_report:
             print("Opening the HTML report")
-            url = f"file://{os.path.abspath(html_output_file)}"
+            url = f"file://{html_output_file.absolute()}"
             webbrowser.open(url, new=2)
 
-    if os.path.isdir(input_file):
+    if input_file.is_dir():
         logger.info("The path given is a directory. Scanning for account authorization files and generating report.")
         input_files = get_authorization_files_in_directory(input_file)
         for file in input_files:
             logger.info(f"Scanning file: {file}")
             account_authorization_details_cfg = json.loads(Path(file).read_text(encoding="utf-8"))
 
-            account_name = os.path.basename(input_file).split(".")[0]
+            account_name = input_file.parent.stem
             # Scan the Account Authorization Details config
             rendered_html_report = scan_account_authorization_details(
                 account_authorization_details_cfg,
@@ -187,19 +189,19 @@ def scan(
                 minimize=minimize,
                 severity=severity,
             )
-            html_output_file = os.path.join(output, f"iam-report-{account_name}.html")
+            html_output_file = output / f"iam-report-{account_name}.html"
             logger.info("Saving the report to %s", html_output_file)
-            if os.path.exists(html_output_file):
-                os.remove(html_output_file)
+            if html_output_file.exists():
+                html_output_file.unlink()
 
-            Path(html_output_file).write_text(rendered_html_report, encoding="utf-8")
+            html_output_file.write_text(rendered_html_report, encoding="utf-8")
 
             print(f"Wrote HTML results to: {html_output_file}")
 
             # Open the report by default
             if not skip_open_report:
                 print("Opening the HTML report")
-                url = f"file://{os.path.abspath(html_output_file)}"
+                url = f"file://{html_output_file.absolute()}"
                 webbrowser.open(url, new=2)
 
 
@@ -211,7 +213,7 @@ def scan_account_authorization_details(
     account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str,
-    output_directory: str,
+    output_directory: str | Path | None,
     write_data_files: bool,
     minimize: bool,
     return_json_results: Literal[True],
@@ -227,7 +229,7 @@ def scan_account_authorization_details(
     account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str = ...,
-    output_directory: str = ...,
+    output_directory: str | Path | None = ...,
     write_data_files: bool = ...,
     minimize: bool = ...,
     return_json_results: Literal[False] = ...,
@@ -242,7 +244,7 @@ def scan_account_authorization_details(
     account_authorization_details_cfg: dict[str, Any],
     exclusions: Exclusions,
     account_name: str = "default",
-    output_directory: str = os.getcwd(),
+    output_directory: str | Path | None = None,
     write_data_files: bool = False,
     minimize: bool = False,
     return_json_results: bool = False,
@@ -285,14 +287,13 @@ def scan_account_authorization_details(
 
     # Raw data file
     if write_data_files:
-        if output_directory is None:
-            output_directory = os.getcwd()
+        output_directory = Path(output_directory) if output_directory else Path.cwd()
 
-        results_data_file = os.path.join(output_directory, f"iam-results-{account_name}.json")
+        results_data_file = output_directory / f"iam-results-{account_name}.json"
         results_data_filepath = write_results_data_file(authorization_details.results, results_data_file)
         print(f"Results data saved: {results_data_filepath}")
 
-        findings_data_file = os.path.join(output_directory, f"iam-findings-{account_name}.json")
+        findings_data_file = output_directory / f"iam-findings-{account_name}.json"
         findings_data_filepath = write_results_data_file(results, findings_data_file)
         print(f"Findings data file saved: {findings_data_filepath}")
 
@@ -302,15 +303,15 @@ def scan_account_authorization_details(
             "iam_findings": results,
             "rendered_report": rendered_report,
         }
-    else:
-        return rendered_report
+
+    return rendered_report
 
 
 def get_authorization_files_in_directory(
-    directory: str,
+    directory: Path,
 ) -> list[str]:  # pragma: no cover
     """Get a list of download-account-authorization-files in a directory"""
-    file_list_with_full_path = [file.absolute() for file in Path(directory).glob("*.json")]
+    file_list_with_full_path = [file.absolute() for file in directory.glob("*.json")]
 
     new_file_list = []
     for file in file_list_with_full_path:

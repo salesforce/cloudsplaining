@@ -181,10 +181,7 @@ class AssumeRoleStatement(ResourceStatement):
             return []
 
         # Check if any principal is "*" or "arn:aws:iam::*:root"
-        any_principals = [
-            principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"
-        ]
-        return any_principals
+        return [principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"]
 
     @property
     def role_assumable_by_any_principal_with_conditions(self) -> list[str]:
@@ -203,7 +200,4 @@ class AssumeRoleStatement(ResourceStatement):
             return []
 
         # Check if any principal is "*" or "arn:aws:iam::*:root"
-        any_principals = [
-            principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"
-        ]
-        return any_principals
+        return [principal for principal in self.principals if principal == "*" or principal == "arn:aws:iam::*:root"]

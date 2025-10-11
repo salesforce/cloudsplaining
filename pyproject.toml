@@ -1,7 +1,7 @@
 [tool.mypy]
 files = "cloudsplaining"
 
-python_version = "3.9" # should be identical to the minimum supported version
+python_version = "3.10" # should be identical to the minimum supported version
 local_partial_types = true # will become the new default from version 2
 allow_redefinition_new = true # will become the new default from version 2
 fixed_format_cache = true # new caching mechanism
@@ -18,7 +18,7 @@ ignore_missing_imports = true
 
 [tool.ruff]
 line-length = 120
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 preview = true
@@ -27,18 +27,22 @@ select = [
     "ANN",
     "ARG",
     "B",
+    "C4",
     "E",
     "F",
     "FA",
     "FURB",
     "I",
     "ISC",
+    "LOG",
     "N",
     "PERF",
     "PIE",
     "PLE",
     "PLW",
+    "PTH",
     "PYI",
+    "RET",
     "RUF",
     "S",
     "SIM",

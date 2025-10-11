@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import sys
+from pathlib import Path
 from typing import Any, cast
 
 import click
@@ -38,7 +39,7 @@ END = "\033[0m"
     help="A yaml file containing a list of actions to ignore when scanning.",
     type=click.Path(exists=True),
     required=False,
-    default=EXCLUSIONS_FILE,
+    default=str(EXCLUSIONS_FILE),
 )
 @click.option(
     "--high-priority-only",
@@ -76,7 +77,7 @@ def scan_policy_file(
     set_log_level(verbosity)
     if input_file:
         # Get the Policy
-        with open(input_file, encoding="utf-8") as json_file:
+        with Path(input_file).open(encoding="utf-8") as json_file:
             logger.debug(f"Opening {input_file}")
             policy = json.load(json_file)
     # If a file is not provided, it should be supplied via STDIN
@@ -88,7 +89,7 @@ def scan_policy_file(
             sys.exit()
 
     # Get the exclusions configuration from the file
-    with open(exclusions_file, encoding="utf-8") as yaml_file:
+    with Path(exclusions_file).open(encoding="utf-8") as yaml_file:
         try:
             exclusions_cfg = yaml.safe_load(yaml_file)
         except yaml.YAMLError as exc:
