@@ -1,6 +1,6 @@
 -r requirements.txt
 # CI
-pre-commit==4.3.0
+prek==0.2.11
 # Unit testing
 pytest==8.4.2
 coverage==7.10.7
