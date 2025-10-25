@@ -8,8 +8,7 @@ We use Virtualenv for package management instead of Pipenv or Poetry. Makefile i
 ```bash
 # Set up the virtual environment
 python3 -m venv ./venv && source venv/bin/activate
-pip3 install -r requirements.txt
-pip3 install -r requirements-dev.txt
+uv sync --frozen
 ```
 
 
@@ -19,20 +18,13 @@ pip3 install -r requirements-dev.txt
   
 ```bash
 # Set up your local development environment
-make setup-dev
+make setup-env
 
-# Auto format the python code with `black`
-make fmt
-
-# Lint the code 
-make lint
+# Auto format and lint the python code with `ruff`
+prek run -a
 
 # Run unit tests with pytest
 make test
-
-# Run `bandit` and `safety check` for security tests
-make security-test
-
 ```
 
 * Javascript/UI commands

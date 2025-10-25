@@ -9,24 +9,15 @@ on:
 permissions:
   contents: read
 
-env:
-  MIN_PYTHON_VERSION: "3.10"
-
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-
-      - name: Setup python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
         with:
-          python-version-file: '.python-version'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          activate-environment: true
+      - run: uv sync --frozen
 
       - name: Update the JavaScript bundle
         run: |

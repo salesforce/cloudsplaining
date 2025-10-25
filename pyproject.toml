@@ -1,3 +1,74 @@
+[project]
+name = "cloudsplaining"
+version = "0.8.3"
+description = "AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report"
+authors = [
+    { name = "Kinnaird McQuade", email = "kinnairdm@gmail.com" }
+]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["aws", "iam", "roles", "policy", "policies", "privileges", "security"]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed"
+]
+readme = "README.md"
+
+requires-python = ">=3.10"
+
+dependencies = [
+    "boto3>=1.40.0,<2.0.0",
+    "botocore>=1.40.0,<2.0.0",
+    "cached-property>=2.0.0,<3.0.0",
+    "click>=8.1.0,<9.0.0",
+    "click_option_group>=0.5.9,<0.6.0",
+    "jinja2>=3.1.0,<4.0.0",
+    "markdown>=3.9,<4.0",
+    "policy_sentry>=0.14.0,<0.15",
+    "pyyaml>=6.0.0,<7.0.0",
+    "schema>=0.7.0,<0.8.0",
+]
+
+[project.scripts]
+cloudsplaining = "cloudsplaining.bin.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/salesforce/cloudsplaining"
+Repository = "https://github.com/salesforce/cloudsplaining"
+Code = "https://github.com/salesforce/cloudsplaining"
+Documentation = "https://cloudsplaining.readthedocs.io/"
+"Example Report" = "https://opensource.salesforce.com/cloudsplaining"
+"Red Team Report" = "https://opensource.salesforce.com/policy_sentry"
+Twitter = "https://twitter.com/kmcquade3"
+
+[dependency-groups]
+dev = [
+    "boto3-stubs-lite[iam,s3,sts]>=1.40.0,<2.0.0",
+    "coverage>=7.11.0,<8.0.0",
+    "mypy>=1.18.0,<2.0.0",
+    "prek>=0.2.11,<0.3.0",
+    "pytest>=8.4.0,<9.0.0",
+    "types-pyyaml>=6.0.12,<7.0.0",
+]
+
+[build-system]
+requires = ["uv_build~=0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+required-version = "~=0.9.0"
+
+[tool.uv.build-backend]
+module-name = "cloudsplaining"
+module-root = ""
+source-include = ["test/**"]
+
 [tool.mypy]
 files = "cloudsplaining"
 

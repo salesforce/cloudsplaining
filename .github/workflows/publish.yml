@@ -15,23 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-
-      - name: Setup Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
         with:
-          python-version-file: '.python-version'
-
-      - name: Install dependencies
-        run: |
-          make setup-dev
+          activate-environment: true
+      - run: uv sync --frozen
 
       - name: Install the package to make sure nothing is randomly broken
-        run: |
-          make install
-
+        run: make build
       - name: Run pytest (unit tests)
-        run: |
-          make test
+        run: make test
 
 
   publish-package:
@@ -39,23 +31,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-      - name: Set up Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
         with:
-          python-version-file: '.python-version'
+          activate-environment: true
+      - run: uv sync --frozen
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
       - name: create python package
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git fetch --tags
           git pull origin master
-          pip install setuptools wheel twine
-          python -m setup sdist bdist_wheel
+
+          uv build
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
         with:
@@ -68,8 +56,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-      - name: Set up Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
         with:
           python-version-file: '.python-version'
       - name: publish brew
@@ -98,11 +85,12 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
         with:
           ref: master
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
+        with:
+          activate-environment: true
 
       - name: Bump version
         run: |
-          version_file="cloudsplaining/bin/version.py"
-
           # https://github.com/bridgecrewio/checkov/blob/master/.github/workflows/build.yml#L87-L132
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -113,6 +101,7 @@ jobs:
           new_tag=$(echo "$latest_tag" | awk -F. -v a="$1" -v b="$2" -v c="$3" '{printf("%d.%d.%d", $1+a, $2+b , $3+1)}')
           echo "new tag: $new_tag"
 
-          printf "# pylint: disable=missing-module-docstring\n__version__ = \"%s\"\n""" "$new_tag" > $version_file
-          git commit -m "Bump to ${new_tag}"  $version_file || echo "No changes to commit"
+          uv version --offline "$new_tag"
+
+          git commit -m "Bump to ${new_tag}" pyproject.toml uv.lock || echo "No changes to commit"
           git push origin
