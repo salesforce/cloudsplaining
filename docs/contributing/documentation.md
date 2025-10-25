@@ -7,7 +7,7 @@ get set up with Mkdocs, our documentation tool. First you will want to
 make sure you have a few things on your local system:
 
 -   python-dev (if you're on OS X, you already have this)
--   pip
+-   [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 Once you've got all that, the rest is simple:
 
@@ -17,8 +17,7 @@ git clone git@github.com:salesforce/cloudsplaining.git
 
 # Set up the virtual environment
 python3 -m venv ./venv && source venv/bin/activate
-pip3 install -r requirements.txt
-pip3 install -r requirements-dev.txt
+uv sync --frozen
 
 # Create the HTML files
 make build-docs

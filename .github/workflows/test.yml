@@ -32,27 +32,17 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-
-      - name: Setup Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
         with:
-          python-version-file: '.python-version'
-
-      - name: Install dependencies
-        run: |
-          make setup-dev
+          activate-environment: true
+      - run: uv sync --frozen
 
       - name: Install the package to make sure nothing is randomly broken
-        run: |
-          make install
-
+        run: make build
       - name: Run pytest (unit tests)
-        run: |
-          make test
-
+        run: make test
       - name: Run mypy (static type check)
-        run: |
-          make type-check
+        run: make type-check
 
   python-version:
     needs: prek
@@ -65,19 +55,13 @@ jobs:
         python: ['3.11', '3.12', '3.13', '3.14']
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+      - uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d  # v7.1.0
         with:
           python-version: ${{ matrix.python }}
-          allow-prereleases: true
-
-      - name: Install dependencies
-        run: |
-          make setup-dev
+          activate-environment: true
+      - run: uv sync --frozen
 
       - name: Install the package to make sure nothing is randomly broken
-        run: |
-          make install
-
+        run: make build
       - name: Run pytest (unit tests)
-        run: |
-          make test
+        run: make test
