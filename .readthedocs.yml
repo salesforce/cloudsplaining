@@ -8,6 +8,15 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.10"
+  jobs:
+    pre_create_environment:
+      - asdf plugin add uv
+      - asdf install uv latest:0.9
+      - asdf global uv latest
+    create_environment:
+      - uv venv "${READTHEDOCS_VIRTUALENV_PATH}"
+    install:
+      - UV_PROJECT_ENVIRONMENT="${READTHEDOCS_VIRTUALENV_PATH}" uv sync --frozen --group docs
 
 mkdocs:
   configuration: mkdocs.yml
@@ -16,7 +25,3 @@ mkdocs:
 
 # Optionally build your docs in additional formats such as PDF and ePub
 formats: all
-
-python:
-   install:
-      - requirements: docs/requirements.txt
