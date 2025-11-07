@@ -21,9 +21,9 @@ jobs:
       - run: uv sync --frozen
 
       - name: Install the package to make sure nothing is randomly broken
-        run: make build
+        run: just build-package
       - name: Run pytest (unit tests)
-        run: make test
+        run: just unit-tests
 
 
   publish-package:
