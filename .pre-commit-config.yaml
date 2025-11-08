@@ -4,8 +4,15 @@ repos:
     hooks:
       - id: actionlint-docker
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.2
+    rev: v0.14.3
     hooks:
       - id: ruff-check
         files: ^(cloudsplaining/|setup.py)
       - id: ruff-format
+  - repo: local
+    hooks:
+      - id: just-fmt
+        name: just fmt
+        language: system
+        pass_filenames: false
+        entry: just --fmt --unstable

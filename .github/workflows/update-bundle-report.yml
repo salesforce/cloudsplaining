@@ -20,16 +20,11 @@ jobs:
       - run: uv sync --frozen
 
       - name: Update the JavaScript bundle
-        run: |
-          make build-js
-
+        run: just build-js
       - name: Generate the updated reports
-        run: |
-          make generate-report
-
+        run: just generate-report
       - name: Run NPM unit tests for sanity checks
-        run: |
-          make test-js
+        run: just test-js
 
       - name: PR if files were updated
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
