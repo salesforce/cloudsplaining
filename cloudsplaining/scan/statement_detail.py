@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import logging
+from functools import cached_property
 from typing import Any
 
-from cached_property import cached_property
 from policy_sentry.analysis.expand import determine_actions_to_expand
 from policy_sentry.querying.actions import (
     get_actions_matching_arn,
@@ -166,7 +166,7 @@ class StatementDetail:
         return False
 
     @cached_property
-    def expanded_actions(self) -> list[str] | None:
+    def expanded_actions(self) -> list[str]:
         """Expands the full list of allowed actions from the Policy/"""
 
         if self.actions:
@@ -174,7 +174,7 @@ class StatementDetail:
             expanded.sort()
             return expanded
         if self.not_action:
-            return self.not_action_effective_actions
+            return self.not_action_effective_actions or []
 
         raise Exception(  # pragma: no cover
             "The Policy should include either NotAction or Action in the statement."

@@ -25,11 +25,9 @@ requires-python = ">=3.10"
 dependencies = [
     "boto3>=1.40.0,<2.0.0",
     "botocore>=1.40.0,<2.0.0",
-    "cached-property>=2.0.0,<3.0.0",
     "click>=8.1.0,<9.0.0",
     "click_option_group>=0.5.9,<0.6.0",
     "jinja2>=3.1.0,<4.0.0",
-    "markdown>=3.9,<4.0",
     "policy_sentry>=0.14.0,<0.15",
     "pyyaml>=6.0.0,<7.0.0",
     "schema>=0.7.0,<0.8.0",
@@ -100,7 +98,6 @@ disallow_untyped_decorators = false
 [[tool.mypy.overrides]]
 module = [
     "schema",
-    "cached_property",
 ]
 ignore_missing_imports = true
 
