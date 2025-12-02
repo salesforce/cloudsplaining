@@ -15,7 +15,7 @@ jobs:
   detect-secrets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
       - name: detect secrets
         uses: trufflesecurity/trufflehog@b84c3d14d189e16da175e2c27fa8136603783ffc # v3.90.12
         with:
