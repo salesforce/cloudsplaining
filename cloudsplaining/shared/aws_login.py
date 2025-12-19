@@ -20,10 +20,7 @@ logger = logging.getLogger(__name__)
 def get_boto3_client(service: str, profile: str | None = None, region: str = "us-east-1") -> BaseClient:
     """Get a boto3 client for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
-    session_data = {"region_name": region}
-    if profile:
-        session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]
+    session = boto3.Session(region_name=region, profile_name=profile)
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     if os.environ.get("LOCALSTACK_ENDPOINT_URL"):
@@ -41,10 +38,7 @@ def get_boto3_client(service: str, profile: str | None = None, region: str = "us
 def get_boto3_resource(service: str, profile: str | None = None, region: str = "us-east-1") -> ServiceResource:
     """Get a boto3 resource for a given service"""
     logging.getLogger("botocore").setLevel(logging.CRITICAL)
-    session_data = {"region_name": region}
-    if profile:
-        session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]
+    session = boto3.Session(region_name=region, profile_name=profile)
 
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     resource: ServiceResource = session.resource(service, config=config)
@@ -82,11 +76,7 @@ def get_target_account_credentials(
     :param target_account_id: The target account ID
     :return:
     """
-    default_region = "us-east-1"
-    session_data = {"region_name": default_region}
-    if profile:
-        session_data["profile_name"] = profile
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]
+    session = boto3.Session(region_name="us-east-1", profile_name=profile)
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     sts_client: STSClient = session.client("sts", config=config)
 

@@ -47,7 +47,7 @@ test-js: install-js
 
 [group('test')]
 type-check:
-    mypy
+    ty check
 
 [group('test')]
 unit-tests:
