@@ -81,7 +81,7 @@ def get_account_authorization_details(
     session_data: dict[str, str], include_non_default_policy_versions: bool
 ) -> dict[str, list[Any]]:
     """Runs aws-iam-get-account-authorization-details"""
-    session = boto3.Session(**session_data)  # type:ignore[arg-type]
+    session = boto3.Session(**session_data)  # ty: ignore[invalid-argument-type]
     config = Config(connect_timeout=5, retries={"max_attempts": 10})
     iam_client: IAMClient = session.client("iam", config=config)
 

@@ -1,4 +1,4 @@
-from jira import JIRA
+from jira import JIRA  # ty: ignore[unresolved-import]
 import click
 import getpass
 

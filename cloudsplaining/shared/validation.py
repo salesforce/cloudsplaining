@@ -46,12 +46,12 @@ def check(conf_schema: Schema, conf: dict[str, list[Any]]) -> bool:
     try:
         conf_schema.validate(conf)
         return True
-    except SchemaError as schema_error:
+    except SchemaError as schema_error:  # pragma: no cover
         try:
             # workarounds for Schema's logging approach
             print(schema_error.autos[0])
             detailed_error_message = schema_error.autos[2]
-            print(detailed_error_message.split(" in {'")[0])  # pragma: no cover
+            print(detailed_error_message.split(" in {'")[0])  # ty: ignore[possibly-missing-attribute]
             # for error in schema_error.autos:
         except Exception:
             logger.critical(schema_error)

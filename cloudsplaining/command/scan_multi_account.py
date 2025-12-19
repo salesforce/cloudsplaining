@@ -217,13 +217,13 @@ def scan_accounts(
             )
             # Write the HTML file
             output_file = f"{target_account_name}.html"
-            s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=rendered_report)
+            s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=rendered_report)  # ty: ignore[unresolved-attribute]
             utils.print_green(f"Saved the HTML report to: s3://{output_bucket}/{output_file}")
             # Write the JSON data file
             if write_data_file:
                 output_file = f"{target_account_name}.json"
                 body = json.dumps(results, sort_keys=True, default=str, indent=4)
-                s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=body)
+                s3.Object(output_bucket, output_file).put(ACL="bucket-owner-full-control", Body=body)  # ty: ignore[unresolved-attribute]
                 utils.print_green(f"Saved the JSON data to: s3://{output_bucket}/{output_file}")
         if output_directory:
             # Write the HTML file
