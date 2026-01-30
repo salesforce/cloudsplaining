@@ -267,6 +267,7 @@ function getManagedPolicyItems(iam_data, managedBy, managedPolicyIds) {
         let serviceWildcard = getManagedPolicyFindings(iam_data, managedBy, policyId, "ServiceWildcard").length;
         let computeRole = managedPolicyAssumableByComputeService(iam_data, managedBy, policyId);
         let item = {
+            policy_id: policyId,
             policy_name: policyName,
             attached_to_principals: attachedToPrincipals,
             services: services,

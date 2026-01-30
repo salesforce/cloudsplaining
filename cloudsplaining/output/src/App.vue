@@ -22,7 +22,7 @@
                     >
                     <!-- <b-nav-item to="/task-table">Task Table Demo</b-nav-item> -->
                 </b-navbar-nav>
-                <b-navbar-nav class="ml-auto">
+                <b-navbar-nav class="ms-auto">
                     <b-nav-text
                         ><strong>Account ID:</strong> {{ account_id }} |
                         <strong>Account Name:</strong>

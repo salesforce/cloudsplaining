@@ -39,7 +39,7 @@
             </b-col>
             <b-col>
                 <b-table-simple small responsive>
-                    <b-thead head-variant="dark">
+                    <b-thead class="table-dark">
                         <b-tr>
                             <b-th>Risk</b-th>
                             <b-th>Instances</b-th>

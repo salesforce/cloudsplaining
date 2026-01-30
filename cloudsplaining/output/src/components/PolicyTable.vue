@@ -11,13 +11,13 @@
                             label-cols-sm="6"
                             label-cols-md="4"
                             label-cols-lg="3"
-                            label-align-sm="right"
+                            label-align-sm="end"
                             label-size="sm"
                             label-for="perPageSelect"
                             class="mb-0"
                     >
                         <b-form-select
-                                v-model="perPage"
+                                v-model="perPageModel"
                                 id="perPageSelect"
                                 size="sm"
                                 :options="pageOptions"
@@ -27,12 +27,11 @@
 
             </b-row>
             <b-table
-                    :items="policyNameMapping"
+                    :items="safeItems"
                     :fields="fields"
-                    :sort-by.sync="sortBy"
-                    :sort-desc.sync="sortDesc"
-                    :current-page="currentPage"
-                    :per-page="perPage"
+                    v-model:sort-by="sortByModel"
+                    :current-page="currentPageModel"
+                    :per-page="perPageModel"
                     responsive="sm"
                     :sticky-header=true
                     :no-border-collapse=true
@@ -49,6 +48,17 @@
                     {{ data.item.compute_role.join(", ") }}
                 </template>
             </b-table>
+            <b-row class="mt-3">
+                <b-col>
+                    <b-pagination
+                        v-model="currentPageModel"
+                        :per-page="perPageModel"
+                        :total-rows="safeItems.length"
+                        align="center"
+                        size="sm"
+                    />
+                </b-col>
+            </b-row>
         </b-container>
         <br>
         <hr>
@@ -61,13 +71,25 @@
         name: "PolicyTable",
         props: {
             policyNameMapping: {
-                type: Array
+                type: Array,
+                default: () => []
+            },
+            perPage: {
+                type: Number,
+                default: 10
+            },
+            currentPage: {
+                type: Number,
+                default: 1
+            },
+            sortBy: {
+                type: Array,
+                default: () => [{ key: 'policy_name', order: 'asc' }]
             }
         },
+        emits: ['update:perPage', 'update:currentPage', 'update:sortBy'],
         data() {
             return {
-                sortBy: 'policy_name',
-                sortDesc: false,
                 fields: [
                     {key: 'policy_name', sortable: true},
                     {key: 'attached_to_principals', sortable: true},
@@ -81,9 +103,36 @@
                     {key: 'compute_role', sortable: true},
                 ],
                 totalRows: 1,
-                currentPage: 1,
-                perPage: 10,
                 pageOptions: [5, 10, 15, 20, 50, 100],
+            }
+        },
+        computed: {
+            sortByModel: {
+                get() {
+                    return this.sortBy;
+                },
+                set(value) {
+                    this.$emit('update:sortBy', value);
+                }
+            },
+            perPageModel: {
+                get() {
+                    return this.perPage;
+                },
+                set(value) {
+                    this.$emit('update:perPage', value);
+                }
+            },
+            currentPageModel: {
+                get() {
+                    return this.currentPage;
+                },
+                set(value) {
+                    this.$emit('update:currentPage', value);
+                }
+            },
+            safeItems() {
+                return Array.isArray(this.policyNameMapping) ? this.policyNameMapping : [];
             }
         },
         methods: {},

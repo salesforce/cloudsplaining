@@ -1,32 +1,37 @@
 <template>
     <div v-if="findings(policyId, 'PrivilegeEscalation').length > 0">
         <div class="card-header">
-            <a class="card-link" data-toggle="collapse"
-               v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-               v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'privilege-escalation'"
-            >Privilege Escalation</a>
+            <b-button
+                class="card-link p-0"
+                variant="link"
+                v-b-toggle="collapseId"
+            >
+                Privilege Escalation
+            </b-button>
         </div>
-        <div class="panel-collapse collapse"
-             ref="PrivilegeEscalationDetailsDiv"
-             v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'privilege-escalation'">
+        <b-collapse
+            v-model="isExpanded"
+            :id="collapseId"
+            class="panel-collapse"
+        >
             <div class="card-body">
                 <!--What should I do?-->
                 <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-what-should-i-do`">What should I do?</b-button>
-                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-what-should-i-do`">
+                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-what-should-i-do`" ok-only>
                     <p>
                         <span v-html="whatShouldIDoDescription"></span>
                     </p>
                 </b-modal>
                 <!--Triaging: Identifying False Positives-->
                 <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-identifying-false-positives`">How do I identify False Positives?</b-button>
-                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-identifying-false-positives`">
+                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-identifying-false-positives`" ok-only>
                     <p>
                         <span v-html="identifyingFalsePositivesDescription"></span>
                     </p>
                 </b-modal>
                 <!--How do I validate results?-->
                 <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-validating-fixed-policy`">How do I fix it?</b-button>
-                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-validating-fixed-policy`">
+                <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-privilege-escalation-validating-fixed-policy`" ok-only>
                     <p>
                         <span v-html="howDoIValidateResultsDescription"></span>
                     </p>
@@ -39,7 +44,7 @@
                 <br>
                 <PrivilegeEscalationFormat v-bind:privilege-escalation-finding="privilegeEscalationFindings(policyId)"></PrivilegeEscalationFormat>
             </div>
-        </div>
+        </b-collapse>
     </div>
 </template>
 
@@ -82,6 +87,9 @@
             PrivilegeEscalationFormat
         },
         computed: {
+            collapseId() {
+                return `${this.inlineOrManaged.toLowerCase()}-policy-${this.policyId}-privilege-escalation`;
+            },
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
                     return "Managed"
@@ -117,14 +125,19 @@
                 return this.findings(policyId, 'PrivilegeEscalation')
             }
         },
+        data() {
+            return {
+                isExpanded: false
+            }
+        },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded && this.$refs['PrivilegeEscalationDetailsDiv']) {
-                        this.$refs['PrivilegeEscalationDetailsDiv'].classList.add('show');
+                    if (data.isAllExpanded) {
+                        this.isExpanded = true;
                     }
-                    if (data.isAllCollapsed && this.$refs['PrivilegeEscalationDetailsDiv']) {
-                        this.$refs['PrivilegeEscalationDetailsDiv'].classList.remove('show');
+                    if (data.isAllCollapsed) {
+                        this.isExpanded = false;
                     }
                 },
                 deep: true
