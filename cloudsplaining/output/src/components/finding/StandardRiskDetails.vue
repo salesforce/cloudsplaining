@@ -3,34 +3,39 @@
         <div v-for="risk in riskDetailsToDisplay" :key="risk.risk_type">
             <template v-if="findings(policyId, risk.risk_type).length > 0">
                 <div class="card-header">
-                <a class="card-link" data-toggle="collapse"
-                   v-bind:data-parent="`#${inlineOrManaged.toLowerCase()}-policy-${policyId}-card-details`"
-                   v-bind:href="`#${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}`"
-                >{{ convertStringToSpaceCase(risk.risk_type) }}</a>
+                <b-button
+                    class="card-link p-0"
+                    variant="link"
+                    v-b-toggle="collapseId(risk.risk_type)"
+                >
+                    {{ convertStringToSpaceCase(risk.risk_type) }}
+                </b-button>
                 </div>
             </template>
             <template v-if="findings(policyId, risk.risk_type).length > 0">
-                <div class="panel-collapse collapse"
-                     ref="StandardRiskDetailsDiv"
-                     v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}`">
+                <b-collapse
+                    v-model="expandedRisks[risk.risk_type]"
+                    :id="collapseId(risk.risk_type)"
+                    class="panel-collapse"
+                >
                     <div class="card-body">
                         <!--What should I do?-->
                         <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-what-should-i-do`">What should I do?</b-button>
-                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-what-should-i-do`">
+                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-what-should-i-do`" ok-only>
                             <p>
                                 <span v-html="whatShouldIDoDescription"></span>
                             </p>
                         </b-modal>
                         <!--Triaging: Identifying False Positives-->
                         <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-identifying-false-positives`">How do I identify False Positives?</b-button>
-                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-identifying-false-positives`">
+                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-identifying-false-positives`" ok-only>
                             <p>
                                 <span v-html="identifyingFalsePositivesDescription"></span>
                             </p>
                         </b-modal>
                         <!--How do I validate results?-->
                         <b-button squared variant="link" v-b-modal="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-validating-fixed-policy`">How do I fix it?</b-button>
-                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-validating-fixed-policy`">
+                        <b-modal v-bind:id="`${inlineOrManaged.toLowerCase()}-policy-${policyId}-${convertStringToKebabCase(risk.risk_type)}-validating-fixed-policy`" ok-only>
                             <p>
                                 <span v-html="howDoIValidateResultsDescription"></span>
                             </p>
@@ -54,7 +59,7 @@
                             </ul>
                         </span>
                     </div>
-                </div>
+                </b-collapse>
             </template>
         </div>
     </div>
@@ -145,6 +150,9 @@
             convertStringToKebabCase: function(string) {
                 return otherUtil.convertStringToKebabCase(string)
             },
+            collapseId: function(riskType) {
+                return `${this.inlineOrManaged.toLowerCase()}-policy-${this.policyId}-${this.convertStringToKebabCase(riskType)}`;
+            },
             getRiskDefinition: function (riskType) {
                 return glossary.getRiskDefinition(riskType)
             },
@@ -179,14 +187,23 @@
                 return otherUtil.getActionLinks(this.iam_data, actionList)
             },
         },
+        data() {
+            return {
+                expandedRisks: {}
+            }
+        },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded && this.$refs['StandardRiskDetailsDiv']) {
-                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.add('show'))
+                    if (data.isAllExpanded) {
+                        this.riskDetailsToDisplay.forEach((risk) => {
+                            this.expandedRisks[risk.risk_type] = true;
+                        });
                     }
-                    if (data.isAllCollapsed && this.$refs['StandardRiskDetailsDiv']) {
-                        this.$refs['StandardRiskDetailsDiv'].map(e => e.classList.remove('show'));
+                    if (data.isAllCollapsed) {
+                        this.riskDetailsToDisplay.forEach((risk) => {
+                            this.expandedRisks[risk.risk_type] = false;
+                        });
                     }
                 },
                 deep: true

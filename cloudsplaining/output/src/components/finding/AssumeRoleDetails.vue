@@ -1,21 +1,26 @@
 <template>
     <div v-if="policyAssumableByComputeService(policyId).length > 0">
         <div class="card-header">
-            <a class="card-link" data-toggle="collapse"
-               v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-               v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'"
-            >Compute Services that leverage this IAM Policy via AssumeRole</a>
+            <b-button
+                class="card-link p-0"
+                variant="link"
+                v-b-toggle="collapseId"
+            >
+                Compute Services that leverage this IAM Policy via AssumeRole
+            </b-button>
         </div>
-        <div class="panel-collapse collapse"
-             ref="AssumeRoleDetailsDiv"
-             v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'assumable'">
+        <b-collapse
+            v-model="isExpanded"
+            :id="collapseId"
+            class="panel-collapse"
+        >
             <div class="card-body">
                 <span v-html="getRiskDescription('AssumableByComputeService')"></span>
 <pre><code>
 {{ JSON.parse(JSON.stringify(policyAssumableByComputeService(policyId), undefined, '\t')) }}
 </code></pre>
             </div>
-        </div>
+        </b-collapse>
     </div>
 </template>
 
@@ -47,6 +52,9 @@
             },
         },
         computed: {
+            collapseId() {
+                return `${this.inlineOrManaged.toLowerCase()}-policy-${this.policyId}-assumable`;
+            },
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
                     return "Managed"
@@ -69,14 +77,19 @@
                 }
             }
         },
+        data() {
+            return {
+                isExpanded: false
+            }
+        },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded && this.$refs['AssumeRoleDetailsDiv']) {
-                        this.$refs['AssumeRoleDetailsDiv'].classList.add('show');
+                    if (data.isAllExpanded) {
+                        this.isExpanded = true;
                     }
-                    if (data.isAllCollapsed && this.$refs['AssumeRoleDetailsDiv']) {
-                        this.$refs['AssumeRoleDetailsDiv'].classList.remove('show');
+                    if (data.isAllCollapsed) {
+                        this.isExpanded = false;
                     }
                 },
                 deep: true

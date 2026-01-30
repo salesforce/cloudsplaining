@@ -1,16 +1,24 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import router from './routes/routes';
+import { Components, Directives, createBootstrap } from 'bootstrap-vue-next';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// Install BootstrapVue
-Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+const app = createApp(App);
 
-Vue.config.productionTip = false
+app.use(router);
+app.use(createBootstrap());
 
-new Vue({
-  render: h => h(App),
-  router,
-}).$mount('#app')
+Object.entries(Components).forEach(([name, component]) => {
+  app.component(name, component);
+});
+
+const directiveNameFromKey = (key) =>
+  key.replace(/^vB/, 'b').replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+
+Object.entries(Directives).forEach(([key, directive]) => {
+  app.directive(directiveNameFromKey(key), directive);
+});
+app.mount('#app');

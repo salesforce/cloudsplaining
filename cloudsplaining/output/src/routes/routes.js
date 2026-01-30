@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Summary from '../views/Summary';
 import CustomerPolicies from '../views/CustomerPolicies';
 import InlinePolicies from '../views/InlinePolicies';
@@ -7,8 +6,6 @@ import AwsPolicies from '../views/AwsPolicies';
 import IamPrincipals from '../views/IamPrincipals';
 import Guidance from '../views/Guidance';
 import Appendices from '../views/Appendices';
-
-Vue.use(Router)
 
 /**
  * Enable anchor-links in Vue-Router.
@@ -22,16 +19,16 @@ Vue.use(Router)
  * @param savedPosition
  * @returns {Promise<unknown>|boolean|*}
  */
-const scrollStrategy = function (to, from, savedPosition) {
-    if (savedPosition) return savedPosition;
-    if (!to.hash) return false
-
-    const position = {};
-
-    if (to.hash) {
-        position.selector = to.hash
+const scrollBehavior = function (to, from, savedPosition) {
+    if (savedPosition) {
+        return savedPosition;
     }
-    return position;
+    if (!to.hash) {
+        return false;
+    }
+    return {
+        el: to.hash
+    };
 }
 
 const routes = [
@@ -52,11 +49,11 @@ if (typeof window !== 'undefined' && window.show_appendices_nav === "True") {
 
 routes.push(
     {path: '/', redirect: '/summary'},
-    {path: '**', redirect: '/summary'}
+    {path: '/:pathMatch(.*)*', redirect: '/summary'}
 );
 
-export default new Router({
-    mode: 'hash',
-    scrollStrategy,
+export default createRouter({
+    history: createWebHashHistory(),
+    scrollBehavior,
     routes
-})
+});

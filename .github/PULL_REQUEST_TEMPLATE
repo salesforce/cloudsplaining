@@ -11,15 +11,15 @@ multiple changes are involved, a bulleted list is often useful.)
 
 
 - [ ] Additions and changes have unit tests
+- [ ] pre-commit hooks and tests are passing
 - [ ] The pull request has been appropriately labeled using the provided PR labels
-- [ ] GitHub actions automation is passing (`make test`, `make lint`, `make security-test`, `make test-js`)
 - [ ] If the UI contents or JavaScript files have been modified, generate a new example report:
 
 ```bash
 # Generate the updated Javascript bundle
-make build-js
+just build-js
 
 # Generate the example report
-make generate-report
+just generate-report
 ```
 

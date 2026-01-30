@@ -189,6 +189,7 @@ function getInlinePolicyItems(iam_data, inlinePolicyIds) {
         let serviceWildcard = getInlinePolicyFindings(iam_data, policyId, "ServiceWildcard").length;
         let computeRole = inlinePolicyAssumableByComputeService(iam_data, policyId);
         let item = {
+            policy_id: policyId,
             policy_name: policyName,
             attached_to_principals: attachedToPrincipals,
             services: services,

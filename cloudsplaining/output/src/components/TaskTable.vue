@@ -11,7 +11,7 @@
                             label-cols-sm="6"
                             label-cols-md="4"
                             label-cols-lg="3"
-                            label-align-sm="right"
+                            label-align-sm="end"
                             label-size="sm"
                             label-for="perPageSelect"
                             class="mb-0"
@@ -28,11 +28,10 @@
             </b-row>
 
             <b-table
-                    :items="items_mapping"
+                    :items="safeItems"
                     :fields="fields"
                     small
-                    :sort-by.sync="sortBy"
-                    :sort-desc.sync="sortDesc"
+                    v-model:sort-by="sortBy"
                     :current-page="currentPage"
                     :per-page="perPage"
                     responsive="sm"
@@ -44,7 +43,7 @@
 
                 <template v-slot:cell(policy_document)="row">
                     <b-button size="sm" @click="info(row.item, row.index, $event.target, 'policy_document')"
-                              class="mr-1">
+                              class="me-1">
                         See Policy Document
                     </b-button>
                 </template>
@@ -72,7 +71,7 @@
                 </template>
 
                 <template v-slot:cell(show_details)="row">
-                    <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+                    <b-button size="sm" @click="row.toggleDetails" class="me-2">
                         {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
                     </b-button>
                 </template>
@@ -81,7 +80,7 @@
                 <template v-slot:row-details="row">
                     <b-card>
                         <b-row class="mb-2">
-                            <b-col sm="3" class="text-sm-right"><b>Risks</b></b-col>
+                            <b-col sm="3" class="text-sm-end"><b>Risks</b></b-col>
                             <b-col>
                                 <b-list-group>
                                     <div v-bind:key="riskName" v-for="riskName in riskNames">
@@ -121,7 +120,7 @@
             </b-table>
 
             <!-- Info modal -->
-            <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
+            <b-modal v-model="infoModal.show" :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
                 <pre>{{ infoModal.content }}</pre>
             </b-modal>
         </b-container>
@@ -140,7 +139,8 @@
         name: "TaskTable",
         props: {
             items_mapping: {
-                type: Array
+                type: Array,
+                default: () => []
             },
             managedBy: {
                 type: String
@@ -148,8 +148,7 @@
         },
         data() {
             return {
-                sortBy: 'policy_name',
-                sortDesc: false,
+                sortBy: [{ key: 'policy_name', order: 'asc' }],
                 fields: [
                     {key: 'policy_name', sortable: true},
                     {key: 'policy_document', sortable: false},
@@ -172,11 +171,15 @@
                 infoModal: {
                     id: 'info-modal',
                     title: '',
-                    content: ''
+                    content: '',
+                    show: false
                 }
             }
         },
         computed: {
+            safeItems() {
+                return Array.isArray(this.items_mapping) ? this.items_mapping : [];
+            },
             riskNames() {
                 return ["DataExfiltration", "ResourceExposure", "PrivilegeEscalation", "InfrastructureModification"]
             }
@@ -185,7 +188,7 @@
             info(item, index, button, column_name) {
                 this.infoModal.title = `${column_name}`
                 this.infoModal.content = JSON.stringify(item[column_name], null, 2)
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+                this.infoModal.show = true
             },
             managedPolicyFindings: function (policyId, riskType) {
                 return managedPoliciesUtil.getManagedPolicyFindings(this.iam_data, this.managedBy, policyId, riskType);
@@ -193,6 +196,7 @@
             resetInfoModal() {
                 this.infoModal.title = ''
                 this.infoModal.content = ''
+                this.infoModal.show = false
             },
             addSpacesInPascalCaseString: function (s) {
                 return otherUtil.addSpacesInPascalCaseString(s)

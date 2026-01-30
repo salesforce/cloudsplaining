@@ -1,22 +1,17 @@
 <template>
-    <span v-b-hover="hoverCB" class="link2finding">
+    <span class="link2finding" @mouseenter="setHover(true)" @mouseleave="setHover(false)">
         <slot></slot>
         <span>
             <router-link v-if="active" :to=deepLink>
-                <b-icon-link45deg aria-hidden="true"></b-icon-link45deg>
+                <i class="bi bi-link-45deg" aria-hidden="true"></i>
             </router-link>
         </span>
     </span>
 </template>
 
 <script>
-import { BIconLink45deg } from 'bootstrap-vue'
-
 export default {
     name: "LinkToFinding",
-    components: {
-        BIconLink45deg
-    },
     props: {
         findingId: {
             type: String
@@ -34,7 +29,7 @@ export default {
     },
 
     methods: {
-        hoverCB(hovered) {
+        setHover(hovered) {
             this.active = hovered
         }
     }

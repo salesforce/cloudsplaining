@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-bind:key="policyId" v-for="policyId in inlinePolicyIdsInUse">
+        <div v-bind:key="policyId" v-for="policyId in pagedInlinePolicyIdsInUse">
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">
@@ -63,6 +63,18 @@
             iam_data: {
                 type: Object
             },
+            perPage: {
+                type: Number,
+                default: 0
+            },
+            currentPage: {
+                type: Number,
+                default: 1
+            },
+            policyIds: {
+                type: Array,
+                default: null
+            },
         },
         computed: {
             inlinePolicyIds() {
@@ -74,6 +86,17 @@
             inlinePolicyIdsInUse() {
                 return inlinePoliciesUtil.getInlinePolicyIdsInUse(this.iam_data);
             },
+            policyIdsToRender() {
+                return Array.isArray(this.policyIds) ? this.policyIds : this.inlinePolicyIdsInUse;
+            },
+            pagedInlinePolicyIdsInUse() {
+                const items = this.policyIdsToRender;
+                if (!this.perPage || this.perPage <= 0) {
+                    return items;
+                }
+                const start = (this.currentPage - 1) * this.perPage;
+                return items.slice(start, start + this.perPage);
+            }
         },
         methods: {
             inlinePolicyDocument(policyId) {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-bind:key="policyId" v-for="policyId in getManagedPolicyIdsInUse">
+        <div v-bind:key="policyId" v-for="policyId in pagedManagedPolicyIdsInUse">
                 <div class="row">
                     <div class="col-md-5">
                         <div class="card">
@@ -59,12 +59,35 @@
             },
             managedBy: {
                 type: String
+            },
+            perPage: {
+                type: Number,
+                default: 0
+            },
+            currentPage: {
+                type: Number,
+                default: 1
+            },
+            policyIds: {
+                type: Array,
+                default: null
             }
         },
         computed: {
-            getManagedPolicyIdsInUse() {
+            managedPolicyIdsInUse() {
                 return managedPoliciesUtil.getManagedPolicyIdsInUse(this.iam_data, this.managedBy);
             },
+            policyIdsToRender() {
+                return Array.isArray(this.policyIds) ? this.policyIds : this.managedPolicyIdsInUse;
+            },
+            pagedManagedPolicyIdsInUse() {
+                const items = this.policyIdsToRender;
+                if (!this.perPage || this.perPage <= 0) {
+                    return items;
+                }
+                const start = (this.currentPage - 1) * this.perPage;
+                return items.slice(start, start + this.perPage);
+            }
         },
         methods: {
             managedPolicyDocument(policyId) {

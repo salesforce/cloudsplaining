@@ -2,22 +2,25 @@
     <div>
         <!--Policy Document-->
         <div class="card-header">
-            <a class="card-link" data-toggle="collapse"
-               v-bind:data-parent="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' + 'card-details'"
-               v-bind:href="'#' + inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
-               Policy Document
-            </a>
+            <b-button
+                class="card-link p-0"
+                variant="link"
+                v-b-toggle="collapseId"
+            >
+                Policy Document
+            </b-button>
         </div>
-        <div 
-            class="panel-collapse collapse"
-            ref="PolicyDocumentDetailsDiv"
-            v-bind:id="inlineOrManaged.toLowerCase() + '-policy' + '-' + policyId + '-' +'policydocument'">
+        <b-collapse
+            v-model="isExpanded"
+            :id="collapseId"
+            class="panel-collapse"
+        >
             <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(policyDocument(policyId), undefined, '\t')) }}
 </code></pre>
             </div>
-        </div><!--Policy Document-->
+        </b-collapse><!--Policy Document-->
     </div>
 </template>
 
@@ -40,6 +43,9 @@
             },
         },
         computed: {
+            collapseId() {
+                return `${this.inlineOrManaged.toLowerCase()}-policy-${this.policyId}-policydocument`;
+            },
             inlineOrManaged() {
                 if ((this.managedBy === "AWS") || (this.managedBy === "Customer")) {
                     return "Managed"
@@ -57,14 +63,19 @@
                 }
             },
         },
+        data() {
+            return {
+                isExpanded: false
+            }
+        },
         watch: {
             toggleData: {
                 handler(data) {
-                    if (data.isAllExpanded && this.$refs['PolicyDocumentDetailsDiv']) {
-                        this.$refs['PolicyDocumentDetailsDiv'].classList.add('show');
+                    if (data.isAllExpanded) {
+                        this.isExpanded = true;
                     }
-                    if (data.isAllCollapsed && this.$refs['PolicyDocumentDetailsDiv']) {
-                        this.$refs['PolicyDocumentDetailsDiv'].classList.remove('show');
+                    if (data.isAllCollapsed) {
+                        this.isExpanded = false;
                     }
                 },
                 deep: true
