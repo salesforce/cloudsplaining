@@ -1,10 +1,8 @@
 <template>
-    <b-tab>
         <div v-if="appendices_content === 'default'">
             <Glossary />
         </div>
         <div v-else v-html="appendices_content"></div>
-    </b-tab>
 </template>
 
 <script>

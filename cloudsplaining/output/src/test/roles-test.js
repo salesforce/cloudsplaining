@@ -2,7 +2,8 @@
 var roles = require('../util/roles');
 var sampleData = require('../sampleData');
 let mocha = require('mocha');
-let chai = require('chai');
+let assert;
+before(async () => { ({ assert } = await import('chai')); });
 let it = mocha.it;
 let iam_data = sampleData.sample_iam_data;
 
@@ -21,8 +22,8 @@ it("roles.getTrustPolicyDocumentForRole: should return Trust Policy Document for
             }
         ]
     };
-    chai.assert(result != null);
-    chai.assert(result, expectedResult);
+    assert(result != null);
+    assert(result, expectedResult);
     console.log(`Trust Policy: ${JSON.stringify(result)}`)
 });
 
@@ -41,8 +42,8 @@ it("roles.trustPolicyAssumableByComputeService: should return empty list to show
     };
     var result = roles.trustPolicyAssumableByComputeService(assumeRolePolicyDocument);
     var expectedResult = []
-    chai.assert(result != null);
-    chai.assert(result, expectedResult);
+    assert(result != null);
+    assert(result, expectedResult);
     console.log(`This should be empty: ${result}`)
 });
 
@@ -61,7 +62,7 @@ it("roles.trustPolicyAssumableByComputeService: should return list of compute se
     };
     var result = roles.trustPolicyAssumableByComputeService(assumeRolePolicyDocument);
     var expectedResult = ["ec2"]
-    chai.assert(result != null);
-    chai.assert(result, expectedResult);
+    assert(result != null);
+    assert(result, expectedResult);
     console.log(`This should be ec2: ${result}`)
 });
