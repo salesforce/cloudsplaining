@@ -1,17 +1,21 @@
 repos:
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.9
+    rev: v1.7.10
     hooks:
       - id: actionlint-docker
+        priority: 1
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.10
+    rev: v0.14.14
     hooks:
       - id: ruff-check
+        priority: 1
         files: ^(cloudsplaining/|setup.py)
       - id: ruff-format
+        priority: 0
   - repo: local
     hooks:
       - id: just-fmt
+        priority: 0
         name: just fmt
         language: system
         pass_filenames: false

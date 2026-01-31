@@ -21,7 +21,7 @@ from botocore.config import Config
 from cloudsplaining import set_log_level
 
 if TYPE_CHECKING:
-    from mypy_boto3_iam import IAMClient
+    from types_boto3_iam import IAMClient
 
 logger = logging.getLogger(__name__)
 

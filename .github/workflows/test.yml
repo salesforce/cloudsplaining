@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 env:
-  PREK_VERSION: '0.2.22'
+  PREK_VERSION: '0.3.1'
 
 jobs:
   prek:
@@ -25,7 +25,7 @@ jobs:
       - uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff # v3.0.0
         with:
           just-version: '1'
-      - uses: j178/prek-action@91fd7d7cf70ae1dee9f4f44e7dfa5d1073fe6623 # v1.0.11
+      - uses: j178/prek-action@564dda4cfa5e96aafdc4a5696c4bf7b46baae5ac # v1.1.0
         with:
           prek-version: ${{ env.PREK_VERSION }}
 

@@ -12,7 +12,7 @@ from botocore.config import Config
 if TYPE_CHECKING:
     from boto3.resources.base import ServiceResource
     from botocore.client import BaseClient
-    from mypy_boto3_sts import STSClient
+    from types_boto3_sts import STSClient
 
 logger = logging.getLogger(__name__)
 
