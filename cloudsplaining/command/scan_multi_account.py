@@ -22,7 +22,7 @@ from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 from cloudsplaining.shared.validation import check_authorization_details_schema
 
 if TYPE_CHECKING:
-    from mypy_boto3_s3 import S3ServiceResource
+    from types_boto3_s3 import S3ServiceResource
 
 logger = logging.getLogger(__name__)
 OK_GREEN = "\033[92m"

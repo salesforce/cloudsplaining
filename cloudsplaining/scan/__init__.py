@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring
+# ruff: noqa: RUF067
 import logging
 
 logger = logging.getLogger(__name__)
