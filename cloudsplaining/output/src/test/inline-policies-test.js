@@ -1,7 +1,8 @@
 var inlinePolicies = require('../util/inline-policies')
 var sampleData = require('../sampleData');
 let mocha = require('mocha');
-let chai = require('chai');
+let assert;
+before(async () => { ({ assert } = await import('chai')); });
 let it = mocha.it;
 let iam_data = sampleData.sample_iam_data;
 
@@ -21,8 +22,8 @@ it("inlinePolicies.getInlinePolicyDocument: should return Inline policy document
           }
         ]
       };
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult);
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult);
     console.log(`inline policy document: ${JSON.stringify(result)}`);
 });
 
@@ -31,8 +32,8 @@ it("inlinePolicies.getServicesAffectedByInlinePolicy: should identify list of se
     var expectedResult = [
         "s3",
     ]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult, "lists of services used do not match")
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult, "lists of services used do not match")
     console.log(`Services affected: ${JSON.stringify(result)}`);
 });
 
@@ -47,8 +48,8 @@ it("inlinePolicies.getInlinePolicyFindings: should return Inline policy findings
                     ]
                 }
             ]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`PrivilegeEscalation findings: ${JSON.stringify(result)}`);
 });
 
@@ -59,8 +60,8 @@ it("inlinePolicies.getInlinePolicyFindings: should return Inline policy findings
         "iam:PassRole",
         "iam:CreateInstanceProfile",
     ]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`ResourceExposure findings: ${JSON.stringify(result)}`);
 });
 
@@ -75,56 +76,56 @@ it("inlinePolicies.getInlinePolicyIds: should print out all inline Policy IDs", 
       "354d81e1788639707f707738fb4c630cb7c5d23614cc467ff9a469a670049e3f"
 
     ]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`Inline Policy IDs: ${JSON.stringify(result)}`);
 });
 
 it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of groups that leverage this inline policy", function () {
     var result = inlinePolicies.getPrincipalTypeLeveragingInlinePolicy(iam_data, "ffd2b5250e18691dbd9f0fb8b36640ec574867835837f17d39f859c3193fb3f2", "Group")
     var expectedResult = ["admin"]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`Groups leveraging the InlinePolicyForAdminGroup inline policy: ${JSON.stringify(result)}`);
 });
 
 it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of USERS that leverage this inline policy", function () {
     var result = inlinePolicies.getPrincipalTypeLeveragingInlinePolicy(iam_data, "354d81e1788639707f707738fb4c630cb7c5d23614cc467ff9a469a670049e3f", "User")
     var expectedResult = ["userwithlotsofpermissions"]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`User names leveraging the InsecureUserPolicy inline policy: ${JSON.stringify(result)}`);
 });
 
 it("inlinePolicies.getRolesLeveragingInlinePolicy: should return list of ROLES leveraging Inline policy", function () {
     var result = inlinePolicies.getRolesLeveragingInlinePolicy(iam_data, "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca");
     var expectedResult = ["MyRole", "MyOtherRole"]
-    chai.assert(result != null);
-    chai.assert.deepStrictEqual(result, expectedResult)
+    assert(result != null);
+    assert.deepStrictEqual(result, expectedResult)
     console.log(`List of roles leveraging the inline policy: ${JSON.stringify(result)}`);
 });
 
 it("inlinePolicies.inlinePolicyAssumableByComputeService: should tell us if an INLINE policy is leveraged by a role that can be run by a compute service", function() {
     var result = inlinePolicies.inlinePolicyAssumableByComputeService(iam_data, "0568550cb147d2434f6c04641e921f18fe1b7b1fd0b5af5acf514d33d204faca")
     var expectedResult = ["lambda", "ec2"]
-    chai.assert(result != null);
+    assert(result != null);
     console.log(`The role called MyOtherRole allows the use of the EC2 service: ${JSON.stringify(result)}`);
-    chai.assert.deepStrictEqual(result, expectedResult, "lists do not match")
+    assert.deepStrictEqual(result, expectedResult, "lists do not match")
 });
 
 it("inlinePolicies.getInlinePolicyIds: should give us the object to feed into the table", function() {
     let inlinePolicyIds = inlinePolicies.getInlinePolicyIds(iam_data)
     var result = inlinePolicies.getInlinePolicyItems(iam_data, inlinePolicyIds)
-    chai.assert(result != null);
+    assert(result != null);
     console.log(`Result: ${JSON.stringify(result.length)}`);
     console.log(`Result: ${JSON.stringify(result)}`);
-    chai.assert(result.length === 5, "The results dictionary is not as large as expected")
+    assert(result.length === 5, "The results dictionary is not as large as expected")
 });
 
 it("getInlinePolicyIds.getInlinePolicyNameMapping: should give us the object to feed into the table for customers", function() {
     var result = inlinePolicies.getInlinePolicyNameMapping(iam_data)
-    chai.assert(result != null);
+    assert(result != null);
     console.log(`Result: ${JSON.stringify(result.length)}`);
     console.log(`Result: ${JSON.stringify(result)}`);
-    chai.assert(result.length > 1, "The results dictionary is not as large as expected")
+    assert(result.length > 1, "The results dictionary is not as large as expected")
 });

@@ -1,5 +1,4 @@
 <template>
-    <b-tab>
         <h3>AWS-Managed Policies ({{ getManagedPolicyNameMapping('AWS').length }})</h3>
         <PolicyTable
             v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"
@@ -16,7 +15,6 @@
             v-bind:current-page="currentPage"
             v-bind:policy-ids="sortedPolicyIds"
         />
-    </b-tab>
 </template>
 
 

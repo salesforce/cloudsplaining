@@ -1,7 +1,5 @@
 <template>
-    <b-tab key="iam-principals">
-        <Principals v-bind:iam_data="iam_data"/>
-    </b-tab>
+    <Principals v-bind:iam_data="iam_data"/>
 </template>
 
 <script>

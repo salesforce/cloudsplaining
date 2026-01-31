@@ -1,5 +1,4 @@
 <template>
-    <b-tab>
         <h3>Customer-Managed Policies ({{ getManagedPolicyNameMapping('Customer').length }})</h3>
         <PolicyTable
             v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"
@@ -16,7 +15,6 @@
             v-bind:current-page="currentPage"
             v-bind:policy-ids="sortedPolicyIds"
         />
-    </b-tab>
 </template>
 
 <script>

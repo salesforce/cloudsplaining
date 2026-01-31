@@ -1,5 +1,4 @@
 <template>
-    <b-tab>
         <h3>Inline Policies ({{ getInlinePolicyNameMapping().length }})</h3>
         <PolicyTable
             v-bind:policyNameMapping="getInlinePolicyNameMapping()"
@@ -15,7 +14,6 @@
             v-bind:current-page="currentPage"
             v-bind:policy-ids="sortedPolicyIds"
         />
-    </b-tab>
 </template>
 
 <script>

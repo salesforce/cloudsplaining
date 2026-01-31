@@ -113,10 +113,6 @@ module.exports = {
         config.module
             .rule('md')
                 .test(/\.md$/)
-                .use('html-loader')
-                .loader("html-loader")
-                .end()
-                .use('markdown-loader')
-                .loader("markdown-loader")
+                .type('asset/source')
     }
 }
