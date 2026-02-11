@@ -1,8 +1,14 @@
 import unittest
-import json
+
 from cloudsplaining.output.policy_finding import PolicyFinding
 from cloudsplaining.scan.policy_document import PolicyDocument
 from cloudsplaining.shared.exclusions import Exclusions
+
+BYPASSES_NETWORK_CONTROLS_DESCRIPTION = (
+    "<p>These policies allow IAM actions that can access resources via AWS-managed control planes or service APIs "
+    "without requiring direct network access to the target (for example, bypassing VPC Security Groups and NACLs). "
+    "This can make traditional network-layer protections ineffective for these access paths.</p>"
+)
 
 
 class TestPolicyFinding(unittest.TestCase):
@@ -12,8 +18,6 @@ class TestPolicyFinding(unittest.TestCase):
             "Statement": [{"Effect": "Allow", "Action": ["s3:GetObject"], "Resource": "*"}],
         }
         policy_document = PolicyDocument(test_policy)
-        # (1) If the user is a member of an excluded group, return True
-
         exclusions_cfg = dict(users=["obama"], groups=["exclude-group"], roles=["MyRole"], policies=["exclude-policy"])
         exclusions = Exclusions(exclusions_cfg)
         policy_finding = PolicyFinding(policy_document, exclusions)
@@ -34,6 +38,11 @@ class TestPolicyFinding(unittest.TestCase):
                 "severity": "medium",
                 "description": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
                 "findings": ["s3:GetObject"],
+            },
+            "BypassesNetworkControls": {
+                "severity": "medium",
+                "description": BYPASSES_NETWORK_CONTROLS_DESCRIPTION,
+                "findings": [],
             },
             "ServiceWildcard": {
                 "severity": "medium",
@@ -77,6 +86,11 @@ class TestPolicyFinding(unittest.TestCase):
             "DataExfiltration": {
                 "severity": "medium",
                 "description": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
+                "findings": [],
+            },
+            "BypassesNetworkControls": {
+                "severity": "medium",
+                "description": BYPASSES_NETWORK_CONTROLS_DESCRIPTION,
                 "findings": [],
             },
             "ServiceWildcard": {
@@ -126,6 +140,11 @@ class TestPolicyFinding(unittest.TestCase):
             "DataExfiltration": {
                 "severity": "medium",
                 "description": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
+                "findings": [],
+            },
+            "BypassesNetworkControls": {
+                "severity": "medium",
+                "description": BYPASSES_NETWORK_CONTROLS_DESCRIPTION,
                 "findings": [],
             },
             "ServiceWildcard": {
@@ -186,6 +205,11 @@ class TestPolicyFinding(unittest.TestCase):
                 "description": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
                 "findings": [],
             },
+            "BypassesNetworkControls": {
+                "severity": "medium",
+                "description": BYPASSES_NETWORK_CONTROLS_DESCRIPTION,
+                "findings": [],
+            },
             "ServiceWildcard": {
                 "severity": "medium",
                 "description": '<p>"Service Wildcard" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>',
@@ -224,6 +248,11 @@ class TestPolicyFinding(unittest.TestCase):
                 "description": '<div style="text-align:left"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>',
                 "findings": [],
             },
+            "BypassesNetworkControls": {
+                "severity": "medium",
+                "description": BYPASSES_NETWORK_CONTROLS_DESCRIPTION,
+                "findings": [],
+            },
             "ServiceWildcard": {
                 "severity": "medium",
                 "description": '<p>"Service Wildcard" is the unofficial way of referring to IAM policy statements that grant access to ALL actions under a service - like s3:*. Prioritizing the remediation of policies with this characteristic can help to efficiently reduce the total count of issues in the Cloudsplaining report.</p>',
@@ -242,3 +271,18 @@ class TestPolicyFinding(unittest.TestCase):
         }
         # print(json.dumps(results, indent=4))
         self.assertDictEqual(results, expected_results)
+
+    def test_policy_finding_for_bypasses_network_controls(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{"Effect": "Allow", "Action": ["redshift:GetClusterCredentials"], "Resource": "*"}],
+        }
+        policy_document = PolicyDocument(test_policy)
+        exclusions = Exclusions({})
+        policy_finding = PolicyFinding(policy_document, exclusions)
+        results = policy_finding.results
+
+        self.assertListEqual(results["BypassesNetworkControls"]["findings"], ["redshift:GetClusterCredentials"])
+        self.assertIn("redshift", results["ServicesAffected"])
+        self.assertEqual(results["BypassesNetworkControls"]["severity"], "medium")
+        self.assertEqual(results["BypassesNetworkControls"]["description"], BYPASSES_NETWORK_CONTROLS_DESCRIPTION)
