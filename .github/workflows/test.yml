@@ -12,16 +12,16 @@ permissions:
   contents: read
 
 env:
-  PREK_VERSION: '0.3.1'
+  PREK_VERSION: '0.3.2'
 
 jobs:
   prek:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+      - uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6
         with:
-          python-version-file: '.python-version'
+          activate-environment: true
       - uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff # v3.0.0
         with:
           just-version: '1'
