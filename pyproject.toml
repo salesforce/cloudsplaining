@@ -49,10 +49,10 @@ Twitter = "https://twitter.com/kmcquade3"
 dev = [
     "coverage>=7.13.0,<8.0.0",
     "moto[sts]>=5.1.0,<6.0.0",
-    "prek>=0.3.2,<0.4.0",
+    "prek>=0.3.4,<0.4.0",
     "pytest>=9.0.0,<10.0.0",
     "rust-just>=1.46.0,<2.0.0",
-    "ty>=0.0.17,<0.1.0",
+    "ty>=0.0.19,<0.1.0",
     "types-boto3-lite[iam,s3,sts]>=1.40.0,<2.0.0",
     "types-pyyaml>=6.0.12,<7.0.0",
 ]
