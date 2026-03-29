@@ -31,7 +31,7 @@ it("principals.getPrincipalMetadata: should return principal object", function (
 
 it("principals.getPrincipalIds: should return a list of principal IDs for a given principal type", function () {
     var result = principals.getPrincipalIds(iam_data, "User");
-    var expectedResult = ["ASIAZZUSERZZPLACEHOLDER", "obama"]
+    var expectedResult = ["obama", "ASIAZZUSERZZPLACEHOLDER"]
     assert.deepStrictEqual(result, expectedResult);
     console.log(`Should return the list of users ["obama", "ASIAZZUSERZZPLACEHOLDER"]: ${JSON.stringify(result)}`);
 });
