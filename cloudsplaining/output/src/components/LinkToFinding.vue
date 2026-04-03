@@ -2,7 +2,7 @@
     <span class="link2finding" @mouseenter="setHover(true)" @mouseleave="setHover(false)">
         <slot></slot>
         <span>
-            <router-link v-if="active" :to=deepLink>
+            <router-link v-if="active" :to="deepLink" :aria-label="`Open link to finding ${findingId}`">
                 <i class="bi bi-link-45deg" aria-hidden="true"></i>
             </router-link>
         </span>
