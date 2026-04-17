@@ -45,18 +45,28 @@ function getPrincipalNames(iam_data, principalType) {
 function getPrincipalIds(iam_data, principalType) {
     let result;
     if (principalType.toLowerCase() === "role") {
-        result = Object.keys(iam_data["roles"])
-        return result.sort();
+        result = Object.keys(iam_data["roles"]);
+        return result.sort(function(a, b) {
+            let nameA = (iam_data["roles"][a].name || a).toLowerCase();
+            let nameB = (iam_data["roles"][b].name || b).toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
     }
     if (principalType.toLowerCase() === "group") {
         result = Object.keys(iam_data["groups"]);
-        result.sort();
-        return result
+        return result.sort(function(a, b) {
+            let nameA = (iam_data["groups"][a].name || a).toLowerCase();
+            let nameB = (iam_data["groups"][b].name || b).toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
     }
     if (principalType.toLowerCase() === "user") {
         result = Object.keys(iam_data["users"]);
-        result.sort();
-        return result
+        return result.sort(function(a, b) {
+            let nameA = (iam_data["users"][a].name || a).toLowerCase();
+            let nameB = (iam_data["users"][b].name || b).toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
     }
 }
 
