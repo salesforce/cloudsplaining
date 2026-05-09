@@ -27,13 +27,14 @@ For full documentation, please visit the [project on ReadTheDocs](https://clouds
 
 ## Overview
 
-Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
+Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report. It can scan all the policies in your AWS account, across multiple AWS accounts, or it can scan a single policy file.
 
 It helps to identify IAM actions that do not leverage resource constraints. It also helps prioritize the remediation process by flagging IAM policies that present the following risks to the AWS account in question without restriction:
-* Data Exfiltration (`s3:GetObject`, `ssm:GetParameter`, `secretsmanager:GetSecretValue`)
-* Infrastructure Modification
-* Resource Exposure (the ability to modify resource-based policies)
-* Privilege Escalation (based on Rhino Security Labs research)
+* [Data Exfiltration](https://cloudsplaining.readthedocs.io/en/latest/glossary/data-exfiltration/) (`s3:GetObject`, `ssm:GetParameter`, `secretsmanager:GetSecretValue`)
+* [Infrastructure Modification](https://cloudsplaining.readthedocs.io/en/latest/glossary/infrastructure-modification/)
+* [Resource Exposure](https://cloudsplaining.readthedocs.io/en/latest/glossary/resource-exposure/) (the ability to modify resource-based policies)
+* [Privilege Escalation](https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/) (based on Rhino Security Labs research)
+* [Credentials Exposure](https://cloudsplaining.readthedocs.io/en/latest/glossary/credentials-exposure/)
 
 Cloudsplaining also identifies IAM Roles that can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda), as they can present greater risk than user-defined roles - especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios. For example, if an attacker obtains privileges to execute [ssm:SendCommand](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendCommand.html) and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances. Remote Code Execution via AWS Systems Manager Agent was already a known escalation/exploitation path, but Cloudsplaining can make the process of identifying theses cases easier. See the [sample report](https://opensource.salesforce.com/cloudsplaining/#executive-summary) for some examples.
 
@@ -80,7 +81,7 @@ Policy Sentry [makes it really easy to do this](https://github.com/salesforce/po
 
 That's why we wrote Cloudsplaining.
 
-Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
+Cloudsplaining identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report. It can scan all the policies in your AWS account, across multiple AWS accounts, or it can scan a single policy file.
 
 ## Installation
 
