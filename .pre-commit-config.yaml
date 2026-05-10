@@ -1,11 +1,11 @@
 repos:
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.11
+    rev: v1.7.12
     hooks:
       - id: actionlint-docker
         priority: 1
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.4
+    rev: v0.15.12
     hooks:
       - id: ruff-check
         priority: 1
