@@ -69,7 +69,7 @@ docs = [
     "mkdocstrings-python>=2.0.0,<3.0.0",
     "mkdocstrings-python-legacy>=0.2.0,<0.3.0",
     "pygments>=2.19.0,<3.0.0",
-    "pymdown-extensions>=10.21.0,<11.0.0",
+    "pymdown-extensions>=10.21.3,<11.0.0",
     "pytkdocs>=0.16.0,<0.17.0",
 ]
 
