@@ -4,6 +4,8 @@ This section of the documentation contains the write-ups of some of the findings
 
 The privilege escalation write-ups are sourced from Rhino Security Labs Research on Privilege escalation [here](https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/). 
 
+This catalog is being expanded to track [pathfinding.cloud](https://pathfinding.cloud) (DataDog) — the community source of truth for AWS IAM privilege-escalation paths. The detection logic lives in `PRIVILEGE_ESCALATION_METHODS` in `cloudsplaining/shared/constants.py`, and a gap analysis mapping pathfinding.cloud paths to cloudsplaining's coverage is in [`research/pathfinding-cloud/INTEGRATION-ANALYSIS.md`](https://github.com/salesforce/cloudsplaining/blob/master/research/pathfinding-cloud/INTEGRATION-ANALYSIS.md).
+
 We've sorted those into 5 categories, based on Bishop Fox's 5 larger categories of AWS Privilege Escalation, as described [here](https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws). Those categories are:
 
 1. IAM Permissions on other Users
@@ -69,7 +71,7 @@ We've sorted those into 5 categories, based on Bishop Fox's 5 larger categories 
 
 ### UpdatingAssumeRolePolicy
 
-**Updating the AssumeRolePolicyDocument of a role**: An attacker with the _iam:UpdateAssumeRolePolicy_ and _sts:AssumeRole_ permissions would be able to change the assume role policy document of any existing role to allow them to assume that role.
+**Updating the AssumeRolePolicyDocument of a role**: An attacker with the _iam:UpdateAssumeRolePolicy_ and _sts:AssumeRole_ permissions would be able to change the assume role policy document of any existing role to allow them to assume that role. Cloudsplaining now flags _iam:UpdateAssumeRolePolicy_ on its own (and likewise _iam:AttachRolePolicy_ / _iam:PutRolePolicy_), since the target role may already be assumable by the attacker or by a service ([#580](https://github.com/salesforce/cloudsplaining/issues/580)).
 
 ## `iam:PassRole`
 
