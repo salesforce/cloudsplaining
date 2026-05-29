@@ -18,10 +18,13 @@ pathfinding.cloud privilege-escalation techniques. NEVER pushes to `main`; ends 
 
 ## Phases
 
-### 0. Frontload decisions (`AskUserQuestion`)
-Gather everything up front: which technique(s) to onboard (method name(s) + action list(s) from
-`research/pathfinding-cloud/proposed-privilege-escalation-methods.py`), how to handle variant supersets and
-noisy single-action methods (`INTEGRATION-ANALYSIS.md` §5), AWS profile or "skip live", and the PR base branch.
+### 0. Frontload ALL decisions (`AskUserQuestion`)
+Gather every interactive decision up front so phases 1–10 run without stopping to ask the user. Capture and
+record a run config; later phases READ it and must NOT re-prompt:
+- **Techniques:** method name(s) + action list(s) to onboard (from `research/pathfinding-cloud/proposed-privilege-escalation-methods.py`), and how to handle variant supersets / noisy single-action methods (`INTEGRATION-ANALYSIS.md` §5).
+- **Live-account QA:** a specific AWS profile to scan (choose from `aws configure list-profiles`) **or** "skip live". If a profile is chosen, also capture whether to **auto-wipe** the live artifacts afterward (default: yes).
+- **Codex adversarial review:** detect now whether a codex adversarial-review skill is installed. If it is NOT, ask here whether to pause-and-install (recommended) or continue without it — so phase 3 never has to stop.
+- **PR base branch.**
 
 ### 1. Baseline
 Create a clean branch off the base, then confirm green:
@@ -33,10 +36,9 @@ just unit-tests && just type-check && just test-js
 For each decided technique, invoke the `onboard-privesc-technique` skill (executor). No re-planning here.
 
 ### 3. Code review
-Run the `code-review` skill (review-only) on the diff. Then check for a codex adversarial-review skill:
-- If installed, run one adversarial pass.
-- If NOT, use `AskUserQuestion`: "Pause to install codex adversarial review first (recommended — it
-  materially improves results) or continue without it?" Honor the choice.
+Run the `code-review` skill (review-only) on the diff. Then act on the **phase-0 codex decision**: run one
+codex adversarial-review pass if it is available, otherwise skip with a ⚠️ note. Do NOT prompt here — the
+install-or-skip choice was already made in phase 0.
 
 ### 4. Bug hunt
 Run the `find-bugs` skill on the branch diff.
@@ -59,7 +61,8 @@ Run the `report-regression-check` skill (snapshot → `just generate-report` →
 It must show findings ADDED and none removed.
 
 ### 8. Live-account QA (opt-in)
-If a profile was chosen in phase 0, run the `scan-live-account` skill (it QAs via `qa-report` and wipes its output).
+Only if a profile was chosen in phase 0: run the `scan-live-account` skill, **passing it the phase-0 profile and
+auto-wipe choice** so it does not re-prompt. It QAs via `qa-report` and wipes its output per that choice.
 
 ### 9. Pre-push safety gate
 ```bash

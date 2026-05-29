@@ -18,10 +18,18 @@ documents) is sensitive and must NEVER be committed.
 - Browser QA screenshots/videos of a live report contain sensitive data — keep them inside the
   gitignored directory and wipe them too.
 
+## Inputs (when invoked by a pipeline)
+
+- `profile` — the AWS profile to scan. If provided (e.g. frontloaded by `mega-pipeline` phase 0), use it directly and skip the prompt in step 1.
+- `auto_wipe` — whether to wipe the output without re-confirming. If provided, honor it in step 5 (do not prompt).
+
+When invoked standalone without these, prompt for them as described in steps 1 and 5.
+
 ## Workflow
 
-1. **Select profile.** Run `aws configure list-profiles` and use `AskUserQuestion` to let the user pick
-   one (offer a cancel option). Never hardcode credentials.
+1. **Select profile.** If the caller provided a `profile`, use it directly. Otherwise run
+   `aws configure list-profiles` and use `AskUserQuestion` to let the user pick one (offer a cancel
+   option). Never hardcode credentials.
 2. **Compute and guard the output dir** (use the shell for the timestamp):
    ```bash
    OUT=".live-scans/${PROFILE}-$(date +%Y%m%d-%H%M%S)"
@@ -35,8 +43,8 @@ documents) is sensitive and must NEVER be committed.
    ```
 4. **QA.** Hand the generated report (`file://$PWD/$OUT/<report>.html`) to the `qa-report` skill, directing
    its artifacts inside `$OUT/dogfood/`.
-5. **Mandatory teardown.** Use `AskUserQuestion` to confirm wiping `$OUT`. On yes, wipe via Python (the
-   `Bash(rm -rf *)` deny rule blocks `rm -rf`):
+5. **Mandatory teardown.** If the caller provided `auto_wipe`, honor it without prompting; otherwise use
+   `AskUserQuestion` to confirm wiping `$OUT`. To wipe, use Python (the `Bash(rm -rf *)` deny rule blocks `rm -rf`):
    ```bash
    uv run python -c "import shutil,sys; shutil.rmtree(sys.argv[1])" "$OUT"
    ```

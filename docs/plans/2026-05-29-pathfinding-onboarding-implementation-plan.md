@@ -467,7 +467,7 @@ Covered structurally by Task 1.2 (gitignore `dogfood-output/`, `.live-scans/`). 
 ### Task 3.1: `mega-pipeline`
 
 - [ ] **Step 1: Create via /skill-creator** encoding the v2 phase flow from the design doc:
-  - Phase 0 frontload (`AskUserQuestion`: technique(s) incl. variant/noise handling per INTEGRATION-ANALYSIS.md §5, AWS profile or "skip live", PR base branch).
+  - Phase 0 frontload ALL interactive decisions (`AskUserQuestion`) so later phases never stop to ask: technique(s) incl. variant/noise handling per INTEGRATION-ANALYSIS.md §5; AWS profile or "skip live" (+ auto-wipe choice); pause-and-install codex adversarial review if not detected; PR base branch. Later phases read this config (e.g. `scan-live-account` receives the profile + wipe choice; phase 3 acts on the codex decision).
   - Phase 1 baseline: `just unit-tests && just type-check && just test-js` must be green.
   - Phase 2: invoke `onboard-privesc-technique`.
   - Phase 3: run `code-review` skill (review-only). Then **detect** a codex adversarial-review skill; if absent, `AskUserQuestion`: pause to install it (recommended — plans are substantially better) or continue. If present, run one pass.

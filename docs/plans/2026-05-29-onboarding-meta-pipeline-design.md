@@ -62,8 +62,11 @@ cloudsplaining.
 
 ## `mega-pipeline` phases
 
-0. **Frontload** — `AskUserQuestion`: which technique(s) (and how to handle the 4 variant supersets /
-   noisy single-action methods per INTEGRATION-ANALYSIS.md §5), AWS profile or "skip live", PR target branch.
+0. **Frontload ALL interactive decisions** — `AskUserQuestion`, so phases 1–10 never stop to ask: which
+   technique(s) (and how to handle the 4 variant supersets / noisy single-action methods per
+   INTEGRATION-ANALYSIS.md §5); AWS profile or "skip live" (+ auto-wipe choice if a profile is chosen);
+   whether to pause-and-install codex adversarial review if it is not detected; PR target branch. Later
+   phases READ this config and do not re-prompt (e.g. `scan-live-account` receives the profile + wipe choice).
 1. **Baseline** — `just unit-tests` + `just type-check` + **`just test-js`** all green before changes.
 2. **Implement** — invoke `onboard-privesc-technique` (executor; plan already decided).
 3. **Code review** — `code-review` skill (review-only). Then detect whether a codex adversarial-review skill is
