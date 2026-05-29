@@ -60,8 +60,8 @@ pre-push: lint unit-tests type-check test-js safety-scan
 
 [group('test')]
 unit-tests:
-    coverage run -m pytest -v
-    coverage report -m
+    uv run coverage run -m pytest -v
+    uv run coverage report -m
 
 [group('test')]
 safety-scan:
@@ -70,3 +70,8 @@ safety-scan:
 [group('test')]
 compare-reports old new:
     uv run ./utils/compare_example_reports.py --old {{ old }} --new {{ new }}
+
+# Fail if sampleData.js and utils/example-iam-data.json have drifted apart.
+[group('test')]
+check-sampledata-sync:
+    uv run pytest test/test_sample_data_in_sync.py -q
