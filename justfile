@@ -47,7 +47,7 @@ test-js: install-js
 
 [group('test')]
 type-check:
-    ty check
+    uv run ty check
 
 [group('test')]
 unit-tests:

@@ -21,9 +21,10 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 
-def collect_findings(obj: object, path: str = "") -> set[tuple[str, str]]:
+def collect_findings(obj: Any, path: str = "") -> set[tuple[str, str]]:
     """Recursively collect ``(path, finding_id)`` for every findings list in *obj*."""
     found: set[tuple[str, str]] = set()
     if isinstance(obj, dict):
