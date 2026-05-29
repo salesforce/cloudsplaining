@@ -41,24 +41,37 @@ Run the `code-review` skill (review-only) on the diff. Then check for a codex ad
 ### 4. Bug hunt
 Run the `find-bugs` skill on the branch diff.
 
-### 5. Example-data QA
+### 5. Security review
+Run the `security-review` skill on the pending changes. Cloudsplaining is itself a security tool, so a dedicated
+security pass over the diff (injection, unsafe parsing/eval, secret handling, path traversal, etc.) is warranted
+before shipping.
+
+### 6. Simplify
+Run the `simplify` skill to apply reuse / simplification / efficiency / altitude cleanups to the changed code
+(quality only — it does NOT hunt for bugs; that is phases 3-5). Because `simplify` MUTATES the working tree,
+re-run the baseline afterward and confirm green:
+```bash
+just unit-tests && just type-check && just test-js
+```
+
+### 7. Example-data QA
 Run the `report-regression-check` skill (snapshot → `just generate-report` → `just compare-reports` → dogfood).
 It must show findings ADDED and none removed.
 
-### 6. Live-account QA (opt-in)
+### 8. Live-account QA (opt-in)
 If a profile was chosen in phase 0, run the `scan-live-account` skill (it QAs via `qa-report` and wipes its output).
 
-### 7. Pre-push safety gate
+### 9. Pre-push safety gate
 ```bash
 just safety-scan
 ```
 Must exit 0; fail closed otherwise.
 
-### 8. PR
+### 10. PR
 Push the branch and open a PR with `gh pr create --base <base>` — NEVER `main` directly. Optionally run the
 `iterate-pr` skill to drive CI/feedback green.
 
 ## Termination
 
-Findings from phases 3/4/5/6 route back to phase 2. After at most 2 iterations with unresolved findings, STOP
-and surface them via `AskUserQuestion` rather than looping further.
+Findings from phases 3/4/5/7/8 route back to phase 2 (re-implement) or phase 6 (re-simplify). After at most 2
+iterations with unresolved findings, STOP and surface them via `AskUserQuestion` rather than looping further.

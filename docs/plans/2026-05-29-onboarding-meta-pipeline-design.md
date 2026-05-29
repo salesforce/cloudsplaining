@@ -70,13 +70,15 @@ cloudsplaining.
    installed; if **not**, `AskUserQuestion`: pause to install it first (recommended — our experience shows plans
    are substantially better when checked through it) or continue without. If installed, run one adversarial pass.
 4. **find-bugs** — on the branch diff.
-5. **Example-data QA** — `just generate-report` → open report → `qa-report`/`dogfood`.
-6. **Live-account QA (opt-in)** — if a profile was chosen: `scan-live-account` → `qa-report` → **wipe
+5. **Security review** — `security-review` skill on the pending changes (cloudsplaining is a security tool).
+6. **Simplify** — `simplify` skill (reuse/efficiency/altitude cleanups; it MUTATES the tree → re-run baseline tests after).
+7. **Example-data QA** — `just generate-report` → open report → `qa-report`/`dogfood`.
+8. **Live-account QA (opt-in)** — if a profile was chosen: `scan-live-account` → `qa-report` → **wipe
    `.live-scans/` with confirmation**. Never commit.
-7. **Pre-push safety gate** — `just safety-scan` (AKIA/ASIA keys, 40-char secrets, session tokens, 12-digit
+9. **Pre-push safety gate** — `just safety-scan` (AKIA/ASIA keys, 40-char secrets, session tokens, 12-digit
    account IDs; scans staged + tracked + `.live-scans/`). Fail closed.
-8. **PR** — branch + PR (never main); optional `iterate-pr`.
-**Termination:** findings in 3/4/5/6 route back to phase 2, max 2 iterations, then `AskUserQuestion`.
+10. **PR** — branch + PR (never main); optional `iterate-pr`.
+**Termination:** findings in 3/4/5/7/8 route back to phase 2 (or phase 6 to re-simplify), max 2 iterations, then `AskUserQuestion`.
 
 ## Safety & secrets (hardened)
 

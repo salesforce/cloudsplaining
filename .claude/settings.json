@@ -55,6 +55,8 @@
       "Skill(superpowers:subagent-driven-development)",
       "Skill(superpowers:test-driven-development)",
       "Skill(code-review)",
+      "Skill(simplify)",
+      "Skill(security-review)",
       "Skill(onboard-privesc-technique)",
       "Skill(qa-report)",
       "Skill(scan-live-account)",

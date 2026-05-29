@@ -472,11 +472,13 @@ Covered structurally by Task 1.2 (gitignore `dogfood-output/`, `.live-scans/`). 
   - Phase 2: invoke `onboard-privesc-technique`.
   - Phase 3: run `code-review` skill (review-only). Then **detect** a codex adversarial-review skill; if absent, `AskUserQuestion`: pause to install it (recommended — plans are substantially better) or continue. If present, run one pass.
   - Phase 4: `find-bugs` on the diff.
-  - Phase 5: snapshot old report → `just generate-report` → `report-regression-check` (deterministic + dogfood; fail on dropped findings) → `qa-report` on example data.
-  - Phase 6 (opt-in): if profile chosen, `scan-live-account` → wipe.
-  - Phase 7: `just safety-scan` (fail closed).
-  - Phase 8: branch + PR (never main); optional `iterate-pr`.
-  - **Termination:** route 3/4/5/6 findings back to phase 2; max 2 iterations then `AskUserQuestion`.
+  - Phase 5: `security-review` skill on the pending changes (cloudsplaining is a security tool).
+  - Phase 6: `simplify` skill (reuse/efficiency cleanups; mutates the tree → re-run `just unit-tests && just type-check && just test-js`).
+  - Phase 7: snapshot old report → `just generate-report` → `report-regression-check` (deterministic + dogfood; fail on dropped findings) → `qa-report` on example data.
+  - Phase 8 (opt-in): if profile chosen, `scan-live-account` → wipe.
+  - Phase 9: `just safety-scan` (fail closed).
+  - Phase 10: branch + PR (never main); optional `iterate-pr`.
+  - **Termination:** route 3/4/5/7/8 findings back to phase 2 (or phase 6 to re-simplify); max 2 iterations then `AskUserQuestion`.
   - **allowed-tools:** Bash, Edit, Read, Write.
 - [ ] **Step 2: `/skill-review`.** **Step 3: Commit.**
 
