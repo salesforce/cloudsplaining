@@ -130,6 +130,27 @@ def print_no_checks_summary(pr_info: dict[str, Any]) -> None:
         print(f"review_decision\t{review_decision}", flush=True)
 
 
+# Buckets that count as a benign terminal state. Anything else that is not "pending"
+# (fail, cancel, cancelled, timed_out, action_required, stale, or any unrecognized
+# bucket) is treated as a failure so CI is never reported green falsely.
+# Local fix, diverged from getsentry/skills upstream (Codex F2: cancelled/skipped checks
+# previously fell through to ALL_CHECKS_PASSED).
+SUCCESS_BUCKETS = {"pass", "skipping"}
+
+
+def terminal_marker(checks: list[dict[str, Any]], pending_checks: list[dict[str, Any]]) -> str:
+    """Classify finished checks once no actionable (non-human-gate) checks remain pending."""
+    failed = any(
+        check.get("bucket") not in SUCCESS_BUCKETS and check.get("bucket") != "pending"
+        for check in checks
+    )
+    if failed:
+        return "CHECKS_DONE_WITH_FAILURES"
+    if pending_checks:
+        return "CHECKS_BLOCKED_BY_REVIEW_GATE"
+    return "ALL_CHECKS_PASSED"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Monitor PR checks until they finish")
     parser.add_argument("--pr", type=int, help="PR number (defaults to current branch PR)")
@@ -182,23 +203,14 @@ def main() -> int:
         no_checks_started_at = None
 
         pending_checks = [check for check in checks if check.get("bucket") == "pending"]
-        failed = sum(1 for check in checks if check.get("bucket") == "fail")
         actionable_pending = [
             check for check in pending_checks if not is_human_gate_check(check)
         ]
         if actionable_pending:
             time.sleep(args.poll_seconds)
             continue
-        if failed:
-            print("CHECKS_DONE_WITH_FAILURES", flush=True)
-            print_check_summary(checks)
-            return 0
-        if pending_checks:
-            print("CHECKS_BLOCKED_BY_REVIEW_GATE", flush=True)
-            print_check_summary(checks)
-            return 0
 
-        print("ALL_CHECKS_PASSED", flush=True)
+        print(terminal_marker(checks, pending_checks), flush=True)
         print_check_summary(checks)
         return 0
 

@@ -66,6 +66,44 @@ INFO_BOT_PATTERNS = [
 ]
 
 
+def _parse_gh_json(stdout: str) -> dict[str, Any] | list[Any] | None:
+    """Parse gh JSON output, tolerating --paginate's concatenated documents.
+
+    Local fix, diverged from getsentry/skills upstream (Codex F3): `gh api --paginate`
+    (without --slurp) concatenates pages, e.g. "[...][...]". A plain json.loads only
+    reads the first document and then raises, silently dropping later pages. Parse every
+    document and, when they are all arrays (the common paginated case), concatenate them.
+    """
+    stdout = stdout.strip()
+    if not stdout:
+        return None
+    try:
+        return json.loads(stdout)
+    except json.JSONDecodeError:
+        pass
+    decoder = json.JSONDecoder()
+    docs: list[Any] = []
+    idx, length = 0, len(stdout)
+    try:
+        while idx < length:
+            while idx < length and stdout[idx].isspace():
+                idx += 1
+            if idx >= length:
+                break
+            obj, idx = decoder.raw_decode(stdout, idx)
+            docs.append(obj)
+    except json.JSONDecodeError:
+        return None
+    if not docs:
+        return None
+    if all(isinstance(doc, list) for doc in docs):
+        merged: list[Any] = []
+        for doc in docs:
+            merged.extend(doc)
+        return merged
+    return docs[0] if len(docs) == 1 else docs
+
+
 def run_gh(args: list[str]) -> dict[str, Any] | list[Any] | None:
     """Run a gh CLI command and return parsed JSON output."""
     try:
@@ -75,12 +113,10 @@ def run_gh(args: list[str]) -> dict[str, Any] | list[Any] | None:
             text=True,
             check=True,
         )
-        return json.loads(result.stdout) if result.stdout.strip() else None
     except subprocess.CalledProcessError as e:
         print(f"Error running gh {' '.join(args)}: {e.stderr}", file=sys.stderr)
         return None
-    except json.JSONDecodeError:
-        return None
+    return _parse_gh_json(result.stdout)
 
 
 def get_repo_info() -> tuple[str, str] | None:

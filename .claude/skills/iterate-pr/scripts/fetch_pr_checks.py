@@ -56,7 +56,7 @@ def get_pr_info(pr_number: int | None = None) -> dict[str, Any] | None:
         "pr",
         "view",
         "--json",
-        "number,url,headRefName,baseRefName,isDraft,reviewDecision",
+        "number,url,headRefName,headRefOid,baseRefName,isDraft,reviewDecision",
     ]
     if pr_number:
         args.insert(2, str(pr_number))
@@ -200,6 +200,21 @@ def get_run_logs(run_id: int) -> str | None:
         return None
 
 
+def find_matching_run(
+    failed_runs: list[dict[str, Any]], head_sha: str | None, workflow_name: str
+) -> dict[str, Any] | None:
+    """Pick the failed run for a check, bound to the PR head SHA.
+
+    Local fix, diverged from getsentry/skills upstream (Codex F4): matching only by branch
+    + substring name can pull logs from an older commit or a similarly-named workflow after
+    multiple pushes. Require the run's headSha to equal the PR head SHA when it is known.
+    """
+    candidates = failed_runs
+    if head_sha:
+        candidates = [run for run in failed_runs if run.get("headSha") == head_sha]
+    return next((run for run in candidates if workflow_name in run.get("name", "")), None)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Fetch PR CI checks with failure snippets")
     parser.add_argument("--pr", type=int, help="PR number (defaults to current branch PR)")
@@ -213,6 +228,7 @@ def main():
 
     pr_number = pr_info["number"]
     branch = pr_info["headRefName"]
+    head_sha = pr_info.get("headRefOid")
 
     # Get checks
     checks = get_checks(pr_number)
@@ -242,12 +258,9 @@ def main():
             if failed_runs is None:
                 failed_runs = get_failed_runs(branch)
 
-            # Find matching run by workflow name
+            # Find matching run by workflow name, bound to the PR head SHA
             workflow_name = processed["workflow"] or processed["name"]
-            matching_run = next(
-                (r for r in failed_runs if workflow_name in r.get("name", "")),
-                None
-            )
+            matching_run = find_matching_run(failed_runs, head_sha, workflow_name)
 
             if matching_run:
                 logs = get_run_logs(matching_run["databaseId"])
