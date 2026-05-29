@@ -57,3 +57,7 @@ unit-tests:
 [group('test')]
 safety-scan:
     uv run ./utils/safety_scan.py
+
+[group('test')]
+compare-reports old new:
+    uv run ./utils/compare_example_reports.py --old {{old}} --new {{new}}
