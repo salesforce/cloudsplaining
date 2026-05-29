@@ -112,3 +112,77 @@ We've sorted those into 5 categories, based on Bishop Fox's 5 larger categories 
 ### UpdateExistingGlueDevEndpoint
 
 **Updating an existing Glue Dev Endpoint**: An attacker with the _glue:UpdateDevEndpoint_ permission would be able to update the associated SSH public key of an existing Glue development endpoint, to then SSH into it and have access to the permissions the attached role has access to.
+
+## Additional pathfinding.cloud Paths
+
+These privilege-escalation paths come from [pathfinding.cloud](https://pathfinding.cloud) and extend the original Rhino Security Labs set. Each links to its canonical writeup.
+
+### apprunner
+
+- **[PassExistingRoleToNewAppRunnerService](https://pathfinding.cloud/paths/apprunner-001)** — `iam:passrole`, `apprunner:createservice`
+
+### bedrock
+
+- **[PassExistingRoleToNewBedrockCodeInterpreter](https://pathfinding.cloud/paths/bedrock-001)** — `iam:passrole`, `bedrock-agentcore:createcodeinterpreter`, `bedrock-agentcore:startcodeinterpretersession`, `bedrock-agentcore:invokecodeinterpreter`
+- **[AccessExistingBedrockCodeInterpreterSession](https://pathfinding.cloud/paths/bedrock-002)** — `bedrock-agentcore:startcodeinterpretersession`, `bedrock-agentcore:invokecodeinterpreter`
+
+### cloudformation
+
+- **[PassExistingRoleToNewCloudFormationStackSet](https://pathfinding.cloud/paths/cloudformation-003)** — `iam:passrole`, `cloudformation:createstackset`, `cloudformation:createstackinstances`
+- **[PassRoleToUpdateCloudFormationStackSet](https://pathfinding.cloud/paths/cloudformation-004)** — `iam:passrole`, `cloudformation:updatestackset`
+- **[ExecuteCloudFormationChangeSet](https://pathfinding.cloud/paths/cloudformation-005)** — `cloudformation:createchangeset`, `cloudformation:executechangeset`
+
+### codebuild
+
+- **[PassExistingRoleToNewCodeBuildProjectThenBuild](https://pathfinding.cloud/paths/codebuild-001)** — `iam:passrole`, `codebuild:createproject`, `codebuild:startbuild`
+- **[PassExistingRoleToNewCodeBuildProjectThenBuildBatch](https://pathfinding.cloud/paths/codebuild-004)** — `iam:passrole`, `codebuild:createproject`, `codebuild:startbuildbatch`
+
+### ec2
+
+- **[ModifyEC2InstanceUserDataThenRestart](https://pathfinding.cloud/paths/ec2-002)** — `ec2:modifyinstanceattribute`, `ec2:stopinstances`, `ec2:startinstances`
+- **[PassExistingRoleToNewEC2SpotInstance](https://pathfinding.cloud/paths/ec2-003)** — `iam:passrole`, `ec2:requestspotinstances`
+- **[ModifyExistingEC2LaunchTemplate](https://pathfinding.cloud/paths/ec2-004)** — `ec2:createlaunchtemplateversion`, `ec2:modifylaunchtemplate`
+
+### ec2instanceconnect
+
+- **[EC2InstanceConnectSendSSHPublicKey](https://pathfinding.cloud/paths/ec2instanceconnect-003)** — `ec2-instance-connect:sendsshpublickey`, `ec2:describeinstances`
+
+### ecs
+
+- **[PassExistingRoleToNewECSClusterServiceTask](https://pathfinding.cloud/paths/ecs-001)** — `iam:passrole`, `ecs:createcluster`, `ecs:registertaskdefinition`, `ecs:createservice`
+- **[PassExistingRoleToNewECSClusterRunTask](https://pathfinding.cloud/paths/ecs-002)** — `iam:passrole`, `ecs:createcluster`, `ecs:registertaskdefinition`, `ecs:runtask`
+- **[PassExistingRoleToNewECSService](https://pathfinding.cloud/paths/ecs-003)** — `iam:passrole`, `ecs:registertaskdefinition`, `ecs:createservice`
+- **[PassExistingRoleToNewECSTaskViaRunTask](https://pathfinding.cloud/paths/ecs-004)** — `iam:passrole`, `ecs:registertaskdefinition`, `ecs:runtask`
+- **[PassExistingRoleToNewECSTaskViaStartTask](https://pathfinding.cloud/paths/ecs-005)** — `iam:passrole`, `ecs:registertaskdefinition`, `ecs:starttask`
+- **[ECSExecuteCommandOnRunningTask](https://pathfinding.cloud/paths/ecs-006)** — `ecs:executecommand`, `ecs:describetasks`
+
+### glue
+
+- **[PassExistingRoleToNewGlueJobThenRun](https://pathfinding.cloud/paths/glue-003)** — `iam:passrole`, `glue:createjob`, `glue:startjobrun`
+- **[PassExistingRoleToNewGlueJobViaTrigger](https://pathfinding.cloud/paths/glue-004)** — `iam:passrole`, `glue:createjob`, `glue:createtrigger`
+- **[PassExistingRoleToUpdatedGlueJobThenRun](https://pathfinding.cloud/paths/glue-005)** — `iam:passrole`, `glue:updatejob`, `glue:startjobrun`
+- **[PassExistingRoleToUpdatedGlueJobViaTrigger](https://pathfinding.cloud/paths/glue-006)** — `iam:passrole`, `glue:updatejob`, `glue:createtrigger`
+
+### iam
+
+- **[CreateAndRotateAccessKey](https://pathfinding.cloud/paths/iam-003)** — `iam:createaccesskey`, `iam:deleteaccesskey`
+- **[AttachUserPolicyThenCreateAccessKey](https://pathfinding.cloud/paths/iam-015)** — `iam:attachuserpolicy`, `iam:createaccesskey`
+- **[CreatePolicyVersionThenAssumeRole](https://pathfinding.cloud/paths/iam-016)** — `iam:createpolicyversion`, `sts:assumerole`
+- **[PutUserPolicyThenCreateAccessKey](https://pathfinding.cloud/paths/iam-018)** — `iam:putuserpolicy`, `iam:createaccesskey`
+- **[AttachRolePolicyThenUpdateAssumeRolePolicy](https://pathfinding.cloud/paths/iam-019)** — `iam:attachrolepolicy`, `iam:updateassumerolepolicy`
+- **[CreatePolicyVersionThenUpdateAssumeRolePolicy](https://pathfinding.cloud/paths/iam-020)** — `iam:createpolicyversion`, `iam:updateassumerolepolicy`
+- **[PutRolePolicyThenUpdateAssumeRolePolicy](https://pathfinding.cloud/paths/iam-021)** — `iam:putrolepolicy`, `iam:updateassumerolepolicy`
+
+### lambda
+
+- **[UpdateAndInvokeLambdaFunction](https://pathfinding.cloud/paths/lambda-004)** — `lambda:updatefunctioncode`, `lambda:invokefunction`
+- **[UpdateLambdaFunctionAndAddPermission](https://pathfinding.cloud/paths/lambda-005)** — `lambda:updatefunctioncode`, `lambda:addpermission`
+- **[PassExistingRoleToNewLambdaThenAddPermission](https://pathfinding.cloud/paths/lambda-006)** — `iam:passrole`, `lambda:createfunction`, `lambda:addpermission`
+
+### sagemaker
+
+- **[PassExistingRoleToNewSageMakerNotebookInstance](https://pathfinding.cloud/paths/sagemaker-001)** — `iam:passrole`, `sagemaker:createnotebookinstance`
+- **[PassExistingRoleToNewSageMakerTrainingJob](https://pathfinding.cloud/paths/sagemaker-002)** — `iam:passrole`, `sagemaker:createtrainingjob`
+- **[PassExistingRoleToNewSageMakerProcessingJob](https://pathfinding.cloud/paths/sagemaker-003)** — `iam:passrole`, `sagemaker:createprocessingjob`
+- **[CreatePresignedSageMakerNotebookUrl](https://pathfinding.cloud/paths/sagemaker-004)** — `sagemaker:createpresignednotebookinstanceurl`
+- **[UpdateSageMakerNotebookLifecycleConfig](https://pathfinding.cloud/paths/sagemaker-005)** — `sagemaker:createnotebookinstancelifecycleconfig`, `sagemaker:stopnotebookinstance`, `sagemaker:updatenotebookinstance`, `sagemaker:startnotebookinstance`

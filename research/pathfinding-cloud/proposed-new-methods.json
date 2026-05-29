@@ -1,0 +1,658 @@
+[
+  {
+    "path_id": "ec2-004",
+    "category": "existing-passrole",
+    "method_name": "ModifyExistingEC2LaunchTemplate",
+    "actions": [
+      "ec2:createlaunchtemplateversion",
+      "ec2:modifylaunchtemplate"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ec2-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Two-action combo — but only triggers if ASG uses this launch template with a privileged role",
+    "notes": "Requires a launch template already in use by an ASG with a privileged instance profile; single-action step is not exploitable alone"
+  },
+  {
+    "path_id": "ec2-002",
+    "category": "existing-passrole",
+    "method_name": "ModifyEC2InstanceUserDataThenRestart",
+    "actions": [
+      "ec2:modifyinstanceattribute",
+      "ec2:stopinstances",
+      "ec2:startinstances"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ec2-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Three-action combo specific to EC2 user-data injection — fires only if instance has privileged role",
+    "notes": "Exploitable only against instances with elevated instance profiles"
+  },
+  {
+    "path_id": "ec2-003",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewEC2SpotInstance",
+    "actions": [
+      "iam:passrole",
+      "ec2:requestspotinstances"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ec2-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create compute — classic privesc pattern, low noise",
+    "notes": "Mirrors existing CreateEC2WithExistingIP pattern; ec2:requestspotinstances is the spot-variant"
+  },
+  {
+    "path_id": "glue-003",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewGlueJobThenRun",
+    "actions": [
+      "iam:passrole",
+      "glue:createjob",
+      "glue:startjobrun"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/glue-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create + invoke Glue job — 3-action chain, very specific",
+    "notes": null
+  },
+  {
+    "path_id": "glue-004",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewGlueJobViaTrigger",
+    "actions": [
+      "iam:passrole",
+      "glue:createjob",
+      "glue:createtrigger"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/glue-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create Glue job + create trigger — 3-action chain, specific",
+    "notes": null
+  },
+  {
+    "path_id": "glue-005",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToUpdatedGlueJobThenRun",
+    "actions": [
+      "iam:passrole",
+      "glue:updatejob",
+      "glue:startjobrun"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/glue-005",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + update existing Glue job + run — 3-action chain",
+    "notes": "Uses glue:updatejob rather than glue:createjob; still requires iam:passrole"
+  },
+  {
+    "path_id": "glue-006",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToUpdatedGlueJobViaTrigger",
+    "actions": [
+      "iam:passrole",
+      "glue:updatejob",
+      "glue:createtrigger"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/glue-006",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + update Glue job + create trigger — 3-action chain",
+    "notes": null
+  },
+  {
+    "path_id": "iam-018",
+    "category": "principal-access",
+    "method_name": "PutUserPolicyThenCreateAccessKey",
+    "actions": [
+      "iam:putuserpolicy",
+      "iam:createaccesskey"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-018",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — very specific combo for user escalation",
+    "notes": "Superset of existing PutUserPolicy (1-action) and CreateAccessKey (1-action) — both fire independently; adding this fires a third finding on same policy | Existing methods fire first (subset match): PutUserPolicy, CreateAccessKey"
+  },
+  {
+    "path_id": "iam-020",
+    "category": "principal-access",
+    "method_name": "CreatePolicyVersionThenUpdateAssumeRolePolicy",
+    "actions": [
+      "iam:createpolicyversion",
+      "iam:updateassumerolepolicy"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-020",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — very specific combo",
+    "notes": "Superset of existing CreateNewPolicyVersion (fires independently on iam:createpolicyversion) | Existing method fires first (subset match): CreateNewPolicyVersion"
+  },
+  {
+    "path_id": "apprunner-001",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewAppRunnerService",
+    "actions": [
+      "iam:passrole",
+      "apprunner:createservice"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/apprunner-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create App Runner service — 2-action chain mirroring existing pattern",
+    "notes": null
+  },
+  {
+    "path_id": "apprunner-002",
+    "category": "existing-passrole",
+    "method_name": "UpdateExistingAppRunnerService",
+    "actions": [
+      "apprunner:updateservice"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/apprunner-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — triggers on any apprunner:updateservice grant, exploitable only if a privileged App Runner service exists",
+    "notes": "Mirrors EditExistingLambdaFunctionWithRole precedent (single lambda:updatefunctioncode); same noise profile"
+  },
+  {
+    "path_id": "bedrock-001",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewBedrockCodeInterpreter",
+    "actions": [
+      "iam:passrole",
+      "bedrock-agentcore:createcodeinterpreter",
+      "bedrock-agentcore:startcodeinterpretersession",
+      "bedrock-agentcore:invokecodeinterpreter"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 3 bedrock-agentcore actions — very specific 4-action chain",
+    "notes": "bedrock-agentcore is a new service prefix (2025); confirmed in policy_sentry"
+  },
+  {
+    "path_id": "bedrock-002",
+    "category": "existing-passrole",
+    "method_name": "AccessExistingBedrockCodeInterpreterSession",
+    "actions": [
+      "bedrock-agentcore:startcodeinterpretersession",
+      "bedrock-agentcore:invokecodeinterpreter"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Two narrow bedrock-agentcore actions — fires only if code interpreter with privileged role exists",
+    "notes": null
+  },
+  {
+    "path_id": "cloudformation-002",
+    "category": "existing-passrole",
+    "method_name": "UpdateExistingCloudFormationStack",
+    "actions": [
+      "cloudformation:updatestack"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — cloudformation:updatestack is common; exploitable only if a privileged CFN role is attached to an existing stack",
+    "notes": "Single-action high-noise similar to codebuild:startbuild, ssm:sendcommand"
+  },
+  {
+    "path_id": "cloudformation-003",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewCloudFormationStackSet",
+    "actions": [
+      "iam:passrole",
+      "cloudformation:createstackset",
+      "cloudformation:createstackinstances"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 2 CloudFormation StackSet actions — 3-action chain, specific",
+    "notes": null
+  },
+  {
+    "path_id": "cloudformation-004",
+    "category": "new-passrole",
+    "method_name": "PassRoleToUpdateCloudFormationStackSet",
+    "actions": [
+      "iam:passrole",
+      "cloudformation:updatestackset"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + update StackSet — 2-action chain, modifies existing stack set with new role",
+    "notes": null
+  },
+  {
+    "path_id": "cloudformation-005",
+    "category": "existing-passrole",
+    "method_name": "ExecuteCloudFormationChangeSet",
+    "actions": [
+      "cloudformation:createchangeset",
+      "cloudformation:executechangeset"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-005",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Two-action combo specific to change-set workflow — exploitable if change set targets a privileged stack",
+    "notes": null
+  },
+  {
+    "path_id": "codebuild-001",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewCodeBuildProjectThenBuild",
+    "actions": [
+      "iam:passrole",
+      "codebuild:createproject",
+      "codebuild:startbuild"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create + start CodeBuild project — 3-action chain",
+    "notes": null
+  },
+  {
+    "path_id": "codebuild-002",
+    "category": "existing-passrole",
+    "method_name": "StartExistingCodeBuildProject",
+    "actions": [
+      "codebuild:startbuild"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — codebuild:startbuild is common in CI/CD policies; exploitable only if project role is privileged",
+    "notes": "High FP risk; single-action like ssm:sendcommand; consider deferring or keeping as medium-confidence"
+  },
+  {
+    "path_id": "codebuild-003",
+    "category": "existing-passrole",
+    "method_name": "StartExistingCodeBuildProjectBatch",
+    "actions": [
+      "codebuild:startbuildbatch"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — similar to codebuild:startbuild; exploitable only if project role is privileged",
+    "notes": "Same high-noise profile as codebuild-002"
+  },
+  {
+    "path_id": "codebuild-004",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewCodeBuildProjectThenBuildBatch",
+    "actions": [
+      "iam:passrole",
+      "codebuild:createproject",
+      "codebuild:startbuildbatch"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create + start batch — 3-action chain, specific",
+    "notes": null
+  },
+  {
+    "path_id": "ec2instanceconnect-003",
+    "category": "existing-passrole",
+    "method_name": "EC2InstanceConnectSendSSHPublicKey",
+    "actions": [
+      "ec2-instance-connect:sendsshpublickey",
+      "ec2:describeinstances"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ec2instanceconnect-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Two-action combo — specific to EC2 Instance Connect; exploitable if target instance has privileged role",
+    "notes": "ec2:describeinstances is in the yaml required field (not additional)"
+  },
+  {
+    "path_id": "ecs-001",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewECSClusterServiceTask",
+    "actions": [
+      "iam:passrole",
+      "ecs:createcluster",
+      "ecs:registertaskdefinition",
+      "ecs:createservice"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 3 ECS actions (includes CreateCluster) — 4-action chain, specific",
+    "notes": "Superset of ecs-003 (PassExistingRoleToNewECSService, which omits ecs:createcluster) — both proposed entries fire on a policy granting all 4 actions"
+  },
+  {
+    "path_id": "ecs-002",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewECSClusterRunTask",
+    "actions": [
+      "iam:passrole",
+      "ecs:createcluster",
+      "ecs:registertaskdefinition",
+      "ecs:runtask"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 3 ECS actions (includes CreateCluster) — 4-action chain",
+    "notes": "Superset of ecs-004 (PassExistingRoleToNewECSTaskViaRunTask) — both fire on same policy"
+  },
+  {
+    "path_id": "ecs-003",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewECSService",
+    "actions": [
+      "iam:passrole",
+      "ecs:registertaskdefinition",
+      "ecs:createservice"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 2 ECS actions — 3-action chain",
+    "notes": "Subset of ecs-001; both fire if policy grants all 4 ecs-001 actions"
+  },
+  {
+    "path_id": "ecs-004",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewECSTaskViaRunTask",
+    "actions": [
+      "iam:passrole",
+      "ecs:registertaskdefinition",
+      "ecs:runtask"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 2 ECS actions — 3-action chain",
+    "notes": "Subset of ecs-002; both fire if policy grants all 4 ecs-002 actions"
+  },
+  {
+    "path_id": "ecs-005",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewECSTaskViaStartTask",
+    "actions": [
+      "iam:passrole",
+      "ecs:registertaskdefinition",
+      "ecs:starttask"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-005",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + 2 ECS actions — 3-action chain, ecs:starttask variant",
+    "notes": null
+  },
+  {
+    "path_id": "ecs-006",
+    "category": "existing-passrole",
+    "method_name": "ECSExecuteCommandOnRunningTask",
+    "actions": [
+      "ecs:executecommand",
+      "ecs:describetasks"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-006",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Two-action combo — specific to ECS Exec; exploitable if running task has privileged role",
+    "notes": null
+  },
+  {
+    "path_id": "iam-003",
+    "category": "principal-access",
+    "method_name": "CreateAndRotateAccessKey",
+    "actions": [
+      "iam:createaccesskey",
+      "iam:deleteaccesskey"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — specific combo but CreateAccessKey alone already fires",
+    "notes": "Superset of existing CreateAccessKey (1-action); both fire on same policy with iam:createaccesskey + iam:deleteaccesskey | Existing method fires first (subset match): CreateAccessKey"
+  },
+  {
+    "path_id": "iam-014",
+    "category": "principal-access",
+    "method_name": "AttachRolePolicyThenAssumeRole",
+    "actions": [
+      "iam:attachrolepolicy",
+      "sts:assumerole"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-014",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM actions (matches existing AttachRolePolicy exactly) — same action set",
+    "notes": "ACTION SET IS IDENTICAL to existing AttachRolePolicy method [iam:attachrolepolicy, sts:assumerole] — REDUNDANT; would not add new detection. Do not add."
+  },
+  {
+    "path_id": "iam-015",
+    "category": "principal-access",
+    "method_name": "AttachUserPolicyThenCreateAccessKey",
+    "actions": [
+      "iam:attachuserpolicy",
+      "iam:createaccesskey"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-015",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — specific combo",
+    "notes": "Superset of existing AttachUserPolicy (1-action) and CreateAccessKey (1-action) — both already fire independently | Existing methods fire first (subset match): AttachUserPolicy, CreateAccessKey"
+  },
+  {
+    "path_id": "iam-016",
+    "category": "principal-access",
+    "method_name": "CreatePolicyVersionThenAssumeRole",
+    "actions": [
+      "iam:createpolicyversion",
+      "sts:assumerole"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-016",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two actions — CreateNewPolicyVersion alone already fires on iam:createpolicyversion",
+    "notes": "Superset of existing CreateNewPolicyVersion (1-action); adding as separate entry fires a second finding on same policy | Existing method fires first (subset match): CreateNewPolicyVersion"
+  },
+  {
+    "path_id": "iam-017",
+    "category": "principal-access",
+    "method_name": "PutRolePolicyThenAssumeRole",
+    "actions": [
+      "iam:putrolepolicy",
+      "sts:assumerole"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-017",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM actions (matches existing PutRolePolicy exactly) — same action set",
+    "notes": "ACTION SET IS IDENTICAL to existing PutRolePolicy method [iam:putrolepolicy, sts:assumerole] — REDUNDANT; would not add new detection. Do not add."
+  },
+  {
+    "path_id": "iam-019",
+    "category": "principal-access",
+    "method_name": "AttachRolePolicyThenUpdateAssumeRolePolicy",
+    "actions": [
+      "iam:attachrolepolicy",
+      "iam:updateassumerolepolicy"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-019",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — specific combo for role policy escalation without sts:assumerole",
+    "notes": "Addresses the sts:assumerole bundling gap (INTEGRATION-ANALYSIS §3): a policy with iam:attachrolepolicy but not sts:assumerole is not caught by existing AttachRolePolicy method"
+  },
+  {
+    "path_id": "iam-021",
+    "category": "principal-access",
+    "method_name": "PutRolePolicyThenUpdateAssumeRolePolicy",
+    "actions": [
+      "iam:putrolepolicy",
+      "iam:updateassumerolepolicy"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/iam-021",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two IAM write actions — specific combo for role policy escalation without sts:assumerole",
+    "notes": "Addresses the sts:assumerole bundling gap: a policy with iam:putrolepolicy but not sts:assumerole is not caught by existing PutRolePolicy method"
+  },
+  {
+    "path_id": "lambda-004",
+    "category": "existing-passrole",
+    "method_name": "UpdateAndInvokeLambdaFunction",
+    "actions": [
+      "lambda:updatefunctioncode",
+      "lambda:invokefunction"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/lambda-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two-action chain — EditExistingLambdaFunctionWithRole (1-action) already fires on lambda:updatefunctioncode",
+    "notes": "Superset of existing EditExistingLambdaFunctionWithRole; both fire on same policy | Existing method fires first (subset match): EditExistingLambdaFunctionWithRole"
+  },
+  {
+    "path_id": "lambda-005",
+    "category": "existing-passrole",
+    "method_name": "UpdateLambdaFunctionAndAddPermission",
+    "actions": [
+      "lambda:updatefunctioncode",
+      "lambda:addpermission"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/lambda-005",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Two-action chain — EditExistingLambdaFunctionWithRole already fires on lambda:updatefunctioncode",
+    "notes": "Superset of existing EditExistingLambdaFunctionWithRole; both fire on same policy | Existing method fires first (subset match): EditExistingLambdaFunctionWithRole"
+  },
+  {
+    "path_id": "lambda-006",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewLambdaThenAddPermission",
+    "actions": [
+      "iam:passrole",
+      "lambda:createfunction",
+      "lambda:addpermission"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/lambda-006",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create function + add permission — 3-action chain; different exploit path from Invoke variant",
+    "notes": null
+  },
+  {
+    "path_id": "sagemaker-001",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewSageMakerNotebookInstance",
+    "actions": [
+      "iam:passrole",
+      "sagemaker:createnotebookinstance"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create SageMaker notebook — 2-action chain",
+    "notes": null
+  },
+  {
+    "path_id": "sagemaker-002",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewSageMakerTrainingJob",
+    "actions": [
+      "iam:passrole",
+      "sagemaker:createtrainingjob"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create training job — 2-action chain",
+    "notes": null
+  },
+  {
+    "path_id": "sagemaker-003",
+    "category": "new-passrole",
+    "method_name": "PassExistingRoleToNewSageMakerProcessingJob",
+    "actions": [
+      "iam:passrole",
+      "sagemaker:createprocessingjob"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-003",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "PassRole + create processing job — 2-action chain",
+    "notes": null
+  },
+  {
+    "path_id": "sagemaker-004",
+    "category": "existing-passrole",
+    "method_name": "CreatePresignedSageMakerNotebookUrl",
+    "actions": [
+      "sagemaker:createpresignednotebookinstanceurl"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-004",
+    "policy_sentry_ok": true,
+    "fp_risk": "medium",
+    "fp_reason": "Single action but narrow — sagemaker:createpresignednotebookinstanceurl is quite specific; exploitable if notebook has privileged role",
+    "notes": "Narrower than ssm:sendcommand; medium FP risk is appropriate"
+  },
+  {
+    "path_id": "sagemaker-005",
+    "category": "existing-passrole",
+    "method_name": "UpdateSageMakerNotebookLifecycleConfig",
+    "actions": [
+      "sagemaker:createnotebookinstancelifecycleconfig",
+      "sagemaker:stopnotebookinstance",
+      "sagemaker:updatenotebookinstance",
+      "sagemaker:startnotebookinstance"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-005",
+    "policy_sentry_ok": true,
+    "fp_risk": "low",
+    "fp_reason": "Four-action chain specific to SageMaker notebook lifecycle — very precise",
+    "notes": null
+  },
+  {
+    "path_id": "ssm-001",
+    "category": "existing-passrole",
+    "method_name": "SSMStartSessionOnInstance",
+    "actions": [
+      "ssm:startsession"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ssm-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — ssm:startsession is extremely common in operational policies; exploitable only if EC2 instance has privileged role",
+    "notes": "Very high noise; almost all SSM-enabled environments grant this broadly"
+  },
+  {
+    "path_id": "ssm-002",
+    "category": "existing-passrole",
+    "method_name": "SSMSendCommandToInstance",
+    "actions": [
+      "ssm:sendcommand"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/ssm-002",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — ssm:sendcommand is extremely common; exploitable only if EC2 instance has privileged role",
+    "notes": "Very high noise; has UpdateExistingGlueDevEndpoint as precedent for single-action but ssm:sendcommand is far more prevalent"
+  },
+  {
+    "path_id": "sts-001",
+    "category": "principal-access",
+    "method_name": "AssumeExistingRole",
+    "actions": [
+      "sts:assumerole"
+    ],
+    "pathfinding_url": "https://pathfinding.cloud/paths/sts-001",
+    "policy_sentry_ok": true,
+    "fp_risk": "high",
+    "fp_reason": "Single action — sts:assumerole is ubiquitous in cross-account and federation policies; already in ACTIONS_THAT_RETURN_CREDENTIALS",
+    "notes": "Already detected via ACTIONS_THAT_RETURN_CREDENTIALS as CredentialsExposure; adding to PRIVILEGE_ESCALATION_METHODS would double-flag. Recommend keeping as CredentialsExposure only."
+  }
+]
