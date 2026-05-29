@@ -72,13 +72,15 @@ def run_gh_json(
 def get_pr_info(pr_number: int | None) -> dict[str, Any] | None:
     """Resolve the PR to monitor."""
     if pr_number is not None:
-        pr_info = run_gh_json([
-            "pr",
-            "view",
-            str(pr_number),
-            "--json",
-            "number,url,isDraft,reviewDecision",
-        ])
+        pr_info = run_gh_json(
+            [
+                "pr",
+                "view",
+                str(pr_number),
+                "--json",
+                "number,url,isDraft,reviewDecision",
+            ]
+        )
     else:
         pr_info = run_gh_json(["pr", "view", "--json", "number,url,isDraft,reviewDecision"])
 
@@ -91,22 +93,23 @@ def get_pr_info(pr_number: int | None) -> dict[str, Any] | None:
 
 def get_checks(pr_number: int) -> list[dict[str, Any]] | None:
     """Fetch the current check list for a PR."""
-    checks = run_gh_json([
-        "pr",
-        "checks",
-        str(pr_number),
-        "--json",
-        "name,bucket,link,workflow,state,description",
-    ], allowed_returncodes=(0, 1, 8, 16), empty_stdout_value=[])
+    checks = run_gh_json(
+        [
+            "pr",
+            "checks",
+            str(pr_number),
+            "--json",
+            "name,bucket,link,workflow,state,description",
+        ],
+        allowed_returncodes=(0, 1, 8, 16),
+        empty_stdout_value=[],
+    )
     return checks if isinstance(checks, list) else None
 
 
 def is_human_gate_check(check: dict[str, Any]) -> bool:
     """Return true when a pending entry is a human review/approval gate."""
-    haystack = " ".join(
-        str(check.get(field, ""))
-        for field in ("name", "state", "description", "workflow")
-    )
+    haystack = " ".join(str(check.get(field, "")) for field in ("name", "state", "description", "workflow"))
     return any(re.search(pattern, haystack) for pattern in HUMAN_GATE_PATTERNS)
 
 
@@ -140,10 +143,7 @@ SUCCESS_BUCKETS = {"pass", "skipping"}
 
 def terminal_marker(checks: list[dict[str, Any]], pending_checks: list[dict[str, Any]]) -> str:
     """Classify finished checks once no actionable (non-human-gate) checks remain pending."""
-    failed = any(
-        check.get("bucket") not in SUCCESS_BUCKETS and check.get("bucket") != "pending"
-        for check in checks
-    )
+    failed = any(check.get("bucket") not in SUCCESS_BUCKETS and check.get("bucket") != "pending" for check in checks)
     if failed:
         return "CHECKS_DONE_WITH_FAILURES"
     if pending_checks:
@@ -203,9 +203,7 @@ def main() -> int:
         no_checks_started_at = None
 
         pending_checks = [check for check in checks if check.get("bucket") == "pending"]
-        actionable_pending = [
-            check for check in pending_checks if not is_human_gate_check(check)
-        ]
+        actionable_pending = [check for check in pending_checks if not is_human_gate_check(check)]
         if actionable_pending:
             time.sleep(args.poll_seconds)
             continue

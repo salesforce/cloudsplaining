@@ -60,4 +60,4 @@ safety-scan:
 
 [group('test')]
 compare-reports old new:
-    uv run ./utils/compare_example_reports.py --old {{old}} --new {{new}}
+    uv run ./utils/compare_example_reports.py --old {{ old }} --new {{ new }}

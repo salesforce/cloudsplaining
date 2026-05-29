@@ -20,12 +20,21 @@ NAME_MAP: dict[str, tuple[str, str]] = {
     "apprunner-001": ("PassExistingRoleToNewAppRunnerService", ""),
     "bedrock-001": ("PassExistingRoleToNewBedrockCodeInterpreter", ""),
     "cloudformation-003": ("PassExistingRoleToNewCloudFormationStackSet", ""),
-    "cloudformation-004": ("PassRoleToUpdateCloudFormationStackSet", "modifies existing stack set but passes a new role"),
+    "cloudformation-004": (
+        "PassRoleToUpdateCloudFormationStackSet",
+        "modifies existing stack set but passes a new role",
+    ),
     "codebuild-001": ("PassExistingRoleToNewCodeBuildProjectThenBuild", ""),
     "codebuild-004": ("PassExistingRoleToNewCodeBuildProjectThenBuildBatch", ""),
     "ec2-003": ("PassExistingRoleToNewEC2SpotInstance", ""),
-    "ecs-001": ("PassExistingRoleToNewECSClusterServiceTask", "VARIANT of ecs-003 (adds ecs:CreateCluster) -> overlaps ecs-003"),
-    "ecs-002": ("PassExistingRoleToNewECSClusterRunTask", "VARIANT of ecs-004 (adds ecs:CreateCluster) -> overlaps ecs-004"),
+    "ecs-001": (
+        "PassExistingRoleToNewECSClusterServiceTask",
+        "VARIANT of ecs-003 (adds ecs:CreateCluster) -> overlaps ecs-003",
+    ),
+    "ecs-002": (
+        "PassExistingRoleToNewECSClusterRunTask",
+        "VARIANT of ecs-004 (adds ecs:CreateCluster) -> overlaps ecs-004",
+    ),
     "ecs-003": ("PassExistingRoleToNewECSService", ""),
     "ecs-004": ("PassExistingRoleToNewECSTaskViaRunTask", ""),
     "ecs-005": ("PassExistingRoleToNewECSTaskViaStartTask", ""),
@@ -55,9 +64,18 @@ NAME_MAP: dict[str, tuple[str, str]] = {
     "ssm-002": ("SSMSendCommandToInstance", ""),
     # --- IAM role-policy techniques cloudsplaining bundles with sts:AssumeRole ---
     # pathfinding documents these as standalone (role may be service-assumable / already assumable)
-    "iam-005": ("PutRolePolicyWithoutAssume", "cloudsplaining PutRolePolicy bundles sts:assumerole; this is the standalone case"),
-    "iam-009": ("AttachRolePolicyWithoutAssume", "cloudsplaining AttachRolePolicy bundles sts:assumerole; this is the standalone case"),
-    "iam-012": ("UpdateAssumeRolePolicyWithoutAssume", "cloudsplaining UpdateRolePolicyToAssumeIt bundles sts:assumerole; standalone case"),
+    "iam-005": (
+        "PutRolePolicyWithoutAssume",
+        "cloudsplaining PutRolePolicy bundles sts:assumerole; this is the standalone case",
+    ),
+    "iam-009": (
+        "AttachRolePolicyWithoutAssume",
+        "cloudsplaining AttachRolePolicy bundles sts:assumerole; this is the standalone case",
+    ),
+    "iam-012": (
+        "UpdateAssumeRolePolicyWithoutAssume",
+        "cloudsplaining UpdateRolePolicyToAssumeIt bundles sts:assumerole; standalone case",
+    ),
     "iam-019": ("AttachRolePolicyThenUpdateAssume", "VARIANT of iam-009; superset of AttachRolePolicyWithoutAssume"),
     "iam-021": ("PutRolePolicyThenUpdateAssume", "VARIANT of iam-005; superset of PutRolePolicyWithoutAssume"),
 }

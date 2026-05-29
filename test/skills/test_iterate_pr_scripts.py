@@ -1,4 +1,5 @@
 """Tests for the local hardening fixes to the vendored iterate-pr scripts (Codex F2/F3/F4)."""
+
 import importlib.util
 from pathlib import Path
 
@@ -18,6 +19,7 @@ checks = _load("fetch_pr_checks")
 
 
 # --- F2: cancelled / skipped checks must not be reported as green ---
+
 
 def test_cancelled_check_is_not_green():
     result = monitor.terminal_marker([{"bucket": "pass"}, {"bucket": "cancel"}], [])
@@ -42,6 +44,7 @@ def test_only_human_gate_pending_is_review_gate():
 
 # --- F3: paginated (concatenated) JSON must be preserved, not dropped ---
 
+
 def test_paginated_arrays_are_merged():
     assert feedback._parse_gh_json('[{"a": 1}][{"a": 2}]') == [{"a": 1}, {"a": 2}]
 
@@ -53,6 +56,7 @@ def test_single_document_unchanged():
 
 
 # --- F4: failure logs must be bound to the PR head SHA ---
+
 
 def test_matching_run_requires_head_sha():
     failed = [

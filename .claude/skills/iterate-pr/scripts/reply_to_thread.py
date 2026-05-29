@@ -32,15 +32,15 @@ def _normalize_body(body: str) -> str:
     actual newlines for readability/signatures.
     """
     normalized = body.replace("\\r\\n", "\\n").replace("\\n", "\n")
-    
+
     # Add Claude Code attribution if not already present
     # Check if the last line matches the bot signature pattern: *— Bot Name* or *- Bot Name*
     lines = normalized.rstrip().split("\n")
     last_line = lines[-1] if lines else ""
-    
+
     # Match bot signatures like "*— Claude Code*", "*- Any Bot*", etc.
     bot_signature_pattern = r"^\*[—-]\s+.+\*$"
-    
+
     if not re.match(bot_signature_pattern, last_line.strip()):
         # Ensure proper spacing before attribution
         if normalized and not normalized.endswith("\n"):
@@ -48,7 +48,7 @@ def _normalize_body(body: str) -> str:
         if normalized and not normalized.endswith("\n\n"):
             normalized += "\n"
         normalized += "*— Claude Code*"
-    
+
     return normalized
 
 
@@ -148,14 +148,8 @@ def main():
     output = {
         "replied": sum(1 for _, ok in results if ok),
         "failed": sum(1 for _, ok in results if not ok),
-        "operations": [
-            {"thread_id": tid, "status": "ok" if ok else "failed"}
-            for tid, ok in results
-        ],
-        "threads": {
-            tid: "ok" if all(statuses) else "failed"
-            for tid, statuses in by_thread.items()
-        },
+        "operations": [{"thread_id": tid, "status": "ok" if ok else "failed"} for tid, ok in results],
+        "threads": {tid: "ok" if all(statuses) else "failed" for tid, statuses in by_thread.items()},
     }
     print(json.dumps(output, indent=2))
 

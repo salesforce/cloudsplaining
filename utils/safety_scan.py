@@ -8,6 +8,7 @@ Usage:
   # Default mode — scan branch diff vs origin/master and verify .gitignore:
   ./utils/safety_scan.py
 """
+
 import argparse
 import re
 import subprocess
@@ -45,6 +46,7 @@ REQUIRED_GITIGNORE_ENTRIES = [
 # Core scanner
 # ---------------------------------------------------------------------------
 
+
 def scan_file(path: Path) -> tuple[list[tuple[int, str, str]], list[tuple[int, str]]]:
     """Return (fail_hits, warn_hits) for *path*.
 
@@ -80,6 +82,7 @@ def scan_file(path: Path) -> tuple[list[tuple[int, str, str]], list[tuple[int, s
 # ---------------------------------------------------------------------------
 # Git helpers (default mode)
 # ---------------------------------------------------------------------------
+
 
 def get_branch_changed_files() -> list[Path]:
     """Return files changed on this branch vs origin/master."""
@@ -117,10 +120,9 @@ def check_gitignore(repo_root: Path) -> list[str]:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Fail-closed AWS credential scanner for pre-push use."
-    )
+    parser = argparse.ArgumentParser(description="Fail-closed AWS credential scanner for pre-push use.")
     parser.add_argument(
         "--path",
         dest="paths",
@@ -132,7 +134,7 @@ def main() -> int:
     args = parser.parse_args()
 
     all_fail_hits: list[tuple[str, int, str, str]] = []  # (file, lineno, kind, line)
-    all_warn_hits: list[tuple[str, int, str]] = []       # (file, lineno, line)
+    all_warn_hits: list[tuple[str, int, str]] = []  # (file, lineno, line)
     gitignore_missing: list[str] = []
     exit_code = 0
 
@@ -146,7 +148,8 @@ def main() -> int:
         repo_root = Path(
             subprocess.run(
                 ["git", "rev-parse", "--show-toplevel"],
-                capture_output=True, text=True,
+                capture_output=True,
+                text=True,
             ).stdout.strip()
         )
         files_to_scan = get_branch_changed_files()

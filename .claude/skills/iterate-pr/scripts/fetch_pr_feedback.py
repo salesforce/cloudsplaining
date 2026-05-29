@@ -26,6 +26,7 @@ Bot classification:
 - Info bots (Codecov, Dependabot, Renovate, etc.) post status reports and are
   placed in the ``bot`` bucket for silent skipping.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -152,21 +153,25 @@ def is_bot(username: str) -> bool:
 
 def get_review_comments(owner: str, repo: str, pr_number: int) -> list[dict[str, Any]]:
     """Get inline code review comments via API."""
-    result = run_gh([
-        "api",
-        f"repos/{owner}/{repo}/pulls/{pr_number}/comments",
-        "--paginate",
-    ])
+    result = run_gh(
+        [
+            "api",
+            f"repos/{owner}/{repo}/pulls/{pr_number}/comments",
+            "--paginate",
+        ]
+    )
     return result if isinstance(result, list) else []
 
 
 def get_issue_comments(owner: str, repo: str, pr_number: int) -> list[dict[str, Any]]:
     """Get PR conversation comments (includes bot comments)."""
-    result = run_gh([
-        "api",
-        f"repos/{owner}/{repo}/issues/{pr_number}/comments",
-        "--paginate",
-    ])
+    result = run_gh(
+        [
+            "api",
+            f"repos/{owner}/{repo}/issues/{pr_number}/comments",
+            "--paginate",
+        ]
+    )
     return result if isinstance(result, list) else []
 
 
@@ -202,18 +207,26 @@ def get_review_threads(owner: str, repo: str, pr_number: int) -> list[dict[str, 
     try:
         result = subprocess.run(
             [
-                "gh", "api", "graphql",
-                "-f", f"query={query}",
-                "-F", f"owner={owner}",
-                "-F", f"repo={repo}",
-                "-F", f"pr={pr_number}",
+                "gh",
+                "api",
+                "graphql",
+                "-f",
+                f"query={query}",
+                "-F",
+                f"owner={owner}",
+                "-F",
+                f"repo={repo}",
+                "-F",
+                f"pr={pr_number}",
             ],
             capture_output=True,
             text=True,
             check=True,
         )
         data = json.loads(result.stdout)
-        threads = data.get("data", {}).get("repository", {}).get("pullRequest", {}).get("reviewThreads", {}).get("nodes", [])
+        threads = (
+            data.get("data", {}).get("repository", {}).get("pullRequest", {}).get("reviewThreads", {}).get("nodes", [])
+        )
         return threads
     except (subprocess.CalledProcessError, json.JSONDecodeError):
         return []
@@ -369,9 +382,9 @@ def main():
 
     # Categorized feedback using LOGAF scale
     feedback = {
-        "high": [],      # Must address before merge
-        "medium": [],    # Should address
-        "low": [],       # Optional suggestions
+        "high": [],  # Must address before merge
+        "medium": [],  # Should address
+        "low": [],  # Optional suggestions
         "bot": [],
         "resolved": [],
     }
@@ -469,9 +482,7 @@ def main():
 
     # Count review bot items across priority buckets
     review_bot_count = sum(
-        1 for bucket in ("high", "medium", "low")
-        for item in feedback[bucket]
-        if item.get("review_bot")
+        1 for bucket in ("high", "medium", "low") for item in feedback[bucket] if item.get("review_bot")
     )
 
     # Build output

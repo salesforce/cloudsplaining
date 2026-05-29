@@ -51,10 +51,7 @@ def load_paths() -> list[dict]:
             "description": (data.get("description") or "").strip(),
             "recommendation": (data.get("recommendation") or "").strip(),
             "limitations": (data.get("limitations") or "").strip(),
-            "references": [
-                {"title": r.get("title"), "url": r.get("url")}
-                for r in (data.get("references") or [])
-            ],
+            "references": [{"title": r.get("title"), "url": r.get("url")} for r in (data.get("references") or [])],
             "relatedPaths": data.get("relatedPaths") or [],
             "_file": str(yml.relative_to(REPO_ROOT)),
         }
@@ -117,8 +114,14 @@ def main() -> None:
         action_universe.update(r["required_actions"])
         cov = coverage_for(r["required_actions"])
         by_status.setdefault(cov["status"], []).append(
-            {"id": r["id"], "name": r["name"], "category": r["category"],
-             "required_actions": r["required_actions"], "parent": r["parent"], "coverage": cov}
+            {
+                "id": r["id"],
+                "name": r["name"],
+                "category": r["category"],
+                "required_actions": r["required_actions"],
+                "parent": r["parent"],
+                "coverage": cov,
+            }
         )
 
     # Existing actions referenced anywhere in PRIVILEGE_ESCALATION_METHODS

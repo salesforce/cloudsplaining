@@ -15,6 +15,7 @@ added/removed and the diff should be reviewed manually.
 Run: ``uv run ./utils/compare_example_reports.py --old OLD.json --new NEW.json``
 Exit 1 if any finding was removed; 0 otherwise.
 """
+
 from __future__ import annotations
 
 import argparse

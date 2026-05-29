@@ -12,6 +12,7 @@ If --pr is not specified, uses the PR for the current branch.
 
 Output: JSON to stdout with structured check data.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -89,12 +90,14 @@ def get_checks(pr_number: int | None = None) -> list[dict[str, Any]]:
                 continue
             parts = line.split("\t")
             if len(parts) >= 2:
-                checks.append({
-                    "name": parts[0].strip(),
-                    "bucket": parts[1].strip(),
-                    "link": parts[3].strip() if len(parts) > 3 else "",
-                    "workflow": "",
-                })
+                checks.append(
+                    {
+                        "name": parts[0].strip(),
+                        "bucket": parts[1].strip(),
+                        "link": parts[3].strip() if len(parts) > 3 else "",
+                        "workflow": "",
+                    }
+                )
         return checks
     except Exception:
         return []
@@ -102,21 +105,15 @@ def get_checks(pr_number: int | None = None) -> list[dict[str, Any]]:
 
 def is_human_gate_check(check: dict[str, Any]) -> bool:
     """Return true when a pending entry is a human review/approval gate."""
-    haystack = " ".join(
-        str(check.get(field, ""))
-        for field in ("name", "state", "description", "workflow")
-    )
+    haystack = " ".join(str(check.get(field, "")) for field in ("name", "state", "description", "workflow"))
     return any(re.search(pattern, haystack) for pattern in HUMAN_GATE_PATTERNS)
 
 
 def get_failed_runs(branch: str) -> list[dict[str, Any]]:
     """Get recent failed workflow runs for a branch."""
-    result = run_gh([
-        "run", "list",
-        "--branch", branch,
-        "--limit", "10",
-        "--json", "databaseId,name,status,conclusion,headSha"
-    ])
+    result = run_gh(
+        ["run", "list", "--branch", branch, "--limit", "10", "--json", "databaseId,name,status,conclusion,headSha"]
+    )
     if not isinstance(result, list):
         return []
     # Return runs that failed or are in progress
@@ -286,15 +283,9 @@ def main():
             "failed": sum(1 for c in processed_checks if c["status"] == "fail"),
             "pending": sum(1 for c in processed_checks if c["status"] == "pending"),
             "actionable_pending": sum(
-                1
-                for c in processed_checks
-                if c["status"] == "pending" and not c.get("human_gate")
+                1 for c in processed_checks if c["status"] == "pending" and not c.get("human_gate")
             ),
-            "human_gate_pending": sum(
-                1
-                for c in processed_checks
-                if c["status"] == "pending" and c.get("human_gate")
-            ),
+            "human_gate_pending": sum(1 for c in processed_checks if c["status"] == "pending" and c.get("human_gate")),
             "skipped": sum(1 for c in processed_checks if c["status"] in ("skipping", "cancel")),
         },
         "checks": processed_checks,

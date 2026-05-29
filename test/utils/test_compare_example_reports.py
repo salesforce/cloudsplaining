@@ -1,4 +1,5 @@
 """Tests for utils/compare_example_reports.py — the deterministic report regression guard."""
+
 import json
 import subprocess
 import sys
@@ -55,7 +56,9 @@ def test_removed_finding_fails():
 
 def test_flat_action_findings_supported():
     # Non-privesc categories store findings as plain action strings.
-    old = {"customer_managed_policies": {"p1": {"DataExfiltration": {"findings": ["s3:GetObject", "ssm:GetParameter"]}}}}
+    old = {
+        "customer_managed_policies": {"p1": {"DataExfiltration": {"findings": ["s3:GetObject", "ssm:GetParameter"]}}}
+    }
     new = {"customer_managed_policies": {"p1": {"DataExfiltration": {"findings": ["s3:GetObject"]}}}}
     r = _run(old, new)
     assert r.returncode == 1, r.stdout + r.stderr

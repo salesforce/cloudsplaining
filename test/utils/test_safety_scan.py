@@ -2,6 +2,7 @@
 
 Run with: uv run pytest test/utils/test_safety_scan.py -v
 """
+
 import subprocess
 import sys
 from pathlib import Path
@@ -31,16 +32,13 @@ def test_detects_aws_access_key():
     """A file containing an AKIA access key must cause exit 1."""
     result = _run("key = " + "AKIA" + "Z7XK4PQR2WTY9ABC" + "\n")
     assert result.returncode == 1, (
-        f"Expected exit 1 for AKIA key, got {result.returncode}\n"
-        f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        f"Expected exit 1 for AKIA key, got {result.returncode}\nstdout: {result.stdout}\nstderr: {result.stderr}"
     )
 
 
 def test_detects_secret_assignment():
     """A file containing aws_secret_access_key assignment must cause exit 1."""
-    result = _run(
-        "aws_secret_access_key = " + "wJalrXUtnFEMIK7MDENGbPxRfiCYzABCDdef0123456" + "\n"
-    )
+    result = _run("aws_secret_access_key = " + "wJalrXUtnFEMIK7MDENGbPxRfiCYzABCDdef0123456" + "\n")
     assert result.returncode == 1, (
         f"Expected exit 1 for secret key assignment, got {result.returncode}\n"
         f"stdout: {result.stdout}\nstderr: {result.stderr}"
@@ -56,8 +54,7 @@ def test_account_id_warns_but_passes():
     )
     combined = (result.stdout + result.stderr).lower()
     assert "account" in combined, (
-        f"Expected output to mention 'account' for account-ID warning\n"
-        f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        f"Expected output to mention 'account' for account-ID warning\nstdout: {result.stdout}\nstderr: {result.stderr}"
     )
 
 
@@ -65,6 +62,5 @@ def test_clean_file_passes():
     """A file with no sensitive content must exit 0."""
     result = _run("nothing sensitive here\n")
     assert result.returncode == 0, (
-        f"Expected exit 0 for clean file, got {result.returncode}\n"
-        f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        f"Expected exit 0 for clean file, got {result.returncode}\nstdout: {result.stdout}\nstderr: {result.stderr}"
     )
