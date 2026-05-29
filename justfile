@@ -53,3 +53,7 @@ type-check:
 unit-tests:
     coverage run -m pytest -v
     coverage report -m
+
+[group('test')]
+safety-scan:
+    uv run ./utils/safety_scan.py
