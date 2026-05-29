@@ -108,8 +108,7 @@ def main() -> int:
             print("OK    example.json already contains the teaching overlay.")
             return 0
         print(
-            "FAIL  example.json is missing teaching entities. "
-            "Run: uv run ./utils/build_example_dataset.py",
+            "FAIL  example.json is missing teaching entities. Run: uv run ./utils/build_example_dataset.py",
             file=sys.stderr,
         )
         return 1
@@ -122,10 +121,7 @@ def main() -> int:
         json.dump(merged, handle, indent=4)
         handle.write("\n")
 
-    added = {
-        name: len(merged.get(name, [])) - len(base.get(name, []))
-        for name in (*PRINCIPAL_LISTS, "Policies")
-    }
+    added = {name: len(merged.get(name, [])) - len(base.get(name, [])) for name in (*PRINCIPAL_LISTS, "Policies")}
     print(f"Wrote enriched dataset to {os.path.relpath(BASE_FILE, REPO_ROOT)}")
     print(f"Added entries: {added}")
     return 0
