@@ -226,3 +226,18 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Analyzing other repos
+repos/**
+
+# Per-machine Claude context (gitignored per global convention)
+CLAUDE.local.md
+
+# Live AWS scan outputs — NEVER commit (real account IDs, ARNs, policies)
+.live-scans/
+
+# Browser QA artifacts (screenshots/videos may contain sensitive rendered data)
+dogfood-output/
+
+# Report regression-guard snapshots (old vs new example reports)
+.report-snapshots/
