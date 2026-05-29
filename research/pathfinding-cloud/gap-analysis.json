@@ -1,0 +1,1313 @@
+{
+  "existing_pe_method_count": 22,
+  "pathfinding_path_count": 66,
+  "status_counts": {
+    "covered-by-credentials-exposure": 1,
+    "detectable-via-existing": 8,
+    "exact-match": 18,
+    "new": 39
+  },
+  "category_counts": {
+    "existing-passrole": 17,
+    "new-passrole": 27,
+    "principal-access": 14,
+    "self-escalation": 8
+  },
+  "distinct_required_actions": [
+    "apprunner:createservice",
+    "apprunner:updateservice",
+    "bedrock-agentcore:createcodeinterpreter",
+    "bedrock-agentcore:invokecodeinterpreter",
+    "bedrock-agentcore:startcodeinterpretersession",
+    "cloudformation:createchangeset",
+    "cloudformation:createstack",
+    "cloudformation:createstackinstances",
+    "cloudformation:createstackset",
+    "cloudformation:executechangeset",
+    "cloudformation:updatestack",
+    "cloudformation:updatestackset",
+    "codebuild:createproject",
+    "codebuild:startbuild",
+    "codebuild:startbuildbatch",
+    "datapipeline:activatepipeline",
+    "datapipeline:createpipeline",
+    "datapipeline:putpipelinedefinition",
+    "ec2-instance-connect:sendsshpublickey",
+    "ec2:createlaunchtemplateversion",
+    "ec2:describeinstances",
+    "ec2:modifyinstanceattribute",
+    "ec2:modifylaunchtemplate",
+    "ec2:requestspotinstances",
+    "ec2:runinstances",
+    "ec2:startinstances",
+    "ec2:stopinstances",
+    "ecs:createcluster",
+    "ecs:createservice",
+    "ecs:describetasks",
+    "ecs:executecommand",
+    "ecs:registertaskdefinition",
+    "ecs:runtask",
+    "ecs:starttask",
+    "glue:createdevendpoint",
+    "glue:createjob",
+    "glue:createtrigger",
+    "glue:startjobrun",
+    "glue:updatedevendpoint",
+    "glue:updatejob",
+    "iam:addusertogroup",
+    "iam:attachgrouppolicy",
+    "iam:attachrolepolicy",
+    "iam:attachuserpolicy",
+    "iam:createaccesskey",
+    "iam:createloginprofile",
+    "iam:createpolicyversion",
+    "iam:deleteaccesskey",
+    "iam:passrole",
+    "iam:putgrouppolicy",
+    "iam:putrolepolicy",
+    "iam:putuserpolicy",
+    "iam:updateassumerolepolicy",
+    "iam:updateloginprofile",
+    "lambda:addpermission",
+    "lambda:createeventsourcemapping",
+    "lambda:createfunction",
+    "lambda:invokefunction",
+    "lambda:updatefunctioncode",
+    "sagemaker:createnotebookinstance",
+    "sagemaker:createnotebookinstancelifecycleconfig",
+    "sagemaker:createpresignednotebookinstanceurl",
+    "sagemaker:createprocessingjob",
+    "sagemaker:createtrainingjob",
+    "sagemaker:startnotebookinstance",
+    "sagemaker:stopnotebookinstance",
+    "sagemaker:updatenotebookinstance",
+    "ssm:sendcommand",
+    "ssm:startsession",
+    "sts:assumerole"
+  ],
+  "required_actions_not_in_existing_pe_methods": [
+    "apprunner:createservice",
+    "apprunner:updateservice",
+    "bedrock-agentcore:createcodeinterpreter",
+    "bedrock-agentcore:invokecodeinterpreter",
+    "bedrock-agentcore:startcodeinterpretersession",
+    "cloudformation:createchangeset",
+    "cloudformation:createstackinstances",
+    "cloudformation:createstackset",
+    "cloudformation:executechangeset",
+    "cloudformation:updatestack",
+    "cloudformation:updatestackset",
+    "codebuild:createproject",
+    "codebuild:startbuild",
+    "codebuild:startbuildbatch",
+    "datapipeline:activatepipeline",
+    "datapipeline:putpipelinedefinition",
+    "ec2-instance-connect:sendsshpublickey",
+    "ec2:createlaunchtemplateversion",
+    "ec2:describeinstances",
+    "ec2:modifyinstanceattribute",
+    "ec2:modifylaunchtemplate",
+    "ec2:requestspotinstances",
+    "ec2:startinstances",
+    "ec2:stopinstances",
+    "ecs:createcluster",
+    "ecs:createservice",
+    "ecs:describetasks",
+    "ecs:executecommand",
+    "ecs:registertaskdefinition",
+    "ecs:runtask",
+    "ecs:starttask",
+    "glue:createjob",
+    "glue:createtrigger",
+    "glue:startjobrun",
+    "glue:updatejob",
+    "iam:deleteaccesskey",
+    "lambda:addpermission",
+    "sagemaker:createnotebookinstance",
+    "sagemaker:createnotebookinstancelifecycleconfig",
+    "sagemaker:createpresignednotebookinstanceurl",
+    "sagemaker:createprocessingjob",
+    "sagemaker:createtrainingjob",
+    "sagemaker:startnotebookinstance",
+    "sagemaker:stopnotebookinstance",
+    "sagemaker:updatenotebookinstance",
+    "ssm:sendcommand",
+    "ssm:startsession"
+  ],
+  "by_status": {
+    "new": [
+      {
+        "id": "apprunner-001",
+        "name": "iam:PassRole + apprunner:CreateService",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "apprunner:createservice"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "apprunner-002",
+        "name": "apprunner:UpdateService",
+        "category": "existing-passrole",
+        "required_actions": [
+          "apprunner:updateservice"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "bedrock-001",
+        "name": "iam:PassRole + bedrock-agentcore:CreateCodeInterpreter + bedrock-agentcore:StartCodeInterpreterSession + bedrock-agentcore:InvokeCodeInterpreter",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "bedrock-agentcore:createcodeinterpreter",
+          "bedrock-agentcore:startcodeinterpretersession",
+          "bedrock-agentcore:invokecodeinterpreter"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "bedrock-002",
+        "name": "bedrock-agentcore:StartCodeInterpreterSession + bedrock-agentcore:InvokeCodeInterpreter",
+        "category": "existing-passrole",
+        "required_actions": [
+          "bedrock-agentcore:startcodeinterpretersession",
+          "bedrock-agentcore:invokecodeinterpreter"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "cloudformation-002",
+        "name": "cloudformation:UpdateStack",
+        "category": "existing-passrole",
+        "required_actions": [
+          "cloudformation:updatestack"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "cloudformation-003",
+        "name": "iam:PassRole + cloudformation:CreateStackSet + cloudformation:CreateStackInstances",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "cloudformation:createstackset",
+          "cloudformation:createstackinstances"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "cloudformation-004",
+        "name": "iam:PassRole + cloudformation:UpdateStackSet",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "cloudformation:updatestackset"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "cloudformation-005",
+        "name": "cloudformation:CreateChangeSet + cloudformation:ExecuteChangeSet",
+        "category": "new-passrole",
+        "required_actions": [
+          "cloudformation:createchangeset",
+          "cloudformation:executechangeset"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "codebuild-001",
+        "name": "iam:PassRole + codebuild:CreateProject + codebuild:StartBuild",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "codebuild:createproject",
+          "codebuild:startbuild"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "codebuild-002",
+        "name": "codebuild:StartBuild",
+        "category": "existing-passrole",
+        "required_actions": [
+          "codebuild:startbuild"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "codebuild-003",
+        "name": "codebuild:StartBuildBatch",
+        "category": "existing-passrole",
+        "required_actions": [
+          "codebuild:startbuildbatch"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "codebuild-004",
+        "name": "iam:PassRole + codebuild:CreateProject + codebuild:StartBuildBatch",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "codebuild:createproject",
+          "codebuild:startbuildbatch"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ec2-002",
+        "name": "ec2:ModifyInstanceAttribute + ec2:StopInstances + ec2:StartInstances",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ec2:modifyinstanceattribute",
+          "ec2:stopinstances",
+          "ec2:startinstances"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ec2-003",
+        "name": "iam:PassRole + ec2:RequestSpotInstances",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ec2:requestspotinstances"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ec2-004",
+        "name": "ec2:CreateLaunchTemplateVersion + ec2:ModifyLaunchTemplate",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ec2:createlaunchtemplateversion",
+          "ec2:modifylaunchtemplate"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ec2instanceconnect-003",
+        "name": "ec2-instance-connect:SendSSHPublicKey",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ec2-instance-connect:sendsshpublickey",
+          "ec2:describeinstances"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-001",
+        "name": "iam:PassRole + ecs:CreateCluster + ecs:RegisterTaskDefinition + ecs:CreateService",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ecs:createcluster",
+          "ecs:registertaskdefinition",
+          "ecs:createservice"
+        ],
+        "parent": "ecs-003",
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-002",
+        "name": "iam:PassRole + ecs:CreateCluster + ecs:RegisterTaskDefinition + ecs:RunTask",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ecs:createcluster",
+          "ecs:registertaskdefinition",
+          "ecs:runtask"
+        ],
+        "parent": "ecs-004",
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-003",
+        "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:CreateService",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ecs:registertaskdefinition",
+          "ecs:createservice"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-004",
+        "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:RunTask",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ecs:registertaskdefinition",
+          "ecs:runtask"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-005",
+        "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:StartTask",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ecs:registertaskdefinition",
+          "ecs:starttask"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ecs-006",
+        "name": "ecs:ExecuteCommand + ecs:DescribeTasks",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ecs:executecommand",
+          "ecs:describetasks"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-003",
+        "name": "iam:PassRole + glue:CreateJob + glue:StartJobRun",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "glue:createjob",
+          "glue:startjobrun"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-004",
+        "name": "iam:PassRole + glue:CreateJob + glue:CreateTrigger",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "glue:createjob",
+          "glue:createtrigger"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-005",
+        "name": "iam:PassRole + glue:UpdateJob + glue:StartJobRun",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "glue:updatejob",
+          "glue:startjobrun"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-006",
+        "name": "iam:PassRole + glue:UpdateJob + glue:CreateTrigger",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "glue:updatejob",
+          "glue:createtrigger"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-005",
+        "name": "iam:PutRolePolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:putrolepolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-009",
+        "name": "iam:AttachRolePolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:attachrolepolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-012",
+        "name": "iam:UpdateAssumeRolePolicy",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:updateassumerolepolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-019",
+        "name": "iam:AttachRolePolicy + iam:UpdateAssumeRolePolicy",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:attachrolepolicy",
+          "iam:updateassumerolepolicy"
+        ],
+        "parent": "iam-009",
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-021",
+        "name": "iam:PutRolePolicy + iam:UpdateAssumeRolePolicy",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:putrolepolicy",
+          "iam:updateassumerolepolicy"
+        ],
+        "parent": "iam-005",
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "lambda-006",
+        "name": "iam:PassRole + lambda:CreateFunction + lambda:AddPermission",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:addpermission"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "sagemaker-001",
+        "name": "iam:PassRole + sagemaker:CreateNotebookInstance",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "sagemaker:createnotebookinstance"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "sagemaker-002",
+        "name": "iam:PassRole + sagemaker:CreateTrainingJob",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "sagemaker:createtrainingjob"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "sagemaker-003",
+        "name": "iam:PassRole + sagemaker:CreateProcessingJob",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "sagemaker:createprocessingjob"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "sagemaker-004",
+        "name": "sagemaker:CreatePresignedNotebookInstanceUrl",
+        "category": "existing-passrole",
+        "required_actions": [
+          "sagemaker:createpresignednotebookinstanceurl"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "sagemaker-005",
+        "name": "sagemaker:CreateNotebookInstanceLifecycleConfig + sagemaker:StopNotebookInstance + sagemaker:UpdateNotebookInstance + sagemaker:StartNotebookInstance",
+        "category": "existing-passrole",
+        "required_actions": [
+          "sagemaker:createnotebookinstancelifecycleconfig",
+          "sagemaker:stopnotebookinstance",
+          "sagemaker:updatenotebookinstance",
+          "sagemaker:startnotebookinstance"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ssm-001",
+        "name": "ssm:StartSession",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ssm:startsession"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ssm-002",
+        "name": "ssm:SendCommand",
+        "category": "existing-passrole",
+        "required_actions": [
+          "ssm:sendcommand"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "new",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": []
+        }
+      }
+    ],
+    "exact-match": [
+      {
+        "id": "cloudformation-001",
+        "name": "iam:PassRole + cloudformation:CreateStack",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "cloudformation:createstack"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PassExistingRoleToCloudFormation"
+          ],
+          "subset_existing_methods": [
+            "PassExistingRoleToCloudFormation"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "ec2-001",
+        "name": "iam:PassRole + ec2:RunInstances",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "ec2:runinstances"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "CreateEC2WithExistingIP"
+          ],
+          "subset_existing_methods": [
+            "CreateEC2WithExistingIP"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-001",
+        "name": "iam:PassRole + glue:CreateDevEndpoint",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "glue:createdevendpoint"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PassExistingRoleToNewGlueDevEndpoint"
+          ],
+          "subset_existing_methods": [
+            "PassExistingRoleToNewGlueDevEndpoint"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "glue-002",
+        "name": "glue:UpdateDevEndpoint",
+        "category": "existing-passrole",
+        "required_actions": [
+          "glue:updatedevendpoint"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "UpdateExistingGlueDevEndpoint"
+          ],
+          "subset_existing_methods": [
+            "UpdateExistingGlueDevEndpoint"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-001",
+        "name": "iam:CreatePolicyVersion",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:createpolicyversion"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "CreateNewPolicyVersion"
+          ],
+          "subset_existing_methods": [
+            "CreateNewPolicyVersion"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-002",
+        "name": "iam:CreateAccessKey",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:createaccesskey"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "CreateAccessKey"
+          ],
+          "subset_existing_methods": [
+            "CreateAccessKey"
+          ],
+          "credential_action_hits": [
+            "iam:createaccesskey"
+          ]
+        }
+      },
+      {
+        "id": "iam-004",
+        "name": "iam:CreateLoginProfile",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:createloginprofile"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "CreateLoginProfile"
+          ],
+          "subset_existing_methods": [
+            "CreateLoginProfile"
+          ],
+          "credential_action_hits": [
+            "iam:createloginprofile"
+          ]
+        }
+      },
+      {
+        "id": "iam-006",
+        "name": "iam:UpdateLoginProfile",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:updateloginprofile"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "UpdateLoginProfile"
+          ],
+          "subset_existing_methods": [
+            "UpdateLoginProfile"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-007",
+        "name": "iam:PutUserPolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:putuserpolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PutUserPolicy"
+          ],
+          "subset_existing_methods": [
+            "PutUserPolicy"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-008",
+        "name": "iam:AttachUserPolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:attachuserpolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "AttachUserPolicy"
+          ],
+          "subset_existing_methods": [
+            "AttachUserPolicy"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-010",
+        "name": "iam:AttachGroupPolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:attachgrouppolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "AttachGroupPolicy"
+          ],
+          "subset_existing_methods": [
+            "AttachGroupPolicy"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-011",
+        "name": "iam:PutGroupPolicy",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:putgrouppolicy"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PutGroupPolicy"
+          ],
+          "subset_existing_methods": [
+            "PutGroupPolicy"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-013",
+        "name": "iam:AddUserToGroup",
+        "category": "self-escalation",
+        "required_actions": [
+          "iam:addusertogroup"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "AddUserToGroup"
+          ],
+          "subset_existing_methods": [
+            "AddUserToGroup"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-014",
+        "name": "iam:AttachRolePolicy + sts:AssumeRole",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:attachrolepolicy",
+          "sts:assumerole"
+        ],
+        "parent": "iam-009",
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "AttachRolePolicy"
+          ],
+          "subset_existing_methods": [
+            "AttachRolePolicy"
+          ],
+          "credential_action_hits": [
+            "sts:assumerole"
+          ]
+        }
+      },
+      {
+        "id": "iam-017",
+        "name": "iam:PutRolePolicy + sts:AssumeRole",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:putrolepolicy",
+          "sts:assumerole"
+        ],
+        "parent": "iam-005",
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PutRolePolicy"
+          ],
+          "subset_existing_methods": [
+            "PutRolePolicy"
+          ],
+          "credential_action_hits": [
+            "sts:assumerole"
+          ]
+        }
+      },
+      {
+        "id": "lambda-001",
+        "name": "iam:PassRole + lambda:CreateFunction + lambda:InvokeFunction",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:invokefunction"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PassExistingRoleToNewLambdaThenInvoke"
+          ],
+          "subset_existing_methods": [
+            "PassExistingRoleToNewLambdaThenInvoke"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "lambda-002",
+        "name": "iam:PassRole + lambda:CreateFunction + lambda:CreateEventSourceMapping",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "lambda:createfunction",
+          "lambda:createeventsourcemapping"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo"
+          ],
+          "subset_existing_methods": [
+            "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "lambda-003",
+        "name": "lambda:UpdateFunctionCode",
+        "category": "existing-passrole",
+        "required_actions": [
+          "lambda:updatefunctioncode"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "exact-match",
+          "exact_match_methods": [
+            "EditExistingLambdaFunctionWithRole"
+          ],
+          "subset_existing_methods": [
+            "EditExistingLambdaFunctionWithRole"
+          ],
+          "credential_action_hits": []
+        }
+      }
+    ],
+    "detectable-via-existing": [
+      {
+        "id": "datapipeline-001",
+        "name": "iam:PassRole + datapipeline:CreatePipeline + datapipeline:PutPipelineDefinition + datapipeline:ActivatePipeline",
+        "category": "new-passrole",
+        "required_actions": [
+          "iam:passrole",
+          "datapipeline:createpipeline",
+          "datapipeline:putpipelinedefinition",
+          "datapipeline:activatepipeline"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "PassExistingRoleToNewDataPipeline"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "iam-003",
+        "name": "iam:CreateAccessKey + iam:DeleteAccessKey",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:createaccesskey",
+          "iam:deleteaccesskey"
+        ],
+        "parent": "iam-002",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "CreateAccessKey"
+          ],
+          "credential_action_hits": [
+            "iam:createaccesskey"
+          ]
+        }
+      },
+      {
+        "id": "iam-015",
+        "name": "iam:AttachUserPolicy + iam:CreateAccessKey",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:attachuserpolicy",
+          "iam:createaccesskey"
+        ],
+        "parent": "iam-008",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "AttachUserPolicy",
+            "CreateAccessKey"
+          ],
+          "credential_action_hits": [
+            "iam:createaccesskey"
+          ]
+        }
+      },
+      {
+        "id": "iam-016",
+        "name": "iam:CreatePolicyVersion + sts:AssumeRole",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:createpolicyversion",
+          "sts:assumerole"
+        ],
+        "parent": "iam-001",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "CreateNewPolicyVersion"
+          ],
+          "credential_action_hits": [
+            "sts:assumerole"
+          ]
+        }
+      },
+      {
+        "id": "iam-018",
+        "name": "iam:PutUserPolicy + iam:CreateAccessKey",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:putuserpolicy",
+          "iam:createaccesskey"
+        ],
+        "parent": "iam-007",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "CreateAccessKey",
+            "PutUserPolicy"
+          ],
+          "credential_action_hits": [
+            "iam:createaccesskey"
+          ]
+        }
+      },
+      {
+        "id": "iam-020",
+        "name": "iam:CreatePolicyVersion + iam:UpdateAssumeRolePolicy",
+        "category": "principal-access",
+        "required_actions": [
+          "iam:createpolicyversion",
+          "iam:updateassumerolepolicy"
+        ],
+        "parent": "iam-001",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "CreateNewPolicyVersion"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "lambda-004",
+        "name": "lambda:UpdateFunctionCode + lambda:InvokeFunction",
+        "category": "existing-passrole",
+        "required_actions": [
+          "lambda:updatefunctioncode",
+          "lambda:invokefunction"
+        ],
+        "parent": "lambda-003",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "EditExistingLambdaFunctionWithRole"
+          ],
+          "credential_action_hits": []
+        }
+      },
+      {
+        "id": "lambda-005",
+        "name": "lambda:UpdateFunctionCode + lambda:AddPermission",
+        "category": "existing-passrole",
+        "required_actions": [
+          "lambda:updatefunctioncode",
+          "lambda:addpermission"
+        ],
+        "parent": "lambda-003",
+        "coverage": {
+          "status": "detectable-via-existing",
+          "exact_match_methods": [],
+          "subset_existing_methods": [
+            "EditExistingLambdaFunctionWithRole"
+          ],
+          "credential_action_hits": []
+        }
+      }
+    ],
+    "covered-by-credentials-exposure": [
+      {
+        "id": "sts-001",
+        "name": "sts:AssumeRole",
+        "category": "principal-access",
+        "required_actions": [
+          "sts:assumerole"
+        ],
+        "parent": null,
+        "coverage": {
+          "status": "covered-by-credentials-exposure",
+          "exact_match_methods": [],
+          "subset_existing_methods": [],
+          "credential_action_hits": [
+            "sts:assumerole"
+          ]
+        }
+      }
+    ]
+  }
+}
