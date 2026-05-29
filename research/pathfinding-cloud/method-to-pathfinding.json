@@ -1,0 +1,165 @@
+{
+  "_meta": {
+    "url_scheme": "https://pathfinding.cloud/paths/<id>",
+    "url_scheme_evidence": "repos/pathfinding.cloud/docs/js/app.js lines 289-334: routeFromURL() matches window.location.pathname against /^\\/paths\\/([a-z0-9-]+)$/ and calls showPathDetails(); history.pushState uses `/paths/${pathId}`. Legacy hash URLs (#iam-001) are redirected to /paths/iam-001 at lines 277-284.",
+    "source_commit_note": "detectionTools.cloudsplaining links in path yamls point to commit 7f82e7ab0a1a714d20a69b1d0b892e4702754e6b in salesforce/cloudsplaining",
+    "generated_from": "constants.py PRIVILEGE_ESCALATION_METHODS (22 keys) matched against 66 pathfinding.cloud path yamls under repos/pathfinding.cloud/data/paths/",
+    "total_methods": 22,
+    "mapped_count": 21,
+    "unmapped_count": 1
+  },
+  "CreateAccessKey": {
+    "path_id": "iam-002",
+    "url": "https://pathfinding.cloud/paths/iam-002",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:createaccesskey']; cross-ref: constants.py#L112"
+  },
+  "CreateLoginProfile": {
+    "path_id": "iam-004",
+    "url": "https://pathfinding.cloud/paths/iam-004",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:createloginprofile']; cross-ref: constants.py#L113"
+  },
+  "UpdateLoginProfile": {
+    "path_id": "iam-006",
+    "url": "https://pathfinding.cloud/paths/iam-006",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:updateloginprofile']; cross-ref: constants.py#L114"
+  },
+  "AddUserToGroup": {
+    "path_id": "iam-013",
+    "url": "https://pathfinding.cloud/paths/iam-013",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:addusertogroup']; cross-ref: constants.py#L115"
+  },
+  "CreateNewPolicyVersion": {
+    "path_id": "iam-001",
+    "url": "https://pathfinding.cloud/paths/iam-001",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:createpolicyversion']; cross-ref: constants.py#L117"
+  },
+  "SetExistingDefaultPolicyVersion": {
+    "path_id": null,
+    "url": null,
+    "basis": null,
+    "confidence": null,
+    "notes": "No pathfinding.cloud path exists for iam:setdefaultpolicyversion — confirmed by grep of all 66 path yamls. This cloudsplaining method has no pathfinding equivalent yet."
+  },
+  "AttachUserPolicy": {
+    "path_id": "iam-008",
+    "url": "https://pathfinding.cloud/paths/iam-008",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:attachuserpolicy']; cross-ref: constants.py#L119"
+  },
+  "AttachGroupPolicy": {
+    "path_id": "iam-010",
+    "url": "https://pathfinding.cloud/paths/iam-010",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:attachgrouppolicy']; cross-ref: constants.py#L120"
+  },
+  "AttachRolePolicy": {
+    "path_id": "iam-009",
+    "url": "https://pathfinding.cloud/paths/iam-009",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:attachrolepolicy']; cross-ref: constants.py#L121. Note: iam-014 (iam:attachrolepolicy + sts:assumerole) is a multi-hop superset path for the same base method."
+  },
+  "PutUserPolicy": {
+    "path_id": "iam-007",
+    "url": "https://pathfinding.cloud/paths/iam-007",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:putuserpolicy']; cross-ref: constants.py#L122"
+  },
+  "PutGroupPolicy": {
+    "path_id": "iam-011",
+    "url": "https://pathfinding.cloud/paths/iam-011",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:putgrouppolicy']; cross-ref: constants.py#L123"
+  },
+  "PutRolePolicy": {
+    "path_id": "iam-005",
+    "url": "https://pathfinding.cloud/paths/iam-005",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:putrolepolicy']; cross-ref: constants.py#L124. Note: iam-017 (iam:putrolepolicy + sts:assumerole) is a multi-hop superset path."
+  },
+  "UpdateRolePolicyToAssumeIt": {
+    "path_id": "iam-012",
+    "url": "https://pathfinding.cloud/paths/iam-012",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:updateassumerolepolicy']; cross-ref: constants.py#L126"
+  },
+  "CreateEC2WithExistingIP": {
+    "path_id": "ec2-001",
+    "url": "https://pathfinding.cloud/paths/ec2-001",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['ec2:runinstances', 'iam:passrole']; cross-ref: constants.py#L128"
+  },
+  "PassExistingRoleToNewLambdaThenInvoke": {
+    "path_id": "lambda-001",
+    "url": "https://pathfinding.cloud/paths/lambda-001",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:passrole', 'lambda:createfunction', 'lambda:invokefunction']; cross-ref: constants.py#L131"
+  },
+  "PassExistingRoleToNewLambdaThenTriggerWithNewDynamo": {
+    "path_id": "lambda-002",
+    "url": "https://pathfinding.cloud/paths/lambda-002",
+    "basis": "path required_actions subset of method actions (method is superset)",
+    "confidence": "medium",
+    "notes": "cloudsplaining method includes dynamodb:createtable + dynamodb:putitem on top of lambda-002's 3 actions. lambda-002 required_actions ['iam:passrole', 'lambda:createeventsourcemapping', 'lambda:createfunction'] are a proper subset. No pathfinding path includes the DynamoDB actions; lambda-002 is the closest match."
+  },
+  "PassExistingRoleToNewLambdaThenTriggerWithExistingDynamo": {
+    "path_id": "lambda-002",
+    "url": "https://pathfinding.cloud/paths/lambda-002",
+    "basis": "action-set exact match",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['iam:passrole', 'lambda:createeventsourcemapping', 'lambda:createfunction']"
+  },
+  "PassExistingRoleToNewGlueDevEndpoint": {
+    "path_id": "glue-001",
+    "url": "https://pathfinding.cloud/paths/glue-001",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['glue:createdevendpoint', 'iam:passrole']; cross-ref: constants.py#L147-L150"
+  },
+  "PassExistingRoleToCloudFormation": {
+    "path_id": "cloudformation-001",
+    "url": "https://pathfinding.cloud/paths/cloudformation-001",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['cloudformation:createstack', 'iam:passrole']; cross-ref: constants.py#L152"
+  },
+  "PassExistingRoleToNewDataPipeline": {
+    "path_id": "datapipeline-001",
+    "url": "https://pathfinding.cloud/paths/datapipeline-001",
+    "basis": "method actions subset of path required_actions (path is superset)",
+    "confidence": "medium",
+    "notes": "cloudsplaining method has ['datapipeline:createpipeline', 'iam:passrole']; pathfinding path additionally requires datapipeline:putpipelinedefinition + datapipeline:activatepipeline (4 actions total). The path is a superset — it represents the full real-world exploit chain. datapipeline-001 is the only datapipeline path in the catalog."
+  },
+  "UpdateExistingGlueDevEndpoint": {
+    "path_id": "glue-002",
+    "url": "https://pathfinding.cloud/paths/glue-002",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['glue:updatedevendpoint']; cross-ref: constants.py#L159"
+  },
+  "EditExistingLambdaFunctionWithRole": {
+    "path_id": "lambda-003",
+    "url": "https://pathfinding.cloud/paths/lambda-003",
+    "basis": "action-set exact match + detectionTools.cloudsplaining cross-ref",
+    "confidence": "high",
+    "notes": "path required_actions == method actions: ['lambda:updatefunctioncode']; cross-ref: constants.py#L160"
+  }
+}
