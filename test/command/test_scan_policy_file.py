@@ -295,7 +295,7 @@ class PolicyFileTestCase(unittest.TestCase):
                 "severity": "high",
                 "description": '<p>These policies allow a combination of IAM actions that allow a principal with these permissions to escalate their privileges - for example, by creating an access key for another IAM user, or modifying their own permissions. This research was pioneered by Spencer Gietzen at Rhino Security Labs.  Remediation guidance can be found <a href="https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/">here</a>.</p>',
                 "findings": [
-                    {"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy", "sts:assumerole"]}
+                    {"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy"]}
                 ],
             },
             "ResourceExposure": {
