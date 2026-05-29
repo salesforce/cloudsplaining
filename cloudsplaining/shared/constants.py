@@ -118,12 +118,12 @@ PRIVILEGE_ESCALATION_METHODS = {
     "SetExistingDefaultPolicyVersion": ["iam:setdefaultpolicyversion"],
     "AttachUserPolicy": ["iam:attachuserpolicy"],
     "AttachGroupPolicy": ["iam:attachgrouppolicy"],
-    "AttachRolePolicy": ["iam:attachrolepolicy", "sts:assumerole"],
+    "AttachRolePolicy": ["iam:attachrolepolicy"],
     "PutUserPolicy": ["iam:putuserpolicy"],
     "PutGroupPolicy": ["iam:putgrouppolicy"],
-    "PutRolePolicy": ["iam:putrolepolicy", "sts:assumerole"],
+    "PutRolePolicy": ["iam:putrolepolicy"],
     # 3. Updating an AssumeRolePolicy
-    "UpdateRolePolicyToAssumeIt": ["iam:updateassumerolepolicy", "sts:assumerole"],
+    "UpdateRolePolicyToAssumeIt": ["iam:updateassumerolepolicy"],
     # 4. iam:PassRole:*
     "CreateEC2WithExistingIP": ["iam:passrole", "ec2:runinstances"],
     "PassExistingRoleToNewLambdaThenInvoke": [

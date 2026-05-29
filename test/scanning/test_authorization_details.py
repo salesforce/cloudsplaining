@@ -124,7 +124,7 @@ class TestAuthorizationFileDetails(unittest.TestCase):
         )
         self.assertListEqual(
             authz_details.policies.policy_details[0].policy_document.allows_privilege_escalation,
-            [{"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy", "sts:assumerole"]}],
+            [{"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy"]}],
         )
         self.assertListEqual(
             authz_details.policies.policy_details[0].policy_document.allows_data_exfiltration_actions, ["s3:GetObject"]
