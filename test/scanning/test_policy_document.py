@@ -400,9 +400,7 @@ class TestPolicyDocument(unittest.TestCase):
             ],
         }
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=True)
-        expected_result = [
-            {"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy"]}
-        ]
+        expected_result = [{"type": "UpdateRolePolicyToAssumeIt", "actions": ["iam:updateassumerolepolicy"]}]
         self.assertDictEqual(policy_document.allows_privilege_escalation[0], expected_result[0])
         policy_document = PolicyDocument(test_policy, flag_resource_arn_statements=False)
         self.assertListEqual(policy_document.allows_privilege_escalation, [])
@@ -487,9 +485,7 @@ class TestPolicyDocument(unittest.TestCase):
         # GH-580: iam:AttachRolePolicy on * is an escalation even without sts:AssumeRole
         test_policy = {
             "Version": "2012-10-17",
-            "Statement": [
-                {"Effect": "Allow", "Action": ["iam:AttachRolePolicy"], "Resource": "*"}
-            ],
+            "Statement": [{"Effect": "Allow", "Action": ["iam:AttachRolePolicy"], "Resource": "*"}],
         }
         policy_document = PolicyDocument(test_policy)
         self.assertListEqual(
