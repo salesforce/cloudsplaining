@@ -49,6 +49,15 @@ test-js: install-js
 type-check:
     uv run ty check
 
+# Run CI's format/lint hooks (ruff-format, ruff-check, just fmt, actionlint); auto-fixes in place.
+[group('test')]
+lint:
+    uvx pre-commit run --all-files
+
+# Full local gate mirroring CI. Run before every push to avoid format/test failures.
+[group('test')]
+pre-push: lint unit-tests type-check test-js safety-scan
+
 [group('test')]
 unit-tests:
     coverage run -m pytest -v
