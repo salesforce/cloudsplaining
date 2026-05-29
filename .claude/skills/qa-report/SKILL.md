@@ -16,7 +16,7 @@ Visually QA a generated cloudsplaining report in a browser via the `dogfood` ski
 ## Inputs
 
 - A report to open, one of:
-  - a local file, e.g. `file:///<abs path>/examples/files/iam-report-example.html`
+  - a local file, e.g. the generated report `file:///<abs path>/index.html` (from `just generate-report`) or a `cloudsplaining scan -o <dir>/` output
   - the dev server: `just serve-js` (serves the Vue report at the printed localhost URL)
 - An output directory for browser artifacts. Default to a **gitignored** location:
   - example-data runs → `dogfood-output/`

@@ -24,7 +24,7 @@ expected (new techniques get onboarded); removals are regressions and must block
 ```bash
 mkdir -p .report-snapshots/old
 cp utils/example-iam-data.json .report-snapshots/old/example-iam-data.json
-cp examples/files/iam-report-example.html .report-snapshots/old/ 2>/dev/null || true
+cp index.html .report-snapshots/old/index.html 2>/dev/null || true
 ```
 
 `.report-snapshots/` is gitignored — never commit it.
@@ -53,7 +53,7 @@ just compare-reports .report-snapshots/old/example-iam-data.json utils/example-i
 
 Catch anything the deterministic diff cannot (layout, per-category counts, missing
 principals/policies). Use the `dogfood` skill against the freshly generated report
-(`examples/files/iam-report-example.html` via a `file://` URL), with scope:
+(the regenerated root `index.html` via a `file://` URL), with scope:
 
 > "Confirm every risk-category section renders, per-category finding counts are at least
 > as high as the old report in `.report-snapshots/old/`, and no principals or policies
