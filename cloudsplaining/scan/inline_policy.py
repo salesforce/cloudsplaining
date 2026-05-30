@@ -6,7 +6,12 @@ import json
 from typing import Any, cast
 
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
+from cloudsplaining.shared.constants import (
+    ISSUE_SEVERITY,
+    PRIVILEGE_ESCALATION_GLOSSARY_URL,
+    PRIVILEGE_ESCALATION_PATHFINDING_PATHS,
+    RISK_DEFINITION,
+)
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 from cloudsplaining.shared.utils import get_non_provider_id
 
@@ -69,8 +74,9 @@ class InlinePolicy:
     def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[str, str]:  # noqa: N802
         links = {}
         for finding in findings:
-            links[finding["type"]] = (
-                f"https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding['type']}"
+            method = finding["type"]
+            links[method] = PRIVILEGE_ESCALATION_PATHFINDING_PATHS.get(method) or (
+                f"{PRIVILEGE_ESCALATION_GLOSSARY_URL}#{method}"
             )
         return links
 

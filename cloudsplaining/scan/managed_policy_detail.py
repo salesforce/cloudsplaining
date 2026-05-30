@@ -13,7 +13,12 @@ from typing import Any
 from policy_sentry.util.arns import get_account_from_arn
 
 from cloudsplaining.scan.policy_document import PolicyDocument
-from cloudsplaining.shared.constants import ISSUE_SEVERITY, RISK_DEFINITION
+from cloudsplaining.shared.constants import (
+    ISSUE_SEVERITY,
+    PRIVILEGE_ESCALATION_GLOSSARY_URL,
+    PRIVILEGE_ESCALATION_PATHFINDING_PATHS,
+    RISK_DEFINITION,
+)
 from cloudsplaining.shared.exceptions import NotFoundException
 from cloudsplaining.shared.exclusions import (
     DEFAULT_EXCLUSIONS,
@@ -239,8 +244,9 @@ class ManagedPolicy:
     def getFindingLinks(self, findings: list[dict[str, Any]]) -> dict[Any, str]:  # noqa: N802
         links = {}
         for finding in findings:
-            links[finding["type"]] = (
-                f"https://cloudsplaining.readthedocs.io/en/latest/glossary/privilege-escalation/#{finding['type']}"
+            method = finding["type"]
+            links[method] = PRIVILEGE_ESCALATION_PATHFINDING_PATHS.get(method) or (
+                f"{PRIVILEGE_ESCALATION_GLOSSARY_URL}#{method}"
             )
         return links
 
