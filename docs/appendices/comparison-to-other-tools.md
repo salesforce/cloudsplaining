@@ -6,7 +6,7 @@ In short, its differentiating factors are:
 
 * Identifying lack of resource ARN constraints for modify-level policies, as well as other risk categories
 * Digestible presentation of over-privileged IAM policies in a human readable HTML report
-* Workflow is tailor-made for quick assessment, team review, and ticket-opening (as shown in the Triage CSV worksheet)
+* Workflow is tailor-made for quick assessment, team review, and ticket-opening (as shown in the triage guidance)
 * The detailed triage, remediation, and validation guidance allows technical individuals who are not experts in AWS IAM to handle most issues with account owner teams when triaging and identifying exclusions.
 * If you've ever wondered "does this role *truly deserve* to have these privileges or can we scope the permissions down to reduce blast radius in the case of a breach?" Cloudsplaining is tailor-made for addressing this issue.
 
