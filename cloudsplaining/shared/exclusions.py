@@ -8,12 +8,37 @@
 from __future__ import annotations
 
 import logging
+from contextvars import ContextVar
 
 from cloudsplaining.shared import utils
 from cloudsplaining.shared.constants import DEFAULT_EXCLUSIONS_CONFIG
 from cloudsplaining.shared.validation import check_exclusions_schema
 
 logger = logging.getLogger(__name__)
+
+# Whether exclusion-match messages print to stdout. The CLI turns this on for the duration
+# of an invocation (and restores it on teardown); library usage leaves it off so the
+# messages go to logger.debug and can be silenced via standard logging configuration. A
+# ContextVar (rather than a module global) keeps the CLI override scoped and avoids leaking
+# printing state across threads or back into later library use.
+_print_exclusion_matches: ContextVar[bool] = ContextVar("cloudsplaining_print_exclusion_matches", default=False)
+
+
+def set_exclusion_output(enabled: bool) -> bool:
+    """Toggle stdout printing of exclusion-match messages and return the PREVIOUS value so
+    the caller can restore it. The CLI enables this so the grey 'Excluded prefix/suffix'
+    lines still print; library usage leaves it off."""
+    previous = _print_exclusion_matches.get()
+    _print_exclusion_matches.set(enabled)
+    return previous
+
+
+def _report_exclusion(message: str) -> None:
+    """Emit an exclusion-match message: print to stdout (CLI) or logger.debug (library)."""
+    if _print_exclusion_matches.get():
+        utils.print_grey(message)
+    else:
+        logger.debug(message)
 
 
 class Exclusions:
@@ -155,13 +180,12 @@ def is_name_excluded(name: str, exclusions_list: str | list[str]) -> bool:
             prefix = exclusion[:-1]
             # print(prefix)
             if name.lower().startswith(prefix.lower()):
-                # logger.debug(f"Excluded prefix: {exclusion}")
-                utils.print_grey(f"\tExcluded prefix: {exclusion}")
+                _report_exclusion(f"\tExcluded prefix: {exclusion}")
                 return True
         if exclusion.startswith("*"):
             suffix = exclusion[1:]
             if name.lower().endswith(suffix.lower()):
-                utils.print_grey(f"\tExcluded suffix: {exclusion}")
+                _report_exclusion(f"\tExcluded suffix: {exclusion}")
                 return True
     return False
 

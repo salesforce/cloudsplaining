@@ -12,14 +12,21 @@ import click
 
 from cloudsplaining import command
 from cloudsplaining.bin.version import __version__
+from cloudsplaining.shared.exclusions import set_exclusion_output
 
 
 @click.group()
 @click.version_option(version=__version__)
-def cloudsplaining() -> None:
+@click.pass_context
+def cloudsplaining(ctx: click.Context) -> None:
     """
     Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
     """
+    # Surface exclusion-match messages on stdout for the CLI (historical behavior), then
+    # restore the prior value when the Click context tears down so an in-process CLI run
+    # does not leak printing state into later library use.
+    previous = set_exclusion_output(True)
+    ctx.call_on_close(lambda: set_exclusion_output(previous))
 
 
 cloudsplaining.add_command(command.create_exclusions_file.create_exclusions_file)
