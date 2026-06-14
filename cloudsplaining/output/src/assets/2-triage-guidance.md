@@ -35,13 +35,13 @@ To recap: you've followed these steps to generate this report:
 An assessor can follow this general workflow:
 
 *   Open a ticket in your organization's project management tool of choice (for example, JIRA or Salesforce) in the AWS account owner's project
-*   Attach the HTML report, JSON Data file, and CSV worksheet
-*   Ask the service/account owner team to fill out the Triage worksheet
+*   Attach the HTML report and the raw JSON data file
+*   Ask the service/account owner team to review the findings and provide a justification for each
 
-When you ask the service/account owner team to fill out the Triage CSV worksheet, you can use some text like the following:
+When you ask the service/account owner team to review the findings, you can use some text like the following:
 
 > As part of our security assessment, our team ran Cloudsplaining on your AWS account. Cloudsplaining maps out the IAM risk landscape in a report, identifies where resource ARN constraints are not in use, and identifies other risks in IAM policies like Privilege Escalation, Data Exfiltration, and Resource Exposure/Permissions management. Remediating these issues, where applicable, will help to limit the blast radius in the case of compromised AWS credentials.
-> We request that you review the HTML report and fill out the "Justification" field in the Triage worksheet. Based on the corresponding details in the HTML report, provide either (1) A justification on why the result is a False Positive, or (2) Identify that it is a legitimate finding.
+> We request that you review the HTML report and, for each finding, provide either (1) A justification on why the result is a False Positive, or (2) Identification that it is a legitimate finding.
 
 ##### Triaging considerations
 
