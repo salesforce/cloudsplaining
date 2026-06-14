@@ -29,14 +29,24 @@ it("principals.getPrincipalMetadata: should return principal object", function (
 
 it("principals.getPrincipalIds: should return a list of principal IDs for a given principal type", function () {
     var result = principals.getPrincipalIds(iam_data, "User");
-    // The dataset now contains many more users. Assert the known teaching IDs are present.
+    // The dataset now contains many more users. Assert the known teaching IDs are present...
     var knownIds = ["ASIAZZUSERZZPLACEHOLDER", "obama", "biden"]
     assert(result != null);
     assert(result.length >= 3, `Expected at least 3 user IDs, got ${result.length}`)
     knownIds.forEach(function(id) {
       assert(result.includes(id), `Expected user ID ${id} to be present in results`)
     })
-    console.log(`User IDs includes teaching entities: ${JSON.stringify(result)}`);
+    // ...and that IDs are ordered alphabetically by their principal NAME (#238), not by the
+    // opaque ID. Re-derive names in the returned order and assert they are non-decreasing,
+    // mirroring getPrincipalIds' comparator (case-insensitive name, with ID fallback).
+    var namesInReturnedOrder = result.map(function (id) {
+        return ((iam_data["users"][id] && iam_data["users"][id].name) || id).toLowerCase();
+    });
+    var sortedNames = namesInReturnedOrder.slice().sort(function (a, b) {
+        return a.localeCompare(b);
+    });
+    assert.deepStrictEqual(namesInReturnedOrder, sortedNames, "Expected user IDs to be ordered alphabetically by name");
+    console.log(`User IDs ordered by name: ${JSON.stringify(result)}`);
 });
 
 it("principals.getPrincipalNames: should return a list of principal names for a given principal type", function () {
