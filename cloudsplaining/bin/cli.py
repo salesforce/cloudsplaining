@@ -5,7 +5,7 @@
 # For full license text, see the LICENSE file in the repo root
 # or https://opensource.org/licenses/BSD-3-Clause
 """
-Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
+Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report.
 """
 
 import click
@@ -20,7 +20,7 @@ from cloudsplaining.shared.exclusions import set_exclusion_output
 @click.pass_context
 def cloudsplaining(ctx: click.Context) -> None:
     """
-    Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet.
+    Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report.
     """
     # Surface exclusion-match messages on stdout for the CLI (historical behavior), then
     # restore the prior value when the Click context tears down so an in-process CLI run
@@ -39,7 +39,7 @@ cloudsplaining.add_command(command.download.download)
 
 
 def main() -> None:
-    """Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report with a triage worksheet."""
+    """Cloudsplaining is an AWS IAM Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report."""
     cloudsplaining()
 
 

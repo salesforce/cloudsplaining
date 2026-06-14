@@ -1,6 +1,6 @@
 # Cloudsplaining
 
-[Cloudsplaining](https://github.com/salesforce/cloudsplaining) identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report with a triage worksheet. It can scan all the policies in your AWS account or it can scan a single policy file.
+[Cloudsplaining](https://github.com/salesforce/cloudsplaining) identifies violations of least privilege in AWS IAM policies and generates a pretty HTML report. It can scan all the policies in your AWS account, across multiple AWS accounts, or it can scan a single policy file.
 
 ![](_images/cloudsplaining-report.gif)
 
@@ -8,7 +8,7 @@
 
 * `cloudsplaining download` - Download IAM authorization details for an entire AWS account.
 * `cloudsplaining create-exclusions-file` - Create an exclusions file to filter out false positives specific to your context.
-* `cloudsplaining scan` - Scan the IAM authorization details file; generate an HTML report and a triage worksheet.
+* `cloudsplaining scan` - Scan the IAM authorization details file; generate an HTML report.
 * `cloudsplaining scan-policy-file` - Scan a single IAM policy file
 * `cloudsplaining --help` - Print help messages and exit.
 
