@@ -10,7 +10,7 @@ cloudsplaining scan --exclusions-file exclusions.yml --input-file examples/files
 
 It will create an HTML report like [this](https://opensource.salesforce.com/cloudsplaining/):
 
-> ![](docs/_images/cloudsplaining-report.gif)
+> ![](../_images/cloudsplaining-report.gif)
 
 
 It will also create a raw JSON data file:
