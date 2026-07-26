@@ -2,21 +2,21 @@
 
 ##  Local Unit Testing and Integration Testing
 
-We highly suggest that you run all the tests before pushing a significant commit. It would be painful to copy/paste all of those lines above - so we’ve compiled a test script in the utils folder.
+We highly suggest that you run all the tests before pushing a significant commit. The [just](https://github.com/casey/just) recipes below are the same ones the GitHub Actions build runs.
 
-Just run this from the root of the repository:
+Run them from the root of the repository:
 
 
 ```bash
 # Run Python unit tests
-make test
+just unit-tests
 
 # Run Javascript unit tests
-make test-js
+just test-js
 
 # Run Python security tests
-make security-test
+just safety-scan
 ```
 
-It will execute all the tests that would normally be run during the GitHub actions build. If you want to see if it will pass the tests in GitHub actions, you can just run that quick command on your machine.
+These execute the tests that run during the GitHub Actions build, so if they pass on your machine the CI test jobs should pass too.
 
