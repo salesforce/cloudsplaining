@@ -297,7 +297,7 @@ This diagram depicts how the process works:
 * First, you'll need to create the multi-account config file. Run the following command:
 
 ```bash
-cloudsplaining create-multi-account-config-file \ 
+cloudsplaining create-multi-account-config-file \
     -o multi-account-config.yml
 ```
 
@@ -325,7 +325,7 @@ Using the data above, you can run the following command:
 cloudsplaining scan-multi-account \
     -c multi-account-config.yml \
     --profile scanning-user \
-    --role-name CommonSecurityRole \ 
+    --role-name CommonSecurityRole \
     --output-bucket my-results-bucket
 ```
 
