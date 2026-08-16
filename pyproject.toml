@@ -49,7 +49,7 @@ Twitter = "https://twitter.com/kmcquade3"
 dev = [
     "coverage>=7.13.0,<8.0.0",
     "moto[sts]>=5.2.0,<6.0.0",
-    "prek>=0.3.13,<0.4.0",
+    "prek>=0.3.13,<0.5.0",
     "pytest>=9.0.3,<10.0.0",
     "rust-just>=1.46.0,<2.0.0",
     "ty>=0.0.35,<0.1.0",
@@ -60,7 +60,7 @@ dev = [
 docs = [
     "atomicwrites>=1.4.0,<2.0.0",
     "distlib>=0.4.0,<0.5.0",
-    "docutils>=0.22.0,<0.23.0",
+    "docutils>=0.22.0,<0.24.0",
     "filelock>=3.28.0,<4.0.0",
     "mkdocs>=1.6.0,<2.0.0",
     "mkdocs-material>=9.7.0,<10.0.0",
@@ -69,7 +69,7 @@ docs = [
     "mkdocstrings-python>=2.0.0,<3.0.0",
     "mkdocstrings-python-legacy>=0.2.0,<0.3.0",
     "pygments>=2.19.0,<3.0.0",
-    "pymdown-extensions>=10.21.3,<11.0.0",
+    "pymdown-extensions>=10.21.3,<12.0.0",
     "pytkdocs>=0.16.0,<0.17.0",
 ]
 
