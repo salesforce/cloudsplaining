@@ -81,6 +81,10 @@ READ_ONLY_DATA_EXFILTRATION_ACTIONS = [
     "secretsmanager:GetSecretValue",
 ]
 
+BYPASSES_NETWORK_CONTROLS_ACTIONS = [
+    "redshift:GetClusterCredentials",
+]
+
 ISSUE_SEVERITY = {
     "PrivilegeEscalation": "high",
     "DataExfiltration": "medium",
@@ -92,6 +96,7 @@ ISSUE_SEVERITY = {
     "AssumableByCrossAccountPrincipal": "medium",
     "AssumableByAnyPrincipal": "critical",
     "AssumableByAnyPrincipalWithConditions": "medium",
+    "BypassesNetworkControls": "medium",
 }
 
 RISK_DEFINITION = {
@@ -105,6 +110,11 @@ RISK_DEFINITION = {
     "AssumableByCrossAccountPrincipal": "<p>IAM Roles that can be assumed from other AWS accounts can present a greater risk than roles that can only be assumed within the same AWS account. This is especially true if the trusting account is not owned by your organization.</p>",
     "AssumableByAnyPrincipal": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') present a very high risk and should be remediated immediately.</p>",
     "AssumableByAnyPrincipalWithConditions": "<p>IAM Roles that can be assumed by any principal (i.e. Principal: '*') but have conditions present can lead to unexpected outcomes. The conditions should be carefully reviewed to ensure they are not overly permissive.</p>",
+    "BypassesNetworkControls": (
+        "<p>These policies allow IAM actions that can access resources via AWS-managed control planes or service APIs "
+        "without requiring direct network access to the target (for example, bypassing VPC Security Groups and "
+        "NACLs). This can make traditional network-layer protections ineffective for these access paths.</p>"
+    ),
 }
 
 PRIVILEGE_ESCALATION_METHODS = {
