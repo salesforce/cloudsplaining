@@ -12,26 +12,26 @@ uv sync --frozen
 ```
 
 
-### Makefile
+### Just
 
 * Python commands:
   
 ```bash
 # Set up your local development environment
-make setup-env
+uv sync --frozen
 
 # Auto format and lint the python code with `ruff`
 prek run -a
 
 # Run unit tests with pytest
-make test
+just unit-tests
 ```
 
 * Javascript/UI commands
   
 ```bash
 # Run Javascript unit tests
-make test-js
+just test-js
 
 # Generate the updated Javascript bundle
 make build-js

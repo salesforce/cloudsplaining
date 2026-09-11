@@ -14,9 +14,9 @@ You can also specify a custom exclusions file to filter out results that are Fal
 ## Commands
 
 * Download the Account Authorization details JSON file
-    - `cloudsplaining download --profile default --output default-account-details.json`
+    - `cloudsplaining download --profile default`
 * Generate your custom exclusions file
     - `cloudsplaining create-exclusions-file --output-file exclusions.yml`
 * Scan the Account Authorization details
-    - `cloudsplaining scan --input-file default-account-details.json --exclusions-file exclusions.yml`
+    - `cloudsplaining scan --input-file default.json --exclusions-file exclusions.yml`
     - This generates two files: (1) The single-file HTML report, and (2) The raw JSON data file

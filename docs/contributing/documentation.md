@@ -20,8 +20,8 @@ python3 -m venv ./venv && source venv/bin/activate
 uv sync --frozen
 
 # Create the HTML files
-make build-docs
-make serve-docs
+just build-docs
+just serve-docs
 
 # The above will open the built documentation in your browser
 ```

@@ -25,11 +25,11 @@ As such, the tool aims to:
 To recap: you've followed these steps to generate this report:
 
 * Downloaded the Account Authorization details JSON file
-    - `cloudsplaining download --profile default --output default-account-details.json`
+    - `cloudsplaining download --profile default`
 * Generated your custom exclusions file
     - `cloudsplaining create-exclusions-file --output-file exclusions.yml`
 * Scanned the Account authorization details
-    - `cloudsplaining scan --input-file default-account-details.json --exclusions-file exclusions.yml`
+    - `cloudsplaining scan --input-file default.json --exclusions-file exclusions.yml`
     - This generates two files: (1) The single-file HTML report, and (2) The raw JSON data file
 
 ## Triaging workflow
