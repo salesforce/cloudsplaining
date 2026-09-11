@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 from cloudsplaining.shared.constants import (
     ACTIONS_THAT_RETURN_CREDENTIALS,
+    BYPASSES_NETWORK_CONTROLS_ACTIONS,
     ISSUE_SEVERITY,
     READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     RISK_DEFINITION,
@@ -77,6 +78,10 @@ class PolicyFinding:
         for action in self.data_exfiltration:
             service = action.partition(":")[0]
             services_affected.add(service)
+        # Bypasses network controls; may be used for control-plane/API access paths
+        for action in self.bypasses_network_controls:
+            service = action.partition(":")[0]
+            services_affected.add(service)
         return sorted(services_affected)
 
     @property
@@ -104,6 +109,17 @@ class PolicyFinding:
             action
             for action in self.policy_document.allows_specific_actions_without_constraints(
                 READ_ONLY_DATA_EXFILTRATION_ACTIONS
+            )
+            if action.lower() not in self.exclusions.exclude_actions
+        ]
+
+    @property
+    def bypasses_network_controls(self) -> list[str]:
+        """Returns actions that can bypass network layer controls in the policy, if present"""
+        return [
+            action
+            for action in self.policy_document.allows_specific_actions_without_constraints(
+                BYPASSES_NETWORK_CONTROLS_ACTIONS
             )
             if action.lower() not in self.exclusions.exclude_actions
         ]
@@ -154,6 +170,16 @@ class PolicyFinding:
                 "findings": (
                     self.data_exfiltration
                     if ISSUE_SEVERITY["DataExfiltration"] in [x.lower() for x in self.severity] or not self.severity
+                    else []
+                ),
+            },
+            "BypassesNetworkControls": {
+                "severity": ISSUE_SEVERITY["BypassesNetworkControls"],
+                "description": RISK_DEFINITION["BypassesNetworkControls"],
+                "findings": (
+                    self.bypasses_network_controls
+                    if ISSUE_SEVERITY["BypassesNetworkControls"] in [x.lower() for x in self.severity]
+                    or not self.severity
                     else []
                 ),
             },
