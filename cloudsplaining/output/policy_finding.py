@@ -100,11 +100,16 @@ class PolicyFinding:
     @property
     def data_exfiltration(self) -> list[str]:
         """Returns data exfiltration actions in the policy, if present"""
+        # Union the built-in read-only data exfiltration actions with any actions the user has
+        # explicitly opted in to flagging via `include-actions` in the exclusions config, so that
+        # `include_actions` affects this finding category too (see GH issue #624). `include_actions`
+        # is already lowercased by Exclusions._include_actions(), and
+        # allows_specific_actions_without_constraints() lowercases its input for comparison anyway
+        # (see policy_document.py), so no additional case normalization is needed here.
+        actions_to_check = list(set(READ_ONLY_DATA_EXFILTRATION_ACTIONS) | set(self.exclusions.include_actions))
         return [
             action
-            for action in self.policy_document.allows_specific_actions_without_constraints(
-                READ_ONLY_DATA_EXFILTRATION_ACTIONS
-            )
+            for action in self.policy_document.allows_specific_actions_without_constraints(actions_to_check)
             if action.lower() not in self.exclusions.exclude_actions
         ]
 
