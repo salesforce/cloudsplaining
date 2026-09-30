@@ -99,12 +99,21 @@ class PolicyFinding:
 
     @property
     def data_exfiltration(self) -> list[str]:
-        """Returns data exfiltration actions in the policy, if present"""
+        """Returns data exfiltration actions in the policy, if present.
+
+        Starts from the built-in READ_ONLY_DATA_EXFILTRATION_ACTIONS list and
+        unions any actions from exclusions.include_actions so the
+        create-exclusions-file template comment matches runtime behavior
+        (see GitHub issue #624).
+        """
+        actions_to_check = list(
+            dict.fromkeys(
+                list(READ_ONLY_DATA_EXFILTRATION_ACTIONS) + list(self.exclusions.include_actions)
+            )
+        )
         return [
             action
-            for action in self.policy_document.allows_specific_actions_without_constraints(
-                READ_ONLY_DATA_EXFILTRATION_ACTIONS
-            )
+            for action in self.policy_document.allows_specific_actions_without_constraints(actions_to_check)
             if action.lower() not in self.exclusions.exclude_actions
         ]
 
