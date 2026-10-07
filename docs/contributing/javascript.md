@@ -36,7 +36,7 @@ We've already preconfigured several `npm` commands to be run inside the package.
 # Option 1: npm, as defined in package.json
 npm run serve
 # Option 2: Makefile
-make serve-js
+just serve-js
 ```
 
 You can then access the application over [http://localhost:8080](http://localhost:8080).
@@ -47,7 +47,7 @@ You can then access the application over [http://localhost:8080](http://localhos
 # Option 1: npm, as defined in package.json
 npm run test
 # Option 2: Makefile
-make test-js
+just test-js
 ```
 
 * Build the most updated Javascript bundle
@@ -56,7 +56,7 @@ make test-js
 # Option 1: npm, as defined in package.json
 npm build
 # Option 2: Makefile
-make build-js
+just build-js
 ```
 
 ### Adding new JavaScript utility functions: Checklist
