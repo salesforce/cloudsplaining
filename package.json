@@ -18,7 +18,7 @@
     "bootstrap-vue-next": "^0.43.7",
     "chart.js": "^4.5.1",
     "core-js": "^3.48.0",
-    "vue": "^3.5.29",
+    "vue": "^3.5.44",
     "vue-chartjs": "^5.3.3",
     "vue-router": "^5.0.3"
   },
