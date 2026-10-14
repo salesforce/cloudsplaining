@@ -221,10 +221,19 @@ class PolicyDocument:
 
     @property
     def allows_data_exfiltration_actions(self) -> list[str]:
-        """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
+        """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions.
+
+        Unions exclusions.include_actions with the built-in list so callers can
+        extend Data Exfiltration detection via the exclusions file (#624).
+        """
+        actions_to_check = list(
+            dict.fromkeys(
+                list(READ_ONLY_DATA_EXFILTRATION_ACTIONS) + list(self.exclusions.include_actions)
+            )
+        )
         return [
             action
-            for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS)
+            for action in self.allows_specific_actions_without_constraints(actions_to_check)
             if action.lower() not in self.exclusions.exclude_actions
         ]
 

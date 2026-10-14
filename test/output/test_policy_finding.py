@@ -242,3 +242,21 @@ class TestPolicyFinding(unittest.TestCase):
         }
         # print(json.dumps(results, indent=4))
         self.assertDictEqual(results, expected_results)
+
+    def test_include_actions_extends_data_exfiltration(self):
+        """include-actions in the exclusions file must extend Data Exfiltration (#624)."""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{"Effect": "Allow", "Action": ["s3:ListBucket"], "Resource": "*"}],
+        }
+        # Empty include-actions: ListBucket is not in the built-in data-exfil list.
+        policy_document = PolicyDocument(test_policy, Exclusions({}))
+        finding = PolicyFinding(policy_document, Exclusions({}))
+        self.assertNotIn("s3:ListBucket", finding.data_exfiltration)
+
+        # With include-actions containing ListBucket, Data Exfiltration should flag it.
+        exclusions = Exclusions({"include-actions": ["s3:ListBucket"]})
+        policy_document = PolicyDocument(test_policy, exclusions)
+        finding = PolicyFinding(policy_document, exclusions)
+        self.assertListEqual(finding.data_exfiltration, ["s3:ListBucket"])
+
