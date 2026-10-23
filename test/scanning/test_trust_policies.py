@@ -456,3 +456,57 @@ class TestAssumeRole(unittest.TestCase):
         policy_doc = AssumeRolePolicyDocument(policy)
         expected_policy = ["*", "arn:aws:iam::*:root"]
         self.assertListEqual(policy_doc.role_assumable_by_any_principal_with_conditions, expected_policy)
+
+    def test_assume_role_wildcard_actions(self):
+        """Trust-policy checks must match wildcard actions that cover sts:AssumeRole."""
+        wildcard_actions = ["sts:*", "sts:AssumeRole*", "*"]
+
+        for action in wildcard_actions:
+            # role_assumable_by_any_principal
+            statement = dict(Effect="Allow", Principal="*", Action=[action])
+            result = AssumeRoleStatement(statement).role_assumable_by_any_principal
+            self.assertListEqual(result, ["*"], f"role_assumable_by_any_principal failed for action={action!r}")
+
+            # role_assumable_by_cross_account_principals
+            statement = dict(
+                Effect="Allow",
+                Principal={"AWS": "arn:aws:iam::999988887777:root"},
+                Action=[action],
+            )
+            result = AssumeRoleStatement(statement, current_account_id="111122223333").role_assumable_by_cross_account_principals
+            self.assertListEqual(
+                result,
+                ["arn:aws:iam::999988887777:root"],
+                f"role_assumable_by_cross_account_principals failed for action={action!r}",
+            )
+
+            # role_assumable_by_compute_services
+            statement = dict(
+                Effect="Allow",
+                Principal={"Service": "ec2.amazonaws.com"},
+                Action=[action],
+            )
+            result = AssumeRoleStatement(statement).role_assumable_by_compute_services
+            self.assertListEqual(
+                result, ["ec2"], f"role_assumable_by_compute_services failed for action={action!r}"
+            )
+
+            # role_assumable_by_any_principal_with_conditions
+            statement = dict(
+                Effect="Allow",
+                Principal="*",
+                Action=[action],
+                Condition={"StringEquals": {"aws:sourceip": "203.0.113.0/24"}},
+            )
+            result = AssumeRoleStatement(statement).role_assumable_by_any_principal_with_conditions
+            self.assertListEqual(
+                result, ["*"], f"role_assumable_by_any_principal_with_conditions failed for action={action!r}"
+            )
+
+    def test_assume_role_non_matching_wildcard_actions(self):
+        """Wildcards that don't cover sts:AssumeRole should still return empty."""
+        non_matching_actions = ["s3:*", "ec2:*", "sts:AssumeRoleWithSAML"]
+        for action in non_matching_actions:
+            statement = dict(Effect="Allow", Principal="*", Action=[action])
+            result = AssumeRoleStatement(statement).role_assumable_by_any_principal
+            self.assertListEqual(result, [], f"Should be empty for action={action!r}")
