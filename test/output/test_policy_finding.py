@@ -6,6 +6,32 @@ from cloudsplaining.shared.exclusions import Exclusions
 
 
 class TestPolicyFinding(unittest.TestCase):
+    def test_policy_finding_data_exfiltration_snapshot_export_gh_654(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": ["rds:CreateDBSnapshot", "ec2:CreateSnapshot", "dynamodb:ExportTableToPointInTime"],
+                    "Resource": "*",
+                }
+            ],
+        }
+        policy_finding = PolicyFinding(PolicyDocument(test_policy), Exclusions({}))
+        self.assertListEqual(
+            policy_finding.data_exfiltration,
+            ["dynamodb:ExportTableToPointInTime", "ec2:CreateSnapshot", "rds:CreateDBSnapshot"],
+        )
+        self.assertListEqual(
+            policy_finding.results["DataExfiltration"]["findings"],
+            ["dynamodb:ExportTableToPointInTime", "ec2:CreateSnapshot", "rds:CreateDBSnapshot"],
+        )
+        # exclude-actions still suppresses them
+        policy_finding = PolicyFinding(
+            PolicyDocument(test_policy), Exclusions({"exclude-actions": ["rds:CreateDBSnapshot"]})
+        )
+        self.assertNotIn("rds:CreateDBSnapshot", policy_finding.data_exfiltration)
+
     def test_policy_finding_for_data_exfiltration(self):
         test_policy = {
             "Version": "2012-10-17",

@@ -12,8 +12,8 @@ from typing import TYPE_CHECKING, Any
 
 from cloudsplaining.shared.constants import (
     ACTIONS_THAT_RETURN_CREDENTIALS,
+    DATA_EXFILTRATION_ACTIONS,
     ISSUE_SEVERITY,
-    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
     RISK_DEFINITION,
 )
 from cloudsplaining.shared.exclusions import (
@@ -102,9 +102,7 @@ class PolicyFinding:
         """Returns data exfiltration actions in the policy, if present"""
         return [
             action
-            for action in self.policy_document.allows_specific_actions_without_constraints(
-                READ_ONLY_DATA_EXFILTRATION_ACTIONS
-            )
+            for action in self.policy_document.allows_specific_actions_without_constraints(DATA_EXFILTRATION_ACTIONS)
             if action.lower() not in self.exclusions.exclude_actions
         ]
 

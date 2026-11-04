@@ -16,8 +16,8 @@ from policy_sentry.querying.all import get_all_service_prefixes
 from cloudsplaining.scan.statement_detail import StatementDetail
 from cloudsplaining.shared.constants import (
     ACTIONS_THAT_RETURN_CREDENTIALS,
+    DATA_EXFILTRATION_ACTIONS,
     PRIVILEGE_ESCALATION_METHODS,
-    READ_ONLY_DATA_EXFILTRATION_ACTIONS,
 )
 from cloudsplaining.shared.exclusions import DEFAULT_EXCLUSIONS, Exclusions
 
@@ -224,7 +224,7 @@ class PolicyDocument:
         """If any 'Data exfiltration' actions are allowed without resource constraints, return those actions."""
         return [
             action
-            for action in self.allows_specific_actions_without_constraints(READ_ONLY_DATA_EXFILTRATION_ACTIONS)
+            for action in self.allows_specific_actions_without_constraints(DATA_EXFILTRATION_ACTIONS)
             if action.lower() not in self.exclusions.exclude_actions
         ]
 

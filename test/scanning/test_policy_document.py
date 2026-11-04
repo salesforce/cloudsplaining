@@ -196,6 +196,63 @@ class TestPolicyDocument(unittest.TestCase):
         with self.assertRaises(Exception):
             results = policy_document.allows_specific_actions_without_constraints("iam:passrole")
 
+    def test_allows_data_exfiltration_snapshot_export_actions_gh_654(self):
+        """Snapshot, export and parameter-history actions on * are flagged as Data Exfiltration."""
+        exfiltration_actions = [
+            "ssm:GetParameterHistory",
+            "rds:CreateDBSnapshot",
+            "rds:CopyDBSnapshot",
+            "rds:CreateDBClusterSnapshot",
+            "rds:CopyDBClusterSnapshot",
+            "ec2:CreateSnapshot",
+            "ec2:CreateSnapshots",
+            "ec2:CopySnapshot",
+            "ec2:CreateInstanceExportTask",
+            "ec2:ExportImage",
+        ]
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [{"Effect": "Allow", "Action": exfiltration_actions, "Resource": "*"}],
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertCountEqual(policy_document.allows_data_exfiltration_actions, exfiltration_actions)
+
+    def test_allows_data_exfiltration_export_actions_restrictable_only_gh_654(self):
+        """rds:StartExportTask and dynamodb:ExportTableToPointInTime have no wildcard-only resource,
+        so they are flagged via the unrestricted (Resource: *) path."""
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": ["rds:StartExportTask", "dynamodb:ExportTableToPointInTime"],
+                    "Resource": "*",
+                }
+            ],
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertCountEqual(
+            policy_document.allows_data_exfiltration_actions,
+            ["rds:StartExportTask", "dynamodb:ExportTableToPointInTime"],
+        )
+
+    def test_data_exfiltration_snapshot_actions_not_flagged_with_resource_constraints_gh_654(self):
+        test_policy = {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": ["dynamodb:ExportTableToPointInTime", "rds:StartExportTask"],
+                    "Resource": [
+                        "arn:aws:dynamodb:us-east-1:111122223333:table/mytable",
+                        "arn:aws:rds:us-east-1:111122223333:snapshot:mysnapshot",
+                    ],
+                }
+            ],
+        }
+        policy_document = PolicyDocument(test_policy)
+        self.assertListEqual(policy_document.allows_data_exfiltration_actions, [])
+
     def test_policy_document_not_action_deny_gh_23(self):
         test_policy = {
             "Version": "2012-10-17",
