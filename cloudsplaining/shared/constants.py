@@ -78,8 +78,27 @@ READ_ONLY_DATA_EXFILTRATION_ACTIONS = [
     "ssm:GetParameter",
     "ssm:GetParameters",
     "ssm:GetParametersByPath",
+    "ssm:GetParameterHistory",
     "secretsmanager:GetSecretValue",
 ]
+
+# Write-level actions that put a full copy of a data store (a snapshot or an export) somewhere it can be
+# shared with another account or downloaded. They are reported under the same Data Exfiltration finding.
+SNAPSHOT_AND_EXPORT_DATA_EXFILTRATION_ACTIONS = [
+    "rds:CreateDBSnapshot",
+    "rds:CopyDBSnapshot",
+    "rds:CreateDBClusterSnapshot",
+    "rds:CopyDBClusterSnapshot",
+    "rds:StartExportTask",
+    "ec2:CreateSnapshot",
+    "ec2:CreateSnapshots",
+    "ec2:CopySnapshot",
+    "ec2:CreateInstanceExportTask",
+    "ec2:ExportImage",
+    "dynamodb:ExportTableToPointInTime",
+]
+
+DATA_EXFILTRATION_ACTIONS = READ_ONLY_DATA_EXFILTRATION_ACTIONS + SNAPSHOT_AND_EXPORT_DATA_EXFILTRATION_ACTIONS
 
 ISSUE_SEVERITY = {
     "PrivilegeEscalation": "high",

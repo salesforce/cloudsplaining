@@ -4994,6 +4994,7 @@ var sample_iam_data = {
                 "findings": [
                     "s3:GetObject",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
@@ -5669,7 +5670,13 @@ var sample_iam_data = {
             "DataExfiltration": {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
-                "findings": []
+                "findings": [
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask"
+                ]
             },
             "ResourceExposure": {
                 "severity": "high",
@@ -5912,7 +5919,13 @@ var sample_iam_data = {
             "DataExfiltration": {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
-                "findings": []
+                "findings": [
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage"
+                ]
             },
             "ResourceExposure": {
                 "severity": "high",
@@ -7071,6 +7084,7 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
                     "s3:GetObject"
                 ]
             },
@@ -10199,9 +10213,21 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask",
                     "s3:GetObject",
                     "secretsmanager:GetSecretValue",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
@@ -21515,9 +21541,21 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask",
                     "s3:GetObject",
                     "secretsmanager:GetSecretValue",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
@@ -32006,9 +32044,21 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask",
                     "s3:GetObject",
                     "secretsmanager:GetSecretValue",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
@@ -43491,9 +43541,21 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask",
                     "s3:GetObject",
                     "secretsmanager:GetSecretValue",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
@@ -54173,6 +54235,11 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
                     "s3:GetObject"
                 ]
             },
@@ -55635,9 +55702,21 @@ var sample_iam_data = {
                 "severity": "medium",
                 "description": "<div style=\"text-align:left\"><p>Policies with Data Exfiltration potential allow certain read-only IAM actions without resource constraints, such as <code>s3:GetObject</code>, <code>ssm:GetParameter*</code>, or <code>secretsmanager:GetSecretValue</code>. <br> <ul> <li>Unrestricted <code>s3:GetObject</code> permissions has a long history of customer data leaks.</li> <li><code>ssm:GetParameter*</code> and <code>secretsmanager:GetSecretValue</code> are both used to access secrets.</li> <li><code>rds:CopyDBSnapshot</code> and <code>rds:CreateDBSnapshot</code> can be used to exfiltrate RDS database contents.</li> </ul></p></div>",
                 "findings": [
+                    "dynamodb:ExportTableToPointInTime",
+                    "ec2:CopySnapshot",
+                    "ec2:CreateInstanceExportTask",
+                    "ec2:CreateSnapshot",
+                    "ec2:CreateSnapshots",
+                    "ec2:ExportImage",
+                    "rds:CopyDBClusterSnapshot",
+                    "rds:CopyDBSnapshot",
+                    "rds:CreateDBClusterSnapshot",
+                    "rds:CreateDBSnapshot",
+                    "rds:StartExportTask",
                     "s3:GetObject",
                     "secretsmanager:GetSecretValue",
                     "ssm:GetParameter",
+                    "ssm:GetParameterHistory",
                     "ssm:GetParameters",
                     "ssm:GetParametersByPath"
                 ]
