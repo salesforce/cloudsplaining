@@ -456,3 +456,45 @@ class TestAssumeRole(unittest.TestCase):
         policy_doc = AssumeRolePolicyDocument(policy)
         expected_policy = ["*", "arn:aws:iam::*:root"]
         self.assertListEqual(policy_doc.role_assumable_by_any_principal_with_conditions, expected_policy)
+
+    def test_wildcard_actions_cover_assume_role(self):
+        """sts:*, sts:AssumeRole*, and * include sts:AssumeRole."""
+        for action in ["sts:AssumeRole", "sts:*", "sts:AssumeRole*", "*"]:
+            any_principal = AssumeRoleStatement(
+                dict(Effect="Allow", Principal={"AWS": "*"}, Action=action)
+            )
+            self.assertListEqual(any_principal.role_assumable_by_any_principal, ["*"])
+
+            cross_account = AssumeRoleStatement(
+                dict(
+                    Effect="Allow",
+                    Principal={"AWS": "arn:aws:iam::999988887777:root"},
+                    Action=action,
+                ),
+                current_account_id="111122223333",
+            )
+            self.assertListEqual(
+                cross_account.role_assumable_by_cross_account_principals,
+                ["arn:aws:iam::999988887777:root"],
+            )
+
+            compute = AssumeRoleStatement(
+                dict(Effect="Allow", Principal={"Service": "ec2.amazonaws.com"}, Action=action)
+            )
+            self.assertListEqual(compute.role_assumable_by_compute_services, ["ec2"])
+
+            with_condition = AssumeRoleStatement(
+                dict(
+                    Effect="Allow",
+                    Principal={"AWS": "*"},
+                    Action=action,
+                    Condition={"StringEquals": {"sts:ExternalId": "unique-id"}},
+                )
+            )
+            self.assertListEqual(with_condition.role_assumable_by_any_principal, [])
+            self.assertListEqual(with_condition.role_assumable_by_any_principal_with_conditions, ["*"])
+
+        not_assume_role = AssumeRoleStatement(
+            dict(Effect="Allow", Principal={"AWS": "*"}, Action="sts:AssumeRoleWithSAML")
+        )
+        self.assertListEqual(not_assume_role.role_assumable_by_any_principal, [])
