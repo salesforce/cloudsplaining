@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import logging
+from fnmatch import fnmatchcase
 from typing import Any
 
 from cloudsplaining.scan.resource_policy_document import (
@@ -124,12 +125,14 @@ class AssumeRoleStatement(ResourceStatement):
 
         return [actions]
 
+    def _allows_assume_role(self) -> bool:
+        """Check whether any action in the statement covers sts:AssumeRole, including wildcards."""
+        return any(fnmatchcase("sts:assumerole", a.lower()) for a in self.actions)
+
     @property
     def role_assumable_by_compute_services(self) -> list[str]:
         """Determines whether or not the role is assumed from a compute service, and if so which ones."""
-        # sts:AssumeRole must be there
-        lowercase_actions = [x.lower() for x in self.actions]
-        if "sts:AssumeRole".lower() not in lowercase_actions:
+        if not self._allows_assume_role():
             return []
 
         # Effect must be Allow
@@ -147,9 +150,7 @@ class AssumeRoleStatement(ResourceStatement):
     @property
     def role_assumable_by_cross_account_principals(self) -> list[str]:
         """Determines whether or not the role can be assumed from principals in other accounts, and if so which ones."""
-        # sts:AssumeRole must be there
-        lowercase_actions = [x.lower() for x in self.actions]
-        if "sts:AssumeRole".lower() not in lowercase_actions:
+        if not self._allows_assume_role():
             return []
 
         # Effect must be Allow
@@ -167,9 +168,7 @@ class AssumeRoleStatement(ResourceStatement):
     @property
     def role_assumable_by_any_principal(self) -> list[str]:
         """Determines whether or not the role can be assumed by any principal (*) or any AWS account root."""
-        # sts:AssumeRole must be there
-        lowercase_actions = [x.lower() for x in self.actions]
-        if "sts:AssumeRole".lower() not in lowercase_actions:
+        if not self._allows_assume_role():
             return []
 
         # Effect must be Allow
@@ -186,9 +185,7 @@ class AssumeRoleStatement(ResourceStatement):
     @property
     def role_assumable_by_any_principal_with_conditions(self) -> list[str]:
         """Determines whether or not the role can be assumed by any principal (*) or any AWS account root with conditions."""
-        # sts:AssumeRole must be there
-        lowercase_actions = [x.lower() for x in self.actions]
-        if "sts:AssumeRole".lower() not in lowercase_actions:
+        if not self._allows_assume_role():
             return []
 
         # Effect must be Allow
